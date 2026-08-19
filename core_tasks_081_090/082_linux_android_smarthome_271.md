@@ -7,6 +7,10 @@
 - 设备拓扑：`1A+1L+1H`（`android_0`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
 
+## 0. 任务链与匹配结论
+
+联系人把 `+1555027101` 确认为 Owner，XLSX 把 Owner SMS 标为 `highest`、Calendar 标为 `fallback`，所以应选短信中的新请求。短信直接给出 21:00、客厅灯 off、客厅窗帘 closed；SmartHome 中仍有 20:00 的 `old_evening_mode`。因此要取消旧 workflow，建立唯一一条 21:00 active workflow，并在 Markor 说明“Owner 新方案已生效、旧 fallback 已取消”。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -133,6 +137,18 @@ living_room_curtain_1 open_pct=0
 - 新 workflow 的 ID 没有写死，可以自定。
 - 多建一个 active workflow，或向这个 workflow 加入额外设备/额外效果，都会使“active 数量”或“精确效果集合”不匹配。
 
-### 4.4 当前数据上的注意点
+## 5. 常见失败与真实评测边界
 
-`priority.xlsx` 的 Owner 行写有 `30 minutes before`，但任务短信写的是“at 21:00”，evaluator 和正向 oracle 都要求 `21:00`，不会接受 `20:30`。因此跑这个 benchmark 时应以 evaluator 的 21:00 为最终答案；这是输入表中容易误导执行者的字段。
+- 把 Owner 行的 `30 minutes before` 套到短信的 21:00，建立 20:30 workflow：失败。Evaluator 和正向 oracle 都固定要求 21:00；这是当前输入表中真实存在的歧义/误导字段。
+- 删除旧 workflow 而不是把 `old_evening_mode` 留成 cancelled 记录：status evaluator 找不到该 ID，失败。
+- 新 workflow 时间和动作正确，但旧 workflow 仍 active：旧状态项失败，而且 active 总数通常也会变成 2。
+- 只立即关灯/关窗帘、不建立 workflow：设备终态不是评分目标，失败。
+- 笔记只写“done”，没有 Owner、21:00、旧 fallback、新 workflow 等实体：失败。
+
+新 workflow 的 ID 不固定，步骤顺序也不固定；`close` 与 `set_open_pct(0)` 都会被规范化成相同窗帘效果。笔记不直接检查 light/curtain 两个动作，SmartHome workflow 项负责检查它们。Evaluator 没有检查 Calendar、SMS、联系人和 XLSX 在执行后是否仍保持原样。
+
+## 6. Cleanup
+
+- Linux 删除 `/tmp/conflicts/priority.xlsx`，并尝试移除空目录。
+- Android 清空 Calendar、SMS、Contacts，并删除目标 Markor 笔记。
+- SmartHome reset。

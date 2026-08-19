@@ -7,6 +7,10 @@
 - 设备拓扑：`1A+1L+1H`（`android_0`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
 
+## 0. 任务链与匹配结论
+
+Android 笔记给出偏好 `moderate daylight`，SmartHome 给出 hallway 当前亮度 120 lux；CSV 中同一偏好的 `below 180 lux` 行对应 `65 percent open`。120 小于 180，所以要把 `hallway_curtain_1` 从 10% 调到 65%，并在新 Markor 笔记里同时写出房间、120 lux、偏好、65% 和“已经应用”的结论。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -97,6 +101,17 @@ Hallway was 120 lux, so the moderate-daylight preference was applied by setting 
 
 直接读取 `hallway_curtain_1` 的最终状态，要求 `open_pct=65`。不检查具体用了哪条命令，也不要求建立 schedule/workflow。
 
-### 4.3 当前评测边界
+## 5. 常见失败与真实评测边界
 
-evaluator 不检查源偏好笔记是否仍保持原样，也不检查其他 SmartHome 设备是否被误改。正确执行应只改 hallway curtain，并保留源笔记。
+- 只按“moderate daylight”选择第二行 45%，没有再用 120 lux 选择 brightness band：窗帘终态失败。
+- 把 65% 理解成“关闭 65%”而设置 open_pct=35：失败；表写的是 `65 percent open`。
+- 覆盖源 `Hallway daylight.md`，却没有创建精确命名的 decision 文件：getter 找不到输出，失败。
+- 笔记写齐数字但使用 `pending/unchanged/not applied`，或以问题/不确定语气表达：失败。
+
+笔记 evaluator 没有 clause-level relation group；它对目标文件全文检查各实体、肯定词、冲突词和极性。Evaluator 不检查源偏好笔记是否保持原样，也不保护其他 SmartHome 设备。正确执行应只改 hallway curtain，并保留源笔记。
+
+## 6. Cleanup
+
+- Linux 删除 `curtain.csv`，并尝试移除其 `source` 目录。
+- Android 同时删除源偏好笔记和结果笔记。
+- SmartHome reset。

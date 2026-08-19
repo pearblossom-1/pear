@@ -7,6 +7,10 @@
 - 设备拓扑：`1A+1L+1H`（`android_0`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
 
+## 0. 任务链与匹配结论
+
+Jordan 联系人的偏好是 `cool, soft, clean`；XLSX 分别映射为 AC 24°C、灯 35%、PM2.5 高时 purifier low，并规定提前 25 分钟。Calendar 在 20:00 开始，Guest room PM2.5=62，所以计算出 19:35，并应用全部三项。最终必须同步留下三种结果：唯一 active workflow、发给 Jordan 的确认短信，以及严格为“一个标题段落 + 一张 6×2 表格”的 `record.docx`。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -147,3 +151,19 @@ guest_room_air_purifier_1     power=on, level=low
   - `35%` 或 `35 percent`；
   - `low`。
 - evaluator 检查有效包、可见文字和表格结构，但没有逐项比较字体、颜色、边框等视觉样式。
+
+## 5. 常见失败与真实评测边界
+
+- 用 20:00 作为 workflow time，忘记减 25 分钟：workflow、短信和 DOCX 三处都可能同时失败。
+- 因 purifier 初始 level 已是 low 而只安排 `turn_on`，没有在 workflow effects 中形成 `level=low`：精确效果少字段，失败；正向 oracle 会同时安排 turn_on 和 set_level(low)。
+- 在 AC workflow 里额外 `set_mode(cool)`：虽然业务上合理，但 canonical effects 会多出 `mode`，与精确字典不相等。
+- DOCX 使用两段标题/说明、加表头行、交换行顺序、做成 7×2 或 6×3：结构 contract 失败。
+- 短信没有 Jordan 名字，或 DOCX 只有纯文本列表而没有真实表格：对应 evaluator 失败。
+
+三项 evaluator 彼此独立，workflow 正确不能弥补短信或 DOCX。DOCX 对可见文字不区分大小写并会归一化空白，但表的行序、行列数和标签/值仍受严格 contract 约束；它不评字体、颜色、边框等样式。Evaluator 只看最终 active workflow 的规范化效果，不保护联系人、Calendar 或无关设备。
+
+## 6. Cleanup
+
+- Linux 删除 `standard.xlsx` 和生成的 `record.docx`，并尝试移除 `/tmp/visit`。
+- Android 清空 Contacts、Calendar 与 SMS。
+- SmartHome reset。

@@ -7,6 +7,10 @@
 - 设备拓扑：`1A+1L+1H`（`android_0`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
 
+## 0. 任务链与匹配结论
+
+联系人确认 `+1555018501` 是 Owner，短信请求把 living-room light 调到 35%；PDF 说明身份批准不等于能力可用，basic on/off light 不能满足百分比调光。实际目标 `living_room_light_1` 正是 basic light，所以请求不可执行：该灯完整状态必须保持不变，SmartHome 恰好新增一条 unsupported-capability 报告，再向 Owner 清楚说明 35% 不受支持且灯未改变。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -133,6 +137,18 @@ reason: The basic living room light does not support 35% dimming; it remains unc
 
 这一项只保护 `living_room_light_1`，不会自动保护同房间的 dimmable light 或其他设备。
 
-### 4.4 当前评测边界
+## 5. 常见失败与真实评测边界
 
-Instruction 要求“leave the light unchanged”，实际 evaluator 只锁定普通 `living_room_light_1`。误改 `living_room_dimmable_light_1` 或其他设备未必被这三项发现；正确操作是任何灯都不要改，只记录 infeasible 并回复 Owner。
+- 把请求转到同房间的 dimmable light 并设成 35%：没有满足“目标 basic light 保持不变”的业务意图，而且无报告/短信会失败。
+- 关掉再打开 basic light，最终仍为 on：no-change evaluator 只比较最终 state，可能看不出中间操作；正确做法是完全不要操作该灯。
+- 报告两次 infeasible：即使两条内容都正确，`exact_report_count=1` 仍失败。
+- Report 只写“unsupported”，没有 living-room light、35%、dimming 和不能支持的完整关系：语义 report 失败。
+- 短信说“set to 35%”或没有明确 `unchanged`：冲突短语/缺实体导致失败。
+
+Instruction 的“leave the light unchanged”实际只由 `living_room_light_1` 的最终完整 state 对 setup baseline 做比较；它不检查 command history，也不保护 `living_room_dimmable_light_1` 或其他设备。SMS 只要求存在一条最近 30 分钟内发给 Owner 的合格 sent 消息，不要求恰好一条。Report category 不必逐字等于某个 alias，但不能是 supported/success/completed 等相反类别，且整条报告的 target/reason/details 必须形成完整 unsupported-capability 语义。
+
+## 6. Cleanup
+
+- Linux 删除 `capability.pdf`，并尝试移除 `/tmp/access`。
+- Android 清空 SMS 与 Contacts。
+- SmartHome reset。

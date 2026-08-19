@@ -7,6 +7,10 @@
 - 设备拓扑：`1A+2L+1H`（`android_0`、`linux_0`、`linux_1`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
 
+## 0. 任务链与匹配结论
+
+Android 原 Task 说明要执行“已批准的 Linux fallback”；`linux_0` 的 PDF 把 fallback 定义为卧室空调 cool 25°C、除湿机 medium，`linux_1` 的工作簿又以 `Fallback Approved=yes` 确认这项方案并预留 Cooling、Humidity、Status 三格。因此完整结果是：立即应用两台 SmartHome 设备的设置，完成唯一的原 Task 并写明两项结果，再从源工作簿另存一份完成登记表，把 B2/C2/E2 填成对应设置和 `Applied`。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -146,6 +150,21 @@ target_temperature_c=25
 - E2 必须精确为 `Applied`。
 - 不能新增业务行、改表名、移动已有数据或把 CSV 改扩展名冒充 XLSX。
 
-### 4.5 当前评测边界
+## 5. 常见失败与真实评测边界
 
-SmartHome evaluator 只直接检查上述空调和除湿机的最终状态，没有全屋“不准改其他设备”的保护项。正确执行仍应遵守 PDF 的 restriction，不要触碰无关设备。
+- 只设空调 target=25，却没有 `turn_on` 或没有把 mode 改成 cool：空调状态 evaluator 失败。
+- 除湿机只开机但仍是 low，或只改成 medium 但仍关机：除湿机 evaluator 失败。
+- 新建第二条同名 Task 而保留原项：`require_exactly_one=true`，同名数量变成 2，失败。
+- Task 已完成但 notes 少了 cool 25、dehumidifier medium 或肯定完成词中的任意一组：失败。
+- 在源路径上改表、输出错路径、把 E2 写成小写 `applied`，或改了允许列表外的非空单元格：XLSX evaluator 失败。
+
+“完成原来的 Task”并没有用数据库 row ID 锁定。Evaluator 只看最终是否恰好有一条精确同名、completed=1 且 notes 合格的 Task；因此删除原项后重建唯一合格同名项，技术上也可能通过，但不符合 instruction。
+
+XLSX 的 `preserve_from` 会保留 sheet 名单与顺序、sheet 可见状态、合并区域、允许单元格之外的非空坐标和值，以及相关行列的 hidden 状态；本任务没有设置 `preserve_layout=true`，因此字体、填充、列宽、行高、冻结窗格等版式并不全部受评。正确操作仍应真正另存并保留外观。SmartHome evaluator 也只检查指定空调和除湿机，没有全屋 no-change guard；应遵守 PDF restriction，不碰其他设备。
+
+## 6. Cleanup
+
+- `linux_0` 删除 policy PDF，并尝试移除空的 policy 目录。
+- `linux_1` 删除源登记表和结果登记表，并尝试移除 register/result 目录。
+- Android 删除 `bedroom-comfort.txt`，再清空 Tasks。
+- SmartHome reset。

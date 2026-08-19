@@ -7,6 +7,10 @@
 - 设备拓扑：`1A+1L+1H`（`android_0`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
 
+## 0. 任务链与匹配结论
+
+联系人确认短信号码属于 guest-room routine 的 Owner；规则表明确 Owner SMS 优先，目标时间 21:30，动作是客房灯 on、窗帘 closed，而 20:00 的 Old Calendar 仅是 fallback。SmartHome 中恰有对应旧 workflow `old_guest_room_routine`。因此要取消旧 workflow，建立唯一一条 21:30 active workflow，并在 Markor 把来源、时间、两项动作及旧转新的状态写清楚。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -133,3 +137,18 @@ guest_room_curtain_1 open_pct=0
 - workflow ID 没有固定。
 - 可以用 `close` 或能规范化为 `open_pct=0` 的合法命令；最终 canonical effect 才是比对对象。
 - 加入第三个设备、额外效果，或留下第二个 active workflow，都会失败。
+
+## 5. 常见失败与真实评测边界
+
+- 采用 Old Calendar 的 20:00 fallback，而不是 Owner SMS/规则表的 21:30：新 workflow evaluator 失败。
+- 只更新原 workflow 的时间/步骤，却没有让 `old_guest_room_routine` 形成 cancelled 记录：旧 workflow status 项失败。
+- 窗帘写成 100% open 或只开灯不关窗帘：精确 effects 不相等。
+- 笔记没有同时说明旧方案已取消和新方案已启用，或写成 `proposed/pending`：语义 evaluator 失败。
+
+联系人、SMS 和规则表是用来推导授权与值的输入，最终 evaluator 不回查这些输入是否被保留。旧 workflow 只按固定 ID+cancelled 查找；新 workflow 的 ID 可自定。笔记实体是对全文做自然语言关系匹配，没有配置“这些词必须位于同一个 clause”的额外 contract，但问句、不确定、冲突短语和被否定的结果仍会失败。
+
+## 6. Cleanup
+
+- Linux 删除 `rules_288.xlsx` 并尝试移除 `/tmp/conflicts`。
+- Android 清空 Calendar、SMS、Contacts，删除 `Guest room decision 288.md`。
+- SmartHome reset。

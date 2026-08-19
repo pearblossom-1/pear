@@ -7,6 +7,10 @@
 - 设备拓扑：`1A+1L+1H`（`android_0`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
 
+## 0. 任务链与匹配结论
+
+Calendar 的 Dinner Guests 在 21:00 结束；源 DOCX 要求结束后 10 分钟恢复 light 20%、curtain closed、purifier off、heater 20°C，所以运行时间是 21:10。应建立唯一 active restore workflow，并在 Markor 以肯定语气记录 21:10 和四项最终设置；这里评的是计划内容，不会等到 21:10 再看设备是否执行。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -114,6 +118,18 @@ living_room_heater_1         target_temperature_c=20
 - heater 这一项只要求设置 target=20°C，不要求 workflow 再包含 `turn_on`。由于基线 heater 已经 on，额外写 `turn_on` 反而会让 canonical effect 多出 `power=on`，与精确效果不相等而失败。
 - 加入任何其他设备/效果，或留下第二个 active workflow，也会失败。
 
-### 4.3 当前评测边界
+## 5. 常见失败与真实评测边界
 
-evaluator 不检查源 `restore.docx` 是否被改动；正确执行只需读取它，不应覆盖源文件。它也只评估计划内容，不等待 21:10 实际执行后再检查设备终态。
+- 在 Dinner Guests 结束时 21:00 执行，没有加 DOCX 规定的 10 分钟：失败。
+- 只立即恢复四台设备，不建立 21:10 workflow：失败。
+- Heater workflow 同时加入 `turn_on`：基线虽已 on，但精确 canonical effects 会多出 `power=on` 字段，失败。
+- 将 purifier 的 `level` 改为 low 而没有 `power=off`，或只关普通 light 而没把 dimmable light 设到 20%：失败。
+- Markor 笔记漏掉四项中的任何一项，或说计划 pending/cancelled：失败。
+
+Evaluator 不检查源 `restore.docx` 是否被改动；正确执行只读它，不应覆盖。它只评估计划记录，不等待 21:10 后检查设备终态。Workflow ID 和步骤顺序不固定，但 active workflow 必须恰好一条，合并效果不能多字段或少字段。
+
+## 6. Cleanup
+
+- Linux 删除源 `restore.docx`，并尝试移除 `/tmp/guest`。
+- Android 清空 Calendar，删除 `Dinner Restore.md`。
+- SmartHome reset。

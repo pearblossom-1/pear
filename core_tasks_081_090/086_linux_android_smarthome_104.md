@@ -7,6 +7,10 @@
 - 设备拓扑：`1A+1L+1H`（`android_0`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
 
+## 0. 任务链与匹配结论
+
+Calendar 给出 Sam visit 在 19:30 开始、地点 Living room、回复号码 `+1555020401`；图片卡给出 23°C、灯 60%、purifier high；XLSX 说明三项都取卡片值，并提前 30 分钟准备。因此唯一 active workflow 应在 19:00 执行三组设置，同时给日历中的号码发送包含房间、时间和三项设置的肯定式确认。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -124,3 +128,19 @@ living_room_air_purifier_1   power=on, level=high
 
 - workflow ID 和合法步骤顺序不固定；关键是合并后的效果完全相同。
 - 加入额外设备或额外效果会导致效果字典不相等；建立第二个 active workflow 也会失败。
+
+## 5. 常见失败与真实评测边界
+
+- 把 Calendar 的 19:30 当成 workflow 时间，没有减去 XLSX 的 30 分钟：失败。
+- 使用其他号码或把号码写进正文但实际发给错误收件人：SMS getter 按 address 过滤，失败。
+- 只把 light brightness 设为 60、purifier level 设为 high，却没有形成 power=on 效果：精确 workflow effects 不完整。
+- 拆成三个 active workflows：即使合起来能完成三项设置，`exact_active_workflow_count=1` 仍失败。
+- 短信漏掉任一设置或没有 `scheduled/ready/prepared`：失败。
+
+Evaluator 不要求短信正文包含 `Sam`，也不要求 sent box 恰好只有一条短信；只要最近 30 分钟内存在一条发给精确号码且正文通过的消息即可。它也不检查附件、Calendar 或初始 SmartHome 数据是否被保留。Workflow ID 与合法步骤顺序可自定，但合并后的设备/字段集合必须精确相等。
+
+## 6. Cleanup
+
+- Linux 删除 `card.png` 与 `standards.xlsx`，并尝试移除 `/tmp/guest`。
+- Android 清空 Calendar 与 SMS。
+- SmartHome reset。

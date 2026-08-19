@@ -7,6 +7,10 @@
 - 设备拓扑：`1A+1L+1H`（`android_0`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
 
+## 0. 任务链与匹配结论
+
+Homecoming 在 18:40 开始，SmartHome 当前客厅温度为 17.8°C；XLSX 中 `17-19 C` 这一行规定提前 35 分钟、目标 22°C。17.8 落在该区间，18:40 减 35 分钟得到 18:05。因此要建立一条 18:05 的 heater target schedule，并在 Markor 写出读数、命中区间、时间、目标和已安排状态。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -113,3 +117,19 @@ status=active
 - evaluator 要的是单条 schedule，不是 workflow。
 - 不要另加一条 `turn_on` schedule：那会使 active schedule 总数变成 2 而失败。当前 evaluator 只要求在 18:05 设置目标温度，没有要求届时同时打开 heater。
 - 额外的 inactive schedule 不会增加 `exact_active_count`，且只要不再匹配目标条件，当前 evaluator 未必发现；正确执行仍应只建立所需计划。
+
+## 5. 常见失败与真实评测边界
+
+- 把 17.8°C 归到 `19-21 C`，得到 18:20/21°C：时间和目标都失败。
+- 从 Calendar 结束时间 19:00 倒推，而不是从开始时间 18:40 倒推：失败。
+- 建 workflow 而非单条 schedule：`smarthome_schedules` 中没有匹配记录，失败。
+- 额外增加一条 18:05 `turn_on` schedule：active schedule 总数变成 2，失败。
+- 笔记只写结果时间和温度，漏掉 17.8 或 `17-19 C` band：失败。
+
+这里存在一个真实评测边界：初始 heater 是 off，而唯一被要求的 schedule 只是 `set_target_temperature(22)`。Evaluator 不要求在 18:05 打开 heater，因此严格按评分规则完成后，设备未必真的“开始加热”。这不是文档推测，而是 task JSON 的精确 schedule contract。Evaluator 也不检查其他设备变化。
+
+## 6. Cleanup
+
+- Linux 删除 `heat.xlsx`，并尝试移除 `/tmp/homecoming`。
+- Android 清空 Calendar，删除 `Homecoming Heat.md`。
+- SmartHome reset。
