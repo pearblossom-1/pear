@@ -3,8 +3,13 @@
 - Core 来源：`experiments/human_validation1000/core200_manifest.jsonl` 第 95 项
 - 任务文件：`tasks/cross_device/linux_android_smarthome/linux_android_smarthome_005.json`
 - 运行配置：`configs/cross_device/local_android_linux_smarthome.json`
+- 难度：medium
 - 设备拓扑：`1A+1L+1H`（`android_0`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
+
+## 0. 任务链与匹配结论
+
+Calendar 的 Sleep block 是 22:00–06:00；XLSX 规定该窗口取消 washer/dryer/vacuum 噪声计划、保留 lights off 静音计划。SmartHome 中 23:15 的 `late_washer` 属于前者，22:10 的 `bedroom_lights_out` 属于后者。因此只取消 late_washer，保持 lights-out 原记录 active，使全局最终恰好一个 active workflow，并在 Markor 同时写清两个决定。
 
 ## 1. Instruction
 
@@ -85,3 +90,18 @@ Quiet hours audit: late washer cancelled and bedroom lights-out remains active.
 
 日历与 XLSX 是做出选择的输入，evaluator 不单独检查你是否打开过它们；最终笔记和两条 workflow 状态才直接计分。
 
+## 5. 常见失败与真实评测边界
+
+- 把两条 workflow 都取消：`bedroom_lights_out` 不再 active，失败。
+- 只保留 lights-out，但 `late_washer` 仍 active：旧状态项和全局 active 数都失败。
+- 删除 `late_washer` 而不是取消：固定 ID+cancelled 查找失败。
+- 新建第二条 lights-out 或任何额外 active workflow：`exact_active_count=1` 失败。
+- 笔记只写“quiet hours done”，没有分别写 late washer cancelled 和 bedroom lights-out active：失败。
+
+这里的“keep compatible bedroom lights-out workflow”评测较窄：它只检查 `workflow_id=bedroom_lights_out` 且 status=active，并未重新核验该记录原来的 22:10 时间或 turn-off 步骤。因此改坏其内容但保留 ID/status，技术上仍可能通过；正确操作应原样保留。Calendar 与 XLSX 不被最终回查，其他 inactive workflow 也不受 active-count 项限制。
+
+## 6. Cleanup
+
+- Linux 删除 `quiet_hours.xlsx`，并尝试移除 `/tmp/quiet-hours`。
+- Android 清空 Calendar，删除 `Quiet Hours Audit.md`。
+- SmartHome reset。

@@ -3,8 +3,13 @@
 - Core 来源：`experiments/human_validation1000/core200_manifest.jsonl` 第 96 项
 - 任务文件：`tasks/cross_device/linux_android_smarthome/linux_android_smarthome_422.json`
 - 运行配置：`configs/cross_device/local_2android_linux_smarthome.json`
+- 难度：medium
 - 设备拓扑：`2A+1L+1H`（`android_0`、`android_1`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
+
+## 0. 任务链与匹配结论
+
+第一台手机的 Client Call alarm 是 08:10，CSV 将其映射到 study，第二台手机文件说明让 study robot vacuum 在 alarm 时 pause。当前时间是前一天 18:00，所以下一次是 6 月 17 日 08:10。要建立唯一一条未来 pause schedule；不能立即暂停。随后完成现有唯一 follow-up，并在 notes 中写全 Client Call、08:10、study vacuum 和 scheduled。
 
 ## 1. Instruction
 
@@ -87,3 +92,19 @@ Client Call: study robot vacuum pause scheduled for 08:10; follow-up complete.
 - schedule ID 没有被固定；
 - 评测的是将来计划，不是扫地机器人的即时最终状态。
 
+## 5. 常见失败与真实评测边界
+
+- 把 robot vacuum 现在立刻 pause：这不能替代 schedule，而且 notes 若写 `paused immediately/already paused` 会命中冲突短语。
+- 使用当天已过去的 08:10，或把日期/时区算错：精确 run_at 失败。
+- 建 workflow 而不是 schedule，或 schedule 的命令不是精确 `pause`+空参数：失败。
+- 建立第二条 active schedule：即使无关，`exact_active_count=1` 失败。
+- 完成 Task 但 notes 漏 Client Call、08:10、study、vacuum、scheduled 中任一组：失败。
+
+Task getter 只保证精确同名项恰好一条，不保存原 row ID，其他标题 Task 也不在唯一性范围内。Schedule evaluator 不检查当前 vacuum 是否继续 cleaning、不检查其电量，也不保护其他设备。Clock/CSV/note 都是输入，不是最终计分对象。
+
+## 6. Cleanup
+
+- Linux 删除 `clock_rule.csv`，并尝试移除其 `source` 目录。
+- 第一台 Android 清空 Clock。
+- 第二台 Android 删除 `clock_422.txt` 并清空 Tasks。
+- SmartHome reset。

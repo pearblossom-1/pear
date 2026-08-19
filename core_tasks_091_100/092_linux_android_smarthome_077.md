@@ -3,8 +3,13 @@
 - Core 来源：`experiments/human_validation1000/core200_manifest.jsonl` 第 92 项
 - 任务文件：`tasks/cross_device/linux_android_smarthome/linux_android_smarthome_077.json`
 - 运行配置：`configs/cross_device/local_android_linux_smarthome.json`
+- 难度：medium
 - 设备拓扑：`1A+1L+1H`（`android_0`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
+
+## 0. 任务链与匹配结论
+
+Android note 说同一 20:00 时刻把 living-room AC 目标从旧值改为 24°C；PDF 规定同设备同时间的新批准请求替换旧 schedule，不能留下重复 AC schedule；SmartHome 中旧记录正是 `living_ac_old_2000`、20:00、25°C、active。因此要把旧 ID 留存但改成 cancelled，新建唯一一条 20:00/24°C active schedule，并在结果笔记里明确写出旧 25°C 取消、新 24°C 生效。
 
 ## 1. Instruction
 
@@ -101,3 +106,18 @@ Climate correction applied: old 25 C schedule cancelled and new 24 C schedule ac
 - 新 schedule 的 ID 没有被固定；
 - 已 cancelled 的旧记录可以保留，额外 active schedule 不可以保留。
 
+## 5. 常见失败与真实评测边界
+
+- 直接把 `living_ac_old_2000` 从 25 改成 24 并继续 active：新值可能匹配，但旧 ID 没有 cancelled，旧状态项失败。
+- 删除旧记录：status evaluator 仍找不到固定 ID，失败。
+- 保留旧 25°C active，再新增 24°C active：全局 active schedule 数为 2，失败。
+- 另建一条 AC `turn_on` schedule：即使空调业务状态合理，也会让 active 数超过 1；本题只需要一条 set-target schedule。
+- 笔记写“24 C pending”或没说明旧 25°C 被取消：语义项失败。
+
+新 schedule evaluator 只检查 20:00 的 `set_target_temperature(24)`，不要求 schedule 再设置 power 或 mode；setup 中空调已经 on/cool。它也不保护空调即时状态或其他设备。Markor 关系不要求全文逐字一致，但四组实体、两组状态结论和极性必须同时成立。
+
+## 6. Cleanup
+
+- Linux 删除 `merge.pdf`，并尝试移除 `/tmp/schedules`。
+- Android 删除源 `Climate Update.md` 和结果 `Climate correction result.md`。
+- SmartHome reset。

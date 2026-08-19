@@ -3,8 +3,13 @@
 - Core 来源：`experiments/human_validation1000/core200_manifest.jsonl` 第 93 项
 - 任务文件：`tasks/cross_device/linux_android_smarthome/linux_android_smarthome_338.json`
 - 运行配置：`configs/cross_device/local_2android_linux_smarthome.json`
+- 难度：medium
 - 设备拓扑：`2A+1L+1H`（`android_0`、`android_1`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
+
+## 0. 任务链与匹配结论
+
+Linux note 要求给现有 tea/crackers snack 加 lemon、把 bedroom reading light 调到 55%，然后关闭现有 lighting Task；第一台手机提供唯一旧食谱及必须保留的 directions/20 minutes，第二台手机提供唯一旧 Task。最终三个表面必须一致：Broccoli 中只剩重命名后的精确食谱，Tasks 中只剩已完成且 notes 写明 55% 已应用的原任务，SmartHome 调光灯立即为 on/55%。
 
 ## 1. Instruction
 
@@ -100,3 +105,18 @@ brightness_pct=55
 
 该项检查最终状态，不要求创建 schedule/workflow，也不检查命令历史。
 
+## 5. 常见失败与真实评测边界
+
+- 保留旧食谱并新建 `Evening Guest Snack`：食谱总数变成 2，exact set 失败。
+- 把 lemon 加入但改了 directions、准备时间，或 ingredients 多出第四项：食谱 contract 失败。
+- 新建第二个 Bedroom lighting Task，或留下任何无关 Task：`androidworld_task_set` 对整个非忽略集合做 exact 比对，失败。
+- Task 只勾完成但 notes 仍是原请求，没有 55% 与肯定完成词：失败。
+- 只把 brightness 写成 55 但灯仍 off：设备状态要求 power=on。
+
+Ingredients 不是要求原字符串逐字符相等，而是按分号/换行拆分后，以大小写和空白归一化的多重集合比较；顺序可以变，但不能缺、多或重复。Directions 会按有序步骤归一化比较。Recipe/Task evaluator 只看最终集合，没有保存 setup 数据库 row ID，所以“删旧后重建唯一正确记录”技术上也可能通过，但违反“修改现有项”的 instruction。SmartHome 只检查目标灯终态，不保护其他设备。
+
+## 6. Cleanup
+
+- Linux 删除协调笔记，并尝试移除其 `source` 目录。
+- 第一台 Android 清空 Recipes；第二台 Android 清空 Tasks。
+- SmartHome reset。

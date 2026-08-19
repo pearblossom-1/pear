@@ -3,8 +3,13 @@
 - Core 来源：`experiments/human_validation1000/core200_manifest.jsonl` 第 91 项
 - 任务文件：`tasks/cross_device/linux_android_smarthome/linux_android_smarthome_002.json`
 - 运行配置：`configs/cross_device/local_android_linux_smarthome.json`
+- 难度：medium
 - 设备拓扑：`1A+1L+1H`（`android_0`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
+
+## 0. 任务链与匹配结论
+
+Calendar 把业务对象确定为 Guest room、入住时间 18:00；CSV 直接规定 `ready_by=17:30`，并列出 heater 22°C、purifier high、light on、通知 Maya；联系人再把 Maya 映射到 `+1555010202`。因此要建立唯一一条 17:30 active workflow，完整产生三台设备的五个目标字段，并向该号码发送包含 Guest room、17:30 和肯定 ready/prepared 状态的短信。
 
 ## 1. Instruction
 
@@ -106,3 +111,17 @@ guest_room_light_1        power=on
 - workflow ID 没有被 evaluator 固定；关键是时间、启用状态、唯一数量和完整效果。
 - 给 workflow 加入别的设备或额外状态，会使效果集合不再精确相等而失败。
 
+## 5. 常见失败与真实评测边界
+
+- 把 Calendar 的 18:00 check-in 当成准备时间，而忽略 CSV 的 `ready_by=17:30`：失败。
+- 只安排 heater target=22、purifier level=high，却没有让两者形成 power=on：精确 effects 缺字段，失败。
+- 为三台设备各建一个 workflow：即使动作都正确，active workflow 总数不是 1。
+- 给联系人名 Maya 发错号码，或短信没有 Guest room/17:30/肯定 ready 结论：SMS 失败。
+
+SMS evaluator 不要求正文列出 22°C、purifier high、light on，也不要求写 Maya；这些具体设备值只由 workflow evaluator 保证。它只要求 sent box 最近 30 分钟内存在一条发往精确号码的合格消息，不限制短信总数。Evaluator 不检查 Calendar、联系人、CSV 或其他 SmartHome 设备的最终保留状态。
+
+## 6. Cleanup
+
+- Linux 删除 `guest_standard.csv`，并尝试移除 `/tmp/guest-ready`。
+- Android 清空 Calendar、Contacts 与 SMS。
+- SmartHome reset。

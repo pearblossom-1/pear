@@ -3,8 +3,13 @@
 - Core 来源：`experiments/human_validation1000/core200_manifest.jsonl` 第 99 项
 - 任务文件：`tasks/cross_device/linux_android_smarthome/linux_android_smarthome_609.json`
 - 运行配置：`configs/cross_device/local_2android_linux_smarthome.json`
+- 难度：hard
 - 设备拓扑：`2A+1L+1H`（`android_0`、`android_1`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
+
+## 0. 任务链与匹配结论
+
+联系人把短信号码确认为 Owner；PDF 规定最新认证 Owner 消息胜过旧 Calendar，并明确旧 arrival/prep 为 19:00/18:40、新 arrival/prep 为 19:40/19:20；短信也给出 19:40 和通常提前 20 分钟。要把唯一 Guest arrival 事件改成 19:40–20:10，取消 `guest_prep_old_1840`，建立唯一 19:20 active replacement workflow，并向 Owner 说明新旧时间。
 
 ## 1. Instruction
 
@@ -107,7 +112,21 @@ guest_room_light_1  power=on
 
 - 新 workflow ID 不固定；额外 active workflow 或额外效果会失败。
 
-### 4.4 当前评测边界
+## 5. 常见失败与真实评测边界
 
-Instruction 说短信要回复“old and new timing”，PDF 中旧数字是 18:40/19:00；但短信 evaluator 实际只强制出现新准备时间 19:20、新到达时间 19:40，以及“已替换”的关系，并没有强制旧数字 18:40 或 19:00。也就是说，只写 `old prep replaced by 19:20 for 19:40` 也可能得分。上面的推荐短信仍把新旧四个时间都写全，才能真正完成 instruction，而不只是满足较窄的 evaluator。
+- 保留旧 Guest arrival 事件再新增同名新事件：title 唯一身份匹配到 2 条，Calendar 项失败。
+- 只改开始时间而没把结束时间改为 20:10，或地点不是 Guest room：失败。
+- 删除旧 workflow 而不是把固定 ID 留为 cancelled，或让它继续 active：旧状态项失败；继续 active 还会破坏 active 总数。
+- 新 workflow 只 set heater target，不 turn_on，或加入额外 effect：精确 effects 不等。
+- 在 Owner 短信中顺手写“old workflow cancelled”：`cancelled` 是这条 SMS evaluator 的顶层 conflict phrase，即使业务事实正确也会使短信项失败。短信应使用 `replaced/updated` 描述时序替换，把 workflow cancellation 留给 SmartHome 状态本身。
 
+Instruction 要求回复“old and new timing”，PDF 中旧数字是 prep 18:40/arrival 19:00；但 SMS evaluator 只强制新 prep 19:20、新 arrival 19:40、Owner 和 replaced/updated，没有强制旧数字。只写 `old prep replaced by 19:20 for 19:40` 也可能得分；推荐短信写全四个时间才真正完成 instruction。
+
+Calendar getter 只以 title 保证目标身份唯一，不保存原 row ID；删除重建唯一正确事件也可能通过。不同 title 的额外事件、Calendar description，以及联系人/SMS 输入的最终保留状态都不评分。
+
+## 6. Cleanup
+
+- Linux 删除 `priority.pdf`，并尝试移除其 `source` 目录。
+- 第一台 Android 清空 Calendar。
+- 第二台 Android 清空 SMS 与 Contacts。
+- SmartHome reset。

@@ -3,8 +3,13 @@
 - Core 来源：`experiments/human_validation1000/core200_manifest.jsonl` 第 94 项
 - 任务文件：`tasks/cross_device/linux_android_smarthome/linux_android_smarthome_423.json`
 - 运行配置：`configs/cross_device/local_2android_linux_smarthome.json`
+- 难度：medium
 - 设备拓扑：`2A+1L+1H`（`android_0`、`android_1`、`linux_0`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
+
+## 0. 任务链与匹配结论
+
+第一台手机的 `Kitchen Filter Service` alarm 是 09:15，CSV 把该标签映射到 kitchen，第二台手机文件说明动作是关闭 kitchen air purifier。SmartHome 当前时间已是 6 月 16 日 18:00，所以“下一次发生”是 6 月 17 日 09:15。要建立唯一一条该时刻的 `turn_off` schedule，再完成唯一同名 follow-up，并在 notes 写出时间、厨房净化器和 shutdown 已安排。
 
 ## 1. Instruction
 
@@ -89,3 +94,19 @@ Kitchen Filter Service: kitchen air purifier shutdown scheduled for 09:15.
 - schedule ID 没有固定，名称可以自定。
 - 它检查的是计划是否存在，不要求等到 09:15 后净化器已经实际关闭。
 
+## 5. 常见失败与真实评测边界
+
+- 安排到当天 `2026-06-16 09:15`：该时刻相对 18:00 已过去，下一次应是次日，失败。
+- 立即关掉净化器但没建 schedule：设备终态不计分，schedule 项失败。
+- 创建 workflow 而非单条 schedule：getter 读取的是 schedules，失败。
+- Notes 写“filter service scheduled”但漏了 09:15、kitchen、purifier 或 off 动作中的任一组：失败。
+- 新建同名 follow-up 而保留原项：精确同名数为 2，失败。
+
+Task getter 的唯一性只针对精确标题 `Kitchen Filter Service follow-up`，其他标题的额外 Task 不会被该项发现；它也不保存原 row ID。Alarm、CSV 与下载 note 是推导输入，最终 evaluator 不回查它们。Schedule evaluator 不要求当前 purifier 保持 on，也不等待计划执行。
+
+## 6. Cleanup
+
+- Linux 删除 `clock_rule.csv`，并尝试移除其 `source` 目录。
+- 第一台 Android 清空 Clock。
+- 第二台 Android 删除 `clock_423.txt` 并清空 Tasks。
+- SmartHome reset。

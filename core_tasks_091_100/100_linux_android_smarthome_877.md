@@ -3,8 +3,13 @@
 - Core 来源：`experiments/human_validation1000/core200_manifest.jsonl` 第 100 项
 - 任务文件：`tasks/cross_device/linux_android_smarthome/linux_android_smarthome_877.json`
 - 运行配置：`configs/cross_device/local_android_2linux_smarthome.json`
+- 难度：hard
 - 设备拓扑：`1A+2L+1H`（`android_0`、`linux_0`、`linux_1`、`home_0`）
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
+
+## 0. 任务链与匹配结论
+
+第一台 Linux 的 policy 只授权“kitchen purifier high now”，并禁止触碰其他房间；第二台 Linux 的登记表预留 Action/Status；Android thread 给出回复号码。完整结果是立即把 `kitchen_air_purifier_1` 设为 on/high，保持 `bathroom_dehumidifier_1` 的 power/level 不变，回复已应用结果，并把源 XLSX 另存到精确输出路径，只填 C2=`purifier high now`、D2=`Applied`。
 
 ## 1. Instruction
 
@@ -123,7 +128,21 @@ level=high
 - 不能把输出做成 CSV 后改扩展名，也不能新增业务行或把内容移到别的单元格。
 - 该任务没有启用 `preserve_layout=true`，所以 evaluator 不要求所有样式字节完全一样；它要求的是工作簿结构和非授权单元格内容保持一致。
 
-### 4.5 当前评测边界
+## 5. 常见失败与真实评测边界
 
-Instruction 和 policy 都说只能改厨房、不要碰其他房间。实际 SmartHome 防误改 evaluator 只专门保护了 `bathroom_dehumidifier_1` 的 power/level；其他非厨房设备若被误改，当前四项评分不一定能发现。这是实际覆盖缺口。正确操作仍应遵守原 instruction：除厨房净化器外，任何 SmartHome 设备都不要改。
+- 只把 purifier level 设为 high 但保持 off，或只开机仍为 low：厨房设备状态失败。
+- 浴室除湿机最终 power 或 level 任一改变：no-change 项失败；先改再恢复则可能因只看终态而未被发现。
+- 回复错号码、正文写成 `not applied/pending`，或没出现连续语义 `purifier high`：SMS 项失败。
+- 覆盖源工作簿而没有在精确 result 路径生成副本，或 C2/D2 大小写和值不精确：XLSX 项失败。
+- 修改表名、合并区域、允许格之外的非空数据，或新增业务行：preserve evaluator 失败。
 
+Instruction 和 policy 都说只能改厨房、不要碰其他房间。实际 SmartHome 防误改 evaluator 只保护 `bathroom_dehumidifier_1` 的 power/level；其他非厨房设备若被误改，当前四项评分不一定发现。它也不检查 command history，只比较指定字段终值。正确操作仍应只改厨房净化器。
+
+XLSX 没有 `preserve_layout=true`，所以字体、填充、列宽、行高、冻结窗格等不是完整保留门槛；sheet 列表/顺序、可见状态、合并区域、允许格之外的非空坐标和值以及相关 hidden 状态才是主要比较对象。应按 instruction 真正保留工作簿外观，而不是利用较窄评分边界。
+
+## 6. Cleanup
+
+- `linux_0` 删除 policy 文本，并尝试移除 policy 目录。
+- `linux_1` 删除源与结果工作簿，并尝试移除 register/result 目录。
+- Android 清空 SMS。
+- SmartHome reset。
