@@ -6,6 +6,10 @@
 - 设备拓扑：`1A+1L`
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
 
+## 0. 任务链与设备分工
+
+Linux CSV 同时给出 north 与 south 两行，Android Contacts 又有两个相近联系人。必须先按 role=`dispatch`、region=`north` 选中 CSV 第一行，再用同一身份找到号码 `5551201255`。最终输出都在 Android：一条 sent SMS 和一份 Markor selection log。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -37,8 +41,17 @@ Ava Lane,dispatch,south,MSG-0000,wrong region
 
 ## 3. Setup 具体流程
 
-- `linux_0`：上传 role_rule.csv。
-- `android_0`：清空并重建两位联系人，清空 SMS，准备 Markor 输出位置。
+### `linux_0`
+
+删除旧 `/tmp/contacts/role_rule.csv`、创建目录并上传完整两行 CSV。
+
+### `android_0`
+
+1. 确保 Contacts 可用并清空联系人。
+2. 新增 `Ava Lane / 5551201255 / role dispatch region north`。
+3. 新增 `Ava Lane South / 5551201295 / role dispatch region south`。
+4. 确保 Simple SMS Messenger 可用并清空 SMS。
+5. 确保 Markor 可用，删除旧 `/storage/emulated/0/Documents/Markor/Dispatch Contact Log.md`。
 
 ## 4. Evaluator：评测方式与具体评测点
 
@@ -60,7 +73,7 @@ Selected dispatch contact: Ava Lane, dispatch, north region, message code MSG-12
 
 ### 4.1 短信
 
-最近 30 分钟内发往 `5551201255` 的 sent 短信必须同时包含 `MSG-1255` 和 `North dispatch window confirmed`，并呈肯定关系。不是完整字符串绝对匹配。
+最近 30 分钟内发往 `5551201255` 的 sent 短信必须同时包含完整短语 `MSG-1255` 和 `North dispatch window confirmed`，并呈最终肯定关系。号码按 phone-number 规则归一化，正文大小写不敏感、短语有边界；不是完整字符串绝对匹配，也没有要求精确只有一条匹配短信。
 
 ### 4.2 Markor 笔记
 
@@ -68,3 +81,27 @@ Selected dispatch contact: Ava Lane, dispatch, north region, message code MSG-12
 - 必须出现 Ava Lane、dispatch、north、MSG-1255，并含 selected/confirmed/dispatch 等肯定语义。
 - 禁止 `Ava Lane South`、`MSG-0000`、south，以及 wrong/not selected/do not send 等冲突说法。
 
+## 5. 通过/失败例子与 evaluator 缺口
+
+可通过短信：
+
+```text
+MSG-1255 — North dispatch window confirmed.
+For Ava: North dispatch window confirmed (MSG-1255).
+```
+
+不可通过短信：
+
+```text
+Is MSG-1255 the North dispatch window confirmed?  （疑问）
+MSG-1255: North dispatch window not confirmed.    （否定）
+MSG-0000: North dispatch window confirmed.        （缺少正确 code）
+```
+
+Markor 要同时包含四个 entity，并至少命中 selected/confirmed/dispatch 中一个肯定词。因为 `dispatch` 本身既是 entity 又在 positive list 中，写明四项且无冲突通常即可。
+
+需要如实说明：短信 evaluator 只查正确号码是否至少有一条合格 sent SMS，没有负向检查 `5551201295`。因此额外误发一条给 south 联系人，当前短信项可能仍通过；Markor 则明确禁止 south 身份。符合 instruction 的正确做法仍是只发给 north 联系人。
+
+## 6. Cleanup
+
+清理会删除 Linux CSV 和空目录，并清空 Android Contacts/SMS、删除目标 Markor 笔记。

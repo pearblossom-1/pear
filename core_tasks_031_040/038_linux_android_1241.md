@@ -6,6 +6,16 @@
 - 设备拓扑：`1A+2L`
 - 限制：最多 50 步；任务文件没有单独设置最长秒数
 
+## 0. 任务链与设备分工
+
+| 设备 | 权威输入或输出 |
+|---|---|
+| `linux_0` | ODT meeting brief、审计模板、最终审计 CSV |
+| `linux_1` | active/archived attendees 表 |
+| `android_0` | 最终 Calendar 事件与三个人对应的“发/不发”SMS 状态 |
+
+五个 evaluator 等权：事件一项、两个 active 短信各一项、archived 未发送一项、CSV 一项。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -50,9 +60,17 @@ EXAMPLE-X,Example archived meeting,5550000002,skipped
 
 ## 3. Setup 具体流程
 
-- `linux_0`：上传 brief.odt 和带示例行的模板，清理输出 CSV。
-- `linux_1`：上传 attendees.csv。
-- `android_0`：清空 Calendar 和 SMS。
+### `linux_0`
+
+先删除旧 brief、output、template，创建 `/tmp/meeting`；再上传有效 `brief.odt` 与带两行示例的 `brief_transform_audit_template.csv`。
+
+### `linux_1`
+
+删除旧 attendees，创建同名目录并上传完整三人 CSV。
+
+### `android_0`
+
+确保 Simple Calendar Pro 与 Simple SMS Messenger 可用，清空 Calendar 和 SMS；没有预建活动事件或通知。
 
 ## 4. Evaluator：评测方式与具体评测点
 
@@ -77,11 +95,23 @@ OPS-PLANNING-1241,Old Ops Draft,5551201299,skipped
 
 ### 4.1 日历与短信
 
-- 日历匹配标题、08:30 开始时间和地点；结束时间不评测。
-- 两位 active 人员各要有最近 30 分钟的匹配 sent 短信，正文含标题、8:30、地点且为肯定关系。
+- 日历匹配标题、开始时间戳 `1785227400` 和地点；结束时间、描述与唯一事件数不评测。
+- 两位 active 人员各要有最近 30 分钟的匹配 sent 短信，正文含标题、`8:30` 和地点且为肯定关系。时间 matcher 也接受 `08:30`、`8:30 AM` 等同一时刻写法。
 - archived 号码要求匹配短信为 missing；给它发任何近期短信都会使该项失败。
 
 ### 4.2 审计 CSV
 
 四列集合必须精确，三条业务记录必须精确，行顺序不敏感。示例行若未删除就属于额外记录并失败。
 
+## 5. 五项之间的边界与常见失败
+
+- archived 短信 getter 使用 `any_body=true`：最近 30 分钟内给 `5551201299` 发任何正文都失败，不只是发会议内容才失败。
+- active getter 只要求各号码至少存在一条合格短信；额外不匹配短信不会抹掉已有合格短信。
+- `require_positive_relation=true` 会拒绝 `Ops Planning Sync at 8:30 ... maybe confirmed?`、`not confirmed` 或后续取消。
+- CSV 使用 exact logical rows：表头集合必须恰好四列，大小写和连续空白归一化；每个 cell 也做同样归一化，三行顺序可交换，重复/多余/遗漏都失败。
+- archived 审计行的 `calendar_title` 故意是 brief 中的 `Old Ops Draft`，不是 active title；写成 Ops Planning Sync 会失败。
+- Calendar evaluator 不要求结束时间；这是当前评测覆盖宽松点，不能据此把错误结束时间当成符合 instruction 的正确做法。
+
+## 6. Cleanup
+
+清理会删除两台 Linux 的输入/输出和空目录，并清空 Android Calendar 与 SMS。

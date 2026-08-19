@@ -6,6 +6,17 @@
 - 设备拓扑：`2A+2L`
 - 限制：最多 50 步，最长 420 秒
 
+## 0. 任务链与设备分工
+
+| 设备 | 权威输入/输出 |
+|---|---|
+| `android_0` | 三行请求：case、approval code、owner |
+| `linux_0` | 完整登记表和 policy；输出真实 `handoff.docx` |
+| `android_1` | 输出协调员联系人 |
+| `linux_1` | 输出纯文本 `handoff.txt` |
+
+手机请求本身不能证明 approved；必须用三个身份字段锁定 CSV 中唯一批准行，再按 policy 把该行的电话和 handoff 决定写到三个输出面。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -28,24 +39,47 @@ NX90423
 Mira Patel
 ```
 
-`transcripts.csv` 有 12 行候选；唯一同时匹配上述 case、code、owner 且状态为 approved 的行是：
+`transcripts.csv` 的完整内容如下；它不是只有正确行的简化表：
 
 ```csv
+case_id,owner,phone,status,code,target,due_time,priority
+904-00,Mira Patel,+1555011881,pending,D9040,Audio memo file list missing,2026-07-14 08:30,normal
+904-01,Jon Bell,+1555011882,pending,D9041,Audio memo file list missing,2026-07-15 09:30,normal
+904-02,Nadia Ross,+1555011883,pending,D9042,Audio memo file list missing,2026-07-16 10:30,normal
 904-A,Mira Patel,+1555011881,approved,NX90423,Audio memo file list missing,2026-07-17 11:30,high
+904-04,Elena Cruz,+1555011885,pending,D9044,Audio memo file list missing,2026-07-18 12:30,normal
+904-05,Priya Shah,+1555011886,pending,D9045,Audio memo file list missing,2026-07-19 13:30,normal
+904-06,Owen Park,+1555011887,pending,D9046,Audio memo file list missing,2026-07-20 14:30,normal
+904-D,Mira Patel,+1555011888,hold,D9047,Audio memo file list missing,2026-07-21 15:30,normal
+904-08,Mira Patel,+1555011881,pending,D9048,Audio memo file list missing,2026-07-22 16:30,normal
+904-09,Jon Bell,+1555011882,pending,D9049,Audio memo file list missing,2026-07-23 08:30,normal
+904-10,Nadia Ross,+1555011883,pending,D90410,Audio memo file list missing,2026-07-24 09:30,normal
+904-11,Tao Lin,+1555011884,pending,D90411,Audio memo file list missing,2026-07-10 10:30,normal
 ```
 
-干扰项包括同 owner 的 pending 行，以及 `904-D` hold 行；都不能授权交接。
+其中唯一同时匹配 `904-A / NX90423 / Mira Patel` 且状态为 `approved` 的行给出协调员号码 `+1555011881`。同 owner、同号码的 pending 行和 `904-D` hold 行都不能授权交接。
 
-Policy 原意完整概括如下：case ID、approval code、owner 必须与手机请求一致；登记行必须为 `approved`；联系人号码必须来自该 approved 行；pending/hold 无权交接；DOCX 和 TXT 都要写明 case、owner、code、来源登记表及肯定的 ready 决定。
+Policy 原文的规则是：case ID、approval code、owner 必须与手机请求一致；对应登记行必须为 `approved`；联系人号码必须来自该 approved 行；pending/hold 无权交接，即使 owner 相同；DOCX 和 TXT 都要识别所选 case、owner、approval code、source register，并给出肯定的 ready 决定。
 
 第二部手机 Contacts 初始被清空。两个输出文件初始不存在。
 
 ## 3. Setup 具体流程
 
-- `android_0`：上传 `904-A_source.md` 到精确 Download 路径。
-- `linux_0`：创建 `/tmp/audio`，上传完整 transcripts CSV 和 policy；目标 DOCX 清理后等待创建。
-- `android_1`：清空 Contacts。
-- `linux_1`：创建 `/tmp/audio` 并清理目标 TXT。
+### `android_0`
+
+确保 Android Files 可用，把请求附件上传为精确路径 `/sdcard/Download/904-A_source.md`。
+
+### `linux_0`
+
+创建 `/tmp/audio`，先删除旧 `transcripts.csv`、`handoff_policy.md`、`handoff.docx`，再上传本轮完整 CSV 和 policy。不存在 DOCX 模板，输出必须新建。
+
+### `android_1`
+
+确保 Contacts 可用并清空全部联系人；setup 不预建 Mira。
+
+### `linux_1`
+
+创建 `/tmp/audio` 并删除旧 `handoff.txt`；不传入任何模板或半成品。
 
 ## 4. Evaluator：评测方式与具体评测点
 
@@ -61,7 +95,7 @@ Policy 原意完整概括如下：case ID、approval code、owner 必须与手�
 
 ### 4.1 Contacts
 
-要求联系人名称与号码精确对应；错误号码、漏联系人或同名重复导致目标集合不匹配。
+Getter 查找规范化名称为 `Mira Patel 904`、清洗后号码为 `+1555011881` 的联系人，至少找到一个即返回 `present`。这里没有配置 `require_exactly_one`、`require_unique_name` 或全联系人集合检查：额外无关联系人以及重复的完全相同联系人，当前 evaluator 可能不会拒绝。这是实际覆盖边界，不应误写成“联系人集合必须精确只有一条”。
 
 ### 4.2 DOCX 与 TXT
 
@@ -71,3 +105,27 @@ Policy 原意完整概括如下：case ID、approval code、owner 必须与手�
 - 关系 evaluator 要同时识别三个身份实体及肯定的 ready/approved 结论；`not ready`、`do not hand off`、`blocked` 等冲突说法会失败。
 - 不要求整段逐字匹配，安全做法是用上面的单句。
 
+## 5. 文档关系逻辑、例子与不评测项
+
+`include` 先要求四个字面锚点都存在；`entity_relation` 再要求三个身份实体都出现，并至少出现 `ready` 或 `approved` 之一。通用关系逻辑还会拒绝问句、不确定说法、局部否定以及后续撤销词。
+
+可通过：
+
+```text
+Selected from transcripts.csv: 904-A, NX90423, owned by Mira Patel, is approved and ready for handoff.
+```
+
+不可通过：
+
+```text
+Is 904-A / NX90423 for Mira Patel ready?       （问句）
+904-A / NX90423 / Mira Patel is not ready.     （否定）
+904-A is ready, but the handoff is blocked.    （冲突词）
+904-D / NX90423 / Mira Patel is ready.         （DOCX 还命中禁止项 904-D）
+```
+
+Evaluator 不检查 DOCX 的页面样式、TXT 的固定句式，也没有强制正文逐字写出 `transcripts.csv`；虽然 policy 要求识别 source register，但当前规则只硬性检查三个实体和 ready/approved，这是一个真实的合同宽松点。
+
+## 6. Cleanup
+
+清理会删除第一部手机的 source、清空第二部手机 Contacts，删除两台 Linux 的输入和输出；DOCX 锁文件也会定向移除，目录为空时再删除 `/tmp/audio`。

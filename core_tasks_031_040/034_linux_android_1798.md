@@ -6,6 +6,10 @@
 - 设备拓扑：`1A+2L`
 - 限制：最多 60 步，最长 480 秒
 
+## 0. 任务链与设备分工
+
+Android 提供“播放列表实际有什么”，第一台 Linux 提供“manifest 要求有什么”，第二台 Linux 的模板只定义输出列。操作者要做的是求二者的并集并为每首歌标出 present、missing 或 extra。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -45,9 +49,17 @@ playlist,track_title,manifest_required,android_playlist,category
 
 ## 3. Setup 具体流程
 
-- `android_0`：清空并建立指定 Retro Music 播放列表及三首实际歌曲。
-- `linux_0`：上传 manifest。
-- `linux_1`：上传 audit template，并清理目标输出 CSV。
+### `android_0`
+
+确保 Retro Music 可用，清空旧播放列表，定向删除三首旧 MP3 及 MediaStore 记录，重新推入三首歌，然后建立 `Route review set`，顺序为 north gate、harbor loop、old archive。
+
+### `linux_0`
+
+创建 `/tmp/music`，清除旧 manifest，再上传完整 `track_manifest.csv`。
+
+### `linux_1`
+
+创建 `/tmp/music`，删除旧输出和模板，再把只有表头的模板上传为 `/tmp/music/playlist_audit_template.csv`。输出 `playlist_audit.csv` 初始不存在。
 
 ## 4. Evaluator：评测方式与具体评测点
 
@@ -74,3 +86,18 @@ Route review set,old archive outro,no,present,extra
 - category 的 present 可写 match/matched/in both；missing 可写 absent/required but missing；extra 可写 unexpected/unlisted/playlist only/additional。
 - 模板中的表头要保留，但不能漏写四条业务记录。
 
+## 5. 语义 CSV 是怎样归一化的
+
+- 文件按 UTF-8 with optional BOM 读取。
+- 表头必须一一映射到五个规范列；本任务没有配置表头别名，所以只允许标点、大小写和空白归一化后的等价写法，不能加第六列。
+- 普通文本使用 `legacy_alnum`：转小写，把连续非字母数字变为下划线并去掉两端下划线。
+- 三个枚举列随后按第 4.1 节的显式别名折叠成规范值。
+- 实际记录必须无重复，排序后与四条规范记录完全相等；所以行顺序不重要，但额外、遗漏和重复都失败。
+
+例如 `Required and present` 在 `category` 中等价于 `present`，但把 `old archive outro` 的 `manifest_required` 写成 `yes` 仍然失败。`missing signature cue` 必须作为一行出现，不能因为 Android 没有这首歌就省略。
+
+不评测 CSV 行的视觉颜色、引号风格或是否由模板另存而来；决定性内容是逻辑表结构与四条记录。
+
+## 6. Cleanup
+
+清理会清空 Retro Music、删除三首任务 MP3 与媒体记录，并删除两台 Linux 的 manifest、template、output 和空目录。
