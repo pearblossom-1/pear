@@ -6,6 +6,16 @@
 - 设备拓扑：`2A+1L`（`android_0`、`android_1`、`linux_0`）
 - 限制：最多 50 步，最长 300 秒
 
+## 0. 任务链与设备分工
+
+| 设备 | 权威输入 | 操作者要做什么 |
+|---|---|---|
+| `android_0` | `client-call.wav` 的原始字节 | 找到并转移这份录音，不能用同名替代品 |
+| `android_1` | Client 联系人的邮箱 | 读取 `client@example.com` |
+| `linux_0` | 空的本地 Thunderbird Drafts | 创建并保存一封未发送草稿 |
+
+最终只评 Thunderbird 草稿，但草稿中的地址和附件分别受两部手机上的输入约束。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -59,13 +69,19 @@ Audio Recorder on the first phone has a `client-call` recording, and the Android
 
 ### `android_1`
 
-清空联系人后新增 `Client` 联系人。
+1. 确保 Android Contacts 可用。
+2. 清空联系人数据库。
+3. 新增一条 `Client / 5550101 / client@example.com` 联系人，并写入备注 `Client contact for call recording`。
 
 ### `linux_0`
 
-1. 重建任务临时目录和 Thunderbird profile。
-2. 写入本地账户配置。
-3. 创建空 Drafts。
+1. 删除旧的 `/tmp/audio_thunderbird_draft` 和 `~/.thunderbird/mail.default-release`。
+2. 重建任务目录、profile 和 `Mail/Local Folders`。
+3. 写入 `profiles.ini`，把 `mail.default-release` 设为默认 profile。
+4. 写入本地账户 `Local Agent <agent@example.test>`；账户类型为 Local Folders，不配置外部收信服务器。
+5. 创建空的 `Drafts` 和 `Drafts.msf`。也就是说，评测时出现的合格草稿必须是本轮留下的。
+
+Setup 不会把 WAV 自动复制到 Linux，也不会创建预填好的邮件。
 
 ## 4. Evaluator：评测方式与具体评测点
 
@@ -98,3 +114,29 @@ Audio Recorder on the first phone has a `client-call` recording, and the Android
 - 附件必须非空。
 - 邮件必须仍在 Drafts；只发送出去而不保留匹配草稿不能通过。
 
+## 5. 草稿选择方式与例子
+
+getter 会解析 Drafts 中当前未标记删除的邮件并寻找匹配项，不是读取 Thunderbird 窗口截图。最稳妥的草稿可以是：
+
+```text
+To: client@example.com
+Subject: Client call recording
+
+Attached is client-call.wav.
+```
+
+并附加唯一文件 `client-call.wav`。
+
+以下情况会失败：
+
+- To 正确，但把 `client-call.wav` 只写在主题中而正文没有提到。
+- To 中还有第二个地址，或通过 Cc/Bcc 加入额外收件人；收件人并集不再精确。
+- 附件同名、能播放，但不是 setup 提供的那份源 WAV；摘要不同。
+- 同时附加 WAV 和另一个文件；附件列表不是精确的一项。
+- 邮件已经发送，Drafts 中没有留下同一封合格草稿。
+
+没有配置主题规则，也不检查称呼、落款或正文是否逐字等于示例。
+
+## 6. Cleanup
+
+清理会删除第一部手机的源 WAV 及媒体索引、清空第二部手机联系人，并移除 Linux 的任务目录、整个任务 Thunderbird profile 和 `profiles.ini`。

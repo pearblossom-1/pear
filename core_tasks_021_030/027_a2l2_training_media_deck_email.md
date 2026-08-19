@@ -6,6 +6,17 @@
 - 设备拓扑：`2A+2L`（`android_0`、`android_1`、`linux_0`、`linux_1`）
 - 限制：最多 50 步，最长 300 秒
 
+## 0. 任务链与设备分工
+
+| 设备 | 权威输入或产物 | 与下一步的关系 |
+|---|---|---|
+| `android_0` | 本轮新拍的 `training_setup_photo.jpg` | 文件名写入幻灯片；照片本身不要求嵌入 |
+| `android_1` | Trainer 的邮箱 `trainer@example.com` | 写入幻灯片并作为草稿唯一收件人 |
+| `linux_0` | `template.odp` | 必须转移到第二台 Linux 后制作 deck |
+| `linux_1` | `deck.odp`、导出的 PDF、Thunderbird 草稿 | 三项都由独立 evaluator 检查 |
+
+四个 evaluator 等权；任何一环缺失，任务都不会整体通过。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -73,12 +84,14 @@ Purpose: [[PURPOSE]]
 
 ### `linux_0`
 
-创建 `/tmp/train` 并上传模板。
+创建 `/tmp/train`，把固定源模板上传为 `/tmp/train/template.odp`。这里没有 `deck.odp` 或 PDF。
 
 ### `linux_1`
 
 1. 重建 `/tmp/train` 和 Thunderbird profile。
 2. 写入本地账户配置并创建空 Drafts。
+
+第二台 Linux 初始没有模板；需要通过跨设备文件传递获得它。Thunderbird 使用本轮重建的本地 profile，发件身份为 `agent@example.test`，不依赖外部邮件服务器。
 
 ## 4. Evaluator：评测方式与具体评测点
 
@@ -127,3 +140,31 @@ Purpose: [[PURPOSE]]
 - 附件字节必须与第二台 Linux 当前 `/tmp/train/training_deck.pdf` 完全一致；附另一份同名 PDF 不通过。
 - 草稿必须保持未发送状态。
 
+## 5. 四项评测怎样互相绑定
+
+- 照片 evaluator 只验证 Android 精确路径、创建时间和 JPEG 尺寸；ODP evaluator 只要求写入该文件名，并不比较照片字节，也不要求嵌图。
+- PDF evaluator 检查可见文字关系，但不直接要求它由当前 `deck.odp` 导出。
+- 邮件附件 evaluator 会在评测时计算 `/tmp/train/training_deck.pdf` 的当前字节摘要，再与草稿附件比较。这一项真正把磁盘上的 PDF 和邮件附件绑在一起。
+
+最稳妥的正文：
+
+```text
+To: trainer@example.com
+
+Please find training_deck.pdf attached.
+```
+
+典型失败：
+
+- 使用 setup 前就存在的同名照片；它不晚于 `.mdcbench_l027_started`。
+- ODP 新增第二页、第二个文本框，或保留任何 `[[...]]` 占位符。
+- ODP 文字正确，但把页面改成纵向或明显改变唯一 frame 的位置/大小。
+- PDF 只是同名文本、无法由 `pdftotext` 解析，或字段标签和值被拆到不同段落。
+- 先把 PDF 附到草稿，之后又重新导出覆盖磁盘 PDF；两者字节不再一致。
+- 给 Trainer 发送了邮件却没有在 Drafts 留下匹配草稿。
+
+不评测照片画面内容、邮件主题、幻灯片中是否嵌入照片，也不要求特定 PDF 视觉布局。
+
+## 6. Cleanup
+
+清理会删除新照片和时间标记并清 MediaStore、清空 Trainer 联系人、删除两台 Linux 的 `/tmp/train`，同时移除第二台 Linux 的任务 Thunderbird profile 和 `profiles.ini`。

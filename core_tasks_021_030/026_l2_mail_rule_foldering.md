@@ -6,6 +6,10 @@
 - 设备拓扑：`2L`（`linux_0`、`linux_1`）
 - 限制：最多 50 步，最长 300 秒
 
+## 0. 任务链与设备分工
+
+第一台 Linux 只保存分类规则，第二台 Linux 才保存待分类邮件和最终 Thunderbird 文件夹状态。规则中的关键词用于操作者作出决定；evaluator 最终不重新跑规则引擎，而是按三封邮件的稳定身份字段检查它们是否恰好出现在规定文件夹。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -76,7 +80,9 @@ Urgent repair notice for same day response.
 
 ### `linux_0`
 
-创建 `/tmp/mail` 并上传 `rules.json`。
+1. 创建 `/tmp/mail`。
+2. 把仓库中的唯一规则附件原样上传为 `/tmp/mail/rules.json`。
+3. 不预置任何 Thunderbird profile；这台机器仅是规则来源。
 
 ### `linux_1`
 
@@ -84,6 +90,8 @@ Urgent repair notice for same day response.
 2. 写入本地账户配置。
 3. 上传并复制 `inbox_seed.mbox` 为 Inbox。
 4. 创建空的 `Vendors`、`Field`、`Urgent` 文件夹文件。
+
+Inbox 初始恰好是三封未分类邮件。目标文件夹用 mbox 文件表示；setup 不创建同名子文件夹或预先分类副本。
 
 ## 4. Evaluator：评测方式与具体评测点
 
@@ -104,3 +112,27 @@ Urgent repair notice for same day response.
 - 正文不参与最终身份匹配；规则文件和正文是用于做分类决定的输入。
 - evaluator 只读取 Inbox 和这三个命名文件夹，其他无关 Thunderbird 文件夹不在此合同内。
 
+## 5. 匹配身份、删除标记与失败例子
+
+每封预期邮件的身份合同如下：
+
+| 文件夹 | Message-ID | Subject | From |
+|---|---|---|---|
+| Vendors | `<supplier-invoice-batch@mdcbench.test>` | `supplier invoice batch` | `sender@example.com` |
+| Field | `<north-gate-route-update@mdcbench.test>` | `north gate route update` | `field@example.com` |
+| Urgent | `<urgent-same-day-repair@mdcbench.test>` | `urgent same day repair` | `ops@example.com` |
+
+Thunderbird mbox 中带删除标记的邮件不算当前可见邮件。因而“复制到目标文件夹并在 Inbox 中真正删除原件”和标准的 Move 操作都可形成目标状态；只复制不删原件则 Inbox 仍非空。
+
+会失败的典型情况：
+
+- 仅创建 Vendors/Field/Urgent 三个文件夹但没有移动邮件。
+- 三封邮件都移走了，但把 `north gate route update` 放入 Urgent。
+- Vendors 中有正确邮件又多出一份重复；目标列表要求精确一封。
+- 直接删除全部三封；Inbox 虽为空，但三个目标文件夹不满足。
+
+邮件正文不参与最终身份比较；规则文件本身也不要求保持未修改。其他未列入 evaluator 的 Thunderbird 文件夹不计入精确集合。
+
+## 6. Cleanup
+
+清理会删除第一台 Linux 的 `/tmp/mail`，并删除第二台 Linux 的 `/tmp/mail`、任务 Thunderbird profile 及 `profiles.ini`。

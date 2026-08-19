@@ -6,6 +6,10 @@
 - 设备拓扑：`2A+1L`（`android_0`、`android_1`、`linux_0`）
 - 限制：最多 50 步，最长 300 秒
 
+## 0. 任务链与设备分工
+
+两个字段来自两部不同手机：`account_id` 只能从第二部手机的 Markor 笔记读取，`code` 来自第一部手机短信。Linux 页面只是收集和提交这两个值；页面源代码不是另一个业务数据来源。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -52,17 +56,21 @@ Use this ID together with the verification code to complete two-step authenticat
 
 ### `android_0`
 
-清空短信后注入 `Code: 4829`。
+1. 确保 Simple SMS Messenger 可用。
+2. 清空短信数据库。
+3. 模拟从 `5550102` 收到正文 `Code: 4829`，并等待 5 秒让数据稳定可见。
 
 ### `android_1`
 
-确保 Markor 可用并写入 `Account note.md`。
+确保 Markor 可用，创建 Markor 文档目录，并把第 2.2 节全文写到 `/storage/emulated/0/Documents/Markor/Account note.md`。
 
 ### `linux_0`
 
 1. 创建 `/home/user/account`。
 2. 上传 `verify.html`。
 3. runtime 启动本次运行的表单接收器，并替换 HTML 中唯一的 action 占位符。
+
+表单服务和随机 run id 属于当前运行。setup 不预填账号或验证码，也不会把手机内容自动复制到剪贴板。
 
 ## 4. Evaluator：评测方式与具体评测点
 
@@ -93,3 +101,21 @@ One-time code: 4829
 - 正确 POST 后状态为 `pass`。之后再提交错误值会重置为失败，所以最终一次提交必须正确。
 - 不检查短信或 Markor 文件是否被改动，也不要求浏览器最后停留在成功页。
 
+## 5. “精确匹配”具体是什么意思
+
+接收器解析请求后先要求文本字段名集合精确为 `{account_id, code}`，再把字段对象按键排序、序列化并与任务中的规范对象比较。没有大小写折叠、空白修剪或数字转换：
+
+| 提交值 | 结果 | 原因 |
+|---|---|---|
+| `ACC-28491` / `4829` | 通过 | 两个字符串精确 |
+| `acc-28491` / `4829` | 失败 | account id 大小写不同 |
+| `ACC-28491 ` / `4829` | 失败 | 尾随空格也是值的一部分 |
+| `ACC-28491` / `04829` | 失败 | code 不是数值比较 |
+| 正确两项外再带一个字段 | 失败 | 字段集合不精确 |
+| 同名字段提交两次 | 失败 | 重复表单字段被拒绝 |
+
+接收器以最后一次 POST 为准：一次正确提交之后再误提交，会把状态改回失败。是否通过与 Chrome 最终显示哪个页面、输入框是否还保留文字无关。
+
+## 6. Cleanup
+
+清理会清空第一部手机短信、删除第二部手机的 `Account note.md`，并删除 Linux 的 `verify.html`；目录为空时移除 `/home/user/account`。

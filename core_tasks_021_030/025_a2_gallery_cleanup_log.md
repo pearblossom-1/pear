@@ -6,6 +6,10 @@
 - 设备拓扑：`2A`（`android_0`、`android_1`）
 - 限制：最多 50 步，最长 300 秒
 
+## 0. 任务链与设备分工
+
+第一部手机只提供删除规则，第二部手机才是被修改对象。正确结果不是“建立一个只显示两张图的新相册”，而是让第二部手机上精确目录 `/sdcard/Pictures/Cleanup Review` 的顶层文件集合只剩两张指定原图。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -52,7 +56,7 @@ Remove every other photo from the same album.
 ### `android_0`
 
 1. 确保 Markor 可用。
-2. 写入上述 `Album rule.md`。
+2. 创建 Markor 文档目录，并将上述全文写入精确路径 `/storage/emulated/0/Documents/Markor/Album rule.md`。
 
 ### `android_1`
 
@@ -60,6 +64,8 @@ Remove every other photo from the same album.
 2. 删除并重建 `Cleanup Review` 目录，同时清理旧 MediaStore 记录。
 3. 上传四张 PNG。
 4. 对四张文件触发媒体扫描，使其在 Gallery 中可见。
+
+Setup 先删除整个同名目录，因此不会混入上一轮残留照片；随后上传的是四份固定 PNG 源文件。第二部手机虽然也确保了 Android Files 可用，但最终状态并不要求必须用某一个指定 UI 完成删除。
 
 ## 4. Evaluator：评测方式与具体评测点
 
@@ -91,3 +97,30 @@ site_c_storage.png
 - 因而裁剪、标注或重新导出保留图片会改变字节并失败。
 - 本任务没有启用额外的 MediaStore 可见性检查；决定性结果是目录文件集合和源图片字节。第一部手机的笔记本身不评分。
 
+## 5. 具体通过与失败例子
+
+### 通过所需的最终文件树
+
+```text
+/sdcard/Pictures/Cleanup Review/
+├── site_a_overview.png   （原始字节不变）
+└── site_c_storage.png    （原始字节不变）
+```
+
+### 会失败的变体
+
+- 四张图都还在，只是在 Gallery 里选择了筛选视图。
+- 把 B、D 移入 `Cleanup Review/Archive/`：这不符合 instruction 所说的“删除”。需要特别说明的是，当前 getter 只执行 `find ... -maxdepth 1 -type f`，不会检查子目录，所以这种做法可能在当前 evaluator 下漏过；这是评测覆盖范围的真实缺口，不能把它描述成正确完成方式。
+- 将 A 重命名为 `site_a_overview_1.png`；精确文件名集合不匹配。
+- 删除了 C，或保留了 B/D 中任意一张。
+- 对 A/C 做旋转后覆盖保存；即使肉眼看起来相同，固定源字节检查会失败。
+
+### 不评测
+
+- 不通过 OCR 判断图片画面。
+- 不检查回收站中是否还有被删除图片。
+- 不要求修改或删除第一部手机上的规则笔记。
+
+## 6. Cleanup
+
+任务结束时会删除第一部手机的 `Album rule.md`，删除第二部手机整个 `Cleanup Review` 目录，并按该 relative path 清理 MediaStore 图片记录。

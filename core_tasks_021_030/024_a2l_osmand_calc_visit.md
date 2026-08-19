@@ -6,6 +6,16 @@
 - 设备拓扑：`2A+1L`（`android_0`、`android_1`、`linux_0`）
 - 限制：最多 50 步，最长 300 秒
 
+## 0. 任务链与设备分工
+
+| 设备 | 提供的信息 |
+|---|---|
+| `android_0` | OsmAnd 收藏名称 `Clinic` 与坐标 `47.151, 9.532` |
+| `android_1` | Calendar 事件的开始时间 `2027-02-16 10:00` |
+| `linux_0` | 汇总上述信息的新建 XLSX |
+
+这里取的是日历事件开始时间，不是结束时间，也不是在 OsmAnd 中推断一个访问时间。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -60,15 +70,19 @@ Clinic
 
 ### `android_0`
 
-确保 OsmAnd 可用，初始化 favorites，并写入上述 `Clinic` GPX。
+1. 确保 OsmAnd 可用。
+2. 执行 OsmAnd favorites 初始化。
+3. 在 favorites 目录直接写入完整 GPX；该输入不是一个另外上传给 Linux 的附件。
 
 ### `android_1`
 
-确保 Simple Calendar Pro 可用，清空日历，再新增 `Clinic visit` 事件。
+1. 确保 Simple Calendar Pro 可用。
+2. 清空已有事件。
+3. 新增唯一的 `Clinic visit` 事件，Unix 时间戳为 `1802772000` 到 `1802775600`，并写入地点和描述。
 
 ### `linux_0`
 
-创建 `/tmp/visit`；旧 `visit.xlsx` 没有作为输入模板。
+只创建 `/tmp/visit`；不上传模板，也不预建 `visit.xlsx`。cleanup 会删除结果文件和 LibreOffice 锁文件。
 
 ## 4. Evaluator：评测方式与具体评测点
 
@@ -105,3 +119,27 @@ Clinic | 47.151, 9.532 | 2027-02-16 10:00
 - 逻辑表要求实际记录集合与这一行相等；额外业务行、漏列或错配值会失败。
 - 不要求特定字体、颜色或工作表名，也不评测是否通过 Calc GUI 创建。
 
+## 5. XLSX 判定例子与边界
+
+### 可通过
+
+```text
+Name | Coordinates | Date and time
+Clinic | 47.151, 9.532 | 02/16/2027 10:00 AM
+```
+
+这里两个表头和时间都使用了配置中明确列出的别名。
+
+### 不通过
+
+- 写 `2027-02-16 11:00`：这是结束时间，不是 visit time 的规范开始时间。
+- 坐标写成 `47.151 / 9.532`：坐标列没有配置这种值别名。
+- 同一工作簿中复制两份都带规范表头的表格：evaluator 无法得到唯一逻辑表。
+- 加入第二条业务记录或空占位记录：实际行集合不再等于唯一规范行。
+- 把 CSV 或纯文本改名为 `.xlsx`：无法作为有效工作簿解析。
+
+Evaluator 不要求表格从 A1 开始，也不要求行顺序（本任务本来就只有一条业务行），更不检查字体、边框、列宽或公式。
+
+## 6. Cleanup
+
+清理会移除 OsmAnd 的 `favorites.gpx`、清空第二部手机日历，并删除 Linux 的 `visit.xlsx`、LibreOffice 锁文件；目录为空时再删除 `/tmp/visit`。

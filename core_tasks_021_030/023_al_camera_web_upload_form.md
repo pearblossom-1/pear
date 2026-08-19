@@ -6,6 +6,10 @@
 - 设备拓扑：`1A+1L`（`android_0`、`linux_0`）
 - 限制：最多 50 步，最长 420 秒
 
+## 0. 任务链与设备分工
+
+这项任务把“看图得到文字”和“传递原文件”同时放进一份网页提交中：Android 照片告诉你位置是 `NORTH SHELF`，Linux 表单要求把这个含义写入 `condition`，同时上传未经改变的原 JPEG。最终只看接收器收到的 POST，不看表单页面是否仍停留在成功提示。
+
 ## 1. Instruction
 
 ### 英文原文（逐字）
@@ -57,6 +61,8 @@ Android Camera 文件夹中有 `asset_tag_photo.jpg`。请查看照片中显示�
 
 照片不会自动复制到 Linux；提交前需要把 Android 上的原文件传到 Linux，使 Chrome 文件选择器能够选中它。
 
+接收器是本轮运行独享的临时服务。旧运行留下的成功请求、浏览器历史或另一个同名 HTML 不会计入本轮状态。
+
 ## 4. Evaluator：评测方式与具体评测点
 
 本任务只有 1 个 evaluator，权重 100%。
@@ -91,3 +97,29 @@ Photo: asset_tag_photo.jpg（第一部手机上的原文件）
 - 因此在 Linux 中另存、压缩、裁剪或截图后即使画面相同，也不能替代原附件。
 - 如果正确提交后又进行一次错误提交，最新一次 POST 会清除先前成功状态。
 
+## 5. 表单内容与通过边界
+
+HTML 本身包含标题 `Asset Photo Intake`、三个表单控件和 Submit 按钮；提交采用 `multipart/form-data`。接收器要求正文中正好解析出两个文本字段和一个文件字段：
+
+```text
+asset_id = AT-4172
+condition = north shelf（语义归一化后的规范值）
+photo = asset_tag_photo.jpg
+```
+
+`condition` 不是全文绝对匹配。比如 `The asset is located on the North Shelf.` 可以通过，因为归一化后包含独立的 `north` 与 `shelf`，并且没有冲突方向、否定、疑问或不确定含义。下面这些不能通过：
+
+```text
+north                  （缺少 shelf）
+north shelving         （没有独立 token shelf）
+north shelf?           （疑问）
+maybe north shelf      （不确定）
+not north shelf        （否定）
+north shelf, not south shelf  （出现被禁止的 south shelf）
+```
+
+文件名和 MIME 正确但字节变化仍然失败；这是在确认“上传那张源照片”，不是仅确认“上传了一张看起来相似的照片”。
+
+## 6. Cleanup
+
+清理只删除 Android 的 `asset_tag_photo.jpg` 及其对应 MediaStore 记录，并删除 Linux 的 `/home/user/upload`。运行期表单服务随任务结束关闭。
