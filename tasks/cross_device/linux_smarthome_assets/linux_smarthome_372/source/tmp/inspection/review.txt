@@ -1,0 +1,3 @@
+Use source-map.png as the noise source map. Query the laundry room washer, laundry room dryer, living room robot vacuum, and room noise. Save findings.docx with evidence.
+
+Keep each reading attributable: write `laundry room noise <value> dB`, `washer <displayed status>`, and `<room> robot vacuum <displayed status>`. Preserve the status labels displayed by Home rather than paraphrasing them.

@@ -1,0 +1,15 @@
+{
+  "task_id": "al_request_audio",
+  "source_files": [
+    "source/request.txt"
+  ],
+  "expected_files": [
+    "expected/memo_path.txt"
+  ],
+  "note": "The request file names the memo, requires M4A, and gives its public Recordings export path. Setup resets the exact Audio Recorder entry and public output; evaluation pulls that artifact and requires a decodable positive-duration M4A/MP4-family audio stream.",
+  "source_card": "037",
+  "device_topology": "1A+1L",
+  "instruction": "Linux 的 `/tmp/brief/request.txt` 写了语音备忘录所需的文件名和音频格式。用 Android Audio Recorder 录一段简短语音，并按 request 保存。",
+  "surfaces": "Linux text -> Android Audio Recorder file",
+  "template_source": "tasks/cross_device/real20/briefing_voice_memo_001.json"
+}

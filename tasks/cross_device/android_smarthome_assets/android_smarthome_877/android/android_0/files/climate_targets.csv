@@ -1,0 +1,4 @@
+room,target_mode,target_temp,auto_repair,priority
+office,cool,23,true,1
+bedroom,cool,24,false,2
+living room,cool,25,true,3

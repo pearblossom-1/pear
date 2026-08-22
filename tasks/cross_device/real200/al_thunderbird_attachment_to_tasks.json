@@ -1,0 +1,191 @@
+{
+  "id": "al_thunderbird_attachment_to_tasks",
+  "instruction": "Linux Thunderbird has an email titled `Tasks for today` with a task-list CSV attachment. In the Android Tasks app, add one incomplete task using the `title` from every CSV row.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/mail && mkdir -p /tmp/mail",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real200_assets/al_thunderbird_attachment_to_tasks/source/message.eml",
+                "path": "/tmp/mail/message.eml"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nprofile=\"$HOME/.thunderbird/local.default-release\"\nrm -rf \"$profile\"\nmkdir -p \"$profile/Mail/Local Folders\" /tmp/mail\ncat > \"$HOME/.thunderbird/profiles.ini\" <<'EOF'\n[Profile0]\nName=local\nIsRelative=1\nPath=local.default-release\nDefault=1\n\n[General]\nStartWithLastProfile=1\nVersion=2\nEOF\ncat > \"$profile/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server1\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.identity.id1.fullName\", \"Task Agent\");\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nEOF\n",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nprofile=\"$HOME/.thunderbird/local.default-release\"\ninbox=\"$profile/Mail/Local Folders/Inbox\"\n{ printf 'From - Tue Jun 9 09:00:00 2026\\n'; cat /tmp/mail/message.eml; printf '\\n\\n'; } > \"$inbox\"\nrm -f \"$profile/Mail/Local Folders/Inbox.msf\"",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "profile=\"$HOME/.thunderbird/local.default-release\"; command -v thunderbird >/dev/null && test -s \"$profile/Mail/Local Folders/Inbox\" && grep -Fq 'Subject: Tasks for today' /tmp/mail/message.eml && grep -Fq 'filename=\"tasks.csv\"' /tmp/mail/message.eml",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/mail \"$HOME/.thunderbird/local.default-release\" \"$HOME/.thunderbird/profiles.ini\"",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_set",
+        "titles": [
+          "Stage route labels",
+          "Check cold-chain seal",
+          "Call receiving desk",
+          "Print driver manifest",
+          "Confirm spare scanner battery",
+          "Label priority return bin",
+          "Update dock handoff board",
+          "Verify outbound pallet photo"
+        ],
+        "completed": false,
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 70,
+    "max_wall_time_s": 540
+  },
+  "metadata": {
+    "category": "real200_cross_device",
+    "source_card": "155",
+    "difficulty": "Medium",
+    "motif": "M3",
+    "interaction_mode": "GUI-focused",
+    "device_topology": "1A+1L",
+    "surfaces": "Linux Thunderbird -> Android Tasks app",
+    "setup_note": "Linux Thunderbird Inbox 注入带 CSV 附件的邮件；Android 清空 Tasks app。",
+    "evaluate_note": "Requires exactly one incomplete Android task for each of the eight attachment titles, with no duplicate or extra tasks in the isolated Tasks app state.",
+    "implementation_status": "fixture_scaffold",
+    "readiness": "R1_native_android_app_state",
+    "native_evaluator_status": "native_android_app_state",
+    "requires_helper_audit": false,
+    "asset_source": "tasks/cross_device/real200_assets/al_thunderbird_attachment_to_tasks/source",
+    "cross_device_checks": [
+      "thunderbird_attachment_titles_drive_incomplete_android_tasks"
+    ],
+    "fixture_notes": [
+      "Thunderbird Inbox contains a MIME email with tasks.csv attachment",
+      "A single scored task-set evaluator checks exact titles, multiplicity, incomplete state, and absence of extras.",
+      "The CSV is available only through the Thunderbird attachment during the task.",
+      "AndroidWorld exposes only an isolated Tasks database reset, so setup and cleanup intentionally clear that benchmark-owned app state rather than claiming a targeted restore."
+    ],
+    "instruction_visible_inputs": [],
+    "instruction_visible_outputs": [],
+    "native_file_presence_outputs": [],
+    "native_content_outputs": [],
+    "android_state_outputs": [
+      {
+        "device_id": "android_0",
+        "result": {
+        "type": "androidworld_task_set",
+        "titles": [
+          "Stage route labels",
+          "Check cold-chain seal",
+          "Call receiving desk",
+          "Print driver manifest",
+          "Confirm spare scanner battery",
+          "Label priority return bin",
+          "Update dock handoff board",
+          "Verify outbound pallet photo"
+        ],
+        "completed": false,
+        "allow_unrelated": false
+        },
+        "expected_file": "expected/android_tasks.json"
+    }
+    ],
+    "android_file_outputs": [],
+    "android_text_outputs": [],
+    "browser_state_outputs": [],
+    "thunderbird_draft_outputs": [],
+    "lite_evaluator_hardening_note": "Task semantics and scoring remain unchanged. Setup now also opens the reset Tasks app and fails early unless Thunderbird is installed, the Inbox mbox is nonempty, and the intended subject plus tasks.csv MIME attachment are present; the exact eight-title incomplete task multiset remains the scored outcome."
+  }
+}

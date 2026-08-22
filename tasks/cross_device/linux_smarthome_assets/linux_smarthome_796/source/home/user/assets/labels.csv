@@ -1,0 +1,5 @@
+asset,room,device,expected_command
+A-01,office,curtain,set_open_pct
+A-02,office,basic light,set_brightness
+A-03,guest room,heater,set_target_temperature
+A-04,hallway,dimmer,set_brightness

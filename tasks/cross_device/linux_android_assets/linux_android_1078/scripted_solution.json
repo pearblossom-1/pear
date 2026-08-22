@@ -1,0 +1,18 @@
+{
+  "actions": [
+    {
+      "device_id": "android_0",
+      "type": "android.setup",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/1078-A_blocked.md' <<'EOF'\n1078-A for Owen Park\nApproval code NX07877\nBlocked because the required SMS form code is unavailable.\nEOF"
+          }
+        }
+      ]
+    },
+    {"type": "done"}
+  ],
+  "notes": "Scripted dry-run mirrors the Markor outcome without submitting the host-owned form."
+}

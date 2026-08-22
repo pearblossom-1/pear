@@ -1,0 +1,4 @@
+required_tracks,previous_vacuum_time,decision,light_command
+ambient_pad + quiet_piano_one,19:45,keep old vacuum plan,leave room light unchanged
+quiet_piano_one + quiet_piano_two,20:00,cancel old vacuum plan,turn on room light
+quiet_piano_two + soft_strings,20:15,reschedule vacuum later,turn on room light

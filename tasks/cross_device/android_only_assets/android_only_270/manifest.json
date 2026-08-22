@@ -1,0 +1,6 @@
+{
+  "task_id": "android_only_270",
+  "asset_dir": "tasks/cross_device/android_only_assets/android_only_270",
+  "oracle_ref": "tasks/cross_device/android_only_assets/android_only_270/oracle_positive.json",
+  "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_270/episode_config.json"
+}

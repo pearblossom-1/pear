@@ -1,0 +1,246 @@
+{
+  "id": "a2l_audio_thunderbird_draft",
+  "instruction": "Audio Recorder on the first phone has the `client-call` recording, and the Markor note `Call handoff` on that phone contains the call reference. The Android Contacts app on the second phone has the client's email. A local export copy of the recording is available on Linux at `/tmp/audio_thunderbird_draft/client-call.wav`. Please create an unsent Thunderbird draft addressed to the client, attach that local recording file, and mention both the recording filename and the call reference in the message. Leave the email in Drafts without sending it.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "audio recorder"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "androidworld_audio_recorder_delete_by_name",
+          "parameters": {
+            "filename": "client-call.wav",
+            "name": "client-call",
+            "source_path": "/sdcard/Recordings/client-call.wav",
+            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/client-call.wav",
+            "format": "wav"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2l_audio_thunderbird_draft/source/client-call.wav",
+                "path": "/sdcard/Recordings/client-call.wav"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///storage/emulated/0/Recordings/client-call.wav >/dev/null",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "androidworld_audio_recorder_import_preflight",
+          "parameters": {
+            "filename": "client-call.wav",
+            "name": "client-call",
+            "source_path": "/sdcard/Recordings/client-call.wav",
+            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/client-call.wav",
+            "format": "wav"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "set -e\nmkdir -p /storage/emulated/0/Documents/Markor\ncat > '/storage/emulated/0/Documents/Markor/Call handoff.md' <<'EOF'\n# Call handoff\n\nRecording: client-call.wav\nCall reference: CALL-317\nEOF"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Client",
+            "number": "5550101",
+            "email": "client@example.com",
+            "notes": "Client contact for call recording"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nrm -rf /tmp/audio_thunderbird_draft \"$HOME/.thunderbird/mail.default-release\"\nmkdir -p /tmp/audio_thunderbird_draft \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders\"\ncat > \"$HOME/.thunderbird/profiles.ini\" <<'EOF'\n[Profile0]\nName=local\nIsRelative=1\nPath=mail.default-release\nDefault=1\n\n[General]\nStartWithLastProfile=1\nVersion=2\nEOF\ncat > \"$HOME/.thunderbird/mail.default-release/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server1\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nEOF\n: > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Drafts\"\n: > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Drafts.msf\"",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "cat >> \"$HOME/.thunderbird/mail.default-release/prefs.js\" <<'EOF'\nuser_pref(\"mail.identity.id1.fullName\", \"Local Agent\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nEOF",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2l_audio_thunderbird_draft/source/client-call.wav",
+                "path": "/tmp/audio_thunderbird_draft/client-call.wav"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -s /tmp/audio_thunderbird_draft/client-call.wav && test -f \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Drafts\" && command -v thunderbird >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_audio_recorder_delete_by_name",
+          "parameters": {
+            "filename": "client-call.wav",
+            "name": "client-call",
+            "source_path": "/sdcard/Recordings/client-call.wav",
+            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/client-call.wav",
+            "format": "wav"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Call handoff.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/audio_thunderbird_draft \"$HOME/.thunderbird/mail.default-release\" \"$HOME/.thunderbird/profiles.ini\"",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "thunderbird_draft_state",
+        "profile_root": "~/.thunderbird/mail.default-release",
+        "exact_total_drafts": 1,
+        "recipients": ["client@example.com"],
+        "allow_extra_recipients": false,
+        "recipient_header_policy": "single_to_only",
+        "message_contains": ["client-call.wav", "CALL-317"],
+        "attachments": [
+          {
+            "filename": "client-call.wav",
+            "sha256": "3a184e14b81152f874eb9d5c4ac8851a8815b58d879267d40604804c5cfe1419",
+            "content_type": "audio/wav",
+            "content_types": ["audio/wav", "audio/x-wav", "audio/wave", "audio/vnd.wave"]
+          }
+        ],
+        "allow_extra_attachments": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "real300_cross_device",
+    "source_card": "a2l",
+    "difficulty": "Medium",
+    "motif": "M3",
+    "interaction_mode": "GUI",
+    "device_topology": "A+A+L",
+    "surfaces": "android_0 Audio Recorder + Markor + android_1 Contacts -> Linux local export + Thunderbird",
+    "setup_note": "android_0 将 client-call.wav 放入公共 Recordings、触发媒体扫描并通过 Audio Recorder Import 预检，同时在 Markor 提供 CALL-317；android_1 写 client 联系人；Linux 预置本地 export copy 并准备 Thunderbird 草稿环境。",
+    "evaluate_note": "在精确、每轮重建的 Thunderbird profile 中解析当前可见 Drafts；要求恰好一封草稿、唯一正确收件人、subject/body 联合包含 client-call.wav 与 CALL-317，并附加与 Linux 本地 export copy 字节一致的唯一 WAV。",
+    "readiness": "R1_native_ready",
+    "native_evaluator_status": "mixed_native_content",
+    "requires_helper_audit": false,
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "func": "exact_match",
+        "result_type": "thunderbird_draft_state",
+        "path": "~/.thunderbird/mail.default-release/Mail/Local Folders/Drafts"
+      }
+    ]
+  }
+}

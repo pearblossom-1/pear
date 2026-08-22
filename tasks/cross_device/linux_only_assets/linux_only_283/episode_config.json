@@ -1,0 +1,24 @@
+{
+  "task_id": "linux_only_283",
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nfrom email import policy\nfrom email.parser import BytesParser\nfrom email.utils import getaddresses\nimport re\ntry:\n    with open('/tmp/code/test_failure_summary.eml', 'rb') as handle:\n        message = BytesParser(policy=policy.default).parse(handle)\n    to = [address.casefold() for _, address in getaddresses(message.get_all('to', []))]\n    cc = [address.casefold() for _, address in getaddresses(message.get_all('cc', []))]\n    bcc = [address.casefold() for _, address in getaddresses(message.get_all('bcc', []))]\n    subject = str(message.get('subject', '')).strip().casefold()\n    subject_ok = re.search(r'\\b(?:parser|test)\\b', subject) and re.search(r'\\bfail(?:ed|ing|ure|ures)?\\b', subject)\n    if message.is_multipart():\n        plain_parts = [part for part in message.walk() if part.get_content_type() == 'text/plain' and part.get_content_disposition() != 'attachment']\n        other_text = [part for part in message.walk() if part.get_content_maintype() == 'text' and part.get_content_type() != 'text/plain' and part.get_content_disposition() != 'attachment']\n        body = '\\n'.join(str(part.get_content()) for part in plain_parts)\n        plain_ok = len(plain_parts) == 1 and not other_text\n    else:\n        body = str(message.get_content())\n        plain_ok = message.get_content_type() == 'text/plain'\n    lowered = body.casefold()\n    mentioned = set(re.findall(r'\\btest_[a-z0-9_]+\\b', lowered))\n    clauses = [item.strip() for item in re.split(r'[\\n\\r]+|(?<=[.!?])\\s+', lowered) if item.strip()]\n    test_clauses = [item for item in clauses if re.search(r'\\btest_parse_dates\\b', item)]\n    failed = any(re.search(r'\\b(?:fail(?:ed|ing|ure)?|error)\\b', item) for item in test_clauses)\n    contradictory = any(re.search(r'\\b(?:passed|passing|successful|not failing|did not fail|no failure|maybe|perhaps|possibly|might|pending|uncertain|unknown)\\b', item) or '?' in item for item in test_clauses)\n    ok = to == ['maintainer@example.test'] and not cc and not bcc and bool(subject_ok) and plain_ok\n    ok = ok and mentioned == {'test_parse_dates'} and 'parser.py' in lowered and failed and not contradictory\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "failed_test_email_draft"
+      }
+    }
+  ]
+}

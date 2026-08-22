@@ -1,0 +1,261 @@
+{
+  "id": "linux_android_1354",
+  "instruction": "Take the Markor note and apply `/tmp/summary/summary_template.md`. In `/tmp/summary/summary.md` on the second Linux machine, preserve the template sections and fill in the current Owner, Date, and active Actions from the note. Keep the template footer, and do not include archived content.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/summary/summary_template.md && mkdir -p -- /tmp/summary",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1354/source/tmp/summary/summary_template.md",
+                "path": "/tmp/summary/summary_template.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/summary/summary_template.md",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/summary/summary.md && mkdir -p -- /tmp/summary",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test ! -e /tmp/summary/summary.md && test -w /tmp/summary",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1354/android/suite_0/Ops Summary 1354.md",
+                "path": "/storage/emulated/0/Documents/Markor/Ops Summary 1354.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_markor_note_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor/Ops Summary 1354.md",
+            "required_visible_text": [
+              "Owner: Neve",
+              "Date: 2026-08-26",
+              "Active: inspect valves; call depot",
+              "Archived: old route"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/summary/summary_template.md; find /tmp/summary -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/summary/summary.md; find /tmp/summary -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Ops Summary 1354.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "cat /tmp/summary/summary.md 2>/dev/null || true"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [],
+          "exclude": [
+            "old route",
+            "archived route",
+            "missing"
+          ],
+          "entity_relation": {
+            "entities": [
+              "Neve",
+              "2026-08-26",
+              "inspect valves",
+              "call depot"
+            ],
+            "conflict_phrases": [
+              "old route",
+              "archived route",
+              "do not inspect",
+              "do not call"
+            ],
+            "reject_questions": true,
+            "reject_uncertainty": true,
+            "reject_negated_relations": true
+          },
+          "markdown_sections": {
+            "title": "Summary",
+            "ordered": true,
+            "case_sensitive": false,
+            "sections": [
+              {
+                "label": "Owner",
+                "required_groups": [
+                  [
+                    "Neve"
+                  ]
+                ]
+              },
+              {
+                "label": "Date",
+                "required_groups": [
+                  [
+                    "2026-08-26"
+                  ]
+                ]
+              },
+              {
+                "label": "Actions",
+                "required_groups": [
+                  [
+                    "inspect valves"
+                  ],
+                  [
+                    "call depot"
+                  ]
+                ]
+              },
+              {
+                "label": "Footer",
+                "required_groups": [
+                  [
+                    "template 1354"
+                  ]
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/summary/summary.md"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1354",
+    "surfaces": [
+      "markor",
+      "linux.md"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1354",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1354/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1354/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/summary/summary_template.md"
+    ],
+    "linux_output_paths": [
+      "/tmp/summary/summary.md"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/summary/summary_template.md"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/summary/summary.md"
+      ]
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1341-1360-B0009",
+    "candidate_triage": {
+      "decision": "direct",
+      "rationale": "Candidate is realistic, source-closed, and supported by existing Linux and Android helpers."
+    },
+    "human_quality_review": "accepted_current_hash_smoke_passed",
+    "current_hash_smoke_status": "passed_current_hash"
+  }
+}

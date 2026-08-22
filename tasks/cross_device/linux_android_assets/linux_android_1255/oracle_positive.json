@@ -1,0 +1,21 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "5551201255",
+          "body": "MSG-1255 North dispatch window confirmed"
+        }
+      },
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Dispatch Contact Log.md' <<'EOF'\nAva Lane is the selected north dispatch contact; MSG-1255 confirms the North dispatch window.\nEOF"
+        }
+      }
+    ]
+  },
+  "notes": "Positive oracle creates only the requested recent sent SMS and affirmative Markor contact log."
+}

@@ -1,0 +1,1 @@
+Pause the study robot vacuum when the Client Call alarm occurs so the room is quiet.

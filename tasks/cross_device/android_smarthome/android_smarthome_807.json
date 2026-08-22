@@ -1,0 +1,399 @@
+{
+  "id": "android_smarthome_807",
+  "instruction": "The battery policy in the Android Files app says the robot should return to dock now, and Markor says the safe pause schedule is unrelated and should be left alone. Please handle the robot and write `Vacuum battery action result` in Markor.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_807/android/android_0/files/vacuum_battery_policy.txt",
+                "path": "/storage/emulated/0/Download/home/vacuum_battery_policy.txt"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/storage/emulated/0/Download/home",
+            "expected_filenames": [
+              "vacuum_battery_policy.txt"
+            ],
+            "open_filename": "vacuum_battery_policy.txt",
+            "required_visible_text": [
+              "below 25 percent",
+              "return to dock now",
+              "Do not cancel safe pause schedule"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_807/android/android_0/markor/Vacuum schedule note.md",
+                "path": "/storage/emulated/0/Documents/Markor/Vacuum schedule note.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_markor_note_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor/Vacuum schedule note.md",
+            "required_visible_text": [
+              "safe_pause_schedule",
+              "21:00",
+              "unrelated",
+              "remain active"
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Vacuum battery action result.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_807/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/home/vacuum_battery_policy.txt"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Vacuum schedule note.md'"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Vacuum battery action result.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Vacuum battery action result.md",
+        "rules": {
+          "entities": [
+            [
+              "battery"
+            ],
+            [
+              "18",
+              "18 percent"
+            ],
+            [
+              "robot",
+              "vacuum"
+            ],
+            [
+              "dock",
+              "docked"
+            ],
+            [
+              "safe pause schedule",
+              "safe_pause_schedule"
+            ],
+            [
+              "active"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "returned",
+              "sent to",
+              "is docked",
+              "docked"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "battery"
+                ],
+                [
+                  "18",
+                  "18 percent"
+                ],
+                [
+                  "robot",
+                  "vacuum"
+                ],
+                [
+                  "dock",
+                  "docked"
+                ]
+              ],
+              "phrases": [
+                [
+                  "returned",
+                  "sent to",
+                  "is docked",
+                  "docked"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "safe pause schedule",
+                  "safe_pause_schedule"
+                ],
+                [
+                  "active"
+                ]
+              ],
+              "phrases": [
+                [
+                  "remains",
+                  "remained",
+                  "kept",
+                  "left"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "preceding_clause_context": {
+            "max_preceding_clauses": 1,
+            "anchors": [
+              [
+                "battery"
+              ],
+              [
+                "safe pause schedule",
+                "safe_pause_schedule"
+              ]
+            ]
+          },
+          "conflict_phrases": [
+            "pending",
+            "cancelled",
+            "canceled",
+            "inactive",
+            "not active",
+            "not docked",
+            "did not return"
+          ],
+          "required_phrases": [
+            [
+              "remains",
+              "remained",
+              "kept",
+              "left"
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "result note binds low battery to docking and preserves the active safe pause schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "living_room_robot_vacuum_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "off",
+            "status": "docked"
+          }
+        }
+      },
+      "name": "living-room robot is off and docked"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {
+              "schedule_id": "safe_pause_schedule",
+              "run_at": "2026-06-16T21:00:00",
+              "device_id": "living_room_robot_vacuum_1",
+              "command": "pause",
+              "args": {},
+              "status": "active"
+            }
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the sole safe_pause_schedule remains fully unchanged and active"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the complete schedule set remains exactly one active record"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "living_room_robot_vacuum_1",
+                "command": "return_to_dock",
+                "args": {}
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "direct commands are restricted to semantic return-to-dock retries"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "battery action creates no workflow"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_807",
+    "surfaces": [
+      "files",
+      "markor",
+      "home_state",
+      "home_command",
+      "home_schedule"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "adb_shell",
+      "smarthome_device_state"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_807",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_807/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_807/oracle_positive.json",
+    "idea_number": 807,
+    "candidate_triage": {
+      "batch_id": "plan5-android-smarthome-369-868-B0022",
+      "decision": "direct",
+      "rationale": "Supported low-battery dock action with unrelated safe pause schedule preserved."
+    },
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

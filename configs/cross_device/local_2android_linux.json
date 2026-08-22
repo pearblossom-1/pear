@@ -1,0 +1,58 @@
+{
+  "devices": {
+    "android_0": {
+      "runtime": {
+        "adb_serial": "emulator-5554",
+        "grpc_port": 8554,
+        "require_prelaunched": true
+      },
+      "observation": {
+        "screenshot": true,
+        "ui_elements": true,
+        "forest": false
+      },
+      "action_space": [
+        "android.json_action"
+      ]
+    },
+    "android_1": {
+      "runtime": {
+        "adb_serial": "emulator-5556",
+        "grpc_port": 8555,
+        "require_prelaunched": true
+      },
+      "observation": {
+        "screenshot": true,
+        "ui_elements": true,
+        "forest": false
+      },
+      "action_space": [
+        "android.json_action"
+      ]
+    },
+    "linux_0": {
+      "runtime": {
+        "provider_name": "vmware",
+        "path_to_vm": "${repo_root}/third_party/OSWorld-main/vmware_vm_data/Ubuntu-arm-0/Ubuntu.vmx",
+        "http_retries": 3,
+        "http_retry_delay_s": 1,
+        "http_timeout_s": 10,
+        "server_ready_timeout_s": 30,
+        "server_ready_delay_s": 1,
+        "server_ready_probe_timeout_s": 2,
+        "restart_server_on_not_ready": true,
+        "server_restart_wait_s": 2
+      },
+      "observation": {
+        "screenshot": true,
+        "accessibility_tree": false,
+        "terminal": false
+      },
+      "action_space": [
+        "cli.execute",
+        "gui.pyautogui",
+        "gui.computer_13"
+      ]
+    }
+  }
+}

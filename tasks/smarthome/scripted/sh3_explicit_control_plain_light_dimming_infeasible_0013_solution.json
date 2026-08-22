@@ -1,0 +1,23 @@
+{
+  "actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.get_device_capabilities",
+      "parameters": {
+        "device_id": "bedroom_light_1"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.report_infeasible",
+      "parameters": {
+        "category": "missing_capability",
+        "reason": "bedroom_light_1 is a plain light and does not support brightness control.",
+        "target": "bedroom_light_1.brightness_pct"
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

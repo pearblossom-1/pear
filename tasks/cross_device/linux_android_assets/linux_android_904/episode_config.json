@@ -1,0 +1,87 @@
+{
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_contact",
+        "name": "Mira Patel 904",
+        "number": "+1555011881",
+        "require_unique_name": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/audio/handoff.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "904-A",
+            "NX90423",
+            "Mira Patel",
+            "transcripts.csv",
+            "ready"
+          ],
+          "exclude": [
+            "DRAFT ONLY",
+            "904-D",
+            "placeholder"
+          ],
+          "require_valid_package": true,
+          "case_sensitive": false,
+          "entity_relation": {
+            "entities": ["904-A", "NX90423", "Mira Patel", "transcripts.csv"],
+            "positive_phrases": ["ready", "approved"],
+            "conflict_phrases": ["not ready", "do not hand off", "blocked"]
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "cat '/tmp/audio/handoff.txt' 2>/dev/null || echo missing",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "904-A",
+            "NX90423",
+            "Mira Patel",
+            "transcripts.csv",
+            "ready"
+          ],
+          "exclude": [
+            "missing",
+            "placeholder"
+          ],
+          "case_sensitive": false,
+          "entity_relation": {
+            "entities": ["904-A", "NX90423", "Mira Patel", "transcripts.csv"],
+            "positive_phrases": ["ready", "approved"],
+            "conflict_phrases": ["not ready", "do not hand off", "blocked"]
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "task_id": "linux_android_904",
+    "source_plan": "plan6"
+  }
+}

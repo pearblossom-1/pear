@@ -1,0 +1,4 @@
+case_id,event_title,owner,status,approval_code,start,end,location
+1040-D,Old route draft,Mira Patel,hold,D10407,2026-07-18 09:00,2026-07-18 09:45,Archive Room
+1040-A,Route review briefing,Mira Patel,approved,NX04005,2026-07-18 11:30,2026-07-18 12:15,Operations Room
+1040-P,Pending route review,Jon Bell,pending,D10401,2026-07-18 14:00,2026-07-18 14:45,North Annex

@@ -1,0 +1,37 @@
+{
+  "android_setup": {
+    "android_0": []
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_workflow",
+      "parameters": {
+        "workflow_id": "living_air_gap",
+        "run_at": "2026-06-16T19:30:00",
+          "steps": [
+            {
+              "device_id": "living_room_air_purifier_1",
+              "command": "turn_on",
+              "args": {}
+            },
+            {
+              "device_id": "living_room_air_purifier_1",
+            "command": "set_level",
+            "args": {
+              "level": "high"
+            }
+          },
+          {
+            "device_id": "living_room_curtain_1",
+            "command": "close",
+            "args": {}
+          }
+        ]
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

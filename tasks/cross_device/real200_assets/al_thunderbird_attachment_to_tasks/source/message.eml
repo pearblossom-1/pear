@@ -1,0 +1,26 @@
+From: scheduler@example.test
+To: agent@example.test
+Subject: Tasks for today
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="TASKS-BOUNDARY"
+
+--TASKS-BOUNDARY
+Content-Type: text/plain; charset="utf-8"
+
+The attached CSV contains today's task list for Android Tasks.
+
+--TASKS-BOUNDARY
+Content-Type: text/csv; name="tasks.csv"
+Content-Disposition: attachment; filename="tasks.csv"
+
+task_id,title,notes,priority,owner,due_date,source_email,copy_to_android
+T155-01,Stage route labels,owner=Mina; due=2026-06-10; priority=high,high,Mina,2026-06-10,Tasks for today,yes
+T155-02,Check cold-chain seal,owner=Noah; due=2026-06-11; priority=normal,normal,Noah,2026-06-11,Tasks for today,yes
+T155-03,Call receiving desk,owner=Ivy; due=2026-06-12; priority=high,high,Ivy,2026-06-12,Tasks for today,yes
+T155-04,Print driver manifest,owner=Owen; due=2026-06-13; priority=normal,normal,Owen,2026-06-13,Tasks for today,yes
+T155-05,Confirm spare scanner battery,owner=Lina; due=2026-06-14; priority=low,low,Lina,2026-06-14,Tasks for today,yes
+T155-06,Label priority return bin,owner=Ravi; due=2026-06-15; priority=normal,normal,Ravi,2026-06-15,Tasks for today,yes
+T155-07,Update dock handoff board,owner=Tess; due=2026-06-16; priority=high,high,Tess,2026-06-16,Tasks for today,yes
+T155-08,Verify outbound pallet photo,owner=Uma; due=2026-06-17; priority=normal,normal,Uma,2026-06-17,Tasks for today,yes
+
+--TASKS-BOUNDARY--

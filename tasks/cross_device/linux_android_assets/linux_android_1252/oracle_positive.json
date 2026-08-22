@@ -1,0 +1,15 @@
+{
+  "linux_actions": [
+    {
+      "device_id": "linux_1",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "mkdir -p /tmp/evidence && printf '%s\\n' 'package_id,missing_filename,decision' 'PKG-1252,field_photo.jpg,missing required file' > /tmp/evidence/missing_report.csv && rm -f /tmp/evidence/evidence_package.zip",
+        "shell": true
+      }
+    }
+  ],
+  "android_setup": {
+    "android_0": []
+  }
+}

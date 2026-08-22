@@ -1,0 +1,19 @@
+{
+  "android_setup": {
+    "android_1": [
+      {
+        "type": "androidworld_tasks_clear",
+        "parameters": {}
+      },
+      {
+        "type": "androidworld_task_add",
+        "parameters": {
+          "title": "Site photo checklist",
+          "notes": "PHOTO-223: north_gate.jpg present; meter_panel.jpg present; old_gate.jpg missing.",
+          "dueDate": 0,
+          "completed": 0
+        }
+      }
+    ]
+  }
+}

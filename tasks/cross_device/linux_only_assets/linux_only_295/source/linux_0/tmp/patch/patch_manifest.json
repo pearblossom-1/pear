@@ -1,0 +1,27 @@
+{
+  "include": [
+    "normalizer.py",
+    "test_output.txt"
+  ],
+  "exclude": [
+    "__pycache__",
+    ".pytest_cache",
+    "scratch.txt"
+  ],
+  "archive_path_mode": "relative_to_project_root",
+  "archive_members": [
+    "normalizer.py",
+    "test_output.txt"
+  ],
+  "bundle_manifest_schema": {
+    "columns": [
+      "file",
+      "status"
+    ],
+    "statuses": {
+      "included": "file is included in the patch archive",
+      "excluded_cache": "cache directory is intentionally excluded",
+      "excluded_unlisted": "unlisted file is intentionally excluded"
+    }
+  }
+}

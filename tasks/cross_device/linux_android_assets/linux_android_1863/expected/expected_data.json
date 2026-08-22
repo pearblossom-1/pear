@@ -1,0 +1,17 @@
+{
+  "case": "CASE-1863",
+  "code": "FB-1863",
+  "route": "RT-63",
+  "site": "Harbor Gate 12",
+  "owner": "Maya Chen",
+  "phone": "+15552001827",
+  "email": "maya.chen@example.test",
+  "role": "North region lead",
+  "time": "2026-07-08 09:30",
+  "lat": "37.707",
+  "lon": "-122.5",
+  "decision": "ready",
+  "included": "rt-63_photo_a.jpg",
+  "missing": "rt-63_photo_missing.jpg",
+  "hold_attachment": "rt-63_hold.jpg"
+}

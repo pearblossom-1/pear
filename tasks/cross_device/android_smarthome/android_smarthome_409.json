@@ -1,0 +1,431 @@
+{
+  "id": "android_smarthome_409",
+  "instruction": "The Files app has `comfort_requests.csv`, and Markor has a `Comfort request results` note ready for this handoff. Process both living-room requests, apply the supported curtain adjustment, and complete the note with the result of each request, including why the light-brightness request cannot be carried out.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Comfort request results.md'"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_409/android/android_0/files/comfort_requests.csv",
+                "path": "/storage/emulated/0/Download/comfort_requests.csv"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_409/android/android_0/files/comfort_results_format.md",
+                "path": "/storage/emulated/0/Documents/Markor/Comfort request results.md"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_409/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/comfort_requests.csv"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Comfort request results.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Comfort request results.md",
+        "rules": {
+          "entities": [
+            "Comfort request results",
+            "C1",
+            "C2"
+          ],
+          "ordered_entities": [
+            "Comfort request results",
+            "C1",
+            "C2"
+          ],
+          "allowed_false_assignment_phrases": [
+            "no brightness command",
+            "no brightness capability",
+            "no dimming capability",
+            "no brightness or dimming capability"
+          ],
+          "line_item_sets": [
+            {
+              "pattern": "^(#{1,6}[ \\t]+[^\\r\\n]+?)\\s*$",
+              "items": [
+                "# Comfort request results",
+                "## C1",
+                "## C2"
+              ],
+              "order_sensitive": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "original title and exact C1/C2 section headings are preserved"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Comfort request results.md",
+        "section_start": "## C1",
+        "section_end": "## C2",
+        "rules": {
+          "entities": [
+            "Target",
+            "Status",
+            "Result",
+            [
+              "living-room curtain",
+              "living room curtain",
+              "curtain"
+            ],
+            [
+              "35%",
+              "35 percent"
+            ],
+            "open"
+          ],
+          "conflict_phrases": [
+            "unsupported",
+            "failed"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "Target",
+                [
+                  "living-room curtain",
+                  "living room curtain",
+                  "curtain"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Status"
+              ],
+              "phrases": [
+                "executed",
+                "applied"
+              ],
+              "conflicts": [
+                "unsupported",
+                "failed"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Result",
+                [
+                  "35%",
+                  "35 percent"
+                ],
+                "open"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "C1 binds the curtain request to an executed 35 percent result"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Comfort request results.md",
+        "section_start": "## C2",
+        "rules": {
+          "entities": [
+            "Target",
+            "Status",
+            "Reason",
+            [
+              "living-room basic light",
+              "living room basic light",
+              "basic light"
+            ],
+            "brightness",
+            "unsupported"
+          ],
+          "allowed_negative_capability_phrases": [
+            "no brightness command",
+            "no brightness capability",
+            "no dimming capability",
+            "no brightness or dimming capability",
+            "does not support brightness",
+            "doesn't support brightness",
+            "does not support dimming",
+            "lacks brightness capability",
+            "lacks dimming capability",
+            "has no brightness control",
+            "cannot dim",
+            "cannot be dimmed"
+          ],
+          "allowed_false_assignment_phrases": [
+            "no brightness command",
+            "no brightness capability",
+            "no dimming capability",
+            "no brightness or dimming capability"
+          ],
+          "conflict_phrases": [
+            "substituted",
+            "executed",
+            "applied"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "Target",
+                [
+                  "living-room basic light",
+                  "living room basic light",
+                  "basic light"
+                ],
+                "brightness"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Status",
+                "unsupported"
+              ],
+              "conflicts": [
+                "executed",
+                "applied"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Reason"
+              ],
+              "phrases": [
+                "no brightness command",
+                "no brightness capability",
+                "no dimming capability",
+                "no brightness or dimming capability",
+                "does not support brightness",
+                "doesn't support brightness",
+                "does not support dimming",
+                "lacks brightness capability",
+                "lacks dimming capability",
+                "has no brightness control",
+                "cannot dim",
+                "cannot be dimmed"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "C2 binds the basic-light brightness request to an unsupported reason"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "living_room_curtain_1": {
+                "open_pct": 35,
+                "status": "partial"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
+          }
+        }
+      },
+      "name": "only the living-room curtain reaches 35 percent"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "living_room_curtain_1",
+                "command": "set_open_pct",
+                "args": {
+                  "open_pct": 35
+                }
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "only semantic retries of the curtain 35 command are allowed"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "no schedule is created"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "no workflow is created"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_409",
+    "surfaces": [
+      "files",
+      "markor",
+      "home_state",
+      "home_command",
+      "partial_batch"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "android_entity_relation_note",
+      "smarthome_device_state"
+    ],
+    "setup_note": "Setup provides the request CSV in Files, an incomplete handoff note in Markor, and the task-specific SmartHome state.",
+    "evaluate_note": "Evaluation checks the completed handoff note, the executed curtain outcome, and one-command scope.",
+    "device_topology": "android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_409",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_409/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_409/oracle_positive.json",
+    "idea_number": 409,
+    "candidate_triage": {
+      "batch_id": "plan5-android-smarthome-369-868-B0003",
+      "decision": "repair",
+      "rationale": "Uses a GUI-editable Markor handoff for both request outcomes while native Home state verifies the supported curtain action and a no-change guard protects the unsupported light."
+    },
+    "lite_hardening_note": "Removed unscored Android source-state evaluators; retained output and SmartHome outcome checks."
+  }
+}

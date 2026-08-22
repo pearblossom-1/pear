@@ -1,0 +1,194 @@
+{
+  "id": "linux_smarthome_576",
+  "instruction": "Read `/tmp/climate/cooling.md`, then inventory the rooms and air conditioners in Home. Follow the policy to cool only the hottest currently occupied room that has an air conditioner, and save the facility decision to `/tmp/climate/decision.json` using the four fields and reason values documented there.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/climate/cooling.md /tmp/climate/decision.json && mkdir -p -- /tmp/climate",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_576/source/tmp/climate/cooling.md",
+                "path": "/tmp/climate/cooling.md"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_576/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/climate/cooling.md /tmp/climate/decision.json; find /tmp/climate -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "office_air_conditioner_1": {
+                "power": "on",
+                "mode": "cool",
+                "target_temperature_c": 24.0
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_json_exact_object",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/climate/decision.json"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "object": {
+            "selected_room": "office",
+            "observed_temperature_c": 30,
+            "action": "cool to 24 C",
+            "reason_code": "hottest_occupied_coolable_room"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/climate/decision.json"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_576",
+    "surfaces": [
+      "linux.text_markdown",
+      "linux.json",
+      "smarthome.device_state",
+      "smarthome.home_state"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_576",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_576/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_576/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/climate/cooling.md"
+    ],
+    "linux_output_paths": [
+      "/tmp/climate/decision.json"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/climate/cooling.md"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [
+        "/tmp/climate/decision.json"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "linux_smarthome",
+      "linux_device": "linux_0",
+      "linux_devices": [
+        "linux_0"
+      ],
+      "room_ids": [
+        "guest_room",
+        "living_room",
+        "nursery",
+        "office"
+      ],
+      "device_type_counts": {
+        "air_conditioner": 3,
+        "light": 1
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 1,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-25T16:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "surface": "linux.json",
+        "path": "/tmp/climate/decision.json",
+        "goal": "Create or update the task result at this path.",
+        "func": "json_semantic_match",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/climate/cooling.md and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the published closed four-field decision JSON and enforces an office-AC-only state diff with no new schedules or workflows.",
+    "idea_number": 576,
+    "coverage_group": "pilot_576_hottest_ac_room",
+    "lite_hardening_note": "Removed redundant guard/count evaluators while retaining outcome-focused SmartHome and file checks."
+  }
+}

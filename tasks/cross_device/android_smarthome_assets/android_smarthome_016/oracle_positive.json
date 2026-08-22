@@ -1,0 +1,17 @@
+{
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Home Environment Report.md' <<'EOF'\n# Home Environment Report\nThe living room has the highest PM2.5 reading at 86.0. Its air purifier is off.\nRecommendation: turn on the living-room purifier and review the air again after it has run.\nEOF"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "type": "done"
+    }
+  ]
+}

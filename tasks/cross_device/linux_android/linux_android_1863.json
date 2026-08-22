@@ -1,0 +1,315 @@
+{
+  "id": "linux_android_1863",
+  "instruction": "We need a release-readiness packet for the current case. Reconcile the release note in Markor, the latest approval SMS, and `/tmp/release/readiness.csv` on the first Linux desktop. On the second Linux desktop, use the local `/tmp/release/release_packet.pdf` as the visible packet template and create `/tmp/release/packet.pdf`, keeping the current case, approval, owner, route, site, scheduled time, readiness decision, and their sources together.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Documents/Markor/release_note.md"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1863/android/release_note.md",
+                "path": "/storage/emulated/0/Documents/Markor/release_note.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "test -r /storage/emulated/0/Documents/Markor/release_note.md && grep -F 'Current source: CASE-1863' /storage/emulated/0/Documents/Markor/release_note.md >/dev/null && grep -F 'Owner: Maya Chen' /storage/emulated/0/Documents/Markor/release_note.md >/dev/null && grep -F 'Site: Harbor Gate 12 (RT-63)' /storage/emulated/0/Documents/Markor/release_note.md >/dev/null",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "markor"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+15552001827",
+            "body": "Archived request OLD-17; ignore this older message.",
+            "wait_s": 2.1
+          }
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+15552001827",
+            "body": "Latest approval CASE-1863 uses approval FB-1863 at 2026-07-08 09:30.",
+            "wait_s": 2.1
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rows=\"$(content query --uri content://sms/inbox --projection address:body --where \"address='+15552001827'\" --sort 'date DESC,_id DESC' 2>/dev/null)\"; test \"$(printf '%s\\n' \"$rows\" | grep -c '^Row:')\" -eq 2 && latest=\"$(printf '%s\\n' \"$rows\" | sed -n '1p')\" && printf '%s\\n' \"$latest\" | grep -F 'body=Latest approval CASE-1863 uses approval FB-1863 at 2026-07-08 09:30.' >/dev/null",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/release && rm -f /tmp/release/readiness.csv /tmp/release/release_packet.pdf",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1863/source/readiness.csv",
+                "path": "/tmp/release/readiness.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nfile=/tmp/release/readiness.csv\ntest -r \"$file\"\nhead -n 1 \"$file\" | grep -Fx 'case,status,code,owner,phone,email,route,site,time,filename,include,notes' >/dev/null\ntest \"$(awk -F, 'NR > 1 && $2 == \"ready\" && $11 == \"yes\" { count++ } END { print count + 0 }' \"$file\")\" -eq 1\nawk -F, 'NR > 1 && $1 == \"CASE-1863\" && $2 == \"ready\" && $10 == \"rt-63_photo_a.jpg\" && $11 == \"yes\" { ok = 1 } END { exit !ok }' \"$file\"\ntest ! -e /tmp/release/release_packet.pdf",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "pkill -f 'mdcbench-linux-android-1863-draw-profile' 2>/dev/null || true\nrm -rf /tmp/mdcbench-linux-android-1863-draw-profile\nmkdir -p /tmp/release\nrm -f /tmp/release/release_packet.pdf /tmp/release/packet.pdf /tmp/release/draw.log",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1863/source/release_packet.pdf",
+                "path": "/tmp/release/release_packet.pdf"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\ntemplate=/tmp/release/release_packet.pdf\ntest -r \"$template\"\ntest -w /tmp/release\ntest ! -e /tmp/release/packet.pdf\ntest \"$(head -c 5 \"$template\")\" = '%PDF-'\ncommand -v pdftotext >/dev/null\ntext=$(mktemp)\npdftotext \"$template\" \"$text\"\nfor marker in 'Release Readiness Packet' '[[CASE]]' '[[APPROVAL]]' '[[OWNER]]' '[[ROUTE]]' '[[SITE]]' '[[TIME]]' '[[STATUS]]' 'Source: Markor' 'SMS' 'readiness.csv'; do grep -F \"$marker\" \"$text\" >/dev/null; done\nrm -f \"$text\"\ncommand -v libreoffice >/dev/null\nnohup libreoffice --draw --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-linux-android-1863-draw-profile' \"$template\" >/tmp/release/draw.log 2>&1 &\nsleep 4\npgrep -f 'mdcbench-linux-android-1863-draw-profile' >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Documents/Markor/release_note.md"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/release/readiness.csv /tmp/release/release_packet.pdf; find /tmp/release -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "pkill -f 'mdcbench-linux-android-1863-draw-profile' 2>/dev/null || true; rm -rf /tmp/mdcbench-linux-android-1863-draw-profile; rm -f -- /tmp/release/release_packet.pdf /tmp/release/packet.pdf /tmp/release/draw.log; find /tmp/release -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "PDF='/tmp/release/packet.pdf'\n[ -s \"$PDF\" ] && [ \"$(head -c 5 \"$PDF\" 2>/dev/null)\" = '%PDF-' ] || { echo invalid; exit 0; }\ncommand -v pdftotext >/dev/null 2>&1 || { echo missing; exit 0; }\nTMP=$(mktemp)\npdftotext \"$PDF\" \"$TMP\" 2>/dev/null || { rm -f \"$TMP\"; echo invalid; exit 0; }\ncat \"$TMP\"\nrm -f \"$TMP\"",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": ["Release Readiness Packet", "CASE-1863", "FB-1863", "Maya Chen", "RT-63", "Harbor Gate 12", "ready"],
+          "exclude": [
+            "missing",
+            "PLACEHOLDER",
+            "[[CASE]]",
+            "[[APPROVAL]]",
+            "[[OWNER]]",
+            "[[ROUTE]]",
+            "[[SITE]]",
+            "[[TIME]]",
+            "[[STATUS]]",
+            "CASE-OLD",
+            "HOLD-42",
+            "rt-63_hold.jpg"
+          ],
+          "paragraph_relations_require_affirmative": true,
+          "paragraph_relations": [
+            ["CASE-1863", "FB-1863", "Maya Chen"],
+            ["RT-63", "Harbor Gate 12"],
+            [["2026-07-08 09:30", "July 8, 2026 at 9:30 AM", "7/8/2026 9:30 AM"], ["ready", "approved for release"]],
+            ["Source", "Markor", "SMS", "readiness.csv"]
+          ],
+          "case_sensitive": false
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 70,
+    "max_wall_time_s": 600
+  },
+  "metadata": {
+    "category": "linux_android_final_balancing",
+    "implementation_status": "builder_batch_1827_1876",
+    "source_plan": "docs/plan6/linux_android_final_balancing_tasks_1777_1876.md",
+    "source_task_number": 1863,
+    "source_task_title": "Release readiness compact capstone",
+    "triage_decision": "repair",
+    "triage_reason": "Repaired as a compact PDF capstone with visible Markor, SMS, and readiness-table sources.",
+    "device_topology": "android_0+android_1+linux_0+linux_1",
+    "surfaces": [
+      "android.markor",
+      "android.sms",
+      "linux.pdf"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1863",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1863/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1863/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_1863/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/release/readiness.csv",
+      "/tmp/release/release_packet.pdf"
+    ],
+    "linux_output_paths": [
+      "/tmp/release/packet.pdf"
+    ],
+    "linux_output_paths_by_device": {
+      "linux_0": [],
+      "linux_1": [
+        "/tmp/release/packet.pdf"
+      ]
+    },
+    "android_output_plan": [],
+    "expected_data_trace": {
+      "case": "CASE-1863",
+      "code": "FB-1863",
+      "route": "RT-63",
+      "site": "Harbor Gate 12",
+      "owner": "Maya Chen",
+      "phone": "+15552001827",
+      "email": "maya.chen@example.test",
+      "role": "North region lead",
+      "time": "2026-07-08 09:30",
+      "lat": "37.707",
+      "lon": "-122.5",
+      "decision": "ready",
+      "included": "rt-63_photo_a.jpg",
+      "missing": "rt-63_photo_missing.jpg",
+      "hold_attachment": "rt-63_hold.jpg"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "structured_output_classification": {"/tmp/release/packet.pdf": "primary_artifact"},
+    "human_quality_hardening": "Requires a parseable searchable PDF with entity-bound source facts and no text-byte fallback or source guards.",
+    "topology_view": "linux_android"
+  }
+}

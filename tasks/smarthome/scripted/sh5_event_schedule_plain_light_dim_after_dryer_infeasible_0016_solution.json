@@ -1,0 +1,16 @@
+{
+  "actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.report_infeasible",
+      "parameters": {
+        "category": "missing_capability",
+        "reason": "laundry_room_light_1 is a plain light and cannot be dimmed.",
+        "target": "laundry_room_light_1.brightness_pct"
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

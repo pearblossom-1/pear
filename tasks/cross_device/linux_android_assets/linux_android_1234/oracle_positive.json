@@ -1,0 +1,14 @@
+{
+  "linux_actions": [
+    {
+      "device_id": "linux_0",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "python3 - <<'PY'\nimport base64\nimport json\nfrom pathlib import Path\nfiles = json.loads('[{\"path\": \"/tmp/status/normalized_status.json\", \"content_b64\": \"eyJtZXNzYWdlX3RpbWVzdGFtcCI6IjIwMjYtMDctMjFUMTA6NDU6MDAiLCJyYXdfcGhyYXNlIjoiYXJyaXZlZCBhbmQgdW5sb2FkaW5nIiwiY2Fub25pY2FsX3N0YXR1cyI6Im9uc2l0ZSIsIm1hdGNoZWRfcnVsZSI6IlJVTEUtQVJSSVZFRCJ9Cg==\"}]')\nfor item in files:\n    p = Path(item['path'])\n    p.parent.mkdir(parents=True, exist_ok=True)\n    p.write_bytes(base64.b64decode(item['content_b64']))\nPY"
+      }
+    }
+  ],
+  "android_setup": {
+    "android_0": []
+  }
+}

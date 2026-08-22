@@ -1,0 +1,348 @@
+{
+  "id": "android_smarthome_149",
+  "instruction": "The first phone has the air-quality rule in Markor, and SmartHome shows the current kitchen reading. Apply the rule to the affected room. Then send `Family Air Updates` a concise message that identifies the kitchen, the current PM2.5 reading, the 50 threshold and that the reading is above it, and the purifier setting that was applied.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_149/android/android_0/markor/Air Quality Rule.md",
+                "path": "/storage/emulated/0/Documents/Markor/Air Quality Rule.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_markor_note_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor/Air Quality Rule.md",
+            "required_visible_text": [
+              "PM2.5",
+              "above 50",
+              "purifier on high",
+              "notify family"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Family Air Updates",
+            "number": "5551490",
+            "notes": "Send PM2.5 kitchen air updates here."
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Family Air Updates",
+              "number": "5551490",
+              "notes_exact": "Send PM2.5 kitchen air updates here."
+            },
+            "required_visible_text": [
+              "Family Air Updates",
+              "5551490",
+              "PM2.5 kitchen air updates"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_149/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Air Quality Rule.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551490",
+        "recent_within_mins": 30,
+        "require_exactly_one_for_address": true,
+        "body_relation": {
+          "entities": [
+            [
+              "kitchen"
+            ],
+            [
+              "PM2.5",
+              "PM 2.5",
+              "air quality",
+              "reading"
+            ],
+            [
+              "91"
+            ],
+            [
+              "50"
+            ],
+            [
+              "purifier",
+              "purification"
+            ],
+            [
+              "high"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "running",
+              "is on",
+              "set to",
+              "started"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "purifier",
+                  "air purifier",
+                  "purification"
+                ],
+                "high"
+              ],
+              "phrases": [
+                [
+                  "running",
+                  "is on",
+                  "on at high",
+                  "set to high",
+                  "started"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "conflict_phrases": [
+            "pending",
+            "cancelled",
+            "canceled",
+            "not started",
+            "not running",
+            "not on high",
+            "will start later",
+            "below 50",
+            "under 50",
+            "within limit",
+            "within the limit"
+          ],
+          "required_patterns": [
+            "(?is)(?:\\b91(?:\\.0)?\\b[^\\r\\n.!?]{0,48}\\b(?:above|over|exceeds?|higher\\s+than)\\b[^\\r\\n.!?]{0,24}\\b50(?:\\.0)?\\b|\\b91(?:\\.0)?\\s*>\\s*50(?:\\.0)?\\b|\\b(?:pm\\s*2\\.?5|air\\s+quality|reading)\\b[^\\r\\n]{0,48}\\b91(?:\\.0)?\\b[\\s\\S]{0,120}\\bthreshold\\b[^\\r\\n]{0,24}\\b50(?:\\.0)?\\b)"
+          ],
+          "conflict_patterns": [
+            "\\b91(?:\\.0)?\\b[^\\r\\n.!?]{0,48}\\b(?:below|under)\\b[^\\r\\n.!?]{0,24}\\b50(?:\\.0)?\\b"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "Family Air Updates receives the bound kitchen 91-above-50 high-purifier result"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "kitchen_air_purifier_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "level": "high"
+          }
+        }
+      },
+      "name": "kitchen purifier is on at high"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "kitchen_air_purifier_1": {
+                "power": "on",
+                "level": "high"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "only the kitchen purifier final state changes"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "no schedule is created for the immediate purification"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "no workflow is created for the immediate purification"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_149",
+    "surfaces": [
+      "markor",
+      "contacts",
+      "home_state",
+      "sms",
+      "home_command"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "androidworld_sms_message",
+      "smarthome_device_state"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "2android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_149",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_149/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_149/oracle_positive.json",
+    "idea_number": 149,
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

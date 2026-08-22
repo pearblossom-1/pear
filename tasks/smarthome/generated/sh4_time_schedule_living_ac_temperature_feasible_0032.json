@@ -1,0 +1,98 @@
+{
+  "id": "sh4_time_schedule_living_ac_temperature_feasible_0032",
+  "instruction": "Before I get pulled into other chores, guests will be here later and I want the living room comfortable; in 75 minutes, have the air conditioner target 25 degrees automatically.",
+  "devices": [
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/smarthome/episode_configs/sh4_time_schedule_living_ac_temperature_feasible_0032.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_planned_effects",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "exact_active_plan_count": 1,
+            "plans": [
+              {
+                "run_at": "2026-06-15T21:15:00",
+                "effects": {
+                  "living_room_air_conditioner_1": {
+                    "target_temperature_c": 25
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "unique_persistent_plan_effects"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+          "device_ids": [
+            "living_room_air_conditioner_1"
+          ],
+          "preserve_current_time": true
+          }
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "no_immediate_device_change"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "sh_type": "SH4_time_schedule",
+    "case": "feasible",
+    "seed": 32,
+    "room_count": 4,
+    "device_count": 14,
+    "episode_config_ref": "tasks/smarthome/episode_configs/sh4_time_schedule_living_ac_temperature_feasible_0032.json"
+  }
+}

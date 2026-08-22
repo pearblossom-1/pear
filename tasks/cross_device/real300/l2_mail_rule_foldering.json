@@ -1,0 +1,157 @@
+{
+  "id": "l2_mail_rule_foldering",
+  "instruction": "`/tmp/mail/rules.json` on the first Linux machine contains the mail classification rules. Please move each matching message into the corresponding folder in Thunderbird on the second Linux machine, leaving no classified message in Inbox.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/mail",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/l2_mail_rule_foldering/source/rules.json",
+                "path": "/tmp/mail/rules.json"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -s /tmp/mail/rules.json",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nrm -rf /tmp/mail \"$HOME/.thunderbird/mail.default-release\"\nmkdir -p /tmp/mail \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders\"\ncat > \"$HOME/.thunderbird/profiles.ini\" <<'EOF'\n[Profile0]\nName=local\nIsRelative=1\nPath=mail.default-release\nDefault=1\n\n[General]\nStartWithLastProfile=1\nVersion=2\nEOF\ncat > \"$HOME/.thunderbird/mail.default-release/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server1\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.identity.id1.fullName\", \"Local Agent\");\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.directory-rel\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nuser_pref(\"mail.server.server1.userName\", \"nobody\");\nEOF",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/l2_mail_rule_foldering/source/inbox_seed.mbox",
+                "path": "/tmp/mail/inbox_seed.mbox"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "cp /tmp/mail/inbox_seed.mbox \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Inbox\"; : > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Vendors\"; : > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Field\"; : > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Urgent\"",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -s \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Inbox\" && test -f \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Vendors\" && test -f \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Field\" && test -f \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Urgent\" && command -v thunderbird >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/mail",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/mail \"$HOME/.thunderbird/mail.default-release\"; rm -f \"$HOME/.thunderbird/profiles.ini\"",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "thunderbird_folder_state",
+        "profile_root": "~/.thunderbird/mail.default-release",
+        "inbox_messages": [],
+        "folder_messages": {
+          "Vendors": [{"message_id": "<supplier-invoice-batch@mdcbench.test>", "subject": "supplier invoice batch", "from": "sender@example.com"}],
+          "Field": [{"message_id": "<north-gate-route-update@mdcbench.test>", "subject": "north gate route update", "from": "field@example.com"}],
+          "Urgent": [{"message_id": "<urgent-same-day-repair@mdcbench.test>", "subject": "urgent same day repair", "from": "ops@example.com"}]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "real300_cross_device",
+    "source_card": "l2",
+    "difficulty": "Medium",
+    "motif": "M3",
+    "interaction_mode": "GUI",
+    "device_topology": "L+L",
+    "surfaces": "linux_0 rules JSON + linux_1 Thunderbird",
+    "setup_note": "linux_0 上传并预检可读 rules.json；linux_1 准备并预检 Thunderbird profile、三封 Inbox 邮件及 Vendors/Field/Urgent folders。",
+    "evaluate_note": "检查 exact Thunderbird profile 中 Inbox 已清空，且三封源邮件按 Message-ID、From 和 Subject 绑定后各自只在规则指定文件夹；不使用代理自报 JSON。",
+    "readiness": "R1_native_ready",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "native_content_outputs": [
+      {
+        "device_id": "linux_1",
+        "func": "exact_match",
+        "result_type": "thunderbird_folder_state",
+        "path": "~/.thunderbird/mail.default-release"
+      }
+    ]
+  }
+}

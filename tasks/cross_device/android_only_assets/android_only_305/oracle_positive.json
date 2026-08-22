@@ -1,0 +1,12 @@
+{
+  "android_setup": {
+    "android_1": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /storage/emulated/0/Documents/Markor && cat > '/storage/emulated/0/Documents/Markor/recording request status.md' <<'EOF'\ngate_brief_missing.mp3: missing\ngate_brief_present.mp3: not used as a substitute\nEOF"
+        }
+      }
+    ]
+  }
+}

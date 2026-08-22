@@ -1,0 +1,13 @@
+{
+  "android_setup": {
+    "android_1": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "5550267",
+          "body": "audio_manifest.csv: 2 recordings are present; brief_c.mp3 is missing."
+        }
+      }
+    ]
+  }
+}

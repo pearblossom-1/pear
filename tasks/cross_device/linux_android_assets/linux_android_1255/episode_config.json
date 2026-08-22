@@ -1,0 +1,44 @@
+{
+  "task_id": "linux_android_1255",
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201255",
+        "body_contains": ["MSG-1255", "North dispatch window confirmed"],
+        "require_positive_relation": true
+      },
+      "expected": {"type": "rule", "rules": {"expected": "present"}}
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201295",
+        "any_body": true,
+        "exact_count": 0
+      },
+      "expected": {"type": "rule", "rules": {"expected": "present"}}
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Dispatch Contact Log.md",
+        "rules": {
+          "entities": ["Ava Lane", "dispatch", "north", "MSG-1255"],
+          "positive_phrases": ["selected", "confirmed", "dispatch"],
+          "forbidden_entities": ["Ava Lane South", "MSG-0000", "south"],
+          "conflict_phrases": ["wrong", "not selected", "do not send"]
+        }
+      },
+      "expected": {"type": "rule", "rules": {"expected": "pass"}}
+    }
+  ]
+}

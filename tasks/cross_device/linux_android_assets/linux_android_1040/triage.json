@@ -1,0 +1,4 @@
+{
+  "decision": "repair",
+  "reason": "Repaired candidate to stable evaluator-visible document/file/app state while preserving the source decision and output intent."
+}

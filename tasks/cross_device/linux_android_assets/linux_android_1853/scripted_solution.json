@@ -1,0 +1,16 @@
+{
+  "actions": [
+    {
+      "device_id": "linux_0",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "mkdir -p $HOME/.thunderbird/mail.default-release/Mail/'Local Folders' && echo RnJvbSAtIFNhdCBKdWwgMTggMDk6NTA6MDAgMjAyNgpUbzogYXJpLnNpbmdoQGV4YW1wbGUudGVzdApTdWJqZWN0OiBDdXJyZW50IENBU0UtMTg1MyBmb2xsb3ctdXAKTWVzc2FnZS1JRDogPGNhc2UtMTg1M0BtZGNiZW5jaC50ZXN0PgpDb250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgKCkNBU0UtMTg1MyAvIEZCLTE4NTMgZm9yIEFyaSBTaW5naC4gUm91dGUgUlQtNTMgYXQgSGFyYm9yIEdhdGUgMiwgMjAyNi0wNy0xOCAwOTo1MC4gUHJlcGFyZSB0aGUgY3VycmVudCBmb2xsb3ctdXA7IHRoaXMgaXMgYSBkcmFmdC4K | base64 -d > $HOME/.thunderbird/mail.default-release/Mail/'Local Folders'/Drafts",
+        "shell": true
+      }
+    },
+    {
+      "type": "done"
+    }
+  ],
+  "notes": "Scripted solution mirrors the current positive dry-run oracle."
+}

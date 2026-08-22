@@ -1,0 +1,251 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 9104,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 9104,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+1555020401",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            "Living room",
+            [
+              "19:00",
+              "7:00 PM"
+            ],
+            [
+              "23 C",
+              "23 degrees"
+            ],
+            [
+              "60%",
+              "60 percent"
+            ],
+            [
+              "purifier high",
+              "high purifier"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "scheduled",
+              "will be prepared",
+              "will be ready",
+              "prepared at",
+              "preparation time"
+            ]
+          ],
+          "conflict_phrases": [
+            "not ready",
+            "cancelled",
+            "pending",
+            "already ready",
+            "already prepared",
+            "is ready",
+            "is prepared",
+            "was ready",
+            "was prepared",
+            "ready now",
+            "prepared now"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T19:00:00",
+            "status": "active",
+            "exact_active_workflow_count": 1,
+            "effects": {
+              "living_room_heater_1": {
+                "power": "on",
+                "target_temperature_c": 23.0
+              },
+              "living_room_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 60
+              },
+              "living_room_air_purifier_1": {
+                "power": "on",
+                "level": "high"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T18:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 22.9,
+        "humidity_pct": 47.2,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 43.4,
+        "noise_level_db": 58.0,
+        "occupied": false
+      },
+      "dining_room": {
+        "temperature_c": 24.4,
+        "humidity_pct": 54.3,
+        "brightness_lux": 243.9,
+        "air_quality_pm25": 48.1,
+        "noise_level_db": 58.0,
+        "occupied": true
+      },
+      "living_room": {
+        "temperature_c": 19.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 66.0,
+        "noise_level_db": 30.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "mode": "fan",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "bedroom_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "brightness_pct": 100
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "bedroom_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "status": "cleaning",
+          "battery_pct": 100
+        }
+      },
+      {
+        "device_id": "dining_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "dining_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on",
+          "status": "cleaning",
+          "battery_pct": 47
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 65
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 20.0
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 41
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

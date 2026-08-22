@@ -1,0 +1,211 @@
+{
+  "id": "linux_smarthome_348",
+  "instruction": "There's a conflict between `/tmp/climate/heating.json` and `/tmp/climate/cooling.json` — use `/tmp/climate/priority.docx` to resolve it, apply the winner, and save the result to `/tmp/climate/conflict.json`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/climate/heating.json /tmp/climate/cooling.json /tmp/climate/priority.docx /tmp/climate/conflict.json && mkdir -p -- /tmp/climate",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_348/source/tmp/climate/heating.json",
+                "path": "/tmp/climate/heating.json"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_348/source/tmp/climate/cooling.json",
+                "path": "/tmp/climate/cooling.json"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_348/source/tmp/climate/priority.docx",
+                "path": "/tmp/climate/priority.docx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_348/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/climate/heating.json /tmp/climate/cooling.json /tmp/climate/priority.docx /tmp/climate/conflict.json; find /tmp/climate -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "guest_room_air_conditioner_1": {
+                "power": "on",
+                "mode": "cool",
+                "target_temperature_c": 20.0
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_json_exact_object",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/climate/conflict.json"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "object": {
+            "selected": "cooling.json",
+            "ignored": "heating.json",
+            "mode": "cool",
+            "target_temperature_c": 20
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/climate/conflict.json"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_348",
+    "surfaces": [
+      "linux.json",
+      "linux.odt_docx",
+      "smarthome.device_state"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_348",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_348/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_348/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/climate/heating.json",
+      "/tmp/climate/cooling.json",
+      "/tmp/climate/priority.docx"
+    ],
+    "linux_output_paths": [
+      "/tmp/climate/conflict.json"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/climate/heating.json",
+        "/tmp/climate/cooling.json",
+        "/tmp/climate/priority.docx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [
+        "/tmp/climate/conflict.json"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "linux_smarthome",
+      "linux_device": "linux_0",
+      "linux_devices": [
+        "linux_0"
+      ],
+      "room_ids": [
+        "bedroom",
+        "guest_room",
+        "living_room",
+        "office"
+      ],
+      "device_type_counts": {
+        "air_conditioner": 3,
+        "air_purifier": 2,
+        "curtain": 1,
+        "dehumidifier": 1,
+        "dimmable_light": 4,
+        "heater": 3,
+        "humidifier": 2,
+        "light": 2,
+        "robot_vacuum": 2
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 3,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-16T19:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "surface": "linux.json",
+        "path": "/tmp/climate/conflict.json",
+        "goal": "Create or update the task result at this path.",
+        "func": "check_json_exact_object",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/climate/heating.json, /tmp/climate/cooling.json, /tmp/climate/priority.docx and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the priority-winning Home outcome and the visible conflict-decision JSON.",
+    "idea_number": 348,
+    "coverage_group": "conflict_infeasible_partial"
+  }
+}

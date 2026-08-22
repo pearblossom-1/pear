@@ -1,0 +1,343 @@
+{
+  "id": "linux_android_smarthome_472",
+  "instruction": "Set up tonight's current music scene. Use the actual playlist in Retro Music on the first phone and the room and event time in Simple Calendar Pro on the second phone to select the unique matching row in `/tmp/home_ops/room-updates/source/music_scene.csv`. Schedule the corresponding SmartHome scene. On the second phone, create `Music scene result.md` in Markor and record the selected playlist, room, scheduled time, and that the scene has been scheduled.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/home_ops/room-updates/source/music_scene.csv && mkdir -p -- /tmp/home_ops/room-updates/source",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_472/source/tmp/home_ops/room-updates/source/music_scene.csv",
+                "path": "/tmp/home_ops/room-updates/source/music_scene.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "retro music"
+          }
+        },
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_mp3_push",
+          "parameters": {
+            "songs": [
+              "sleep_sounds_one",
+              "sleep_sounds_two"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_playlist_add",
+          "parameters": {
+            "playlist_name": "Sleep Sounds",
+            "songs": [
+              "sleep_sounds_one",
+              "sleep_sounds_two"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_music_library_preflight",
+          "parameters": {
+            "songs": [
+              "sleep_sounds_one",
+              "sleep_sounds_two"
+            ],
+            "forbidden_songs": [],
+            "forbidden_playlist_names": [],
+            "required_playlist": {
+              "name": "Sleep Sounds",
+              "songs": [
+                "sleep_sounds_one",
+                "sleep_sounds_two"
+              ]
+            },
+            "verify_playlist_creation_entry": false
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Music scene",
+            "start_ts": 1781640600,
+            "end_ts": 1781642400,
+            "location": "guest room",
+            "description": "Use the matching playlist rule."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Music scene",
+            "start_ts": 1781640600,
+            "location": "guest room",
+            "description": "Use the matching playlist rule.",
+            "search_text": "Music"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Music scene result.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_472/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/home_ops/room-updates/source/music_scene.csv; rmdir --ignore-fail-on-non-empty /tmp/home_ops/room-updates/source /tmp/home_ops/room-updates /tmp/home_ops 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Music scene result.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "cat /tmp/home_ops/room-updates/source/music_scene.csv 2>/dev/null || true"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "playlist,room,run_at,light_pct,curtain_pct",
+            "Sleep Sounds,guest_room,20:10,35,50"
+          ],
+          "exclude": []
+        }
+      },
+      "metadata": {
+        "path": "/tmp/home_ops/room-updates/source/music_scene.csv"
+      },
+      "enable_score_calc": false
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "retro_music_playlist",
+        "playlist_name": "Sleep Sounds",
+        "expected_songs": [
+          "sleep_sounds_one",
+          "sleep_sounds_two"
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Music scene result.md",
+        "rules": {
+          "entities": [
+            "Sleep Sounds",
+            [
+              "guest room",
+              "guest_room"
+            ],
+            "20:10"
+          ],
+          "required_phrases": [
+            [
+              "scheduled",
+              "arranged",
+              "planned"
+            ]
+          ],
+          "conflict_phrases": [
+            "not scheduled",
+            "cancelled",
+            "pending",
+            "failed"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T20:10:00",
+            "status": "active",
+            "exact_active_workflow_count": 1,
+            "effects": {
+              "guest_room_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 35
+              },
+              "guest_room_curtain_1": {
+                "open_pct": 50
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "472 Retro Music playlist mapped to SmartHome scene.",
+    "surfaces": [
+      "android_dual",
+      "retro_music",
+      "calendar",
+      "markor",
+      "linux_csv",
+      "home_workflow"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_472",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_472/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_472/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/home_ops/room-updates/source/music_scene.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/home_ops/room-updates/source/music_scene.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "pilot_index": 472,
+    "source_plan": "linux_android2_smarthome_321_420"
+  }
+}

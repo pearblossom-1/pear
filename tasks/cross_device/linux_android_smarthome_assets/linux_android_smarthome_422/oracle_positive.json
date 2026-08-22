@@ -1,0 +1,35 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "androidworld_task_update",
+        "parameters": {
+          "match_title": "Client Call follow-up",
+          "match_notes": "Arrange the study vacuum pause before the client call, then close this follow-up.",
+          "updates": {
+            "notes": "Study robot vacuum pause scheduled for 08:10.",
+            "completed": 1
+          }
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_command",
+      "parameters": {
+        "schedule_id": "client_call_pause_0810",
+        "run_at": "2026-06-17T08:10:00",
+        "device_id": "study_robot_vacuum_1",
+        "command": "pause",
+        "args": {}
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

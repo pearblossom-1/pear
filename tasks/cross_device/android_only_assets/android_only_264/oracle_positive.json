@@ -1,0 +1,20 @@
+{
+  "android_setup": {
+    "android_1": [
+      {
+        "type": "androidworld_clock_clear",
+        "parameters": {}
+      },
+      {
+        "type": "androidworld_alarm_add",
+        "parameters": {
+          "hour": 8,
+          "minute": 5,
+          "label": "Prep for Safety walk",
+          "enabled": true,
+          "repeat": 0
+        }
+      }
+    ]
+  }
+}

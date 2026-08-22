@@ -1,0 +1,114 @@
+{
+  "task_id": "linux_android_1215",
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Portal Request Blocked.md",
+        "rules": {
+          "entities": [
+            [
+              "required ID",
+              "required id"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "missing",
+              "not present",
+              "absent"
+            ]
+          ],
+          "positive_phrases": [
+            "blocked",
+            "cannot proceed",
+            "cannot be processed"
+          ],
+          "conflict_phrases": [
+            "ID present",
+            "id is present",
+            "not blocked",
+            "ready",
+            "approved"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201215",
+        "body_relation": {
+          "entities": [
+            [
+              "required ID",
+              "requester ID",
+              "required identifier",
+              "requester identifier",
+              "required identification",
+              "requester identification"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "missing",
+              "not present",
+              "absent",
+              "not provided",
+              "unavailable"
+            ]
+          ],
+          "positive_phrases": [
+            "blocked",
+            "cannot proceed",
+            "unable to proceed",
+            "cannot be processed",
+            "unable to process",
+            "cannot submit",
+            "unable to submit"
+          ],
+          "conflict_phrases": [
+            "ID present",
+            "ID is present",
+            "identifier present",
+            "identification provided",
+            "request submitted",
+            "request processed",
+            "approved",
+            "ready"
+          ],
+          "allowed_negative_capability_phrases": [
+            "required ID was not provided",
+            "requester ID was not provided",
+            "required identifier was not provided",
+            "requester identifier was not provided",
+            "required identification was not provided",
+            "requester identification was not provided"
+          ],
+          "allowed_conflict_phrases": [
+            "not approved",
+            "not ready"
+          ]
+        },
+        "recent_within_mins": 30
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ]
+}

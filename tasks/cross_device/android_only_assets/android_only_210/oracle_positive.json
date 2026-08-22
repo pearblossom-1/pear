@@ -1,0 +1,20 @@
+{
+  "android_setup": {
+    "android_1": [
+      {
+        "type": "androidworld_calendar_clear",
+        "parameters": {}
+      },
+      {
+        "type": "androidworld_calendar_event_add",
+        "parameters": {
+          "title": "Client delivery",
+          "start_ts": 1783001700,
+          "end_ts": 1783004400,
+          "location": "Pier 6",
+          "description": "Code DEL-210; source=Tasks."
+        }
+      }
+    ]
+  }
+}

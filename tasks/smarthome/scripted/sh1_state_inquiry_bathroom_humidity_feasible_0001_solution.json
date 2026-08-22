@@ -1,0 +1,26 @@
+{
+  "actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.get_room_state",
+      "parameters": {
+        "room_id": "bathroom"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.report_answer",
+      "parameters": {
+        "answer": {
+          "answer_type": "room_state",
+          "room_id": "bathroom",
+          "field": "humidity_pct",
+          "value": 49.3
+        }
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

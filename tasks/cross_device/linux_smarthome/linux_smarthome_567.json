@@ -1,0 +1,400 @@
+{
+  "id": "linux_smarthome_567",
+  "instruction": "Please finish the entryway setup described in `/tmp/comfort/request.docx` on the second Linux desktop. If one of the requested settings is unavailable, follow the alternative instructions in `/tmp/comfort/alternative.md` on the first Linux desktop. Make the supported changes, then update the request document with what you completed and anything you could not change.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/comfort/alternative.md && mkdir -p -- /tmp/comfort",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_567/source/tmp/comfort/alternative.md",
+                "path": "/tmp/comfort/alternative.md"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/comfort/request.docx && mkdir -p -- /tmp/comfort",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_567/source/linux_1/tmp/comfort/request.docx",
+                "path": "/tmp/comfort/request.docx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_567/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/comfort/alternative.md; find /tmp/comfort -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/comfort/request.docx; find /tmp/comfort -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "entry_curtain_1": {
+                "open_pct": 50
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/comfort/request.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "Entryway setup request",
+            "30%",
+            "50%",
+            "light",
+            "curtain"
+          ],
+          "exclude": [],
+          "case_sensitive": false,
+          "require_valid_package": true,
+          "entity_relation": {
+            "entities": [
+              [
+                "entry curtain",
+                "entryway curtain",
+                "curtain"
+              ],
+              [
+                "50 percent",
+                "50%",
+                "half open",
+                "half-open",
+                "halfway open",
+                "halfway"
+              ],
+              [
+                "was set",
+                "set to",
+                "is now",
+                "adjusted to",
+                "completed at",
+                "applied"
+              ],
+              [
+                "entry light",
+                "entryway light",
+                "light"
+              ],
+              [
+                "could not be dimmed",
+                "couldn't be dimmed",
+                "cannot be dimmed",
+                "can't be dimmed",
+                "does not support dimming",
+                "doesn't support dimming",
+                "dimming is unavailable",
+                "dimming was unavailable",
+                "brightness cannot be adjusted",
+                "brightness can't be adjusted",
+                "brightness could not be adjusted",
+                "brightness couldn't be adjusted",
+                "brightness control is unavailable",
+                "brightness control was unavailable",
+                "light setting is unavailable",
+                "light setting was unavailable"
+              ],
+              [
+                "left unchanged",
+                "remained unchanged",
+                "remains unchanged",
+                "was not changed",
+                "has not changed",
+                "kept unchanged"
+              ]
+            ],
+            "allowed_negative_capability_phrases": [
+              "could not change",
+              "could not be dimmed",
+              "couldn't be dimmed",
+              "cannot be dimmed",
+              "can't be dimmed",
+              "does not support dimming",
+              "doesn't support dimming",
+              "dimming is unavailable",
+              "dimming was unavailable",
+              "brightness cannot be adjusted",
+              "brightness can't be adjusted",
+              "brightness could not be adjusted",
+              "brightness couldn't be adjusted",
+              "brightness control is unavailable",
+              "brightness control was unavailable",
+              "light setting is unavailable",
+              "light setting was unavailable"
+            ],
+            "conflict_phrases": [
+              "light was dimmed",
+              "light is dimmed",
+              "dimming succeeded",
+              "brightness was adjusted",
+              "brightness was set to 30",
+              "brightness is 30",
+              "curtain was not changed",
+              "curtain remains at 10",
+              "curtain remained at 10"
+            ],
+            "relation_groups": [
+              {
+                "entities": [
+                  [
+                    "entry curtain",
+                    "entryway curtain",
+                    "curtain"
+                  ],
+                  [
+                    "50 percent",
+                    "50%",
+                    "half open",
+                    "half-open",
+                    "halfway open",
+                    "halfway"
+                  ]
+                ],
+                "phrases": [
+                  [
+                    "was set",
+                    "set to",
+                    "is now",
+                    "adjusted to",
+                    "completed at",
+                    "applied"
+                  ]
+                ],
+                "conflicts": [
+                  "curtain was not changed",
+                  "curtain remains at 10",
+                  "curtain remained at 10"
+                ],
+                "allow_multiple_matches": true
+              },
+              {
+                "entities": [
+                  [
+                    "entry light",
+                    "entryway light",
+                    "light"
+                  ],
+                  [
+                    "could not be dimmed",
+                    "couldn't be dimmed",
+                    "cannot be dimmed",
+                    "can't be dimmed",
+                    "does not support dimming",
+                    "doesn't support dimming",
+                    "dimming is unavailable",
+                    "dimming was unavailable",
+                    "brightness cannot be adjusted",
+                    "brightness can't be adjusted",
+                    "brightness could not be adjusted",
+                    "brightness couldn't be adjusted",
+                    "brightness control is unavailable",
+                    "brightness control was unavailable",
+                    "light setting is unavailable",
+                    "light setting was unavailable"
+                  ],
+                  [
+                    "left unchanged",
+                    "remained unchanged",
+                    "remains unchanged",
+                    "was not changed",
+                    "has not changed",
+                    "kept unchanged"
+                  ]
+                ],
+                "conflicts": [
+                  "was dimmed",
+                  "dimming succeeded",
+                  "brightness was adjusted",
+                  "brightness was set",
+                  "brightness is 30"
+                ],
+                "allow_multiple_matches": true
+              }
+            ]
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/comfort/request.docx"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_567",
+    "surfaces": [
+      "linux.text_markdown",
+      "linux.odt_docx",
+      "smarthome.capability",
+      "smarthome.device_state"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_567",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_567/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_567/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/comfort/alternative.md",
+      "/tmp/comfort/request.docx"
+    ],
+    "linux_output_paths": [
+      "/tmp/comfort/request.docx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/comfort/alternative.md"
+      ],
+      "linux_1": [
+        "/tmp/comfort/request.docx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/comfort/request.docx"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "2linux_smarthome",
+      "linux_devices": [
+        "linux_0",
+        "linux_1"
+      ],
+      "room_ids": [
+        "entryway"
+      ],
+      "device_type_counts": {
+        "curtain": 1,
+        "light": 1
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 2,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-25T17:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_1",
+        "surface": "linux.odt_docx",
+        "path": "/tmp/comfort/request.docx",
+        "goal": "Create or update the task result at this path.",
+        "func": "check_docx_text",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/comfort/alternative.md, /tmp/comfort/request.docx and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the final curtain and light states and checks that the DOCX naturally records the completed curtain setting and unavailable light adjustment.",
+    "idea_number": 567,
+    "coverage_group": "pilot_567_writer_fallback",
+    "lite_hardening_note": "Removed redundant schedule/workflow count guards while retaining outcome checks."
+  }
+}

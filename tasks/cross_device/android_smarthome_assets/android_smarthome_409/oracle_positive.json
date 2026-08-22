@@ -1,0 +1,28 @@
+{
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Comfort request results.md' <<'EOF'\n# Comfort request results\n\n## C1\nTarget: living-room curtain\nStatus: Executed\nResult: 35% open\n\n## C2\nTarget: living-room basic light brightness\nStatus: Unsupported\nReason: the basic light has no brightness or dimming capability.\nEOF"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "living_room_curtain_1",
+        "command": "set_open_pct",
+        "args": {
+          "open_pct": 35
+        }
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

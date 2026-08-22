@@ -1,0 +1,18 @@
+{
+  "linux_actions": {
+    "linux_1": [
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "python3 - <<'PY'\nimport base64\nfrom pathlib import Path\npath = Path('/tmp/patch/patch_bundle.zip')\npath.parent.mkdir(parents=True, exist_ok=True)\npath.write_bytes(base64.b64decode('UEsDBBQAAAAIAIE73FxfJ3rRNAAAADcAAAANAAAAbm9ybWFsaXplci5weUtJTVPIyy/KTczJrErVKEvMKU3VtOJSAIKi1JLSojwFsJBecUlRZoGGpl5OfnlqkYYmFwBQSwMEFAAAAAgAgTvcXGNJ2FgLAAAACQAAAA8AAAB0ZXN0X291dHB1dC50eHQzUihILC5OTeECAFBLAQIUAxQAAAAIAIE73FxfJ3rRNAAAADcAAAANAAAAAAAAAAAAAACAAQAAAABub3JtYWxpemVyLnB5UEsBAhQDFAAAAAgAgTvcXGNJ2FgLAAAACQAAAA8AAAAAAAAAAAAAAIABXwAAAHRlc3Rfb3V0cHV0LnR4dFBLBQYAAAAAAgACAHgAAACXAAAAAAA='))\nPY"
+        }
+      },
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "python3 - <<'PY'\nimport base64\nfrom pathlib import Path\npath = Path('/tmp/patch/bundle_manifest.csv')\npath.parent.mkdir(parents=True, exist_ok=True)\npath.write_bytes(base64.b64decode('ZmlsZSxzdGF0dXMKbm9ybWFsaXplci5weSxpbmNsdWRlZAp0ZXN0X291dHB1dC50eHQsaW5jbHVkZWQKX19weWNhY2hlX18sZXhjbHVkZWRfY2FjaGUKLnB5dGVzdF9jYWNoZSxleGNsdWRlZF9jYWNoZQpzY3JhdGNoLnR4dCxleGNsdWRlZF91bmxpc3RlZAo='))\nPY"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,237 @@
+{
+  "meta": {
+    "sh_type": "SH4_time_schedule",
+    "case": "feasible",
+    "seed": 32,
+    "room_count": 4,
+    "device_count": 14,
+    "episode_config_ref": "tasks/smarthome/episode_configs/sh4_time_schedule_living_ac_temperature_feasible_0032.json"
+  },
+  "user_location": "living_room",
+  "eval": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_planned_effects",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "exact_active_plan_count": 1,
+            "plans": [
+              {
+                "run_at": "2026-06-15T21:15:00",
+                "effects": {
+                  "living_room_air_conditioner_1": {
+                    "target_temperature_c": 25
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "unique_persistent_plan_effects"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+          "device_ids": [
+            "living_room_air_conditioner_1"
+          ],
+          "preserve_current_time": true
+          }
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "no_immediate_device_change"
+      }
+    }
+  ],
+  "initial_home_config": {
+    "tick_interval": 1,
+    "base_time": "2026-06-15T20:00:00",
+    "rooms": {
+      "bedroom": {
+        "environment": {
+          "temperature_c": 21.1,
+          "humidity_pct": 47.6,
+          "brightness_lux": 60,
+          "air_quality_pm25": 38.1,
+          "noise_level_db": 31.1,
+          "occupied": true
+        },
+        "devices": [
+          {
+            "device_id": "bedroom_curtain_1",
+            "device_type": "curtain",
+            "state": {
+              "open_pct": 20
+            }
+          },
+          {
+            "device_id": "bedroom_dehumidifier_1",
+            "device_type": "dehumidifier",
+            "state": {
+              "power": "on",
+              "level": "high"
+            }
+          },
+          {
+            "device_id": "bedroom_heater_1",
+            "device_type": "heater",
+            "state": {
+              "power": "off",
+              "target_temperature_c": 27
+            }
+          },
+          {
+            "device_id": "bedroom_humidifier_1",
+            "device_type": "humidifier",
+            "state": {
+              "power": "on",
+              "level": "low"
+            }
+          }
+        ]
+      },
+      "laundry_room": {
+        "environment": {
+          "temperature_c": 22.2,
+          "humidity_pct": 44,
+          "brightness_lux": 87.8,
+          "air_quality_pm25": 25.3,
+          "noise_level_db": 38.9,
+          "occupied": false
+        },
+        "devices": [
+          {
+            "device_id": "laundry_room_dryer_1",
+            "device_type": "dryer",
+            "state": {
+              "power": "off",
+              "cycle": "normal",
+              "remaining_min": 0,
+              "status": "idle"
+            }
+          },
+          {
+            "device_id": "laundry_room_light_1",
+            "device_type": "light",
+            "state": {
+              "power": "off"
+            }
+          }
+        ]
+      },
+      "living_room": {
+        "environment": {
+          "temperature_c": 21.1,
+          "humidity_pct": 39.4,
+          "brightness_lux": 250,
+          "air_quality_pm25": 35.3,
+          "noise_level_db": 36.6,
+          "occupied": true
+        },
+        "devices": [
+          {
+            "device_id": "living_room_air_conditioner_1",
+            "device_type": "air_conditioner",
+            "state": {
+              "power": "off",
+              "mode": "dry",
+              "target_temperature_c": 20
+            }
+          },
+          {
+            "device_id": "living_room_dehumidifier_1",
+            "device_type": "dehumidifier",
+            "state": {
+              "power": "off",
+              "level": "high"
+            }
+          },
+          {
+            "device_id": "living_room_dimmable_light_1",
+            "device_type": "dimmable_light",
+            "state": {
+              "power": "on",
+              "brightness_pct": 50
+            }
+          },
+          {
+            "device_id": "living_room_heater_1",
+            "device_type": "heater",
+            "state": {
+              "power": "on",
+              "target_temperature_c": 30
+            }
+          }
+        ]
+      },
+      "office": {
+        "environment": {
+          "temperature_c": 24.2,
+          "humidity_pct": 32.7,
+          "brightness_lux": 240,
+          "air_quality_pm25": 47.8,
+          "noise_level_db": 40.6,
+          "occupied": false
+        },
+        "devices": [
+          {
+            "device_id": "office_air_conditioner_1",
+            "device_type": "air_conditioner",
+            "state": {
+              "power": "on",
+              "mode": "fan",
+              "target_temperature_c": 20
+            }
+          },
+          {
+            "device_id": "office_air_purifier_1",
+            "device_type": "air_purifier",
+            "state": {
+              "power": "off",
+              "level": "high"
+            }
+          },
+          {
+            "device_id": "office_curtain_1",
+            "device_type": "curtain",
+            "state": {
+              "open_pct": 80
+            }
+          },
+          {
+            "device_id": "office_robot_vacuum_1",
+            "device_type": "robot_vacuum",
+            "state": {
+              "power": "off",
+              "status": "docked",
+              "battery_pct": 86
+            }
+          }
+        ]
+      }
+    },
+    "schedules": [],
+    "workflows": [],
+    "history": [],
+    "infeasible_reports": [],
+    "answer_reports": []
+  }
+}

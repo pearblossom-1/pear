@@ -1,0 +1,41 @@
+{
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "5551440",
+          "body": "Bedtime is scheduled for 19:20: the bedroom curtain will close and the light will dim to 15%."
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_workflow",
+      "parameters": {
+        "workflow_id": "two_phone_bedtime",
+        "run_at": "2026-06-16T19:20:00",
+        "steps": [
+          {
+            "device_id": "bedroom_curtain_1",
+            "command": "close",
+            "args": {}
+          },
+          {
+            "device_id": "bedroom_dimmable_light_1",
+            "command": "set_brightness",
+            "args": {
+              "brightness_pct": 15
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

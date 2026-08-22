@@ -1,0 +1,83 @@
+{
+  "task_id": "linux_android_1274",
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Outreach Blocked 1274.md",
+        "rules": {
+          "entities": [
+            "Rae Lin",
+            "5551201274",
+            "5550001274"
+          ],
+          "required_phrases": [
+            [
+              "mismatch",
+              "does not match",
+              "different",
+              "conflicts"
+            ]
+          ],
+          "positive_phrases": [
+            "blocked",
+            "do not send",
+            "must not send"
+          ],
+          "forbidden_entities": [
+            "Ray Lin"
+          ],
+          "conflict_phrases": [
+            "not blocked",
+            "numbers match",
+            "phones match",
+            "safe to send",
+            "message sent"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201274",
+        "any_body": true,
+        "recent_within_mins": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550001274",
+        "any_body": true,
+        "recent_within_mins": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+approval_code,site,latitude,longitude,status
+NX03460,North Annex Access,,,blocked_missing_coordinates
+NX03461,South Annex Access,37.7150,-122.3150,ready

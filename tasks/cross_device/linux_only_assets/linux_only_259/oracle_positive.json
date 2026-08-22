@@ -1,0 +1,18 @@
+{
+  "linux_actions": {
+    "linux_1": [
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "cat > /tmp/img/project/index_images.py <<'PY'\nimport re\nfrom pathlib import Path\n\nSUPPORTED = {'.png', '.jpg', '.jpeg'}\n\n\ndef include(path):\n    return Path(str(path)).suffix.lower() in SUPPORTED\n\n\ndef label_for(path):\n    stem = Path(str(path)).stem\n    return re.sub(r'_\\d+x\\d+$', '', stem, flags=re.IGNORECASE)\n\n\ndef row_for(path, width, height):\n    return {\n        'file': path,\n        'width': width,\n        'height': height,\n        'label': label_for(path),\n    }\nPY"
+        }
+      },
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "cd /tmp/img/project && python3 tests.py > test.log"
+        }
+      }
+    ]
+  }
+}

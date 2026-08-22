@@ -1,0 +1,4 @@
+case,status,route,alarm_time,alarm_label,role,notes
+CASE-1828,reference,RT-28,06:28,CASE-1828 preparation fallback,early fallback,already enabled; keep this alarm
+CASE-1828,ready,RT-28,07:28,CASE-1828 RT-28,actual departure,add this enabled alarm
+CASE-OLD,archived,RT-00,08:00,CASE-OLD RT-00,archived,do not schedule

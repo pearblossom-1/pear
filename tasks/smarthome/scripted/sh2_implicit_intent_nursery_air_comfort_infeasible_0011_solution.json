@@ -1,0 +1,16 @@
+{
+  "actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.report_infeasible",
+      "parameters": {
+        "category": "missing_room",
+        "reason": "The nursery room is not present in this home.",
+        "target": "nursery"
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

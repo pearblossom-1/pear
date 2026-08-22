@@ -1,0 +1,8 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_1": [
+      {"type": "adb_shell", "parameters": {"command": "mkdir -p '/storage/emulated/0/Android/data/net.osmand/files/favorites' '/storage/emulated/0/Documents/Markor' && echo PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48Z3B4IHZlcnNpb249IjEuMSIgY3JlYXRvcj0iRmllbGQgT3BlcmF0aW9ucyIgeG1sbnM9Imh0dHA6Ly93d3cudG9wb2dyYWZpeC5jb20vR1BYLzEvMSI+PHdwdCBsYXQ9IjM3LjcwMDAiIGxvbj0iLTEyMi4zMDAwIj48bmFtZT5SZWZlcmVuY2UgRGVwb3Q8L25hbWU+PC93cHQ+PHdwdCBsYXQ9IjM3Ljc4MTIiIGxvbj0iLTEyMi40MDE4Ij48bmFtZT5Ob3J0aCBTZXJ2aWNlIEdhdGU8L25hbWU+PC93cHQ+PC9ncHg+ | base64 -d > '/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx' && printf '%s\n' 'CASE 1037-A: Priya Shah added the approved North Service Gate favorite at 37.7812, -122.4018 under NX03781; handoff ready.' > '/storage/emulated/0/Documents/Markor/1037-A_handoff.md'"}}
+    ]
+  }
+}

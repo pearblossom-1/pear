@@ -1,0 +1,250 @@
+{
+  "id": "linux_android_1853",
+  "instruction": "Create a Thunderbird draft for the current meeting handoff using the Simple Calendar Pro event on the first phone, the matching Contacts attendee on the second phone, and `/tmp/attend/attendee_roles.csv` on Linux. Address the matching attendee and include the meeting case and approval code, route, location, and scheduled time. Leave it as a draft; do not send it.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "CASE-1853 source event",
+            "start_ts": 1784368200,
+            "end_ts": 1784370900,
+            "location": "Harbor Gate 2",
+            "description": "RT-53 current meeting handoff"
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Ari Singh",
+            "number": "+15552001829",
+            "notes": "ari.singh@example.test; Support owner"
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nrm -f /tmp/attend/attendee_roles.csv\nrm -rf \"$HOME/.thunderbird/mail.default-release\"\nmkdir -p /tmp/attend \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders\"\ncat > \"$HOME/.thunderbird/profiles.ini\" <<'EOF'\n[Profile0]\nName=local\nIsRelative=1\nPath=mail.default-release\nDefault=1\n\n[General]\nStartWithLastProfile=1\nVersion=2\nEOF\ncat > \"$HOME/.thunderbird/mail.default-release/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server1\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.identity.id1.fullName\", \"Local Agent\");\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.directory-rel\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nEOF\n: > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Inbox\"\n: > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Drafts\"\n: > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Sent\"",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1853/source/attendee_roles.csv",
+                "path": "/tmp/attend/attendee_roles.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\ntest -r /tmp/attend/attendee_roles.csv\ngrep -F 'CASE-1853,FB-1853,Support owner,current' /tmp/attend/attendee_roles.csv >/dev/null\nprofile=\"$HOME/.thunderbird/mail.default-release\"\ntest -s \"$profile/prefs.js\"\ntest ! -s \"$profile/Mail/Local Folders/Inbox\"\ntest ! -s \"$profile/Mail/Local Folders/Drafts\"\ntest ! -s \"$profile/Mail/Local Folders/Sent\"\ncommand -v thunderbird >/dev/null\nnohup thunderbird --no-remote --profile \"$profile\" >/tmp/attend/thunderbird.log 2>&1 &\nsleep 3\npgrep -f 'thunderbird.*mail.default-release' >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "pkill -f 'thunderbird.*mail.default-release' 2>/dev/null || true; rm -f /tmp/attend/attendee_roles.csv /tmp/attend/thunderbird.log; find /tmp/attend -type d -empty -delete 2>/dev/null || true; rm -rf \"$HOME/.thunderbird/mail.default-release\"; rm -f \"$HOME/.thunderbird/profiles.ini\"",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "thunderbird_draft_state",
+        "profile_root": "~/.thunderbird/mail.default-release",
+        "recipients": [
+          "ari.singh@example.test"
+        ],
+        "message_relation": {
+          "entities": [
+            "CASE-1853",
+            "FB-1853",
+            "RT-53",
+            "Harbor Gate 2",
+            ["2026-07-18 09:50", "July 18, 2026 at 9:50 AM", "7/18/2026 9:50 AM", "9:50 AM on July 18, 2026", "07/18/2026 09:50"]
+          ],
+          "conflict_phrases": ["Harbor Gate 3", "09:05", "FB-1858", "wrong time", "wrong location", "do not send"],
+          "reject_incomplete_semantics": true
+        },
+        "allow_extra_recipients": false,
+        "recipient_header_policy": "single_to_only"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "thunderbird_folder_state",
+        "profile_root": "~/.thunderbird/mail.default-release",
+        "inbox_messages": [],
+        "folder_messages": {
+          "Sent": []
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 60,
+    "max_wall_time_s": 480
+  },
+  "metadata": {
+    "category": "linux_android_final_balancing",
+    "implementation_status": "builder_batch_1827_1876",
+    "source_plan": "docs/plan6/linux_android_final_balancing_tasks_1777_1876.md",
+    "source_task_number": 1853,
+    "source_task_title": "Calendar event and attendee list draft email",
+    "triage_decision": "repair",
+    "triage_reason": "Repaired as a Thunderbird draft from Calendar, Contacts, and Linux attendee roles with no sent-mail side effect.",
+    "device_topology": "android_0+android_1+linux_0",
+    "surfaces": [
+      "android.calendar",
+      "android.contacts",
+      "android.files",
+      "linux.thunderbird"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1853",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1853/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1853/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_1853/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/attend/attendee_roles.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "android_output_plan": [],
+    "expected_data_trace": {
+      "case": "CASE-1853",
+      "code": "FB-1853",
+      "route": "RT-53",
+      "site": "Harbor Gate 2",
+      "owner": "Ari Singh",
+      "phone": "+15552001829",
+      "email": "ari.singh@example.test",
+      "role": "Support owner",
+      "time": "2026-07-18 09:50",
+      "lat": "37.77",
+      "lon": "-122.422",
+      "decision": "ready",
+      "included": "rt-53_photo_a.jpg",
+      "missing": "rt-53_photo_missing.jpg",
+      "decoy": "rt-53_decoy.jpg"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_thunderbird_draft_state",
+    "requires_helper_audit": false,
+    "topology_view": "linux_android",
+    "structured_output_classification": {
+      "thunderbird_draft": "primary_native_state"
+    },
+    "lite_evaluator_hardening_note": "Uses a run-reset exact Thunderbird profile, one MIME-aware same-draft contract, and an empty Sent-folder contract; source guards were removed."
+  }
+}

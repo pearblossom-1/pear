@@ -1,0 +1,32 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "+1555018501",
+          "body": "The basic living room light does not support 35% dimming, so it remains unchanged and no substitute light was changed."
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.report_infeasible",
+      "parameters": {
+        "category": "unsupported_command",
+        "reason": "The basic living room light is on/off only and cannot dim to 35%.",
+        "target": {
+          "room": "living_room",
+          "request": "set basic living room light to 35%"
+        },
+        "details": {}
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

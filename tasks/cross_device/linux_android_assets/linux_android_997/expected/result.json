@@ -1,0 +1,10 @@
+{
+  "case_id": "997-A",
+  "title": "Calendar and SMS mismatch blocks Clock alarm",
+  "owner": "Priya Shah",
+  "phone": "+1555011886",
+  "approval_code": "NX99792",
+  "selected_source": "/tmp/alarms/alarm_policy.csv",
+  "status": "blocked",
+  "decision": "Calendar and SMS mismatch Clock"
+}

@@ -1,0 +1,11 @@
+{
+  "task_id": "a2l_browser_dual_phone_code",
+  "source_files": [
+    "verify.html"
+  ],
+  "expected_files": [],
+  "device_topology": "A+A+L",
+  "instruction": "The first phone's Simple SMS Messenger received a one-time code, and the second phone's Markor note `Account note` has the account id. Please enter the account id and code in `/home/user/account/verify.html` in Linux Chrome to complete the two-step verification.",
+  "surfaces": "android_0 Simple SMS Messenger + android_1 Markor -> Chrome form",
+  "requires_helper_audit": false
+}

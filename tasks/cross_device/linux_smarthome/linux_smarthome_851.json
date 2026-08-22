@@ -1,0 +1,265 @@
+{
+  "id": "linux_smarthome_851",
+  "instruction": "Use `/tmp/zones/zones.csv` on the first Linux machine to interpret the four zone requests in `/tmp/zones/requests.xlsx` on the second. Check the mapped rooms against the live Home inventory, handle each request according to its protection and availability rules, and complete the request workbook.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/zones/zones.csv && mkdir -p -- /tmp/zones",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_851/source/tmp/zones/zones.csv",
+                "path": "/tmp/zones/zones.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/zones/requests.xlsx && mkdir -p -- /tmp/zones",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_851/source/linux_1/tmp/zones/requests.xlsx",
+                "path": "/tmp/zones/requests.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_851/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/zones/zones.csv; find /tmp/zones -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/zones/requests.xlsx; find /tmp/zones -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "living_room_curtain_1": {
+                "open_pct": 20
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/zones/requests.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_851/source/linux_1/tmp/zones/requests.xlsx",
+          "allowed_changes": [
+            "Requests!D2",
+            "Requests!E2",
+            "Requests!F2",
+            "Requests!D3",
+            "Requests!E3",
+            "Requests!F3",
+            "Requests!D4",
+            "Requests!E4",
+            "Requests!F4",
+            "Requests!D5",
+            "Requests!E5",
+            "Requests!F5"
+          ],
+          "preserve_layout": true,
+          "sheet": "Requests",
+          "cells": {
+            "D2": "living room",
+            "E2": "supported",
+            "F2": "Supported",
+            "D3": "bedroom",
+            "E3": "protected",
+            "F3": "Protected",
+            "D4": "guest room",
+            "E4": "missing",
+            "F4": "Missing",
+            "D5": "hallway",
+            "E5": "already satisfied",
+            "F5": "No Action"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/zones/requests.xlsx"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_851",
+    "surfaces": [
+      "2linux",
+      "linux_csv_source",
+      "linux_xlsx_source",
+      "home_map",
+      "linux_xlsx_output"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_851",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_851/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_851/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/zones/zones.csv",
+      "/tmp/zones/requests.xlsx"
+    ],
+    "linux_output_paths": [
+      "/tmp/zones/requests.xlsx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/zones/zones.csv"
+      ],
+      "linux_1": [
+        "/tmp/zones/requests.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/zones/requests.xlsx"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "2linux_smarthome",
+      "linux_devices": [
+        "linux_0",
+        "linux_1"
+      ],
+      "room_ids": [
+        "bedroom",
+        "guest_room",
+        "hallway",
+        "living_room"
+      ],
+      "device_type_counts": {
+        "curtain": 1,
+        "dimmable_light": 2
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 2,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-16T19:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_1",
+        "surface": "linux.xlsx",
+        "path": "/tmp/zones/requests.xlsx",
+        "goal": "Create or update the task result at this path.",
+        "func": "check_xlsx_cells",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/zones/zones.csv and /tmp/zones/requests.xlsx, then resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the preserved zone-request workbook and enforces that only the living-room curtain changes, with no new schedules or workflows.",
+    "idea_number": 851,
+    "candidate_triage": {
+      "batch_id": "plan5-661-860-linux-smarthome-B0010",
+      "decision": "repair",
+      "note": "The image is a visual anchor and zones.csv is the structured fallback used for durable scoring."
+    },
+    "lite_evaluator_hardening_note": "Hidden auxiliary output evaluator(s) removed; scoring remains on visible outcome/state artifacts."
+  }
+}

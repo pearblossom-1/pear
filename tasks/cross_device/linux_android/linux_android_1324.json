@@ -1,0 +1,292 @@
+{
+  "id": "linux_android_1324",
+  "instruction": "Create `/tmp/agenda/appointment_agenda.odt` on the Linux machine using the local `/tmp/agenda/template.odt`, the appointment in Simple Calendar Pro on the first phone, and the matching attendee contact on the second phone. Follow the date/time format shown in the template. Send the matching attendee a concise confirmation text with the appointment, time, and location, and record the confirmation channel in the template.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nrm -f -- /tmp/agenda/template.odt /tmp/agenda/appointment_agenda.odt '/tmp/agenda/.~lock.appointment_agenda.odt#' '/tmp/agenda/.~lock.template.odt#'\nrm -rf -- /tmp/mdcbench-linux-android-1324-lo-profile\nmkdir -p -- /tmp/agenda",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1324/source/tmp/agenda/template.odt",
+                "path": "/tmp/agenda/template.odt"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\ntest -w /tmp/agenda\ntest ! -e /tmp/agenda/appointment_agenda.odt\nunzip -t /tmp/agenda/template.odt >/dev/null\nfor placeholder in '[[APPOINTMENT]]' '[[DATE_TIME]]' '[[LOCATION]]' '[[ATTENDEE]]' '[[PHONE]]' '[[CONFIRMATION_CHANNEL]]'; do unzip -p /tmp/agenda/template.odt content.xml | grep -F \"$placeholder\" >/dev/null; done\ncommand -v libreoffice >/dev/null\nnohup libreoffice --writer --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-linux-android-1324-lo-profile' /tmp/agenda/template.odt >/tmp/agenda/writer.log 2>&1 &\nsleep 4\npgrep -f 'mdcbench-linux-android-1324-lo-profile' >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "APPT-1324 Vendor Review",
+            "start_ts": 1786780800,
+            "end_ts": 1786784400,
+            "location": "Room 4",
+            "description": "attendee Riley Stone phone 5551201324"
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Riley Stone",
+            "number": "5551201324",
+            "notes": "Vendor contact for APPT-1324"
+          }
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Riley Stoner",
+            "number": "5551201399",
+            "notes": "Near-name decoy"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "pkill -f 'mdcbench-linux-android-1324-lo-profile' 2>/dev/null || true; rm -rf -- /tmp/mdcbench-linux-android-1324-lo-profile; rm -f -- /tmp/agenda/template.odt /tmp/agenda/appointment_agenda.odt /tmp/agenda/writer.log '/tmp/agenda/.~lock.appointment_agenda.odt#' '/tmp/agenda/.~lock.template.odt#'; find /tmp/agenda -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201324",
+        "body_relation": {
+          "entities": [
+            "APPT-1324 Vendor Review",
+            ["08:00", "8:00", "8 AM", "8:00 AM", "08:00 AM"],
+            "Room 4",
+            ["confirmed", "is confirmed", "scheduled", "is scheduled", "appointment confirmed", "see you at"]
+          ],
+          "positive_phrases": [
+            ["confirmed", "is confirmed", "scheduled", "is scheduled", "appointment confirmed", "see you at"]
+          ],
+          "conflict_phrases": ["maybe confirmed", "might be at 8", "not confirmed", "cancelled", "canceled"],
+          "reject_incomplete_semantics": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201399",
+        "any_body": true,
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_odf_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/agenda/appointment_agenda.odt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": ["Appointment Agenda"],
+          "exclude": ["[[APPOINTMENT]]", "[[DATE_TIME]]", "[[LOCATION]]", "[[ATTENDEE]]", "[[PHONE]]", "[[CONFIRMATION_CHANNEL]]", "email", "phone call", "voice call", "none", "pending", "not sent"],
+          "require_valid_package": true,
+          "required_members": ["styles.xml", "meta.xml"],
+          "odf_kind": "text",
+          "min_paragraphs": 7,
+          "paragraph_relations_require_affirmative": true,
+          "paragraph_relations": [
+            ["Appointment", "APPT-1324 Vendor Review"],
+            ["Date and time", "2026-08-15 08:00-09:00"],
+            ["Location", "Room 4"],
+            ["Attendee", "Riley Stone"],
+            ["Phone", "5551201324"],
+            ["Confirmation channel", ["SMS", "sms", "text", "text message", "SMS message", "texting", "Simple SMS Messenger"]]
+          ],
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/agenda/appointment_agenda.odt"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1324",
+    "surfaces": [
+      "calendar",
+      "contacts",
+      "sms",
+      "linux.odt"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1324",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1324/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1324/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/agenda/template.odt"
+    ],
+    "linux_output_paths": [
+      "/tmp/agenda/appointment_agenda.odt"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/agenda/template.odt"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [
+        "/tmp/agenda/appointment_agenda.odt"
+      ]
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1321-1340-B0008",
+    "candidate_triage": {
+      "decision": "direct",
+      "rationale": "Candidate is realistic, source-closed, and supported by existing Linux and Android helpers."
+    },
+    "structured_output_classification": {
+      "/tmp/agenda/appointment_agenda.odt": "primary_artifact",
+      "native_sms_confirmation": "primary_native_state"
+    },
+    "lite_evaluator_hardening_note": "Scores the valid, template-structured ODT on the same Linux machine as its source template, an affirmative SMS to the matched attendee, and zero SMS messages to the near-name decoy."
+  }
+}

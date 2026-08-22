@@ -1,0 +1,325 @@
+{
+  "id": "android_smarthome_147",
+  "instruction": "The first phone received a guest message in Simple SMS Messenger, and the second phone has the guest preference in Contacts. Please prepare the living room and reply from the first phone.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "5551470",
+            "body": "I will arrive around 20:15.",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "androidworld_sms_message_preflight",
+          "parameters": {
+            "message": {
+              "box": "inbox",
+              "address": "5551470",
+              "body": "I will arrive around 20:15.",
+              "require_exactly_one_for_address": true
+            },
+            "required_visible_text": [
+              "arrive around 20:15"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Reply Guest",
+            "number": "5551470",
+            "notes": "Prefers soft light at 45% and heater at 24 C."
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Reply Guest",
+              "number": "5551470",
+              "notes": "Prefers soft light at 45% and heater at 24 C."
+            },
+            "required_visible_text": [
+              "Reply Guest",
+              "5551470",
+              "soft light at 45%",
+              "heater at 24 C"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_147/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551470",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            [
+              "living room",
+              "living-room"
+            ],
+            [
+              "ready",
+              "prepared"
+            ],
+            [
+              "light"
+            ],
+            [
+              "45",
+              "45%"
+            ],
+            [
+              "heater",
+              "heat"
+            ],
+            [
+              "24",
+              "24 C",
+              "24°C"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "ready",
+              "prepared",
+              "complete"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "cancelled",
+            "canceled",
+            "not ready",
+            "not prepared",
+            "not complete",
+            "light is off",
+            "heater is off"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "guest receives the living-room ready reply with light 45 and heater 24"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "living_room_dimmable_light_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "brightness_pct": 45
+          }
+        }
+      },
+      "name": "living-room dimmable light is on at 45 percent"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "living_room_heater_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "target_temperature_c": 24.0
+          }
+        }
+      },
+      "name": "living-room heater is on at 24 C"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "living_room_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 45
+              },
+              "living_room_heater_1": {
+                "power": "on",
+                "target_temperature_c": 24.0
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "only the requested living-room light and heater fields change globally"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "immediate guest preparation creates no schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "immediate guest preparation creates no workflow"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_147",
+    "surfaces": [
+      "sms",
+      "contacts",
+      "home_command"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "androidworld_sms_message",
+      "smarthome_device_state"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "2android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_147",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_147/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_147/oracle_positive.json",
+    "idea_number": 147,
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "+1555000287",
+          "body": "The sender is not authorized to cancel the away routine, so it remains active."
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "type": "done"
+    }
+  ]
+}

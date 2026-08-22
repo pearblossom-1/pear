@@ -1,0 +1,4 @@
+{
+  "linux_actions": [{"device_id": "linux_0", "type": "cli.execute", "parameters": {"command": "mkdir -p /tmp/schedule && printf '%s\n' 'event_code,android_value,linux_value,match_status' 'EVT-1264,2026-08-04T07:00:00 Dock A,2026-08-04T07:00:00 Dock A,matched' 'EVT-1265,2026-08-04T08:00:00 Yard C,2026-08-04T08:00:00 Yard B,location_mismatch' 'EVT-1266,missing,2026-08-04T09:00:00 Office,missing_android_event' > /tmp/schedule/calendar_mismatch.csv", "shell": true}}],
+  "android_setup": {"android_0": []}
+}

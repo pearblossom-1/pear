@@ -1,0 +1,170 @@
+{
+  "id": "al_sms_web_download_statement",
+  "instruction": "The latest Android Simple SMS Messenger message contains the statement download code. Please enter the code in `/home/user/download/portal.html` in Linux Chrome and download the statement, saving it to `/home/user/download/statement.pdf` for later reconciliation.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "5550102",
+            "body": "Statement download code: 4829",
+            "wait_s": 5
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /home/user/download && mkdir -p /home/user/download",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/al_sms_web_download_statement/source/download_portal.html",
+                "path": "/home/user/download/portal.html"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /home/user/download",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "host_form_submission_state",
+        "form_id": "al_sms_web_download_statement",
+        "field_names": [
+          "download_code"
+        ],
+        "expected_sha256": "491c2eda03dde0c93f578d73934d7096345a1a08432c96210aa7a0b9c533c98e",
+        "client_path": "/home/user/download/portal.html",
+        "action_placeholder": "__MDCBENCH_FORM_ACTION__",
+        "download_name": "statement.pdf",
+        "require_download_get": true,
+        "download_source": "${repo_root}/tasks/cross_device/real300_assets/al_sms_web_download_statement/source/statement_source.pdf",
+        "download_sha256": "9f9b617de4e2a7390790449eff25d6eabfd7ae6b77d6572e3303a6787774f74e",
+        "preflight_receiver": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "PDF='/home/user/download/statement.pdf'\n[ -s \"$PDF\" ] || { echo missing; exit 0; }\n[ \"$(head -c 5 \"$PDF\" 2>/dev/null)\" = \"%PDF-\" ] || { echo missing; exit 0; }\n[ \"$(sha256sum \"$PDF\" | awk '{print $1}')\" = '9f9b617de4e2a7390790449eff25d6eabfd7ae6b77d6572e3303a6787774f74e' ] || { echo missing; exit 0; }\ncommand -v pdftotext >/dev/null 2>&1 || { echo missing; exit 0; }\nTMP=$(mktemp)\npdftotext \"$PDF\" \"$TMP\" 2>/dev/null || { rm -f \"$TMP\"; echo missing; exit 0; }\nok=1\ngrep -Fq 'Statement ST-4829' \"$TMP\" || ok=0\ngrep -Fq 'code 4829' \"$TMP\" || ok=0\ngrep -Fq 'approved for reconciliation' \"$TMP\" || ok=0\nrm -f \"$TMP\"\nif [ \"$ok\" -eq 1 ]; then echo present; else echo missing; fi",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "metadata": {
+        "path": "/home/user/download/statement.pdf"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "real300_cross_device",
+    "source_card": "al",
+    "difficulty": "Simple",
+    "motif": "M2",
+    "interaction_mode": "Hybrid",
+    "device_topology": "A+L",
+    "surfaces": "Simple SMS Messenger -> Linux Chrome download",
+    "setup_note": "Android 注入 code SMS；Linux 重建可写 download 目录并只准备不含 code/statement 的 portal；harness 预检 receiver，statement 仅在正确提交后提供。",
+    "evaluate_note": "同时检查 run-scoped code submission 和下载的真实 statement.pdf 内容；guest 中未预置答案文件。",
+    "readiness": "R1_native_ready",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "path": "host:al_sms_web_download_statement",
+        "func": "exact_match",
+        "result_type": "host_form_submission_state"
+      },
+      {
+        "device_id": "linux_0",
+        "path": "/home/user/download/statement.pdf",
+        "func": "exact_match",
+        "result_type": "vm_command_line",
+        "rules": {
+          "include": [
+            "Statement ST-4829",
+            "code 4829",
+            "approved for reconciliation"
+          ]
+        }
+      }
+    ],
+    "lite_evaluator_hardening_note": "The host verifier now requires both a valid current-run submission and the successful download GET; the guest PDF must match the host source SHA, parse with pdftotext, and contain the statement anchors."
+  }
+}

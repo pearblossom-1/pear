@@ -1,0 +1,320 @@
+{
+  "id": "linux_android_smarthome_005",
+  "instruction": "Use the Sleep block Calendar event, /tmp/quiet-hours/quiet_hours.xlsx, and the current SmartHome workflows to enforce quiet hours. Cancel the conflicting late-washer workflow, keep the compatible bedroom lights-out workflow active, and record both final decisions in Markor as Quiet Hours Audit.md.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/quiet-hours",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_005/source/quiet_hours.xlsx",
+                "path": "/tmp/quiet-hours/quiet_hours.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Sleep block",
+            "start_ts": 1781647200,
+            "end_ts": 1781676000,
+            "location": "Bedroom",
+            "description": "Quiet hours apply."
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Quiet Hours Audit.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_005/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/quiet-hours/quiet_hours.xlsx; rmdir /tmp/quiet-hours 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Quiet Hours Audit.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Quiet Hours Audit.md",
+        "rules": {
+          "entities": [
+            "Quiet hours",
+            [
+              "late washer",
+              "late_washer"
+            ],
+            [
+              "bedroom lights-out",
+              "bedroom_lights_out"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "cancelled",
+              "retired"
+            ],
+            [
+              "active",
+              "kept"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "late washer",
+                  "late_washer"
+                ]
+              ],
+              "phrases": [
+                [
+                  "cancelled",
+                  "retired"
+                ]
+              ]
+            },
+            {
+              "entities": [
+                [
+                  "bedroom lights-out",
+                  "bedroom_lights_out"
+                ]
+              ],
+              "phrases": [
+                [
+                  "active",
+                  "kept",
+                  "remains active"
+                ]
+              ]
+            }
+          ],
+          "nearest_relations": [
+            {
+              "anchor": [
+                "late washer",
+                "late_washer"
+              ],
+              "expected": [
+                "cancelled",
+                "retired"
+              ],
+              "forbidden": [
+                "active",
+                "kept",
+                "pending"
+              ],
+              "max_distance": 8,
+              "same_clause": true
+            },
+            {
+              "anchor": [
+                "bedroom lights-out",
+                "bedroom_lights_out"
+              ],
+              "expected": [
+                "active",
+                "kept"
+              ],
+              "forbidden": [
+                "cancelled",
+                "retired",
+                "pending"
+              ],
+              "max_distance": 8,
+              "same_clause": true
+            }
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true,
+          "allowed_reversal_terms": [
+            "cancelled"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_status",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "workflow_id": "late_washer",
+            "status": "cancelled"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {
+              "workflow_id": "bedroom_lights_out",
+              "status": "active"
+            }
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_preserved",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "workflow_id": "bedroom_lights_out"
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Pilot 05 cancel only noisy quiet-hours workflow.",
+    "surfaces": [
+      "calendar",
+      "markor",
+      "linux_xlsx",
+      "home_cancel_workflow"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_005",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_005/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_005/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/quiet-hours/quiet_hours.xlsx"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/quiet-hours/quiet_hours.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "pilot_index": 5,
+    "lite_evaluator_hardening_note": "Hidden auxiliary output evaluator(s) removed; scoring remains on visible outcome/state artifacts."
+  }
+}

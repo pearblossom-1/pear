@@ -1,0 +1,31 @@
+{
+  "actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_command",
+      "parameters": {
+        "schedule_id": "study_light_dim_20",
+        "run_at": "2026-06-14T21:20:00",
+        "device_id": "study_dimmable_light_1",
+        "command": "set_brightness",
+        "args": {
+          "brightness_pct": 35
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_command",
+      "parameters": {
+        "schedule_id": "study_purifier_on_after_light",
+        "run_at": "2026-06-14T21:40:00",
+        "device_id": "study_air_purifier_1",
+        "command": "turn_on",
+        "args": {}
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

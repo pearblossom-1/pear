@@ -1,0 +1,321 @@
+{
+  "id": "linux_android_smarthome_457",
+  "instruction": "Please prepare for the upcoming arrival. On the first phone, check the saved entrance in OsmAnd. On the second phone, use the arrival event in Simple Calendar Pro for the room and arrival time, and use the existing Simple SMS Messenger thread for the reply. The lighting, curtain, and lead-time settings are in `/tmp/home_ops/phone-handoff/source/location_map.csv` on the Linux desktop. Schedule the room-preparation workflow, then reply in that thread with the entrance, preparation time, arrival time, and confirmation that the room will be ready.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/home_ops/phone-handoff/source",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_457/source/tmp/home_ops/phone-handoff/source/location_map.csv",
+                "path": "/tmp/home_ops/phone-handoff/source/location_map.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/home_ops/phone-handoff/source/location_map.csv",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "osmand"
+          }
+        },
+        {
+          "type": "androidworld_osmand_favorites_setup",
+          "parameters": {}
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_457/android/android_0/favorites.gpx",
+                "path": "/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_osmand_favorites_preflight",
+          "parameters": {
+            "favorites": [
+              {
+                "name": "East Accessible Entrance",
+                "latitude": "47.655700",
+                "longitude": "-122.375700"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Accessible arrival",
+            "start_ts": 1781639100,
+            "end_ts": 1781640900,
+            "location": "Guest room",
+            "description": "Use the mapped accessible entrance scene."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Accessible arrival",
+            "start_ts": 1781639100,
+            "location": "Guest room",
+            "description": "Use the mapped accessible entrance scene.",
+            "search_text": "Accessible"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+1555000457",
+            "body": "Reply here with the accessible entrance preparation and arrival times when the scene is ready.",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "androidworld_sms_message_preflight",
+          "parameters": {
+            "message": {
+              "address": "+1555000457",
+              "body": "Reply here with the accessible entrance preparation and arrival times when the scene is ready.",
+              "box": "inbox"
+            },
+            "required_visible_text": [
+              "accessible entrance preparation",
+              "arrival times"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_457/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/home_ops/phone-handoff/source/location_map.csv; rmdir /tmp/home_ops/phone-handoff/source 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx /data/data/net.osmand/files/favourites_bak.gpx"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+1555000457",
+        "body_relation": {
+          "entities": [
+            "East Accessible Entrance",
+            [
+              "19:30",
+              "7:30 PM"
+            ],
+            [
+              "19:45",
+              "7:45 PM"
+            ],
+            [
+              "prepared",
+              "ready"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "prepared",
+              "ready",
+              "scheduled"
+            ]
+          ],
+          "conflict_phrases": [
+            "not prepared",
+            "pending",
+            "cancelled"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T19:30:00",
+            "status": "active",
+            "exact_active_workflow_count": 1,
+            "effects": {
+              "guest_room_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 45
+              },
+              "guest_room_curtain_1": {
+                "open_pct": 50
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "457 OsmAnd location source mapped to home scene.",
+    "surfaces": [
+      "android_dual",
+      "osmand",
+      "calendar",
+      "sms",
+      "linux_csv",
+      "home_workflow"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_457",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_457/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_457/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/home_ops/phone-handoff/source/location_map.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/home_ops/phone-handoff/source/location_map.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "pilot_index": 457
+  }
+}

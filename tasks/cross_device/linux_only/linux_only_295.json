@@ -1,0 +1,384 @@
+{
+  "id": "linux_only_295",
+  "instruction": "I need a patch bundle created. Use `patch_manifest.json` on the first Linux machine, including its archive-path and bundle-manifest rules, to package the selected source and test output from the second into `/tmp/patch/patch_bundle.zip`, and write `/tmp/patch/bundle_manifest.csv`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/patch && rm -f /tmp/patch/patch_manifest.json",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_295/source/linux_0/tmp/patch/patch_manifest.json",
+                "path": "/tmp/patch/patch_manifest.json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/patch/project && rm -f /tmp/patch/project/normalizer.py",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_295/source/linux_1/tmp/patch/project/normalizer.py",
+                "path": "/tmp/patch/project/normalizer.py"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/patch/project && rm -f /tmp/patch/project/test_output.txt",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_295/source/linux_1/tmp/patch/project/test_output.txt",
+                "path": "/tmp/patch/project/test_output.txt"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/patch/project/__pycache__ && printf 'cache placeholder\n' > /tmp/patch/project/__pycache__/normalizer.pyc",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/patch/project/.pytest_cache && printf 'cache placeholder\n' > /tmp/patch/project/.pytest_cache/README.md",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/patch/project && rm -f /tmp/patch/project/scratch.txt",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_295/source/linux_1/tmp/patch/project/scratch.txt",
+                "path": "/tmp/patch/project/scratch.txt"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/patch/patch_bundle.zip",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/patch/bundle_manifest.csv",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/patch/patch_manifest.json",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/patch/project/normalizer.py",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/patch/project/test_output.txt",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/patch/project/__pycache__/normalizer.pyc",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/patch/project/.pytest_cache/README.md",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/patch/project/scratch.txt",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/patch/patch_bundle.zip",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/patch/bundle_manifest.csv",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_archive_contents",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/patch/patch_bundle.zip"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "members": {
+            "normalizer.py": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_295/source/linux_1/tmp/patch/project/normalizer.py",
+            "test_output.txt": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_295/source/linux_1/tmp/patch/project/test_output.txt"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/patch/patch_bundle.zip",
+        "role": "baseline_source_patch_archive"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nimport csv\ntry:\n    with open('/tmp/patch/bundle_manifest.csv', newline='', encoding='utf-8-sig') as handle:\n        reader = csv.DictReader(handle)\n        rows = list(reader)\n    expected = {\n        ('normalizer.py', 'included'),\n        ('test_output.txt', 'included'),\n        ('__pycache__', 'excluded_cache'),\n        ('.pytest_cache', 'excluded_cache'),\n        ('scratch.txt', 'excluded_unlisted'),\n    }\n    actual = [(row.get('file', '').strip(), row.get('status', '').strip()) for row in rows]\n    ok = reader.fieldnames == ['file', 'status'] and len(actual) == 5 and len(set(actual)) == 5 and set(actual) == expected\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "metadata": {
+        "path": "/tmp/patch/bundle_manifest.csv"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/patch/project/normalizer.py",
+        "trusted_root": "/tmp/patch/project",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "ba41e733aade08724d345ac841856c8a1154581d34bf2db17d88caa2a721a964"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Preserve business source bytes for normalizer.py",
+      "metadata": {
+        "role": "business_source_guard_normalizer.py"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/patch/project/test_output.txt",
+        "trusted_root": "/tmp/patch/project",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "ec5ce487789f0bf1b922299cf02b3e3633d037e37a94d17df2b3bbbe3ed5fcc6"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Preserve business source bytes for test_output.txt",
+      "metadata": {
+        "role": "business_source_guard_test_output.txt"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/patch/project/scratch.txt",
+        "trusted_root": "/tmp/patch/project",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "a27110a155b1dd079db5ea8fee149a2b80019f48b359a7852f281a7720fe15a8"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Preserve business source bytes for scratch.txt",
+      "metadata": {
+        "role": "business_source_guard_scratch.txt"
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/patch/patch_manifest.json",
+        "trusted_root": "/tmp/patch",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "22cea3ffc8d4554a25a17afeca7fd33de3073177e14e8a75a28358bcc1892129"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "patch_manifest_source_guard"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nimport csv\nimport zipfile\ntry:\n    with open('/tmp/patch/bundle_manifest.csv', newline='', encoding='utf-8-sig') as handle:\n        rows = list(csv.DictReader(handle))\n    included = {row.get('file', '').strip() for row in rows if row.get('status', '').strip() == 'included'}\n    excluded = {row.get('file', '').strip() for row in rows if row.get('status', '').strip().startswith('excluded_')}\n    with zipfile.ZipFile('/tmp/patch/patch_bundle.zip') as archive:\n        names = archive.namelist()\n    ok = len(names) == len(set(names)) and not any(name.endswith('/') for name in names)\n    ok = ok and set(names) == included and excluded.isdisjoint(names)\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "archive_manifest_consistency_guard"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "linux_only",
+    "device_topology": "2linux",
+    "surfaces": [
+      "json",
+      "python",
+      "zip",
+      "csv"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_295",
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/patch/patch_manifest.json"
+      ],
+      "linux_1": [
+        "/tmp/patch/project/normalizer.py",
+        "/tmp/patch/project/test_output.txt",
+        "/tmp/patch/project/__pycache__/normalizer.pyc",
+        "/tmp/patch/project/.pytest_cache/README.md",
+        "/tmp/patch/project/scratch.txt"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/patch/patch_bundle.zip",
+        "/tmp/patch/bundle_manifest.csv"
+      ]
+    },
+    "setup_note": "Generated setup configures linux_0 and linux_1 from visible Linux sources.",
+    "evaluate_note": "Evaluation checks durable outputs on linux_1 with source guards disabled for scoring.",
+    "source_number": 295,
+    "candidate_triage": {
+      "batch_id": "plan6-linux-only-dual-linux-B0005",
+      "decision": "direct",
+      "rationale": "Supported patch bundle filtering with explicit cache and unlisted exclusions."
+    },
+    "oracle_ref": "tasks/cross_device/linux_only_assets/linux_only_295/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/linux_only_assets/linux_only_295/episode_config.json",
+    "lite_hardening_note": "Smoke repair: create ignored cache decoys during setup instead of uploading ignored local cache assets.",
+    "lite_evaluator_hardening_note": "ZIP scoring requires exactly the two manifest-approved members with bytes matching the source files; CSV scoring requires the exact five unique disposition rows."
+  }
+}

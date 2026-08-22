@@ -1,0 +1,206 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 981,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1231,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/window/board.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_981/source/linux_1/tmp/window/board.xlsx",
+          "sheet": "Board",
+          "allowed_changes": [
+            "Board!G2",
+            "Board!H2",
+            "Board!G3",
+            "Board!H3",
+            "Board!G4",
+            "Board!H4",
+            "Board!G5",
+            "Board!H5"
+          ],
+          "preserve_layout": true,
+          "cells": {
+            "G2": "Executed",
+            "H2": "open_pct 60",
+            "G3": "Blocked",
+            "H3": "on",
+            "G4": "Expired",
+            "H4": "medium",
+            "G5": "Already Applied",
+            "H5": "brightness 35"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/window/board.xlsx"
+      },
+      "name": "bounded change-window workbook decisions"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "office_curtain_1": {
+                "open_pct": 60
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
+          }
+        }
+      },
+      "name": "only the open-window office curtain changes state"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "office_curtain_1",
+                "command": "set_open_pct",
+                "args": {
+                  "open_pct": 60
+                }
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "direct commands are restricted to curtain 60 retries"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "no change-window schedule is added"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "no change-window workflow is added"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-07-15T12:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 23.0,
+        "humidity_pct": 44.0,
+        "brightness_lux": 900.0,
+        "air_quality_pm25": 27.5,
+        "noise_level_db": 35.8,
+        "occupied": false
+      },
+      "kitchen": {
+        "temperature_c": 20.5,
+        "humidity_pct": 44.6,
+        "brightness_lux": 675.0,
+        "air_quality_pm25": 52.1,
+        "noise_level_db": 34.1,
+        "occupied": true
+      },
+      "office": {
+        "temperature_c": 21.6,
+        "humidity_pct": 42.3,
+        "brightness_lux": 505.0,
+        "air_quality_pm25": 45.9,
+        "noise_level_db": 32.5,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "kitchen_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "office_curtain_1",
+        "device_type": "curtain",
+        "room_id": "office",
+        "state": {
+          "open_pct": 20,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "office_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "office",
+        "state": {
+          "power": "on",
+          "brightness_pct": 35
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

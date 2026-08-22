@@ -1,0 +1,85 @@
+{
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/1080-A_blocked.md",
+        "rules": {
+          "entities": [
+            "1080-A",
+            "NX08091",
+            "Mira Patel",
+            "+1555011991",
+            "+1555011881"
+          ],
+          "required_phrases": [
+            [
+              "mismatch",
+              "does not match",
+              "different",
+              "conflicts"
+            ]
+          ],
+          "positive_phrases": [
+            "blocked",
+            "do not send",
+            "must not send"
+          ],
+          "conflict_phrases": [
+            "not blocked",
+            "numbers match",
+            "phones match",
+            "safe to send",
+            "message sent"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+1555011991",
+        "any_body": true,
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+1555011881",
+        "any_body": true,
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "task_id": "linux_android_1080",
+    "source_plan": "plan6"
+  }
+}

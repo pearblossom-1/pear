@@ -1,0 +1,482 @@
+{
+  "id": "android_only_274",
+  "instruction": "`sort_manifest.csv` on the first phone defines keep, review, and skip rules. Sort the available files from Download/incoming on the second phone into Keep and Review. Leave `Sort summary.md` in Markor for the intake coordinator, listing every manifest filename and whether it was moved, left in incoming, or missing.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_only_assets/android_only_274/android_0/files/sort_manifest.csv",
+                "path": "/sdcard/Download/sort_manifest.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/sdcard/Download",
+            "expected_filenames": [
+              "sort_manifest.csv"
+            ],
+            "missing_filenames": [],
+            "open_filename": "sort_manifest.csv",
+            "required_visible_text": [
+              "keep_alpha.txt,keep",
+              "review_beta.txt,review",
+              "skip_notes.txt,skip",
+              "missing_gamma.txt,review"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_filesystem_snapshot",
+          "parameters": {
+            "snapshot_id": "android_only_274_manifest",
+            "directories": [],
+            "files": [
+              "/sdcard/Download/sort_manifest.csv"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -rf /sdcard/Download/incoming /sdcard/Download/Keep /sdcard/Download/Review && mkdir -p /sdcard/Download/incoming /sdcard/Download/Keep /sdcard/Download/Review '/storage/emulated/0/Documents/Markor' && rm -f '/storage/emulated/0/Documents/Markor/Sort summary.md' '/storage/emulated/0/Documents/Markor/Markor availability 274.md'"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "cat > '/storage/emulated/0/Documents/Markor/Markor availability 274.md' <<'EOF'\nMarkor availability check 274\nEOF"
+          }
+        },
+        {
+          "type": "androidworld_markor_note_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor/Markor availability 274.md",
+            "required_visible_text": [
+              "Markor availability check 274"
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Markor availability 274.md'"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "cat > /sdcard/Download/incoming/keep_alpha.txt <<'EOF'\nalpha\nEOF"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "cat > /sdcard/Download/incoming/review_beta.txt <<'EOF'\nbeta\nEOF"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "cat > /sdcard/Download/incoming/skip_notes.txt <<'EOF'\nskip\nEOF"
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/sdcard/Download/incoming",
+            "expected_filenames": [
+              "keep_alpha.txt",
+              "review_beta.txt",
+              "skip_notes.txt"
+            ],
+            "missing_filenames": [
+              "missing_gamma.txt"
+            ],
+            "open_filename": "skip_notes.txt",
+            "required_visible_text": [
+              "skip"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_filesystem_snapshot",
+          "parameters": {
+            "snapshot_id": "android_only_274_incoming_files",
+            "directories": [],
+            "files": [
+              "/sdcard/Download/incoming/keep_alpha.txt",
+              "/sdcard/Download/incoming/review_beta.txt",
+              "/sdcard/Download/incoming/skip_notes.txt"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /sdcard/Download/sort_manifest.csv"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -rf /sdcard/Download/incoming /sdcard/Download/Keep /sdcard/Download/Review && rm -f '/storage/emulated/0/Documents/Markor/Sort summary.md' '/storage/emulated/0/Documents/Markor/Markor availability 274.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Redistribute the three available files without changing their bytes",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_filesystem_snapshot_state",
+        "snapshot_id": "android_only_274_incoming_files",
+        "preserve_directories": [],
+        "file_mappings": [
+          {
+            "baseline_path": "/sdcard/Download/incoming/keep_alpha.txt",
+            "current_path": "/sdcard/Download/Keep/keep_alpha.txt"
+          },
+          {
+            "baseline_path": "/sdcard/Download/incoming/review_beta.txt",
+            "current_path": "/sdcard/Download/Review/review_beta.txt"
+          },
+          {
+            "baseline_path": "/sdcard/Download/incoming/skip_notes.txt",
+            "current_path": "/sdcard/Download/incoming/skip_notes.txt"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    },
+    {
+      "name": "keep_alpha is removed from incoming",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/incoming/keep_alpha.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "keep_alpha has no Review duplicate",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/Review/keep_alpha.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "review_beta is removed from incoming",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/incoming/review_beta.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "review_beta has no Keep duplicate",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/Keep/review_beta.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "skip_notes has no Keep duplicate",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/Keep/skip_notes.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "skip_notes has no Review duplicate",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/Review/skip_notes.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "missing_gamma stays absent from incoming",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/incoming/missing_gamma.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "missing_gamma stays absent from Keep",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/Keep/missing_gamma.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "missing_gamma stays absent from Review",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/Review/missing_gamma.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Explain every manifest disposition in Sort summary.md",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Sort summary.md",
+        "rules": {
+          "entities": [
+            "keep_alpha.txt",
+            "review_beta.txt",
+            "skip_notes.txt",
+            "missing_gamma.txt"
+          ],
+          "allowed_negative_capability_phrases": [
+            "not moved"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "keep_alpha.txt"
+              ],
+              "phrases": [
+                "moved to Keep",
+                "in Keep"
+              ],
+              "conflicts": [
+                "Review"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "review_beta.txt"
+              ],
+              "phrases": [
+                "moved to Review",
+                "in Review"
+              ],
+              "conflicts": [
+                "Keep"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "skip_notes.txt"
+              ],
+              "phrases": [
+                "incoming",
+                "skipped",
+                "left in incoming"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "missing_gamma.txt"
+              ],
+              "phrases": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "name": "Preserve sort_manifest.csv byte for byte",
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_filesystem_snapshot_state",
+        "snapshot_id": "android_only_274_manifest",
+        "preserve_directories": [],
+        "file_mappings": [
+          {
+            "baseline_path": "/sdcard/Download/sort_manifest.csv",
+            "current_path": "/sdcard/Download/sort_manifest.csv"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "android_only",
+    "device_topology": "2android",
+    "surfaces": [
+      "files",
+      "markor"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/android_only_assets/android_only_274",
+    "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",
+    "evaluate_note": "Evaluation checks exact recursive redistribution, baseline bytes, the four semantic summary relations, and preservation of the manifest source.",
+    "source_number": 274,
+    "candidate_triage": {
+      "batch_id": "plan6-android-only-dual-android-B0004",
+      "decision": "direct",
+      "rationale": "Supported manifest-driven file sort with skip file preserved and missing file reported."
+    },
+    "oracle_ref": "tasks/cross_device/android_only_assets/android_only_274/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_274/episode_config.json",
+    "lite_hardening_note": "Removed unscored Android source-state evaluators and consolidated file-output checks where appropriate."
+  }
+}

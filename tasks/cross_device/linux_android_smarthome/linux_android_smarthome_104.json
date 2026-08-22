@@ -1,0 +1,271 @@
+{
+  "id": "linux_android_smarthome_104",
+  "instruction": "Prepare the Living room for Sam's visit. Derive the visit time and reply number from Calendar, the requested settings from /tmp/guest/card.png, and the mapping and lead-time rule from /tmp/guest/standards.xlsx. Schedule one active SmartHome workflow for the preparation and send Sam a concise confirmation with the preparation time and settings.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/guest",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_104/source/tmp/guest/card.png",
+                "path": "/tmp/guest/card.png"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_104/source/tmp/guest/standards.xlsx",
+                "path": "/tmp/guest/standards.xlsx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "nohup libreoffice --calc '/tmp/guest/standards.xlsx' >'/tmp/guest/standards-calc.log' 2>&1 </dev/null & nohup xdg-open '/tmp/guest/card.png' >'/tmp/guest/card-viewer.log' 2>&1 </dev/null &",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Sam visit",
+            "start_ts": 1781638200,
+            "end_ts": 1781643600,
+            "location": "Living room",
+            "description": "Contact: +1555020401"
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Sam visit",
+            "start_ts": 1781638200,
+            "location": "Living room",
+            "description": "Contact: +1555020401",
+            "search_text": "Sam"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_104/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/guest/card.png /tmp/guest/card-viewer.log /tmp/guest/standards.xlsx /tmp/guest/standards-calc.log; rmdir /tmp/guest 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+1555020401",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            "Living room",
+            [
+              "19:00",
+              "7:00 PM"
+            ],
+            [
+              "23 C",
+              "23 degrees"
+            ],
+            [
+              "60%",
+              "60 percent"
+            ],
+            [
+              "purifier high",
+              "high purifier"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "scheduled",
+              "will be prepared",
+              "will be ready",
+              "prepared at",
+              "preparation time"
+            ]
+          ],
+          "conflict_phrases": [
+            "not ready",
+            "cancelled",
+            "pending",
+            "already ready",
+            "already prepared",
+            "is ready",
+            "is prepared",
+            "was ready",
+            "was prepared",
+            "ready now",
+            "prepared now"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T19:00:00",
+            "status": "active",
+            "exact_active_workflow_count": 1,
+            "effects": {
+              "living_room_heater_1": {
+                "power": "on",
+                "target_temperature_c": 23.0
+              },
+              "living_room_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 60
+              },
+              "living_room_air_purifier_1": {
+                "power": "on",
+                "level": "high"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Pilot 104 guest preference image.",
+    "surfaces": [
+      "calendar",
+      "sms",
+      "linux_image",
+      "linux_xlsx",
+      "home_workflow"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_104",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_104/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_104/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/guest/card.png",
+      "/tmp/guest/standards.xlsx"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/guest/card.png",
+        "/tmp/guest/standards.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "pilot_index": 104
+  }
+}

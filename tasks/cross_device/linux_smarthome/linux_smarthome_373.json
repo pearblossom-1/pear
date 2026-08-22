@@ -1,0 +1,229 @@
+{
+  "id": "linux_smarthome_373",
+  "instruction": "Use `/tmp/climate/rooms.csv` as the checklist, query the live SmartHome capabilities, and fill the preformatted Heat Capable and Cool Capable columns in `/tmp/climate/capability.xlsx`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/climate/rooms.csv /tmp/climate/capability.xlsx && mkdir -p -- /tmp/climate",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_373/source/tmp/climate/rooms.csv",
+                "path": "/tmp/climate/rooms.csv"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_373/source/tmp/climate/capability.xlsx",
+                "path": "/tmp/climate/capability.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_373/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/climate/rooms.csv /tmp/climate/capability.xlsx; find /tmp/climate -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/climate/capability.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_373/source/tmp/climate/capability.xlsx",
+          "allowed_changes": [
+            "Capability Review!B2",
+            "Capability Review!C2",
+            "Capability Review!B3",
+            "Capability Review!C3",
+            "Capability Review!B4",
+            "Capability Review!C4"
+          ],
+          "preserve_layout": true,
+          "sheet": "Capability Review",
+          "cells": {
+            "B2": "yes",
+            "C2": "no",
+            "B3": "yes",
+            "C3": "yes",
+            "B4": "yes",
+            "C4": "yes"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/climate/capability.xlsx"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_373",
+    "surfaces": [
+      "linux.csv",
+      "linux.xlsx",
+      "smarthome.capability",
+      "smarthome.home_state"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_373",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_373/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_373/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/climate/rooms.csv",
+      "/tmp/climate/capability.xlsx"
+    ],
+    "linux_output_paths": [
+      "/tmp/climate/capability.xlsx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/climate/rooms.csv",
+        "/tmp/climate/capability.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [
+        "/tmp/climate/capability.xlsx"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "linux_smarthome",
+      "linux_device": "linux_0",
+      "linux_devices": [
+        "linux_0"
+      ],
+      "room_ids": [
+        "bedroom",
+        "guest_room",
+        "living_room",
+        "study"
+      ],
+      "device_type_counts": {
+        "air_conditioner": 3,
+        "curtain": 1,
+        "dehumidifier": 1,
+        "dimmable_light": 1,
+        "heater": 2,
+        "light": 1,
+        "robot_vacuum": 1
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 2,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-16T19:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "surface": "linux.xlsx",
+        "path": "/tmp/climate/capability.xlsx",
+        "goal": "Create or update the task result at this path.",
+        "func": "check_xlsx_cells",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/climate/rooms.csv and the preformatted /tmp/climate/capability.xlsx, then resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the completed heat/cool capability workbook using the visible controlled yes/no values.",
+    "idea_number": 373,
+    "coverage_group": "query_image_browser"
+  }
+}

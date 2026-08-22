@@ -1,0 +1,412 @@
+{
+  "id": "android_smarthome_357",
+  "instruction": "The first phone has Mira's arrival task and OsmAnd favorite, and the second has her contact and room preferences. Schedule the guest-room prep 30 minutes before arrival, record the entrance, scheduled time, temperature, and light setting in a Markor note titled `Mira guest prep log`, then text Mira the room and prep time.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_task_add",
+          "parameters": {
+            "title": "Mira arrival HOME-G",
+            "notes": "Route code HOME-G arrives 2026-06-16T20:30:00. Prepare 30 minutes before.",
+            "dueDate": 0,
+            "completed": 0
+          }
+        },
+        {
+          "type": "androidworld_task_record_preflight",
+          "parameters": {
+            "task": {
+              "title": "Mira arrival HOME-G",
+              "notes": "Route code HOME-G arrives 2026-06-16T20:30:00. Prepare 30 minutes before.",
+              "dueDate": 0,
+              "completed": 0
+            },
+            "required_visible_text": [
+              "Mira arrival HOME-G",
+              "HOME-G",
+              "20:30",
+              "Prepare 30 minutes before"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "osmand"
+          }
+        },
+        {
+          "type": "androidworld_osmand_favorites_setup",
+          "parameters": {}
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_357/android/android_0/osmand/favorites.gpx",
+                "path": "/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_osmand_favorites_preflight",
+          "parameters": {
+            "favorites": [
+              {
+                "name": "Guest Entrance",
+                "latitude": "47.621100",
+                "longitude": "-122.350100"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Mira Visitor",
+            "number": "5550357",
+            "notes": "Prefers guest room 23 C and light 48%."
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Mira Visitor",
+              "number": "5550357",
+              "notes_exact": "Prefers guest room 23 C and light 48%."
+            },
+            "required_visible_text": [
+              "Mira Visitor",
+              "23 C",
+              "48%"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Mira guest prep log.md'"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_357/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx /data/data/net.osmand/files/favourites_bak.gpx"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Mira guest prep log.md'"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Mira guest prep log.md",
+        "rules": {
+          "entities": [
+            "Guest Entrance",
+            "20:00",
+            [
+              "23 C",
+              "23C"
+            ],
+            [
+              "48%",
+              "48 percent"
+            ]
+          ],
+          "conflict_phrases": [
+            "not scheduled",
+            "cancelled",
+            "pending",
+            "applied now",
+            "already prepared",
+            "currently prepared"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "guest-room preparation",
+                  "guest room preparation",
+                  "guest-room prep",
+                  "guest room prep",
+                  "guest-room plan",
+                  "guest room plan",
+                  "guest room",
+                  "guest-room"
+                ],
+                [
+                  "scheduled",
+                  "planned",
+                  "arranged",
+                  "will be prepared"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "guest-room preparation note states a future scheduled relation"
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550357",
+        "body_relation": {
+          "entities": [
+            [
+              "guest room",
+              "guest-room",
+              "guest bedroom"
+            ],
+            "20:00"
+          ],
+          "required_phrases": [
+            [
+              "prep",
+              "preparation",
+              "scheduled"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "not prepared",
+            "not ready",
+            "cancelled",
+            "failed"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "SMS to Mira names the guest-room 20:00 preparation"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_planned_effects",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "exact_active_plan_count": 1,
+            "plans": [
+              {
+                "run_at": "2026-06-16T20:00:00",
+                "effects": {
+                  "guest_room_heater_1": {
+                    "power": "on",
+                    "target_temperature_c": 23.0
+                  },
+                  "guest_room_dimmable_light_1": {
+                    "power": "on",
+                    "brightness_pct": 48
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "name": "the exact 20:00 guest-room effects may use a workflow or equivalent schedules"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_device_change",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "device_id": "guest_room_heater_1"
+          }
+        }
+      },
+      "name": "guest-room heater baseline is unchanged before 20:00"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_device_change",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "device_id": "guest_room_dimmable_light_1"
+          }
+        }
+      },
+      "name": "guest-room light baseline is unchanged before 20:00"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_357",
+    "surfaces": [
+      "osmand",
+      "tasks",
+      "contacts",
+      "markor",
+      "sms",
+      "home_workflow"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "adb_shell",
+      "androidworld_sms_message",
+      "smarthome_workflows"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluates the exact Mira guest-prep Markor log, sent SMS, complete future workflow, and immediate no-change on both targets.",
+    "device_topology": "2android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_357",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_357/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_357/oracle_positive.json",
+    "idea_number": 357,
+    "candidate_triage": {
+      "batch_id": "plan5-android-smarthome-269-368-B0005",
+      "decision": "repair",
+      "rationale": "OsmAnd verifies the favorite exists; route task and contact preferences supply stable timing and parameters."
+    },
+    "lite_hardening_note": "Removed unscored Android source-state evaluators; retained output and SmartHome outcome checks.",
+    "lite_evaluator_hardening_note": "The visible task title scopes Markor evaluation and cleanup to one exact task-owned note, preserving unrelated notes."
+  }
+}

@@ -1,0 +1,168 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 982,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1232,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/access/requests.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_982/source/linux_1/tmp/access/requests.xlsx",
+          "allowed_changes": [
+            "Requests!E2",
+            "Requests!F2",
+            "Requests!G2",
+            "Requests!H2",
+            "Requests!E3",
+            "Requests!F3",
+            "Requests!G3",
+            "Requests!H3",
+            "Requests!E4",
+            "Requests!F4",
+            "Requests!G4",
+            "Requests!H4",
+            "Requests!E5",
+            "Requests!F5",
+            "Requests!G5",
+            "Requests!H5"
+          ],
+          "preserve_layout": true,
+          "sheet": "Requests",
+          "cells": {
+            "G2": "Authorized",
+            "H2": "open_pct 55",
+            "G3": "Unauthorized",
+            "H3": "open_pct 10",
+            "G4": "Protected",
+            "H4": "on",
+            "G5": "Unsupported",
+            "H5": "off"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/access/requests.xlsx"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "office_curtain_1": {
+                "open_pct": 55
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "office_curtain_1",
+                "command": "set_open_pct",
+                "args": {
+                  "open_pct": 55
+                }
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-07-15T12:05:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 24.0,
+        "humidity_pct": 42.7,
+        "brightness_lux": 250.0,
+        "air_quality_pm25": 49.5,
+        "noise_level_db": 31.4,
+        "occupied": true
+      },
+      "office": {
+        "temperature_c": 23.5,
+        "humidity_pct": 43.1,
+        "brightness_lux": 60.0,
+        "air_quality_pm25": 51.1,
+        "noise_level_db": 43.1,
+        "occupied": true
+      },
+      "entry": {
+        "temperature_c": 22.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 30.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "protected": true
+        }
+      },
+      {
+        "device_id": "entry_light_1",
+        "device_type": "light",
+        "room_id": "entry",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "office_curtain_1",
+        "device_type": "curtain",
+        "room_id": "office",
+        "state": {
+          "open_pct": 10,
+          "status": "partial"
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

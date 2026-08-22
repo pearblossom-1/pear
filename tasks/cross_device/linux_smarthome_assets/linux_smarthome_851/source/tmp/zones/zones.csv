@@ -1,0 +1,5 @@
+zone,label,room,handling
+Z1,blue northwest,living room,normal request
+Z2,orange northeast,bedroom,protected room - do not control devices
+Z3,green southwest,guest room,normal request subject to device availability
+Z4,purple southeast,hallway,normal request subject to live state

@@ -1,0 +1,319 @@
+{
+  "meta": {
+    "sh_type": "SH_android_smarthome",
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1144,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551440",
+        "recent_within_mins": 30,
+        "require_exactly_one_for_address": true,
+        "body_relation": {
+          "entities": [
+            [
+              "bedtime"
+            ],
+            [
+              "19:20",
+              "7:20 PM",
+              "7.20 PM"
+            ],
+            [
+              "curtain"
+            ],
+            [
+              "close",
+              "closed"
+            ],
+            [
+              "light"
+            ],
+            [
+              "15",
+              "15%"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "scheduled",
+              "will close",
+              "will dim"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "bedtime",
+                [
+                  "19:20",
+                  "7:20 PM",
+                  "7.20 PM"
+                ]
+              ],
+              "phrases": [
+                [
+                  "scheduled",
+                  "set for"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "curtain",
+                [
+                  "close",
+                  "closed"
+                ]
+              ],
+              "phrases": [
+                [
+                  "will close",
+                  "scheduled to close",
+                  "is scheduled to close"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "light",
+                [
+                  "15",
+                  "15%"
+                ],
+                [
+                  "dim",
+                  "dimmed"
+                ]
+              ],
+              "phrases": [
+                [
+                  "will dim",
+                  "scheduled to dim",
+                  "is scheduled to dim"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "conflict_phrases": [
+            "pending",
+            "cancelled",
+            "canceled",
+            "not scheduled",
+            "not active",
+            "will not close",
+            "will not dim"
+          ],
+          "required_phrases": [
+            [
+              "dim",
+              "dimmed"
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "Bedtime Updates receives the future 19:20 curtain-and-light plan"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_planned_effects",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "exact_active_plan_count": 1,
+            "plans": [
+              {
+                "run_at": "2026-06-16T19:20:00",
+                "effects": {
+                  "bedroom_curtain_1": {
+                    "open_pct": 0
+                  },
+                  "bedroom_dimmable_light_1": {
+                    "power": "on",
+                    "brightness_pct": 15
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "name": "the exact 19:20 bedtime effects may use a workflow or equivalent schedules"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_multi_condition",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "devices": {
+              "bedroom_curtain_1": {
+                "open_pct": 80,
+                "status": "partial"
+              },
+              "bedroom_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 70
+              }
+            }
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "bedroom curtain and light remain at their current baseline"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 23.6,
+        "humidity_pct": 43.4,
+        "brightness_lux": 825.0,
+        "air_quality_pm25": 49.7,
+        "noise_level_db": 34.0,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 23.8,
+        "humidity_pct": 48.1,
+        "brightness_lux": 60.0,
+        "air_quality_pm25": 46.1,
+        "noise_level_db": 28.2,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "mode": "fan",
+          "target_temperature_c": 20.0
+        }
+      },
+      {
+        "device_id": "bedroom_curtain_1",
+        "device_type": "curtain",
+        "room_id": "bedroom",
+        "state": {
+          "open_pct": 80,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "bedroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "brightness_pct": 70
+        }
+      },
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "mode": "heat",
+          "target_temperature_c": 25.0
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 20,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 25.0
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "status": "paused",
+          "battery_pct": 97
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

@@ -1,0 +1,13 @@
+case_id,owner,phone,status,code,target,due_time,priority
+997-00,Mira Patel,+1555011881,pending,D9970,Calendar and SMS mismatch Clock,2026-07-17 08:30,normal
+997-01,Jon Bell,+1555011882,pending,D9971,Calendar and SMS mismatch Clock,2026-07-18 09:30,normal
+997-02,Nadia Ross,+1555011883,pending,D9972,Calendar and SMS mismatch Clock,2026-07-19 10:30,normal
+997-A,Priya Shah,+1555011886,blocked,NX99792,Calendar and SMS mismatch Clock,2026-07-20 11:30,high
+997-04,Elena Cruz,+1555011885,pending,D9974,Calendar and SMS mismatch Clock,2026-07-21 12:30,normal
+997-05,Priya Shah,+1555011886,pending,D9975,Calendar and SMS mismatch Clock,2026-07-22 13:30,normal
+997-06,Owen Park,+1555011887,pending,D9976,Calendar and SMS mismatch Clock,2026-07-23 14:30,normal
+997-D,Priya Shah,+1555011888,hold,D9977,Calendar and SMS mismatch Clock,2026-07-24 15:30,normal
+997-08,Mira Patel,+1555011881,pending,D9978,Calendar and SMS mismatch Clock,2026-07-10 16:30,normal
+997-09,Jon Bell,+1555011882,pending,D9979,Calendar and SMS mismatch Clock,2026-07-11 08:30,normal
+997-10,Nadia Ross,+1555011883,pending,D99710,Calendar and SMS mismatch Clock,2026-07-12 09:30,normal
+997-11,Tao Lin,+1555011884,pending,D99711,Calendar and SMS mismatch Clock,2026-07-13 10:30,normal

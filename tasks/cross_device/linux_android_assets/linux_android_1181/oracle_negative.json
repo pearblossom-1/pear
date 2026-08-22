@@ -1,0 +1,15 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "5551201181",
+          "body": "CASE-4187 parts allocated is false; Depot pickup Friday is obsolete."
+        }
+      }
+    ]
+  },
+  "notes": "Negative smoke includes every anchor while explicitly contradicting the requested allocation and pickup."
+}

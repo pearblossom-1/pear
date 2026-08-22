@@ -1,0 +1,129 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 656,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 906,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "office_air_conditioner_1": {
+                "power": "on",
+                "mode": "cool",
+                "target_temperature_c": 24.0
+              },
+              "study_heater_1": {
+                "power": "on"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_json_exact_object",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/climate/fallback_result.json"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "object": {
+            "rooms": {
+              "office": {
+                "status": "applied",
+                "device": "air conditioner",
+                "target_c": 24
+              },
+              "study": {
+                "status": "applied",
+                "device": "heater",
+                "target_c": 22
+              },
+              "guest room": {
+                "status": "unavailable",
+                "reason": "no climate device"
+              }
+            }
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/climate/fallback_result.json"
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-25T12:00:00",
+    "rooms": {
+      "guest_room": {
+        "temperature_c": 21.0,
+        "humidity_pct": 46.4,
+        "brightness_lux": 240.0,
+        "air_quality_pm25": 59.4,
+        "noise_level_db": 29.0,
+        "occupied": false
+      },
+      "office": {
+        "temperature_c": 21.0,
+        "humidity_pct": 55.4,
+        "brightness_lux": 146.4,
+        "air_quality_pm25": 54.5,
+        "noise_level_db": 27.8,
+        "occupied": false
+      },
+      "study": {
+        "temperature_c": 23.4,
+        "humidity_pct": 51.3,
+        "brightness_lux": 68.6,
+        "air_quality_pm25": 58.2,
+        "noise_level_db": 34.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "office_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "office",
+        "state": {
+          "power": "off",
+          "mode": "auto",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "study_heater_1",
+        "device_type": "heater",
+        "room_id": "study",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 22.0
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

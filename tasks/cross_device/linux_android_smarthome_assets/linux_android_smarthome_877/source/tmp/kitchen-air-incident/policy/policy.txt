@@ -1,0 +1,1 @@
+Current rule: kitchen critical air issues require the kitchen purifier to be set to high immediately, followed by a reply in the existing incident thread and completion of the incident register. Do not change devices in other rooms or create unrelated SmartHome plans.

@@ -1,0 +1,304 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 475,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 475,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Quiet Piano decision.md",
+        "rules": {
+          "entities": [
+            "Quiet Piano",
+            "bedroom",
+            [
+              "old vacuum",
+              "music vacuum"
+            ],
+            [
+              "light on",
+              "light turned on"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "applied",
+              "complete"
+            ],
+            [
+              "cancelled",
+              "retired"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "proposed",
+            "light not on",
+            "vacuum remains active"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true,
+          "allowed_reversal_terms": [
+            "cancelled"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_status",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "workflow_id": "old_music_vacuum_475",
+            "status": "cancelled"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "bedroom_light_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on"
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T18:00:00",
+    "rooms": {
+      "bathroom": {
+        "temperature_c": 24.6,
+        "humidity_pct": 73.0,
+        "brightness_lux": 175.1,
+        "air_quality_pm25": 38.7,
+        "noise_level_db": 35.4,
+        "occupied": false
+      },
+      "bedroom": {
+        "temperature_c": 25.1,
+        "humidity_pct": 53.3,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 50.4,
+        "noise_level_db": 37.9,
+        "occupied": false
+      },
+      "guest_room": {
+        "temperature_c": 24.7,
+        "humidity_pct": 46.4,
+        "brightness_lux": 620.0,
+        "air_quality_pm25": 45.5,
+        "noise_level_db": 32.3,
+        "occupied": true
+      },
+      "living_room": {
+        "temperature_c": 24.4,
+        "humidity_pct": 59.9,
+        "brightness_lux": 325.0,
+        "air_quality_pm25": 43.9,
+        "noise_level_db": 35.7,
+        "occupied": false
+      },
+      "office": {
+        "temperature_c": 23.3,
+        "humidity_pct": 50.0,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 52.7,
+        "noise_level_db": 45.5,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bathroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bathroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 23.0
+        }
+      },
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "bedroom_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "status": "docked",
+          "battery_pct": 75
+        }
+      },
+      {
+        "device_id": "guest_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "guest_room",
+        "state": {
+          "open_pct": 40,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "guest_room_light_1",
+        "device_type": "light",
+        "room_id": "guest_room",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "mode": "fan",
+          "target_temperature_c": 21.0
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 65
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 29.0
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "office_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "office",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "office_heater_1",
+        "device_type": "heater",
+        "room_id": "office",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 23.0
+        }
+      },
+      {
+        "device_id": "office_light_1",
+        "device_type": "light",
+        "room_id": "office",
+        "state": {
+          "power": "on"
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [
+      {
+        "workflow_id": "old_music_vacuum_475",
+        "run_at": "2026-06-16T20:00:00",
+        "steps": [
+          {
+            "device_id": "bedroom_robot_vacuum_1",
+            "command": "start_cleaning",
+            "args": {}
+          }
+        ],
+        "status": "active",
+        "steps_done": 0,
+        "error": null
+      }
+    ],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

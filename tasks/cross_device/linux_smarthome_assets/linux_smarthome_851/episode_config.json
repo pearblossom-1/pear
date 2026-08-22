@@ -1,0 +1,153 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 851,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1101,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "living_room_curtain_1": {
+                "open_pct": 20
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/zones/requests.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_851/source/linux_1/tmp/zones/requests.xlsx",
+          "allowed_changes": [
+            "Requests!D2",
+            "Requests!E2",
+            "Requests!F2",
+            "Requests!D3",
+            "Requests!E3",
+            "Requests!F3",
+            "Requests!D4",
+            "Requests!E4",
+            "Requests!F4",
+            "Requests!D5",
+            "Requests!E5",
+            "Requests!F5"
+          ],
+          "preserve_layout": true,
+          "sheet": "Requests",
+          "cells": {
+            "D2": "living room",
+            "E2": "supported",
+            "F2": "Supported",
+            "D3": "bedroom",
+            "E3": "protected",
+            "F3": "Protected",
+            "D4": "guest room",
+            "E4": "missing",
+            "F4": "Missing",
+            "D5": "hallway",
+            "E5": "already satisfied",
+            "F5": "No Action"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/zones/requests.xlsx"
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 24.2,
+        "humidity_pct": 53.2,
+        "brightness_lux": 1000.0,
+        "air_quality_pm25": 37.7,
+        "noise_level_db": 26.4,
+        "occupied": false
+      },
+      "guest_room": {
+        "temperature_c": 26.2,
+        "humidity_pct": 36.7,
+        "brightness_lux": 620.0,
+        "air_quality_pm25": 42.5,
+        "noise_level_db": 27.7,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 25.4,
+        "humidity_pct": 41.9,
+        "brightness_lux": 810.0,
+        "air_quality_pm25": 30.0,
+        "noise_level_db": 41.8,
+        "occupied": false
+      },
+      "hallway": {
+        "temperature_c": 22.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 30.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "brightness_pct": 35
+        }
+      },
+      {
+        "device_id": "hallway_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "hallway",
+        "state": {
+          "power": "on",
+          "brightness_pct": 20
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 80,
+          "status": "partial"
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

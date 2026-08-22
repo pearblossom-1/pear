@@ -1,0 +1,231 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 520,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 770,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "office_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 40
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_infeasible_reports": true,
+            "preserve_answer_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/floor/completed-register.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_520/source/linux_1/tmp/floor/requests.xlsx",
+          "allowed_changes": [
+            "Sheet1!D2",
+            "Sheet1!E2",
+            "Sheet1!F2",
+            "Sheet1!G2",
+            "Sheet1!D3",
+            "Sheet1!E3",
+            "Sheet1!F3",
+            "Sheet1!G3",
+            "Sheet1!D4",
+            "Sheet1!E4",
+            "Sheet1!F4",
+            "Sheet1!G4"
+          ],
+          "cells": {
+            "D2": "office",
+            "E2": {
+              "alternatives": [
+                "office dimmable light",
+                "office_dimmable_light_1"
+              ]
+            },
+            "F2": "Executed",
+            "D3": "bedroom",
+            "E3": {
+              "alternatives": [
+                "bedroom curtain",
+                "bedroom_curtain_1"
+              ]
+            },
+            "F3": "Protected",
+            "D4": "entry",
+            "E4": {
+              "alternatives": [
+                "entry light",
+                "entry_light_1"
+              ]
+            },
+            "F4": "Rejected"
+          },
+          "cell_rules": {
+            "G2": {
+              "entity_relation": {
+                "entities": [
+                  [
+                    "brightness",
+                    "light"
+                  ],
+                  [
+                    "40",
+                    "40%",
+                    "40 percent"
+                  ],
+                  [
+                    "set",
+                    "applied"
+                  ]
+                ],
+                "conflict_phrases": [
+                  "not applied",
+                  "pending",
+                  "failed",
+                  "rejected"
+                ],
+                "reject_questions": true,
+                "reject_uncertainty": true,
+                "reject_negated_relations": true
+              }
+            },
+            "G3": {
+              "entity_relation": {
+                "entities": [
+                  [
+                    "protected",
+                    "blocked"
+                  ],
+                  [
+                    "room",
+                    "bedroom",
+                    "room policy",
+                    "policy"
+                  ]
+                ],
+                "conflict_phrases": [
+                  "not protected",
+                  "executed",
+                  "applied"
+                ],
+                "reject_questions": true,
+                "reject_uncertainty": true,
+                "reject_negated_relations": true
+              }
+            },
+            "G4": {
+              "entity_relation": {
+                "entities": [
+                  [
+                    "unsupported dimming",
+                    "dimming unsupported",
+                    "no brightness control",
+                    "has no brightness control",
+                    "on/off only",
+                    "on off only"
+                  ]
+                ],
+                "conflict_phrases": [
+                  "supports dimming",
+                  "brightness applied",
+                  "executed"
+                ],
+                "reject_questions": true,
+                "reject_uncertainty": true,
+                "reject_negated_relations": true
+              }
+            }
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/floor/completed-register.xlsx"
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 20.4,
+        "humidity_pct": 45.2,
+        "brightness_lux": 180.0,
+        "air_quality_pm25": 20.6,
+        "noise_level_db": 28.0,
+        "occupied": true
+      },
+      "office": {
+        "temperature_c": 21.4,
+        "humidity_pct": 48.1,
+        "brightness_lux": 550.0,
+        "air_quality_pm25": 22.4,
+        "noise_level_db": 30.1,
+        "occupied": true
+      },
+      "entry": {
+        "temperature_c": 22.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 30.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_curtain_1",
+        "device_type": "curtain",
+        "room_id": "bedroom",
+        "state": {
+          "open_pct": 0,
+          "status": "closed"
+        }
+      },
+      {
+        "device_id": "entry_light_1",
+        "device_type": "light",
+        "room_id": "entry",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "office_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "office",
+        "state": {
+          "power": "off",
+          "brightness_pct": 0
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

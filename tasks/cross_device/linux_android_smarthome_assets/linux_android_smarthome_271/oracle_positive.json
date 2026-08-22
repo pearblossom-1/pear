@@ -1,0 +1,45 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /storage/emulated/0/Documents/Markor\ncat > '/storage/emulated/0/Documents/Markor/Evening priority decision.md' <<'EOF'\nOwner priority applied: the old fallback is cancelled and the 21:00 evening workflow is active.\nEOF"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.cancel_workflow",
+      "parameters": {
+        "workflow_id": "old_evening_mode"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_workflow",
+      "parameters": {
+        "workflow_id": "owner_evening_mode",
+        "run_at": "2026-06-16T21:00:00",
+        "steps": [
+          {
+            "device_id": "living_room_light_1",
+            "command": "turn_off",
+            "args": {}
+          },
+          {
+            "device_id": "living_room_curtain_1",
+            "command": "close",
+            "args": {}
+          }
+        ]
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

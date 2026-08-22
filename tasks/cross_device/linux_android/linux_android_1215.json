@@ -1,0 +1,236 @@
+{
+  "id": "linux_android_1215",
+  "instruction": "Check `/tmp/portal/request.html` for the requester's required ID. If it is missing, write a clear blocked note at `/storage/emulated/0/Documents/Markor/Portal Request Blocked.md` on the first phone and send the requester a concise blocked-status text from the second phone.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/portal/request.html && mkdir -p -- /tmp/portal",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1215/source/tmp/portal/request.html",
+                "path": "/tmp/portal/request.html"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Portal Request Blocked.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/portal/request.html; find /tmp/portal -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Portal Request Blocked.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Portal Request Blocked.md",
+        "rules": {
+          "entities": [["required ID", "required id"]],
+          "required_phrases": [["missing", "not present", "absent"]],
+          "positive_phrases": ["blocked", "cannot proceed", "cannot be processed"],
+          "conflict_phrases": ["ID present", "id is present", "not blocked", "ready", "approved"]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201215",
+        "body_relation": {
+          "entities": [
+            [
+              "required ID",
+              "requester ID",
+              "required identifier",
+              "requester identifier",
+              "required identification",
+              "requester identification"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "missing",
+              "not present",
+              "absent",
+              "not provided",
+              "unavailable"
+            ]
+          ],
+          "positive_phrases": [
+            "blocked",
+            "cannot proceed",
+            "unable to proceed",
+            "cannot be processed",
+            "unable to process",
+            "cannot submit",
+            "unable to submit"
+          ],
+          "conflict_phrases": [
+            "ID present",
+            "ID is present",
+            "identifier present",
+            "identification provided",
+            "request submitted",
+            "request processed",
+            "approved",
+            "ready"
+          ],
+          "allowed_negative_capability_phrases": [
+            "required ID was not provided",
+            "requester ID was not provided",
+            "required identifier was not provided",
+            "requester identifier was not provided",
+            "required identification was not provided",
+            "requester identification was not provided"
+          ],
+          "allowed_conflict_phrases": [
+            "not approved",
+            "not ready"
+          ]
+        },
+        "recent_within_mins": 30
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1215",
+    "surfaces": [
+      "markor",
+      "sms",
+      "linux.html"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1215",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1215/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1215/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/portal/request.html"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/portal/request.html"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1201-1220-B0002",
+    "candidate_triage": {
+      "decision": "direct",
+      "rationale": "Candidate is realistic, source-closed, and supported by existing Linux and Android helpers."
+    },
+    "structured_output_classification": {
+      "native_sms_notification": "primary_native_state"
+    },
+    "lite_evaluator_hardening_note": "Scores the exact task-owned Markor note with polarity-aware semantics and a recent affirmative native SMS."
+  }
+}

@@ -1,0 +1,157 @@
+{
+  "id": "linux_smarthome_063",
+  "instruction": "The recovery note is in /tmp/home/pages/kitchen-recovery.html; apply the kitchen air instruction.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/home/pages/kitchen-recovery.html && mkdir -p -- /tmp/home/pages",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_063/source/tmp/home/pages/kitchen-recovery.html",
+                "path": "/tmp/home/pages/kitchen-recovery.html"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_063/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/home/pages/kitchen-recovery.html; rmdir --ignore-fail-on-non-empty /tmp/home/pages /tmp/home 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "kitchen_air_purifier_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "level": "high"
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_063",
+    "surfaces": [
+      "linux_gui_source",
+      "home_command"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_063",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_063/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_063/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/home/pages/kitchen-recovery.html"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/home/pages/kitchen-recovery.html"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "linux_smarthome",
+      "linux_device": "linux_0",
+      "linux_devices": [
+        "linux_0"
+      ],
+      "room_ids": [
+        "bedroom",
+        "kitchen",
+        "living_room"
+      ],
+      "device_type_counts": {
+        "air_conditioner": 1,
+        "air_purifier": 2,
+        "curtain": 1,
+        "dehumidifier": 2,
+        "dimmable_light": 1,
+        "heater": 1,
+        "light": 2,
+        "robot_vacuum": 2
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 1,
+      "linux_outputs_expected": 0,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-16T19:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "home_0",
+        "surface": "home.state",
+        "goal": "Apply the requested SmartHome state, schedule, workflow, or report outcome.",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/home/pages/kitchen-recovery.html and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates that the kitchen purifier is powered on at High; no Linux output is required.",
+    "idea_number": 63
+  }
+}

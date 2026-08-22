@@ -1,0 +1,48 @@
+{
+  "task_id": "al_writer_from_note_gui",
+  "source_card": "137",
+  "device_topology": "1A+1L",
+  "difficulty": "Simple",
+  "motif": "M3",
+  "interaction_mode": "GUI-focused",
+  "instruction": "The Android Markor note `Memo draft` is a short notice. Please use LibreOffice Writer on Linux to create `/tmp/memo/memo.odt` with the title and body.",
+  "surfaces": "Android Markor -> Linux LibreOffice Writer",
+  "setup_note": "Android 写入 Memo draft note；Linux 清理 memo.odt。",
+  "evaluate_note": "Requires a real ODT package with the Writer office:text body, manifest, styles/meta parts, multiple paragraphs, and the complete note content.",
+  "requires_helper_audit": false,
+  "source_files": [],
+  "expected_files": [],
+  "instruction_visible_inputs": [],
+  "instruction_visible_outputs": [
+    "/tmp/memo/memo.odt"
+  ],
+  "native_content_outputs": [
+    {
+      "path": "/tmp/memo/memo.odt",
+      "func": "check_odf_text",
+      "expected_file": null,
+      "device_id": "linux_0",
+      "rules": {
+        "include": [
+          "Dock schedule change",
+          "badge pickup moves to 08:45",
+          "north desk",
+          "10:15"
+        ],
+        "exclude": [
+          "placeholder summary",
+          "WRONG-000"
+        ]
+      }
+    }
+  ],
+  "android_state_outputs": [],
+  "android_file_outputs": [],
+  "android_text_outputs": [],
+  "browser_state_outputs": [],
+  "thunderbird_draft_outputs": [],
+  "fixture_notes": [
+    "The source note is visible in Android Markor rather than disclosed in the instruction.",
+    "Content-only fake ZIP files and renamed text fail the structural package check; the oracle writes a real ODT."
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.report_infeasible",
+      "parameters": {
+        "category": "missing_room",
+        "reason": "The home has no guest room to control.",
+        "target": "guest_room"
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

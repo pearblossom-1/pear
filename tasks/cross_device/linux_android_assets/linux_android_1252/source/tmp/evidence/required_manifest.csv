@@ -1,0 +1,4 @@
+package_id,filename,required
+PKG-1252,signed_form.pdf,yes
+PKG-1252,field_photo.jpg,yes
+PKG-1252,field_photo_old.jpg,no

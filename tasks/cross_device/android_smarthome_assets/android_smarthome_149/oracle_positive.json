@@ -1,0 +1,39 @@
+{
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "5551490",
+          "body": "Kitchen PM2.5 is 91, above the 50 limit, so the purifier is now running on high."
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "kitchen_air_purifier_1",
+        "command": "turn_on",
+        "args": {}
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "kitchen_air_purifier_1",
+        "command": "set_level",
+        "args": {
+          "level": "high"
+        }
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

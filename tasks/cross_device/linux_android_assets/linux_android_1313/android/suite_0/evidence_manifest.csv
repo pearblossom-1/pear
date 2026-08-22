@@ -1,0 +1,4 @@
+package,filename,selected
+PKG-1313,form_a.pdf,yes
+PKG-1313,photo_a.jpg,yes
+PKG-0000,old_case.txt,no

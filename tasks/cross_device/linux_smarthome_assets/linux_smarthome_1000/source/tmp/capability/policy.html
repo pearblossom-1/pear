@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Capability Field Policy</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; color: #1f2937; }
+    table { border-collapse: collapse; min-width: 560px; }
+    th, td { border: 1px solid #9ca3af; padding: 6px 8px; text-align: left; }
+    th { background: #e5e7eb; }
+  </style>
+</head>
+<body>
+  <h1>Capability Field Policy</h1>
+  <table>
+    <thead><tr><th>field</th><th>handling</th></tr></thead>
+    <tbody>
+      <tr><td>open_pct</td><td>writable</td></tr>
+      <tr><td>target_temperature_c</td><td>writable via air conditioner</td></tr>
+      <tr><td>brightness_pct</td><td>requires dimmable light</td></tr>
+      <tr><td>battery_pct</td><td>read only telemetry</td></tr>
+    </tbody>
+  </table>
+  <p>A request that names only a room and temperature is an approved direct air-conditioner request when that room has an air conditioner. Turn the air conditioner on before setting its target.</p>
+</body>
+</html>

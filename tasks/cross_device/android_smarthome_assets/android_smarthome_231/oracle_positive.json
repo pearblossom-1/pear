@@ -1,0 +1,23 @@
+{
+  "android_setup": {
+    "android_0": []
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.report_infeasible",
+      "parameters": {
+        "category": "missing_device",
+      "reason": "The nursery has no air monitor, so the calibration request cannot be completed.",
+        "target": {
+          "room": "nursery",
+          "need": "air_monitor"
+        },
+        "details": {}
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

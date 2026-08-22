@@ -1,0 +1,41 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [],
+    "android_1": []
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_workflow",
+      "parameters": {
+        "workflow_id": "retro_scene_474",
+        "run_at": "2026-06-16T20:10:00",
+        "steps": [
+          {
+            "device_id": "living_room_dimmable_light_1",
+            "command": "turn_on",
+            "args": {}
+          },
+          {
+            "device_id": "living_room_dimmable_light_1",
+            "command": "set_brightness",
+            "args": {
+              "brightness_pct": 35
+            }
+          },
+          {
+            "device_id": "living_room_curtain_1",
+            "command": "set_open_pct",
+            "args": {
+              "open_pct": 50
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

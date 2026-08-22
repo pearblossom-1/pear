@@ -1,0 +1,361 @@
+{
+  "id": "linux_smarthome_670",
+  "instruction": "`/tmp/protection/current-diagram.png` and `/tmp/protection/current-manifest.json` on the first Linux machine list the current protected rooms and active window; `/tmp/protection/plan-audit.xlsx` on the second Linux machine is for auditing future plans. Please query SmartHome, cancel any item inside the window that would change a protected room without an exception, and complete the audit.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/protection/current-diagram.png /tmp/protection/current-manifest.json && mkdir -p -- /tmp/protection",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_670/source/tmp/protection/current-diagram.png",
+                "path": "/tmp/protection/current-diagram.png"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_670/source/tmp/protection/current-manifest.json",
+                "path": "/tmp/protection/current-manifest.json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/protection/plan-audit.xlsx && mkdir -p -- /tmp/protection",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_670/source/linux_1/tmp/protection/plan-audit.xlsx",
+                "path": "/tmp/protection/plan-audit.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_670/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/protection/current-diagram.png /tmp/protection/current-manifest.json; find /tmp/protection -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/protection/plan-audit.xlsx; find /tmp/protection -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_status",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "schedule_id": "bedroom_light_protected",
+            "run_at": "2026-06-26T09:00:00",
+            "device_id": "bedroom_light_1",
+            "command": "turn_on",
+            "args": {},
+            "status": "cancelled"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/protection/plan-audit.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_670/source/linux_1/tmp/protection/plan-audit.xlsx",
+          "allowed_changes": [
+            "Audit!D2",
+            "Audit!E2",
+            "Audit!F2",
+            "Audit!D3",
+            "Audit!E3",
+            "Audit!F3",
+            "Audit!D4",
+            "Audit!E4",
+            "Audit!F4"
+          ],
+          "preserve_layout": true,
+          "sheet": "Audit",
+          "cells": {
+            "D2": "protected - no exception",
+            "E2": "Cancel",
+            "F2": "Cancelled",
+            "D3": "allowed quiet exception",
+            "E3": "Keep",
+            "F3": "Active",
+            "D4": "not protected",
+            "E4": "Keep",
+            "F4": "Active"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/protection/plan-audit.xlsx"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_status",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "schedule_id": "office_light_regular",
+            "run_at": "2026-06-26T09:05:00",
+            "device_id": "office_light_1",
+            "command": "turn_on",
+            "args": {},
+            "status": "active"
+          }
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_status",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "workflow_id": "kids_room_quiet_exception",
+            "run_at": "2026-06-26T09:10:00",
+            "steps": [
+              {
+                "device_id": "kids_room_dimmable_light_1",
+                "command": "set_brightness",
+                "args": {
+                  "brightness_pct": 20
+                }
+              }
+            ],
+            "steps_ordered": true,
+            "status": "active"
+          }
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 2,
+            "match": {}
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "match": {}
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_670",
+    "surfaces": [
+      "2linux",
+      "linux_xlsx_source",
+      "home_schedule_cleanup",
+      "linux_xlsx_output",
+      "linux_png_source",
+      "linux_json_source"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_670",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_670/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_670/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/protection/current-diagram.png",
+      "/tmp/protection/current-manifest.json",
+      "/tmp/protection/plan-audit.xlsx"
+    ],
+    "linux_output_paths": [
+      "/tmp/protection/plan-audit.xlsx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/protection/current-diagram.png",
+        "/tmp/protection/current-manifest.json"
+      ],
+      "linux_1": [
+        "/tmp/protection/plan-audit.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/protection/plan-audit.xlsx"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "2linux_smarthome",
+      "linux_devices": [
+        "linux_0",
+        "linux_1"
+      ],
+      "room_ids": [
+        "bedroom",
+        "kids_room",
+        "office"
+      ],
+      "device_type_counts": {
+        "dimmable_light": 1,
+        "light": 2
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 3,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 2,
+      "initial_workflows": 1,
+      "current_time": "2026-06-26T08:30:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_1",
+        "surface": "linux.xlsx",
+        "path": "/tmp/protection/plan-audit.xlsx",
+        "goal": "Create or update the task result at this path.",
+        "func": "check_xlsx_cells",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/protection/current-diagram.png, /tmp/protection/current-manifest.json, /tmp/protection/plan-audit.xlsx and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates cancellation of the protected schedule, the complete plan-audit workbook, and preservation of unrelated plans and current state.",
+    "idea_number": 670,
+    "candidate_triage": {
+      "batch_id": "plan5-661-860-linux-smarthome-B0001",
+      "decision": "direct",
+      "note": "Schedule and workflow public records expose room/device-step matching."
+    }
+  }
+}

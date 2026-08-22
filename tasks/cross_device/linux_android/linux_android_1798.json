@@ -1,0 +1,314 @@
+{
+  "id": "linux_android_1798",
+  "instruction": "Can you compare the Android Retro Music playlist `Route review set` against `/tmp/music/track_manifest.csv` on the first Linux desktop, then use `/tmp/music/playlist_audit_template.csv` on the second Linux desktop to write the complete audit to `/tmp/music/playlist_audit.csv`? In the `category` column, classify each row as `present`, `missing`, or `extra` according to the comparison.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "retro music"
+          }
+        },
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for name in 'north gate brief.mp3' 'harbor loop cue.mp3' 'old archive outro.mp3'; do rm -f \"/sdcard/Music/$name\"; content delete --uri content://media/external/audio/media --where \"_display_name='$name' AND relative_path='Music/'\" >/dev/null 2>&1 || true; done"
+          }
+        },
+        {
+          "type": "androidworld_mp3_push",
+          "parameters": {
+            "songs": [
+              "north gate brief",
+              "harbor loop cue",
+              "old archive outro"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_playlist_add",
+          "parameters": {
+            "playlist_name": "Route review set",
+            "songs": [
+              "north gate brief",
+              "harbor loop cue",
+              "old archive outro"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_music_library_preflight",
+          "parameters": {
+            "songs": [
+              "north gate brief",
+              "harbor loop cue",
+              "old archive outro"
+            ],
+            "required_playlist": {
+              "name": "Route review set",
+              "songs": [
+                "north gate brief",
+                "harbor loop cue",
+                "old archive outro"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/music && rm -f /tmp/music/track_manifest.csv",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1798/source/track_manifest.csv",
+                "path": "/tmp/music/track_manifest.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/music && rm -f -- /tmp/music/playlist_audit.csv /tmp/music/playlist_audit_template.csv",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1798/source/playlist_audit_template.csv",
+                "path": "/tmp/music/playlist_audit_template.csv"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for name in 'north gate brief.mp3' 'harbor loop cue.mp3' 'old archive outro.mp3'; do rm -f \"/sdcard/Music/$name\"; content delete --uri content://media/external/audio/media --where \"_display_name='$name' AND relative_path='Music/'\" >/dev/null 2>&1 || true; done"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/music/track_manifest.csv; rmdir /tmp/music 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/music/playlist_audit.csv /tmp/music/playlist_audit_template.csv; rmdir /tmp/music 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_csv_semantic_records",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/music/playlist_audit.csv"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "column_aliases": {
+            "playlist": [],
+            "track_title": [],
+            "manifest_required": [],
+            "android_playlist": [],
+            "category": []
+          },
+          "value_aliases": {
+            "manifest_required": {
+              "yes": [
+                "required",
+                "true",
+                "1"
+              ],
+              "no": [
+                "not required",
+                "optional",
+                "false",
+                "0"
+              ]
+            },
+            "android_playlist": {
+              "present": [
+                "found",
+                "in playlist",
+                "included",
+                "yes",
+                "true"
+              ],
+              "missing": [
+                "absent",
+                "not found",
+                "not in playlist",
+                "no",
+                "false"
+              ]
+            },
+            "category": {
+              "present": [
+                "match",
+                "matched",
+                "required and present",
+                "in both"
+              ],
+              "missing": [
+                "absent",
+                "not found",
+                "required but missing"
+              ],
+              "extra": [
+                "unexpected",
+                "unlisted",
+                "playlist only",
+                "not required",
+                "additional"
+              ]
+            }
+          },
+          "order_sensitive": false,
+          "rows": [
+            {
+              "playlist": "Route review set",
+              "track_title": "north gate brief",
+              "manifest_required": "yes",
+              "android_playlist": "present",
+              "category": "present"
+            },
+            {
+              "playlist": "Route review set",
+              "track_title": "harbor loop cue",
+              "manifest_required": "yes",
+              "android_playlist": "present",
+              "category": "present"
+            },
+            {
+              "playlist": "Route review set",
+              "track_title": "missing signature cue",
+              "manifest_required": "yes",
+              "android_playlist": "missing",
+              "category": "missing"
+            },
+            {
+              "playlist": "Route review set",
+              "track_title": "old archive outro",
+              "manifest_required": "no",
+              "android_playlist": "present",
+              "category": "extra"
+            }
+          ]
+        }
+      },
+      "metadata": {
+        "path": "/tmp/music/playlist_audit.csv"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 60,
+    "max_wall_time_s": 480
+  },
+  "metadata": {
+    "category": "linux_android_final_balancing",
+    "implementation_status": "builder_batch_1777_1826",
+    "source_plan": "docs/plan6/linux_android_final_balancing_tasks_1777_1876.md",
+    "source_task_number": 1798,
+    "source_task_title": "Retro playlist versus manifest audit",
+    "triage_decision": "repair",
+    "triage_reason": "Repaired candidate to use stable source-visible files or durable office/text anchors while preserving the planned workflow.",
+    "device_topology": "android_0+linux_0+linux_1",
+    "surfaces": [
+      "android.playlist",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1798",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1798/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1798/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_1798/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/music/track_manifest.csv",
+      "/tmp/music/playlist_audit_template.csv"
+    ],
+    "linux_output_paths": [
+      "/tmp/music/playlist_audit.csv"
+    ],
+    "android_output_plan": [],
+    "expected_data_trace": {
+      "case": "CASE-298",
+      "code": "RC-868",
+      "owner": "Rina Patel"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": true,
+    "topology_view": "linux_android"
+  }
+}

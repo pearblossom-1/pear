@@ -1,0 +1,12 @@
+{
+  "task_id": "a2l2_training_media_deck_email",
+  "source_files": [
+    "handoff.txt",
+    "template.odp"
+  ],
+  "expected_files": [],
+  "device_topology": "A+A+L+L",
+  "instruction": "I'm putting together a setup-photo slide for the trainer. Take a new photo with Camera on the first phone and make sure the final filename is `training_setup_photo.jpg`. The `Trainer` contact on the second phone has the trainer's email. The first Linux machine has `/tmp/train/handoff.txt` with the deck purpose and package reference, and the second Linux machine has `/tmp/train/template.odp`. On the second Linux machine, use the local template to create `/tmp/train/deck.odp`, filling in the photo filename, trainer email, purpose, and package reference. Export it as `/tmp/train/training_deck.pdf`. Then leave an unsent Thunderbird draft to the trainer with that PDF attached; identify the PDF and include the package reference in the message.",
+  "surfaces": "Camera/Simple Gallery Pro + Contacts + Impress + Thunderbird",
+  "requires_helper_audit": false
+}

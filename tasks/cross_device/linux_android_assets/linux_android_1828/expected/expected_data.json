@@ -1,0 +1,17 @@
+{
+  "case": "CASE-1828",
+  "code": "FB-1828",
+  "route": "RT-28",
+  "site": "Harbor Gate 11",
+  "owner": "Leo Martin",
+  "phone": "+15552001828",
+  "email": "leo.martin@example.test",
+  "role": "Field reviewer",
+  "time": "2026-07-13 09:40",
+  "lat": "37.728",
+  "lon": "-122.434",
+  "decision": "ready",
+  "included": "rt-28_photo_a.jpg",
+  "missing": "rt-28_photo_missing.jpg",
+  "decoy": "rt-28_decoy.jpg"
+}

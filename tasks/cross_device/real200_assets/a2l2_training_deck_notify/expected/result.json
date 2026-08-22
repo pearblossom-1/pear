@@ -1,0 +1,8 @@
+{
+  "task_id": "a2l2_training_deck_notify",
+  "source_card": "196",
+  "status": "completed",
+  "required_evidence_count": 4,
+  "topology": "2A+2L",
+  "implementation_status": "scaffold_expected_result"
+}

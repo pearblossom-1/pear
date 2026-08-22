@@ -1,0 +1,455 @@
+{
+  "meta": {
+    "sh_type": "SH_android_smarthome",
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1875,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Daylight log.md",
+        "rules": {
+          "entities": [
+            [
+              "guest room"
+            ],
+            [
+              "curtain"
+            ],
+            [
+              "100",
+              "100%"
+            ],
+            [
+              "25",
+              "25%"
+            ],
+            [
+              "living room"
+            ],
+            [
+              "occupied"
+            ],
+            [
+              "skipped",
+              "unchanged",
+              "left unchanged"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "moved",
+              "adjusted",
+              "applied",
+              "set",
+              "→"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "guest room"
+                ],
+                [
+                  "curtain"
+                ],
+                [
+                  "100",
+                  "100%"
+                ],
+                [
+                  "25",
+                  "25%"
+                ]
+              ],
+              "phrases": [
+                [
+                  "moved",
+                  "adjusted",
+                  "applied",
+                  "set",
+                  "→"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "living room"
+                ],
+                [
+                  "occupied"
+                ],
+                [
+                  "skipped",
+                  "unchanged",
+                  "left unchanged",
+                  "left alone"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "preceding_clause_context": {
+            "max_preceding_clauses": 2,
+            "anchors": [
+              [
+                "guest room"
+              ],
+              [
+                "living room"
+              ]
+            ]
+          },
+          "conflict_phrases": [
+            "pending",
+            "not applied",
+            "25 to 100",
+            "living room changed",
+            "living room was changed",
+            "not skipped",
+            "guest room unchanged"
+          ],
+          "conflict_patterns": [
+            "(?is)\\b25(?:\\.0)?%?\\b[^.!?\\r\\n]{0,20}(?:\\bto\\b|->|→)[^.!?\\r\\n]{0,20}\\b100(?:\\.0)?%?\\b"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "Daylight log binds guest curtain 100-to-25 and occupied living-room skip"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "guest_room_curtain_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "open_pct": 25
+          }
+        }
+      },
+      "name": "guest-room curtain is adjusted to 25 percent"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_multi_condition",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "devices": {
+              "living_room_curtain_1": {
+                "open_pct": 100
+              }
+            }
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "living-room curtain remains at 100 percent"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "guest_room_curtain_1": {
+                "open_pct": 25,
+                "status": "partial"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "only the guest-room curtain final state changes globally"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "guest_room_curtain_1",
+                "command": "set_open_pct",
+                "args": {
+                  "open_pct": 25
+                }
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "direct commands are restricted to guest-curtain 25-percent retries"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "daylight adjustment creates no schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "daylight adjustment creates no workflow"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 23.9,
+        "humidity_pct": 45.7,
+        "brightness_lux": 60.0,
+        "air_quality_pm25": 42.6,
+        "noise_level_db": 36.1,
+        "occupied": true
+      },
+      "guest_room": {
+        "temperature_c": 24.7,
+        "humidity_pct": 46.7,
+        "brightness_lux": 840.0,
+        "air_quality_pm25": 37.5,
+        "noise_level_db": 32.1,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 23.6,
+        "humidity_pct": 40.8,
+        "brightness_lux": 920.0,
+        "air_quality_pm25": 41.2,
+        "noise_level_db": 27.6,
+        "occupied": true
+      },
+      "office": {
+        "temperature_c": 24.3,
+        "humidity_pct": 51.2,
+        "brightness_lux": 279.1,
+        "air_quality_pm25": 27.8,
+        "noise_level_db": 33.9,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "mode": "cool",
+          "target_temperature_c": 20.0
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bedroom_curtain_1",
+        "device_type": "curtain",
+        "room_id": "bedroom",
+        "state": {
+          "open_pct": 20,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "bedroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "guest_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off",
+          "mode": "dry",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "guest_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "guest_room",
+        "state": {
+          "open_pct": 100,
+          "status": "open"
+        }
+      },
+      {
+        "device_id": "guest_room_light_1",
+        "device_type": "light",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 100,
+          "status": "open"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 65
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 30.0
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 54
+        }
+      },
+      {
+        "device_id": "office_light_1",
+        "device_type": "light",
+        "room_id": "office",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "office_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "office",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 55
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

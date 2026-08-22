@@ -1,0 +1,87 @@
+{
+  "eval": [
+    {
+      "device_id": "linux_0",
+      "func": "check_csv_semantic_records",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/audio/status.csv"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "column_aliases": {
+            "case_id": [],
+            "title": [],
+            "owner": [],
+            "phone": [],
+            "approval_code": [],
+            "selected_source": [],
+            "status": [],
+            "decision": []
+          },
+          "value_aliases": {
+            "status": {
+              "ready": [
+                "approved"
+              ]
+            }
+          },
+          "semantic_columns": [
+            "decision"
+          ],
+          "value_relations": {
+            "decision": {
+              "Match by filename and recording date fields.": {
+                "entities": [
+                  [
+                    "filename",
+                    "filenames",
+                    "file name",
+                    "file names"
+                  ],
+                  [
+                    "recording date",
+                    "recording dates",
+                    "date",
+                    "dates"
+                  ]
+                ],
+                "required_phrases": [
+                  [
+                    "match",
+                    "matching",
+                    "compare",
+                    "comparison"
+                  ]
+                ],
+                "conflict_phrases": [
+                  "ignore filename",
+                  "ignore date",
+                  "do not match"
+                ]
+              }
+            }
+          },
+          "order_sensitive": false,
+          "rows": [
+            {
+              "case_id": "943-A",
+              "title": "Audio manifest produces transcript status",
+              "owner": "Grace Kim",
+              "phone": "+1555011888",
+              "approval_code": "NX94305",
+              "selected_source": "/tmp/audio/request_table.csv",
+              "status": "ready",
+              "decision": "Match by filename and recording date fields."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "task_id": "linux_android_943",
+    "source_plan": "plan6"
+  }
+}

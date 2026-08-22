@@ -1,0 +1,36 @@
+{
+  "tasks": [
+    {
+      "title": "Stage route labels",
+      "completed": 0
+    },
+    {
+      "title": "Check cold-chain seal",
+      "completed": 0
+    },
+    {
+      "title": "Call receiving desk",
+      "completed": 0
+    },
+    {
+      "title": "Print driver manifest",
+      "completed": 0
+    },
+    {
+      "title": "Confirm spare scanner battery",
+      "completed": 0
+    },
+    {
+      "title": "Label priority return bin",
+      "completed": 0
+    },
+    {
+      "title": "Update dock handoff board",
+      "completed": 0
+    },
+    {
+      "title": "Verify outbound pallet photo",
+      "completed": 0
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "linux_actions": [],
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "living_room_dimmable_light_1",
+        "command": "set_brightness",
+        "args": {
+          "brightness_pct": 35
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "living_room_curtain_1",
+        "command": "set_open_pct",
+        "args": {
+          "open_pct": 40
+        }
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

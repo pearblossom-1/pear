@@ -1,0 +1,235 @@
+{
+  "id": "android_only_210",
+  "instruction": "The first phone's Tasks app has Client delivery. Please use it to correct the time, location, and description of the same-named Calendar event on the second phone.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_task_add",
+          "parameters": {
+            "title": "Client delivery",
+            "notes": "Authoritative: 2026-07-02 14:15-15:00 at Pier 6. Code DEL-210. Calendar should say source=Tasks.",
+            "dueDate": 1783001700000,
+            "completed": 0
+          }
+        },
+        {
+          "type": "androidworld_task_record_preflight",
+          "parameters": {
+            "task": {
+              "title": "Client delivery",
+              "notes": "Authoritative: 2026-07-02 14:15-15:00 at Pier 6. Code DEL-210. Calendar should say source=Tasks.",
+              "dueDate": 1783001700000,
+              "completed": 0
+            },
+            "required_visible_text": [
+              "Client delivery",
+              "14:15-15:00",
+              "Pier 6",
+              "DEL-210",
+              "source=Tasks"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Client delivery",
+            "start_ts": 1782997200,
+            "end_ts": 1782999000,
+            "location": "Old pier",
+            "description": "Stale DEL-210."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Client delivery",
+            "start_ts": 1782997200,
+            "location": "Old pier",
+            "description": "Stale DEL-210.",
+            "search_text": "DEL-210"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Make Calendar exactly the corrected Client delivery event sourced from Tasks",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event_set",
+        "events": [
+          {
+            "title": "Client delivery",
+            "start_ts": 1783001700,
+            "end_ts": 1783004400,
+            "location": "Pier 6",
+            "description_relation": {
+              "entities": [
+                "DEL-210",
+                "Tasks"
+              ],
+              "required_phrases": [
+                [
+                  "source",
+                  "sourced",
+                  "from Tasks",
+                  "source=Tasks"
+                ]
+              ],
+              "positive_phrases": [
+                [
+                  "source",
+                  "sourced",
+                  "from Tasks",
+                  "source=Tasks"
+                ]
+              ],
+              "relation_groups": [
+                {
+                  "entities": [
+                    "Tasks"
+                  ],
+                  "phrases": [
+                    "source",
+                    "sourced",
+                    "from Tasks",
+                    "source=Tasks"
+                  ],
+                  "allow_multiple_matches": true
+                }
+              ],
+              "conflict_patterns": [
+                "\\bnot\\s+sourced\\s+from\\s+Tasks\\b",
+                "\\b(?:current|still|now|final)\\b[^.;\\n]{0,72}\\bstale\\b",
+                "\\bstale\\b[^.;\\n]{0,72}\\b(?:current|still|now|final)\\b",
+                "\\bremains?\\s+stale\\b",
+                "\\bOld\\s+Pier\\b[^.;\\n]{0,48}\\b(?:is|remains?)\\s+(?:the\\s+)?(?:current|final)\\b",
+                "\\b(?:current|final)\\s+(?:event\\s+)?location\\b[^.;\\n]{0,48}\\bOld\\s+Pier\\b"
+              ]
+            }
+          }
+        ],
+        "identity_fields": [
+          "title"
+        ],
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    },
+    {
+      "name": "Preserve every business field of the authoritative Client delivery task",
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_set",
+        "tasks": [
+          {
+            "title": "Client delivery",
+            "notes": "Authoritative: 2026-07-02 14:15-15:00 at Pier 6. Code DEL-210. Calendar should say source=Tasks.",
+            "dueDate": 1783001700000,
+            "completed": false
+          }
+        ],
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "android_only",
+    "device_topology": "2android",
+    "surfaces": [
+      "tasks",
+      "calendar"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/android_only_assets/android_only_210",
+    "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",
+    "evaluate_note": "Evaluation closes the second phone's complete Calendar set and preserves all authoritative Task business fields; historical stale context is allowed only when it is not the current relation.",
+    "source_number": 210,
+    "candidate_triage": {
+      "batch_id": "plan6-android-only-dual-android-B0001",
+      "decision": "direct",
+      "rationale": "Supported task-to-calendar repair with unique request code and cleaned Calendar result."
+    },
+    "oracle_ref": "tasks/cross_device/android_only_assets/android_only_210/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_210/episode_config.json",
+    "lite_hardening_note": "Removed unscored Android source-state evaluators and consolidated file-output checks where appropriate."
+  }
+}

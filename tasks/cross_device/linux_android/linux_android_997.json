@@ -1,0 +1,240 @@
+{
+  "id": "linux_android_997",
+  "instruction": "The calendar time for 997-A may not match the latest approved time. Compare the Simple Calendar Pro event with the latest approval SMS using `/tmp/alarms/handoff_policy.md`. If the difference is outside the allowed tolerance, add the enabled `997-A time check` fallback alarm at 08:45 in Clock on the second phone. Leave `/storage/emulated/0/Documents/Markor/997-A time check.md` with the case and approval details, both source times, their difference, and the alarm you added.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "997-A source event",
+            "start_ts": 1784286000,
+            "end_ts": 1784288700,
+            "location": "Field Office",
+            "description": "NX99792; Priya Shah"
+          }
+        },
+        {"type": "open_app", "parameters": {"app": "simple calendar pro"}},
+        {"type": "ensure_app", "parameters": {"app": "simple sms messenger"}},
+        {"type": "androidworld_sms_clear", "parameters": {}},
+        {"type": "androidworld_sms_receive", "parameters": {"address": "+1555011886", "body": "Latest approval 997-A / NX99792 for Priya Shah: requested time 11:30.", "wait_s": 2.1}},
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rows=\"$(content query --uri content://sms/inbox --projection address:body --where \"address='+1555011886'\" --sort 'date DESC,_id DESC' 2>/dev/null)\"; test \"$(printf '%s\\n' \"$rows\" | grep -c '^Row:')\" -eq 1 && printf '%s\\n' \"$rows\" | grep -F 'body=Latest approval 997-A / NX99792 for Priya Shah: requested time 11:30.' >/dev/null",
+            "check_exit_status": true
+          }
+        },
+        {"type": "open_app", "parameters": {"app": "simple sms messenger"}}
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {"type": "ensure_app", "parameters": {"app": "clock"}},
+        {"type": "androidworld_clock_clear", "parameters": {}},
+        {"type": "open_app", "parameters": {"app": "clock"}},
+        {"type": "adb_shell", "parameters": {"command": "rm -f '/storage/emulated/0/Documents/Markor/997-A time check.md' && test ! -e '/storage/emulated/0/Documents/Markor/997-A time check.md'", "check_exit_status": true}},
+        {"type": "open_app", "parameters": {"app": "markor"}}
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p '/tmp/alarms' && rm -f '/tmp/alarms/alarm_policy.csv' '/tmp/alarms/handoff_policy.md'",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_997/source/alarm_policy.csv",
+                "path": "/tmp/alarms/alarm_policy.csv"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_997/source/handoff_policy.md",
+                "path": "/tmp/alarms/handoff_policy.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\ntest -r /tmp/alarms/alarm_policy.csv\ntest -r /tmp/alarms/handoff_policy.md\ngrep -F '997-A,Priya Shah,+1555011886,blocked,NX99792' /tmp/alarms/alarm_policy.csv >/dev/null\ngrep -F 'more than 15 minutes' /tmp/alarms/handoff_policy.md >/dev/null\ngrep -F '997-A time check' /tmp/alarms/handoff_policy.md >/dev/null\ngrep -F '08:45' /tmp/alarms/handoff_policy.md >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {"type": "androidworld_sms_clear", "parameters": {}}
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/997-A time check.md'"
+          }
+        },
+        {"type": "androidworld_clock_clear", "parameters": {}}
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- '/tmp/alarms/alarm_policy.csv' '/tmp/alarms/handoff_policy.md'; find '/tmp/alarms' -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_alarm_set",
+        "alarms": [
+          {
+            "hour": 8,
+            "minute": 45,
+            "label": "997-A time check",
+            "enabled": true
+          }
+        ],
+        "allow_unrelated": false,
+        "reject_identity_duplicates": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/997-A time check.md",
+        "rules": {
+          "entities": ["997-A", "NX99792", "Priya Shah", "11:00", "11:30", "30", "08:45"],
+          "required_phrases": [["mismatch", "difference", "differs", "outside"], ["alarm is set", "alarm set", "fallback alarm", "added alarm", "alarm is enabled", "enabled alarm"]],
+          "positive_phrases": ["alarm is set", "alarm set", "fallback alarm", "added alarm", "alarm is enabled", "enabled alarm"],
+          "conflict_phrases": ["times match", "no mismatch", "alarm not set", "do not set", "blocked", "removed", "deleted", "cancelled", "canceled", "disabled"]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 420
+  },
+  "metadata": {
+    "category": "linux_android_next",
+    "implementation_status": "reviewed_plan6_generated",
+    "source_plan": "docs/plan6/linux_android_next100_tasks_981_1080.md",
+    "source_task_number": 997,
+    "source_task_title": "Calendar and SMS mismatch blocks Clock alarm",
+    "triage_decision": "block",
+    "triage_reason": "Implemented as a positive blocked-state task because the candidate contains missing, conflicting, denied, or otherwise non-actionable source evidence.",
+    "device_topology": "android_0+android_1+linux_0",
+    "surfaces": [
+      "android.android_file",
+      "android.calendar",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_997",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_997/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_997/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_997/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/alarms/alarm_policy.csv",
+      "/tmp/alarms/handoff_policy.md"
+    ],
+    "linux_output_paths": [],
+    "android_output_plan": [
+      {
+        "kind": "android_file",
+        "device_id": "android_1",
+        "path": "/storage/emulated/0/Documents/Markor/997-A time check.md",
+        "required": [
+          "997-A",
+          "NX99792",
+          "Priya Shah", "11:00", "11:30", "08:45"
+        ]
+      }
+    ],
+    "expected_data_trace": {
+      "case_id": "997-A",
+      "approval_code": "NX99792",
+      "owner": "Priya Shah"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "structured_output_classification": {"native Clock alarm": "primary_native_state", "Markor time-check note": "primary_artifact"},
+    "human_quality_hardening": "Redesigned an unobservable no-alarm branch into a fully positive Calendar/SMS-to-Clock fallback workflow; removed redundant JSON self-report.",
+    "topology_view": "linux_android"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "actions": [
+    {
+      "device_id": "linux_0",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "python3 - <<'PY'\nimport base64\nfrom pathlib import Path\npath = Path('/tmp/audio/status.csv')\npath.parent.mkdir(parents=True, exist_ok=True)\npath.write_bytes(base64.b64decode('Y2FzZV9pZCx0aXRsZSxvd25lcixwaG9uZSxhcHByb3ZhbF9jb2RlLHNlbGVjdGVkX3NvdXJjZSxzdGF0dXMsZGVjaXNpb24NCjk0My1BLEF1ZGlvIG1hbmlmZXN0IHByb2R1Y2VzIHRyYW5zY3JpcHQgc3RhdHVzLEdyYWNlIEtpbSwrMTU1NTAxMTg4OCxOWDk0MzA1LC90bXAvYXVkaW8vcmVxdWVzdF90YWJsZS5jc3YscmVhZHksQXVkaW8gbWFuaWZlc3QgcHJvZHVjZXMgdHJhbnNjcmlwdCBzdGF0dXMK'))\nPY\n",
+        "shell": true
+      }
+    },
+    {
+      "type": "done"
+    }
+  ],
+  "notes": "Scripted solution mirrors the current positive dry-run oracle."
+}

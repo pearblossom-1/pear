@@ -1,0 +1,11 @@
+{
+  "alarms": [
+    {
+      "device_id": "android_1",
+      "hour": 8,
+      "minute": 20,
+      "label": "Depot departure",
+      "enabled": true
+    }
+  ]
+}

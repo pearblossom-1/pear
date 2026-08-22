@@ -1,0 +1,296 @@
+{
+  "id": "linux_android_smarthome_077",
+  "instruction": "Use the approved `Climate Update` note on Android and `/tmp/schedules/merge.pdf` to replace the existing living-room AC schedule. Cancel the identified old schedule and create the approved active correction. In Markor, create `Climate correction result.md` and record the old 25 C setting, the new 24 C setting, the 20:00 scheduled time, and that the old schedule was cancelled while the replacement is active or applied.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/schedules",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_077/source/tmp/schedules/merge.pdf",
+                "path": "/tmp/schedules/merge.pdf"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_077/android/Climate Update.md",
+                "path": "/storage/emulated/0/Documents/Markor/Climate Update.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Climate correction result.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_077/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/schedules/merge.pdf; rmdir /tmp/schedules 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Climate Update.md' '/storage/emulated/0/Documents/Markor/Climate correction result.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Climate correction result.md",
+        "rules": {
+          "entities": [
+            [
+              "old",
+              "previous",
+              "prior"
+            ],
+            [
+              "25 C",
+              "25C"
+            ],
+            [
+              "new",
+              "replacement",
+              "correction",
+              "revised",
+              "replaced by"
+            ],
+            [
+              "24 C",
+              "24C"
+            ],
+            [
+              "20:00",
+              "8:00 PM",
+              "8:00PM"
+            ]
+          ],
+          "nearest_relations": [
+            {
+              "anchor": [
+                "old",
+                "previous",
+                "prior"
+              ],
+              "expected": [
+                "25 C",
+                "25C"
+              ],
+              "forbidden": [
+                "24 C",
+                "24C"
+              ],
+              "max_distance": 6,
+              "same_clause": true
+            },
+            {
+              "anchor": [
+                "25 C",
+                "25C"
+              ],
+              "expected": [
+                "cancelled",
+                "retired",
+                "replaced",
+                "superseded",
+                "no longer active"
+              ],
+              "forbidden": [
+                "active",
+                "applied",
+                "pending"
+              ],
+              "max_distance": 10,
+              "same_clause": true
+            },
+            {
+              "anchor": [
+                "24 C",
+                "24C"
+              ],
+              "expected": [
+                "active",
+                "applied",
+                "scheduled"
+              ],
+              "forbidden": [
+                "cancelled",
+                "retired",
+                "pending"
+              ],
+              "max_distance": 10,
+              "same_clause": true
+            }
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true,
+          "allowed_reversal_terms": [
+            "cancelled",
+            "retired",
+            "replaced",
+            "superseded",
+            "no longer active"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_status",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "schedule_id": "living_ac_old_2000",
+            "status": "cancelled"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {
+              "run_at": "2026-06-16T20:00:00",
+              "device_id": "living_room_air_conditioner_1",
+              "command": "set_target_temperature",
+              "args": {
+                "temperature_c": 24.0
+              },
+              "status": "active"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Pilot 77 same-time AC schedule merge.",
+    "surfaces": [
+      "markor",
+      "linux_pdf",
+      "home_cancel_schedule",
+      "home_schedule"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_077",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_077/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_077/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/schedules/merge.pdf"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/schedules/merge.pdf"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "pilot_index": 77
+  }
+}

@@ -1,0 +1,232 @@
+{
+  "id": "linux_android_1851",
+  "instruction": "Please prepare the phone handoff for the current approved case. Reconcile `/tmp/thunderbird_message_and_cont/source.csv` on Linux with the matching Contacts entry and the visible Markor context note, then write `/storage/emulated/0/Documents/Markor/handoff_note.md`. Keep the case and approval code, owner and contact details, route, site, time, role, and readiness decision together in the note.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Maya Chen",
+            "number": "+15552001827",
+            "notes": "maya.chen@example.test; current handoff contact"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Documents/Markor/handoff_note.md"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1851/android/contact_handoff_context.md",
+                "path": "/storage/emulated/0/Documents/Markor/contact_handoff_context.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "test -r /storage/emulated/0/Documents/Markor/contact_handoff_context.md && grep -F 'Current source: CASE-1851' /storage/emulated/0/Documents/Markor/contact_handoff_context.md >/dev/null && grep -F 'Role: North region lead' /storage/emulated/0/Documents/Markor/contact_handoff_context.md >/dev/null && test ! -e /storage/emulated/0/Documents/Markor/handoff_note.md",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "markor"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/thunderbird_message_and_cont/source.csv && mkdir -p -- /tmp/thunderbird_message_and_cont",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1851/source/source.csv",
+                "path": "/tmp/thunderbird_message_and_cont/source.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nsource=/tmp/thunderbird_message_and_cont/source.csv\ntest -r \"$source\"\ntest \"$(wc -l < \"$source\")\" -eq 5\nawk -F, '$2 == \"current\" { current += 1 } END { exit !(current == 1) }' \"$source\"\nawk -F, 'NR == 2 { ok = ($1 == \"CASE-1851\" && $2 == \"current\" && $5 == \"\" && $6 == \"\") } END { exit !ok }' \"$source\"\nawk -F, 'NR == 5 { ok = ($1 == \"CASE-1851\" && $2 == \"missing\" && $5 == \"\" && $6 == \"\" && $11 == \"no\") } END { exit !ok }' \"$source\"",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Documents/Markor/contact_handoff_context.md"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Documents/Markor/handoff_note.md"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/thunderbird_message_and_cont/source.csv; rmdir /tmp/thunderbird_message_and_cont 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/handoff_note.md",
+        "rules": {
+          "entities": ["CASE-1851", "FB-1851", "Maya Chen", "+15552001827", "maya.chen@example.test", "RT-51", "Harbor Gate 17", ["2026-07-16 09:30", "July 16, 2026 at 9:30 AM", "7/16/2026 9:30 AM"], "North region lead"],
+          "positive_phrases": ["ready", "approved", "ready for handoff"],
+          "forbidden_entities": ["CASE-OLD", "CASE-HOLD", "HOLD-42", "Harbor Gate 17 Annex"],
+          "conflict_phrases": ["not ready", "blocked", "pending", "on hold", "wrong"]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 60,
+    "max_wall_time_s": 480
+  },
+  "metadata": {
+    "category": "linux_android_final_balancing",
+    "implementation_status": "builder_batch_1827_1876",
+    "source_plan": "docs/plan6/linux_android_final_balancing_tasks_1777_1876.md",
+    "source_task_number": 1851,
+    "source_task_title": "Current CSV and Contacts create Markor handoff",
+    "triage_decision": "repair",
+    "triage_reason": "Repaired to use the Linux Thunderbird export plus Android Contacts as visible sources for a Markor handoff note.",
+    "device_topology": "android_0+linux_0",
+    "surfaces": [
+      "android.contacts",
+      "android.markor",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1851",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1851/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1851/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_1851/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/thunderbird_message_and_cont/source.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "android_output_plan": [
+      {
+        "device_id": "android_0",
+        "kind": "markor",
+        "path": "/storage/emulated/0/Documents/Markor/handoff_note.md",
+        "public": "Markor note"
+      }
+    ],
+    "expected_data_trace": {
+      "case": "CASE-1851",
+      "code": "FB-1851",
+      "route": "RT-51",
+      "site": "Harbor Gate 17",
+      "owner": "Maya Chen",
+      "phone": "+15552001827",
+      "email": "maya.chen@example.test",
+      "role": "North region lead",
+      "time": "2026-07-16 09:30",
+      "lat": "37.756",
+      "lon": "-122.434",
+      "decision": "ready",
+      "included": "rt-51_photo_a.jpg",
+      "missing": "rt-51_photo_missing.jpg",
+      "hold_attachment": "rt-51_hold.jpg"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "topology_view": "linux_android",
+    "structured_output_classification": {
+      "/storage/emulated/0/Documents/Markor/handoff_note.md": "primary_artifact"
+    },
+    "lite_evaluator_hardening_note": "Scores the named current-row handoff note with complete entity-bound, polarity-aware semantics; source guards were removed."
+  }
+}

@@ -1,0 +1,244 @@
+{
+  "id": "linux_smarthome_370",
+  "instruction": "Grade the SmartHome air quality using the thresholds in `/tmp/air/thresholds.pdf` and save the worst readings to `/tmp/air/worst.json`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/air/thresholds.pdf /tmp/air/worst.json && mkdir -p -- /tmp/air",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_370/source/tmp/air/thresholds.pdf",
+                "path": "/tmp/air/thresholds.pdf"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_370/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/air/thresholds.pdf /tmp/air/worst.json; find /tmp/air -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_json_semantic_report",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/air/worst.json"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "exact_fields": {
+            "pm25": 97
+          },
+          "semantic_fields": {
+            "room": {
+              "include": [
+                "garage"
+              ],
+              "case_sensitive": false,
+              "entity_relation": {
+                "entities": [
+                  "garage"
+                ],
+                "conflict_phrases": [
+                  "not garage",
+                  "unknown room"
+                ]
+              }
+            },
+            "grade": {
+              "include": [
+                "critical"
+              ],
+              "case_sensitive": false,
+              "entity_relation": {
+                "entities": [
+                  "critical"
+                ],
+                "conflict_phrases": [
+                  "not critical",
+                  "non-critical"
+                ]
+              }
+            }
+          },
+          "field_aliases": {},
+          "allowed_extra_fields": []
+        }
+      },
+      "metadata": {
+        "path": "/tmp/air/worst.json"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_370",
+    "surfaces": [
+      "linux.json",
+      "linux.pdf",
+      "smarthome.home_state"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_370",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_370/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_370/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/air/thresholds.pdf"
+    ],
+    "linux_output_paths": [
+      "/tmp/air/worst.json"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/air/thresholds.pdf"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [
+        "/tmp/air/worst.json"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "linux_smarthome",
+      "linux_device": "linux_0",
+      "linux_devices": [
+        "linux_0"
+      ],
+      "room_ids": [
+        "bedroom",
+        "garage",
+        "kitchen",
+        "living_room",
+        "office",
+        "study"
+      ],
+      "device_type_counts": {
+        "air_conditioner": 2,
+        "air_purifier": 2,
+        "curtain": 2,
+        "dehumidifier": 2,
+        "dimmable_light": 1,
+        "heater": 1,
+        "humidifier": 1,
+        "light": 3,
+        "robot_vacuum": 2
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 1,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-16T19:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "surface": "linux.json",
+        "path": "/tmp/air/worst.json",
+        "goal": "Create or update the task result at this path.",
+        "func": "check_json_semantic_report",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/air/thresholds.pdf and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the visible worst-room air-quality JSON derived from the threshold source and live Home readings.",
+    "idea_number": 370,
+    "coverage_group": "query_image_browser"
+  }
+}

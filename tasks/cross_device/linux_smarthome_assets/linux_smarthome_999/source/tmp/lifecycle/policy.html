@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Lifecycle Request Policy</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; color: #1f2937; }
+    table { border-collapse: collapse; min-width: 560px; }
+    th, td { border: 1px solid #9ca3af; padding: 6px 8px; text-align: left; }
+    th { background: #e5e7eb; }
+  </style>
+</head>
+<body>
+  <h1>Lifecycle Request Policy</h1>
+  <table>
+    <thead><tr><th>case</th><th>handling</th></tr></thead>
+    <tbody>
+      <tr><td>idle approved</td><td>start requested cycle</td></tr>
+      <tr><td>emergency running</td><td>stop cycle</td></tr>
+      <tr><td>busy cycle change</td><td>defer until idle</td></tr>
+      <tr><td>missing device</td><td>record missing and do not substitute</td></tr>
+    </tbody>
+  </table>
+</body>
+</html>

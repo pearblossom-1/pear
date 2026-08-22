@@ -1,0 +1,336 @@
+{
+  "id": "android_smarthome_241",
+  "instruction": "Broccoli on the first phone has the recipe's kitchen-air instruction, and the second phone has the family update contact. Apply the recipe's air-handling instruction in Home, then send a concise cooking update that identifies the kitchen purifier, the high setting, and that it is running or has been started for the cooking task.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "broccoli app"
+          }
+        },
+        {
+          "type": "androidworld_recipes_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_recipe_add",
+          "parameters": {
+            "title": "Lentil Soup",
+            "ingredients": "lentils, onion, garlic",
+            "directions": "Simmer on the stove; run kitchen purifier high while cooking.",
+            "preparationTime": "45 minutes"
+          }
+        },
+        {
+          "type": "androidworld_broccoli_recipe_preflight",
+          "parameters": {
+            "recipe": {
+              "title": "Lentil Soup",
+              "ingredients": "lentils, onion, garlic",
+              "directions": "Simmer on the stove; run kitchen purifier high while cooking.",
+              "preparationTime": "45 minutes"
+            },
+            "required_visible_text": [
+              "Lentil Soup",
+              "run kitchen purifier high while cooking"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Family Kitchen",
+            "number": "5552410",
+            "notes": "Send cooking air updates here."
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Family Kitchen",
+              "number": "5552410",
+              "notes_exact": "Send cooking air updates here."
+            },
+            "required_visible_text": [
+              "Family Kitchen",
+              "5552410",
+              "cooking air updates"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_241/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_recipes_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5552410",
+        "recent_within_mins": 30,
+        "require_exactly_one_for_address": true,
+        "body_relation": {
+          "entities": [
+            [
+              "Lentil Soup",
+              "cooking"
+            ],
+            [
+              "kitchen"
+            ],
+            [
+              "purifier",
+              "air purifier"
+            ],
+            [
+              "high"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "running",
+              "is on",
+              "started",
+              "set to high"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "Lentil Soup",
+                  "cooking"
+                ],
+                "kitchen",
+                [
+                  "purifier",
+                  "air purifier"
+                ],
+                "high"
+              ],
+              "phrases": [
+                [
+                  "running",
+                  "is on",
+                  "on at high",
+                  "started",
+                  "set to high"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "conflict_phrases": [
+            "pending",
+            "cancelled",
+            "canceled",
+            "not running",
+            "not on high",
+            "not started",
+            "will start later"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "Family Kitchen receives the bound cooking high-purifier result"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "kitchen_air_purifier_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "level": "high"
+          }
+        }
+      },
+      "name": "kitchen purifier is on at high for cooking"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "kitchen_air_purifier_1": {
+                "power": "on",
+                "level": "high"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "only the kitchen purifier final state changes"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "immediate cooking air handling creates no schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "immediate cooking air handling creates no workflow"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_241",
+    "surfaces": [
+      "recipe",
+      "contacts",
+      "sms",
+      "home_command"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "androidworld_sms_message",
+      "smarthome_device_state"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "2android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_241",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_241/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_241/oracle_positive.json",
+    "idea_number": 241,
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

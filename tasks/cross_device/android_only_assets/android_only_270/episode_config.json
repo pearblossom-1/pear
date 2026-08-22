@@ -1,0 +1,118 @@
+{
+  "task_id": "android_only_270",
+  "eval": [
+    {
+      "name": "Bind Site Manager to the number and Dock West to its numeric coordinates",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Dock West handoff.md",
+        "rules": {
+          "entities": [
+            "Site Manager",
+            "5550270",
+            "Dock West"
+          ],
+          "allowed_negative_capability_phrases": [
+            "not current",
+            "non-current"
+          ],
+          "nearest_relations": [
+            {
+              "anchor": [
+                "Site Manager"
+              ],
+              "expected": [
+                "5550270"
+              ],
+              "forbidden": [],
+              "max_distance": 12
+            }
+          ],
+          "numeric_coordinate_relations": [
+            {
+              "anchor": "Dock West",
+              "latitude": 47.6712,
+              "longitude": -122.3022,
+              "tolerance": 0.000005,
+              "max_anchor_gap_chars": 160
+            }
+          ],
+          "conflict_patterns": [
+            "\\bSite\\s+Manager\\b[^.;\\n]{0,48}\\b(?!5550270\\b)\\d{7}\\b"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "name": "Preserve every Site Manager contact business field",
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_contact",
+        "name": "Site Manager",
+        "number": "5550270",
+        "numbers_exact": [
+          "5550270"
+        ],
+        "emails_exact": [],
+        "notes_exact": "Manager for Dock West handoff.",
+        "require_exactly_one": true,
+        "require_unique_name": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Keep the first phone's Contacts collection to exactly Site Manager",
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_contact_count"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "1"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Preserve the exact Dock West OsmAnd favorite set",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "osmand_favorite_set",
+        "favorites": [
+          {
+            "favorite_name": "Dock West",
+            "favorite_lat": 47.6712,
+            "favorite_lon": -122.3022
+          }
+        ],
+        "coordinate_tolerance": 0.000005,
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ]
+}

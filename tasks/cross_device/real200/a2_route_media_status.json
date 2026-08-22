@@ -1,0 +1,259 @@
+{
+  "id": "a2_route_media_status",
+  "instruction": "The first phone's OsmAnd favorites list contains today's route, and each favorite name should correspond to a route photo with the same name in Simple Gallery Pro on the second phone. Please check the Gallery photo for each favorite name and create a `Route media status` note in Markor on the second phone marking each route point as present or missing.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "variables": {
+    "work_root": "/tmp/mdcbench_real200/a2_route_media_status",
+    "result_json": "/tmp/mdcbench_real200/a2_route_media_status/result.json"
+  },
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "osmand"
+          }
+        },
+        {
+          "type": "androidworld_osmand_favorites_setup",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "mkdir -p /storage/emulated/0/Android/data/net.osmand/files/favorites && printf %s '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<gpx version=\"1.1\" creator=\"Route Planner\" xmlns=\"http://www.topografix.com/GPX/1/1\">\n  <wpt lat=\"47.151\" lon=\"9.532\"><name>North gate</name></wpt>\n  <wpt lat=\"47.152\" lon=\"9.533\"><name>Dock lane</name></wpt>\n  <wpt lat=\"47.153\" lon=\"9.534\"><name>Fuel shed</name></wpt>\n</gpx>\n' > /storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple gallery pro"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "mkdir -p /storage/emulated/0/Pictures/Routes /storage/emulated/0/Documents/Markor; rm -f '/storage/emulated/0/Pictures/Routes/North gate.png' '/storage/emulated/0/Pictures/Routes/Dock lane.png' '/storage/emulated/0/Pictures/Routes/Fuel shed.png' '/storage/emulated/0/Documents/Markor/Route media status.md'; for name in 'North gate.png' 'Dock lane.png' 'Fuel shed.png'; do content delete --uri content://media/external/images/media --where \"_display_name='$name' AND relative_path='Pictures/Routes/'\" >/dev/null 2>&1 || true; done"
+            ]
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real200_assets/a2_route_media_status/source/site_photo.png",
+                "path": "/storage/emulated/0/Pictures/Routes/North gate.png"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real200_assets/a2_route_media_status/source/inspection_a.png",
+                "path": "/storage/emulated/0/Pictures/Routes/Dock lane.png"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "for p in /storage/emulated/0/Pictures/Routes/*.png; do am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d \"file://$p\" >/dev/null 2>&1 || true; done && mkdir -p /storage/emulated/0/Documents/Markor"
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "north=\"_display_name='North gate.png' AND relative_path='Pictures/Routes/'\"; dock=\"_display_name='Dock lane.png' AND relative_path='Pictures/Routes/'\"; i=0; while test $i -lt 5; do content query --uri content://media/external/images/media --projection _display_name:relative_path --where \"$north\" | grep -Fq 'North gate.png' && content query --uri content://media/external/images/media --projection _display_name:relative_path --where \"$dock\" | grep -Fq 'Dock lane.png' && break; i=$((i + 1)); sleep 1; done; test -f '/storage/emulated/0/Pictures/Routes/North gate.png' && test -f '/storage/emulated/0/Pictures/Routes/Dock lane.png' && test ! -e '/storage/emulated/0/Pictures/Routes/Fuel shed.png' && test ! -e '/storage/emulated/0/Documents/Markor/Route media status.md' && pm path net.gsantner.markor >/dev/null && content query --uri content://media/external/images/media --projection _display_name:relative_path --where \"$north\" | grep -Fq 'North gate.png' && content query --uri content://media/external/images/media --projection _display_name:relative_path --where \"$dock\" | grep -Fq 'Dock lane.png'"
+            ],
+            "check_exit_status": true,
+            "timeout_s": 20
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "rm -f /storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx /data/data/net.osmand/files/favourites_bak.gpx"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "rm -f '/storage/emulated/0/Documents/Markor/Route media status.md'"
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "rm -f '/storage/emulated/0/Pictures/Routes/North gate.png' '/storage/emulated/0/Pictures/Routes/Dock lane.png' '/storage/emulated/0/Pictures/Routes/Fuel shed.png'; for name in 'North gate.png' 'Dock lane.png' 'Fuel shed.png'; do content delete --uri content://media/external/images/media --where \"_display_name='$name' AND relative_path='Pictures/Routes/'\" >/dev/null 2>&1 || true; done; rmdir /storage/emulated/0/Pictures/Routes 2>/dev/null || true"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_named_status_note",
+        "path": "/storage/emulated/0/Documents/Markor/Route media status.md",
+        "rules": {
+          "title": "Route media status",
+          "relations": {
+            "North gate": "present",
+            "Dock lane": "present",
+            "Fuel shed": "missing"
+          }
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_route_media_source_state",
+        "expected_files": [
+          {
+            "path": "/storage/emulated/0/Pictures/Routes/North gate.png",
+            "sha256": "77c41f2c481c5229c96b95605727b4a9687e580dbbd88d3a4b1afc8a84de5e52"
+          },
+          {
+            "path": "/storage/emulated/0/Pictures/Routes/Dock lane.png",
+            "sha256": "9092a6b0e30ed11887ce7fca7ae82964f6bd3c8a36179877a29a63829ad598a4"
+          }
+        ],
+        "missing_paths": [
+          "/storage/emulated/0/Pictures/Routes/Fuel shed.png"
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 100,
+    "max_wall_time_s": 780
+  },
+  "metadata": {
+    "category": "real200_cross_device",
+    "source_card": "110",
+    "difficulty": "Complex",
+    "motif": "M5",
+    "interaction_mode": "Hybrid",
+    "device_topology": "2A",
+    "surfaces": "android_0 OsmAnd + android_1 Simple Gallery Pro / Markor",
+    "setup_note": "android_0 写入 OsmAnd favorites；android_1 放置 route photos、触发 MediaStore 扫描，并在暴露任务前校验两张图片可见、Fuel shed 缺失、旧 note 不存在且 Markor 可用。",
+    "evaluate_note": "Half of the score checks the semantic Route media status note; half checks that North gate and Dock lane still match their setup SHA-256 fixtures and Fuel shed is still absent.",
+    "implementation_status": "real_evaluator",
+    "readiness": "R1_native_android_text_content",
+    "native_evaluator_status": "native_android_text_content",
+    "requires_helper_audit": false,
+    "asset_source": "tasks/cross_device/real200_assets/a2_route_media_status/source",
+    "cross_device_checks": [
+      "favorites_names_drive_gallery_presence_classification"
+    ],
+    "fixture_notes": [
+      "The two uploaded route images are valid, meaningful photographs.",
+      "Setup and cleanup touch only the task-specific Routes directory and status note."
+    ],
+    "instruction_visible_inputs": [],
+    "instruction_visible_outputs": [],
+    "native_content_outputs": [],
+    "android_text_outputs": [
+      {
+        "device_id": "android_1",
+        "path": "/storage/emulated/0/Documents/Markor/Route media status.md",
+        "include": [
+          "Route media status",
+          "North gate: present",
+          "Dock lane: present",
+          "Fuel shed: missing"
+        ]
+      }
+    ],
+    "browser_state_outputs": [],
+    "thunderbird_draft_outputs": [],
+    "android_state_outputs": [
+      {
+        "device_id": "android_1",
+        "result_type": "android_route_media_source_state",
+        "present": [
+          "North gate.png",
+          "Dock lane.png"
+        ],
+        "missing": [
+          "Fuel shed.png"
+        ]
+      }
+    ],
+    "lite_evaluator_hardening_note": "The status-note parser binds every exact favorite name to a declarative present/missing relation and accepts natural `is there` wording. A second scored guard independently preserves the observed source state: both present photos must retain the exact setup bytes, and Fuel shed must remain absent."
+  }
+}

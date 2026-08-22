@@ -1,0 +1,1 @@
+Approval code must be exactly APP- followed by four ASCII digits (0-9). Reject lowercase or mixed-case prefixes, the wrong number of digits, non-digits, Unicode lookalike digits, and surrounding whitespace.

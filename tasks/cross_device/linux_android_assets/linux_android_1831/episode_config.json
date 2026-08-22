@@ -1,0 +1,29 @@
+{
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "osmand_favorite_set",
+        "favorites": [
+          {
+            "favorite_name": "Harbor Gate 14",
+            "favorite_lat": 37.749,
+            "favorite_lon": -122.416
+          }
+        ],
+        "coordinate_tolerance": 0.0001
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "task_id": "linux_android_1831",
+    "source_plan": "plan6_final_balancing"
+  }
+}

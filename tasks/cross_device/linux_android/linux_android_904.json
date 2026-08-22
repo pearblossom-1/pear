@@ -1,0 +1,308 @@
+{
+  "id": "linux_android_904",
+  "instruction": "The approved audio transcript case is ready to hand off. Verify `/sdcard/Download/904-A_source.md` on the first phone against `/tmp/audio/transcripts.csv` and `/tmp/audio/handoff_policy.md` on the first Linux desktop. Following that policy, prepare `/tmp/audio/handoff.docx` on the first Linux desktop, add the coordinator as `Mira Patel 904` in Contacts on the second phone, and leave the receiving team a short handoff at `/tmp/audio/handoff.txt` on the second Linux desktop.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_904/android/904-A_source.md",
+                "path": "/sdcard/Download/904-A_source.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "test -r '/sdcard/Download/904-A_source.md'"
+            ],
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "files"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p '/tmp/audio' && rm -f '/tmp/audio/transcripts.csv' '/tmp/audio/handoff_policy.md' '/tmp/audio/handoff.docx'",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_904/source/transcripts.csv",
+                "path": "/tmp/audio/transcripts.csv"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_904/source/handoff_policy.md",
+                "path": "/tmp/audio/handoff_policy.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r '/tmp/audio/transcripts.csv' && test -r '/tmp/audio/handoff_policy.md' && test -w '/tmp/audio' && test ! -e '/tmp/audio/handoff.docx'",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p '/tmp/audio' && rm -f '/tmp/audio/handoff.txt'",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -w '/tmp/audio' && test ! -e '/tmp/audio/handoff.txt'",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/sdcard/Download/904-A_source.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f '/tmp/audio/transcripts.csv' '/tmp/audio/handoff_policy.md' '/tmp/audio/handoff.docx' '/tmp/audio/.~lock.handoff.docx#'; rmdir '/tmp/audio' 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f '/tmp/audio/handoff.txt'; rmdir '/tmp/audio' 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_contact",
+        "name": "Mira Patel 904",
+        "number": "+1555011881",
+        "require_unique_name": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/audio/handoff.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "904-A",
+            "NX90423",
+            "Mira Patel",
+            "transcripts.csv",
+            "ready"
+          ],
+          "exclude": [
+            "DRAFT ONLY",
+            "904-D",
+            "placeholder"
+          ],
+          "require_valid_package": true,
+          "case_sensitive": false,
+          "entity_relation": {
+            "entities": ["904-A", "NX90423", "Mira Patel", "transcripts.csv"],
+            "positive_phrases": ["ready", "approved"],
+            "conflict_phrases": ["not ready", "do not hand off", "blocked"]
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "cat '/tmp/audio/handoff.txt' 2>/dev/null || echo missing",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "904-A",
+            "NX90423",
+            "Mira Patel",
+            "transcripts.csv",
+            "ready"
+          ],
+          "exclude": [
+            "missing",
+            "placeholder"
+          ],
+          "case_sensitive": false,
+          "entity_relation": {
+            "entities": ["904-A", "NX90423", "Mira Patel", "transcripts.csv"],
+            "positive_phrases": ["ready", "approved"],
+            "conflict_phrases": ["not ready", "do not hand off", "blocked"]
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 420
+  },
+  "metadata": {
+    "category": "linux_android_next",
+    "implementation_status": "reviewed_plan6_generated",
+    "source_plan": "docs/plan6/linux_android_next100_tasks_881_980.md",
+    "source_task_number": 904,
+    "source_task_title": "Audio memo file list missing transcript draft",
+    "triage_decision": "direct",
+    "triage_reason": "Candidate is feasible with supported Linux and Android setup/evaluation interfaces.",
+    "device_topology": "android_0+android_1+linux_0+linux_1",
+    "surfaces": [
+      "android.android_file",
+      "android.contact",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_904",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_904/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_904/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_904/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/audio/transcripts.csv",
+      "/tmp/audio/handoff_policy.md"
+    ],
+    "linux_output_paths": [
+      "/tmp/audio/handoff.docx",
+      "/tmp/audio/handoff.txt"
+    ],
+    "android_output_plan": [
+      {
+        "kind": "contact",
+        "device_id": "android_1",
+        "name": "Mira Patel 904",
+        "number": "+1555011881",
+        "notes": "904-A; NX90423; verified"
+      }
+    ],
+    "expected_data_trace": {
+      "case_id": "904-A",
+      "approval_code": "NX90423",
+      "owner": "Mira Patel"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "topology_view": "linux_android"
+  }
+}

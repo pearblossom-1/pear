@@ -1,0 +1,2 @@
+Inspection window: 2026-07-24 09:50
+Context: perform the approved field inspection during this window.

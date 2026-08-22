@@ -1,0 +1,290 @@
+{
+  "meta": {
+    "sh_type": "SH1_state_inquiry",
+    "case": "feasible",
+    "seed": 1,
+    "room_count": 5,
+    "device_count": 18,
+    "episode_config_ref": "tasks/smarthome/episode_configs/sh1_state_inquiry_bathroom_humidity_feasible_0001.json"
+  },
+  "user_location": "bathroom",
+  "eval": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_answer_report",
+      "result": {
+        "type": "smarthome_answer_reports"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "semantic_room_state": {
+              "room_id": "bathroom",
+              "room_aliases": [
+                "bathroom",
+                "the bathroom"
+              ],
+              "field": "humidity_pct",
+              "field_aliases": [
+                "humidity_pct",
+                "humidity",
+                "relative humidity"
+              ],
+              "unit_aliases": [
+                "%",
+                "percent",
+                "pct",
+                "percentage"
+              ],
+              "tolerance": 0.5
+            }
+          }
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "current_bathroom_humidity_answer"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+          "all_devices": true,
+          "preserve_schedules": true,
+          "preserve_workflows": true,
+          "preserve_current_time": true,
+          "preserve_rooms": true
+          }
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "query_no_native_home_mutation"
+      }
+    }
+  ],
+  "initial_home_config": {
+    "tick_interval": 1.0,
+    "base_time": "2026-06-05T19:00:00",
+    "rooms": {
+      "bathroom": {
+        "environment": {
+          "temperature_c": 23.5,
+          "humidity_pct": 49.3,
+          "brightness_lux": 500.0,
+          "air_quality_pm25": 21.9,
+          "noise_level_db": 32.7,
+          "occupied": false
+        },
+        "devices": [
+          {
+            "device_id": "bathroom_heater_1",
+            "device_type": "heater",
+            "state": {
+              "power": "on",
+              "target_temperature_c": 26.0
+            }
+          },
+          {
+            "device_id": "bathroom_humidifier_1",
+            "device_type": "humidifier",
+            "state": {
+              "power": "off",
+              "level": "high"
+            }
+          },
+          {
+            "device_id": "bathroom_light_1",
+            "device_type": "light",
+            "state": {
+              "power": "on"
+            }
+          }
+        ]
+      },
+      "bedroom": {
+        "environment": {
+          "temperature_c": 23.5,
+          "humidity_pct": 37.2,
+          "brightness_lux": 500.0,
+          "air_quality_pm25": 38.0,
+          "noise_level_db": 25.0,
+          "occupied": false
+        },
+        "devices": [
+          {
+            "device_id": "bedroom_air_conditioner_1",
+            "device_type": "air_conditioner",
+            "state": {
+              "power": "on",
+              "mode": "auto",
+              "target_temperature_c": 27.0
+            }
+          },
+          {
+            "device_id": "bedroom_air_purifier_1",
+            "device_type": "air_purifier",
+            "state": {
+              "power": "on",
+              "level": "high"
+            }
+          },
+          {
+            "device_id": "bedroom_dehumidifier_1",
+            "device_type": "dehumidifier",
+            "state": {
+              "power": "off",
+              "level": "medium"
+            }
+          },
+          {
+            "device_id": "bedroom_heater_1",
+            "device_type": "heater",
+            "state": {
+              "power": "off",
+              "target_temperature_c": 30.0
+            }
+          },
+          {
+            "device_id": "bedroom_light_1",
+            "device_type": "light",
+            "state": {
+              "power": "on"
+            }
+          }
+        ]
+      },
+      "kids_room": {
+        "environment": {
+          "temperature_c": 24.8,
+          "humidity_pct": 46.2,
+          "brightness_lux": 173.7,
+          "air_quality_pm25": 32.3,
+          "noise_level_db": 27.3,
+          "occupied": true
+        },
+        "devices": [
+          {
+            "device_id": "kids_room_air_purifier_1",
+            "device_type": "air_purifier",
+            "state": {
+              "power": "off",
+              "level": "high"
+            }
+          },
+          {
+            "device_id": "kids_room_heater_1",
+            "device_type": "heater",
+            "state": {
+              "power": "off",
+              "target_temperature_c": 27.0
+            }
+          },
+          {
+            "device_id": "kids_room_humidifier_1",
+            "device_type": "humidifier",
+            "state": {
+              "power": "on",
+              "level": "medium"
+            }
+          },
+          {
+            "device_id": "kids_room_light_1",
+            "device_type": "light",
+            "state": {
+              "power": "off"
+            }
+          }
+        ]
+      },
+      "living_room": {
+        "environment": {
+          "temperature_c": 22.9,
+          "humidity_pct": 50.8,
+          "brightness_lux": 100.0,
+          "air_quality_pm25": 26.6,
+          "noise_level_db": 58.0,
+          "occupied": false
+        },
+        "devices": [
+          {
+            "device_id": "living_room_air_conditioner_1",
+            "device_type": "air_conditioner",
+            "state": {
+              "power": "on",
+              "mode": "auto",
+              "target_temperature_c": 21.0
+            }
+          },
+          {
+            "device_id": "living_room_air_purifier_1",
+            "device_type": "air_purifier",
+            "state": {
+              "power": "off",
+              "level": "medium"
+            }
+          },
+          {
+            "device_id": "living_room_dimmable_light_1",
+            "device_type": "dimmable_light",
+            "state": {
+              "power": "on",
+              "brightness_pct": 20
+            }
+          },
+          {
+            "device_id": "living_room_robot_vacuum_1",
+            "device_type": "robot_vacuum",
+            "state": {
+              "power": "on",
+              "status": "cleaning",
+              "battery_pct": 79
+            }
+          }
+        ]
+      },
+      "study": {
+        "environment": {
+          "temperature_c": 25.5,
+          "humidity_pct": 42.2,
+          "brightness_lux": 400.0,
+          "air_quality_pm25": 32.6,
+          "noise_level_db": 28.1,
+          "occupied": false
+        },
+        "devices": [
+          {
+            "device_id": "study_air_conditioner_1",
+            "device_type": "air_conditioner",
+            "state": {
+              "power": "off",
+              "mode": "fan",
+              "target_temperature_c": 23.0
+            }
+          },
+          {
+            "device_id": "study_dimmable_light_1",
+            "device_type": "dimmable_light",
+            "state": {
+              "power": "on",
+              "brightness_pct": 80
+            }
+          }
+        ]
+      }
+    },
+    "schedules": [],
+    "workflows": [],
+    "history": [],
+    "infeasible_reports": [],
+    "answer_reports": []
+  }
+}

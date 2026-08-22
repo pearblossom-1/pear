@@ -1,0 +1,14 @@
+{
+  "linux_actions": [
+    {
+      "device_id": "linux_1",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "mkdir -p $HOME/.thunderbird/mail.default-release/Mail/'Local Folders' && echo RnJvbSAtIFR1ZSBKdWwgMTQgMDk6MzA6MDAgMjAyNgpUbzogbWF5YS5jaGVuQGV4YW1wbGUudGVzdApTdWJqZWN0OiBDQVNFLTE4NjkgZXNjYWxhdGlvbiBkcmFmdApNZXNzYWdlLUlEOiA8Y2FzZS0xODY5QG1kY2JlbmNoLnRlc3Q+CkNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOAoKQ0FTRS0xODY5IC8gRkItMTg2OSBlc2NhbGF0aW9uIGZvciBNYXlhIENoZW4uIFJvdXRlIFJULTY5IGF0IEhhcmJvciBHYXRlIDE4LCAyMDI2LTA3LTE0IDA5OjMwLiBLZWVwIHRoaXMgaW4gRHJhZnRzLgo= | base64 -d > $HOME/.thunderbird/mail.default-release/Mail/'Local Folders'/Drafts",
+        "shell": true
+      }
+    }
+  ],
+  "android_setup": {},
+  "notes": "Negative smoke writes one same-recipient draft that omits the required priority and lead role."
+}

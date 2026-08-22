@@ -1,0 +1,299 @@
+{
+  "id": "linux_android_1185",
+  "instruction": "Use `/tmp/meetings/attendees.xlsx` on the first Linux machine and `/tmp/meetings/reminder_policy.md` on the second to select the current attendees. Match them to Contacts on the first phone, then send each selected attendee a concise confirmation from the second phone using its Calendar meeting title and code.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/meetings/attendees.xlsx /tmp/meetings/calc.log && rm -rf -- /tmp/mdcbench-linux-android-1185-calc-profile && mkdir -p -- /tmp/meetings",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1185/source/tmp/meetings/attendees.xlsx",
+                "path": "/tmp/meetings/attendees.xlsx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nbook=/tmp/meetings/attendees.xlsx\ntest -r \"$book\"\nunzip -t \"$book\" >/dev/null\nsheet=\"$(unzip -p \"$book\" xl/worksheets/sheet1.xml)\"\nprintf '%s' \"$sheet\" | grep -F '<c r=\"D4\" t=\"inlineStr\"><is><t>archived</t>' >/dev/null\ntest \"$(printf '%s' \"$sheet\" | grep -oF '<t>MTG-Q3-OPS</t>' | wc -l)\" -eq 2\ncommand -v libreoffice >/dev/null\nnohup libreoffice --calc --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-linux-android-1185-calc-profile' \"$book\" >/tmp/meetings/calc.log 2>&1 &\nsleep 4\npgrep -f 'mdcbench-linux-android-1185-calc-profile' >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/meetings/reminder_policy.md && mkdir -p -- /tmp/meetings",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1185/source/linux_1/tmp/meetings/reminder_policy.md",
+                "path": "/tmp/meetings/reminder_policy.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/meetings/reminder_policy.md && grep -F 'meeting_code' /tmp/meetings/reminder_policy.md >/dev/null && grep -F 'status is not archived' /tmp/meetings/reminder_policy.md >/dev/null && ! grep -F 'Q3 Ops Review' /tmp/meetings/reminder_policy.md >/dev/null && ! grep -F 'MTG-Q3-OPS' /tmp/meetings/reminder_policy.md >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Avery Stone",
+            "number": "5551201185",
+            "notes": "Northwind Ops primary attendee"
+          }
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Lena Ortiz",
+            "number": "5551201186",
+            "notes": "Northwind Ops attendee"
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Q3 Ops Review MTG-Q3-OPS",
+            "start_ts": 1783659600,
+            "end_ts": 1783663200,
+            "location": "Room 4",
+            "description": "Meeting code MTG-Q3-OPS"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "pkill -f 'mdcbench-linux-android-1185-calc-profile' 2>/dev/null || true; rm -rf -- /tmp/mdcbench-linux-android-1185-calc-profile; rm -f -- /tmp/meetings/attendees.xlsx /tmp/meetings/calc.log; find /tmp/meetings -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/meetings/reminder_policy.md; find /tmp/meetings -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201185",
+        "body_relation": {
+          "entities": ["Q3 Ops Review", "MTG-Q3-OPS", ["confirmed", "meeting confirmed", "scheduled", "reminder for", "see you at"]],
+          "positive_phrases": [["confirmed", "meeting confirmed", "scheduled", "reminder for", "see you at"]],
+          "conflict_phrases": ["maybe", "might", "not confirmed", "canceled", "cancelled", "wrong meeting", "MTG-Q3-FIN"],
+          "reject_incomplete_semantics": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201186",
+        "body_relation": {
+          "entities": ["Q3 Ops Review", "MTG-Q3-OPS", ["confirmed", "meeting confirmed", "scheduled", "reminder for", "see you at"]],
+          "positive_phrases": [["confirmed", "meeting confirmed", "scheduled", "reminder for", "see you at"]],
+          "conflict_phrases": ["maybe", "might", "not confirmed", "canceled", "cancelled", "wrong meeting", "MTG-Q3-FIN"],
+          "reject_incomplete_semantics": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1185",
+    "surfaces": [
+      "contacts",
+      "calendar",
+      "sms",
+      "linux.xlsx",
+      "linux.markdown"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1185",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1185/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1185/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/meetings/attendees.xlsx",
+      "/tmp/meetings/reminder_policy.md"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": ["/tmp/meetings/attendees.xlsx"],
+      "linux_1": [
+        "/tmp/meetings/reminder_policy.md"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1181-1200-B0001",
+    "candidate_triage": {
+      "decision": "direct",
+      "rationale": "Candidate is realistic, source-closed, and supported by existing Linux and Android helpers."
+    },
+    "structured_output_classification": {
+      "native_sms_reminders": "primary_native_state"
+    },
+    "lite_evaluator_hardening_note": "Scores two independent affirmative native SMS outcomes from clean sent state while the workbook and generic policy preserve Calendar as the authoritative meeting source."
+  }
+}

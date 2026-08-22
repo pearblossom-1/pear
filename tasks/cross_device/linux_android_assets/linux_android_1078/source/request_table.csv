@@ -1,0 +1,13 @@
+case_id,owner,phone,status,code,target,due_time,priority
+1078-00,Mira Patel,+1555011881,pending,D10780,Form code absent from SMS,2026-07-23 08:30,normal
+1078-01,Jon Bell,+1555011882,pending,D10781,Form code absent from SMS,2026-07-24 09:30,normal
+1078-02,Nadia Ross,+1555011883,pending,D10782,Form code absent from SMS,2026-07-10 10:30,normal
+1078-A,Owen Park,+1555011887,blocked,NX07877,Form code absent from SMS,2026-07-11 11:30,high
+1078-04,Elena Cruz,+1555011885,pending,D10784,Form code absent from SMS,2026-07-12 12:30,normal
+1078-05,Priya Shah,+1555011886,pending,D10785,Form code absent from SMS,2026-07-13 13:30,normal
+1078-06,Owen Park,+1555011887,pending,D10786,Form code absent from SMS,2026-07-14 14:30,normal
+1078-D,Owen Park,+1555011888,hold,D10787,Form code absent from SMS,2026-07-15 15:30,normal
+1078-08,Mira Patel,+1555011881,pending,D10788,Form code absent from SMS,2026-07-16 16:30,normal
+1078-09,Jon Bell,+1555011882,pending,D10789,Form code absent from SMS,2026-07-17 08:30,normal
+1078-10,Nadia Ross,+1555011883,pending,D107810,Form code absent from SMS,2026-07-18 09:30,normal
+1078-11,Tao Lin,+1555011884,pending,D107811,Form code absent from SMS,2026-07-19 10:30,normal

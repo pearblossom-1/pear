@@ -1,0 +1,25 @@
+{
+  "task_id": "linux_android_1307",
+  "eval": [
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "host_form_submission_state",
+        "form_id": "linux_android_1307",
+        "field_names": [
+          "code"
+        ],
+        "expected_sha256": "0b67a1f5ff4329dba7d056bae1d82abc63f86a8d4156742fdb8a2123766bb8de",
+        "client_path": "/home/user/form/submit.html",
+        "action_placeholder": "__MDCBENCH_FORM_ACTION__"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ]
+}

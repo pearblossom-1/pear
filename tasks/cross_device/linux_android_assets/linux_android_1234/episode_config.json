@@ -1,0 +1,28 @@
+{
+  "task_id": "linux_android_1234",
+  "eval": [
+    {
+      "device_id": "linux_0",
+      "func": "check_json_exact_object",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/status/normalized_status.json"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "object": {
+            "message_timestamp": "2026-07-21T10:45:00",
+            "raw_phrase": "arrived and unloading",
+            "canonical_status": "onsite",
+            "matched_rule": "RULE-ARRIVED"
+          },
+          "string_values_only": true
+        }
+      },
+      "metadata": {
+        "path": "/tmp/status/normalized_status.json"
+      }
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "decision": "block",
+  "reason": "Implemented as a positive blocked-state task because the candidate contains missing, conflicting, denied, or otherwise non-actionable source evidence."
+}

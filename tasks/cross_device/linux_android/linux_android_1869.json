@@ -1,0 +1,300 @@
+{
+  "id": "linux_android_1869",
+  "instruction": "The current support case needs to be escalated to its assigned lead. Use the support SMS on the first phone, the matching lead contact on the second phone, and `/tmp/support/kb.xlsx` on the first Linux desktop to prepare the message. In Thunderbird on the second Linux desktop, leave the lead an unsent draft that brings together the current case and approval, priority, lead role, route, site, and scheduled time.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+15552001827",
+            "body": "Archived request OLD-17; ignore this older message.",
+            "wait_s": 2.1
+          }
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+15552001827",
+            "body": "Latest approval CASE-1869 FB-1869 has priority P1 at 2026-07-14 09:30.",
+            "wait_s": 2.1
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rows=\"$(content query --uri content://sms/inbox --projection address:body --where \"address='+15552001827'\" --sort 'date DESC,_id DESC' 2>/dev/null)\"; test \"$(printf '%s\\n' \"$rows\" | grep -c '^Row:')\" -eq 2 && latest=\"$(printf '%s\\n' \"$rows\" | sed -n '1p')\" && printf '%s\\n' \"$latest\" | grep -F 'body=Latest approval CASE-1869 FB-1869 has priority P1 at 2026-07-14 09:30.' >/dev/null",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Maya Chen",
+            "number": "+15552001827",
+            "notes": "maya.chen@example.test; Escalation lead"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rows=\"$(content query --uri content://com.android.contacts/data --projection display_name:mimetype:data1 2>/dev/null)\"; printf '%s\\n' \"$rows\" | grep -F 'display_name=Maya Chen' | grep -F 'data1=+15552001827' >/dev/null && printf '%s\\n' \"$rows\" | grep -F 'display_name=Maya Chen' | grep -F 'maya.chen@example.test' | grep -F 'Escalation lead' >/dev/null",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/mdcbench-linux-android-1869-calc-profile\nmkdir -p /tmp/support\nrm -f /tmp/support/kb.xlsx /tmp/support/calc.log",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1869/source/kb.xlsx",
+                "path": "/tmp/support/kb.xlsx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\npython3 - <<'PY'\nfrom zipfile import ZipFile\nimport re\nimport xml.etree.ElementTree as ET\npath = '/tmp/support/kb.xlsx'\nns = {'m': 'http://schemas.openxmlformats.org/spreadsheetml/2006/main'}\ndef column(ref):\n    value = 0\n    for letter in re.match(r'[A-Z]+', ref).group(0):\n        value = value * 26 + ord(letter) - 64\n    return value\nwith ZipFile(path) as archive:\n    assert archive.testzip() is None\n    shared = []\n    if 'xl/sharedStrings.xml' in archive.namelist():\n        root = ET.fromstring(archive.read('xl/sharedStrings.xml'))\n        shared = [''.join(item.itertext()) for item in root.findall('m:si', ns)]\n    sheet = ET.fromstring(archive.read('xl/worksheets/sheet1.xml'))\nrows = []\nfor row in sheet.findall('.//m:sheetData/m:row', ns):\n    values = {}\n    for cell in row.findall('m:c', ns):\n        kind = cell.attrib.get('t')\n        if kind == 'inlineStr':\n            value = ''.join(cell.itertext())\n        else:\n            node = cell.find('m:v', ns)\n            value = '' if node is None or node.text is None else node.text\n            if kind == 's' and value:\n                value = shared[int(value)]\n        values[column(cell.attrib['r'])] = str(value).strip()\n    rows.append([values.get(index, '') for index in range(1, 13)])\nassert rows[0] == ['case', 'status', 'code', 'owner', 'phone', 'email', 'route', 'site', 'time', 'filename', 'include', 'notes']\ncurrent = [row for row in rows[1:] if row[1] == 'current' and row[10] == 'yes']\nassert len(current) == 1\nassert current[0][:9] == ['CASE-1869', 'current', 'FB-1869', 'Maya Chen', '+15552001827', 'maya.chen@example.test', 'RT-69', 'Harbor Gate 18', '2026-07-14 09:30']\nPY\ncommand -v libreoffice >/dev/null\nnohup libreoffice --calc --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-linux-android-1869-calc-profile' /tmp/support/kb.xlsx >/tmp/support/calc.log 2>&1 &\nsleep 4\npgrep -f 'mdcbench-linux-android-1869-calc-profile' >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\npkill -f 'thunderbird.*mail.default-release' 2>/dev/null || true\nrm -rf \"$HOME/.thunderbird/mail.default-release\"\nmkdir -p \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders\"\ncat > \"$HOME/.thunderbird/profiles.ini\" <<'EOF'\n[Profile0]\nName=local\nIsRelative=1\nPath=mail.default-release\nDefault=1\n\n[General]\nStartWithLastProfile=1\nVersion=2\nEOF\ncat > \"$HOME/.thunderbird/mail.default-release/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server1\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.identity.id1.fullName\", \"Local Agent\");\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.directory-rel\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nEOF\nprofile=\"$HOME/.thunderbird/mail.default-release\"\n: > \"$profile/Mail/Local Folders/Inbox\"\n: > \"$profile/Mail/Local Folders/Drafts\"\n: > \"$profile/Mail/Local Folders/Sent\"\ntest -s \"$profile/prefs.js\"\ntest ! -s \"$profile/Mail/Local Folders/Inbox\"\ntest ! -s \"$profile/Mail/Local Folders/Drafts\"\ntest ! -s \"$profile/Mail/Local Folders/Sent\"\ncommand -v thunderbird >/dev/null\nnohup thunderbird --no-remote --profile \"$profile\" >/tmp/thunderbird-1869.log 2>&1 &\nsleep 3\npgrep -f 'thunderbird.*mail.default-release' >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "pkill -f 'mdcbench-linux-android-1869-calc-profile' 2>/dev/null || true; rm -rf /tmp/mdcbench-linux-android-1869-calc-profile; rm -f -- /tmp/support/kb.xlsx /tmp/support/calc.log; find /tmp/support -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "pkill -f 'thunderbird.*mail.default-release' 2>/dev/null || true; rm -rf ~/.thunderbird/mail.default-release; rm -f ~/.thunderbird/profiles.ini /tmp/thunderbird-1869.log",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "thunderbird_draft_state",
+        "profile_root": "~/.thunderbird/mail.default-release",
+        "recipients": ["maya.chen@example.test"],
+        "message_relation": {
+          "entities": [
+            "CASE-1869",
+            "FB-1869",
+            ["P1", "priority 1", "high priority"],
+            ["Escalation lead", "escalation owner"],
+            "RT-69",
+            "Harbor Gate 18",
+            [
+              "2026-07-14 09:30",
+              "July 14, 2026 at 9:30 AM",
+              "7/14/2026 9:30 AM",
+              "9:30 AM on July 14, 2026",
+              "07/14/2026 09:30"
+            ]
+          ],
+          "conflict_phrases": [
+            "CASE-OLD",
+            "HOLD-42",
+            "Harbor Gate 18 Annex",
+            "wrong route",
+            "wrong site",
+            "wrong time",
+            "not an escalation",
+            "do not send",
+            "cancelled",
+            "canceled"
+          ],
+          "reject_incomplete_semantics": true
+        },
+        "allow_extra_recipients": false,
+        "recipient_header_policy": "single_to_only"
+      },
+      "expected": {"type": "rule", "rules": {"expected": "present"}}
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "thunderbird_folder_state",
+        "profile_root": "~/.thunderbird/mail.default-release",
+        "folder_messages": {"Sent": []}
+      },
+      "expected": {"type": "rule", "rules": {"expected": "exact"}}
+    }
+  ],
+  "limits": {
+    "max_steps": 70,
+    "max_wall_time_s": 600
+  },
+  "metadata": {
+    "category": "linux_android_final_balancing",
+    "implementation_status": "builder_batch_1827_1876",
+    "source_plan": "docs/plan6/linux_android_final_balancing_tasks_1777_1876.md",
+    "source_task_number": 1869,
+    "source_task_title": "Support escalation capstone",
+    "triage_decision": "repair",
+    "triage_reason": "Repaired as a Thunderbird escalation draft using support SMS, lead contact, and Linux knowledge-base evidence.",
+    "device_topology": "android_0+android_1+linux_0+linux_1",
+    "surfaces": [
+      "android.contacts",
+      "android.sms",
+      "linux.thunderbird"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1869",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1869/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1869/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_1869/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/support/kb.xlsx"
+    ],
+    "linux_output_paths": [],
+    "linux_output_paths_by_device": {
+      "linux_0": [],
+      "linux_1": []
+    },
+    "android_output_plan": [],
+    "expected_data_trace": {
+      "case": "CASE-1869",
+      "code": "FB-1869",
+      "route": "RT-69",
+      "site": "Harbor Gate 18",
+      "owner": "Maya Chen",
+      "phone": "+15552001827",
+      "email": "maya.chen@example.test",
+      "role": "North region lead",
+      "time": "2026-07-14 09:30",
+      "lat": "37.749",
+      "lon": "-122.464",
+      "decision": "ready",
+      "included": "rt-69_photo_a.jpg",
+      "missing": "rt-69_photo_missing.jpg",
+      "hold_attachment": "rt-69_hold.jpg"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "structured_output_classification": {"thunderbird_draft": "primary_native_state"},
+    "human_quality_hardening": "Scores one current same-draft message in the exact isolated profile and verifies that it remains unsent.",
+    "topology_view": "linux_android"
+  }
+}

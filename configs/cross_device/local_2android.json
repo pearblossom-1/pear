@@ -1,0 +1,34 @@
+{
+  "devices": {
+    "android_0": {
+      "runtime": {
+        "adb_serial": "emulator-5554",
+        "grpc_port": 8554,
+        "require_prelaunched": true
+      },
+      "observation": {
+        "screenshot": true,
+        "ui_elements": true,
+        "forest": false
+      },
+      "action_space": [
+        "android.json_action"
+      ]
+    },
+    "android_1": {
+      "runtime": {
+        "adb_serial": "emulator-5556",
+        "grpc_port": 8555,
+        "require_prelaunched": true
+      },
+      "observation": {
+        "screenshot": true,
+        "ui_elements": true,
+        "forest": false
+      },
+      "action_space": [
+        "android.json_action"
+      ]
+    }
+  }
+}

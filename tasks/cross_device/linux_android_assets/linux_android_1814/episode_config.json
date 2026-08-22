@@ -1,0 +1,115 @@
+{
+  "eval": [
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/change/change_form.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "Approval Change Form"
+          ],
+          "exclude": [
+            "blocked",
+            "PLACEHOLDER",
+            "mismatch",
+            "[[CASE]]",
+            "[[APPROVAL]]",
+            "[[APPROVER]]",
+            "[[PHONE]]",
+            "[[ROLE]]",
+            "[[COMPANY]]",
+            "[[ACTION]]",
+            "[[TIMESTAMP]]",
+            "[[STATUS]]"
+          ],
+          "require_valid_package": true,
+          "required_members": [
+            "word/styles.xml"
+          ],
+          "min_tables": 1,
+          "min_paragraphs": 4,
+          "case_sensitive": false,
+          "template_structure": {
+            "body_paragraphs": [
+              "Approval Change Form",
+              "Complete each field from the latest approval message and matching approver contact.",
+              "Review",
+              "Use the approved values shown above for the follow-up."
+            ],
+            "exact_tables": 1,
+            "format": {
+              "title": "Approval Change Form",
+              "title_min_half_points": 30,
+              "page_orientation": "portrait",
+              "tables": [
+                {
+                  "table_index": 0,
+                  "require_visible_grid": true,
+                  "column_width_ratios": [
+                    0.5,
+                    0.5
+                  ],
+                  "ratio_tolerance": 0.15
+                }
+              ]
+            }
+          },
+          "table_contracts": [
+            {
+              "table_index": 0,
+              "exact_rows": true,
+              "exact_columns": true,
+              "rows": [
+                [
+                  "Case:",
+                  "CASE-314"
+                ],
+                [
+                  "Approval code:",
+                  "RC-284"
+                ],
+                [
+                  "Approver:",
+                  "Grace Kim"
+                ],
+                [
+                  "Phone:",
+                  "+15552001781"
+                ],
+                [
+                  "Role:",
+                  "Release reviewer"
+                ],
+                [
+                  "Company:",
+                  "Orchard Supply"
+                ],
+                [
+                  "Action:",
+                  "Prepare site readiness follow-up"
+                ],
+                [
+                  "Approved at:",
+                  "2026-06-27 18:40"
+                ],
+                [
+                  "Status:",
+                  "Approved"
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "task_id": "linux_android_1814",
+    "source_plan": "plan6_final_balancing"
+  }
+}

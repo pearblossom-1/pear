@@ -1,0 +1,242 @@
+{
+  "id": "linux_android_1814",
+  "instruction": "Complete every visible field in `/tmp/change/change_form.docx` on Linux using the latest approval SMS from the first phone and the matching approver contact from the second phone. Preserve the form's visible layout and use its displayed timestamp format.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+15552001781",
+            "body": "Old request RC-284 from yesterday; action: ignore archived timestamp.",
+            "wait_s": 2.1
+          }
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+15552001781",
+            "body": "CASE-314 RC-284: requester Grace Kim; action prepare site readiness follow-up; timestamp 2026-06-27 18:40; phone +15552001781; status approved.",
+            "wait_s": 2.1
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "row=\"$(content query --uri content://sms/inbox --projection address:body --where \"address='+15552001781'\" --sort 'date DESC,_id DESC' 2>/dev/null | sed -n '1p')\"; printf '%s\\n' \"$row\" | grep -F 'body=CASE-314 RC-284: requester Grace Kim; action prepare site readiness follow-up; timestamp 2026-06-27 18:40; phone +15552001781; status approved.' >/dev/null",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Grace Kim",
+            "number": "+15552001781",
+            "notes": "RC-284; CASE-314; role release reviewer; company Orchard Supply; packet ready"
+          }
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Grace Archive",
+            "number": "+15550009999",
+            "notes": "similar name without memo code"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/change && rm -f /tmp/change/change_form.docx",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1814/source/change_form.docx",
+                "path": "/tmp/change/change_form.docx"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/change/change_form.docx; find /tmp/change -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/change/change_form.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": ["Approval Change Form"],
+          "exclude": ["blocked", "PLACEHOLDER", "mismatch", "[[CASE]]", "[[APPROVAL]]", "[[APPROVER]]", "[[PHONE]]", "[[ROLE]]", "[[COMPANY]]", "[[ACTION]]", "[[TIMESTAMP]]", "[[STATUS]]"],
+          "require_valid_package": true,
+          "required_members": ["word/styles.xml"],
+          "min_tables": 1,
+          "min_paragraphs": 4,
+          "case_sensitive": false,
+          "template_structure": {
+            "body_paragraphs": ["Approval Change Form", "Complete each field from the latest approval message and matching approver contact.", "Review", "Use the approved values shown above for the follow-up."],
+            "exact_tables": 1,
+            "format": {
+              "title": "Approval Change Form",
+              "title_min_half_points": 30,
+              "page_orientation": "portrait",
+              "tables": [{"table_index": 0, "require_visible_grid": true, "column_width_ratios": [0.5, 0.5], "ratio_tolerance": 0.15}]
+            }
+          },
+          "table_contracts": [{
+            "table_index": 0,
+            "exact_rows": true,
+            "exact_columns": true,
+            "rows": [
+              ["Case:", "CASE-314"],
+              ["Approval code:", "RC-284"],
+              ["Approver:", "Grace Kim"],
+              ["Phone:", "+15552001781"],
+              ["Role:", "Release reviewer"],
+              ["Company:", "Orchard Supply"],
+              ["Action:", "Prepare site readiness follow-up"],
+              ["Approved at:", "2026-06-27 18:40"],
+              ["Status:", "Approved"]
+            ]
+          }]
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 60,
+    "max_wall_time_s": 480
+  },
+  "metadata": {
+    "category": "linux_android_final_balancing",
+    "implementation_status": "builder_batch_1777_1826",
+    "source_plan": "docs/plan6/linux_android_final_balancing_tasks_1777_1876.md",
+    "source_task_number": 1814,
+    "source_task_title": "SMS approval updates Writer change form",
+    "triage_decision": "direct",
+    "triage_reason": "Candidate is feasible with supported Linux and Android setup/evaluation interfaces.",
+    "device_topology": "android_0+android_1+linux_0",
+    "surfaces": [
+      "android.approval_sms",
+      "android.approver_contact",
+      "linux.docx"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1814",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1814/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1814/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_1814/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/change/change_form.docx"
+    ],
+    "linux_output_paths": [
+      "/tmp/change/change_form.docx"
+    ],
+    "android_output_plan": [],
+    "expected_data_trace": {
+      "case": "CASE-314",
+      "code": "RC-284",
+      "owner": "Grace Kim"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "topology_view": "linux_android",
+    "structured_output_classification": {
+      "/tmp/change/change_form.docx": "primary_artifact"
+    },
+    "lite_evaluator_hardening_note": "Scores the complete visible form table and material template layout rather than source guards or scattered strings."
+  }
+}

@@ -1,0 +1,39 @@
+{
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_alarm_set",
+        "alarms": [
+          {
+            "hour": 6,
+            "minute": 28,
+            "label": "CASE-1828 preparation fallback",
+            "enabled": true
+          },
+          {
+            "hour": 7,
+            "minute": 28,
+            "label": "CASE-1828 RT-28",
+            "enabled": true
+          }
+        ],
+        "allow_unrelated": false,
+        "exact_user_visible_set": true,
+        "reject_identity_duplicates": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "task_id": "linux_android_1828",
+    "source_plan": "plan6_final_balancing"
+  },
+  "task_id": "linux_android_1828"
+}

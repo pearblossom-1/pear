@@ -1,0 +1,425 @@
+{
+  "id": "android_only_267",
+  "instruction": "The first phone's `audio_manifest.csv` is the recording checklist. Check the Recordings folder on the second phone, then text Status Contact from that phone with the checklist name, the number of listed recordings present, and any missing filename.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_only_assets/android_only_267/android_0/files/audio_manifest.csv",
+                "path": "/sdcard/Download/audio_manifest.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/sdcard/Download",
+            "expected_filenames": [
+              "audio_manifest.csv"
+            ],
+            "missing_filenames": [],
+            "open_filename": "audio_manifest.csv",
+            "required_visible_text": [
+              "brief_a.mp3",
+              "brief_b.mp3",
+              "brief_c.mp3"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "mkdir -p /sdcard/Recordings && rm -f /sdcard/Recordings/brief_a.mp3 /sdcard/Recordings/brief_b.mp3 /sdcard/Recordings/brief_c.mp3 && content delete --uri content://media/external/audio/media --where \"_display_name='brief_a.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='brief_b.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='brief_c.mp3'\" >/dev/null 2>&1 || true"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "retro music"
+          }
+        },
+        {
+          "type": "androidworld_mp3_push",
+          "parameters": {
+            "songs": [
+              "brief_a",
+              "brief_b"
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "mv /sdcard/Music/brief_a.mp3 /sdcard/Recordings/brief_a.mp3 && mv /sdcard/Music/brief_b.mp3 /sdcard/Recordings/brief_b.mp3"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/Recordings/brief_a.mp3 >/dev/null 2>&1 || true && am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/Recordings/brief_b.mp3 >/dev/null 2>&1 || true"
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/sdcard/Recordings",
+            "expected_filenames": [
+              "brief_a.mp3",
+              "brief_b.mp3"
+            ],
+            "missing_filenames": [
+              "brief_c.mp3"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_filesystem_snapshot",
+          "parameters": {
+            "snapshot_id": "android_only_267_recordings",
+            "directories": [],
+            "files": [
+              "/sdcard/Recordings/brief_a.mp3",
+              "/sdcard/Recordings/brief_b.mp3",
+              "/sdcard/Recordings/brief_c.mp3"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Status Contact",
+            "number": "5550267",
+            "notes": "Receives recording status."
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Status Contact",
+              "number": "5550267",
+              "notes_exact": "Receives recording status.",
+              "require_exactly_one": true
+            },
+            "required_visible_text": [
+              "Status Contact",
+              "5550267"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /sdcard/Download/audio_manifest.csv"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Send one recording-checklist status SMS to Status Contact",
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "mkdir -p /sdcard/Recordings && rm -f /sdcard/Recordings/brief_a.mp3 /sdcard/Recordings/brief_b.mp3 /sdcard/Recordings/brief_c.mp3 && content delete --uri content://media/external/audio/media --where \"_display_name='brief_a.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='brief_b.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='brief_c.mp3'\" >/dev/null 2>&1 || true"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Send at least one correct recording-checklist status SMS to Status Contact",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550267",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            "audio_manifest.csv",
+            [
+              "2 recordings",
+              "two recordings"
+            ],
+            "brief_c.mp3"
+          ],
+          "required_phrases": [
+            [
+              "present",
+              "available"
+            ],
+            [
+              "missing",
+              "absent",
+              "not found"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "present",
+              "available"
+            ],
+            [
+              "missing",
+              "absent",
+              "not found"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "cancelled",
+            "withdrawn",
+            "retracted"
+          ],
+          "allowed_negative_capability_phrases": [
+            "not found"
+          ],
+          "conflict_patterns": [
+            "brief_c\\.mp3.{0,24}\\b(?:is\\s+)?(?:present|available|exists|ready)\\b",
+            "(?:3|three)\\s+recordings.{0,24}\\b(?:are\\s+)?(?:present|available)\\b",
+            "brief_[ab]\\.mp3.{0,24}\\b(?:is\\s+)?(?:missing|absent|not\\s+found)\\b"
+          ],
+          "nearest_relations": [
+            {
+              "anchor": [
+                "audio_manifest.csv"
+              ],
+              "expected": [
+                "2 recordings",
+                "two recordings"
+              ],
+              "forbidden": [
+                "3 recordings",
+                "three recordings"
+              ],
+              "max_distance": 24
+            },
+            {
+              "anchor": [
+                "2 recordings",
+                "two recordings"
+              ],
+              "expected": [
+                "present",
+                "available"
+              ],
+              "forbidden": [
+                "missing",
+                "absent"
+              ],
+              "max_distance": 8
+            },
+            {
+              "anchor": [
+                "brief_c.mp3"
+              ],
+              "expected": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "forbidden": [
+                "present",
+                "available",
+                "exists",
+                "ready"
+              ],
+              "max_distance": 8
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "name": "Preserve brief_a and brief_b bytes and keep brief_c absent",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_filesystem_snapshot_state",
+        "snapshot_id": "android_only_267_recordings",
+        "preserve_directories": [],
+        "file_mappings": [
+          {
+            "baseline_path": "/sdcard/Recordings/brief_a.mp3",
+            "current_path": "/sdcard/Recordings/brief_a.mp3"
+          },
+          {
+            "baseline_path": "/sdcard/Recordings/brief_b.mp3",
+            "current_path": "/sdcard/Recordings/brief_b.mp3"
+          },
+          {
+            "baseline_path": "/sdcard/Recordings/brief_c.mp3",
+            "current_path": "/sdcard/Recordings/brief_c.mp3"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "No status SMS may claim brief_c.mp3 is present",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550267",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            "brief_c.mp3"
+          ],
+          "required_patterns": [
+            "brief_c\\.mp3.{0,24}\\b(?:is\\s+)?(?:present|available|exists|ready)\\b"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "No status SMS may claim three recordings are present",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550267",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            [
+              "3 recordings",
+              "three recordings"
+            ]
+          ],
+          "required_patterns": [
+            "(?:(?:3|three)\\s+recordings.{0,24}\\b(?:are\\s+)?(?:present|available)\\b|\\b(?:present|available)\\b.{0,24}(?:3|three)\\s+recordings)"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "android_only",
+    "device_topology": "2android",
+    "surfaces": [
+      "files",
+      "contacts",
+      "sms"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/android_only_assets/android_only_267",
+    "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",
+    "evaluate_note": "Evaluation checks durable Android outputs with source guards kept non-scoring.",
+    "source_number": 267,
+    "candidate_triage": {
+      "batch_id": "plan6-android-only-dual-android-B0003",
+      "decision": "direct",
+      "rationale": "Supported audio manifest plus file state plus contact recipient join into SMS output."
+    },
+    "oracle_ref": "tasks/cross_device/android_only_assets/android_only_267/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_267/episode_config.json",
+    "lite_hardening_note": "Removed unscored Android source-state evaluators and consolidated file-output checks where appropriate."
+  }
+}

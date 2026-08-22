@@ -1,0 +1,95 @@
+{
+  "eval": [
+    {
+      "device_id": "linux_1",
+      "func": "check_odf_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/attendees/packet.odt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "Calendar Attendee Packet",
+            "CASE-1866",
+            "FB-1866",
+            "Nora Alvarez",
+            "RT-66",
+            "Harbor Gate 15",
+            "+15552001830",
+            "nora.alvarez@example.test",
+            "Release coordinator",
+            "ready"
+          ],
+          "exclude": [
+            "PLACEHOLDER",
+            "[[CASE]]",
+            "[[APPROVAL]]",
+            "[[NAME]]",
+            "[[PHONE]]",
+            "[[EMAIL]]",
+            "[[ROLE]]",
+            "[[TIME]]",
+            "[[LOCATION]]",
+            "[[ROUTE]]",
+            "[[STATUS]]",
+            "CASE-OLD",
+            "HOLD-42",
+            "rt-66_hold.jpg"
+          ],
+          "require_valid_package": true,
+          "required_members": [
+            "styles.xml",
+            "meta.xml"
+          ],
+          "odf_kind": "text",
+          "min_paragraphs": 9,
+          "paragraph_exact": [
+            "Notes: complete from Calendar, Contacts, and attendee matrix",
+            "Review: confirm all sections before handoff",
+            "Handoff: second Linux desktop"
+          ],
+          "paragraph_ordered_unique": true,
+          "paragraph_relations_require_affirmative": true,
+          "paragraph_relations": [
+            [
+              "Case",
+              "CASE-1866",
+              "FB-1866"
+            ],
+            [
+              "Attendee",
+              "Nora Alvarez",
+              "+15552001830",
+              "nora.alvarez@example.test"
+            ],
+            [
+              "Role",
+              "Release coordinator"
+            ],
+            [
+              "Event",
+              [
+                "2026-07-11 09:00",
+                "July 11, 2026 at 9:00 AM",
+                "7/11/2026 9:00 AM"
+              ],
+              "Harbor Gate 15",
+              "RT-66"
+            ],
+            [
+              "Status",
+              "ready"
+            ]
+          ],
+          "case_sensitive": false
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "task_id": "linux_android_1866",
+    "source_plan": "plan6_final_balancing"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "5550464",
+          "body": "Kitchen PM2.5 is 91, so this is the highest-priority air-quality alert."
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "type": "done"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "linux_actions": {
+    "linux_1": [
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "cat > /tmp/form/app/validator.py <<'PY'\nimport re\n\n\ndef is_approval_code(value):\n    if not isinstance(value, str):\n        return False\n    return re.fullmatch(r'APP-[0-9]{4}', value, flags=re.ASCII) is not None\nPY"
+        }
+      },
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "cd /tmp/form/app && python3 validator_tests.py > test_output.txt"
+        }
+      }
+    ]
+  }
+}

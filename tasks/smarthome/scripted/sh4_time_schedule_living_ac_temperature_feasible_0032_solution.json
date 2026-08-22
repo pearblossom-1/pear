@@ -1,0 +1,20 @@
+{
+  "actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_command",
+      "parameters": {
+        "schedule_id": "living_ac_after_75",
+        "run_at": "2026-06-15T21:15:00",
+        "device_id": "living_room_air_conditioner_1",
+        "command": "set_target_temperature",
+        "args": {
+          "temperature_c": 25.0
+        }
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

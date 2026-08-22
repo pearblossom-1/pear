@@ -1,0 +1,96 @@
+{
+  "task_id": "linux_only_224",
+  "eval": [
+    {
+      "name": "Create the exact three-row dispatch table with canonical or declared alias headers",
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/routes/dispatch.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "logical_table": {
+            "headers": [
+              "stop",
+              "address",
+              "contact",
+              "status"
+            ],
+            "header_aliases": {
+              "stop": [
+                "Stop order"
+              ]
+            },
+            "rows": [
+              [
+                "Stop 03",
+                "44 North Pier",
+                "Nia Cross",
+                "ready"
+              ],
+              [
+                "Stop 06",
+                "",
+                "",
+                "missing_address"
+              ],
+              [
+                "Stop 08",
+                "9 South Yard",
+                "Inactive Rex",
+                "blocked_contact"
+              ]
+            ],
+            "order_sensitive": false,
+            "allow_auxiliary_sheets": [
+              "Notes"
+            ],
+            "allow_column_reordering": true
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/routes/dispatch.xlsx"
+      }
+    },
+    {
+      "name": "Preserve route_table.csv byte for byte",
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/routes/route_table.csv",
+        "trusted_root": "/tmp/routes",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "f77d7f2fa027724da439d285357927ba9d36576ec420863a7d759991f2e6af0c"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Preserve address_book.csv byte for byte",
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/routes/address_book.csv",
+        "trusted_root": "/tmp/routes",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "99404bd6f05fc01f1ef44eedeb9fdea6e15b83dfd46fa33f245d590403cf2338"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ]
+}

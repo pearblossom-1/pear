@@ -1,0 +1,31 @@
+{
+  "linux_actions": [
+    {
+      "device_id": "linux_0",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "mkdir -p '/tmp/audio_file_list_creates_reco' && echo W3siY2FzZV9pZCI6ICI5NDctQSIsICJhcHByb3ZhbF9jb2RlIjogIk5YOTQ3MzMiLCAib3duZXIiOiAiVGFvIExpbiIsICJzZWxlY3RlZF9zb3VyY2UiOiAiL3RtcC9hdWRpb19maWxlX2xpc3RfY3JlYXRlc19yZWNvL3JlcXVlc3RfdGFibGUuY3N2IiwgInN0YXR1cyI6ICJyZWFkeSJ9XQo= | base64 -d > '/tmp/audio_file_list_creates_reco/decision.json'",
+        "shell": true
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "mkdir -p '/tmp/audio_file_list_creates_reco' && echo OTQ3LUEgLyBOWDk0NzMzIGZvciBUYW8gTGluOiB0aGUgcmVjb3JkaW5nIGhhbmRvZmYgaXMgcmVhZHkgZm9yIHRoZSBzZWNvbmQtTGludXggdHJhbnNmZXIgb3BlcmF0b3IuCg== | base64 -d > '/tmp/audio_file_list_creates_reco/handoff.txt'",
+        "shell": true
+      }
+    }
+  ],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && echo OTQ3LUEgLyBOWDk0NzMzIGZvciBUYW8gTGluIGlzIHJlYWR5IGZvciB0aGUgYXVkaW8gcmVjb3JkaW5nIGhhbmRvZmYuCg== | base64 -d > '/storage/emulated/0/Documents/Markor/947-A recording handoff.md'"
+        }
+      }
+    ]
+  },
+  "notes": "Positive dry-run oracle writes only the requested final artifacts and native state."
+}

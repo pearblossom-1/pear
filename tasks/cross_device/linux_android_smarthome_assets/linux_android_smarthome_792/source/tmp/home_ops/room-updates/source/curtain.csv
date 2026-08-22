@@ -1,0 +1,3 @@
+preference,brightness_rule,curtain
+moderate daylight,below 180 lux,65 percent open
+moderate daylight,180-350 lux,45 percent open

@@ -1,0 +1,343 @@
+{
+  "id": "linux_android_smarthome_271",
+  "instruction": "The Owner has sent an evening-mode update that may replace the Calendar fallback. Use the Owner contact and SMS with `/tmp/conflicts/priority.xlsx` to confirm which request has priority. Retire the outdated evening workflow, schedule the authorized replacement at the requested time with its light and curtain settings, and summarize the old-to-new decision in Markor as `Evening priority decision.md`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/conflicts",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_271/source/tmp/conflicts/priority.xlsx",
+                "path": "/tmp/conflicts/priority.xlsx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "nohup libreoffice --calc '/tmp/conflicts/priority.xlsx' >'/tmp/conflicts/priority-calc.log' 2>&1 </dev/null &",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Evening mode",
+            "start_ts": 1781641800,
+            "end_ts": 1781643600,
+            "location": "Home",
+            "description": "Old evening mode source."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Evening mode",
+            "start_ts": 1781641800,
+            "location": "Home",
+            "description": "Old evening mode source.",
+            "search_text": "Evening"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+1555027101",
+            "body": "Owner update: at 21:00, turn off the living-room light and close the living-room curtain.",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "androidworld_sms_message_preflight",
+          "parameters": {
+            "message": {
+              "address": "+1555027101",
+              "body": "Owner update: at 21:00, turn off the living-room light and close the living-room curtain.",
+              "box": "inbox"
+            },
+            "required_visible_text": [
+              "Owner update: at 21:00, turn off the living-room light and close the living-room curtain."
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "House Owner",
+            "number": "+1555027101",
+            "notes": "Role: Owner"
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "House Owner",
+              "number": "+1555027101",
+              "notes_exact": "Role: Owner"
+            },
+            "required_visible_text": [
+              "House Owner",
+              "Role: Owner"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Evening priority decision.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_271/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/conflicts/priority.xlsx /tmp/conflicts/priority-calc.log; rmdir /tmp/conflicts 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Evening priority decision.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Evening priority decision.md",
+        "rules": {
+          "entities": [
+            "Owner",
+            [
+              "21:00",
+              "9:00 PM"
+            ],
+            [
+              "old fallback",
+              "old evening"
+            ],
+            [
+              "evening workflow",
+              "replacement workflow"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "applied",
+              "active"
+            ],
+            [
+              "cancelled",
+              "retired"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "proposed",
+            "old fallback remains",
+            "replacement workflow cancelled"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true,
+          "allowed_reversal_terms": [
+            "cancelled"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_status",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "workflow_id": "old_evening_mode",
+            "status": "cancelled"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T21:00:00",
+            "status": "active",
+            "exact_active_workflow_count": 1,
+            "effects": {
+              "living_room_light_1": {
+                "power": "off"
+              },
+              "living_room_curtain_1": {
+                "open_pct": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Capability gap 271 Owner SMS overrides old calendar.",
+    "surfaces": [
+      "calendar",
+      "sms",
+      "contacts",
+      "markor",
+      "linux_xlsx",
+      "home_cancel_workflow",
+      "home_workflow"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_271",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_271/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_271/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/conflicts/priority.xlsx"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/conflicts/priority.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "pilot_index": 271
+  }
+}

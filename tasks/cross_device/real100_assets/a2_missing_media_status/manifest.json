@@ -1,0 +1,16 @@
+{
+  "task_id": "a2_missing_media_status",
+  "source_card": "010",
+  "device_topology": "2A",
+  "instruction": "第一台手机 Simple SMS Messenger 收到一条消息，让我去第二台手机 Android Files app 的 `/sdcard/Download/` 找一张指定的照片。帮我查一下——如果照片不在，就在第二台手机 Markor 里写一条 `Photo status` 笔记，记下缺了哪个文件、来源是 Simple SMS Messenger。",
+  "surfaces": "android_0 Simple SMS Messenger -> android_1 Android Files app 的 Download 文件夹/Markor",
+  "source_files": [
+    "source/photo_request_sms.txt"
+  ],
+  "expected_files": [
+    "expected/Photo status.md"
+  ],
+  "evaluator_assumptions": [
+    "android_1 Markor Photo status note must report the requested missing file from android_0 SMS"
+  ]
+}

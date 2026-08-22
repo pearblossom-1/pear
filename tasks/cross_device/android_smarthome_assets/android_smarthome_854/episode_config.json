@@ -1,0 +1,444 @@
+{
+  "meta": {
+    "sh_type": "SH_android_smarthome",
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1854,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_status",
+        "title": "Missing playlist result",
+        "require_exactly_one": true,
+        "notes_relation": {
+          "entities": [
+            "Evening Wind Down Kids"
+          ],
+          "required_phrases": [
+            [
+              "missing",
+              "not found",
+              "could not be found",
+              "unavailable",
+              "absent"
+            ],
+            [
+              "no routine was scheduled",
+              "routine was not scheduled",
+              "did not schedule a routine",
+              "nothing was scheduled",
+              "left the routine unscheduled",
+              "no schedule was created"
+            ]
+          ],
+          "allowed_negative_capability_phrases": [
+            "not found",
+            "could not be found"
+          ],
+          "conflict_phrases": [
+            "exact playlist is available",
+            "exact playlist was found",
+            "substituted Evening Wind Down",
+            "used Evening Wind Down instead",
+            "routine was scheduled",
+            "scheduled the routine"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "FOUND"
+        }
+      },
+      "name": "exactly one Tasks result records the missing exact playlist and no schedule"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_status",
+        "title": "Missing playlist result",
+        "require_exactly_one": true,
+        "notes_relation": {
+          "entities": [
+            "Evening Wind Down Kids"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "FOUND"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Tasks backend is healthy and the exact requested playlist name is present"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_status",
+        "title": "Missing playlist result",
+        "require_exactly_one": true,
+        "notes_relation": {
+          "entities": [
+            "Evening Wind Down Kids"
+          ],
+          "required_phrases": [
+            [
+              "missing",
+              "not found",
+              "could not be found",
+              "unavailable",
+              "absent"
+            ]
+          ],
+          "allowed_negative_capability_phrases": [
+            "not found",
+            "could not be found"
+          ],
+          "conflict_phrases": [
+            "exact playlist is available",
+            "exact playlist was found"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "FOUND"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Missing playlist result states that the exact playlist is unavailable"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_status",
+        "title": "Missing playlist result",
+        "require_exactly_one": true,
+        "notes_relation": {
+          "entities": [
+            "Evening Wind Down Kids"
+          ],
+          "required_phrases": [
+            [
+              "no routine was scheduled",
+              "routine was not scheduled",
+              "did not schedule a routine",
+              "nothing was scheduled",
+              "left the routine unscheduled",
+              "no schedule was created"
+            ]
+          ],
+          "conflict_phrases": [
+            "routine was scheduled",
+            "scheduled the routine"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "FOUND"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Missing playlist result states that no routine was scheduled"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "retro_music_playlist",
+        "playlist_name": "Evening Wind Down",
+        "expected_songs": [
+          "Blue Hall",
+          "Soft Landing"
+        ],
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "the one near-match playlist remains unchanged and is not substituted"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "name": "no SmartHome schedule is created"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "name": "no SmartHome workflow is created"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "missing playlist handling issues no direct device commands"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_device_change",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "device_id": "kids_room_dimmable_light_1"
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "kids-room light baseline is fully unchanged"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 25.4,
+        "humidity_pct": 52.6,
+        "brightness_lux": 236.2,
+        "air_quality_pm25": 48.0,
+        "noise_level_db": 28.4,
+        "occupied": false
+      },
+      "dining_room": {
+        "temperature_c": 24.3,
+        "humidity_pct": 51.9,
+        "brightness_lux": 990.0,
+        "air_quality_pm25": 51.8,
+        "noise_level_db": 40.6,
+        "occupied": true
+      },
+      "kids_room": {
+        "temperature_c": 23.1,
+        "humidity_pct": 43.9,
+        "brightness_lux": 400.0,
+        "air_quality_pm25": 53.6,
+        "noise_level_db": 26.8,
+        "occupied": true
+      },
+      "living_room": {
+        "temperature_c": 26.4,
+        "humidity_pct": 54.4,
+        "brightness_lux": 800.0,
+        "air_quality_pm25": 47.5,
+        "noise_level_db": 28.9,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "mode": "dry",
+          "target_temperature_c": 20.0
+        }
+      },
+      {
+        "device_id": "bedroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 25.0
+        }
+      },
+      {
+        "device_id": "bedroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "dining_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "dining_room",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "dining_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "dining_room",
+        "state": {
+          "open_pct": 80,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "dining_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 50
+        }
+      },
+      {
+        "device_id": "dining_room_light_1",
+        "device_type": "light",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "kids_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "kids_room",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "kids_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "kids_room",
+        "state": {
+          "power": "off",
+          "brightness_pct": 0
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "mode": "dry",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 100,
+          "status": "open"
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 28.0
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on"
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

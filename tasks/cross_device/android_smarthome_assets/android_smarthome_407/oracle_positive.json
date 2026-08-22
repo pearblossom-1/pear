@@ -1,0 +1,17 @@
+{
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+        "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Entry inspection audit.md' <<'EOF'\n# Entry inspection audit\n\nPhoto: entry_photo_407.png\nRoom: entry\nVisual observation: entry door closed; shoes present.\nLive brightness: 82 lux\nLive light state: off\nEOF"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "type": "done"
+    }
+  ]
+}

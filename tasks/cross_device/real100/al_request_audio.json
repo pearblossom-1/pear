@@ -1,0 +1,172 @@
+{
+  "id": "al_request_audio",
+  "instruction": "`/tmp/brief/request.txt` on Linux gives the required filename and audio format for a voice memo. Please use Android Audio Recorder to record a short audio clip and save it as requested.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {
+    "memo_path": "/sdcard/Recordings/briefing.m4a"
+  },
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "audio recorder"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "android files"
+          }
+        },
+        {
+          "type": "androidworld_audio_recorder_delete_by_name",
+          "parameters": {
+            "filename": "briefing.m4a",
+            "name": "briefing",
+            "source_path": "/sdcard/Recordings/briefing.m4a",
+            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/briefing.m4a",
+            "format": "m4a"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "am force-stop com.dimowner.audiorecorder && su 0 sh -c 'prefs=/data/user/0/com.dimowner.audiorecorder/shared_prefs/com.dimowner.audiorecorder.data.PrefsImpl.xml; test -f \"$prefs\" && sed \"s#<string name=\\\"setting_recording_format\\\">[^<]*</string>#<string name=\\\"setting_recording_format\\\">m4a</string>#\" \"$prefs\" > \"$prefs.mdcbench\" && grep -Fq \"<string name=\\\"setting_recording_format\\\">m4a</string>\" \"$prefs.mdcbench\" && cat \"$prefs.mdcbench\" > \"$prefs\" && rm -f \"$prefs.mdcbench\"' && mkdir -p /sdcard/Recordings && test -w /sdcard/Recordings && test ! -e '${memo_path}'"
+            ],
+            "check_exit_status": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/brief && mkdir -p /tmp/brief",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real100_assets/al_request_audio/source/request.txt",
+                "path": "/tmp/brief/request.txt"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/brief/request.txt",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_audio_recorder_delete_by_name",
+          "parameters": {
+            "filename": "briefing.m4a",
+            "name": "briefing",
+            "source_path": "/sdcard/Recordings/briefing.m4a",
+            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/briefing.m4a",
+            "format": "m4a"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/brief",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_audio_file_state",
+        "path": "${memo_path}",
+        "allowed_formats": [
+          "mov",
+          "mp4",
+          "m4a",
+          "3gp"
+        ],
+        "allowed_codecs": [
+          "aac",
+          "alac"
+        ],
+        "min_duration_s": 0.25
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "valid"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 22,
+    "max_wall_time_s": 220
+  },
+  "metadata": {
+    "category": "real100_cross_device",
+    "source_card": "037",
+    "readiness": "R1_native_real_fixture",
+    "device_topology": "1A+1L",
+    "android_surfaces": [
+      "Audio Recorder"
+    ],
+    "linux_surfaces": [
+      "text"
+    ],
+    "implementation_status": "real_evaluator",
+    "cross_device_checks": [
+      "real100_card_037_adapted_from_briefing_voice_memo_001",
+      "named_audio_file_matches_linux_request"
+    ],
+    "asset_source": "tasks/cross_device/real100_assets/al_request_audio/source",
+    "difficulty": "Simple",
+    "motif": "M3",
+    "surfaces": "Linux text -> Android Audio Recorder file",
+    "setup_note": "Linux 上传并校验 request.txt；Android 将 Audio Recorder 设为 M4A，并定向清理应用索引、内部副本以及公共 Recordings 中的目标文件和 MediaStore 记录。",
+    "evaluate_note": "Pulls the named recording and uses ffprobe to require a real M4A/MP4-family container with a decodable AAC/ALAC audio stream, packets, and positive duration.",
+    "template_source": "tasks/cross_device/real20/briefing_voice_memo_001.json",
+    "lite_evaluator_hardening_note": "The visible request specifies the filename, M4A format, and public Recordings export path. Setup resets the exact app record, internal copy, public file, and MediaStore row before confirming the public destination is writable. Evaluation requires a decodable AAC/ALAC M4A-family recording of at least 0.25 seconds at that public path."
+  }
+}

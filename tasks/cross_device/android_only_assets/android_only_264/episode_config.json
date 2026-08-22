@@ -1,0 +1,31 @@
+{
+  "task_id": "android_only_264",
+  "eval": [
+    {
+      "name": "Create exactly one enabled one-time 08:05 Safety walk alarm",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_alarm_set",
+        "alarms": [
+          {
+            "hour": 8,
+            "minute": 5,
+            "label": "Prep for Safety walk",
+            "enabled": true
+          }
+        ],
+        "allow_unrelated": false,
+        "one_time": true,
+        "exact_user_visible_set": true,
+        "reject_identity_duplicates": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    }
+  ]
+}

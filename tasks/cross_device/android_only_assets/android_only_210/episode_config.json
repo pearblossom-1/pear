@@ -1,0 +1,99 @@
+{
+  "task_id": "android_only_210",
+  "eval": [
+    {
+      "name": "Make Calendar exactly the corrected Client delivery event sourced from Tasks",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event_set",
+        "events": [
+          {
+            "title": "Client delivery",
+            "start_ts": 1783001700,
+            "end_ts": 1783004400,
+            "location": "Pier 6",
+            "description_relation": {
+              "entities": [
+                "DEL-210",
+                "Tasks"
+              ],
+              "required_phrases": [
+                [
+                  "source",
+                  "sourced",
+                  "from Tasks",
+                  "source=Tasks"
+                ]
+              ],
+              "positive_phrases": [
+                [
+                  "source",
+                  "sourced",
+                  "from Tasks",
+                  "source=Tasks"
+                ]
+              ],
+              "relation_groups": [
+                {
+                  "entities": [
+                    "Tasks"
+                  ],
+                  "phrases": [
+                    "source",
+                    "sourced",
+                    "from Tasks",
+                    "source=Tasks"
+                  ],
+                  "allow_multiple_matches": true
+                }
+              ],
+              "conflict_patterns": [
+                "\\bnot\\s+sourced\\s+from\\s+Tasks\\b",
+                "\\b(?:current|still|now|final)\\b[^.;\\n]{0,72}\\bstale\\b",
+                "\\bstale\\b[^.;\\n]{0,72}\\b(?:current|still|now|final)\\b",
+                "\\bremains?\\s+stale\\b",
+                "\\bOld\\s+Pier\\b[^.;\\n]{0,48}\\b(?:is|remains?)\\s+(?:the\\s+)?(?:current|final)\\b",
+                "\\b(?:current|final)\\s+(?:event\\s+)?location\\b[^.;\\n]{0,48}\\bOld\\s+Pier\\b"
+              ]
+            }
+          }
+        ],
+        "identity_fields": [
+          "title"
+        ],
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    },
+    {
+      "name": "Preserve every business field of the authoritative Client delivery task",
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_set",
+        "tasks": [
+          {
+            "title": "Client delivery",
+            "notes": "Authoritative: 2026-07-02 14:15-15:00 at Pier 6. Code DEL-210. Calendar should say source=Tasks.",
+            "dueDate": 1783001700000,
+            "completed": false
+          }
+        ],
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ]
+}

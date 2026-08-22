@@ -1,0 +1,93 @@
+{
+  "task_id": "linux_android_1181",
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201181",
+        "body_relation": {
+          "entities": [
+            "CASE-4187",
+            [
+              "parts",
+              "components"
+            ],
+            "Depot",
+            "Friday"
+          ],
+          "required_phrases": [
+            [
+              "allocated",
+              "assigned",
+              "reserved",
+              "set aside"
+            ],
+            [
+              "pickup",
+              "pick up",
+              "collection",
+              "collect"
+            ]
+          ],
+          "conflict_phrases": [
+            "backordered",
+            "not allocated",
+            "unavailable",
+            "cancelled",
+            "closed",
+            "is false",
+            "obsolete",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Saturday",
+            "Sunday"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "parts",
+                  "components"
+                ]
+              ],
+              "phrases": [
+                [
+                  "allocated",
+                  "assigned",
+                  "reserved",
+                  "set aside"
+                ]
+              ]
+            },
+            {
+              "entities": [
+                "Depot",
+                "Friday"
+              ],
+              "phrases": [
+                [
+                  "pickup",
+                  "pick up",
+                  "collection",
+                  "collect"
+                ]
+              ]
+            }
+          ]
+        },
+        "recent_within_mins": 30
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ]
+}

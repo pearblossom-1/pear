@@ -1,0 +1,57 @@
+{
+  "task_id": "linux_android_1312",
+  "eval": [
+    {
+      "device_id": "linux_0",
+      "func": "check_odf_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/site/visit_brief.odt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "SITE-1312",
+            "Depot Ridge",
+            "37.9101",
+            "-122.5101",
+            "44 Ridge Road",
+            "bring vest"
+          ],
+          "exclude": [
+            "SITE-1312B",
+            "PLACEHOLDER"
+          ],
+          "require_valid_package": true,
+          "case_sensitive": false,
+          "odf_kind": "text",
+          "min_paragraphs": 4,
+          "paragraph_relations_require_affirmative": true,
+          "paragraph_relations": [
+            [
+              "SITE-1312",
+              "Depot Ridge"
+            ],
+            [
+              "Coordinates",
+              "37.9101",
+              "-122.5101"
+            ],
+            [
+              "Address",
+              "44 Ridge Road"
+            ],
+            [
+              "Checklist",
+              "bring vest"
+            ]
+          ]
+        }
+      },
+      "metadata": {
+        "path": "/tmp/site/visit_brief.odt"
+      }
+    }
+  ]
+}

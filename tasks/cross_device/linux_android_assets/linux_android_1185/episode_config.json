@@ -1,0 +1,47 @@
+{
+  "task_id": "linux_android_1185",
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201185",
+        "body_relation": {
+          "entities": ["Q3 Ops Review", "MTG-Q3-OPS", ["confirmed", "meeting confirmed", "scheduled", "reminder for", "see you at"]],
+          "positive_phrases": [["confirmed", "meeting confirmed", "scheduled", "reminder for", "see you at"]],
+          "conflict_phrases": ["maybe", "might", "not confirmed", "canceled", "cancelled", "wrong meeting", "MTG-Q3-FIN"],
+          "reject_incomplete_semantics": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201186",
+        "body_relation": {
+          "entities": ["Q3 Ops Review", "MTG-Q3-OPS", ["confirmed", "meeting confirmed", "scheduled", "reminder for", "see you at"]],
+          "positive_phrases": [["confirmed", "meeting confirmed", "scheduled", "reminder for", "see you at"]],
+          "conflict_phrases": ["maybe", "might", "not confirmed", "canceled", "cancelled", "wrong meeting", "MTG-Q3-FIN"],
+          "reject_incomplete_semantics": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ]
+}

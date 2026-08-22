@@ -1,0 +1,169 @@
+{
+  "id": "linux_smarthome_062",
+  "instruction": "Set up the bedroom for the night — the note in `/tmp/home/docs/night-note.txt` has the details.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/home/docs/night-note.txt && mkdir -p -- /tmp/home/docs",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_062/source/tmp/home/docs/night-note.txt",
+                "path": "/tmp/home/docs/night-note.txt"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_062/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/home/docs/night-note.txt; rmdir --ignore-fail-on-non-empty /tmp/home/docs /tmp/home 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "bedroom_curtain_1": {
+                "open_pct": 0,
+                "status": "closed"
+              },
+              "bedroom_dimmable_light_1": {
+                "brightness_pct": 20
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_062",
+    "surfaces": [
+      "linux_gui_source",
+      "home_command"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_062",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_062/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_062/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/home/docs/night-note.txt"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/home/docs/night-note.txt"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "linux_smarthome",
+      "linux_device": "linux_0",
+      "linux_devices": [
+        "linux_0"
+      ],
+      "room_ids": [
+        "bedroom",
+        "dining_room",
+        "kids_room",
+        "laundry_room",
+        "living_room"
+      ],
+      "device_type_counts": {
+        "air_conditioner": 2,
+        "air_purifier": 1,
+        "curtain": 3,
+        "dimmable_light": 3,
+        "dryer": 1,
+        "heater": 1,
+        "humidifier": 3,
+        "light": 1
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 1,
+      "linux_outputs_expected": 0,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-16T19:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "home_0",
+        "surface": "home.state",
+        "goal": "Apply the requested SmartHome state, schedule, workflow, or report outcome.",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/home/docs/night-note.txt and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the complete allowed Home state diff: only the bedroom curtain may close and the bedroom dimmable-light brightness may drop to 20, with no new plans.",
+    "idea_number": 62
+  }
+}

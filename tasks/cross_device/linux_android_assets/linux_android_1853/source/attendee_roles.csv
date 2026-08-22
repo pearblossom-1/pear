@@ -1,0 +1,4 @@
+case,approval_code,attendee_role,status
+CASE-1853,FB-1853,Support owner,current
+CASE-OLD,OLD-17,Archived owner,archived
+CASE-HOLD,HOLD-42,Hold owner,hold

@@ -1,0 +1,232 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 387,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 637,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "living_room_air_conditioner_1": {
+                "power": "on",
+                "mode": "cool"
+              },
+              "study_air_conditioner_1": {
+                "power": "on",
+                "mode": "auto"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_infeasible_reports": true,
+            "preserve_answer_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "is_expected_tabs",
+      "result": {
+        "type": "open_tabs_info",
+        "ignore_default_tabs": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "type": "url",
+          "scoped_url_contract": true,
+          "query_value_match": "semantic",
+          "urls": [
+            "file:///home/user/climate/mode-check.html?living_room=cool+supported+executed&bedroom=eco+unsupported+kept&study=auto+supported+executed#submitted-mode-check"
+          ],
+          "owned_url_prefixes": [
+            "file:///home/user/climate/mode-check.html"
+          ],
+          "forbidden_urls": [
+            "file:///home/user/climate/mode-check.html"
+          ]
+        }
+      },
+      "metadata": {
+        "url": "file:///home/user/climate/mode-check.html?living_room=cool+supported+executed&bedroom=eco+unsupported+kept&study=auto+supported+executed#submitted-mode-check"
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 22.6,
+        "humidity_pct": 44.6,
+        "brightness_lux": 348.1,
+        "air_quality_pm25": 39.7,
+        "noise_level_db": 58.0,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 23.6,
+        "humidity_pct": 41.6,
+        "brightness_lux": 325.0,
+        "air_quality_pm25": 29.9,
+        "noise_level_db": 35.8,
+        "occupied": true
+      },
+      "study": {
+        "temperature_c": 24.3,
+        "humidity_pct": 49.0,
+        "brightness_lux": 400.0,
+        "air_quality_pm25": 36.2,
+        "noise_level_db": 39.0,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "mode": "cool",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "bedroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 28.0
+        }
+      },
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "bedroom_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "status": "cleaning",
+          "battery_pct": 39
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "mode": "auto",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 65
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "study_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "study",
+        "state": {
+          "power": "off",
+          "mode": "cool",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "study_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "study_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "brightness_pct": 80
+        }
+      },
+      {
+        "device_id": "study_light_1",
+        "device_type": "light",
+        "room_id": "study",
+        "state": {
+          "power": "off"
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

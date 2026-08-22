@@ -1,0 +1,289 @@
+{
+  "id": "linux_smarthome_982",
+  "instruction": "Review the four after-hours access requests in `/tmp/access/requests.xlsx` on the second Linux machine against the role rules in `/tmp/access/matrix.docx` on the first. Record the decision and result for every row, and apply only an authorized, supported request in the connected home.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/access/matrix.docx && mkdir -p -- /tmp/access",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_982/source/tmp/access/matrix.docx",
+                "path": "/tmp/access/matrix.docx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/access/requests.xlsx && mkdir -p -- /tmp/access",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_982/source/linux_1/tmp/access/requests.xlsx",
+                "path": "/tmp/access/requests.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_982/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/access/matrix.docx; find /tmp/access -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/access/requests.xlsx; find /tmp/access -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/access/requests.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_982/source/linux_1/tmp/access/requests.xlsx",
+          "allowed_changes": [
+            "Requests!E2",
+            "Requests!F2",
+            "Requests!G2",
+            "Requests!H2",
+            "Requests!E3",
+            "Requests!F3",
+            "Requests!G3",
+            "Requests!H3",
+            "Requests!E4",
+            "Requests!F4",
+            "Requests!G4",
+            "Requests!H4",
+            "Requests!E5",
+            "Requests!F5",
+            "Requests!G5",
+            "Requests!H5"
+          ],
+          "preserve_layout": true,
+          "sheet": "Requests",
+          "cells": {
+            "G2": "Authorized",
+            "H2": "open_pct 55",
+            "G3": "Unauthorized",
+            "H3": "open_pct 10",
+            "G4": "Protected",
+            "H4": "on",
+            "G5": "Unsupported",
+            "H5": "off"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/access/requests.xlsx"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "office_curtain_1": {
+                "open_pct": 55
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "office_curtain_1",
+                "command": "set_open_pct",
+                "args": {
+                  "open_pct": 55
+                }
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_982",
+    "surfaces": [
+      "2linux",
+      "linux_xlsx_source",
+      "home_authorization_board",
+      "linux_xlsx_output",
+      "linux_docx_source"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_982",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_982/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_982/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/access/matrix.docx",
+      "/tmp/access/requests.xlsx"
+    ],
+    "linux_output_paths": [
+      "/tmp/access/requests.xlsx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/access/matrix.docx"
+      ],
+      "linux_1": [
+        "/tmp/access/requests.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [],
+      "linux_1": [
+        "/tmp/access/requests.xlsx"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "2linux_smarthome",
+      "linux_devices": [
+        "linux_0",
+        "linux_1"
+      ],
+      "room_ids": [
+        "bedroom",
+        "entry",
+        "office"
+      ],
+      "device_type_counts": {
+        "curtain": 1,
+        "light": 2
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 2,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-07-15T12:05:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_1",
+        "surface": "linux.xlsx",
+        "path": "/tmp/access/requests.xlsx",
+        "goal": "Create or update the task result at this path.",
+        "func": "check_xlsx_cells",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/access/matrix.docx, /tmp/access/requests.xlsx and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the authorized Home outcome and Linux output path /tmp/access/requests.xlsx.",
+    "idea_number": 982,
+    "candidate_triage": {
+      "batch_id": "plan5-861-1010-linux-smarthome-B0007",
+      "decision": "direct",
+      "note": "Role authorization and capability checks are closed by the matrix, board, and live device state."
+    },
+    "lite_evaluator_hardening_note": "Hidden auxiliary output evaluator(s) removed; scoring remains on visible outcome/state artifacts."
+  }
+}

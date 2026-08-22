@@ -1,0 +1,14 @@
+{
+  "conflicts": [
+    {
+      "title": "Vendor planning",
+      "old_start": "09:00",
+      "old_end": "10:00",
+      "new_start": "15:00",
+      "new_end": "16:00",
+      "old_location": "Room 2",
+      "new_location": "Room 8",
+      "source_of_truth": "Simple Calendar Pro"
+    }
+  ]
+}

@@ -1,0 +1,286 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 9029,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 9029,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Homecoming Heat.md",
+        "rules": {
+          "entities": [
+            "Homecoming Heat",
+            [
+              "17.8 C",
+              "17.8"
+            ],
+            [
+              "17-19 C",
+              "17 to 19 C"
+            ],
+            [
+              "18:05",
+              "6:05 PM"
+            ],
+            [
+              "22 C",
+              "22 degrees"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "active",
+              "scheduled",
+              "applied"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "cancelled",
+            "not active"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {
+              "run_at": "2026-06-16T18:05:00",
+              "device_id": "living_room_heater_1",
+              "command": "set_target_temperature",
+              "args": {
+                "temperature_c": 22.0
+              },
+              "status": "active"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T17:30:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 25.0,
+        "humidity_pct": 60.8,
+        "brightness_lux": 222.1,
+        "air_quality_pm25": 24.7,
+        "noise_level_db": 28.1,
+        "occupied": true
+      },
+      "laundry_room": {
+        "temperature_c": 24.2,
+        "humidity_pct": 54.9,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 38.8,
+        "noise_level_db": 40.0,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 17.8,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 30.0,
+        "occupied": false
+      },
+      "office": {
+        "temperature_c": 25.2,
+        "humidity_pct": 53.3,
+        "brightness_lux": 100.0,
+        "air_quality_pm25": 31.3,
+        "noise_level_db": 29.5,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "mode": "cool",
+          "target_temperature_c": 23.0
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "brightness_pct": 0
+        }
+      },
+      {
+        "device_id": "bedroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "laundry_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "laundry_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "laundry_room_light_1",
+        "device_type": "light",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "laundry_room_washer_1",
+        "device_type": "washer",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "off",
+          "cycle": "normal",
+          "remaining_min": 0,
+          "status": "complete"
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "mode": "dry",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 65
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 19.0
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "office_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "office",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "office_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "office",
+        "state": {
+          "power": "on",
+          "brightness_pct": 20
+        }
+      },
+      {
+        "device_id": "office_heater_1",
+        "device_type": "heater",
+        "room_id": "office",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 23.0
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

@@ -1,0 +1,349 @@
+{
+  "id": "android_smarthome_265",
+  "instruction": "Apply the `Dry Air Rule` using the live bedroom humidity. Then send `Home Updates` a concise result message that includes the current bedroom humidity, the 35% threshold and that the reading is below it, and the humidifier setting applied.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_265/android/android_0/markor/Dry Air Rule.md",
+                "path": "/storage/emulated/0/Documents/Markor/Dry Air Rule.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_markor_note_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor/Dry Air Rule.md",
+            "required_visible_text": [
+              "bedroom humidity",
+              "below 35%",
+              "humidifier high"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Home Updates",
+            "number": "5552650",
+            "notes": "Receives bedroom humidity notices."
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Home Updates",
+              "number": "5552650",
+              "notes_exact": "Receives bedroom humidity notices."
+            },
+            "required_visible_text": [
+              "Home Updates",
+              "5552650",
+              "bedroom humidity notices"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_265/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Dry Air Rule.md'"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5552650",
+        "recent_within_mins": 30,
+        "require_exactly_one_for_address": true,
+        "body_relation": {
+          "entities": [
+            [
+              "bedroom"
+            ],
+            [
+              "humidity"
+            ],
+            [
+              "32",
+              "32%"
+            ],
+            [
+              "35",
+              "35%"
+            ],
+            [
+              "humidifier"
+            ],
+            [
+              "high"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "running",
+              "is on",
+              "set to high",
+              "started"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "bedroom",
+                "humidity",
+                [
+                  "32",
+                  "32%"
+                ],
+                [
+                  "35",
+                  "35%"
+                ]
+              ],
+              "phrases": [
+                [
+                  "below",
+                  "under",
+                  "lower than"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "humidifier",
+                "high"
+              ],
+              "phrases": [
+                [
+                  "running",
+                  "is on",
+                  "set to high",
+                  "started"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "conflict_phrases": [
+            "pending",
+            "cancelled",
+            "canceled",
+            "not running",
+            "not on high",
+            "not set",
+            "above 35",
+            "over 35"
+          ],
+          "conflict_patterns": [
+            "\\b32(?:\\.0)?%?\\b[^\\r\\n.!?]{0,48}\\b(?:above|over|higher\\s+than)\\b[^\\r\\n.!?]{0,24}\\b35(?:\\.0)?%?\\b"
+          ],
+          "required_phrases": [
+            [
+              "below",
+              "under",
+              "lower than"
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "Home Updates receives the bound bedroom 32-below-35 high-humidifier result"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "bedroom_humidifier_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "level": "high"
+          }
+        }
+      },
+      "name": "bedroom humidifier is on at high"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "bedroom_humidifier_1": {
+                "power": "on",
+                "level": "high"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "only the bedroom humidifier final state changes"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "immediate dry-air repair creates no schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "immediate dry-air repair creates no workflow"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_265",
+    "surfaces": [
+      "markor",
+      "contacts",
+      "sms",
+      "home_state",
+      "home_command"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "androidworld_sms_message",
+      "smarthome_device_state"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_265",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_265/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_265/oracle_positive.json",
+    "idea_number": 265,
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

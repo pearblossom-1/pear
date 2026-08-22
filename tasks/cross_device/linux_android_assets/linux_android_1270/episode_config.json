@@ -1,0 +1,88 @@
+{
+  "task_id": "linux_android_1270",
+  "eval": [
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/pantry/recipe_check.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "logical_table": {
+            "headers": [
+              "ingredient",
+              "recipe_amount",
+              "pantry_amount",
+              "status"
+            ],
+            "rows": [
+              [
+                "beans",
+                "2 cups",
+                "2 cups",
+                "matched"
+              ],
+              [
+                "rice",
+                "2 cups",
+                "1 cup",
+                "quantity mismatch"
+              ],
+              [
+                "cilantro",
+                "1 bunch",
+                "1 bunch",
+                "matched"
+              ],
+              [
+                "lime",
+                "missing",
+                "2",
+                "pantry-only"
+              ]
+            ],
+            "value_aliases": {
+              "recipe_amount": {
+                "missing": [
+                  "N/A",
+                  "not in recipe",
+                  "none",
+                  ""
+                ]
+              },
+              "status": {
+                "matched": [
+                  "match",
+                  "available",
+                  "sufficient",
+                  "same"
+                ],
+                "quantity mismatch": [
+                  "quantity_mismatch",
+                  "mismatch",
+                  "short",
+                  "short by 1 cup",
+                  "insufficient"
+                ],
+                "pantry-only": [
+                  "pantry only",
+                  "extra in pantry",
+                  "not in recipe"
+                ]
+              }
+            },
+            "exact_rows": true,
+            "exact_columns": true,
+            "order_sensitive": false
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/pantry/recipe_check.xlsx"
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "linux_actions": {
+    "linux_1": [
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "cat > /tmp/config/project/merge_config.py <<'PY'\ndef _deep_update(left, right):\n    result = dict(left)\n    for key, value in right.items():\n        if value is None:\n            result.pop(key, None)\n        elif isinstance(value, dict) and isinstance(result.get(key), dict):\n            result[key] = _deep_update(result[key], value)\n        else:\n            result[key] = value\n    return result\n\n\ndef merge(base, environment, override):\n    return _deep_update(_deep_update(base, environment), override)\nPY"
+        }
+      },
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "cd /tmp/config/project && python3 tests.py > test.txt"
+        }
+      }
+    ]
+  }
+}

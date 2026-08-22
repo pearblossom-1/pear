@@ -1,0 +1,436 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 609,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 609,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event",
+        "title": "Guest arrival",
+        "start_ts": 1781638800,
+        "end_ts": 1781640600,
+        "location": "Guest room",
+        "unique_identity_fields": [
+          "title"
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+1555060901",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            [
+              "18:40",
+              "6:40 PM",
+              "6:40PM"
+            ],
+            [
+              "19:00",
+              "7:00 PM",
+              "7:00PM"
+            ],
+            [
+              "19:20",
+              "7:20 PM",
+              "7:20PM"
+            ],
+            [
+              "19:40",
+              "7:40 PM",
+              "7:40PM"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "replaced",
+              "superseded",
+              "updated",
+              "applied"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "old",
+                  "previous",
+                  "prior"
+                ],
+                [
+                  "18:40",
+                  "6:40 PM",
+                  "6:40PM"
+                ],
+                [
+                  "19:00",
+                  "7:00 PM",
+                  "7:00PM"
+                ]
+              ]
+            },
+            {
+              "entities": [
+                [
+                  "new",
+                  "revised",
+                  "replacement",
+                  "updated"
+                ],
+                [
+                  "19:20",
+                  "7:20 PM",
+                  "7:20PM"
+                ],
+                [
+                  "19:40",
+                  "7:40 PM",
+                  "7:40PM"
+                ]
+              ]
+            }
+          ],
+          "nearest_relations": [
+            {
+              "anchor": [
+                "19:20"
+              ],
+              "expected": [
+                "new",
+                "revised",
+                "replacement",
+                "updated"
+              ],
+              "forbidden": [
+                "cancelled",
+                "pending",
+                "failed"
+              ],
+              "max_distance": 10,
+              "same_clause": true
+            },
+            {
+              "anchor": [
+                "19:40"
+              ],
+              "expected": [
+                "new",
+                "revised",
+                "replacement",
+                "updated"
+              ],
+              "forbidden": [
+                "cancelled",
+                "pending",
+                "failed"
+              ],
+              "max_distance": 10,
+              "same_clause": true
+            }
+          ],
+          "conflict_phrases": [
+            "not replaced",
+            "pending",
+            "new plan cancelled",
+            "replacement cancelled",
+            "19:20 cancelled",
+            "owner update cancelled",
+            "new arrival cancelled",
+            "new plan pending",
+            "replacement pending",
+            "new timing pending"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true,
+          "allowed_reversal_terms": [
+            "cancelled",
+            "retired",
+            "replaced",
+            "superseded"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_status",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "workflow_id": "guest_prep_old_1840",
+            "status": "cancelled"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T19:20:00",
+            "status": "active",
+            "exact_active_workflow_count": 1,
+            "effects": {
+              "guest_room_heater_1": {
+                "power": "on",
+                "target_temperature_c": 23.0
+              },
+              "guest_room_light_1": {
+                "power": "on"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T18:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 24.3,
+        "humidity_pct": 54.3,
+        "brightness_lux": 120.0,
+        "air_quality_pm25": 44.3,
+        "noise_level_db": 28.1,
+        "occupied": false
+      },
+      "guest_room": {
+        "temperature_c": 24.3,
+        "humidity_pct": 41.5,
+        "brightness_lux": 990.0,
+        "air_quality_pm25": 28.4,
+        "noise_level_db": 25.0,
+        "occupied": true
+      },
+      "laundry_room": {
+        "temperature_c": 22.2,
+        "humidity_pct": 50.9,
+        "brightness_lux": 199.2,
+        "air_quality_pm25": 36.9,
+        "noise_level_db": 52.0,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 23.7,
+        "humidity_pct": 51.9,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 26.4,
+        "noise_level_db": 27.7,
+        "occupied": false
+      },
+      "study": {
+        "temperature_c": 21.5,
+        "humidity_pct": 42.1,
+        "brightness_lux": 237.5,
+        "air_quality_pm25": 39.1,
+        "noise_level_db": 58.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_curtain_1",
+        "device_type": "curtain",
+        "room_id": "bedroom",
+        "state": {
+          "open_pct": 40,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 22.0
+        }
+      },
+      {
+        "device_id": "bedroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bedroom_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 45
+        }
+      },
+      {
+        "device_id": "guest_room_heater_1",
+        "device_type": "heater",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 20.0
+        }
+      },
+      {
+        "device_id": "guest_room_light_1",
+        "device_type": "light",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "laundry_room_dryer_1",
+        "device_type": "dryer",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "on",
+          "cycle": "normal",
+          "remaining_min": 23,
+          "status": "running"
+        }
+      },
+      {
+        "device_id": "laundry_room_light_1",
+        "device_type": "light",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "laundry_room_washer_1",
+        "device_type": "washer",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "off",
+          "cycle": "delicate",
+          "remaining_min": 0,
+          "status": "idle"
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "mode": "cool",
+          "target_temperature_c": 22.0
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 100
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "study_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "study",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "study_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "status": "cleaning",
+          "battery_pct": 55
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [
+      {
+        "workflow_id": "guest_prep_old_1840",
+        "run_at": "2026-06-16T18:40:00",
+        "steps": [
+          {
+            "device_id": "guest_room_heater_1",
+            "command": "set_target_temperature",
+            "args": {
+              "temperature_c": 23.0
+            }
+          },
+          {
+            "device_id": "guest_room_light_1",
+            "command": "turn_on",
+            "args": {}
+          }
+        ],
+        "status": "active",
+        "steps_done": 0,
+        "error": null
+      }
+    ],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

@@ -1,0 +1,322 @@
+{
+  "id": "linux_android_smarthome_287",
+  "instruction": "An incoming Simple SMS Messenger message asks you to cancel tonight's away routine. Check the sender's role in Contacts and the authorization policy in `/tmp/access/cancel_policy.txt` before making any SmartHome change. If the sender is not authorized, leave the away routine active and reply in the existing message thread explaining why it was not changed.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/access/cancel_policy.txt && mkdir -p -- /tmp/access",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_287/source/tmp/access/cancel_policy.txt",
+                "path": "/tmp/access/cancel_policy.txt"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+1555000287",
+            "body": "Please cancel tonight's away routine.",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Nora Blake",
+            "number": "+1555000287",
+            "notes": "Role: Guest"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_287/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/access/cancel_policy.txt; find /tmp/access -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+1555000287",
+        "body_relation": {
+          "entities": [
+            [
+              "away routine",
+              "away plan"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "not authorized",
+              "unauthorized",
+              "not permitted",
+              "does not have permission",
+              "lacks permission",
+              "only the Owner can cancel",
+              "only Owner contacts may cancel"
+            ],
+            [
+              "remains active",
+              "stays active",
+              "left active",
+              "was not changed",
+              "left unchanged",
+              "request was declined"
+            ]
+          ],
+          "conflict_phrases": [
+            "sender is authorized",
+            "requester is authorized",
+            "routine was cancelled",
+            "routine was canceled",
+            "routine is inactive",
+            "routine was removed"
+          ],
+          "allowed_negative_capability_phrases": [
+            "not authorized to cancel",
+            "not permitted to cancel",
+            "does not have permission to cancel",
+            "cannot cancel"
+          ],
+          "allowed_reversal_terms": [
+            "cancel",
+            "cancelled",
+            "canceled"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "cat /tmp/access/cancel_policy.txt 2>/dev/null || true"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "Only Owner contacts may cancel away routines.",
+            "Guest and Neighbor contacts must be rejected",
+            "routine must stay active"
+          ],
+          "exclude": []
+        }
+      },
+      "metadata": {
+        "path": "/tmp/access/cancel_policy.txt"
+      },
+      "enable_score_calc": false
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_status",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "workflow_id": "away_active_287",
+            "run_at": "2026-06-16T21:00:00",
+            "steps": [
+              {
+                "device_id": "living_room_light_1",
+                "command": "turn_off",
+                "args": {}
+              }
+            ],
+            "status": "active"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "match": {}
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Unauthorized cancellation request must leave an active away routine unchanged.",
+    "surfaces": [
+      "sms",
+      "contacts",
+      "linux_text",
+      "home_workflow"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_287",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_287/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_287/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/access/cancel_policy.txt"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/access/cancel_policy.txt"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "pilot_index": 287,
+    "evaluate_note": "Evaluates the rejection reply, preserved authorized workflow, zero device commands, and unchanged schedule/workflow inventory."
+  }
+}

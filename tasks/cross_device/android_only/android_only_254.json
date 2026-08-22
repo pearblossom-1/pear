@@ -1,0 +1,362 @@
+{
+  "id": "android_only_254",
+  "instruction": "The Nora Logistics contact on the first phone has the recipient number, dock note, and preferred date/time style. Use it together with the Cargo check event in Calendar on the second phone to send Nora a confirmation SMS from the second phone.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Nora Logistics",
+            "number": "5550254",
+            "notes": "Dock note: use Bay 4 handoff. Confirmation date/time style: YYYY-MM-DD HH:MM."
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Nora Logistics",
+              "number": "5550254",
+              "notes_exact": "Dock note: use Bay 4 handoff. Confirmation date/time style: YYYY-MM-DD HH:MM.",
+              "require_exactly_one": true
+            },
+            "required_visible_text": [
+              "Nora Logistics",
+              "5550254",
+              "Bay 4 handoff",
+              "YYYY-MM-DD HH:MM"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Cargo check",
+            "start_ts": 1784373600,
+            "end_ts": 1784375400,
+            "location": "Bay 4",
+            "description": "Confirm arrival window with Nora."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Cargo check",
+            "start_ts": 1784373600,
+            "location": "Bay 4",
+            "description": "Confirm arrival window with Nora.",
+            "search_text": "Cargo"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Send at least one format-compliant Cargo check confirmation to Nora",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550254",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            "Cargo check",
+            "2026-07-18",
+            "11:20",
+            "Bay 4",
+            "handoff"
+          ],
+          "required_phrases": [
+            [
+              "confirmed",
+              "scheduled",
+              "set"
+            ],
+            [
+              "use",
+              "follow"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "confirmed",
+              "scheduled",
+              "set"
+            ],
+            [
+              "use",
+              "follow"
+            ]
+          ],
+          "conflict_phrases": [
+            "cancelled",
+            "canceled",
+            "withdrawn",
+            "retracted",
+            "pending",
+            "do not use",
+            "wrong dock"
+          ],
+          "required_patterns": [
+            "2026-07-18\\s+11:20(?!\\s*(?:AM|PM)\\b)"
+          ],
+          "conflict_patterns": [
+            "(?<!not )\\b(?:at|in)\\s+Bay\\s*[35]\\b",
+            "\\blocation\\s*(?:is|[:=])\\s*(?!not\\b)Bay\\s*[35]\\b",
+            "\\bactual\\s+(?:location|dock)\\s*(?:is|[:=])?\\s*Bay\\s*[35]\\b"
+          ],
+          "allowed_negative_capability_phrases": [
+            "not Bay 5",
+            "not Bay5"
+          ],
+          "nearest_relations": [
+            {
+              "anchor": [
+                "Cargo check"
+              ],
+              "expected": [
+                "confirmed",
+                "scheduled",
+                "set"
+              ],
+              "forbidden": [
+                "pending",
+                "cancelled",
+                "canceled"
+              ],
+              "max_distance": 16
+            },
+            {
+              "anchor": [
+                "Cargo check"
+              ],
+              "expected": [
+                "2026-07-18"
+              ],
+              "forbidden": [],
+              "max_distance": 28
+            },
+            {
+              "anchor": [
+                "Cargo check"
+              ],
+              "expected": [
+                "Bay 4"
+              ],
+              "forbidden": [],
+              "max_distance": 32
+            },
+            {
+              "anchor": [
+                "handoff"
+              ],
+              "expected": [
+                "use",
+                "follow"
+              ],
+              "forbidden": [
+                "do not use",
+                "ignore"
+              ],
+              "max_distance": 10
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "name": "No Nora task-result SMS may cancel the Cargo check",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550254",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            "Cargo check"
+          ],
+          "required_patterns": [
+            "\\b(?:cancelled|canceled|withdrawn|retracted)\\b"
+          ],
+          "allowed_reversal_terms": [
+            "cancelled",
+            "canceled",
+            "withdrawn",
+            "retracted"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "No Nora task-result SMS may give a different Cargo check bay",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550254",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            "Cargo check"
+          ],
+          "required_patterns": [
+            "(?:\\bBay\\s*(?!4\\b)\\d+\\b|\\bwrong\\s+Bay\\b)"
+          ],
+          "allowed_reversal_terms": [
+            "wrong"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "No Nora task-result SMS may give a different Cargo check time",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550254",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            "Cargo check"
+          ],
+          "required_patterns": [
+            "\\b(?!2026-07-18\\s+11:20\\b)\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}\\b"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "android_only",
+    "device_topology": "2android",
+    "surfaces": [
+      "contacts",
+      "calendar",
+      "sms"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/android_only_assets/android_only_254",
+    "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",
+    "evaluate_note": "Evaluation checks durable Android outputs with source guards kept non-scoring.",
+    "source_number": 254,
+    "candidate_triage": {
+      "batch_id": "plan6-android-only-dual-android-B0003",
+      "decision": "direct",
+      "rationale": "Supported contact-plus-calendar join with numeric SMS recipient from first-phone contact."
+    },
+    "oracle_ref": "tasks/cross_device/android_only_assets/android_only_254/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_254/episode_config.json",
+    "lite_hardening_note": "Removed unscored Android source-state evaluators and consolidated file-output checks where appropriate."
+  }
+}

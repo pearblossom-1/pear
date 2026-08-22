@@ -1,0 +1,1 @@
+If living room robot battery is below 25 percent while cleaning, return to dock now. Do not cancel safe pause schedule.

@@ -1,0 +1,384 @@
+{
+  "id": "android_smarthome_875",
+  "instruction": "`daylight_policy.csv` in Android Files describes the rule for unoccupied rooms that are too bright. Apply it to the live Home rooms, adjust the matching curtain, and create a Markor note named `Daylight log` for the next home check that records the room selected, its before and target opening, and why any other bright room was skipped.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_875/android/android_0/files/daylight_policy.csv",
+                "path": "/storage/emulated/0/Download/home/daylight_policy.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/storage/emulated/0/Download/home",
+            "expected_filenames": [
+              "daylight_policy.csv"
+            ],
+            "open_filename": "daylight_policy.csv",
+            "required_visible_text": [
+              "unoccupied only",
+              "700",
+              "25"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Daylight log.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_875/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/home/daylight_policy.csv"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Daylight log.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Daylight log.md",
+        "rules": {
+          "entities": [
+            [
+              "guest room"
+            ],
+            [
+              "curtain"
+            ],
+            [
+              "100",
+              "100%"
+            ],
+            [
+              "25",
+              "25%"
+            ],
+            [
+              "living room"
+            ],
+            [
+              "occupied"
+            ],
+            [
+              "skipped",
+              "unchanged",
+              "left unchanged"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "moved",
+              "adjusted",
+              "applied",
+              "set",
+              "→"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "guest room"
+                ],
+                [
+                  "curtain"
+                ],
+                [
+                  "100",
+                  "100%"
+                ],
+                [
+                  "25",
+                  "25%"
+                ]
+              ],
+              "phrases": [
+                [
+                  "moved",
+                  "adjusted",
+                  "applied",
+                  "set",
+                  "→"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "living room"
+                ],
+                [
+                  "occupied"
+                ],
+                [
+                  "skipped",
+                  "unchanged",
+                  "left unchanged",
+                  "left alone"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "preceding_clause_context": {
+            "max_preceding_clauses": 2,
+            "anchors": [
+              [
+                "guest room"
+              ],
+              [
+                "living room"
+              ]
+            ]
+          },
+          "conflict_phrases": [
+            "pending",
+            "not applied",
+            "25 to 100",
+            "living room changed",
+            "living room was changed",
+            "not skipped",
+            "guest room unchanged"
+          ],
+          "conflict_patterns": [
+            "(?is)\\b25(?:\\.0)?%?\\b[^.!?\\r\\n]{0,20}(?:\\bto\\b|->|→)[^.!?\\r\\n]{0,20}\\b100(?:\\.0)?%?\\b"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "Daylight log binds guest curtain 100-to-25 and occupied living-room skip"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "guest_room_curtain_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "open_pct": 25
+          }
+        }
+      },
+      "name": "guest-room curtain is adjusted to 25 percent"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_multi_condition",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "devices": {
+              "living_room_curtain_1": {
+                "open_pct": 100
+              }
+            }
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "living-room curtain remains at 100 percent"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "guest_room_curtain_1": {
+                "open_pct": 25,
+                "status": "partial"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "only the guest-room curtain final state changes globally"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "guest_room_curtain_1",
+                "command": "set_open_pct",
+                "args": {
+                  "open_pct": 25
+                }
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "direct commands are restricted to guest-curtain 25-percent retries"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "daylight adjustment creates no schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "daylight adjustment creates no workflow"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_875",
+    "surfaces": [
+      "files",
+      "markor",
+      "home_state",
+      "home_command",
+      "calibration_sweep"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "adb_shell",
+      "smarthome_device_state"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_875",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_875/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_875/oracle_positive.json",
+    "idea_number": 875,
+    "candidate_triage": {
+      "batch_id": "plan5-android-smarthome-369-868-B0026",
+      "decision": "direct",
+      "rationale": "Supported daylight sweep with unoccupied-only selection and occupied-room guard."
+    },
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

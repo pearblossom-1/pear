@@ -1,0 +1,401 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 433,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 683,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "nursery_robot_vacuum_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "status": "paused",
+            "battery_pct": 74
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_status",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "schedule_id": "nursery_clean_1430",
+            "run_at": "2026-06-16T14:30:00",
+            "device_id": "nursery_robot_vacuum_1",
+            "command": "start_cleaning",
+            "args": {},
+            "status": "cancelled"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/cleaning/cleaning-audit.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "cells": {
+            "A1": "Area",
+            "B1": "Conflict",
+            "C1": "Current Action",
+            "D1": "Future Action",
+            "A2": "nursery",
+            "C2": "pause robot",
+            "D2": "cancel 14:30 clean"
+          },
+          "cell_rules": {
+            "B2": {
+              "nonempty": true,
+              "contains_all": [
+                "nap"
+              ],
+              "contains_any_groups": [
+                [
+                  "occupied",
+                  "cleaning",
+                  "robot",
+                  "vacuum"
+                ],
+                [
+                  "occupied",
+                  "active",
+                  "conflict",
+                  "overlap",
+                  "scheduled",
+                  "current",
+                  "future",
+                  "13:00",
+                  "14:30"
+                ]
+              ],
+              "not_contains": [
+                "not occupied",
+                "unoccupied",
+                "no conflict",
+                "not a conflict",
+                "without conflict",
+                "no robot cleaning conflict",
+                "does not conflict",
+                "doesn't conflict",
+                "does not overlap",
+                "is not occupied",
+                "isn't occupied",
+                "isnt occupied",
+                "cleaning is unrelated"
+              ]
+            }
+          },
+          "reject_extra_nonempty_cells": true,
+          "extra_sheet_policy": {
+            "max_count": 1,
+            "min_nonempty_cells": 2,
+            "contains_any": [
+              "source",
+              "evidence",
+              "guide",
+              "robot-plan",
+              "no-clean"
+            ]
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/cleaning/cleaning-audit.xlsx"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_contract",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "devices": {
+              "nursery_robot_vacuum_1": {
+                "allowed_sequences": [
+                  [
+                    {
+                      "command": "pause",
+                      "args": {}
+                    }
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "match": {}
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T13:30:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 23.2,
+        "humidity_pct": 44.5,
+        "brightness_lux": 400.0,
+        "air_quality_pm25": 33.9,
+        "noise_level_db": 38.7,
+        "occupied": true
+      },
+      "dining_room": {
+        "temperature_c": 23.6,
+        "humidity_pct": 56.1,
+        "brightness_lux": 620.0,
+        "air_quality_pm25": 17.9,
+        "noise_level_db": 35.1,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 22.5,
+        "humidity_pct": 51.9,
+        "brightness_lux": 700.0,
+        "air_quality_pm25": 22.0,
+        "noise_level_db": 36.3,
+        "occupied": true
+      },
+      "nursery": {
+        "temperature_c": 22.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 30.0,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "mode": "auto",
+          "target_temperature_c": 21.0
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "brightness_pct": 80
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 22.0
+        }
+      },
+      {
+        "device_id": "dining_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on",
+          "mode": "auto",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "dining_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "dining_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "dining_room",
+        "state": {
+          "open_pct": 40,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "dining_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 100
+        }
+      },
+      {
+        "device_id": "dining_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on",
+          "status": "paused",
+          "battery_pct": 79
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "mode": "cool",
+          "target_temperature_c": 23.0
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 100,
+          "status": "open"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 80
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 54
+        }
+      },
+      {
+        "device_id": "nursery_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "nursery",
+        "state": {
+          "power": "on",
+          "status": "cleaning",
+          "battery_pct": 74
+        }
+      }
+    ],
+    "schedules": [
+      {
+        "schedule_id": "nursery_clean_1430",
+        "run_at": "2026-06-16T14:30:00",
+        "device_id": "nursery_robot_vacuum_1",
+        "command": "start_cleaning",
+        "args": {},
+        "status": "active"
+      }
+    ],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

@@ -1,0 +1,13 @@
+case_id,owner,phone,status,code,target,due_time,priority
+904-00,Mira Patel,+1555011881,pending,D9040,Audio memo file list missing,2026-07-14 08:30,normal
+904-01,Jon Bell,+1555011882,pending,D9041,Audio memo file list missing,2026-07-15 09:30,normal
+904-02,Nadia Ross,+1555011883,pending,D9042,Audio memo file list missing,2026-07-16 10:30,normal
+904-A,Mira Patel,+1555011881,approved,NX90423,Audio memo file list missing,2026-07-17 11:30,high
+904-04,Elena Cruz,+1555011885,pending,D9044,Audio memo file list missing,2026-07-18 12:30,normal
+904-05,Priya Shah,+1555011886,pending,D9045,Audio memo file list missing,2026-07-19 13:30,normal
+904-06,Owen Park,+1555011887,pending,D9046,Audio memo file list missing,2026-07-20 14:30,normal
+904-D,Mira Patel,+1555011888,hold,D9047,Audio memo file list missing,2026-07-21 15:30,normal
+904-08,Mira Patel,+1555011881,pending,D9048,Audio memo file list missing,2026-07-22 16:30,normal
+904-09,Jon Bell,+1555011882,pending,D9049,Audio memo file list missing,2026-07-23 08:30,normal
+904-10,Nadia Ross,+1555011883,pending,D90410,Audio memo file list missing,2026-07-24 09:30,normal
+904-11,Tao Lin,+1555011884,pending,D90411,Audio memo file list missing,2026-07-10 10:30,normal

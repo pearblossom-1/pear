@@ -1,0 +1,435 @@
+{
+  "id": "android_smarthome_888",
+  "instruction": "Before changing the study light, verify the request in the first phone's Tasks app against the approval table in Android Files on the second phone. Apply it only when the matching row is approved. For the household record, leave a Markor note named `Approval source chain` on the second phone with the matched request, approval evidence, setting applied, and reason.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_task_add",
+          "parameters": {
+            "title": "Study light request",
+            "notes": "Request row L-42: set study light to 70 percent for reading.",
+            "dueDate": 0,
+            "completed": 0
+          }
+        },
+        {
+          "type": "androidworld_task_record_preflight",
+          "parameters": {
+            "task": {
+              "title": "Study light request",
+              "notes": "Request row L-42: set study light to 70 percent for reading.",
+              "dueDate": 0,
+              "completed": 0
+            },
+            "required_visible_text": [
+              "Study light request",
+              "L-42",
+              "70 percent",
+              "reading"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_888/android/android_1/files/approval_table.csv",
+                "path": "/storage/emulated/0/Download/home/approval_table.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/storage/emulated/0/Download/home",
+            "expected_filenames": [
+              "approval_table.csv"
+            ],
+            "open_filename": "approval_table.csv",
+            "required_visible_text": [
+              "L-42",
+              "approved",
+              "reading setup approved by owner",
+              "L-43",
+              "rejected"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Approval source chain.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_888/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/home/approval_table.csv"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Approval source chain.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Approval source chain.md",
+        "rules": {
+          "entities": [
+            [
+              "L-42"
+            ],
+            [
+              "approved",
+              "approval"
+            ],
+            [
+              "study light",
+              "study-light"
+            ],
+            [
+              "70",
+              "70%"
+            ],
+            [
+              "reading"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "applied",
+              "set",
+              "executed"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "L-42"
+                ],
+                [
+                  "study light",
+                  "study-light"
+                ],
+                [
+                  "70",
+                  "70%"
+                ],
+                [
+                  "reading"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "L-42"
+                ],
+                [
+                  "approved",
+                  "approval"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "L-42"
+                ],
+                [
+                  "study light",
+                  "study-light"
+                ],
+                [
+                  "70",
+                  "70%"
+                ]
+              ],
+              "phrases": [
+                [
+                  "applied",
+                  "set",
+                  "executed"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "preceding_clause_context": {
+            "max_preceding_clauses": 2,
+            "anchors": [
+              [
+                "L-42"
+              ],
+              [
+                "L-43"
+              ]
+            ]
+          },
+          "nearest_relations": [
+            {
+              "anchor": [
+                "L-42"
+              ],
+              "expected": [
+                "approved",
+                "approval"
+              ],
+              "forbidden": [
+                "rejected",
+                "denied",
+                "not approved",
+                "unapproved"
+              ],
+              "max_distance": 24
+            }
+          ],
+          "conflict_phrases": [
+            "pending",
+            "not applied",
+            "wrong row"
+          ],
+          "allowed_reversal_terms": [
+            "ignored"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "Approval source chain binds L-42 request, approval, and applied study-light setting"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "study_dimmable_light_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "brightness_pct": 70
+          }
+        }
+      },
+      "name": "study dimmable light is on at 70 percent"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "study_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 70
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "only the approved study light final state changes globally"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "study_dimmable_light_1",
+                "command": "set_brightness",
+                "args": {
+                  "brightness_pct": 70
+                }
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "direct commands are restricted to approved study-brightness retries"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "approved request creates no schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "approved request creates no workflow"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_888",
+    "surfaces": [
+      "tasks",
+      "files",
+      "markor",
+      "home_command",
+      "two_android",
+      "approval_provenance"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "adb_shell",
+      "smarthome_device_state"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "2android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_888",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_888/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_888/oracle_positive.json",
+    "idea_number": 888,
+    "candidate_triage": {
+      "batch_id": "plan5-android-smarthome-369-868-B0026",
+      "decision": "direct",
+      "rationale": "Supported two-phone approval provenance with approved branch, android_1 authority, and android_1 Markor output."
+    },
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

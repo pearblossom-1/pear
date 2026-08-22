@@ -1,0 +1,269 @@
+{
+  "id": "linux_android_1270",
+  "instruction": "Compare the Broccoli recipe with `/tmp/pantry/pantry_plan.csv` and write `/tmp/pantry/recipe_check.xlsx` on the second Linux machine. Create one complete visible table with columns `ingredient`, `recipe_amount`, `pantry_amount`, and `status`; include every relevant ingredient exactly once.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/pantry/pantry_plan.csv && mkdir -p -- /tmp/pantry",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1270/source/tmp/pantry/pantry_plan.csv",
+                "path": "/tmp/pantry/pantry_plan.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/pantry/pantry_plan.csv",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/pantry/recipe_check.xlsx && mkdir -p -- /tmp/pantry",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test ! -e /tmp/pantry/recipe_check.xlsx && test -w /tmp/pantry",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "broccoli app"
+          }
+        },
+        {
+          "type": "androidworld_recipes_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_recipe_add",
+          "parameters": {
+            "title": "Beans and Rice",
+            "ingredients": "beans 2 cups; rice 2 cups; cilantro 1 bunch",
+            "directions": "Cook together.",
+            "preparationTime": ""
+          }
+        },
+        {
+          "type": "androidworld_broccoli_recipe_preflight",
+          "parameters": {
+            "recipe": {
+              "title": "Beans and Rice",
+              "ingredients": "beans 2 cups; rice 2 cups; cilantro 1 bunch",
+              "directions": "Cook together.",
+              "preparationTime": ""
+            },
+            "required_visible_text": [
+              "Beans and Rice",
+              "beans",
+              "rice",
+              "cilantro"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/pantry/pantry_plan.csv; find /tmp/pantry -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/pantry/recipe_check.xlsx; find /tmp/pantry -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_recipes_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/pantry/recipe_check.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "logical_table": {
+            "headers": [
+              "ingredient",
+              "recipe_amount",
+              "pantry_amount",
+              "status"
+            ],
+            "rows": [
+              [
+                "beans",
+                "2 cups",
+                "2 cups",
+                "matched"
+              ],
+              [
+                "rice",
+                "2 cups",
+                "1 cup",
+                "quantity mismatch"
+              ],
+              [
+                "cilantro",
+                "1 bunch",
+                "1 bunch",
+                "matched"
+              ],
+              [
+                "lime",
+                "missing",
+                "2",
+                "pantry-only"
+              ]
+            ],
+            "value_aliases": {
+              "recipe_amount": {
+                "missing": [
+                  "N/A",
+                  "not in recipe",
+                  "none",
+                  ""
+                ]
+              },
+              "status": {
+                "matched": [
+                  "match",
+                  "available",
+                  "sufficient",
+                  "same"
+                ],
+                "quantity mismatch": [
+                  "quantity_mismatch",
+                  "mismatch",
+                  "short",
+                  "short by 1 cup",
+                  "insufficient"
+                ],
+                "pantry-only": [
+                  "pantry only",
+                  "extra in pantry",
+                  "not in recipe"
+                ]
+              }
+            },
+            "exact_rows": true,
+            "exact_columns": true,
+            "order_sensitive": false
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/pantry/recipe_check.xlsx"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1270",
+    "surfaces": [
+      "broccoli",
+      "linux.csv",
+      "linux.xlsx"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1270",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1270/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1270/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/pantry/pantry_plan.csv"
+    ],
+    "linux_output_paths": [
+      "/tmp/pantry/recipe_check.xlsx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/pantry/pantry_plan.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/pantry/recipe_check.xlsx"
+      ]
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1261-1280-B0005",
+    "candidate_triage": {
+      "decision": "direct",
+      "rationale": "Candidate is realistic, source-closed, and supported by existing Linux and Android helpers."
+    },
+    "human_quality_review": "accepted_current_hash_smoke_passed",
+    "current_hash_smoke_status": "passed_current_hash"
+  }
+}

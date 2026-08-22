@@ -1,0 +1,70 @@
+{
+  "task_id": "al2_alarm_calc_email",
+  "source_card": "184",
+  "device_topology": "1A+2L",
+  "difficulty": "Medium",
+  "motif": "M5",
+  "interaction_mode": "GUI-focused",
+  "instruction": "The Android Clock app has a `Delivery` alarm. Please open `/tmp/delivery/schedule.xlsx` in LibreOffice Calc on the first Linux machine, find the Delivery row and fill in the alarm time, then create a notification draft in Thunderbird on the second Linux machine.",
+  "surfaces": "Android Clock app + linux_0 Calc + linux_1 Thunderbird",
+  "setup_note": "Android 创建 Delivery alarm；linux_0 准备 schedule.xlsx；linux_1 准备 Thunderbird draft。",
+  "evaluate_note": "检查 Calc 单元格和 Thunderbird draft 内容。",
+  "requires_helper_audit": false,
+  "source_files": [
+    "source/visible/deb4d71f_schedule.xlsx"
+  ],
+  "expected_files": [],
+  "instruction_visible_inputs": [
+    {
+      "path": "/tmp/delivery/schedule.xlsx",
+      "source_file": "source/visible/deb4d71f_schedule.xlsx"
+    }
+  ],
+  "instruction_visible_outputs": [],
+  "native_content_outputs": [
+    {
+      "path": "/tmp/delivery/schedule.xlsx",
+      "func": "check_xlsx_cells",
+      "expected_file": null,
+      "device_id": "linux_0",
+      "rules": {
+        "sheet": "Schedule",
+        "cells": {
+          "A1": "item",
+          "A2": "Delivery",
+          "C2": "08:45"
+        },
+        "forbidden": [
+          {
+            "cell": "C2",
+            "value": ""
+          }
+        ]
+      }
+    }
+  ],
+  "android_state_outputs": [],
+  "android_file_outputs": [],
+  "android_text_outputs": [],
+  "browser_state_outputs": [],
+  "thunderbird_draft_outputs": [
+    {
+      "device_id": "linux_1",
+      "include": [
+        "delivery-team@example.test",
+        "Delivery",
+        "08:45"
+      ],
+      "exclude": [
+        "wrong time",
+        "missing alarm"
+      ]
+    }
+  ],
+  "fixture_notes": [
+    "/tmp/delivery/schedule.xlsx has in-place workbook cell evaluator rules",
+    "android_0 creates Delivery alarm at 08:45",
+    "schedule.xlsx includes delivery-team@example.test as the draft recipient cue",
+    "Thunderbird draft must contain the recipient, alarm label, and alarm time"
+  ]
+}

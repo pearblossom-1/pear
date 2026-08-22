@@ -1,0 +1,221 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 373,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 623,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "linux_0",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/climate/capability.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_373/source/tmp/climate/capability.xlsx",
+          "allowed_changes": [
+            "Capability Review!B2",
+            "Capability Review!C2",
+            "Capability Review!B3",
+            "Capability Review!C3",
+            "Capability Review!B4",
+            "Capability Review!C4"
+          ],
+          "preserve_layout": true,
+          "sheet": "Capability Review",
+          "cells": {
+            "B2": "yes",
+            "C2": "no",
+            "B3": "yes",
+            "C3": "yes",
+            "B4": "yes",
+            "C4": "yes"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/climate/capability.xlsx"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 23.0,
+        "humidity_pct": 52.3,
+        "brightness_lux": 62.3,
+        "air_quality_pm25": 44.7,
+        "noise_level_db": 34.4,
+        "occupied": true
+      },
+      "guest_room": {
+        "temperature_c": 24.5,
+        "humidity_pct": 55.7,
+        "brightness_lux": 240.0,
+        "air_quality_pm25": 46.0,
+        "noise_level_db": 31.9,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 22.4,
+        "humidity_pct": 47.2,
+        "brightness_lux": 680.0,
+        "air_quality_pm25": 32.5,
+        "noise_level_db": 31.0,
+        "occupied": true
+      },
+      "study": {
+        "temperature_c": 22.1,
+        "humidity_pct": 53.8,
+        "brightness_lux": 700.0,
+        "air_quality_pm25": 40.5,
+        "noise_level_db": 31.9,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "mode": "auto",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "guest_room_heater_1",
+        "device_type": "heater",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 20.0
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "mode": "heat",
+          "target_temperature_c": 20.0
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 60,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 100
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "status": "paused",
+          "battery_pct": 51
+        }
+      },
+      {
+        "device_id": "study_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "study",
+        "state": {
+          "power": "off",
+          "mode": "auto",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "study_heater_1",
+        "device_type": "heater",
+        "room_id": "study",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 20.0
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

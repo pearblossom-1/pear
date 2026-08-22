@@ -1,0 +1,83 @@
+{
+  "task_id": "linux_only_275",
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nimport csv\ntry:\n    with open('/tmp/portal/missing_pages.csv', newline='', encoding='utf-8-sig') as handle:\n        reader = csv.DictReader(handle)\n        rows = list(reader)\n    expected = {('Release Readiness Checklist', 'ready'), ('Support Escalation Directory', 'missing_bookmark'), ('Deployment Rollback Guide', 'missing_file')}\n    actual = [(row.get('page', '').strip(), row.get('status', '').strip()) for row in rows]\n    ok = reader.fieldnames == ['page', 'status'] and len(actual) == 3 and len(set(actual)) == 3 and set(actual) == expected\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "metadata": {
+        "path": "/tmp/portal/missing_pages.csv"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/portal/bookmark_export.html",
+        "trusted_root": "/tmp/portal",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "15b2b0952d382f4d01e4a778fab50cd419efbfe87b020922fd76c3d190b5ab00"
+        }
+      },
+      "metadata": {
+        "path": "/tmp/portal/bookmark_export.html",
+        "role": "source_integrity_guard"
+      },
+      "enable_score_calc": false
+    },
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/portal/required_pages.json",
+        "trusted_root": "/tmp/portal",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "a5d39ba7a6343331aeb8ad46ec96b7f562f140685f631aaa5de1f9c8b88a7a89"
+        }
+      },
+      "metadata": {
+        "role": "required_pages_source_guard"
+      },
+      "enable_score_calc": false
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport hashlib\nimport stat\nexpected = {\n    'a.html': '274c0c78ab873b426f5bd36395cb5b882eb2ed42e13d19a56621481affd6a817',\n    'b.html': 'b14a646d4b996b848a293d9dfe7470b8082d64b1413c09c83b0a718f02daf195',\n}\ntry:\n    root = Path('/tmp/portal/local_pages')\n    paths = list(root.rglob('*'))\n    ok = all(not path.is_symlink() and (path.is_dir() or stat.S_ISREG(path.lstat().st_mode)) for path in paths)\n    actual = {str(path.relative_to(root)): hashlib.sha256(path.read_bytes()).hexdigest() for path in paths if stat.S_ISREG(path.lstat().st_mode)}\n    ok = ok and actual == expected\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "metadata": {
+        "role": "local_pages_tree_guard"
+      },
+      "enable_score_calc": false
+    }
+  ]
+}

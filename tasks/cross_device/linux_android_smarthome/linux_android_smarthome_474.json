@@ -1,0 +1,256 @@
+{
+  "id": "linux_android_smarthome_474",
+  "instruction": "Use the current playlist on the first phone, the room and start time in the second phone's Calendar, and `/tmp/home_ops/approval-forms/source/music_scene.csv` to select the matching SmartHome preparation rule and schedule one preparation workflow at the rule's lead time before the session.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p '/tmp/home_ops/approval-forms/source' && rm -f -- '/tmp/home_ops/approval-forms/source/music_scene.csv'",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_474/source/tmp/home_ops/approval-forms/source/music_scene.csv",
+                "path": "/tmp/home_ops/approval-forms/source/music_scene.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r '/tmp/home_ops/approval-forms/source/music_scene.csv'",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "retro music"
+          }
+        },
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_mp3_push",
+          "parameters": {
+            "songs": [
+              "workout_mix_one",
+              "workout_mix_two"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_playlist_add",
+          "parameters": {
+            "playlist_name": "Workout Mix",
+            "songs": [
+              "workout_mix_one",
+              "workout_mix_two"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_music_library_preflight",
+          "parameters": {
+            "songs": [
+              "workout_mix_one",
+              "workout_mix_two"
+            ],
+            "forbidden_songs": [],
+            "forbidden_playlist_names": [],
+            "required_playlist": {
+              "name": "Workout Mix",
+              "songs": [
+                "workout_mix_one",
+                "workout_mix_two"
+              ]
+            },
+            "verify_playlist_creation_entry": false
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Media session",
+            "start_ts": 1781641800,
+            "end_ts": 1781643600,
+            "location": "living room",
+            "description": "Room and start time for the approved media session."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Media session",
+            "start_ts": 1781641800,
+            "location": "living room",
+            "description": "Room and start time for the approved media session.",
+            "search_text": "Media"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_474/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- '/tmp/home_ops/approval-forms/source/music_scene.csv'; find /tmp/home_ops -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T20:10:00",
+            "status": "active",
+            "effects": {
+              "living_room_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 35
+              },
+              "living_room_curtain_1": {
+                "open_pct": 50
+              }
+            },
+            "exact_active_workflow_count": 1
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "474 Retro Music playlist mapped to SmartHome scene.",
+    "surfaces": [
+      "android_dual",
+      "retro_music",
+      "calendar",
+      "markor",
+      "linux_csv",
+      "home_workflow"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_474",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_474/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_474/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/home_ops/approval-forms/source/music_scene.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/home_ops/approval-forms/source/music_scene.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "pilot_index": 474,
+    "source_plan": "linux_android2_smarthome_321_420",
+    "human_quality_review": "accepted_current_hash_smoke_passed",
+    "current_hash_smoke_status": "passed_current_hash"
+  }
+}

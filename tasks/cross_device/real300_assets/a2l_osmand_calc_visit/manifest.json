@@ -1,0 +1,12 @@
+{
+  "task_id": "a2l_osmand_calc_visit",
+  "source_files": [
+    "clinic_favorite.gpx",
+    "visit.xlsx"
+  ],
+  "expected_files": [],
+  "device_topology": "A+A+L",
+  "instruction": "The first phone's OsmAnd has a `Clinic` favorite, and the second phone's Simple Calendar Pro has the visit time. Please read the favorite name and coordinates from OsmAnd and the visit start time from Calendar, then complete the existing `/tmp/visit/visit.xlsx` template in Linux LibreOffice Calc.",
+  "surfaces": "android_0 OsmAnd + android_1 Simple Calendar Pro -> Linux Calc",
+  "requires_helper_audit": false
+}

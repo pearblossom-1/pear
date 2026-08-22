@@ -1,0 +1,207 @@
+{
+  "task_id": "linux_only_300",
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_contact_sheet_sources",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/sheet/contact_sheet.png"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "exact_size": [
+            1200,
+            800
+          ],
+          "approved_sources": [
+            {
+              "path": "tasks/cross_device/linux_only_assets/linux_only_300/source/linux_1/tmp/sheet/photos/case18.jpg",
+              "caption_entity_relation": {
+                "entities": [
+                  [
+                    "CASE-18",
+                    "CASE 18"
+                  ]
+                ]
+              }
+            },
+            {
+              "path": "tasks/cross_device/linux_only_assets/linux_only_300/source/linux_1/tmp/sheet/photos/case21.jpg",
+              "caption_entity_relation": {
+                "entities": [
+                  [
+                    "CASE-21",
+                    "CASE 21"
+                  ]
+                ]
+              }
+            }
+          ],
+          "rejected_sources": [
+            {
+              "path": "tasks/cross_device/linux_only_assets/linux_only_300/source/linux_1/tmp/sheet/photos/case99.jpg"
+            }
+          ],
+          "exact_card_count": 2,
+          "min_template_score": 0.69,
+          "min_card_saturation": 30
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "path": "/tmp/sheet/contact_sheet.png",
+        "role": "approved_source_contact_sheet"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_image_dimensions",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/sheet/contact_sheet.png"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "exact_size": [
+            1200,
+            800
+          ],
+          "required_format": "PNG"
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "path": "/tmp/sheet/contact_sheet.png",
+        "role": "actual_png_format"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_csv_semantic_records",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/sheet/contact_index.csv"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "column_aliases": {
+            "file": [
+              "filename",
+              "source file"
+            ],
+            "case_code": [
+              "case",
+              "case id",
+              "code"
+            ],
+            "status": [
+              "disposition",
+              "decision"
+            ]
+          },
+          "value_aliases": {
+            "status": {
+              "included": [
+                "approved",
+                "selected",
+                "include"
+              ],
+              "excluded_rejected": [
+                "rejected",
+                "excluded",
+                "not included",
+                "exclude rejected"
+              ]
+            }
+          },
+          "rows": [
+            {
+              "file": "case18.jpg",
+              "case_code": "CASE-18",
+              "status": "included"
+            },
+            {
+              "file": "case21.jpg",
+              "case_code": "CASE-21",
+              "status": "included"
+            },
+            {
+              "file": "case99.jpg",
+              "case_code": "CASE-99",
+              "status": "excluded_rejected"
+            }
+          ]
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "path": "/tmp/sheet/contact_index.csv",
+        "role": "contact_index"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/sheet/photos/case18.jpg",
+        "trusted_root": "/tmp/sheet/photos",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "8f325f3a57ed27eee53538853d10b22d04732311b03ee075ef8503b3c95c5558"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "source_photo_case18_guard"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/sheet/photos/case21.jpg",
+        "trusted_root": "/tmp/sheet/photos",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "f29114a33c43468d498cba2c7cb1bbc49531a25ce1cc89b792d04f07498d5454"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "source_photo_case21_guard"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/sheet/photos/case99.jpg",
+        "trusted_root": "/tmp/sheet/photos",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "9b228ad57c9fa382af435d08c97f3fc8c4cf46adde2515a9a672c82dee380daa"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "source_photo_case99_guard"
+      }
+    }
+  ]
+}

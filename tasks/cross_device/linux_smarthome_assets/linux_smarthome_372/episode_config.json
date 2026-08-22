@@ -1,0 +1,580 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 372,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 622,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "require_valid_package": true,
+          "entity_relation": {
+            "entities": [
+              [
+                "dryer",
+                "laundry room dryer"
+              ],
+              "laundry room noise",
+              [
+                "63 dB",
+                "63db",
+                "63 decibels"
+              ],
+              "washer",
+              "stopped",
+              "living room robot vacuum",
+              "docked"
+            ],
+            "required_patterns": [
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:laundry\\s+room\\s+)?dryer\\b|\\b(?:laundry\\s+room\\s+)?dryer\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b"
+            ],
+            "conflict_patterns": [
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:laundry\\s+room\\s+)?washer\\b|\\b(?:laundry\\s+room\\s+)?washer\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b",
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:living\\s+room\\s+)?robot\\s+vacuum\\b|\\b(?:living\\s+room\\s+)?robot\\s+vacuum\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b"
+            ],
+            "conflict_phrases": [
+              "dryer is not the source",
+              "source is not the dryer",
+              "source unknown",
+              "source uncertain"
+            ],
+            "allowed_negative_capability_phrases": [
+              "washer is not the source",
+              "robot vacuum is not the source",
+              "living room robot vacuum is not the source"
+            ],
+            "relation_groups": [
+              {
+                "entities": [
+                  "laundry room noise",
+                  [
+                    "63 dB",
+                    "63db",
+                    "63 decibels"
+                  ]
+                ],
+                "allow_multiple_matches": true
+              },
+              {
+                "entities": [
+                  "washer",
+                  "stopped"
+                ],
+                "allow_multiple_matches": true
+              },
+              {
+                "entities": [
+                  "living room robot vacuum",
+                  "docked"
+                ],
+                "allow_multiple_matches": true
+              }
+            ]
+          },
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "name": "valid findings report with bound source and exclusion evidence"
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "require_valid_package": true,
+          "entity_relation": {
+            "entities": [
+              [
+                "dryer",
+                "laundry room dryer"
+              ],
+              [
+                "current noise source",
+                "noise source",
+                "current source"
+              ]
+            ],
+            "required_patterns": [
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:laundry\\s+room\\s+)?dryer\\b|\\b(?:laundry\\s+room\\s+)?dryer\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b"
+            ],
+            "conflict_patterns": [
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:laundry\\s+room\\s+)?washer\\b|\\b(?:laundry\\s+room\\s+)?washer\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b",
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:living\\s+room\\s+)?robot\\s+vacuum\\b|\\b(?:living\\s+room\\s+)?robot\\s+vacuum\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b"
+            ],
+            "conflict_phrases": [
+              "dryer is not the source",
+              "source is not the dryer",
+              "source unknown",
+              "source uncertain"
+            ]
+          },
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "enable_score_calc": false,
+      "name": "current source is bound specifically to the dryer"
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "require_valid_package": true,
+          "entity_relation": {
+            "entities": [
+              "laundry room noise",
+              [
+                "63 dB",
+                "63db",
+                "63 decibels"
+              ]
+            ],
+            "relation_groups": [
+              {
+                "entities": [
+                  "laundry room noise",
+                  [
+                    "63 dB",
+                    "63db",
+                    "63 decibels"
+                  ]
+                ],
+                "allow_multiple_matches": true
+              }
+            ]
+          },
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "enable_score_calc": false,
+      "name": "laundry-room noise is bound to 63 dB"
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "require_valid_package": true,
+          "entity_relation": {
+            "entities": [
+              "washer",
+              "stopped"
+            ],
+            "relation_groups": [
+              {
+                "entities": [
+                  "washer",
+                  "stopped"
+                ],
+                "allow_multiple_matches": true
+              }
+            ]
+          },
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "enable_score_calc": false,
+      "name": "washer status is bound to stopped"
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "require_valid_package": true,
+          "entity_relation": {
+            "entities": [
+              "living room robot vacuum",
+              "docked"
+            ],
+            "relation_groups": [
+              {
+                "entities": [
+                  "living room robot vacuum",
+                  "docked"
+                ],
+                "allow_multiple_matches": true
+              }
+            ]
+          },
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "enable_score_calc": false,
+      "name": "living-room robot vacuum status is bound to docked"
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "require_valid_package": true,
+          "entity_relation": {
+            "entities": [
+              "dryer"
+            ],
+            "conflict_patterns": [
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:laundry\\s+room\\s+)?washer\\b|\\b(?:laundry\\s+room\\s+)?washer\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b",
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:living\\s+room\\s+)?robot\\s+vacuum\\b|\\b(?:living\\s+room\\s+)?robot\\s+vacuum\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b"
+            ],
+            "conflict_phrases": [
+              "dryer is not the source",
+              "source is not the dryer",
+              "source unknown",
+              "source uncertain"
+            ]
+          },
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "enable_score_calc": false,
+      "name": "source report contains no contradictory or uncertain claim"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "query-only command history remains empty"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "query-only schedule count remains zero"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "query-only workflow count remains zero"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 21.0,
+        "humidity_pct": 32.8,
+        "brightness_lux": 620.0,
+        "air_quality_pm25": 40.2,
+        "noise_level_db": 31.0,
+        "occupied": false
+      },
+      "guest_room": {
+        "temperature_c": 22.3,
+        "humidity_pct": 38.6,
+        "brightness_lux": 120.0,
+        "air_quality_pm25": 56.7,
+        "noise_level_db": 34.4,
+        "occupied": false
+      },
+      "kitchen": {
+        "temperature_c": 24.2,
+        "humidity_pct": 38.6,
+        "brightness_lux": 164.6,
+        "air_quality_pm25": 66.6,
+        "noise_level_db": 58.0,
+        "occupied": false
+      },
+      "laundry_room": {
+        "temperature_c": 22.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 63.0,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 22.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 34.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_curtain_1",
+        "device_type": "curtain",
+        "room_id": "bedroom",
+        "state": {
+          "open_pct": 40,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "bedroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "brightness_pct": 100
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 29.0
+        }
+      },
+      {
+        "device_id": "bedroom_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 36
+        }
+      },
+      {
+        "device_id": "guest_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off",
+          "mode": "cool",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "guest_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "guest_room",
+        "state": {
+          "open_pct": 40,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "guest_room_heater_1",
+        "device_type": "heater",
+        "room_id": "guest_room",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "guest_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "kitchen_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "kitchen_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "kitchen",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "kitchen_light_1",
+        "device_type": "light",
+        "room_id": "kitchen",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "kitchen_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "status": "cleaning",
+          "battery_pct": 94
+        }
+      },
+      {
+        "device_id": "laundry_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "laundry_room_dryer_1",
+        "device_type": "dryer",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "on",
+          "cycle": "normal",
+          "remaining_min": 24,
+          "status": "running"
+        }
+      },
+      {
+        "device_id": "laundry_room_washer_1",
+        "device_type": "washer",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "off",
+          "cycle": "normal",
+          "remaining_min": 0,
+          "status": "stopped"
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 90
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

@@ -1,0 +1,5 @@
+case,status,code,owner,phone,email,route,site,lat,lon,time,filename,include,notes
+CASE-1831,current,FB-1831,Theo Brooks,+15552001831,theo.brooks@example.test,RT-31,Harbor Gate 14,37.749,-122.416,2026-07-16 09:10,rt-31_photo_a.jpg,yes,approved source row
+CASE-OLD,archived,OLD-17,Archived Owner,+15550000000,old@example.test,RT-00,Old Yard,37.730,-122.400,2026-06-01 08:00,old_photo.jpg,no,inactive archive
+CASE-HOLD,hold,HOLD-42,Hold Owner,+15550009999,,RT-31,Harbor Gate 14 Annex,37.750,-122.415,2026-07-16 09:10,rt-31_hold.jpg,no,similar-name hold
+CASE-1831,missing-photo,FB-1831,Theo Brooks,+15552001831,theo.brooks@example.test,RT-31,Harbor Gate 14,37.749,-122.416,2026-07-16 09:10,rt-31_photo_missing.jpg,no,required photo missing

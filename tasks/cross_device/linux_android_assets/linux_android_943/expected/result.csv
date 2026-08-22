@@ -1,0 +1,2 @@
+case_id,title,owner,phone,approval_code,selected_source,status,decision
+943-A,Audio manifest produces transcript status,Grace Kim,+1555011888,NX94305,/tmp/audio/request_table.csv,ready,Match by filename and recording date fields.

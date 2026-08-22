@@ -1,0 +1,12 @@
+{
+  "task_id": "al_camera_web_upload_form",
+  "source_files": [
+    "asset_tag_photo.jpg",
+    "photo_upload_form.html"
+  ],
+  "expected_files": [],
+  "device_topology": "A+L",
+  "instruction": "The Android Camera folder contains `asset_tag_photo.jpg`. Inspect the asset label and the shelf/location shown in that photo. Then open `/home/user/upload/form.html` in Linux Chrome, enter the asset id, the shelf/location, and the photo filename shown on the phone, and submit the form.",
+  "surfaces": "Android Camera folder / Simple Gallery Pro + Linux Chrome intake form",
+  "requires_helper_audit": false
+}

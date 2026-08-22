@@ -1,0 +1,4 @@
+area_code,room,handling
+O1,office,normal request
+B2,bedroom,protected room - do not control devices
+E1,entry,normal request subject to device capability

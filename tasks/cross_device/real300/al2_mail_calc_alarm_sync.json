@@ -1,0 +1,273 @@
+{
+  "id": "al2_mail_calc_alarm_sync",
+  "instruction": "The Thunderbird email file `/tmp/shift/shift_email.eml` on the first Linux machine identifies which existing Android Clock alarm is the early fallback that must remain enabled and also provides the reconciliation reference. The `2026-06-12` Morning row in `/tmp/shift/roster.xlsx` on the second Linux machine is authoritative for the actual departure alarm. Read both sources, keep the fallback alarm enabled, add the actual departure alarm from the roster as an enabled alarm, and complete the existing `/tmp/shift/log.json` template on the second Linux machine with the fallback alarm label and time, the actual alarm label and time, and the reconciliation reference.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "clock"
+          }
+        },
+        {
+          "type": "androidworld_clock_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_alarm_add",
+          "parameters": {
+            "hour": 7,
+            "minute": 30,
+            "label": "Reminder"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nprofile=\"$HOME/.thunderbird/mail.default-release\"\nmkdir -p \"$profile/Mail/Local Folders\"\ncat > \"$profile/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server1\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.identity.id1.fullName\", \"Local Agent\");\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nuser_pref(\"mail.shell.checkDefaultClient\", false);\nEOF\n",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/shift && mkdir -p /tmp/shift",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/al2_mail_calc_alarm_sync/source/shift_email.eml",
+                "path": "/tmp/shift/shift_email.eml"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/shift/shift_email.eml && command -v thunderbird >/dev/null && grep -Fq 'Reminder alarm at 07:30' /tmp/shift/shift_email.eml && test \"$(grep -Ec '^Reconciliation reference: [A-Z]+-[0-9]+$' /tmp/shift/shift_email.eml)\" -eq 1 && grep -Fq 'Message-ID: <shift-reconciliation-612@example.com>' /tmp/shift/shift_email.eml && grep -Fq 'Content-Type: text/plain; charset=UTF-8' /tmp/shift/shift_email.eml",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/shift && mkdir -p /tmp/shift",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/al2_mail_calc_alarm_sync/source/roster.xlsx",
+                "path": "/tmp/shift/roster.xlsx"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/al2_mail_calc_alarm_sync/source/log_template.json",
+                "path": "/tmp/shift/log.json"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "python3 -c \"import json,zipfile,xml.etree.ElementTree as E;p='/tmp/shift/roster.xlsx';z=zipfile.ZipFile(p);assert z.testzip() is None;r=E.fromstring(z.read('xl/worksheets/sheet1.xml'));ns={'m':'http://schemas.openxmlformats.org/spreadsheetml/2006/main'};cells={c.attrib['r']:''.join(c.itertext()) for c in r.findall('.//m:c',ns)};assert [cells.get(k) for k in ('A2','B2','C2','D2')]==['2026-06-12','Morning','Pickup','08:20'];d=json.load(open('/tmp/shift/log.json',encoding='utf-8'));assert d=={'fallback_alarm':{'label':'','time':''},'actual_alarm':{'label':'','time':''},'reference':''}\" && test -w /tmp/shift/log.json",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_clock_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/shift",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/shift",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_alarm",
+        "hour": 7,
+        "minute": 30,
+        "label": "Reminder",
+        "enabled": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_alarm",
+        "hour": 8,
+        "minute": 20,
+        "label": "Pickup",
+        "enabled": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "json_semantic_match",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/shift/log.json"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "fallback_alarm": {
+              "label": "Reminder",
+              "time": "07:30"
+            },
+            "actual_alarm": {
+              "label": "Pickup",
+              "time": "08:20"
+            },
+            "reference": "SHIFT-612"
+          },
+          "value_aliases": {
+            "fallback_alarm.time": {
+              "07:30": [
+                "7:30",
+                "07:30 AM",
+                "7:30 AM",
+                "7:30AM"
+              ]
+            },
+            "actual_alarm.time": {
+              "08:20": [
+                "8:20",
+                "08:20 AM",
+                "8:20 AM",
+                "8:20AM"
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "real300_cross_device",
+    "source_card": "al2",
+    "difficulty": "Complex",
+    "motif": "M6",
+    "interaction_mode": "Hybrid",
+    "device_topology": "A+L+L",
+    "surfaces": "Thunderbird + Calc + Android Clock app",
+    "setup_note": "linux_0 receives the complete MIME email containing the fallback identity and unique reconciliation reference; linux_1 receives the authoritative roster plus a blank structured log template; Android starts with the enabled fallback alarm.",
+    "evaluate_note": "Requires both enabled alarms and the exact structured fallback_alarm/actual_alarm/reference paths. Labels and reference are outer-whitespace/case normalized without punctuation removal; only enumerated equivalent 12/24-hour time forms pass.",
+    "implementation_status": "real_evaluator",
+    "readiness": "R1_native_ready",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "native_content_outputs": [
+      {
+        "device_id": "android_0",
+        "path": "enabled Clock fallback alarm Reminder 07:30",
+        "func": "exact_match",
+        "result_type": "androidworld_alarm"
+      },
+      {
+        "device_id": "android_0",
+        "path": "Clock alarm Pickup 08:20",
+        "func": "exact_match",
+        "result_type": "androidworld_alarm"
+      },
+      {
+        "device_id": "linux_1",
+        "path": "/tmp/shift/log.json",
+        "func": "json_semantic_match",
+        "result_type": "vm_file"
+      }
+    ],
+    "fixture_notes": [
+      "The email identifies Reminder 07:30 as the retained fallback and is the only visible source of the reconciliation reference, while deliberately omitting the authoritative actual-departure label and time.",
+      "The Calc Morning row is the only source of the actual Pickup 08:20 alarm values.",
+      "The pre-created log.json supplies only blank schema fields, so no hidden structure must be invented and no source value is leaked.",
+      "Scoring uses positive presence for both requested alarms and structured role fields; it does not model coexistence as old/new replacement."
+    ],
+    "lite_evaluator_hardening_note": "Linux0 is now causally necessary through its unique reconciliation-reference source. Linux1 starts with an explicit blank schema. The JSON evaluator requires the two role-bound label/time objects and punctuation-preserving reference, accepts only documented time aliases, rejects duplicate JSON keys, missing/extra schema fields, reversed role values, and old/new paraphrase structures. Clock scoring remains two independent positive enabled-state checks."
+  }
+}

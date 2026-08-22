@@ -1,0 +1,281 @@
+{
+  "id": "linux_smarthome_361",
+  "instruction": "Compare the floor-plan rooms in `/tmp/home_reports/floor.png` with the live SmartHome room list, follow `/tmp/home_reports/brief.txt`, and complete `/tmp/home_reports/rooms.xlsx`. For each room, choose the comparison result and add brief evidence as described in the workbook's Completion Guide; record the actual SmartHome room count in the final row.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/home_reports/floor.png /tmp/home_reports/brief.txt /tmp/home_reports/rooms.xlsx && mkdir -p -- /tmp/home_reports",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_361/source/tmp/home_reports/floor.png",
+                "path": "/tmp/home_reports/floor.png"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_361/source/tmp/home_reports/brief.txt",
+                "path": "/tmp/home_reports/brief.txt"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_361/source/tmp/home_reports/rooms.xlsx",
+                "path": "/tmp/home_reports/rooms.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_361/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/home_reports/floor.png /tmp/home_reports/brief.txt /tmp/home_reports/rooms.xlsx; find /tmp/home_reports -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/home_reports/rooms.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_361/source/tmp/home_reports/rooms.xlsx",
+          "sheet": "Room Comparison",
+          "preserve_sheet_order": false,
+          "allowed_changes": [
+            "Room Comparison!A2",
+            "Room Comparison!C2",
+            "Room Comparison!A3",
+            "Room Comparison!C3",
+            "Room Comparison!A4",
+            "Room Comparison!C4",
+            "Room Comparison!A5",
+            "Room Comparison!C5",
+            "Room Comparison!A6",
+            "Room Comparison!C6",
+            "Room Comparison!A7",
+            "Room Comparison!C7",
+            "Room Comparison!A8",
+            "Room Comparison!C8",
+            "Room Comparison!A9",
+            "Room Comparison!C9",
+            "Room Comparison!B10"
+          ],
+          "preserve_layout": true,
+          "cells": {
+            "A2": "Present",
+            "C2": "actual",
+            "A3": "Present",
+            "C3": "actual",
+            "A4": "Present",
+            "C4": "actual",
+            "A5": "Present",
+            "C5": "actual",
+            "A6": "Present",
+            "C6": "actual",
+            "A7": "Present",
+            "C7": "actual",
+            "A8": "Missing",
+            "C8": "not in SmartHome",
+            "A9": "Extra",
+            "C9": "not on floor.png",
+            "B10": "7"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/home_reports/rooms.xlsx"
+      },
+      "name": "named-sheet room reconciliation with bounded edits"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "audit does not control Home devices"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "audit does not create schedules"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "audit does not create workflows"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_361",
+    "surfaces": [
+      "linux.png",
+      "linux.txt",
+      "linux.xlsx",
+      "smarthome.home_state"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_361",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_361/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_361/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/home_reports/floor.png",
+      "/tmp/home_reports/brief.txt",
+      "/tmp/home_reports/rooms.xlsx"
+    ],
+    "linux_output_paths": [
+      "/tmp/home_reports/rooms.xlsx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/home_reports/floor.png",
+        "/tmp/home_reports/brief.txt",
+        "/tmp/home_reports/rooms.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [
+        "/tmp/home_reports/rooms.xlsx"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "linux_smarthome",
+      "linux_device": "linux_0",
+      "linux_devices": [
+        "linux_0"
+      ],
+      "room_ids": [
+        "bathroom",
+        "bedroom",
+        "guest_room",
+        "kitchen",
+        "laundry_room",
+        "living_room",
+        "study"
+      ],
+      "device_type_counts": {
+        "air_conditioner": 1,
+        "air_purifier": 1,
+        "curtain": 2,
+        "dehumidifier": 5,
+        "dimmable_light": 2,
+        "heater": 3,
+        "humidifier": 3,
+        "light": 3,
+        "robot_vacuum": 3
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 3,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-16T19:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "surface": "linux.xlsx",
+        "path": "/tmp/home_reports/rooms.xlsx",
+        "goal": "Create or update the task result at this path.",
+        "func": "check_xlsx_cells",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/home_reports/floor.png, /tmp/home_reports/brief.txt, and the prefilled /tmp/home_reports/rooms.xlsx template, then resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the complete room-comparison workbook against the visible floor image, brief, and live Home room inventory.",
+    "idea_number": 361,
+    "coverage_group": "query_image_browser"
+  }
+}

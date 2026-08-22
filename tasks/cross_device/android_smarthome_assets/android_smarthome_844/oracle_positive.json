@@ -1,0 +1,40 @@
+{
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "androidworld_calendar_event_add",
+        "parameters": {
+          "title": "Route prep result",
+          "start_ts": 1781641200,
+          "end_ts": 1781642400,
+          "location": "Home",
+          "description": "Default front entrance ignored; route SIDE-GATE selected; side hallway prep active at 20:20."
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.cancel_schedule",
+      "parameters": {
+        "schedule_id": "front_default_prep"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_command",
+      "parameters": {
+        "schedule_id": "side_route_prep",
+        "run_at": "2026-06-16T20:20:00",
+        "device_id": "hallway_light_1",
+        "command": "turn_on",
+        "args": {}
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

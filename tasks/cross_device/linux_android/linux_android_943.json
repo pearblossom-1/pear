@@ -1,0 +1,211 @@
+{
+  "id": "linux_android_943",
+  "instruction": "Please prepare the transcript-status record for the current approved audio case. Match the phone evidence in `/sdcard/Download/943-A_source.md` to the current row in `/tmp/audio/request_table.csv`, follow the public schema and decision rule in `/tmp/audio/handoff_policy.md`, and save the completed CSV as `/tmp/audio/status.csv`.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_943/android/943-A_source.md",
+                "path": "/sdcard/Download/943-A_source.md"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p '/tmp/audio' && rm -f '/tmp/audio/request_table.csv' '/tmp/audio/handoff_policy.md' '/tmp/audio/status.csv'",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_943/source/request_table.csv",
+                "path": "/tmp/audio/request_table.csv"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_943/source/handoff_policy.md",
+                "path": "/tmp/audio/handoff_policy.md"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/sdcard/Download/943-A_source.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- '/tmp/audio/request_table.csv' '/tmp/audio/handoff_policy.md' '/tmp/audio/status.csv'; find /tmp/audio -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_csv_semantic_records",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/audio/status.csv"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "column_aliases": {
+            "case_id": [],
+            "title": [],
+            "owner": [],
+            "phone": [],
+            "approval_code": [],
+            "selected_source": [],
+            "status": [],
+            "decision": []
+          },
+          "value_aliases": {
+            "status": {
+              "ready": [
+                "approved"
+              ]
+            }
+          },
+          "semantic_columns": [
+            "decision"
+          ],
+          "value_relations": {
+            "decision": {
+              "Match by filename and recording date fields.": {
+                "entities": [
+                  [
+                    "filename",
+                    "filenames",
+                    "file name",
+                    "file names"
+                  ],
+                  [
+                    "recording date",
+                    "recording dates",
+                    "date",
+                    "dates"
+                  ]
+                ],
+                "required_phrases": [
+                  [
+                    "match",
+                    "matching",
+                    "compare",
+                    "comparison"
+                  ]
+                ],
+                "conflict_phrases": [
+                  "ignore filename",
+                  "ignore date",
+                  "do not match"
+                ]
+              }
+            }
+          },
+          "order_sensitive": false,
+          "rows": [{
+            "case_id": "943-A",
+            "title": "Audio manifest produces transcript status",
+            "owner": "Grace Kim",
+            "phone": "+1555011888",
+            "approval_code": "NX94305",
+            "selected_source": "/tmp/audio/request_table.csv",
+            "status": "ready",
+            "decision": "Match by filename and recording date fields."
+          }]
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 420
+  },
+  "metadata": {
+    "category": "linux_android_next",
+    "implementation_status": "reviewed_plan6_generated",
+    "source_plan": "docs/plan6/linux_android_next100_tasks_881_980.md",
+    "source_task_number": 943,
+    "source_task_title": "Audio manifest produces transcript status CSV",
+    "triage_decision": "repair",
+    "triage_reason": "Repaired candidate to stable evaluator-visible document/file/app state while preserving the source decision and output intent.",
+    "device_topology": "android_0+linux_0",
+    "surfaces": [
+      "android.android_file",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_943",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_943/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_943/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_943/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/audio/request_table.csv",
+      "/tmp/audio/handoff_policy.md"
+    ],
+    "linux_output_paths": [
+      "/tmp/audio/status.csv"
+    ],
+    "android_output_plan": [],
+    "expected_data_trace": {
+      "case_id": "943-A",
+      "approval_code": "NX94305",
+      "owner": "Grace Kim"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "structured_output_classification": {"/tmp/audio/status.csv": "primary_artifact"},
+    "human_quality_hardening": "The visible policy discloses the complete output schema; scoring requires exactly one complete logical row and no duplicate or extra records.",
+    "topology_view": "linux_android"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "android_setup": {
+    "android_1": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /storage/emulated/0/Documents/Markor && cat > /storage/emulated/0/Documents/Markor/contact_audit.md <<'EOF'\nDock Liaison: present (0236)\nGate Runner: mismatch; expected 0237; actual 0999\nNight Medic: missing\nSource: expected_contacts.csv\nEOF"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "case": "CASE-1851",
+  "code": "FB-1851",
+  "route": "RT-51",
+  "site": "Harbor Gate 17",
+  "owner": "Maya Chen",
+  "phone": "+15552001827",
+  "email": "maya.chen@example.test",
+  "role": "North region lead",
+  "time": "2026-07-16 09:30",
+  "lat": "37.756",
+  "lon": "-122.434",
+  "decision": "ready",
+  "included": "rt-51_photo_a.jpg",
+  "missing": "rt-51_photo_missing.jpg",
+  "hold_attachment": "rt-51_hold.jpg"
+}

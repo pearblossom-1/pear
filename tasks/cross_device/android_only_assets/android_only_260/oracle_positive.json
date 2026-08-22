@@ -1,0 +1,17 @@
+{
+  "android_setup": {
+    "android_1": [
+      {
+        "type": "androidworld_retro_playlist_add",
+        "parameters": {
+          "playlist_name": "Road Survey",
+          "songs": [
+            "north_loop",
+            "bridge_check",
+            "gate_exit"
+          ]
+        }
+      }
+    ]
+  }
+}

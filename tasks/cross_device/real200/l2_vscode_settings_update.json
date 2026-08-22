@@ -1,0 +1,260 @@
+{
+  "id": "l2_vscode_settings_update",
+  "instruction": "`/tmp/code/settings.md` on the first Linux machine lists the VSCode workspace settings keys and values that need updating. Please open `/tmp/code/project/` in VSCode on the second Linux machine and update the workspace settings according to settings.md.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/code && mkdir -p /tmp/code",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real200_assets/l2_vscode_settings_update/source/settings.md",
+                "path": "/tmp/code/settings.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/code/settings.md && grep -Fq 'python.testing.pytestEnabled = true' /tmp/code/settings.md && grep -Fq 'editor.formatOnSave = true' /tmp/code/settings.md && grep -Fq 'files.exclude[\"**/__pycache__\"] = true' /tmp/code/settings.md",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/code && mkdir -p /tmp/code/project/.vscode",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real200_assets/l2_vscode_settings_update/source/project/README.txt",
+                "path": "/tmp/code/project/README.txt"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real200_assets/l2_vscode_settings_update/source/project/.vscode/settings.json",
+                "path": "/tmp/code/project/.vscode/settings.json"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -w /tmp/code/project/.vscode && python3 -m json.tool /tmp/code/project/.vscode/settings.json >/dev/null && (command -v code >/dev/null || test -x /usr/share/code/code)",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/code",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/code",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_json",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/code/project/.vscode/settings.json"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expect": [
+            {
+              "key": [
+                "python.testing.pytestEnabled"
+              ],
+              "method": "eq",
+              "ref": true
+            },
+            {
+              "key": [
+                "editor.formatOnSave"
+              ],
+              "method": "eq",
+              "ref": true
+            },
+            {
+              "key": [
+                "files.exclude",
+                "**/__pycache__"
+              ],
+              "method": "eq",
+              "ref": true
+            }
+          ],
+          "unexpect": [
+            {
+              "key": [
+                "python.testing.pytestEnabled"
+              ],
+              "method": "eq",
+              "ref": false
+            },
+            {
+              "key": [
+                "editor.formatOnSave"
+              ],
+              "method": "eq",
+              "ref": false
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 90,
+    "max_wall_time_s": 720
+  },
+  "metadata": {
+    "category": "real200_cross_device",
+    "source_card": "117",
+    "difficulty": "Medium",
+    "motif": "M3",
+    "interaction_mode": "GUI-focused",
+    "device_topology": "2L",
+    "surfaces": "linux_0 rule -> linux_1 VSCode settings",
+    "setup_note": "linux_0 上传 settings request；linux_1 上传 VSCode workspace。",
+    "evaluate_note": "检查 workspace settings.json 的三个目标设置；该结果态检查不能证明修改动作一定通过 VSCode GUI 完成。",
+    "implementation_status": "fixture_scaffold",
+    "readiness": "R1_native_content",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "asset_source": "tasks/cross_device/real200_assets/l2_vscode_settings_update/source",
+    "cross_device_checks": [
+      "instruction_setup_evaluation_aligned"
+    ],
+    "fixture_notes": [
+      "settings.md names the exact keys and values to apply."
+    ],
+    "instruction_visible_inputs": [
+      {
+        "path": "/tmp/code/settings.md",
+        "source_file": "source/settings.md"
+      },
+      {
+        "path": "/tmp/code/project/README.txt",
+        "source_file": "source/project/README.txt"
+      },
+      {
+        "path": "/tmp/code/project/.vscode/settings.json",
+        "source_file": "source/project/.vscode/settings.json"
+      }
+    ],
+    "instruction_visible_outputs": [],
+    "native_file_presence_outputs": [],
+    "native_content_outputs": [
+      {
+        "device_id": "linux_1",
+        "path": "/tmp/code/project/.vscode/settings.json",
+        "func": "check_json",
+        "expected_file": null,
+        "rules": {
+          "expect": [
+            {
+              "key": [
+                "python.testing.pytestEnabled"
+              ],
+              "method": "eq",
+              "ref": true
+            },
+            {
+              "key": [
+                "editor.formatOnSave"
+              ],
+              "method": "eq",
+              "ref": true
+            },
+            {
+              "key": [
+                "files.exclude",
+                "**/__pycache__"
+              ],
+              "method": "eq",
+              "ref": true
+            }
+          ],
+          "unexpect": [
+            {
+              "key": [
+                "python.testing.pytestEnabled"
+              ],
+              "method": "eq",
+              "ref": false
+            },
+            {
+              "key": [
+                "editor.formatOnSave"
+              ],
+              "method": "eq",
+              "ref": false
+            }
+          ]
+        }
+      }
+    ],
+    "android_state_outputs": [],
+    "android_file_outputs": [],
+    "android_text_outputs": [],
+    "browser_state_outputs": [],
+    "thunderbird_draft_outputs": [],
+    "lite_evaluator_hardening_note": "Task semantics and file evaluator remain unchanged. Setup validates the readable request, writable project, valid starting JSON, and VSCode availability. The evaluator checks only the resulting settings.json values and is not presented as proof of a VSCode-GUI-only editing path."
+  }
+}

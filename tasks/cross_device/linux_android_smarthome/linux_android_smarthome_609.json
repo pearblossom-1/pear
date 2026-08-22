@@ -1,0 +1,457 @@
+{
+  "id": "linux_android_smarthome_609",
+  "instruction": "The Owner has changed the Guest arrival time. Verify the update against the saved contact and `/tmp/home_ops/plan-revisions/source/priority.pdf`, then replace the old Calendar event on the first phone with the authorized time. Retire the old preparation workflow, schedule its replacement for the newly derived preparation time, and reply to the Owner with the old and new timing.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/home_ops/plan-revisions/source",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_609/source/tmp/home_ops/plan-revisions/source/priority.pdf",
+                "path": "/tmp/home_ops/plan-revisions/source/priority.pdf"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/home_ops/plan-revisions/source/priority.pdf",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Guest arrival",
+            "start_ts": 1781636400,
+            "end_ts": 1781638200,
+            "location": "Guest room",
+            "description": "Old arrival time; confirm against Owner message."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Guest arrival",
+            "start_ts": 1781636400,
+            "location": "Guest room",
+            "description": "Old arrival time; confirm against Owner message.",
+            "search_text": "Guest"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+1555060901",
+            "body": "Owner update: guest arrives 19:40; use the usual 20-minute guest room prep.",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "androidworld_sms_message_preflight",
+          "parameters": {
+            "message": {
+              "address": "+1555060901",
+              "body": "Owner update: guest arrives 19:40; use the usual 20-minute guest room prep.",
+              "box": "inbox"
+            },
+            "required_visible_text": [
+              "Owner update",
+              "19:40",
+              "20-minute guest room prep"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Owner",
+            "number": "+1555060901",
+            "notes": "Authorized household owner"
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Owner",
+              "number": "+1555060901",
+              "notes_exact": "Authorized household owner"
+            },
+            "required_visible_text": [
+              "Owner",
+              "Authorized household owner"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_609/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/home_ops/plan-revisions/source/priority.pdf; rmdir /tmp/home_ops/plan-revisions/source 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event",
+        "title": "Guest arrival",
+        "start_ts": 1781638800,
+        "end_ts": 1781640600,
+        "location": "Guest room",
+        "unique_identity_fields": [
+          "title"
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+1555060901",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            [
+              "18:40",
+              "6:40 PM",
+              "6:40PM"
+            ],
+            [
+              "19:00",
+              "7:00 PM",
+              "7:00PM"
+            ],
+            [
+              "19:20",
+              "7:20 PM",
+              "7:20PM"
+            ],
+            [
+              "19:40",
+              "7:40 PM",
+              "7:40PM"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "replaced",
+              "superseded",
+              "updated",
+              "applied"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "old",
+                  "previous",
+                  "prior"
+                ],
+                [
+                  "18:40",
+                  "6:40 PM",
+                  "6:40PM"
+                ],
+                [
+                  "19:00",
+                  "7:00 PM",
+                  "7:00PM"
+                ]
+              ]
+            },
+            {
+              "entities": [
+                [
+                  "new",
+                  "revised",
+                  "replacement",
+                  "updated"
+                ],
+                [
+                  "19:20",
+                  "7:20 PM",
+                  "7:20PM"
+                ],
+                [
+                  "19:40",
+                  "7:40 PM",
+                  "7:40PM"
+                ]
+              ]
+            }
+          ],
+          "nearest_relations": [
+            {
+              "anchor": [
+                "19:20"
+              ],
+              "expected": [
+                "new",
+                "revised",
+                "replacement",
+                "updated"
+              ],
+              "forbidden": [
+                "cancelled",
+                "pending",
+                "failed"
+              ],
+              "max_distance": 10,
+              "same_clause": true
+            },
+            {
+              "anchor": [
+                "19:40"
+              ],
+              "expected": [
+                "new",
+                "revised",
+                "replacement",
+                "updated"
+              ],
+              "forbidden": [
+                "cancelled",
+                "pending",
+                "failed"
+              ],
+              "max_distance": 10,
+              "same_clause": true
+            }
+          ],
+          "conflict_phrases": [
+            "not replaced",
+            "pending",
+            "new plan cancelled",
+            "replacement cancelled",
+            "19:20 cancelled",
+            "owner update cancelled",
+            "new arrival cancelled",
+            "new plan pending",
+            "replacement pending",
+            "new timing pending"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true,
+          "allowed_reversal_terms": [
+            "cancelled",
+            "retired",
+            "replaced",
+            "superseded"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_status",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "workflow_id": "guest_prep_old_1840",
+            "status": "cancelled"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T19:20:00",
+            "status": "active",
+            "exact_active_workflow_count": 1,
+            "effects": {
+              "guest_room_heater_1": {
+                "power": "on",
+                "target_temperature_c": 23.0
+              },
+              "guest_room_light_1": {
+                "power": "on"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "609 authenticated Owner SMS replaces stale Calendar guest workflow.",
+    "surfaces": [
+      "android_dual",
+      "calendar",
+      "sms",
+      "contacts",
+      "linux_pdf",
+      "home_cancel_workflow",
+      "home_workflow"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_609",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_609/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_609/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/home_ops/plan-revisions/source/priority.pdf"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/home_ops/plan-revisions/source/priority.pdf"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "pilot_index": 609
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "task_id": "linux_android_1264",
+  "eval": [
+    {
+      "device_id": "linux_0",
+      "func": "check_csv",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/schedule/calendar_mismatch.csv"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "columns": [
+            "event_code",
+            "android_value",
+            "linux_value",
+            "match_status"
+          ],
+          "rows": [
+            {
+              "event_code": "EVT-1264",
+              "android_value": "2026-08-04T07:00:00 Dock A",
+              "linux_value": "2026-08-04T07:00:00 Dock A",
+              "match_status": "matched"
+            },
+            {
+              "event_code": "EVT-1265",
+              "android_value": "2026-08-04T08:00:00 Yard C",
+              "linux_value": "2026-08-04T08:00:00 Yard B",
+              "match_status": "location_mismatch"
+            },
+            {
+              "event_code": "EVT-1266",
+              "android_value": "missing",
+              "linux_value": "2026-08-04T09:00:00 Office",
+              "match_status": "missing_android_event"
+            }
+          ],
+          "exact_logical_rows": true,
+          "order_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/schedule/calendar_mismatch.csv"
+      }
+    }
+  ]
+}

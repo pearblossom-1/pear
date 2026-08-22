@@ -1,0 +1,75 @@
+{
+  "eval": [
+    {
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "PDF='/tmp/release/packet.pdf'\n[ -s \"$PDF\" ] && [ \"$(head -c 5 \"$PDF\" 2>/dev/null)\" = '%PDF-' ] || { echo invalid; exit 0; }\ncommand -v pdftotext >/dev/null 2>&1 || { echo missing; exit 0; }\nTMP=$(mktemp)\npdftotext \"$PDF\" \"$TMP\" 2>/dev/null || { rm -f \"$TMP\"; echo invalid; exit 0; }\ncat \"$TMP\"\nrm -f \"$TMP\"",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "Release Readiness Packet",
+            "CASE-1863",
+            "FB-1863",
+            "Maya Chen",
+            "RT-63",
+            "Harbor Gate 12",
+            "ready"
+          ],
+          "exclude": [
+            "missing",
+            "PLACEHOLDER",
+            "[[CASE]]",
+            "[[APPROVAL]]",
+            "[[OWNER]]",
+            "[[ROUTE]]",
+            "[[SITE]]",
+            "[[TIME]]",
+            "[[STATUS]]",
+            "CASE-OLD",
+            "HOLD-42",
+            "rt-63_hold.jpg"
+          ],
+          "paragraph_relations_require_affirmative": true,
+          "paragraph_relations": [
+            [
+              "CASE-1863",
+              "FB-1863",
+              "Maya Chen"
+            ],
+            [
+              "RT-63",
+              "Harbor Gate 12"
+            ],
+            [
+              [
+                "2026-07-08 09:30",
+                "July 8, 2026 at 9:30 AM",
+                "7/8/2026 9:30 AM"
+              ],
+              [
+                "ready",
+                "approved for release"
+              ]
+            ],
+            [
+              "Source",
+              "Markor",
+              "SMS",
+              "readiness.csv"
+            ]
+          ],
+          "case_sensitive": false
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "task_id": "linux_android_1863",
+    "source_plan": "plan6_final_balancing"
+  }
+}

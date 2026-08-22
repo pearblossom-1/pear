@@ -1,0 +1,373 @@
+{
+  "id": "al_map_audio_packet",
+  "instruction": "Android OsmAnd has three site favorites for today: `North gate`, `Pump shed`, and `Service yard`. Record a 2-5 second Audio Recorder memo for each one, then use Android Files to export them to `Recordings` as `north_gate_memo.m4a`, `pump_shed_memo.m4a`, and `service_yard_memo.m4a`. Then create `/tmp/sites/packet.odt` in Linux LibreOffice Writer with one line per site relating its name, coordinates, and memo filename, and export `/tmp/sites/packet.pdf` as the field record.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "audio recorder"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "android files"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "osmand"
+          }
+        },
+        {
+          "type": "androidworld_audio_recorder_delete_by_name",
+          "parameters": {
+            "filename": "north_gate_memo.m4a",
+            "name": "north_gate_memo",
+            "source_path": "/sdcard/Recordings/north_gate_memo.m4a",
+            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/north_gate_memo.m4a",
+            "format": "m4a"
+          }
+        },
+        {
+          "type": "androidworld_audio_recorder_delete_by_name",
+          "parameters": {
+            "filename": "pump_shed_memo.m4a",
+            "name": "pump_shed_memo",
+            "source_path": "/sdcard/Recordings/pump_shed_memo.m4a",
+            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/pump_shed_memo.m4a",
+            "format": "m4a"
+          }
+        },
+        {
+          "type": "androidworld_audio_recorder_delete_by_name",
+          "parameters": {
+            "filename": "service_yard_memo.m4a",
+            "name": "service_yard_memo",
+            "source_path": "/sdcard/Recordings/service_yard_memo.m4a",
+            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/service_yard_memo.m4a",
+            "format": "m4a"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "set -e\nam force-stop com.dimowner.audiorecorder\nsu 0 sh -c 'prefs=/data/user/0/com.dimowner.audiorecorder/shared_prefs/com.dimowner.audiorecorder.data.PrefsImpl.xml; test -f \"$prefs\" && sed \"s#<string name=\\\"setting_recording_format\\\">[^<]*</string>#<string name=\\\"setting_recording_format\\\">m4a</string>#\" \"$prefs\" > \"$prefs.mdcbench\" && grep -Fq \"<string name=\\\"setting_recording_format\\\">m4a</string>\" \"$prefs.mdcbench\" && cat \"$prefs.mdcbench\" > \"$prefs\" && rm -f \"$prefs.mdcbench\"'\nmkdir -p /sdcard/Recordings\ntest -w /sdcard/Recordings"
+            ],
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "androidworld_osmand_favorites_setup",
+          "parameters": {}
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/al_map_audio_packet/source/site_favorites.gpx",
+                "path": "/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_osmand_favorites_preflight",
+          "parameters": {
+            "favorites": [
+              {
+                "name": "North gate",
+                "latitude": "47.3769",
+                "longitude": "8.5417"
+              },
+              {
+                "name": "Pump shed",
+                "latitude": "47.3782",
+                "longitude": "8.5441"
+              },
+              {
+                "name": "Service yard",
+                "latitude": "47.1510",
+                "longitude": "9.5320"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/sites",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_audio_recorder_delete_by_name",
+          "parameters": {
+            "filename": "north_gate_memo.m4a",
+            "name": "north_gate_memo",
+            "source_path": "/sdcard/Recordings/north_gate_memo.m4a",
+            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/north_gate_memo.m4a",
+            "format": "m4a"
+          }
+        },
+        {
+          "type": "androidworld_audio_recorder_delete_by_name",
+          "parameters": {
+            "filename": "pump_shed_memo.m4a",
+            "name": "pump_shed_memo",
+            "source_path": "/sdcard/Recordings/pump_shed_memo.m4a",
+            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/pump_shed_memo.m4a",
+            "format": "m4a"
+          }
+        },
+        {
+          "type": "androidworld_audio_recorder_delete_by_name",
+          "parameters": {
+            "filename": "service_yard_memo.m4a",
+            "name": "service_yard_memo",
+            "source_path": "/sdcard/Recordings/service_yard_memo.m4a",
+            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/service_yard_memo.m4a",
+            "format": "m4a"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx /data/data/net.osmand/files/favourites_bak.gpx"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/sites/packet.odt /tmp/sites/packet.pdf /tmp/sites/.~lock.packet.odt#; rmdir /tmp/sites 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_audio_file_state",
+        "path": "/sdcard/Recordings/north_gate_memo.m4a",
+        "distinct_paths": [
+          "/sdcard/Recordings/north_gate_memo.m4a",
+          "/sdcard/Recordings/pump_shed_memo.m4a",
+          "/sdcard/Recordings/service_yard_memo.m4a"
+        ],
+        "allowed_formats": ["mov", "mp4", "m4a"],
+        "allowed_codecs": ["aac", "alac"],
+        "min_duration_s": 2,
+        "max_duration_s": 5
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "valid"
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_audio_file_state",
+        "path": "/sdcard/Recordings/pump_shed_memo.m4a",
+        "distinct_paths": [
+          "/sdcard/Recordings/north_gate_memo.m4a",
+          "/sdcard/Recordings/pump_shed_memo.m4a",
+          "/sdcard/Recordings/service_yard_memo.m4a"
+        ],
+        "allowed_formats": ["mov", "mp4", "m4a"],
+        "allowed_codecs": ["aac", "alac"],
+        "min_duration_s": 2,
+        "max_duration_s": 5
+      },
+      "expected": {"type": "rule", "rules": {"expected": "valid"}}
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_audio_file_state",
+        "path": "/sdcard/Recordings/service_yard_memo.m4a",
+        "distinct_paths": [
+          "/sdcard/Recordings/north_gate_memo.m4a",
+          "/sdcard/Recordings/pump_shed_memo.m4a",
+          "/sdcard/Recordings/service_yard_memo.m4a"
+        ],
+        "allowed_formats": ["mov", "mp4", "m4a"],
+        "allowed_codecs": ["aac", "alac"],
+        "min_duration_s": 2,
+        "max_duration_s": 5
+      },
+      "expected": {"type": "rule", "rules": {"expected": "valid"}}
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_odf_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/sites/packet.odt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "North gate",
+            "Pump shed",
+            "Service yard",
+            "47.3769",
+            "8.5417",
+            "47.3782",
+            "8.5441",
+            "47.1510",
+            "9.5320",
+            "memo"
+          ],
+          "exclude": [
+            "failed",
+            "error"
+          ],
+          "require_valid_package": true,
+          "odf_kind": "text",
+          "paragraph_reject_negative_semantics": true,
+          "paragraph_relations": [
+            ["North gate", "47.3769", "8.5417", "north_gate_memo.m4a"],
+            ["Pump shed", "47.3782", "8.5441", "pump_shed_memo.m4a"],
+            ["Service yard", "47.1510", "9.5320", "service_yard_memo.m4a"]
+          ],
+          "case_sensitive": false
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "PDF='/tmp/sites/packet.pdf'\n[ -s \"$PDF\" ] && [ \"$(head -c 5 \"$PDF\" 2>/dev/null)\" = '%PDF-' ] || { echo invalid; exit 0; }\ncommand -v pdftotext >/dev/null 2>&1 || { echo missing; exit 0; }\nTMP=$(mktemp)\npdftotext /tmp/sites/packet.pdf \"$TMP\" 2>/dev/null || { rm -f \"$TMP\"; echo invalid; exit 0; }\ncat \"$TMP\"\nrm -f \"$TMP\""
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "North gate",
+            "Pump shed",
+            "Service yard",
+            "47.3769",
+            "8.5417",
+            "47.3782",
+            "8.5441",
+            "47.1510",
+            "9.5320",
+            "north_gate_memo.m4a",
+            "pump_shed_memo.m4a",
+            "service_yard_memo.m4a"
+          ],
+          "exclude": [
+            "failed",
+            "error",
+            "missing",
+            "invalid"
+          ],
+          "paragraph_reject_negative_semantics": true,
+          "paragraph_relations": [
+            ["North gate", "47.3769", "8.5417", "north_gate_memo.m4a"],
+            ["Pump shed", "47.3782", "8.5441", "pump_shed_memo.m4a"],
+            ["Service yard", "47.1510", "9.5320", "service_yard_memo.m4a"]
+          ],
+          "case_sensitive": false
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 70,
+    "max_wall_time_s": 540
+  },
+  "metadata": {
+    "category": "real300_cross_device",
+    "source_card": "al",
+    "difficulty": "Complex",
+    "motif": "M4",
+    "interaction_mode": "Hybrid",
+    "device_topology": "A+L",
+    "surfaces": "OsmAnd + Audio Recorder + Writer/PDF",
+    "setup_note": "Android 将 Audio Recorder 设为 M4A，定向清理三个应用记录、内部副本、公共 Recordings 输出和 MediaStore 行，并在 OsmAnd GUI 中预检三个 favorite 及坐标；Linux 准备 packet 输出目录。",
+    "evaluate_note": "分别验证三段录音可解码且时长为 2-5 秒；验证 ODT 为真实 Writer 文档并把每个 site、坐标和 memo 文件名关联在同一可见行；验证导出的 PDF 包含同一现场记录。",
+    "readiness": "R1_native_ready",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "native_content_outputs": [
+      {
+        "device_id": "android_0",
+        "path": "/sdcard/Recordings/north_gate_memo.m4a",
+        "func": "exact_match",
+        "result_type": "android_audio_file_state"
+      },
+      {
+        "device_id": "android_0",
+        "path": "/sdcard/Recordings/pump_shed_memo.m4a",
+        "func": "exact_match",
+        "result_type": "android_audio_file_state"
+      },
+      {
+        "device_id": "android_0",
+        "path": "/sdcard/Recordings/service_yard_memo.m4a",
+        "func": "exact_match",
+        "result_type": "android_audio_file_state"
+      },
+      {
+        "device_id": "linux_0",
+        "path": "/tmp/sites/packet.odt",
+        "func": "check_odf_text",
+        "result_type": "vm_file"
+      },
+      {
+        "device_id": "linux_0",
+        "path": "/tmp/sites/packet.pdf",
+        "func": "check_include_exclude",
+        "result_type": "vm_command_line"
+      }
+    ]
+  }
+}

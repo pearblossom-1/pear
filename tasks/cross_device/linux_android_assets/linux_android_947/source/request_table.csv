@@ -1,0 +1,13 @@
+case_id,owner,phone,status,code,target,due_time,priority
+947-00,Mira Patel,+1555011881,pending,D9470,Audio file list recording handoff,2026-07-12 08:30,normal
+947-01,Jon Bell,+1555011882,pending,D9471,Audio file list recording handoff,2026-07-13 09:30,normal
+947-02,Nadia Ross,+1555011883,pending,D9472,Audio file list recording handoff,2026-07-14 10:30,normal
+947-A,Tao Lin,+1555011884,approved,NX94733,Audio file list recording handoff,2026-07-15 11:30,high
+947-04,Elena Cruz,+1555011885,pending,D9474,Audio file list recording handoff,2026-07-16 12:30,normal
+947-05,Priya Shah,+1555011886,pending,D9475,Audio file list recording handoff,2026-07-17 13:30,normal
+947-06,Owen Park,+1555011887,pending,D9476,Audio file list recording handoff,2026-07-18 14:30,normal
+947-D,Tao Lin,+1555011888,hold,D9477,Audio file list recording handoff,2026-07-19 15:30,normal
+947-08,Mira Patel,+1555011881,pending,D9478,Audio file list recording handoff,2026-07-20 16:30,normal
+947-09,Jon Bell,+1555011882,pending,D9479,Audio file list recording handoff,2026-07-21 08:30,normal
+947-10,Nadia Ross,+1555011883,pending,D94710,Audio file list recording handoff,2026-07-22 09:30,normal
+947-11,Tao Lin,+1555011884,pending,D94711,Audio file list recording handoff,2026-07-23 10:30,normal

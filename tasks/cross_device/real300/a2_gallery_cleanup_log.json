@@ -1,0 +1,203 @@
+{
+  "id": "a2_gallery_cleanup_log",
+  "instruction": "The first phone's Markor note `Album rule` says which pictures to keep in the `Cleanup Review` album in Simple Gallery Pro on the second phone. Please clean up the second phone according to the rule: keep only the images named in the note and delete the other images from the same album.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "set -e\nmkdir -p /storage/emulated/0/Documents/Markor\ncat > '/storage/emulated/0/Documents/Markor/Album rule.md' <<'EOF'\n# Album rule\n\nAlbum: Cleanup Review\n\nKeep these photos on the second phone:\n- site_a_overview.png\n- site_c_storage.png\n\nRemove every other photo from the same album.\nEOF"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple gallery pro"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "android files"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -rf '/sdcard/Pictures/Cleanup Review'; content delete --uri content://media/external/images/media --where \"relative_path='Pictures/Cleanup Review/'\" >/dev/null 2>&1 || true; mkdir -p '/sdcard/Pictures/Cleanup Review'"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2_gallery_cleanup_log/source/site_a_overview.png",
+                "path": "/sdcard/Pictures/Cleanup Review/site_a_overview.png"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2_gallery_cleanup_log/source/site_b_entrance.png",
+                "path": "/sdcard/Pictures/Cleanup Review/site_b_entrance.png"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2_gallery_cleanup_log/source/site_c_storage.png",
+                "path": "/sdcard/Pictures/Cleanup Review/site_c_storage.png"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2_gallery_cleanup_log/source/site_d_parking.png",
+                "path": "/sdcard/Pictures/Cleanup Review/site_d_parking.png"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for f in '/sdcard/Pictures/Cleanup Review/'*.png; do [ -f \"$f\" ] || continue; am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d \"file://$f\" >/dev/null 2>&1 || true; done"
+          }
+        },
+        {
+          "type": "androidworld_gallery_media_details_preflight",
+          "parameters": {
+            "path": "/sdcard/Pictures/Cleanup Review/site_a_overview.png",
+            "filename": "site_a_overview.png",
+            "relative_path": "Pictures/Cleanup Review/",
+            "mime_type": "image/png"
+          }
+        },
+        {
+          "type": "androidworld_gallery_media_details_preflight",
+          "parameters": {
+            "path": "/sdcard/Pictures/Cleanup Review/site_b_entrance.png",
+            "filename": "site_b_entrance.png",
+            "relative_path": "Pictures/Cleanup Review/",
+            "mime_type": "image/png"
+          }
+        },
+        {
+          "type": "androidworld_gallery_media_details_preflight",
+          "parameters": {
+            "path": "/sdcard/Pictures/Cleanup Review/site_c_storage.png",
+            "filename": "site_c_storage.png",
+            "relative_path": "Pictures/Cleanup Review/",
+            "mime_type": "image/png"
+          }
+        },
+        {
+          "type": "androidworld_gallery_media_details_preflight",
+          "parameters": {
+            "path": "/sdcard/Pictures/Cleanup Review/site_d_parking.png",
+            "filename": "site_d_parking.png",
+            "relative_path": "Pictures/Cleanup Review/",
+            "mime_type": "image/png"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Album rule.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -rf '/sdcard/Pictures/Cleanup Review'; content delete --uri content://media/external/images/media --where \"relative_path='Pictures/Cleanup Review/'\" >/dev/null 2>&1 || true"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_image_album_state",
+        "directory": "/sdcard/Pictures/Cleanup Review",
+        "recursive": true,
+        "files": {
+          "site_a_overview.png": {
+            "sha256": "d4b92f7649880f7370ab1107c856e8d31a758fd2fec03d948dda18e3d7643abd",
+            "allowed_formats": ["png"]
+          },
+          "site_c_storage.png": {
+            "sha256": "0662355213acbbcd97c3b2326889c1a73e6dd8defbfb294cfbd8706c5eea8e9d",
+            "allowed_formats": ["png"]
+          }
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "real300_cross_device",
+    "source_card": "a2",
+    "difficulty": "Medium",
+    "motif": "M5",
+    "interaction_mode": "Hybrid",
+    "device_topology": "A+A",
+    "surfaces": "android_0 Markor rule -> android_1 Simple Gallery Pro cleanup",
+    "display_name": "a2_gallery_cleanup_by_rule",
+    "setup_note": "android_0 写入 Album rule note；android_1 准备 Cleanup Review album 中两张保留图和两张待删除图，并逐张通过 Gallery Properties 预检完整文件名与可见性。",
+    "evaluate_note": "递归验证任务专属 album 目录树的完整最终文件集合恰为根目录中的两张规则要求保留的、可解码且与源图字节一致的图片；把待删除图或额外文件移入任意子目录仍会失败。",
+    "readiness": "R1_native_ready",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "native_content_outputs": [
+      {
+        "device_id": "android_1",
+        "func": "exact_match",
+        "result_type": "android_image_album_state",
+        "path": "/sdcard/Pictures/Cleanup Review"
+      }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+Training media handoff
+Purpose: Training setup photo
+Package reference: TRN-417
+
+Use both the purpose and package reference in the training deck.
+The attendee notification should include the package reference.

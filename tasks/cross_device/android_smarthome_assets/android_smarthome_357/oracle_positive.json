@@ -1,0 +1,54 @@
+{
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Mira guest prep log.md' <<'EOF'\nMira guest-room prep is scheduled for 20:00 at Guest Entrance.\nSet the room to 23 C with the light at 48%.\nEOF"
+        }
+      },
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "5550357",
+          "body": "guest room prep is scheduled for 20:00"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_workflow",
+      "parameters": {
+        "workflow_id": "mira_guest_prep",
+        "run_at": "2026-06-16T20:00:00",
+        "steps": [
+          {
+            "device_id": "guest_room_heater_1",
+            "command": "turn_on",
+            "args": {}
+          },
+          {
+            "device_id": "guest_room_heater_1",
+            "command": "set_target_temperature",
+            "args": {
+              "temperature_c": 23.0
+            }
+          },
+          {
+            "device_id": "guest_room_dimmable_light_1",
+            "command": "set_brightness",
+            "args": {
+              "brightness_pct": 48
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

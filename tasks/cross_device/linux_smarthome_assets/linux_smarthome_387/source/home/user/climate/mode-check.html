@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Climate mode check</title></head>
+<body>
+  <h1>Climate mode check</h1>
+  <ul>
+  <li>Available AC modes: auto, cool, dry, fan, heat.</li>
+  <li>For a supported request, apply the requested mode with the AC powered on.</li>
+  <li>Unsupported mode requests must be left unchanged.</li>
+  <li>Rows: living room cool, bedroom eco, study auto.</li>
+  </ul>
+  <form id="task-form">
+    <label>Living room — cool
+      <select name="living_room">
+        <option value="cool unsupported kept">Unsupported — kept unchanged</option>
+        <option value="cool supported executed">Supported — executed</option>
+      </select>
+    </label>
+    <label>Bedroom — eco
+      <select name="bedroom">
+        <option value="eco supported executed">Supported — executed</option>
+        <option value="eco unsupported kept">Unsupported — kept unchanged</option>
+      </select>
+    </label>
+    <label>Study — auto
+      <select name="study">
+        <option value="auto unsupported kept">Unsupported — kept unchanged</option>
+        <option value="auto supported executed">Supported — executed</option>
+      </select>
+    </label>
+  </form>
+  <button id="submit" onclick="const p = new URLSearchParams(new FormData(document.getElementById('task-form'))); window.location.href = window.location.href.split('?')[0].split('#')[0] + '?' + p.toString() + '#submitted-mode-check'">Submit</button>
+</body>
+</html>

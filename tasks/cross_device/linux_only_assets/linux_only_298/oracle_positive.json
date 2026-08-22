@@ -1,0 +1,12 @@
+{
+  "linux_actions": {
+    "linux_1": [
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "python3 - <<'PY'\nimport base64\nfrom pathlib import Path\npath = Path('/tmp/media/playback_review.md')\npath.parent.mkdir(parents=True, exist_ok=True)\npath.write_bytes(base64.b64decode('U2Vzc2lvbjogUy04NApDbGlwOiBsb25nX2F1ZGlvX0Eud2F2ClJldmlld2VyOiBNYXJhCg=='))\nPY"
+        }
+      }
+    ]
+  }
+}

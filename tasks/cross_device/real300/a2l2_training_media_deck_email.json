@@ -1,0 +1,374 @@
+{
+  "id": "a2l2_training_media_deck_email",
+  "instruction": "I'm putting together a setup-photo slide for the trainer. Take a new photo with Camera on the first phone and make sure the final filename is `training_setup_photo.jpg`. The `Trainer` contact on the second phone has the trainer's email. The first Linux machine has `/tmp/train/handoff.txt` with the deck purpose and package reference, and the second Linux machine has `/tmp/train/template.odp`. On the second Linux machine, use the local template to create `/tmp/train/deck.odp`, filling in the photo filename, trainer email, purpose, and package reference. Export it as `/tmp/train/training_deck.pdf`. Then leave an unsent Thunderbird draft to the trainer with that PDF attached; identify the PDF and include the package reference in the message.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "camera"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple gallery pro"
+          }
+        },
+        {
+          "type": "androidworld_gallery_rename_preflight",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "mkdir -p /sdcard/DCIM/Camera; rm -f /sdcard/DCIM/Camera/training_setup_photo.jpg /sdcard/DCIM/Camera/.mdcbench_l027_started; content delete --uri content://media/external/images/media --where \"_display_name='training_setup_photo.jpg' AND relative_path='DCIM/Camera/'\" >/dev/null 2>&1 || true; touch /sdcard/DCIM/Camera/.mdcbench_l027_started"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Trainer",
+            "number": "5550101",
+            "email": "trainer@example.com",
+            "notes": "Training deck reviewer"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/train",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2l2_training_media_deck_email/source/handoff.txt",
+                "path": "/tmp/train/handoff.txt"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -s /tmp/train/handoff.txt && grep -Fq 'Purpose: Training setup photo' /tmp/train/handoff.txt && grep -Fq 'Package reference: TRN-417' /tmp/train/handoff.txt",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nrm -rf /tmp/train \"$HOME/.thunderbird/mail.default-release\"\nmkdir -p /tmp/train \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders\"\ncat > \"$HOME/.thunderbird/profiles.ini\" <<'EOF'\n[Profile0]\nName=local\nIsRelative=1\nPath=mail.default-release\nDefault=1\n\n[General]\nStartWithLastProfile=1\nVersion=2\nEOF\ncat > \"$HOME/.thunderbird/mail.default-release/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server1\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.identity.id1.fullName\", \"Local Agent\");\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.directory-rel\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nEOF\n: > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Drafts\"",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2l2_training_media_deck_email/source/template.odp",
+                "path": "/tmp/train/template.odp"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -s /tmp/train/template.odp && test -f \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Drafts\" && command -v thunderbird >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /sdcard/DCIM/Camera/training_setup_photo.jpg /sdcard/DCIM/Camera/.mdcbench_l027_started; content delete --uri content://media/external/images/media --where \"_display_name='training_setup_photo.jpg' AND relative_path='DCIM/Camera/'\" >/dev/null 2>&1 || true"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/train",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/train \"$HOME/.thunderbird/mail.default-release\"; rm -f \"$HOME/.thunderbird/profiles.ini\"",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_image_file_state",
+        "path": "/sdcard/DCIM/Camera/training_setup_photo.jpg",
+        "newer_than_path": "/sdcard/DCIM/Camera/.mdcbench_l027_started",
+        "allowed_formats": [
+          "jpeg"
+        ],
+        "min_width": 320,
+        "min_height": 240
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "valid"
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_odf_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/train/deck.odp"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "Training Media Deck"
+          ],
+          "exclude": [
+            "failed",
+            "error",
+            "[[PHOTO_FILENAME]]",
+            "[[TRAINER_EMAIL]]",
+            "[[PURPOSE]]",
+            "[[REFERENCE]]"
+          ],
+          "require_valid_package": true,
+          "required_members": [
+            "styles.xml",
+            "meta.xml"
+          ],
+          "odf_kind": "presentation",
+          "min_draw_pages": 1,
+          "presentation_anchor": "Training Media Deck",
+          "presentation_structure": {
+            "exact_pages": 1,
+            "exact_frames": 1,
+            "fields_same_frame": true,
+            "exact_visible_paragraphs": 5
+          },
+          "presentation_fields": {
+            "Photo": {
+              "exact": "training_setup_photo.jpg"
+            },
+            "Trainer": {
+              "exact": "trainer@example.com"
+            },
+            "Purpose": {
+              "exact": "Training setup photo"
+            },
+            "Reference": {
+              "exact": "TRN-417"
+            }
+          },
+          "presentation_template": {
+            "page_orientation": "landscape",
+            "page_aspect_ratio": 1.3333,
+            "page_aspect_tolerance": 0.08,
+            "frame_geometry": {
+              "x": [0.05, 0.11],
+              "y": [0.06, 0.13],
+              "width": [0.78, 0.90],
+              "height": [0.72, 0.88]
+            }
+          },
+          "case_sensitive": false
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "PDF='/tmp/train/training_deck.pdf'\n[ -s \"$PDF\" ] && [ \"$(head -c 5 \"$PDF\" 2>/dev/null)\" = '%PDF-' ] || { echo invalid; exit 0; }\ncommand -v pdftotext >/dev/null 2>&1 || { echo missing; exit 0; }\nTMP=$(mktemp)\npdftotext /tmp/train/training_deck.pdf \"$TMP\" 2>/dev/null || { rm -f \"$TMP\"; echo invalid; exit 0; }\ncat \"$TMP\"\nrm -f \"$TMP\""
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "Training Media Deck",
+            "Training setup photo",
+            "trainer@example.com",
+            "training_setup_photo.jpg",
+            "TRN-417"
+          ],
+          "exclude": [
+            "missing",
+            "failed",
+            "error",
+            "invalid"
+          ],
+          "paragraph_reject_negative_semantics": true,
+          "paragraph_relations": [
+            ["Photo", "training_setup_photo.jpg"],
+            ["Trainer", "trainer@example.com"],
+            ["Purpose", "Training setup photo"],
+            ["Reference", "TRN-417"]
+          ],
+          "case_sensitive": false
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "thunderbird_draft_state",
+        "profile_root": "~/.thunderbird/mail.default-release",
+        "exact_total_drafts": 1,
+        "recipients": [
+          "trainer@example.com"
+        ],
+        "allow_extra_recipients": false,
+        "recipient_header_policy": "single_to_only",
+        "message_contains": ["training_deck.pdf", "TRN-417"],
+        "attachments": [
+          {
+            "filename": "training_deck.pdf",
+            "content_type": "application/pdf",
+            "matches_file": "/tmp/train/training_deck.pdf"
+          }
+        ],
+        "allow_extra_attachments": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 70,
+    "max_wall_time_s": 540
+  },
+  "metadata": {
+    "category": "real300_cross_device",
+    "source_card": "a2l2",
+    "difficulty": "Medium",
+    "motif": "M3",
+    "interaction_mode": "GUI",
+    "device_topology": "A+A+L+L",
+    "surfaces": "Camera/Simple Gallery Pro + Contacts + Impress + Thunderbird",
+    "setup_note": "android_0 准备 Camera 与 Simple Gallery Pro，并用临时 Camera media 通过 Gallery Rename 对话框预检改名路径后清理 probe、定向清理目标照片；android_1 写 Trainer 联系人；linux_0 只提供含 purpose/TRN-417 的 handoff；linux_1 本地预置真实 ODP template、重建 exact Thunderbird profile 并准备输出目录。",
+    "evaluate_note": "检查可解码的新 JPEG、保留一页/一框/五段模板结构且四个字段关系正确的 ODP、含相同字段的真实 PDF，以及 exact profile 中恰好一封同时识别 training_deck.pdf 与 TRN-417、并附加当前导出 PDF 的草稿。",
+    "readiness": "R1_native_ready",
+    "native_evaluator_status": "mixed_native_content",
+    "requires_helper_audit": false,
+    "native_content_outputs": [
+      {
+        "device_id": "android_0",
+        "func": "exact_match",
+        "result_type": "android_image_file_state",
+        "path": "/sdcard/DCIM/Camera/training_setup_photo.jpg"
+      },
+      {
+        "device_id": "linux_1",
+        "func": "check_odf_text",
+        "result_type": "vm_file",
+        "path": "/tmp/train/deck.odp"
+      },
+      {
+        "device_id": "linux_1",
+        "path": "/tmp/train/training_deck.pdf",
+        "func": "check_include_exclude",
+        "result_type": "vm_command_line"
+      },
+      {
+        "device_id": "linux_1",
+        "func": "exact_match",
+        "result_type": "thunderbird_draft_state",
+        "path": "~/.thunderbird/mail.default-release"
+      }
+    ]
+  }
+}

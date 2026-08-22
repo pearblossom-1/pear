@@ -1,0 +1,15 @@
+{
+  "actions": [
+    {
+      "device_id": "android_1",
+      "type": "adb_shell",
+      "parameters": {
+        "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && echo MTA4MC1BIC8gTlgwODA5MSBmb3IgTWlyYSBQYXRlbCBpcyBibG9ja2VkOiByZXF1ZXN0IHBob25lICsxNTU1MDExOTkxIGNvbmZsaWN0cyB3aXRoIGNvbnRhY3QgcGhvbmUgKzE1NTUwMTE4ODEuCg== | base64 -d > '/storage/emulated/0/Documents/Markor/1080-A_blocked.md'"
+      }
+    },
+    {
+      "type": "done"
+    }
+  ],
+  "notes": "Scripted solution mirrors the current positive dry-run oracle."
+}

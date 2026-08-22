@@ -1,0 +1,256 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 614,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 614,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "address": "+1555061401",
+        "recent_within_mins": 30,
+        "box": "sent",
+        "body_relation": {
+          "entities": [
+            [
+              "cleaning robot",
+              "robot",
+              "vacuum"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "docked",
+              "at the charging station",
+              "back at the charging station"
+            ]
+          ],
+          "conflict_phrases": [
+            "not docked",
+            "undocked",
+            "away from the dock",
+            "still cleaning",
+            "will continue cleaning",
+            "continue cleaning now",
+            "keep cleaning",
+            "is cleaning"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true,
+          "allowed_reversal_terms": [
+            "previous continue cleaning request was superseded",
+            "previous continue-cleaning request was superseded",
+            "yesterday's request was replaced",
+            "old continue cleaning instruction no longer applies",
+            "old continue-cleaning instruction no longer applies",
+            "yesterday's cleaning instruction no longer applies"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "living_room_robot_vacuum_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "off",
+            "status": "docked"
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T18:00:00",
+    "rooms": {
+      "bathroom": {
+        "temperature_c": 22.4,
+        "humidity_pct": 59.0,
+        "brightness_lux": 190.9,
+        "air_quality_pm25": 20.5,
+        "noise_level_db": 30.6,
+        "occupied": true
+      },
+      "bedroom": {
+        "temperature_c": 23.9,
+        "humidity_pct": 36.9,
+        "brightness_lux": 400.0,
+        "air_quality_pm25": 40.9,
+        "noise_level_db": 32.3,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 24.0,
+        "humidity_pct": 43.4,
+        "brightness_lux": 180.0,
+        "air_quality_pm25": 20.9,
+        "noise_level_db": 33.5,
+        "occupied": false
+      },
+      "study": {
+        "temperature_c": 22.1,
+        "humidity_pct": 46.8,
+        "brightness_lux": 353.0,
+        "air_quality_pm25": 24.7,
+        "noise_level_db": 43.3,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bathroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "bathroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bathroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 22.0
+        }
+      },
+      {
+        "device_id": "bathroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "brightness_pct": 80
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 23.0
+        }
+      },
+      {
+        "device_id": "bedroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "bedroom_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "status": "paused",
+          "battery_pct": 74
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "status": "cleaning",
+          "battery_pct": 44
+        }
+      },
+      {
+        "device_id": "study_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "study",
+        "state": {
+          "power": "off",
+          "mode": "cool",
+          "target_temperature_c": 25.0
+        }
+      },
+      {
+        "device_id": "study_curtain_1",
+        "device_type": "curtain",
+        "room_id": "study",
+        "state": {
+          "open_pct": 0,
+          "status": "closed"
+        }
+      },
+      {
+        "device_id": "study_heater_1",
+        "device_type": "heater",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "study_light_1",
+        "device_type": "light",
+        "room_id": "study",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "study_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "status": "paused",
+          "battery_pct": 88
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  },
+  "task_id": "linux_android_smarthome_614"
+}

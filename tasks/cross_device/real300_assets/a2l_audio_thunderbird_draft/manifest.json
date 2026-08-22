@@ -1,0 +1,12 @@
+{
+  "task_id": "a2l_audio_thunderbird_draft",
+  "source_files": [
+    "client-call.wav"
+  ],
+  "expected_files": [],
+  "device_topology": "A+A+L",
+  "instruction": "Audio Recorder on the first phone has the `client-call` recording, and the Markor note `Call handoff` on that phone contains the call reference. The Android Contacts app on the second phone has the client's email. A local export copy of the recording is available on Linux at `/tmp/audio_thunderbird_draft/client-call.wav`. Please create an unsent Thunderbird draft addressed to the client, attach that local recording file, and mention both the recording filename and the call reference in the message. Leave the email in Drafts without sending it.",
+  "surfaces": "android_0 Audio Recorder + Markor + android_1 Contacts -> Linux local export + Thunderbird",
+  "setup_note": "client-call.wav is placed in public Recordings, scanned into MediaStore, and imported through Audio Recorder before the task starts.",
+  "requires_helper_audit": false
+}

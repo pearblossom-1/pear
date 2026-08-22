@@ -1,0 +1,108 @@
+{
+  "id": "sh4_time_schedule_study_focus_sequence_feasible_0030",
+  "instruction": "For tonight's setup, I'm finishing email before a focus block; in 20 minutes, set the study light to 35 percent, and twenty minutes after that turn on the study air purifier.",
+  "devices": [
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/smarthome/episode_configs/sh4_time_schedule_study_focus_sequence_feasible_0030.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_planned_effects",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "exact_active_plan_count": 2,
+            "plans": [
+              {
+                "run_at": "2026-06-14T21:20:00",
+                "effects": {
+                  "study_dimmable_light_1": {
+                    "power": "on",
+                    "brightness_pct": 35
+                  }
+                }
+              },
+              {
+                "run_at": "2026-06-14T21:40:00",
+                "effects": {
+                  "study_air_purifier_1": {
+                    "power": "on"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "unique_persistent_plan_effects"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+          "device_ids": [
+            "study_dimmable_light_1",
+            "study_air_purifier_1"
+          ],
+          "preserve_current_time": true
+          }
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "no_immediate_device_change"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "sh_type": "SH4_time_schedule",
+    "case": "feasible",
+    "seed": 30,
+    "room_count": 5,
+    "device_count": 19,
+    "episode_config_ref": "tasks/smarthome/episode_configs/sh4_time_schedule_study_focus_sequence_feasible_0030.json"
+  }
+}

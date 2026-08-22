@@ -1,0 +1,278 @@
+{
+  "task_id": "android_only_274",
+  "eval": [
+    {
+      "name": "Redistribute the three available files without changing their bytes",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_filesystem_snapshot_state",
+        "snapshot_id": "android_only_274_incoming_files",
+        "preserve_directories": [],
+        "file_mappings": [
+          {
+            "baseline_path": "/sdcard/Download/incoming/keep_alpha.txt",
+            "current_path": "/sdcard/Download/Keep/keep_alpha.txt"
+          },
+          {
+            "baseline_path": "/sdcard/Download/incoming/review_beta.txt",
+            "current_path": "/sdcard/Download/Review/review_beta.txt"
+          },
+          {
+            "baseline_path": "/sdcard/Download/incoming/skip_notes.txt",
+            "current_path": "/sdcard/Download/incoming/skip_notes.txt"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    },
+    {
+      "name": "keep_alpha is removed from incoming",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/incoming/keep_alpha.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "keep_alpha has no Review duplicate",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/Review/keep_alpha.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "review_beta is removed from incoming",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/incoming/review_beta.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "review_beta has no Keep duplicate",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/Keep/review_beta.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "skip_notes has no Keep duplicate",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/Keep/skip_notes.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "skip_notes has no Review duplicate",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/Review/skip_notes.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "missing_gamma stays absent from incoming",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/incoming/missing_gamma.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "missing_gamma stays absent from Keep",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/Keep/missing_gamma.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "missing_gamma stays absent from Review",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Download/Review/missing_gamma.txt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Explain every manifest disposition in Sort summary.md",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Sort summary.md",
+        "rules": {
+          "entities": [
+            "keep_alpha.txt",
+            "review_beta.txt",
+            "skip_notes.txt",
+            "missing_gamma.txt"
+          ],
+          "allowed_negative_capability_phrases": [
+            "not moved"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "keep_alpha.txt"
+              ],
+              "phrases": [
+                "moved to Keep",
+                "in Keep"
+              ],
+              "conflicts": [
+                "Review"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "review_beta.txt"
+              ],
+              "phrases": [
+                "moved to Review",
+                "in Review"
+              ],
+              "conflicts": [
+                "Keep"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "skip_notes.txt"
+              ],
+              "phrases": [
+                "incoming",
+                "skipped",
+                "left in incoming"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "missing_gamma.txt"
+              ],
+              "phrases": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "name": "Preserve sort_manifest.csv byte for byte",
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_filesystem_snapshot_state",
+        "snapshot_id": "android_only_274_manifest",
+        "preserve_directories": [],
+        "file_mappings": [
+          {
+            "baseline_path": "/sdcard/Download/sort_manifest.csv",
+            "current_path": "/sdcard/Download/sort_manifest.csv"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ]
+}

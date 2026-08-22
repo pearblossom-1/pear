@@ -1,0 +1,20 @@
+{
+  "android_setup": {
+    "android_1": [
+      {
+        "type": "androidworld_calendar_clear",
+        "parameters": {}
+      },
+      {
+        "type": "androidworld_calendar_event_add",
+        "parameters": {
+          "title": "Site briefing",
+          "start_ts": 1783243800,
+          "end_ts": 1783245600,
+          "location": "North Yard",
+          "description": "RC-42 current briefing."
+        }
+      }
+    ]
+  }
+}

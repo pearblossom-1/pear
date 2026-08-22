@@ -1,0 +1,335 @@
+{
+  "id": "linux_android_1241",
+  "instruction": "Please set up the planning meeting and notify its active attendees. The meeting details are in `/tmp/meeting/brief.odt` on the first Linux machine, and `/tmp/meeting/attendees.csv` on the second identifies active and archived attendees. Create the event in Simple Calendar Pro using the title, start time, end time, and location from the brief. Text each active attendee the meeting title, start time, and location, and do not text the archived attendee. Use `/tmp/meeting/brief_transform_audit_template.csv` on the first Linux machine to create `/tmp/meeting/brief_transform_audit.csv`, with one row for each attendee. Use the active meeting title for every audit row, and mark active attendees as `notified` and the archived attendee as `skipped`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/meeting/brief.odt /tmp/meeting/brief_transform_audit.csv /tmp/meeting/brief_transform_audit_template.csv && mkdir -p -- /tmp/meeting",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1241/source/tmp/meeting/brief.odt",
+                "path": "/tmp/meeting/brief.odt"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1241/source/tmp/meeting/brief_transform_audit_template.csv",
+                "path": "/tmp/meeting/brief_transform_audit_template.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/meeting/brief.odt && unzip -t /tmp/meeting/brief.odt >/dev/null && unzip -p /tmp/meeting/brief.odt content.xml | grep -F 'Meeting title: Ops Planning Sync' >/dev/null && unzip -p /tmp/meeting/brief.odt content.xml | grep -F 'Start: 2026-07-28 08:30' >/dev/null && unzip -p /tmp/meeting/brief.odt content.xml | grep -F 'End: 2026-07-28 09:00' >/dev/null && unzip -p /tmp/meeting/brief.odt content.xml | grep -F 'Location: Pier 3 Room B' >/dev/null && test -r /tmp/meeting/brief_transform_audit_template.csv && test \"$(cat /tmp/meeting/brief_transform_audit_template.csv)\" = 'brief_code,calendar_title,attendee_phone,decision' && test -w /tmp/meeting && test ! -e /tmp/meeting/brief_transform_audit.csv && command -v libreoffice >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/meeting/attendees.csv && mkdir -p -- /tmp/meeting",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1241/source/linux_1/tmp/meeting/attendees.csv",
+                "path": "/tmp/meeting/attendees.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/meeting/attendees.csv && test \"$(wc -l < /tmp/meeting/attendees.csv)\" -eq 4 && grep -F 'Mina,5551201241,lead,attend' /tmp/meeting/attendees.csv >/dev/null && grep -F 'Noor,5551201242,site,attend' /tmp/meeting/attendees.csv >/dev/null && grep -F 'Omar,5551201299,archive,archived' /tmp/meeting/attendees.csv >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/meeting/brief.odt /tmp/meeting/brief_transform_audit.csv /tmp/meeting/brief_transform_audit_template.csv; find /tmp/meeting -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/meeting/attendees.csv; find /tmp/meeting -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event",
+        "title": "Ops Planning Sync",
+        "start_ts": 1785227400,
+        "end_ts": 1785229200,
+        "location": "Pier 3 Room B"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201241",
+        "body_contains": [
+          "Ops Planning Sync",
+          "8:30",
+          "Pier 3 Room B"
+        ],
+        "require_positive_relation": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201242",
+        "body_contains": [
+          "Ops Planning Sync",
+          "8:30",
+          "Pier 3 Room B"
+        ],
+        "require_positive_relation": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201299",
+        "any_body": true,
+        "exact_count": 0
+      },
+      "expected": {"type": "rule", "rules": {"expected": "present"}}
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_csv_semantic_records",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/meeting/brief_transform_audit.csv"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "column_aliases": {
+            "brief_code": [],
+            "calendar_title": [],
+            "attendee_phone": [],
+            "decision": []
+          },
+          "value_aliases": {
+            "decision": {
+              "notified": [
+                "sent",
+                "messaged",
+                "contacted"
+              ],
+              "skipped": [
+                "not notified",
+                "not sent",
+                "excluded"
+              ]
+            }
+          },
+          "column_order_sensitive": true,
+          "order_sensitive": false,
+          "rows": [
+            {
+              "brief_code": "OPS-PLANNING-1241",
+              "calendar_title": "Ops Planning Sync",
+              "attendee_phone": "5551201241",
+              "decision": "notified"
+            },
+            {
+              "brief_code": "OPS-PLANNING-1241",
+              "calendar_title": "Ops Planning Sync",
+              "attendee_phone": "5551201242",
+              "decision": "notified"
+            },
+            {
+              "brief_code": "OPS-PLANNING-1241",
+              "calendar_title": "Ops Planning Sync",
+              "attendee_phone": "5551201299",
+              "decision": "skipped"
+            }
+          ]
+        }
+      },
+      "metadata": {
+        "path": "/tmp/meeting/brief_transform_audit.csv"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1241",
+    "surfaces": [
+      "calendar",
+      "sms",
+      "linux.odt",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1241",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1241/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1241/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/meeting/brief.odt",
+      "/tmp/meeting/attendees.csv",
+      "/tmp/meeting/brief_transform_audit_template.csv"
+    ],
+    "linux_output_paths": [
+      "/tmp/meeting/brief_transform_audit.csv"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/meeting/brief.odt",
+        "/tmp/meeting/brief_transform_audit_template.csv"
+      ],
+      "linux_1": [
+        "/tmp/meeting/attendees.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [
+        "/tmp/meeting/brief_transform_audit.csv"
+      ]
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1241-1260-B0004",
+    "candidate_triage": {
+      "decision": "repair",
+      "rationale": "Candidate asked for no Linux output; added a transform audit so the cross-device decision remains durable and reviewable."
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Approval source chain.md' <<'EOF'\n# Approval source chain\nRequest: L-42 asks for the study light at 70% for reading.\nApproval: the owner approved L-42 for the reading setup.\nApplied: the study light was set to 70%.\nEOF"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "study_dimmable_light_1",
+        "command": "set_brightness",
+        "args": {
+          "brightness_pct": 70
+        }
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+From: Shift Desk <shift-desk@example.com>
+To: Site Leads <site-leads@example.com>
+Subject: Shift alarm reconciliation
+Date: Thu, 11 Jun 2026 18:45:00 +0000
+Message-ID: <shift-reconciliation-612@example.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The existing Reminder alarm at 07:30 on the phone is the early fallback
+for travel readiness. Keep that alarm enabled.
+
+Use the Morning row for 2026-06-12 in the roster on the second Linux
+machine as the authoritative source for the actual departure alarm.
+
+Reconciliation reference: SHIFT-612
+
+After adding the actual departure alarm, record the fallback alarm,
+the actual departure alarm, and this reconciliation reference in the
+reconciliation log.

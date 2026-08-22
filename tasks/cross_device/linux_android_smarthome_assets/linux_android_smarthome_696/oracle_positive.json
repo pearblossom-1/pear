@@ -1,0 +1,52 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "androidworld_task_update",
+        "parameters": {
+          "match_title": "Dinner scene request",
+          "match_notes": "Recipe code: R-5",
+          "updates": {
+            "notes": "Stir Fry scene scheduled for 18:05.",
+            "completed": 1
+          }
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_workflow",
+      "parameters": {
+        "workflow_id": "recipe_r5_scene_1805",
+        "run_at": "2026-06-16T18:05:00",
+        "steps": [
+          {
+            "device_id": "kitchen_air_purifier_1",
+            "command": "turn_on",
+            "args": {}
+          },
+          {
+            "device_id": "kitchen_air_purifier_1",
+            "command": "set_level",
+            "args": {
+              "level": "high"
+            }
+          },
+          {
+            "device_id": "dining_room_dimmable_light_1",
+            "command": "set_brightness",
+            "args": {
+              "brightness_pct": 50
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "actions": [
+    {"device_id": "linux_1", "type": "cli.execute", "parameters": {"command": "mkdir -p '/tmp/event' && printf '%s\n' '905-A for Jon Bell is approved under NX90530 and the ordered playlist is ready.' > '/tmp/event/handoff.txt'", "shell": true}},
+    {"device_id": "android_0", "type": "android.setup", "config": [{"type": "androidworld_retro_playlist_add", "parameters": {"playlist_name": "905-A route set", "songs": ["track_905_alpha", "track_905_bravo"]}}]},
+    {"type": "done"}
+  ]
+}

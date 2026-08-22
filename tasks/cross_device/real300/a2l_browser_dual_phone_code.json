@@ -1,0 +1,183 @@
+{
+  "id": "a2l_browser_dual_phone_code",
+  "instruction": "The first phone's Simple SMS Messenger received a one-time code, and the second phone's Markor note `Account note` has the account id. Please enter the account id and code in `/home/user/account/verify.html` in Linux Chrome to complete the two-step verification.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "5550102",
+            "body": "Code: 4829",
+            "wait_s": 5
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "set -e\nmkdir -p /storage/emulated/0/Documents/Markor\ncat > '/storage/emulated/0/Documents/Markor/Account note.md' <<'EOF'\n# Account note\n\nAccount ID: ACC-28491\n\nUse this ID together with the verification code to complete two-step authentication.\nEOF"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /home/user/account",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2l_browser_dual_phone_code/source/verify.html",
+                "path": "/home/user/account/verify.html"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Account note.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /home/user/account/verify.html; rmdir /home/user/account 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "host_form_submission_state",
+        "form_id": "a2l_browser_dual_phone_code",
+        "field_names": [
+          "account_id",
+          "code"
+        ],
+        "expected_sha256": "71ec53044c7c55822e5850b32896787d66f6dd269f29b763d82070baacf1ca6e",
+        "field_rules": {
+          "account_id": {
+            "match_mode": "trimmed_exact",
+            "canonical_value": "ACC-28491",
+            "case_sensitive": true
+          },
+          "code": {
+            "match_mode": "trimmed_exact",
+            "canonical_value": "4829",
+            "case_sensitive": true
+          }
+        },
+        "client_path": "/home/user/account/verify.html",
+        "action_placeholder": "__MDCBENCH_FORM_ACTION__",
+        "preflight_receiver": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "real300_cross_device",
+    "source_card": "a2l",
+    "difficulty": "Medium",
+    "motif": "M5",
+    "interaction_mode": "Hybrid",
+    "device_topology": "A+A+L",
+    "surfaces": "android_0 Simple SMS Messenger + android_1 Markor -> Chrome form",
+    "setup_note": "android_0 注入 one-time code；android_1 写 Account note；Linux 上传不含答案的 verify 表单，由 harness 注入 run-scoped action。",
+    "evaluate_note": "检查 harness 所有的 run-scoped form submission state；account id 与 code 仅允许去除首尾空白后的精确匹配，且 setup 会预检 receiver。直接打开结果 URL 或伪造 guest 文件不能通过。",
+    "readiness": "R1_native_ready",
+    "native_evaluator_status": "mixed_native_content",
+    "requires_helper_audit": false,
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "func": "exact_match",
+        "result_type": "host_form_submission_state",
+        "path": "host:a2l_browser_dual_phone_code"
+      }
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "case": "CASE-1858",
+  "code": "FB-1858",
+  "route": "RT-58",
+  "site": "Harbor Gate 7",
+  "owner": "Leo Martin",
+  "phone": "+15552001828",
+  "email": "leo.martin@example.test",
+  "role": "Field reviewer",
+  "time": "2026-07-23 09:40",
+  "lat": "37.805",
+  "lon": "-122.392",
+  "decision": "blocked",
+  "included": "rt-58_photo_a.jpg",
+  "missing": "rt-58_photo_missing.jpg",
+  "hold_attachment": "rt-58_hold.jpg"
+}

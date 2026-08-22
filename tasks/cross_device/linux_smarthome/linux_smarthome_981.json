@@ -1,0 +1,320 @@
+{
+  "id": "linux_smarthome_981",
+  "instruction": "Close out the current home-automation change window. Use `/tmp/window/policy.docx` on the first Linux machine and the live SmartHome state to complete the decision and result columns in `/tmp/window/board.xlsx` on the second; execute only a still-open feasible change, leaving blocked, expired, and already-applied devices unchanged.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/window/policy.docx && mkdir -p -- /tmp/window",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_981/source/tmp/window/policy.docx",
+                "path": "/tmp/window/policy.docx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/window/board.xlsx && mkdir -p -- /tmp/window",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_981/source/linux_1/tmp/window/board.xlsx",
+                "path": "/tmp/window/board.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_981/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/window/policy.docx; find /tmp/window -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/window/board.xlsx; find /tmp/window -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/window/board.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_981/source/linux_1/tmp/window/board.xlsx",
+          "sheet": "Board",
+          "allowed_changes": [
+            "Board!G2",
+            "Board!H2",
+            "Board!G3",
+            "Board!H3",
+            "Board!G4",
+            "Board!H4",
+            "Board!G5",
+            "Board!H5"
+          ],
+          "preserve_layout": true,
+          "cells": {
+            "G2": "Executed",
+            "H2": "open_pct 60",
+            "G3": "Blocked",
+            "H3": "on",
+            "G4": "Expired",
+            "H4": "medium",
+            "G5": "Already Applied",
+            "H5": "brightness 35"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/window/board.xlsx"
+      },
+      "name": "bounded change-window workbook decisions"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "office_curtain_1": {
+                "open_pct": 60
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
+          }
+        }
+      },
+      "name": "only the open-window office curtain changes state"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "office_curtain_1",
+                "command": "set_open_pct",
+                "args": {
+                  "open_pct": 60
+                }
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "direct commands are restricted to curtain 60 retries"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "no change-window schedule is added"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "no change-window workflow is added"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_981",
+    "surfaces": [
+      "2linux",
+      "linux_xlsx_source",
+      "home_policy_board",
+      "linux_xlsx_output",
+      "linux_docx_source"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_981",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_981/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_981/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/window/policy.docx",
+      "/tmp/window/board.xlsx"
+    ],
+    "linux_output_paths": [
+      "/tmp/window/board.xlsx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/window/policy.docx"
+      ],
+      "linux_1": [
+        "/tmp/window/board.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [],
+      "linux_1": [
+        "/tmp/window/board.xlsx"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "2linux_smarthome",
+      "linux_devices": [
+        "linux_0",
+        "linux_1"
+      ],
+      "room_ids": [
+        "bedroom",
+        "kitchen",
+        "office"
+      ],
+      "device_type_counts": {
+        "air_purifier": 1,
+        "curtain": 1,
+        "dimmable_light": 1,
+        "light": 1
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 2,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-07-15T12:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_1",
+        "surface": "linux.xlsx",
+        "path": "/tmp/window/board.xlsx",
+        "goal": "Create or update the task result at this path.",
+        "func": "check_xlsx_cells",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/window/policy.docx, /tmp/window/board.xlsx and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the Home change-window outcome and Linux output path /tmp/window/board.xlsx.",
+    "idea_number": 981,
+    "candidate_triage": {
+      "batch_id": "plan5-861-1010-linux-smarthome-B0007",
+      "decision": "direct",
+      "note": "The open/closed/expired/already-applied gates are visible and map to one supported curtain action."
+    },
+    "lite_evaluator_hardening_note": "Hidden auxiliary output evaluator(s) removed; scoring remains on visible outcome/state artifacts."
+  }
+}

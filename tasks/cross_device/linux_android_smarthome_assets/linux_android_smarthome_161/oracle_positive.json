@@ -1,0 +1,39 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "+1555016101",
+          "body": "The guest room heater is on and set to 22 C."
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "guest_room_heater_1",
+        "command": "set_target_temperature",
+        "args": {
+          "temperature_c": 22.0
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "guest_room_heater_1",
+        "command": "turn_on",
+        "args": {}
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

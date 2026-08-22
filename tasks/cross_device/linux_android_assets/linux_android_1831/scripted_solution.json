@@ -1,0 +1,20 @@
+{
+  "actions": [
+    {
+      "device_id": "android_0",
+      "type": "android.setup",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "mkdir -p /storage/emulated/0/Android/data/net.osmand/files/favorites && echo PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48Z3B4IHZlcnNpb249IjEuMSIgY3JlYXRvcj0iTURDQmVuY2giIHhtbG5zPSJodHRwOi8vd3d3LnRvcG9ncmFmaXguY29tL0dQWC8xLzEiPjx3cHQgbGF0PSIzNy43NDkiIGxvbj0iLTEyMi40MTYiPjxuYW1lPkhhcmJvciBHYXRlIDE0PC9uYW1lPjwvd3B0PjwvZ3B4Pgo= | base64 -d > /storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx"
+          }
+        }
+      ]
+    },
+    {
+      "type": "done"
+    }
+  ],
+  "notes": "Scripted solution mirrors the positive oracle with native helper setup and shell writes."
+}

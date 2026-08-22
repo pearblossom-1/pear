@@ -1,0 +1,416 @@
+{
+  "meta": {
+    "sh_type": "SH_android_smarthome",
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1888,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Approval source chain.md",
+        "rules": {
+          "entities": [
+            [
+              "L-42"
+            ],
+            [
+              "approved",
+              "approval"
+            ],
+            [
+              "study light",
+              "study-light"
+            ],
+            [
+              "70",
+              "70%"
+            ],
+            [
+              "reading"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "applied",
+              "set",
+              "executed"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "L-42"
+                ],
+                [
+                  "study light",
+                  "study-light"
+                ],
+                [
+                  "70",
+                  "70%"
+                ],
+                [
+                  "reading"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "L-42"
+                ],
+                [
+                  "approved",
+                  "approval"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "L-42"
+                ],
+                [
+                  "study light",
+                  "study-light"
+                ],
+                [
+                  "70",
+                  "70%"
+                ]
+              ],
+              "phrases": [
+                [
+                  "applied",
+                  "set",
+                  "executed"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "preceding_clause_context": {
+            "max_preceding_clauses": 2,
+            "anchors": [
+              [
+                "L-42"
+              ],
+              [
+                "L-43"
+              ]
+            ]
+          },
+          "nearest_relations": [
+            {
+              "anchor": [
+                "L-42"
+              ],
+              "expected": [
+                "approved",
+                "approval"
+              ],
+              "forbidden": [
+                "rejected",
+                "denied",
+                "not approved",
+                "unapproved"
+              ],
+              "max_distance": 24
+            }
+          ],
+          "conflict_phrases": [
+            "pending",
+            "not applied",
+            "wrong row"
+          ],
+          "allowed_reversal_terms": [
+            "ignored"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "Approval source chain binds L-42 request, approval, and applied study-light setting"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "study_dimmable_light_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "brightness_pct": 70
+          }
+        }
+      },
+      "name": "study dimmable light is on at 70 percent"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "study_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 70
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "only the approved study light final state changes globally"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "study_dimmable_light_1",
+                "command": "set_brightness",
+                "args": {
+                  "brightness_pct": 70
+                }
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "direct commands are restricted to approved study-brightness retries"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "approved request creates no schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "approved request creates no workflow"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 25.9,
+        "humidity_pct": 46.5,
+        "brightness_lux": 300.0,
+        "air_quality_pm25": 45.3,
+        "noise_level_db": 31.7,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 24.2,
+        "humidity_pct": 59.0,
+        "brightness_lux": 175.0,
+        "air_quality_pm25": 24.7,
+        "noise_level_db": 34.0,
+        "occupied": false
+      },
+      "study": {
+        "temperature_c": 24.1,
+        "humidity_pct": 50.0,
+        "brightness_lux": 325.0,
+        "air_quality_pm25": 32.8,
+        "noise_level_db": 41.9,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "mode": "heat",
+          "target_temperature_c": 22.0
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bedroom_curtain_1",
+        "device_type": "curtain",
+        "room_id": "bedroom",
+        "state": {
+          "open_pct": 100,
+          "status": "open"
+        }
+      },
+      {
+        "device_id": "bedroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "bedroom_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 59
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "mode": "fan",
+          "target_temperature_c": 22.0
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 0,
+          "status": "closed"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 35
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "study_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "mode": "cool",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "study_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "study",
+        "state": {
+          "power": "off",
+          "brightness_pct": 0
+        }
+      },
+      {
+        "device_id": "study_heater_1",
+        "device_type": "heater",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 23.0
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

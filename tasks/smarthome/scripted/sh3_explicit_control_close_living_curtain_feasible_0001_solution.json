@@ -1,0 +1,23 @@
+{
+  "actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.get_device_capabilities",
+      "parameters": {
+        "device_id": "living_room_curtain_1"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "living_room_curtain_1",
+        "command": "close",
+        "args": {}
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

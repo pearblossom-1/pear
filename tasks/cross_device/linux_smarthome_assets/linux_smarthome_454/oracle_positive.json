@@ -1,0 +1,41 @@
+{
+  "linux_actions": [],
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.list_schedules",
+      "parameters": {}
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.list_workflows",
+      "parameters": {}
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "bedroom_robot_vacuum_1",
+        "command": "pause",
+        "args": {}
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.cancel_schedule",
+      "parameters": {
+        "schedule_id": "bedroom_clean_2230"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.cancel_workflow",
+      "parameters": {
+        "workflow_id": "bedroom_night_clean"
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

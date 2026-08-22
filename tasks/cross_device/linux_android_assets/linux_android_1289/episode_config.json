@@ -1,0 +1,85 @@
+{
+  "task_id": "linux_android_1289",
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Blue Harbor Set gap.md",
+        "rules": {
+          "entities": [
+            "Blue Harbor Set",
+            "Blue Harbor Extended"
+          ],
+          "required_phrases": [
+            [
+              "missing",
+              "unavailable",
+              "not available"
+            ]
+          ],
+          "positive_phrases": [
+            "blocked",
+            "was not created",
+            "playlist was not created",
+            "playlist not created",
+            "do not create",
+            "remains uncreated",
+            "creation is blocked"
+          ],
+          "conflict_phrases": [
+            "not missing",
+            "an exact match was found",
+            "the exact match was found",
+            "exact required track was found",
+            "is the exact required track",
+            "is an exact match",
+            "playlist was created",
+            "playlist created",
+            "created using",
+            "ready"
+          ],
+          "allowed_negative_capability_phrases": [
+            "not available",
+            "was not created",
+            "playlist not created",
+            "do not create",
+            "not an exact match",
+            "not the exact required track"
+          ],
+          "nearest_relations": [
+            {
+              "anchor": ["near match", "near-match", "similar track", "similar title", "closest available track", "available near match", "available"],
+              "expected": ["Blue Harbor"],
+              "forbidden": ["Blue Harbor Extended"],
+              "max_distance": 12,
+              "same_clause": true
+            }
+          ],
+          "reject_incomplete_semantics": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "retro_music_playlist",
+        "playlist_name": "Blue Harbor Set"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      }
+    }
+  ]
+}

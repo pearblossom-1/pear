@@ -1,0 +1,172 @@
+{
+  "id": "l2_csv_to_json",
+  "instruction": "`/tmp/orders/orders.csv` on the first Linux machine contains today's orders. Please convert it to `/tmp/orders/orders.json` on the second Linux machine.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {
+    "orders_json": "/tmp/orders/orders.json"
+  },
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/orders && mkdir -p /tmp/orders",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real100_assets/l2_csv_to_json/source/orders.csv",
+                "path": "/tmp/orders/orders.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/orders/orders.csv",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/orders && mkdir -p /tmp/orders",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -w /tmp/orders && test ! -e /tmp/orders/orders.json",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/orders",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/orders",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_json_records",
+      "result": {
+        "type": "vm_file",
+        "path": "${orders_json}"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "payload_key": "orders",
+          "canonical_id": "order_id",
+          "id_keys": [
+            "order_id",
+            "id"
+          ],
+          "value_aliases": {
+            "rush": {
+              "yes": [
+                "true",
+                "1"
+              ],
+              "no": [
+                "false",
+                "0"
+              ]
+            }
+          },
+          "case_sensitive": true,
+          "rows": [
+            {
+              "order_id": "ORD-100",
+              "customer": "Aster Supply",
+              "item": "filter kit",
+              "qty": "3",
+              "rush": "yes"
+            },
+            {
+              "order_id": "ORD-101",
+              "customer": "Harbor Electric",
+              "item": "cable reel",
+              "qty": "1",
+              "rush": "no"
+            },
+            {
+              "order_id": "ORD-102",
+              "customer": "Northline Parts",
+              "item": "valve pack",
+              "qty": "5",
+              "rush": "yes"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 20,
+    "max_wall_time_s": 180
+  },
+  "metadata": {
+    "category": "real100_cross_device",
+    "source_card": "012",
+    "difficulty": "Simple",
+    "motif": "M2",
+    "surfaces": "linux_0 CSV -> linux_1 JSON",
+    "setup_note": "linux_0 上传并校验 orders.csv 可读；linux_1 清理旧 orders.json 并校验 /tmp/orders 可写。",
+    "evaluate_note": "Compares the complete logical CSV record multiset while accepting ordinary list and ID-keyed object JSON layouts.",
+    "device_topology": "2L",
+    "implementation_status": "real_evaluator",
+    "readiness": "R1_native_real_fixture",
+    "cross_device_checks": [
+      "linux_1 orders.json preserves linux_0 orders.csv records"
+    ],
+    "asset_source": "tasks/cross_device/real100_assets/l2_csv_to_json/source",
+    "lite_evaluator_hardening_note": "The record evaluator preserves raw record count and multiplicity, rejects duplicate JSON keys/IDs and extra fields, and accepts equivalent list or ID-keyed object layouts without a competing fixed-schema write."
+  }
+}

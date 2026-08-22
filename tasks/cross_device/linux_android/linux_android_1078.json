@@ -1,0 +1,262 @@
+{
+  "id": "linux_android_1078",
+  "instruction": "Before submitting `/tmp/form/request_form.html` in Linux Chrome, check whether the latest Simple SMS Messenger message actually provides the required form code for the approved case. Use `/tmp/form/request_table.csv` and `/tmp/form/handoff_policy.md` as the source records. If the required form code is unavailable, leave the form unsubmitted and add a Markor handoff note at `/storage/emulated/0/Documents/Markor/1078-A_blocked.md` explaining the approved case, approval code, owner, and blocked status.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+1555011887",
+            "body": "Older request 1078-D code DNX07877",
+            "wait_s": 1.0
+          }
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+1555011887",
+            "body": "Blocked request 1078-A: required code unavailable. Owner Owen Park.",
+            "wait_s": 1.0
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/1078-A_blocked.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p '/tmp/form' && rm -f '/tmp/form/request_table.csv' '/tmp/form/request_form.html' '/tmp/form/handoff_policy.md'",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1078/source/request_table.csv",
+                "path": "/tmp/form/request_table.csv"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1078/source/request_form.html",
+                "path": "/tmp/form/request_form.html"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1078/source/handoff_policy.md",
+                "path": "/tmp/form/handoff_policy.md"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/1078-A_blocked.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f '/tmp/form/request_table.csv' '/tmp/form/request_form.html' '/tmp/form/handoff_policy.md'; rmdir '/tmp/form' 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/1078-A_blocked.md",
+        "rules": {
+          "entities": ["1078-A", "NX07877", "Owen Park"],
+          "positive_phrases": ["blocked"],
+          "required_phrases": [
+            [
+              "the required SMS form code is unavailable",
+              "required SMS form code is unavailable",
+              "the SMS did not provide the required form code",
+              "the form code is missing from the latest SMS",
+              "form code is missing from the latest SMS",
+              "no usable SMS form code was provided",
+              "the required code was not included in the SMS",
+              "required code was not included in the SMS",
+              "SMS form code unavailable",
+              "SMS form code is unavailable",
+              "SMS form code missing",
+              "SMS form code is missing",
+              "SMS form code not provided",
+              "SMS form code was not provided",
+              "required form code unavailable",
+              "required form code is unavailable",
+              "required form code missing",
+              "required form code is missing",
+              "required form code not provided",
+              "required form code was not provided"
+            ]
+          ],
+          "allowed_negative_capability_phrases": [
+            "the SMS did not provide the required form code",
+            "no usable SMS form code was provided",
+            "the required code was not included in the SMS",
+            "required code was not included in the SMS",
+            "SMS form code not provided",
+            "SMS form code was not provided",
+            "required form code not provided",
+            "required form code was not provided"
+          ],
+          "conflict_phrases": [
+            "ready",
+            "submitted",
+            "not blocked",
+            "required SMS form code is available",
+            "SMS form code is available",
+            "form code is available",
+            "SMS provided the required form code",
+            "required code was included in the SMS",
+            "blocked for an unknown reason",
+            "unknown reason",
+            "blocked because the owner is unavailable",
+            "owner is unavailable",
+            "blocked because approval is missing",
+            "approval is missing"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "host_form_submission_state",
+        "form_id": "linux_android_1078",
+        "field_names": ["case_id", "sms_code"],
+        "expected_sha256": "841134df5a4787b55912020f3653842b7cd36fb45c176117b58aa89338b259fa",
+        "expected_state": "not_submitted",
+        "client_path": "/tmp/form/request_form.html",
+        "action_placeholder": "__MDCBENCH_FORM_ACTION__"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 420
+  },
+  "metadata": {
+    "category": "linux_android_next",
+    "implementation_status": "reviewed_plan6_generated",
+    "source_plan": "docs/plan6/linux_android_next100_tasks_981_1080.md",
+    "source_task_number": 1078,
+    "source_task_title": "Form code absent from SMS blocks browser submit",
+    "triage_decision": "block",
+    "triage_reason": "Implemented as a positive blocked-state task because the candidate contains missing, conflicting, denied, or otherwise non-actionable source evidence.",
+    "device_topology": "android_0+linux_0",
+    "surfaces": [
+      "android.android_file",
+      "android.sms",
+      "linux.csv",
+      "linux.html"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1078",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1078/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1078/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_1078/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/form/request_table.csv",
+      "/tmp/form/request_form.html",
+      "/tmp/form/handoff_policy.md"
+    ],
+    "linux_output_paths": [],
+    "android_output_plan": [
+      {
+        "kind": "android_file",
+        "device_id": "android_0",
+        "path": "/storage/emulated/0/Documents/Markor/1078-A_blocked.md",
+        "required": [
+          "1078-A",
+          "NX07877",
+          "Owen Park",
+          "blocked",
+          "required SMS form code unavailable"
+        ]
+      }
+    ],
+    "expected_data_trace": {
+      "case_id": "1078-A",
+      "approval_code": "NX07877",
+      "owner": "Owen Park"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "topology_view": "linux_android"
+  }
+}

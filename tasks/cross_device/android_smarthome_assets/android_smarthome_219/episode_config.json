@@ -1,0 +1,382 @@
+{
+  "meta": {
+    "sh_type": "SH_android_smarthome",
+    "spec_version": "smarthome-custom-v1",
+    "case": "infeasible",
+    "seed": 1219,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_infeasible_report",
+      "result": {
+        "type": "smarthome_infeasible_reports"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "semantic_report": {
+              "exact_report_count": 1,
+              "category_aliases": [
+                "unsupported_capability",
+                "unsupported capability",
+                "feature unavailable"
+              ],
+              "target_aliases": [
+                "bedroom light color",
+                "bedroom light color control",
+                {
+                  "room": "bedroom",
+                  "device": "bedroom_dimmable_light_1",
+                  "capability": "color_control"
+                }
+              ],
+              "reason_relation": {
+                "entities": [
+                  [
+                    "bedroom light",
+                    "installed bedroom light"
+                  ],
+                  [
+                    "color control",
+                    "color setting",
+                    "color change"
+                  ]
+                ],
+                "positive_phrases": [
+                  [
+                    "does not support",
+                    "unsupported",
+                    "cannot change color",
+                    "color control is unavailable"
+                  ]
+                ],
+                "allowed_negative_capability_phrases": [
+                  "does not support",
+                  "cannot change color"
+                ],
+                "conflict_phrases": [
+                  [
+                    "supports color control",
+                    "color was changed",
+                    "request is complete"
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      },
+      "name": "exactly one unsupported-capability report identifies bedroom color control"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_device_change",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "device_id": "bedroom_dimmable_light_1"
+          }
+        }
+      },
+      "name": "bedroom dimmable light remains fully unchanged"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_current_time": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "unsupported-capability task leaves every Home device unchanged"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "unsupported-capability task creates no schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "unsupported-capability task creates no workflow"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 23.6,
+        "humidity_pct": 53.2,
+        "brightness_lux": 640.0,
+        "air_quality_pm25": 30.5,
+        "noise_level_db": 58.0,
+        "occupied": false
+      },
+      "dining_room": {
+        "temperature_c": 23.8,
+        "humidity_pct": 59.8,
+        "brightness_lux": 735.0,
+        "air_quality_pm25": 49.1,
+        "noise_level_db": 32.1,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 22.0,
+        "humidity_pct": 46.9,
+        "brightness_lux": 180.0,
+        "air_quality_pm25": 40.1,
+        "noise_level_db": 34.4,
+        "occupied": false
+      },
+      "office": {
+        "temperature_c": 25.4,
+        "humidity_pct": 57.0,
+        "brightness_lux": 120.0,
+        "air_quality_pm25": 28.2,
+        "noise_level_db": 34.5,
+        "occupied": false
+      },
+      "study": {
+        "temperature_c": 23.3,
+        "humidity_pct": 59.9,
+        "brightness_lux": 180.0,
+        "air_quality_pm25": 39.0,
+        "noise_level_db": 44.2,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_curtain_1",
+        "device_type": "curtain",
+        "room_id": "bedroom",
+        "state": {
+          "open_pct": 80,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "bedroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bedroom_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "brightness_pct": 70
+        }
+      },
+      {
+        "device_id": "bedroom_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "status": "cleaning",
+          "battery_pct": 84
+        }
+      },
+      {
+        "device_id": "dining_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "dining_room",
+        "state": {
+          "power": "off",
+          "mode": "auto",
+          "target_temperature_c": 21.0
+        }
+      },
+      {
+        "device_id": "dining_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "dining_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "dining_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "dining_room",
+        "state": {
+          "open_pct": 20,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "dining_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 35
+        }
+      },
+      {
+        "device_id": "dining_room_light_1",
+        "device_type": "light",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 60,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 25.0
+        }
+      },
+      {
+        "device_id": "office_curtain_1",
+        "device_type": "curtain",
+        "room_id": "office",
+        "state": {
+          "open_pct": 40,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "office_heater_1",
+        "device_type": "heater",
+        "room_id": "office",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "office_light_1",
+        "device_type": "light",
+        "room_id": "office",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "study_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "mode": "dry",
+          "target_temperature_c": 20.0
+        }
+      },
+      {
+        "device_id": "study_curtain_1",
+        "device_type": "curtain",
+        "room_id": "study",
+        "state": {
+          "open_pct": 60,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "study_heater_1",
+        "device_type": "heater",
+        "room_id": "study",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "study_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "study",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 45
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

@@ -1,0 +1,229 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 62,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 312,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "bedroom_curtain_1": {
+                "open_pct": 0,
+                "status": "closed"
+              },
+              "bedroom_dimmable_light_1": {
+                "brightness_pct": 20
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 22.1,
+        "humidity_pct": 51.6,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 26.2,
+        "noise_level_db": 27.8,
+        "occupied": true
+      },
+      "dining_room": {
+        "temperature_c": 23.0,
+        "humidity_pct": 49.7,
+        "brightness_lux": 120.0,
+        "air_quality_pm25": 44.2,
+        "noise_level_db": 37.4,
+        "occupied": false
+      },
+      "kids_room": {
+        "temperature_c": 22.6,
+        "humidity_pct": 38.7,
+        "brightness_lux": 640.0,
+        "air_quality_pm25": 48.7,
+        "noise_level_db": 25.0,
+        "occupied": true
+      },
+      "laundry_room": {
+        "temperature_c": 23.9,
+        "humidity_pct": 42.5,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 47.4,
+        "noise_level_db": 40.9,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 21.4,
+        "humidity_pct": 42.0,
+        "brightness_lux": 233.2,
+        "air_quality_pm25": 36.8,
+        "noise_level_db": 35.5,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "mode": "heat",
+          "target_temperature_c": 21.0
+        }
+      },
+      {
+        "device_id": "bedroom_curtain_1",
+        "device_type": "curtain",
+        "room_id": "bedroom",
+        "state": {
+          "open_pct": 75,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "bedroom_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "brightness_pct": 80
+        }
+      },
+      {
+        "device_id": "bedroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "dining_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "dining_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "dining_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "dining_room",
+        "state": {
+          "open_pct": 40,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "kids_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "kids_room",
+        "state": {
+          "open_pct": 80,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "kids_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "kids_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 80
+        }
+      },
+      {
+        "device_id": "kids_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "kids_room",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "laundry_room_dryer_1",
+        "device_type": "dryer",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "off",
+          "cycle": "heavy",
+          "remaining_min": 0,
+          "status": "complete"
+        }
+      },
+      {
+        "device_id": "laundry_room_light_1",
+        "device_type": "light",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "mode": "cool",
+          "target_temperature_c": 20.0
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "brightness_pct": 0
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

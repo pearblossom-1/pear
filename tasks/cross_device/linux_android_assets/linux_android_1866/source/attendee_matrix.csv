@@ -1,0 +1,5 @@
+case,status,code,owner,phone,email,route,site,time,filename,include,notes
+CASE-1866,ready,FB-1866,,,,,,,rt-66_photo_a.jpg,yes,approval and readiness row; attendee and event details are on the phones
+CASE-OLD,archived,OLD-17,Archived Owner,+15550000000,old@example.test,RT-00,Old Yard,2026-06-01 08:00,old_photo.jpg,no,inactive archive
+CASE-HOLD,hold,HOLD-42,Hold Owner,+15550009999,,RT-66,Harbor Gate 15 Annex,2026-07-11 09:00,rt-66_hold.jpg,no,similar-name hold
+CASE-1866,missing,FB-1866,Nora Alvarez,+15552001830,nora.alvarez@example.test,RT-66,Harbor Gate 15,2026-07-11 09:00,rt-66_photo_missing.jpg,required_missing,visible gap row

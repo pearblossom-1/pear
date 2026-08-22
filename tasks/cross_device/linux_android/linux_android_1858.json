@@ -1,0 +1,321 @@
+{
+  "id": "linux_android_1858",
+  "instruction": "Cross-check the latest Simple SMS Messenger request against the current row in `/tmp/contacts/recipient_table.csv`. If their phone values conflict, write the case, approval code, owner, both phone values, and the blocked reason to `/tmp/blocked/blocked_comm.md` on the second Linux desktop. Do not send a reply or confirmation to either phone value.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+15552001828",
+            "body": "Archived request OLD-17; ignore this older message.",
+            "wait_s": 2.1
+          }
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+15552001828",
+            "body": "Latest approval CASE-1858 FB-1858 for Leo Martin at 2026-07-23 09:40.",
+            "wait_s": 2.1
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rows=\"$(content query --uri content://sms/inbox --projection address:body --where \"address='+15552001828'\" --sort 'date DESC,_id DESC' 2>/dev/null)\"; test \"$(printf '%s\\n' \"$rows\" | grep -c '^Row:')\" -eq 2 && latest=\"$(printf '%s\\n' \"$rows\" | sed -n '1p')\" && printf '%s\\n' \"$latest\" | grep -F 'address=+15552001828' >/dev/null && printf '%s\\n' \"$latest\" | grep -F 'body=Latest approval CASE-1858 FB-1858 for Leo Martin at 2026-07-23 09:40.' >/dev/null && sent=\"$(content query --uri content://sms/sent --projection address:body 2>/dev/null)\" && ! printf '%s\\n' \"$sent\" | grep -q '^Row:'",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/contacts && rm -f /tmp/contacts/recipient_table.csv",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1858/source/recipient_table.csv",
+                "path": "/tmp/contacts/recipient_table.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nfile=/tmp/contacts/recipient_table.csv\ntest -r \"$file\"\nhead -n 1 \"$file\" | grep -Fx 'case,status,code,owner,phone,email,route,site,time,filename,include,notes' >/dev/null\ntest \"$(awk -F, 'NR > 1 && $2 == \"current\" && $11 == \"yes\" { count++ } END { print count + 0 }' \"$file\")\" -eq 1\nawk -F, 'NR > 1 && $1 == \"CASE-1858\" && $2 == \"current\" && $3 == \"FB-1858\" && $4 == \"Leo Martin\" && $5 == \"+15552009928\" && $11 == \"yes\" { ok = 1 } END { exit !ok }' \"$file\"",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nmkdir -p /tmp/blocked\nrm -f /tmp/blocked/blocked_comm.md\ntest -w /tmp/blocked\ntest ! -e /tmp/blocked/blocked_comm.md",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/contacts/recipient_table.csv; find /tmp/contacts -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/blocked/blocked_comm.md; find /tmp/blocked -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "cat /tmp/blocked/blocked_comm.md 2>/dev/null || echo missing",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "CASE-1858",
+            "+15552001828",
+            "+15552009928"
+          ],
+          "exclude": [
+            "missing",
+            "PLACEHOLDER",
+            "CASE-OLD",
+            "HOLD-42",
+            "rt-58_hold.jpg"
+          ],
+          "entity_relation": {
+            "entities": [
+              "CASE-1858",
+              "FB-1858",
+              "Leo Martin",
+              "+15552001828",
+              "+15552009928"
+            ],
+            "required_phrases": [
+              [
+                "conflicts with",
+                "does not match",
+                "phone mismatch",
+                "numbers differ",
+                "different phone values",
+                "sender number and current-row number are different"
+              ],
+              [
+                "no reply was sent",
+                "do not send to either number",
+                "no confirmation was sent",
+                "both numbers were left uncontacted",
+                "neither number should be contacted",
+                "neither number was contacted"
+              ]
+            ],
+            "positive_phrases": [
+              "blocked",
+              "communication blocked",
+              "reply blocked",
+              "cannot reply",
+              "must not reply",
+              "do not reply"
+            ],
+            "conflict_phrases": [
+              "not blocked",
+              "the phones match",
+              "the numbers match",
+              "phone values match",
+              "same phone number",
+              "safe to reply",
+              "a reply was sent",
+              "confirmation was sent",
+              "sent a reply"
+            ],
+            "allowed_negative_capability_phrases": [
+              "no reply was sent",
+              "do not send to either number",
+              "no confirmation was sent",
+              "both numbers were left uncontacted",
+              "neither number should be contacted",
+              "neither number was contacted",
+              "must not reply",
+              "do not reply"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+15552001828",
+        "any_body": true,
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+15552009928",
+        "any_body": true,
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 60,
+    "max_wall_time_s": 480
+  },
+  "metadata": {
+    "category": "linux_android_final_balancing",
+    "implementation_status": "builder_batch_1827_1876",
+    "source_plan": "docs/plan6/linux_android_final_balancing_tasks_1777_1876.md",
+    "source_task_number": 1858,
+    "source_task_title": "Conflicting recipients create blocked communication report",
+    "triage_decision": "block",
+    "triage_reason": "Blocked communication task: visible requester and recipient phone values conflict, so the scored output is a blocked report and no SMS reply.",
+    "device_topology": "android_0+linux_0+linux_1",
+    "surfaces": [
+      "android.sms",
+      "linux.text"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1858",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1858/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1858/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_1858/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/contacts/recipient_table.csv"
+    ],
+    "linux_output_paths": [
+      "/tmp/blocked/blocked_comm.md"
+    ],
+    "linux_output_paths_by_device": {
+      "linux_0": [],
+      "linux_1": [
+        "/tmp/blocked/blocked_comm.md"
+      ]
+    },
+    "android_output_plan": [],
+    "expected_data_trace": {
+      "case": "CASE-1858",
+      "code": "FB-1858",
+      "route": "RT-58",
+      "site": "Harbor Gate 7",
+      "owner": "Leo Martin",
+      "phone": "+15552009928",
+      "email": "leo.martin@example.test",
+      "role": "Field reviewer",
+      "time": "2026-07-23 09:40",
+      "lat": "37.805",
+      "lon": "-122.392",
+      "decision": "blocked",
+      "included": "rt-58_photo_a.jpg",
+      "missing": "rt-58_photo_missing.jpg",
+      "hold_attachment": "rt-58_hold.jpg"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "structured_output_classification": {
+      "/tmp/blocked/blocked_comm.md": "primary_artifact",
+      "native_sms_non_reply": "primary_native_state"
+    },
+    "human_quality_hardening": "Uses a real cross-source phone conflict, relation-aware report scoring, and native sent-box absence instead of source guards or self-report fields.",
+    "topology_view": "linux_android"
+  }
+}

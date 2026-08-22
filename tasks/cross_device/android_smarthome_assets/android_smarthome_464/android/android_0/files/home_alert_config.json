@@ -1,0 +1,1 @@
+{"metrics":["kitchen PM2.5","laundry humidity","entry temperature"],"priority_order":["air quality","humidity","temperature"],"send_highest_only":true}

@@ -1,0 +1,25 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /storage/emulated/0/Documents/Markor\ncat > '/storage/emulated/0/Documents/Markor/Quiet Hours Audit.md' <<'EOF'\nQuiet hours audit: late washer cancelled and bedroom lights-out remains active.\nEOF"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.cancel_workflow",
+      "parameters": {
+        "workflow_id": "late_washer"
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

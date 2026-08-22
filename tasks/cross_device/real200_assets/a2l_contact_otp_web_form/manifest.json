@@ -1,0 +1,47 @@
+{
+  "task_id": "a2l_contact_otp_web_form",
+  "source_card": "169",
+  "device_topology": "2A+1L",
+  "difficulty": "Medium",
+  "motif": "M5",
+  "interaction_mode": "GUI-focused",
+  "instruction": "The latest Simple SMS Messenger message on the first phone contains a web form OTP, and the Android Contacts app on the second phone has the client details. Please open `/home/user/web/client.html` in Linux Chrome, fill in the client details and OTP, and submit it.",
+  "surfaces": "android_0 Simple SMS Messenger + android_1 Android Contacts app + Linux Chrome form",
+  "setup_note": "android_0 注入 OTP；android_1 写入 contact；Linux 准备 web form。",
+  "evaluate_note": "Queries task-scoped, signed in-memory submission state; a success-looking URL or forged receipt file cannot create a passing submission.",
+  "requires_helper_audit": false,
+  "source_files": [
+    "source/visible/5f3aa9f8_client.html"
+  ],
+  "expected_files": [],
+  "instruction_visible_inputs": [
+    {
+      "path": "/home/user/web/client.html",
+      "source_file": "source/visible/5f3aa9f8_client.html"
+    }
+  ],
+  "instruction_visible_outputs": [],
+  "native_content_outputs": [
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result_type": "host_form_submission_state",
+      "path": "host-owned run-scoped form-submission state"
+    }
+  ],
+  "android_state_outputs": [],
+  "android_file_outputs": [],
+  "android_text_outputs": [],
+  "browser_state_outputs": [],
+  "thunderbird_draft_outputs": [],
+  "fixture_notes": [
+    "android_0 SMS OTP is 481269",
+    "android_1 contact is North Pier Labs with phone 555-0169",
+    "The visible client contains no expected contact, phone, or OTP constants.",
+    "The evaluator host owns an ephemeral service with a random per-run submission URL and in-memory state; no verifier process or receipt is stored in the guest.",
+    "Setup and cleanup replace the action placeholder, reset host state, and reset task-owned browser state; direct navigation, stale guest listeners, wrong fields, and forged guest state fail."
+  ],
+  "cross_device_checks": [
+    "real200_card_169_parsed_from_v3_expansion"
+  ]
+}

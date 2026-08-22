@@ -1,0 +1,19 @@
+{
+  "linux_actions": [],
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "laundry_room_washer_1",
+        "command": "start_cycle",
+        "args": {
+          "cycle": "quick"
+        }
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

@@ -1,0 +1,213 @@
+{
+  "task_id": "android_only_234",
+  "eval": [
+    {
+      "name": "Write the three manifest-bound photo statuses in photo_status.md",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/photo_status.md",
+        "rules": {
+          "entities": [
+            "north_gate.png",
+            "meter_panel.png",
+            "old_notice.png"
+          ],
+          "required_phrases": [
+            [
+              "present",
+              "available",
+              "found"
+            ],
+            [
+              "missing",
+              "absent",
+              "not found"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "present",
+              "available",
+              "found"
+            ],
+            [
+              "missing",
+              "absent",
+              "not found"
+            ]
+          ],
+          "conflict_patterns": [
+            "north_gate\\.png.{0,24}\\b(?:is\\s+)?(?:missing|absent|not\\s+found)\\b",
+            "meter_panel\\.png.{0,24}\\b(?:is\\s+)?(?:missing|absent|not\\s+found)\\b",
+            "old_notice\\.png.{0,24}\\b(?:is\\s+)?(?:present|available|exists|found)\\b"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "north_gate.png"
+              ],
+              "phrases": [
+                "present",
+                "available",
+                "found"
+              ],
+              "conflicts": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "meter_panel.png"
+              ],
+              "phrases": [
+                "present",
+                "available",
+                "found"
+              ],
+              "conflicts": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "old_notice.png"
+              ],
+              "phrases": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "conflicts": [
+                "present",
+                "available",
+                "exists"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "name": "Preserve both source image bytes and keep old_notice absent",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_filesystem_snapshot_state",
+        "snapshot_id": "android_only_234_site",
+        "preserve_directories": [],
+        "file_mappings": [
+          {
+            "baseline_path": "/sdcard/Pictures/Site/north_gate.png",
+            "current_path": "/sdcard/Pictures/Site/north_gate.png"
+          },
+          {
+            "baseline_path": "/sdcard/Pictures/Site/meter_panel.png",
+            "current_path": "/sdcard/Pictures/Site/meter_panel.png"
+          },
+          {
+            "baseline_path": "/sdcard/Pictures/Site/old_notice.png",
+            "current_path": "/sdcard/Pictures/Site/old_notice.png"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Site recursive .png business-image count remains 2",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Pictures/Site",
+        "recursive": true,
+        "suffix": ".png",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "2"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Site recursive .jpg business-image count remains 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Pictures/Site",
+        "recursive": true,
+        "suffix": ".jpg",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Site recursive .jpeg business-image count remains 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Pictures/Site",
+        "recursive": true,
+        "suffix": ".jpeg",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Site recursive .webp business-image count remains 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Pictures/Site",
+        "recursive": true,
+        "suffix": ".webp",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ]
+}

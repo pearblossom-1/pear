@@ -1,0 +1,356 @@
+{
+  "meta": {
+    "sh_type": "SH_android_smarthome",
+    "spec_version": "smarthome-custom-v1",
+    "case": "infeasible",
+    "seed": 1233,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_infeasible_report",
+      "result": {
+        "type": "smarthome_infeasible_reports"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "semantic_report": {
+              "exact_report_count": 1,
+              "category_aliases": [
+                "missing_device",
+                "missing device",
+                "equipment unavailable"
+              ],
+              "target_aliases": [
+                "kitchen aroma diffuser",
+                "aroma diffuser in kitchen",
+                {
+                  "room": "kitchen",
+                  "need": "aroma_diffuser"
+                }
+              ],
+              "reason_relation": {
+                "entities": [
+                  [
+                    "kitchen",
+                    "kitchen room"
+                  ],
+                  [
+                    "aroma diffuser",
+                    "diffuser"
+                  ]
+                ],
+                "positive_phrases": [
+                  [
+                    "no aroma diffuser",
+                    "missing",
+                    "not present",
+                    "cannot be applied",
+                    "cannot set lavender"
+                  ]
+                ],
+                "allowed_negative_capability_phrases": [
+                  "no aroma diffuser",
+                  "not present",
+                  "cannot be applied",
+                  "cannot set lavender"
+                ],
+                "conflict_phrases": [
+                  [
+                    "is present",
+                    "exists",
+                    "lavender was applied",
+                    "setting succeeded"
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      },
+      "name": "exactly one missing-device report identifies the kitchen aroma diffuser"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_current_time": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "missing-aroma task leaves every Home device unchanged"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "missing-aroma task creates no schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "missing-aroma task creates no workflow"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bathroom": {
+        "temperature_c": 23.1,
+        "humidity_pct": 55.1,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 38.2,
+        "noise_level_db": 41.6,
+        "occupied": true
+      },
+      "bedroom": {
+        "temperature_c": 23.2,
+        "humidity_pct": 38.8,
+        "brightness_lux": 54.3,
+        "air_quality_pm25": 37.8,
+        "noise_level_db": 25.9,
+        "occupied": false
+      },
+      "dining_room": {
+        "temperature_c": 23.6,
+        "humidity_pct": 44.9,
+        "brightness_lux": 800.0,
+        "air_quality_pm25": 31.6,
+        "noise_level_db": 44.9,
+        "occupied": false
+      },
+      "kitchen": {
+        "temperature_c": 21.1,
+        "humidity_pct": 41.3,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 51.1,
+        "noise_level_db": 58.0,
+        "occupied": true
+      },
+      "living_room": {
+        "temperature_c": 20.7,
+        "humidity_pct": 36.9,
+        "brightness_lux": 235.0,
+        "air_quality_pm25": 45.1,
+        "noise_level_db": 36.8,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bathroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bathroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "bathroom_light_1",
+        "device_type": "light",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 23.0
+        }
+      },
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "bedroom_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "status": "paused",
+          "battery_pct": 96
+        }
+      },
+      {
+        "device_id": "dining_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "dining_room",
+        "state": {
+          "open_pct": 100,
+          "status": "open"
+        }
+      },
+      {
+        "device_id": "dining_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 100
+        }
+      },
+      {
+        "device_id": "dining_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on",
+          "status": "paused",
+          "battery_pct": 56
+        }
+      },
+      {
+        "device_id": "kitchen_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "kitchen",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "kitchen_light_1",
+        "device_type": "light",
+        "room_id": "kitchen",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "kitchen_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "status": "cleaning",
+          "battery_pct": 37
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "mode": "auto",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 20,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 35
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 23.0
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "off"
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

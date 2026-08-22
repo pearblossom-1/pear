@@ -1,0 +1,219 @@
+{
+  "id": "linux_android_1255",
+  "instruction": "Use `/tmp/contacts/role_rule.csv` to choose the north-region dispatch contact on the phone, send that row's message text and message code to the matching Contacts entry, and write `Dispatch Contact Log.md` in Markor with the selected contact, role, region, and message code.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/contacts/role_rule.csv && mkdir -p -- /tmp/contacts",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1255/source/tmp/contacts/role_rule.csv",
+                "path": "/tmp/contacts/role_rule.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Ava Lane",
+            "number": "5551201255",
+            "notes": "role dispatch region north"
+          }
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Ava Lane South",
+            "number": "5551201295",
+            "notes": "role dispatch region south"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Dispatch Contact Log.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/contacts/role_rule.csv; find /tmp/contacts -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Dispatch Contact Log.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201255",
+        "body_contains": [
+          "MSG-1255",
+          "North dispatch window confirmed"
+        ],
+        "require_positive_relation": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201295",
+        "any_body": true,
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Dispatch Contact Log.md",
+        "rules": {
+          "entities": ["Ava Lane", "dispatch", "north", "MSG-1255"],
+          "positive_phrases": ["selected", "confirmed", "dispatch"],
+          "forbidden_entities": ["Ava Lane South", "MSG-0000", "south"],
+          "conflict_phrases": ["wrong", "not selected", "do not send"]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1255",
+    "surfaces": [
+      "contacts",
+      "sms",
+      "markor",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1255",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1255/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1255/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/contacts/role_rule.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/contacts/role_rule.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1241-1260-B0004",
+    "candidate_triage": {
+      "decision": "direct",
+      "rationale": "Candidate is realistic, source-closed, and supported by existing Linux and Android helpers."
+    },
+    "lite_evaluator_hardening_note": "Hidden auxiliary output evaluator(s) removed; scoring remains on visible outcome/state artifacts."
+  }
+}

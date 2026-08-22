@@ -1,0 +1,84 @@
+{
+  "task_id": "linux_android_1037",
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "osmand_favorite_set",
+        "favorites": [
+          {
+            "favorite_name": "Reference Depot",
+            "favorite_lat": 37.7,
+            "favorite_lon": -122.3
+          },
+          {
+            "favorite_name": "North Service Gate",
+            "favorite_lat": 37.7812,
+            "favorite_lon": -122.4018
+          }
+        ],
+        "coordinate_tolerance": 0.0002
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/1037-A_handoff.md",
+        "rules": {
+          "entities": [
+            "1037-A",
+            "Priya Shah",
+            "NX03781",
+            "North Service Gate",
+            [
+              "37.7812",
+              "37.7812° N",
+              "37.7812 N"
+            ],
+            [
+              "-122.4018",
+              "122.4018° W",
+              "122.4018 W"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "added",
+              "saved",
+              "created"
+            ],
+            [
+              "ready",
+              "approved",
+              "complete"
+            ]
+          ],
+          "conflict_phrases": [
+            "not added",
+            "pending",
+            "blocked",
+            "1037-D"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ]
+}

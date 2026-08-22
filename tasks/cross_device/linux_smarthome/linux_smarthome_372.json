@@ -1,0 +1,492 @@
+{
+  "id": "linux_smarthome_372",
+  "instruction": "Use `/tmp/inspection/source-map.png`, `/tmp/inspection/review.txt`, and the live Home readings to identify the current noise source. Write `/tmp/inspection/findings.docx` with the source and room noise reading, plus the washer and living-room robot statuses that rule them out; preserve the displayed Home status labels in the evidence format from the review note.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/inspection/source-map.png /tmp/inspection/review.txt /tmp/inspection/findings.docx && mkdir -p -- /tmp/inspection",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_372/source/tmp/inspection/source-map.png",
+                "path": "/tmp/inspection/source-map.png"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_372/source/tmp/inspection/review.txt",
+                "path": "/tmp/inspection/review.txt"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_372/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/inspection/source-map.png /tmp/inspection/review.txt /tmp/inspection/findings.docx; find /tmp/inspection -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "require_valid_package": true,
+          "entity_relation": {
+            "entities": [
+              [
+                "dryer",
+                "laundry room dryer"
+              ],
+              "laundry room noise",
+              [
+                "63 dB",
+                "63db",
+                "63 decibels"
+              ],
+              "washer",
+              "stopped",
+              "living room robot vacuum",
+              "docked"
+            ],
+            "required_patterns": [
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:laundry\\s+room\\s+)?dryer\\b|\\b(?:laundry\\s+room\\s+)?dryer\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b"
+            ],
+            "conflict_patterns": [
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:laundry\\s+room\\s+)?washer\\b|\\b(?:laundry\\s+room\\s+)?washer\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b",
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:living\\s+room\\s+)?robot\\s+vacuum\\b|\\b(?:living\\s+room\\s+)?robot\\s+vacuum\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b"
+            ],
+            "conflict_phrases": [
+              "dryer is not the source",
+              "source is not the dryer",
+              "source unknown",
+              "source uncertain"
+            ],
+            "allowed_negative_capability_phrases": [
+              "washer is not the source",
+              "robot vacuum is not the source",
+              "living room robot vacuum is not the source"
+            ],
+            "relation_groups": [
+              {
+                "entities": [
+                  "laundry room noise",
+                  [
+                    "63 dB",
+                    "63db",
+                    "63 decibels"
+                  ]
+                ],
+                "allow_multiple_matches": true
+              },
+              {
+                "entities": [
+                  "washer",
+                  "stopped"
+                ],
+                "allow_multiple_matches": true
+              },
+              {
+                "entities": [
+                  "living room robot vacuum",
+                  "docked"
+                ],
+                "allow_multiple_matches": true
+              }
+            ]
+          },
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "name": "valid findings report with bound source and exclusion evidence"
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "require_valid_package": true,
+          "entity_relation": {
+            "entities": [
+              [
+                "dryer",
+                "laundry room dryer"
+              ],
+              [
+                "current noise source",
+                "noise source",
+                "current source"
+              ]
+            ],
+            "required_patterns": [
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:laundry\\s+room\\s+)?dryer\\b|\\b(?:laundry\\s+room\\s+)?dryer\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b"
+            ],
+            "conflict_patterns": [
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:laundry\\s+room\\s+)?washer\\b|\\b(?:laundry\\s+room\\s+)?washer\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b",
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:living\\s+room\\s+)?robot\\s+vacuum\\b|\\b(?:living\\s+room\\s+)?robot\\s+vacuum\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b"
+            ],
+            "conflict_phrases": [
+              "dryer is not the source",
+              "source is not the dryer",
+              "source unknown",
+              "source uncertain"
+            ]
+          },
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "enable_score_calc": false,
+      "name": "current source is bound specifically to the dryer"
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "require_valid_package": true,
+          "entity_relation": {
+            "entities": [
+              "laundry room noise",
+              [
+                "63 dB",
+                "63db",
+                "63 decibels"
+              ]
+            ],
+            "relation_groups": [
+              {
+                "entities": [
+                  "laundry room noise",
+                  [
+                    "63 dB",
+                    "63db",
+                    "63 decibels"
+                  ]
+                ],
+                "allow_multiple_matches": true
+              }
+            ]
+          },
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "enable_score_calc": false,
+      "name": "laundry-room noise is bound to 63 dB"
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "require_valid_package": true,
+          "entity_relation": {
+            "entities": [
+              "washer",
+              "stopped"
+            ],
+            "relation_groups": [
+              {
+                "entities": [
+                  "washer",
+                  "stopped"
+                ],
+                "allow_multiple_matches": true
+              }
+            ]
+          },
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "enable_score_calc": false,
+      "name": "washer status is bound to stopped"
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "require_valid_package": true,
+          "entity_relation": {
+            "entities": [
+              "living room robot vacuum",
+              "docked"
+            ],
+            "relation_groups": [
+              {
+                "entities": [
+                  "living room robot vacuum",
+                  "docked"
+                ],
+                "allow_multiple_matches": true
+              }
+            ]
+          },
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "enable_score_calc": false,
+      "name": "living-room robot vacuum status is bound to docked"
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "require_valid_package": true,
+          "entity_relation": {
+            "entities": [
+              "dryer"
+            ],
+            "conflict_patterns": [
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:laundry\\s+room\\s+)?washer\\b|\\b(?:laundry\\s+room\\s+)?washer\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b",
+              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:living\\s+room\\s+)?robot\\s+vacuum\\b|\\b(?:living\\s+room\\s+)?robot\\s+vacuum\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b"
+            ],
+            "conflict_phrases": [
+              "dryer is not the source",
+              "source is not the dryer",
+              "source unknown",
+              "source uncertain"
+            ]
+          },
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/inspection/findings.docx"
+      },
+      "enable_score_calc": false,
+      "name": "source report contains no contradictory or uncertain claim"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "query-only command history remains empty"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "query-only schedule count remains zero"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "query-only workflow count remains zero"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_372",
+    "surfaces": [
+      "linux.odt_docx",
+      "linux.png",
+      "linux.txt",
+      "smarthome.home_state"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_372",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_372/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_372/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/inspection/source-map.png",
+      "/tmp/inspection/review.txt"
+    ],
+    "linux_output_paths": [
+      "/tmp/inspection/findings.docx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/inspection/source-map.png",
+        "/tmp/inspection/review.txt"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [
+        "/tmp/inspection/findings.docx"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "linux_smarthome",
+      "linux_device": "linux_0",
+      "linux_devices": [
+        "linux_0"
+      ],
+      "room_ids": [
+        "bedroom",
+        "guest_room",
+        "kitchen",
+        "laundry_room",
+        "living_room"
+      ],
+      "device_type_counts": {
+        "air_conditioner": 1,
+        "air_purifier": 2,
+        "curtain": 2,
+        "dehumidifier": 3,
+        "dimmable_light": 1,
+        "dryer": 1,
+        "heater": 3,
+        "humidifier": 1,
+        "light": 2,
+        "robot_vacuum": 3,
+        "washer": 1
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 2,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-16T19:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "surface": "linux.odt_docx",
+        "path": "/tmp/inspection/findings.docx",
+        "goal": "Create or update the task result at this path.",
+        "func": "check_docx_text",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/inspection/source-map.png, /tmp/inspection/review.txt and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the findings DOCX against the map, review note, and live washer and robot-vacuum states.",
+    "idea_number": 372,
+    "coverage_group": "query_image_browser"
+  }
+}

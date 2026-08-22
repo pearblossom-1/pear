@@ -1,0 +1,46 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "androidworld_task_update",
+        "parameters": {
+          "match_title": "Guest Wake follow-up",
+          "match_notes": "Arrange the bedroom humidity recovery for guest wake time, then close this follow-up.",
+          "updates": {
+            "notes": "Bedroom humidifier medium recovery scheduled for 09:35.",
+            "completed": 1
+          }
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_workflow",
+      "parameters": {
+        "workflow_id": "humidity_recovery_439",
+        "run_at": "2026-06-17T09:35:00",
+        "steps": [
+          {
+            "device_id": "bedroom_humidifier_1",
+            "command": "turn_on",
+            "args": {}
+          },
+          {
+            "device_id": "bedroom_humidifier_1",
+            "command": "set_level",
+            "args": {
+              "level": "medium"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

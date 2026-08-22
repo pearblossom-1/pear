@@ -1,0 +1,5 @@
+favorite,room,run_at,light_pct,curtain_pct
+Guest Entrance,guest_room,2026-06-16T20:30:00,60,50
+Office,study,2026-06-16T20:30:00,45,50
+Office,study,2026-06-16T21:00:00,30,25
+Garage Side Door,entry,2026-06-16T20:30:00,20,100

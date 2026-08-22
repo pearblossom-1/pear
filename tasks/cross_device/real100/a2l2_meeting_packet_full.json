@@ -1,0 +1,366 @@
+{
+  "id": "a2l2_meeting_packet_full",
+  "instruction": "Help me connect the meeting materials across four devices. The first phone's Simple Calendar Pro has the meeting details, the second phone's Android Contacts app has the attendees, the first Linux machine has `/tmp/meeting/handoff.txt` with the confirmation reference, and the second Linux machine has `/tmp/meeting/template.docx`. On the second Linux machine, use the local template to create `/tmp/meeting/agenda.docx` and fill its `Title:`, `Time:`, `Location:`, and `Attendees:` fields. Format the time as `YYYY-MM-DD HH:MM-HH:MM` and separate attendee names with commas. Then use Simple SMS Messenger on the second phone to send each attendee a confirmation that identifies the meeting as confirmed and includes the reference code from `/tmp/meeting/handoff.txt`.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {
+    "agenda_docx": "/tmp/meeting/agenda.docx",
+    "sms_body": "Release planning is confirmed. Reference RP-219."
+  },
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Release planning",
+            "start_ts": 1803038400,
+            "end_ts": 1803042000,
+            "location": "Room 9",
+            "description": "Full meeting packet"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Priya Nair",
+            "number": "5550820"
+          }
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Omar Patel",
+            "number": "5550821"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/meeting && mkdir -p /tmp/meeting",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real100_assets/a2l2_meeting_packet_full/source/handoff.txt",
+                "path": "/tmp/meeting/handoff.txt"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/meeting/handoff.txt && test -w /tmp/meeting",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/meeting && mkdir -p /tmp/meeting",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real100_assets/a2l2_meeting_packet_full/source/template.docx",
+                "path": "/tmp/meeting/template.docx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/meeting/template.docx && test -w /tmp/meeting && test ! -e /tmp/meeting/agenda.docx",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/meeting",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/meeting",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "${agenda_docx}"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "Meeting Packet Template",
+            "Release planning",
+            "2027-02-19 12:00-13:00",
+            "Room 9",
+            "Priya Nair",
+            "Omar Patel"
+          ],
+          "exclude": [
+            "[[TITLE]]",
+            "[[TIME]]",
+            "[[LOCATION]]",
+            "[[ATTENDEES]]"
+          ],
+          "require_valid_package": true,
+          "required_members": [
+            "word/styles.xml"
+          ],
+          "min_tables": 1,
+          "min_paragraphs": 5,
+          "case_sensitive": false,
+          "template_structure": {
+            "body_paragraphs": [
+              "Meeting Packet Template",
+              "Complete every field from the authoritative meeting and contact sources.",
+              "Confirmation",
+              "After completing the packet, confirm the meeting with every attendee through the requested channel."
+            ],
+            "exact_tables": 1,
+            "format": {
+              "title": "Meeting Packet Template",
+              "title_min_half_points": 30,
+              "page_orientation": "portrait",
+              "tables": [
+                {
+                  "table_index": 0,
+                  "require_visible_grid": true,
+                  "column_width_ratios": [
+                    0.5,
+                    0.5
+                  ],
+                  "ratio_tolerance": 0.15
+                }
+              ]
+            }
+          },
+          "table_contracts": [
+            {
+              "table_index": 0,
+              "exact_rows": true,
+              "exact_columns": true,
+              "rows": [
+                [
+                  "Title:",
+                  "Release planning"
+                ],
+                [
+                  "Time:",
+                  "2027-02-19 12:00-13:00"
+                ],
+                [
+                  "Location:",
+                  "Room 9"
+                ],
+                [
+                  "Attendees:",
+                  {
+                    "csv_set": [
+                      "Priya Nair",
+                      "Omar Patel"
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550820",
+        "body_relation": {
+          "entities": [
+            "Release planning",
+            "RP-219"
+          ],
+          "positive_phrases": [
+            "confirmed",
+            "confirmation is complete",
+            "confirmation complete",
+            "successfully confirmed"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550821",
+        "body_relation": {
+          "entities": [
+            "Release planning",
+            "RP-219"
+          ],
+          "positive_phrases": [
+            "confirmed",
+            "confirmation is complete",
+            "confirmation complete",
+            "successfully confirmed"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 36,
+    "max_wall_time_s": 360
+  },
+  "metadata": {
+    "category": "real100_cross_device",
+    "source_card": "096",
+    "difficulty": "Medium",
+    "motif": "M3",
+    "surfaces": "android_0 Simple Calendar Pro + android_1 Android Contacts app + linux_0 handoff -> linux_1 local DOCX template/output + android_1 Simple SMS Messenger",
+    "setup_note": "android_0 写 Calendar；android_1 写 Contacts 并清空 sent；linux_0 上传 confirmation handoff；linux_1 上传本地 template 并清理 agenda；Linux 输入均做可读/可写 preflight。",
+    "evaluate_note": "Checks the material visible template structure and completed field table in agenda.docx, with attendee order treated as immaterial, plus one declarative confirmation to each attendee containing the meeting identity and RP-219 reference.",
+    "device_topology": "2A+2L",
+    "implementation_status": "real_evaluator",
+    "readiness": "R1_native_real_fixture",
+    "cross_device_checks": [
+      "linux_1_agenda_and_android_1_sms_confirm_full_meeting_packet"
+    ],
+    "asset_source": "tasks/cross_device/real100_assets/a2l2_meeting_packet_full/source",
+    "lite_evaluator_hardening_note": "The DOCX template is local to linux_1, while linux_0 contributes the unique RP-219 handoff. The output must retain the template's visible structure and completed field table. SMS state is cleared during setup instead of using a brittle five-minute window; each intended recipient must have a declarative, non-uncertain confirmation binding Release planning to RP-219."
+  }
+}

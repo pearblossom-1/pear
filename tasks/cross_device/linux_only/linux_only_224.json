@@ -1,0 +1,234 @@
+{
+  "id": "linux_only_224",
+  "instruction": "Create `/tmp/routes/dispatch.xlsx` on the second Linux machine by joining the route table on the first machine with `address_book.csv` on the second. Include stop order, address, contact, and status. Use `ready` for an active contact, `blocked_contact` for an inactive contact, and `missing_address` when the route's site is absent from the address book.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/routes && rm -f /tmp/routes/route_table.csv",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_224/source/linux_0/tmp/routes/route_table.csv",
+                "path": "/tmp/routes/route_table.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/routes && rm -f /tmp/routes/address_book.csv",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_224/source/linux_1/tmp/routes/address_book.csv",
+                "path": "/tmp/routes/address_book.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/routes/dispatch.xlsx",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/routes/route_table.csv",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/routes/address_book.csv",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/routes/dispatch.xlsx",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Create the exact three-row dispatch table with canonical or declared alias headers",
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/routes/dispatch.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "logical_table": {
+            "headers": [
+              "stop",
+              "address",
+              "contact",
+              "status"
+            ],
+            "header_aliases": {
+              "stop": [
+                "Stop order"
+              ]
+            },
+            "rows": [
+              [
+                "Stop 03",
+                "44 North Pier",
+                "Nia Cross",
+                "ready"
+              ],
+              [
+                "Stop 06",
+                "",
+                "",
+                "missing_address"
+              ],
+              [
+                "Stop 08",
+                "9 South Yard",
+                "Inactive Rex",
+                "blocked_contact"
+              ]
+            ],
+            "order_sensitive": false,
+            "allow_auxiliary_sheets": [
+              "Notes"
+            ],
+            "allow_column_reordering": true
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/routes/dispatch.xlsx"
+      }
+    },
+    {
+      "name": "Preserve route_table.csv byte for byte",
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/routes/route_table.csv",
+        "trusted_root": "/tmp/routes",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "f77d7f2fa027724da439d285357927ba9d36576ec420863a7d759991f2e6af0c"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Preserve address_book.csv byte for byte",
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/routes/address_book.csv",
+        "trusted_root": "/tmp/routes",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "99404bd6f05fc01f1ef44eedeb9fdea6e15b83dfd46fa33f245d590403cf2338"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "linux_only",
+    "device_topology": "2linux",
+    "surfaces": [
+      "csv",
+      "xlsx"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_224",
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/routes/route_table.csv"
+      ],
+      "linux_1": [
+        "/tmp/routes/address_book.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/routes/dispatch.xlsx"
+      ]
+    },
+    "setup_note": "Generated setup configures linux_0 and linux_1 from visible Linux sources.",
+    "evaluate_note": "The active logical-table matcher accepts canonical or explicitly declared alias headers after case/whitespace normalization, closes the three rows, and preserves both CSV sources.",
+    "source_number": 224,
+    "candidate_triage": {
+      "batch_id": "plan6-linux-only-dual-linux-B0001",
+      "decision": "repair",
+      "rationale": "The two visible CSV sources are joined into a real XLSX dispatch workbook with explicit status policy."
+    },
+    "oracle_ref": "tasks/cross_device/linux_only_assets/linux_only_224/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/linux_only_assets/linux_only_224/episode_config.json",
+    "lite_evaluator_hardening_note": "XLSX evaluator parses headers and required row content, allowing column order variation."
+  }
+}

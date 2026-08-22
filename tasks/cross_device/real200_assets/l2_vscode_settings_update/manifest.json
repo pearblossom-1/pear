@@ -1,0 +1,92 @@
+{
+  "task_id": "l2_vscode_settings_update",
+  "source_card": "117",
+  "device_topology": "2L",
+  "difficulty": "Medium",
+  "motif": "M3",
+  "interaction_mode": "GUI-focused",
+  "instruction": "`/tmp/code/settings.md` on the first Linux machine lists the VSCode workspace settings keys and values that need updating. Please open `/tmp/code/project/` in VSCode on the second Linux machine and update the workspace settings according to settings.md.",
+  "surfaces": "linux_0 rule -> linux_1 VSCode settings",
+  "setup_note": "linux_0 上传 settings request；linux_1 上传 VSCode workspace。",
+  "evaluate_note": "检查 workspace settings.json 的三个目标设置。",
+  "requires_helper_audit": false,
+  "source_files": [
+    "source/settings.md",
+    "source/project/README.txt",
+    "source/project/.vscode/settings.json"
+  ],
+  "expected_files": [],
+  "instruction_visible_inputs": [
+    {
+      "path": "/tmp/code/settings.md",
+      "source_file": "source/settings.md"
+    },
+    {
+      "path": "/tmp/code/project/README.txt",
+      "source_file": "source/project/README.txt"
+    },
+    {
+      "path": "/tmp/code/project/.vscode/settings.json",
+      "source_file": "source/project/.vscode/settings.json"
+    }
+  ],
+  "instruction_visible_outputs": [],
+  "native_content_outputs": [
+    {
+      "device_id": "linux_1",
+      "path": "/tmp/code/project/.vscode/settings.json",
+      "func": "check_json",
+      "expected_file": null,
+      "rules": {
+        "expect": [
+          {
+            "key": [
+              "python.testing.pytestEnabled"
+            ],
+            "method": "eq",
+            "ref": true
+          },
+          {
+            "key": [
+              "editor.formatOnSave"
+            ],
+            "method": "eq",
+            "ref": true
+          },
+          {
+            "key": [
+              "files.exclude",
+              "**/__pycache__"
+            ],
+            "method": "eq",
+            "ref": true
+          }
+        ],
+        "unexpect": [
+          {
+            "key": [
+              "python.testing.pytestEnabled"
+            ],
+            "method": "eq",
+            "ref": false
+          },
+          {
+            "key": [
+              "editor.formatOnSave"
+            ],
+            "method": "eq",
+            "ref": false
+          }
+        ]
+      }
+    }
+  ],
+  "android_state_outputs": [],
+  "android_file_outputs": [],
+  "android_text_outputs": [],
+  "browser_state_outputs": [],
+  "thunderbird_draft_outputs": [],
+  "fixture_notes": [
+    "settings.md names the exact keys and values to apply."
+  ]
+}

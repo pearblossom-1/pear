@@ -1,0 +1,223 @@
+{
+  "id": "linux_android_1289",
+  "instruction": "Check `/tmp/music/required_tracks.csv` against the Retro Music library. If an exact required track is unavailable, do not create the requested playlist; write the missing track and any near match clearly in `/storage/emulated/0/Documents/Markor/Blue Harbor Set gap.md`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/music/required_tracks.csv && mkdir -p -- /tmp/music",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1289/source/tmp/music/required_tracks.csv",
+                "path": "/tmp/music/required_tracks.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/music/required_tracks.csv && grep -F 'Blue Harbor Set,Blue Harbor Extended' /tmp/music/required_tracks.csv >/dev/null && grep -F 'Blue Harbor Set,Last Light' /tmp/music/required_tracks.csv >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "retro music"
+          }
+        },
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for name in 'Blue Harbor.mp3' 'Blue Harbor Extended.mp3' 'Last Light.mp3'; do rm -f \"/sdcard/Music/$name\"; content delete --uri content://media/external/audio/media --where \"_display_name='$name' AND relative_path='Music/'\" >/dev/null 2>&1 || true; done; rm -f '/storage/emulated/0/Documents/Markor/Blue Harbor Set gap.md'"
+          }
+        },
+        {
+          "type": "androidworld_mp3_push",
+          "parameters": {
+            "songs": [
+              "Blue Harbor",
+              "Last Light"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_playlist_add",
+          "parameters": {
+            "playlist_name": "Blue Harbor Library",
+            "songs": [
+              "Blue Harbor",
+              "Last Light"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_music_library_preflight",
+          "parameters": {
+            "songs": ["Blue Harbor", "Last Light"],
+            "forbidden_songs": ["Blue Harbor Extended"],
+            "forbidden_playlist_names": ["Blue Harbor Set"],
+            "required_playlist": {
+              "name": "Blue Harbor Library",
+              "songs": ["Blue Harbor", "Last Light"]
+            }
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "markor"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/music/required_tracks.csv; find /tmp/music -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for name in 'Blue Harbor.mp3' 'Blue Harbor Extended.mp3' 'Last Light.mp3'; do rm -f \"/sdcard/Music/$name\"; content delete --uri content://media/external/audio/media --where \"_display_name='$name' AND relative_path='Music/'\" >/dev/null 2>&1 || true; done; rm -f '/storage/emulated/0/Documents/Markor/Blue Harbor Set gap.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Blue Harbor Set gap.md",
+        "rules": {
+          "entities": ["Blue Harbor Set", "Blue Harbor Extended"],
+          "required_phrases": [["missing", "unavailable", "not available"]],
+          "positive_phrases": ["blocked", "was not created", "playlist was not created", "playlist not created", "do not create", "remains uncreated", "creation is blocked"],
+          "conflict_phrases": ["not missing", "an exact match was found", "the exact match was found", "exact required track was found", "is the exact required track", "is an exact match", "playlist was created", "playlist created", "created using", "ready"],
+          "allowed_negative_capability_phrases": ["not available", "was not created", "playlist not created", "do not create", "not an exact match", "not the exact required track"],
+          "nearest_relations": [
+            {
+              "anchor": ["near match", "near-match", "similar track", "similar title", "closest available track", "available near match", "available"],
+              "expected": ["Blue Harbor"],
+              "forbidden": ["Blue Harbor Extended"],
+              "max_distance": 12,
+              "same_clause": true
+            }
+          ],
+          "reject_incomplete_semantics": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "retro_music_playlist",
+        "playlist_name": "Blue Harbor Set"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1289",
+    "surfaces": [
+      "retro_music",
+      "markor",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1289",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1289/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1289/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/music/required_tracks.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/music/required_tracks.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1281-1300-B0006",
+    "candidate_triage": {
+      "decision": "repair",
+      "rationale": "Near-match Retro task scores durable gap note/report plus a narrow missing-playlist check."
+    },
+    "structured_output_classification": {
+      "native_playlist_absence": "primary_native_state"
+    },
+    "lite_evaluator_hardening_note": "Scores the exact task-owned polarity-aware gap note and the missing requested playlist; task MP3 and MediaStore state are narrowly reset."
+  }
+}

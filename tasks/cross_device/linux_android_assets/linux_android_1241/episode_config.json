@@ -1,0 +1,83 @@
+{
+  "task_id": "linux_android_1241",
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event",
+        "title": "Ops Planning Sync",
+        "start_ts": 1785227400,
+        "end_ts": 1785229200,
+        "location": "Pier 3 Room B"
+      },
+      "expected": {"type": "rule", "rules": {"expected": "present"}}
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201241",
+        "body_contains": ["Ops Planning Sync", "8:30", "Pier 3 Room B"],
+        "require_positive_relation": true
+      },
+      "expected": {"type": "rule", "rules": {"expected": "present"}}
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201242",
+        "body_contains": ["Ops Planning Sync", "8:30", "Pier 3 Room B"],
+        "require_positive_relation": true
+      },
+      "expected": {"type": "rule", "rules": {"expected": "present"}}
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201299",
+        "any_body": true,
+        "exact_count": 0
+      },
+      "expected": {"type": "rule", "rules": {"expected": "present"}}
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_csv_semantic_records",
+      "result": {"type": "vm_file", "path": "/tmp/meeting/brief_transform_audit.csv"},
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "column_aliases": {
+            "brief_code": [],
+            "calendar_title": [],
+            "attendee_phone": [],
+            "decision": []
+          },
+          "value_aliases": {
+            "decision": {
+              "notified": ["sent", "messaged", "contacted"],
+              "skipped": ["not notified", "not sent", "excluded"]
+            }
+          },
+          "column_order_sensitive": true,
+          "order_sensitive": false,
+          "rows": [
+            {"brief_code": "OPS-PLANNING-1241", "calendar_title": "Ops Planning Sync", "attendee_phone": "5551201241", "decision": "notified"},
+            {"brief_code": "OPS-PLANNING-1241", "calendar_title": "Ops Planning Sync", "attendee_phone": "5551201242", "decision": "notified"},
+            {"brief_code": "OPS-PLANNING-1241", "calendar_title": "Ops Planning Sync", "attendee_phone": "5551201299", "decision": "skipped"}
+          ]
+        }
+      },
+      "metadata": {"path": "/tmp/meeting/brief_transform_audit.csv"}
+    }
+  ]
+}

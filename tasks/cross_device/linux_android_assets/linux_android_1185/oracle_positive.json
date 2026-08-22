@@ -1,0 +1,23 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "5551201185",
+          "body": "MTG-Q3-OPS Q3 Ops Review is confirmed."
+        }
+      },
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "5551201186",
+          "body": "MTG-Q3-OPS Q3 Ops Review is confirmed."
+        }
+      }
+    ]
+  },
+  "notes": "Positive dry-run oracle writes only the requested final artifacts and native state."
+}

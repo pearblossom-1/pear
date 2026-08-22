@@ -1,0 +1,204 @@
+{
+  "id": "a2l_osmand_calc_visit",
+  "instruction": "The first phone's OsmAnd has a `Clinic` favorite, and the second phone's Simple Calendar Pro has the visit time. Please read the favorite name and coordinates from OsmAnd and the visit start time from Calendar, then complete the existing `/tmp/visit/visit.xlsx` template in Linux LibreOffice Calc.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "osmand"
+          }
+        },
+        {
+          "type": "androidworld_osmand_favorites_setup",
+          "parameters": {}
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2l_osmand_calc_visit/source/clinic_favorite.gpx",
+                "path": "/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_osmand_favorites_preflight",
+          "parameters": {
+            "favorites": [
+              {
+                "name": "Clinic",
+                "latitude": "47.151",
+                "longitude": "9.532"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Clinic visit",
+            "start_ts": 1802772000,
+            "end_ts": 1802775600,
+            "location": "Clinic",
+            "description": "Visit time for Clinic"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/visit",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2l_osmand_calc_visit/source/visit.xlsx",
+                "path": "/tmp/visit/visit.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx /data/data/net.osmand/files/favourites_bak.gpx"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/visit/visit.xlsx /tmp/visit/.~lock.visit.xlsx#; rmdir /tmp/visit 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/visit/visit.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "logical_table": {
+            "headers": ["Name", "Coordinates", "Visit Time"],
+            "rows": [["Clinic", "47.151, 9.532", "2027-02-16 10:00"]],
+            "coordinate_columns": {
+              "Coordinates": {
+                "latitude": 47.151,
+                "longitude": 9.532,
+                "tolerance": 0.00001
+              }
+            },
+            "value_aliases": {
+              "Visit Time": {
+                "2027-02-16 10:00": [
+                  "2/16/2027 10:00 AM",
+                  "02/16/2027 10:00 AM",
+                  "2027-02-16T10:00",
+                  "2027-02-16T10:00:00",
+                  "2027-02-16 10:00:00"
+                ]
+              }
+            },
+            "order_sensitive": false
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "real300_cross_device",
+    "source_card": "a2l",
+    "difficulty": "Simple",
+    "motif": "M2",
+    "interaction_mode": "Hybrid",
+    "device_topology": "A+A+L",
+    "surfaces": "android_0 OsmAnd + android_1 Simple Calendar Pro -> Linux Calc",
+    "setup_note": "android_0 预置并在 OsmAnd GUI 中预检 Clinic favorite；android_1 写 2027-02-16 10:00 Calendar event；Linux 预置含 Name/Coordinates/Visit Time 表头的可编辑 XLSX template。",
+    "evaluate_note": "在整个 workbook 中查找唯一、可见的逻辑输出表；要求保留三个 template 表头并恰好填写一行 Clinic。坐标按 lat/lon 角色和 0.00001 容差解析，Visit Time 接受列出的等价日期时间格式。",
+    "readiness": "R1_native_ready",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "func": "check_xlsx_cells",
+        "path": "/tmp/visit/visit.xlsx",
+        "result_type": "vm_file"
+      }
+    ]
+  }
+}

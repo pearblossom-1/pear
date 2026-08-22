@@ -1,0 +1,30 @@
+{
+  "android_setup": {
+    "android_1": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /sdcard/Music/Export && cp /sdcard/Music/north_loop.mp3 /sdcard/Music/Export/north_loop.mp3"
+        }
+      },
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /sdcard/Music/Export && cp /sdcard/Music/bridge_check.mp3 /sdcard/Music/Export/bridge_check.mp3"
+        }
+      },
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "rm -f /sdcard/Music/Export/missing_song.mp3"
+        }
+      },
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Music export report.md' <<'EOF'\nnorth_loop.mp3: copied\nbridge_check.mp3: copied\nmissing_song.mp3: missing\nEOF"
+        }
+      }
+    ]
+  }
+}

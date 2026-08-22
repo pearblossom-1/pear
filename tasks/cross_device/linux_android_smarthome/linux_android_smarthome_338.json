@@ -1,0 +1,327 @@
+{
+  "id": "linux_android_smarthome_338",
+  "instruction": "Prepare the bedroom for tonight's guest using `/tmp/home_ops/status-reports/source/coordination_note.txt`, the existing `Evening Prep Snack` recipe in Broccoli on the first phone, and the incomplete `Bedroom lighting` item in Tasks on the second phone. Rename the saved recipe to `Evening Guest Snack` and add the guest's requested tea accompaniment without changing its directions or preparation time. Set the bedroom light to the requested level, then complete the existing `Bedroom lighting` task with a brief note stating that the bedroom light was set to 55%. Do not create duplicate recipes or tasks.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/home_ops/status-reports/source",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338/source/tmp/home_ops/status-reports/source/coordination_note.txt",
+                "path": "/tmp/home_ops/status-reports/source/coordination_note.txt"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "broccoli app"
+          }
+        },
+        {
+          "type": "androidworld_recipes_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_recipe_add",
+          "parameters": {
+            "title": "Evening Prep Snack",
+            "ingredients": "tea; crackers",
+            "directions": "Prepare while the room is set up.",
+            "preparationTime": "20 minutes"
+          }
+        },
+        {
+          "type": "androidworld_broccoli_recipe_preflight",
+          "parameters": {
+            "recipe": {
+              "title": "Evening Prep Snack",
+              "ingredients": "tea; crackers",
+              "directions": "Prepare while the room is set up.",
+              "preparationTime": "20 minutes"
+            },
+            "required_visible_text": [
+              "Evening Prep Snack",
+              "tea",
+              "crackers",
+              "Prepare while the room is set up.",
+              "20 minutes"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_recipe_identity_snapshot",
+          "parameters": {
+            "snapshot_id": "evening_prep_snack_338",
+            "title": "Evening Prep Snack",
+            "ingredients": "tea; crackers",
+            "directions": "Prepare while the room is set up.",
+            "preparationTime": "20 minutes"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_task_add",
+          "parameters": {
+            "title": "Bedroom lighting",
+            "notes": "Set the dimmable light to 55 percent before marking lighting done.",
+            "dueDate": 0,
+            "completed": 0
+          }
+        },
+        {
+          "type": "androidworld_task_record_preflight",
+          "parameters": {
+            "task": {
+              "title": "Bedroom lighting",
+              "notes": "Set the dimmable light to 55 percent before marking lighting done.",
+              "completed": 0
+            },
+            "required_visible_text": [
+              "Bedroom lighting",
+              "55 percent"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_task_identity_snapshot",
+          "parameters": {
+            "snapshot_id": "bedroom_lighting_338",
+            "title": "Bedroom lighting",
+            "notes": "Set the dimmable light to 55 percent before marking lighting done."
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/home_ops/status-reports/source/coordination_note.txt; rmdir /tmp/home_ops/status-reports/source 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_recipes_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_recipe_set",
+        "recipes": [
+          {
+            "title": "Evening Guest Snack",
+            "ingredients": "tea; crackers; lemon",
+            "directions": "Prepare while the room is set up.",
+            "preparationTime": "20 minutes"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_recipe",
+        "title": "Evening Guest Snack",
+        "ingredients": "tea; crackers; lemon",
+        "ingredients_match": "exact",
+        "directions": "Prepare while the room is set up.",
+        "preparationTime": "20 minutes",
+        "identity_snapshot": "evening_prep_snack_338",
+        "require_exactly_one": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task",
+        "title": "Bedroom lighting",
+        "completed": true,
+        "identity_snapshot": "bedroom_lighting_338",
+        "require_exactly_one": true,
+        "notes_relation": {
+          "entities": [
+            [
+              "55%",
+              "55 percent"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "applied",
+              "complete",
+              "done",
+              "set"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "not applied",
+            "not set"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "bedroom_dimmable_light_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "brightness_pct": 55
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Dual Android coordination variant 338.",
+    "surfaces": [
+      "android_dual",
+      "recipe",
+      "tasks",
+      "linux_text",
+      "home_command"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/home_ops/status-reports/source/coordination_note.txt"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/home_ops/status-reports/source/coordination_note.txt"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "pilot_index": 338
+  }
+}

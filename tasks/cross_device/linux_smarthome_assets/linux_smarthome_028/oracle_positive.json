@@ -1,0 +1,15 @@
+{
+  "linux_actions": [],
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.cancel_schedule",
+      "parameters": {
+        "schedule_id": "late_vacuum"
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

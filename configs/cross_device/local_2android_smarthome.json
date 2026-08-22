@@ -1,0 +1,60 @@
+{
+  "devices": {
+    "android_0": {
+      "runtime": {
+        "adb_serial": "emulator-5554",
+        "grpc_port": 8554,
+        "require_prelaunched": true
+      },
+      "observation": {
+        "screenshot": true,
+        "ui_elements": true,
+        "forest": false
+      },
+      "action_space": [
+        "android.json_action"
+      ]
+    },
+    "android_1": {
+      "runtime": {
+        "adb_serial": "emulator-5556",
+        "grpc_port": 8555,
+        "require_prelaunched": true
+      },
+      "observation": {
+        "screenshot": true,
+        "ui_elements": true,
+        "forest": false
+      },
+      "action_space": [
+        "android.json_action"
+      ]
+    },
+    "home_0": {
+      "runtime": {},
+      "observation": {
+        "state": true
+      },
+      "action_space": [
+        "smarthome.command",
+        "smarthome.schedule_command",
+        "smarthome.cancel_schedule",
+        "smarthome.get_home_state",
+        "smarthome.get_room_state",
+        "smarthome.get_device_state",
+        "smarthome.get_devices",
+        "smarthome.list_rooms",
+        "smarthome.list_devices",
+        "smarthome.list_schedules",
+        "smarthome.get_device_capabilities",
+        "smarthome.get_device_attribute",
+        "smarthome.schedule_workflow",
+        "smarthome.cancel_workflow",
+        "smarthome.list_workflows",
+        "smarthome.get_workflow_status",
+        "smarthome.report_answer",
+        "smarthome.report_infeasible"
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "task_id": "linux_only_300",
+  "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_300",
+  "oracle_ref": "tasks/cross_device/linux_only_assets/linux_only_300/oracle_positive.json",
+  "episode_config_ref": "tasks/cross_device/linux_only_assets/linux_only_300/episode_config.json",
+  "review_metadata": {
+    "source_asset_kind": "inspection_photos",
+    "approved_sources": [
+      "case18.jpg",
+      "case21.jpg"
+    ],
+    "rejected_sources": [
+      "case99.jpg"
+    ],
+    "output_kind": "labeled_contact_sheet"
+  }
+}

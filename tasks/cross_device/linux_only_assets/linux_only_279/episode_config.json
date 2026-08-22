@@ -1,0 +1,60 @@
+{
+  "task_id": "linux_only_279",
+  "eval": [
+    {
+      "name": "Create one plain-text missing-evidence request draft to only the west lead",
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nimport re\nfrom email import policy\nfrom email.parser import BytesParser\nfrom email.utils import getaddresses\nfrom pathlib import Path\ntry:\n    msg = BytesParser(policy=policy.default).parsebytes(Path('/tmp/site/missing_evidence.eml').read_bytes())\n    addresses = lambda field: {address.casefold() for _, address in getaddresses(msg.get_all(field, [])) if address}\n    to_addresses = addresses('to')\n    cc_addresses = addresses('cc')\n    bcc_addresses = addresses('bcc')\n    subject = re.sub(r'\\s+', ' ', str(msg.get('subject', '')).casefold()).strip()\n    subject_ok = (re.search(r'\\bmissing\\b', subject) and re.search(r'\\bevidence\\b', subject)) or (re.search(r'\\bevidence\\b', subject) and re.search(r'\\brequest\\b', subject))\n    if msg.is_multipart():\n        parts = [str(part.get_content()) for part in msg.walk() if part.get_content_type() == 'text/plain' and part.get_content_disposition() != 'attachment']\n        if not parts:\n            raise ValueError('plain text body missing')\n        body = ' '.join(parts)\n    else:\n        if msg.get_content_type() != 'text/plain':\n            raise ValueError('html-only body')\n        body = str(msg.get_content())\n    body = re.sub(r'\\s+', ' ', body.casefold()).strip()\n    ids = set(re.findall(r'(?<![a-z0-9-])ev-\\d+(?![a-z0-9-])', body))\n    near = lambda left, right: re.search(rf'(?:{left}.{{0,80}}{right}|{right}.{{0,80}}{left})', body) is not None\n    request_intent = re.search(r'\\b(?:request|provide|send|supply|attach|share)\\b', body) is not None\n    forbidden = re.search(r\"\\b(?:do\\s+not|don't)\\s+(?:send|provide|supply|attach|share)\\b|\\bno\\s+need\\b|\\balready\\s+(?:present|provided|supplied)\\b|\\b(?:request\\s+)?(?:withdrawn|cancelled|canceled)\\b|\\b(?:uncertain|unsure|not\\s+sure)\\b.{0,32}\\b(?:needed|required)\\b\", body) is not None\n    ok = to_addresses == {'field-review@example.test'} and not cc_addresses and not bcc_addresses\n    ok = ok and bool(subject_ok) and ids == {'ev-17', 'ev-22'}\n    ok = ok and near(r'ev-17', r'photo') and near(r'ev-22', r'signed\\s+form')\n    ok = ok and request_intent and not forbidden\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "metadata": {
+        "path": "/tmp/site/missing_evidence.eml"
+      }
+    },
+    {
+      "name": "Preserve missing_evidence.csv byte for byte",
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/site/missing_evidence.csv",
+        "trusted_root": "/tmp/site",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "ab0d264bef9fab44c6f016876b2be7caa96259349180c9b95e81c1af08d89d62"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Preserve team.json byte for byte",
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/site/team.json",
+        "trusted_root": "/tmp/site",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0deac9d594b23cde72b6805ef104dcee174f6e842f7b0179b016cd973481fb31"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ]
+}

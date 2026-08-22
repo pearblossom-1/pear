@@ -1,0 +1,375 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 1000,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1250,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/capability/board.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_1000/source/linux_1/tmp/capability/board.xlsx",
+          "allowed_changes": [
+            "Board!C2",
+            "Board!D2",
+            "Board!E2",
+            "Board!F2",
+            "Board!G2",
+            "Board!C3",
+            "Board!D3",
+            "Board!E3",
+            "Board!F3",
+            "Board!G3",
+            "Board!C4",
+            "Board!D4",
+            "Board!E4",
+            "Board!F4",
+            "Board!G4",
+            "Board!C5",
+            "Board!D5",
+            "Board!E5",
+            "Board!F5",
+            "Board!G5"
+          ],
+          "preserve_layout": true,
+          "sheet": "Board",
+          "cells": {
+            "F2": "Execute",
+            "F3": "Execute",
+            "F4": "Unsupported",
+            "F5": "Readonly"
+          },
+          "cell_rules": {
+            "C2": {
+              "semantic_text_one_of": [
+                "set_open_pct supported",
+                "open percentage writable",
+                "curtain supports open_pct",
+                "curtain supports open percentage"
+              ]
+            },
+            "D2": {
+              "semantic_text_one_of": [
+                "approved",
+                "writable request",
+                "approved writable request"
+              ]
+            },
+            "E2": {
+              "semantic_text_one_of": [
+                "live open_pct 10",
+                "current curtain 10%",
+                "current curtain is 10% open",
+                "live curtain open percentage 10"
+              ]
+            },
+            "G2": {
+              "semantic_text_one_of": [
+                "open_pct 50",
+                "50% open",
+                "curtain 50% open"
+              ]
+            },
+            "C3": {
+              "semantic_text_one_of": [
+                "set_target_temperature supported",
+                "target temperature supported via AC",
+                "air conditioner supports target temperature"
+              ]
+            },
+            "D3": {
+              "semantic_text_one_of": [
+                "approved fallback device",
+                "approved direct AC request",
+                "approved direct air conditioner request"
+              ]
+            },
+            "E3": {
+              "semantic_text_one_of": [
+                "living AC available",
+                "air conditioner present",
+                "living room air conditioner present"
+              ]
+            },
+            "G3": {
+              "semantic_text_one_of": [
+                "target 23",
+                "23 C target",
+                "target temperature 23 C"
+              ]
+            },
+            "C4": {
+              "semantic_text_one_of": [
+                "unsupported on plain light",
+                "brightness unsupported on plain light",
+                "brightness unsupported on basic light",
+                "no dimming capability",
+                "basic light does not support brightness"
+              ]
+            },
+            "D4": {
+              "semantic_text_one_of": [
+                "approved but unsupported",
+                "approved request but unsupported capability",
+                "policy approved but capability unsupported"
+              ]
+            },
+            "E4": {
+              "semantic_text_one_of": [
+                "no dimming capability",
+                "entry light is basic on-off only",
+                "entry basic light only supports on and off"
+              ]
+            },
+            "G4": {
+              "semantic_text_one_of": [
+                "off",
+                "unchanged off",
+                "remains off"
+              ]
+            },
+            "C5": {
+              "semantic_text_one_of": [
+                "battery is read-only",
+                "battery telemetry not writable",
+                "battery is readonly"
+              ]
+            },
+            "D5": {
+              "semantic_text_one_of": [
+                "never write read-only telemetry",
+                "read-only observation",
+                "policy prohibits telemetry writes"
+              ]
+            },
+            "E5": {
+              "semantic_text_one_of": [
+                "live battery 18",
+                "battery currently 18%",
+                "current battery is 18 percent"
+              ]
+            },
+            "G5": {
+              "semantic_text_one_of": [
+                "battery 18",
+                "18%",
+                "battery remains 18%"
+              ]
+            }
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/capability/board.xlsx"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "office_curtain_1": {
+                "open_pct": 50
+              },
+              "living_room_air_conditioner_1": {
+                "power": "on",
+                "target_temperature_c": 23
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-07-15T14:00:00",
+    "rooms": {
+      "dining_room": {
+        "temperature_c": 26.0,
+        "humidity_pct": 48.2,
+        "brightness_lux": 400.0,
+        "air_quality_pm25": 50.3,
+        "noise_level_db": 42.0,
+        "occupied": false
+      },
+      "kids_room": {
+        "temperature_c": 24.5,
+        "humidity_pct": 43.4,
+        "brightness_lux": 240.0,
+        "air_quality_pm25": 48.6,
+        "noise_level_db": 38.3,
+        "occupied": true
+      },
+      "living_room": {
+        "temperature_c": 26.4,
+        "humidity_pct": 54.1,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 30.5,
+        "noise_level_db": 40.5,
+        "occupied": true
+      },
+      "office": {
+        "temperature_c": 23.4,
+        "humidity_pct": 54.0,
+        "brightness_lux": 60.0,
+        "air_quality_pm25": 31.3,
+        "noise_level_db": 42.0,
+        "occupied": true
+      },
+      "entry": {
+        "temperature_c": 22.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 30.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "dining_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on",
+          "mode": "heat",
+          "target_temperature_c": 21.0
+        }
+      },
+      {
+        "device_id": "dining_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "dining_room",
+        "state": {
+          "open_pct": 0,
+          "status": "closed"
+        }
+      },
+      {
+        "device_id": "dining_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 80
+        }
+      },
+      {
+        "device_id": "dining_room_light_1",
+        "device_type": "light",
+        "room_id": "dining_room",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "dining_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "dining_room",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 94
+        }
+      },
+      {
+        "device_id": "entry_light_1",
+        "device_type": "light",
+        "room_id": "entry",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "kids_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "kids_room",
+        "state": {
+          "open_pct": 80,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "kids_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "kids_room",
+        "state": {
+          "power": "off",
+          "brightness_pct": 0
+        }
+      },
+      {
+        "device_id": "kids_room_heater_1",
+        "device_type": "heater",
+        "room_id": "kids_room",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "kids_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "kids_room",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "mode": "heat",
+          "target_temperature_c": 20
+        }
+      },
+      {
+        "device_id": "office_curtain_1",
+        "device_type": "curtain",
+        "room_id": "office",
+        "state": {
+          "open_pct": 10,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "office_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "office",
+        "state": {
+          "power": "on",
+          "status": "docked",
+          "battery_pct": 18
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

@@ -1,0 +1,554 @@
+{
+  "id": "android_smarthome_846",
+  "instruction": "The first phone has a message record indicating that a success reply was sent too early, and the current rollback policy in Files on the second phone says the change must be rolled back quietly. Correct Home, cancel the mistaken repeat plan, and create an incomplete Tasks item titled `Rollback correction result` explaining the premature success record, the rollback policy, and the corrections. Do not send any new SMS.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "5550846",
+            "body": "Success reply sent: scene bright boost completed.",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "androidworld_sms_message_preflight",
+          "parameters": {
+            "message": {
+              "box": "inbox",
+              "address": "5550846",
+              "body": "Success reply sent: scene bright boost completed.",
+              "require_exactly_one_for_address": true
+            },
+            "required_visible_text": [
+              "Success reply sent",
+              "scene bright boost completed"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_846/android/android_1/files/rollback_policy.csv",
+                "path": "/storage/emulated/0/Download/home/rollback_policy.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/storage/emulated/0/Download/home",
+            "expected_filenames": [
+              "rollback_policy.csv"
+            ],
+            "open_filename": "rollback_policy.csv",
+            "required_visible_text": [
+              "living room dimmable light",
+              "off",
+              "quiet rollback"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_task_add",
+          "parameters": {
+            "title": "MDCBench Tasks backend sentinel 846",
+            "notes": "Temporary backend health check.",
+            "dueDate": 0,
+            "completed": 0
+          }
+        },
+        {
+          "type": "androidworld_task_record_preflight",
+          "parameters": {
+            "task": {
+              "title": "MDCBench Tasks backend sentinel 846",
+              "notes": "Temporary backend health check.",
+              "dueDate": 0,
+              "completed": 0
+            },
+            "required_visible_text": [
+              "MDCBench Tasks backend sentinel 846",
+              "Temporary backend health check."
+            ]
+          }
+        },
+        {
+          "type": "androidworld_tasks_delete_by_title",
+          "parameters": {
+            "title": "MDCBench Tasks backend sentinel 846"
+          }
+        },
+        {
+          "type": "androidworld_task_backend_preflight",
+          "parameters": {
+            "absent_title": "MDCBench Tasks backend sentinel 846"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_846/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/home/rollback_policy.csv"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_status",
+        "title": "Rollback correction result",
+        "require_exactly_one": true,
+        "completed": false,
+        "notes_relation": {
+          "entities": [
+            [
+              "earlier success message",
+              "success message",
+              "premature success record",
+              "message record"
+            ],
+            [
+              "premature",
+              "too early",
+              "incorrect",
+              "conflicts"
+            ],
+            [
+              "quiet rollback policy",
+              "rollback policy"
+            ],
+            [
+              "living room light",
+              "living-room light"
+            ],
+            [
+              "off",
+              "turned off"
+            ],
+            [
+              "repeat plan",
+              "mistaken plan"
+            ],
+            [
+              "cancelled",
+              "canceled"
+            ],
+            [
+              "correction",
+              "rollback"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "correction applied",
+              "rollback applied",
+              "corrected"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "earlier success message",
+                  "success message",
+                  "premature success record",
+                  "message record"
+                ]
+              ],
+              "phrases": [
+                [
+                  "premature",
+                  "too early",
+                  "incorrect",
+                  "conflicts"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "quiet rollback policy",
+                  "rollback policy"
+                ]
+              ],
+              "phrases": [
+                "quiet"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "living room light",
+                  "living-room light"
+                ],
+                [
+                  "off",
+                  "turned off"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "repeat plan",
+                  "mistaken plan"
+                ],
+                [
+                  "cancelled",
+                  "canceled"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "correction",
+                  "rollback"
+                ]
+              ],
+              "phrases": [
+                [
+                  "applied",
+                  "corrected"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "conflict_phrases": [
+            "pending",
+            "not applied",
+            "light remains on",
+            "light is on",
+            "repeat plan remains active",
+            "plan remains active",
+            "not cancelled",
+            "not canceled",
+            "new success SMS sent"
+          ],
+          "allowed_reversal_terms": [
+            "cancelled",
+            "canceled"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "FOUND"
+        }
+      },
+      "name": "Rollback correction result is one incomplete task with all correction relations bound"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_box_count",
+        "box": "sent",
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the first phone sends no new SMS to any recipient"
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_box_count",
+        "box": "sent",
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the second phone sends no new SMS to any recipient"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "living_room_dimmable_light_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "off",
+            "brightness_pct": 0
+          }
+        }
+      },
+      "name": "living-room dimmable light is rolled back to off and zero brightness"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 0,
+            "match": {
+              "schedule_id": "bad_scene_repeat",
+              "run_at": "2026-06-16T20:30:00",
+              "device_id": "living_room_dimmable_light_1",
+              "command": "set_brightness",
+              "args": {
+                "brightness_pct": 90
+              },
+              "status": "cancelled"
+            }
+          }
+        }
+      },
+      "name": "the sole bad_scene_repeat schedule is fully preserved except for cancellation"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the complete schedule set remains exactly one cancelled record"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "living_room_dimmable_light_1": {
+                "power": "off",
+                "brightness_pct": 0
+              }
+            },
+            "preserve_workflows": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "only the living-room dimmable light final state changes globally"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "living_room_dimmable_light_1",
+                "command": "turn_off",
+                "args": {}
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "direct commands are restricted to semantic turn-off retries"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "rollback creates no workflow"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_846",
+    "surfaces": [
+      "sms",
+      "files",
+      "tasks",
+      "home_state",
+      "home_command",
+      "home_schedule",
+      "two_android",
+      "rollback_repair"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "androidworld_task",
+      "smarthome_device_state",
+      "smarthome_schedules"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "2android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_846",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_846/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_846/oracle_positive.json",
+    "idea_number": 846,
+    "candidate_triage": {
+      "batch_id": "plan5-android-smarthome-369-868-B0024",
+      "decision": "direct",
+      "rationale": "Supported prior-success/current-rollback conflict with Home rollback, invalid schedule cancellation, and no new SMS result."
+    },
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

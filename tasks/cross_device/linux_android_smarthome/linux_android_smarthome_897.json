@@ -1,0 +1,427 @@
+{
+  "id": "linux_android_smarthome_897",
+  "instruction": "Please carry out the approved bedroom comfort fallback requested in the existing Android task. The settings are in `/tmp/bedroom-comfort-fallback/policy/mode_policy.pdf` on one Linux machine, and `/tmp/bedroom-comfort-fallback/register/comfort_order.xlsx` on the other is the record to complete. Apply those settings in SmartHome, update and complete the existing Android task with a short note stating the AC setting, dehumidifier setting, and that the fallback was applied, then save the completed register as `/tmp/bedroom-comfort-fallback/result/comfort_order_done.xlsx`, preserving the workbook and setting its status to `Applied`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/bedroom-comfort-fallback/policy",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_897/source/tmp/bedroom-comfort-fallback/policy/mode_policy.pdf",
+                "path": "/tmp/bedroom-comfort-fallback/policy/mode_policy.pdf"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "nohup evince '/tmp/bedroom-comfort-fallback/policy/mode_policy.pdf' >'/tmp/bedroom-comfort-fallback/policy/mode-policy-evince.log' 2>&1 </dev/null &",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/bedroom-comfort-fallback/register /tmp/bedroom-comfort-fallback/result && rm -f /tmp/bedroom-comfort-fallback/result/comfort_order_done.xlsx",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_897/source/tmp/bedroom-comfort-fallback/register/comfort_order.xlsx",
+                "path": "/tmp/bedroom-comfort-fallback/register/comfort_order.xlsx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "nohup libreoffice --calc '/tmp/bedroom-comfort-fallback/register/comfort_order.xlsx' >'/tmp/bedroom-comfort-fallback/register/comfort-order-calc.log' 2>&1 </dev/null &",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_897/android/android_0/bedroom-comfort.txt",
+                "path": "/storage/emulated/0/Download/bedroom-comfort.txt"
+              }
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_task_add",
+          "parameters": {
+            "title": "Bedroom comfort fallback",
+            "notes": "Update after the SmartHome fallback is applied.",
+            "dueDate": 0,
+            "completed": 0
+          }
+        },
+        {
+          "type": "androidworld_task_identity_snapshot",
+          "parameters": {
+            "snapshot_id": "bedroom_comfort_fallback_897",
+            "title": "Bedroom comfort fallback",
+            "notes": "Update after the SmartHome fallback is applied."
+          }
+        },
+        {
+          "type": "androidworld_task_record_preflight",
+          "parameters": {
+            "task": {
+              "title": "Bedroom comfort fallback",
+              "notes": "Update after the SmartHome fallback is applied.",
+              "completed": 0
+            },
+            "required_visible_text": [
+              "Bedroom comfort fallback",
+              "Update after the SmartHome fallback is applied."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_897/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/bedroom-comfort-fallback/policy/mode_policy.pdf /tmp/bedroom-comfort-fallback/policy/mode-policy-evince.log; rmdir /tmp/bedroom-comfort-fallback/policy 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/bedroom-comfort-fallback/register/comfort_order.xlsx /tmp/bedroom-comfort-fallback/register/comfort-order-calc.log /tmp/bedroom-comfort-fallback/result/comfort_order_done.xlsx; rmdir /tmp/bedroom-comfort-fallback/register /tmp/bedroom-comfort-fallback/result 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/bedroom-comfort.txt"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task",
+        "identity_snapshot": "bedroom_comfort_fallback_897",
+        "title": "Bedroom comfort fallback",
+        "completed": 1,
+        "require_exactly_one": true,
+        "notes_relation": {
+          "entities": [
+            [
+              "AC",
+              "air conditioner"
+            ],
+            [
+              "cool",
+              "cooling"
+            ],
+            [
+              "25 C",
+              "25C",
+              "25 degrees"
+            ],
+            "dehumidifier",
+            [
+              "medium",
+              "moderate"
+            ],
+            [
+              "applied",
+              "completed",
+              "complete"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "applied",
+              "completed",
+              "complete"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "not applied",
+            "not complete",
+            "failed"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "AC",
+                  "air conditioner"
+                ],
+                [
+                  "cool",
+                  "cooling"
+                ],
+                [
+                  "25 C",
+                  "25C",
+                  "25 degrees"
+                ]
+              ]
+            },
+            {
+              "entities": [
+                "dehumidifier",
+                [
+                  "medium",
+                  "moderate"
+                ]
+              ]
+            },
+            {
+              "entities": [
+                [
+                  "applied",
+                  "completed",
+                  "complete"
+                ]
+              ]
+            }
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "bedroom_air_conditioner_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "mode": "cool",
+            "target_temperature_c": 25.0
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "bedroom_dehumidifier_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "level": "medium"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/bedroom-comfort-fallback/result/comfort_order_done.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_897/source/tmp/bedroom-comfort-fallback/register/comfort_order.xlsx",
+          "allowed_changes": [
+            "Sheet1!B2",
+            "Sheet1!C2",
+            "Sheet1!E2"
+          ],
+          "cells": {
+            "A2": "bedroom",
+            "B2": {
+              "alternatives": [
+                "AC cool 25",
+                "cool 25",
+                "cool 25 C",
+                "cool 25C",
+                "25 C",
+                "25C",
+                "25"
+              ]
+            },
+            "C2": {
+              "alternatives": [
+                "dehumidifier medium",
+                "medium dehumidifier",
+                "medium"
+              ]
+            },
+            "E2": "Applied"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/bedroom-comfort-fallback/result/comfort_order_done.xlsx"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Stable fallback for AC humidity task.",
+    "surfaces": [
+      "dual_linux",
+      "linux0_policy",
+      "linux1_register",
+      "android_files",
+      "tasks",
+      "linux_pdf",
+      "linux_xlsx",
+      "home_command"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_897",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_897/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_897/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/bedroom-comfort-fallback/policy/mode_policy.pdf",
+      "/tmp/bedroom-comfort-fallback/register/comfort_order.xlsx"
+    ],
+    "linux_output_paths": [
+      "/tmp/bedroom-comfort-fallback/result/comfort_order_done.xlsx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/bedroom-comfort-fallback/policy/mode_policy.pdf"
+      ],
+      "linux_1": [
+        "/tmp/bedroom-comfort-fallback/register/comfort_order.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/bedroom-comfort-fallback/result/comfort_order_done.xlsx"
+      ]
+    },
+    "pilot_index": 897
+  }
+}

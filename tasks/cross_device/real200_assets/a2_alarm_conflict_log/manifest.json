@@ -1,0 +1,69 @@
+{
+  "task_id": "a2_alarm_conflict_log",
+  "source_card": "109",
+  "device_topology": "2A",
+  "difficulty": "Complex",
+  "motif": "M6",
+  "interaction_mode": "Hybrid",
+  "instruction": "The Clock app on the second phone already has an enabled `Depot preparation` alarm at 07:50 as an early fallback, and it should stay. The first phone's Simple Calendar Pro event gives the actual departure time. Add an enabled `Depot departure` alarm at that calendar time on the second phone. Then write an `Alarm fix` note in Markor on the first phone that summarizes the two-alarm sequence from the preparation fallback to the actual departure, including both alarm labels and times.",
+  "surfaces": "android_0 Simple Calendar Pro + android_1 Clock app -> android_1 Clock app + android_0 Markor",
+  "setup_note": "android_0 creates the actual-departure Calendar event and resets the task-owned `Alarm fix` note; android_1 starts with the enabled 07:50 `Depot preparation` fallback alarm.",
+  "evaluate_note": "Requires both enabled alarm roles to be positively observable and one Markor note relation that connects the 07:50 preparation alarm to the 08:20 actual-departure alarm using natural structured or prose forms.",
+  "requires_helper_audit": false,
+  "source_files": [],
+  "expected_files": [
+    "expected/android_alarm.json",
+    "expected/result.json"
+  ],
+  "instruction_visible_inputs": [],
+  "instruction_visible_outputs": [],
+  "native_content_outputs": [],
+  "android_state_outputs": [
+    {
+      "device_id": "android_1",
+      "result": {
+        "type": "androidworld_alarm",
+        "hour": 7,
+        "minute": 50,
+        "label": "Depot preparation",
+        "enabled": true
+      },
+      "expected": "present"
+    },
+    {
+      "device_id": "android_1",
+      "result": {
+        "type": "androidworld_alarm",
+        "hour": 8,
+        "minute": 20,
+        "label": "Depot departure",
+        "enabled": true
+      },
+      "expected_file": "expected/android_alarm.json"
+    }
+  ],
+  "android_file_outputs": [],
+  "android_text_outputs": [
+    {
+      "device_id": "android_0",
+      "path": "/storage/emulated/0/Documents/Markor/Alarm fix.md",
+      "include": [
+        "Depot preparation",
+        "07:50",
+        "Depot departure",
+        "08:20"
+      ],
+      "relation_notes": "Accepts one entity-bound relation from the preparation alarm label/time to the actual-departure alarm label/time in natural structured, table, arrow, or from/to wording; duplicate or reversed relations fail."
+    }
+  ],
+  "browser_state_outputs": [],
+  "thunderbird_draft_outputs": [],
+  "fixture_notes": [
+    "Android Clock is checked only through reliable positive presence for the retained preparation alarm and added actual-departure alarm",
+    "Android Markor note must relate `Depot preparation` at 07:50 to `Depot departure` at 08:20 as the two requested alarm roles",
+    "Setup does not pre-populate any evaluated note content"
+  ],
+  "cross_device_checks": [
+    "calendar_time_drives_an_additive_departure_alarm_and_two_role_note"
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "task_id": "linux_only_259",
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nimport importlib.util\ntry:\n spec=importlib.util.spec_from_file_location('image_index','/tmp/img/project/index_images.py'); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)\n cases=[\n  ('asset.png',True),('PHOTO.JPG',True),('scan.Jpeg',True),('notes.txt',False),('fake.png.txt',False),('map.gif',False),\n ]\n checks=[module.include(name) is expected for name,expected in cases]\n labels={\n  '/drop/kitchen_400x200.png':'kitchen','/drop/north_gate_640x480.JPG':'north_gate','portrait.jpeg':'portrait',\n  '/drop/archive.photo_123x45.PNG':'archive.photo','site.v2_99x101.jpeg':'site.v2','a.b.c_7x11.jpg':'a.b.c',\n }\n checks += [module.label_for(name)==expected for name,expected in labels.items()]\n rows=[\n  ('north_gate_640x480.JPG',640,480,{'file':'north_gate_640x480.JPG','width':640,'height':480,'label':'north_gate'}),\n  ('archive.photo_123x45.PNG',123,45,{'file':'archive.photo_123x45.PNG','width':123,'height':45,'label':'archive.photo'}),\n  ('tiny.v3_7x11.jpeg',7,11,{'file':'tiny.v3_7x11.jpeg','width':7,'height':11,'label':'tiny.v3'}),\n ]\n checks += [module.row_for(name,width,height)==expected for name,width,height,expected in rows]\n ok=all(checks)\nexcept Exception: ok=False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "image_index_behavior"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport subprocess\ntry:\n    result = subprocess.run(['python3', 'tests.py'], cwd='/tmp/img/project', capture_output=True, text=True, timeout=30, check=False)\n    actual = '\\n'.join(line.rstrip() for line in result.stdout.splitlines() if line.strip())\n    saved = '\\n'.join(line.rstrip() for line in Path('/tmp/img/project/test.log').read_text(encoding='utf-8').splitlines() if line.strip())\n    ok = result.returncode == 0 and actual == '10 passed' and saved == actual\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "metadata": {
+        "path": "/tmp/img/project/test.log",
+        "role": "supplied_test_execution_provenance"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/img/project/tests.py",
+        "trusted_root": "/tmp/img/project",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "6b4c56b6cceaf5deca94ce7aa976bb9d7d63ad927c8fb787334d96391df77f6b"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "supplied_test_fixture_guard"
+      }
+    }
+  ]
+}

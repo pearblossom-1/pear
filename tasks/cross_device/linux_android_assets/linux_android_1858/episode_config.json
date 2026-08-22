@@ -1,0 +1,124 @@
+{
+  "eval": [
+    {
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "cat /tmp/blocked/blocked_comm.md 2>/dev/null || echo missing",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "CASE-1858",
+            "+15552001828",
+            "+15552009928"
+          ],
+          "exclude": [
+            "missing",
+            "PLACEHOLDER",
+            "CASE-OLD",
+            "HOLD-42",
+            "rt-58_hold.jpg"
+          ],
+          "entity_relation": {
+            "entities": [
+              "CASE-1858",
+              "FB-1858",
+              "Leo Martin",
+              "+15552001828",
+              "+15552009928"
+            ],
+            "required_phrases": [
+              [
+                "conflicts with",
+                "does not match",
+                "phone mismatch",
+                "numbers differ",
+                "different phone values",
+                "sender number and current-row number are different"
+              ],
+              [
+                "no reply was sent",
+                "do not send to either number",
+                "no confirmation was sent",
+                "both numbers were left uncontacted",
+                "neither number should be contacted",
+                "neither number was contacted"
+              ]
+            ],
+            "positive_phrases": [
+              "blocked",
+              "communication blocked",
+              "reply blocked",
+              "cannot reply",
+              "must not reply",
+              "do not reply"
+            ],
+            "conflict_phrases": [
+              "not blocked",
+              "the phones match",
+              "the numbers match",
+              "phone values match",
+              "same phone number",
+              "safe to reply",
+              "a reply was sent",
+              "confirmation was sent",
+              "sent a reply"
+            ],
+            "allowed_negative_capability_phrases": [
+              "no reply was sent",
+              "do not send to either number",
+              "no confirmation was sent",
+              "both numbers were left uncontacted",
+              "neither number should be contacted",
+              "neither number was contacted",
+              "must not reply",
+              "do not reply"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+15552001828",
+        "any_body": true,
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+15552009928",
+        "any_body": true,
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "task_id": "linux_android_1858",
+    "source_plan": "plan6_final_balancing"
+  }
+}

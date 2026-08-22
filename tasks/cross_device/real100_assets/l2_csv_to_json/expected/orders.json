@@ -1,0 +1,23 @@
+{
+  "orders": {
+    "ORD-100": {
+      "customer": "Aster Supply",
+      "item": "filter kit",
+      "qty": "3",
+      "rush": "yes"
+    },
+    "ORD-101": {
+      "customer": "Harbor Electric",
+      "item": "cable reel",
+      "qty": "1",
+      "rush": "no"
+    },
+    "ORD-102": {
+      "customer": "Northline Parts",
+      "item": "valve pack",
+      "qty": "5",
+      "rush": "yes"
+    }
+  },
+  "total_orders": 3
+}

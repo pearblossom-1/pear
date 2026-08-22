@@ -1,0 +1,168 @@
+{
+  "id": "a2_missing_media_status",
+  "instruction": "The first phone received a Simple SMS Messenger message asking me to find a specific photo in `/sdcard/Download/` on the second phone's Android Files app. Please check it. If the photo is missing, write a `Photo status` note in Markor on the second phone with the missing filename and Simple SMS Messenger as the source.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "variables": {
+    "photo_status_note": "/storage/emulated/0/Documents/Markor/Photo status.md",
+    "target_photo": "/storage/emulated/0/Download/site_panel.jpg",
+    "sms_address": "5550503",
+    "sms_body": "Please find photo site_panel.jpg in Download."
+  },
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "${sms_address}",
+            "body": "${sms_body}",
+            "wait_s": 5
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "content query --uri content://sms/inbox --projection address:body | grep -F '5550503' | grep -F 'site_panel.jpg' >/dev/null"
+            ],
+            "check_exit_status": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "android files"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "mkdir -p /storage/emulated/0/Documents/Markor /storage/emulated/0/Download && rm -f '/storage/emulated/0/Documents/Markor/Photo status.md' /storage/emulated/0/Download/site_panel.jpg && test ! -e /storage/emulated/0/Download/site_panel.jpg && test ! -e '/storage/emulated/0/Documents/Markor/Photo status.md'"
+            ],
+            "check_exit_status": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "rm -f '/storage/emulated/0/Documents/Markor/Photo status.md' /storage/emulated/0/Download/site_panel.jpg"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_named_status_note",
+        "path": "${photo_status_note}",
+        "rules": {
+          "title": "Photo status",
+          "source": "Simple SMS Messenger",
+          "relations": {
+            "site_panel.jpg": "missing"
+          }
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "${target_photo}"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 18,
+    "max_wall_time_s": 180
+  },
+  "metadata": {
+    "category": "real100_cross_device",
+    "source_card": "010",
+    "difficulty": "Complex",
+    "motif": "M7",
+    "surfaces": "android_0 Simple SMS Messenger -> android_1 Android Files app 的 Download 文件夹/Markor",
+    "setup_note": "android_0 注入并校验 photo request SMS；android_1 准备 Markor/Download，校验目标照片和旧状态 note 均不存在。",
+    "evaluate_note": "Checks an actual Photo status title line, an exact filename-bound unambiguous missing relation and SMS source in the android_1 Markor note, then independently confirms the target file remains absent.",
+    "device_topology": "2A",
+    "implementation_status": "real_evaluator",
+    "readiness": "R1_native_real_fixture",
+    "cross_device_checks": [
+      "android_1_markor_status_reports_photo_requested_by_android_0_sms"
+    ],
+    "asset_source": "tasks/cross_device/real100_assets/a2_missing_media_status/source",
+    "lite_evaluator_hardening_note": "The scored note parser requires an actual title line, uses extension-aware filename boundaries, and binds the exact requested filename to one unambiguous affirmative missing relation. Questions, uncertainty, and contradictions fail. At least one clear source assertion must identify Simple SMS Messenger; repeated consistent assertions or later descriptive mentions are allowed, while any conflicting source assertion fails. The target path is independently required to remain absent."
+  }
+}

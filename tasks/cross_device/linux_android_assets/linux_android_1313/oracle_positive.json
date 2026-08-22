@@ -1,0 +1,13 @@
+{
+  "linux_actions": [
+    {
+      "device_id": "linux_0",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport zipfile\nroot = Path('/tmp/evidence')\nindex = (\n    'package,filename,selected,approval_code\\n'\n    'PKG-1313,form_a.pdf,yes,APR-1313\\n'\n    'PKG-1313,photo_a.jpg,yes,APR-1313\\n'\n).encode('utf-8')\nwith zipfile.ZipFile(root / 'evidence_package.zip', 'w', zipfile.ZIP_DEFLATED) as archive:\n    archive.write(root / 'staged/form_a.pdf', 'form_a.pdf')\n    archive.write(root / 'staged/photo_a.jpg', 'photo_a.jpg')\n    archive.writestr('evidence_index.csv', index)\nPY"
+      }
+    }
+  ],
+  "android_setup": {},
+  "notes": "Positive oracle builds the exact three-entry archive on linux_0 from the colocated staged binaries and the approval-bearing index contract."
+}

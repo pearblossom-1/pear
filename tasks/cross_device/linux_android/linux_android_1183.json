@@ -1,0 +1,204 @@
+{
+  "id": "linux_android_1183",
+  "instruction": "Grab the booking code and date from the Calendar event, match them against `/tmp/rooms/room_table.csv` by both code and date, then write `/tmp/rooms/booking_status.md` with the matched booking code, room, date, and table status.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/rooms/room_table.csv /tmp/rooms/booking_status.md && mkdir -p -- /tmp/rooms",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1183/source/tmp/rooms/room_table.csv",
+                "path": "/tmp/rooms/room_table.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nfile=/tmp/rooms/room_table.csv\ntest -r \"$file\"\nhead -n 1 \"$file\" | grep -Fx 'room,booking_code,date,status' >/dev/null\ntest \"$(awk -F, 'NR > 1 && $1 == \"Orchid Room\" && $2 == \"BK-4471\" && $3 == \"2026-07-08\" && $4 == \"available\" { count++ } END { print count + 0 }' \"$file\")\" -eq 1\ntest -w /tmp/rooms\ntest ! -e /tmp/rooms/booking_status.md",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Client booking BK-4471",
+            "start_ts": 1783494000,
+            "end_ts": 1783501200,
+            "location": "Orchid Room",
+            "description": "Booking code BK-4471 for 2026-07-08."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Client booking BK-4471",
+            "start_ts": 1783494000,
+            "location": "Orchid Room",
+            "description": "Booking code BK-4471 for 2026-07-08.",
+            "search_text": "BK-4471"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/rooms/room_table.csv /tmp/rooms/booking_status.md; find /tmp/rooms -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_file_text",
+        "path": "/tmp/rooms/booking_status.md",
+        "trusted_root": "/tmp/rooms",
+        "require_regular_file_no_symlink": true,
+        "encoding": "utf-8"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [],
+          "exclude": [
+            "placeholder"
+          ],
+          "entity_relation": {
+            "entities": [
+              "BK-4471",
+              "Orchid Room",
+              [
+                "2026-07-08",
+                "July 8, 2026",
+                "July 8 2026",
+                "07/08/2026"
+              ]
+            ],
+            "required_phrases": [
+              [
+                "available",
+                "room available",
+                "status: available",
+                "availability: available",
+                "the table shows available",
+                "availability confirmed"
+              ]
+            ],
+            "conflict_phrases": [
+              "2026-07-09",
+              "booked",
+              "approved",
+              "confirmed",
+              "cancelled",
+              "rejected"
+            ],
+            "allowed_conflict_phrases": [
+              "availability confirmed"
+            ],
+            "reject_questions": true,
+            "reject_uncertainty": true,
+            "reject_negated_relations": true
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/rooms/booking_status.md"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1183",
+    "surfaces": [
+      "calendar",
+      "linux.csv",
+      "linux.markdown"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1183",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1183/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1183/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/rooms/room_table.csv"
+    ],
+    "linux_output_paths": [
+      "/tmp/rooms/booking_status.md"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/rooms/room_table.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [
+        "/tmp/rooms/booking_status.md"
+      ]
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1181-1200-B0001",
+    "candidate_triage": {
+      "decision": "direct",
+      "rationale": "Candidate is realistic, source-closed, and supported by existing Linux and Android helpers."
+    },
+    "human_quality_review": "accepted_current_hash_smoke_passed",
+    "current_hash_smoke_status": "passed_current_hash"
+  }
+}

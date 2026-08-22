@@ -1,0 +1,50 @@
+{
+  "actions": [
+    {
+      "device_id": "linux_0",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "python3 - <<'PY'\nimport base64\nfrom pathlib import Path\npath = Path('/tmp/music/decision.json')\npath.parent.mkdir(parents=True, exist_ok=True)\npath.write_bytes(base64.b64decode('ewogICJjYXNlX2lkIjogIjEwNDAtQSIsCiAgImFwcHJvdmFsX2NvZGUiOiAiTlgwNDAwNSIsCiAgIm93bmVyIjogIk1pcmEgUGF0ZWwiLAogICJzZWxlY3RlZF9zb3VyY2UiOiAiZXZlbnRfc2NoZWR1bGUuY3N2IzEwNDAtQSIsCiAgInN0YXR1cyI6ICJyZWFkeSIKfQo='))\nPY\n",
+        "shell": true
+      }
+    },
+    {
+      "device_id": "android_0",
+      "type": "android.setup",
+      "config": [
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Route review briefing",
+            "start_ts": 1784374200,
+            "end_ts": 1784376900,
+            "location": "Operations Room"
+          }
+        },
+        {
+          "type": "androidworld_mp3_push",
+          "parameters": {
+            "songs": [
+              "harbor check-in",
+              "night route brief"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_playlist_add",
+          "parameters": {
+            "playlist_name": "1040-A route set",
+            "songs": [
+              "harbor check-in",
+              "night route brief"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "type": "done"
+    }
+  ],
+  "notes": "Scripted solution for oracle smoke; android.setup uses native MDCBench setup helpers for deterministic app/file state."
+}

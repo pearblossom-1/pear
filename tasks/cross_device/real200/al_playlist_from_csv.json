@@ -1,0 +1,194 @@
+{
+  "id": "al_playlist_from_csv",
+  "instruction": "`/tmp/music/playlist.csv` on Linux lists songs for the drive. Please create a `Work drive` playlist in the Android Retro Music app and add every song listed in the CSV.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {
+    "work_root": "/tmp/music",
+    "result_json": "/tmp/music/playlist.csv"
+  },
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "retro music"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for name in 'Northbound Signal.mp3' 'Coffee at Dawn.mp3' 'Last Exit Home.mp3'; do rm -f \"/sdcard/Music/$name\"; content delete --uri content://media/external/audio/media --where \"_display_name='$name' AND relative_path='Music/'\" >/dev/null 2>&1 || true; done"
+          }
+        },
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_mp3_push",
+          "parameters": {
+            "songs": [
+              "Northbound Signal",
+              "Coffee at Dawn",
+              "Last Exit Home"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_music_library_preflight",
+          "parameters": {
+            "songs": [
+              "Northbound Signal",
+              "Coffee at Dawn",
+              "Last Exit Home"
+            ],
+            "forbidden_playlist_names": [
+              "Work drive"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/music && mkdir -p /tmp/music",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real200_assets/al_playlist_from_csv/source/playlist.csv",
+                "path": "/tmp/music/playlist.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "python3 -c \"import csv;p='/tmp/music/playlist.csv';rows=list(csv.DictReader(open(p,encoding='utf-8',newline='')));assert rows==[{'order':'1','title':'Northbound Signal','artist':'Road Crew','note':'morning start'},{'order':'2','title':'Coffee at Dawn','artist':'Road Crew','note':'highway segment'},{'order':'3','title':'Last Exit Home','artist':'Road Crew','note':'arrival note'}]\"",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for name in 'Northbound Signal.mp3' 'Coffee at Dawn.mp3' 'Last Exit Home.mp3'; do rm -f \"/sdcard/Music/$name\"; content delete --uri content://media/external/audio/media --where \"_display_name='$name' AND relative_path='Music/'\" >/dev/null 2>&1 || true; done"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/music",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "retro_music_playlist",
+        "playlist_name": "Work drive",
+        "expected_songs": [
+          "Northbound Signal",
+          "Coffee at Dawn",
+          "Last Exit Home"
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 45,
+    "max_wall_time_s": 360
+  },
+  "metadata": {
+    "category": "real200_cross_device",
+    "source_card": "135",
+    "difficulty": "Simple",
+    "motif": "M3",
+    "interaction_mode": "GUI-focused",
+    "device_topology": "1A+1L",
+    "surfaces": "Linux CSV -> Android Retro Music playlist",
+    "setup_note": "Linux 上传并核验精确三行歌曲 CSV；Android 清理同名媒体/playlist，等待三个唯一 MediaStore 行，并在 Retro Music Songs 页面确认三首歌各可见一次且 Work drive 不存在。",
+    "evaluate_note": "Requires one normalized-exact `Work drive` playlist whose song-title multiset exactly matches the CSV, with no duplicate or extra membership.",
+    "implementation_status": "fixture_scaffold",
+    "readiness": "R1_native_android_app_state",
+    "native_evaluator_status": "native_android_app_state",
+    "requires_helper_audit": false,
+    "asset_source": "tasks/cross_device/real200_assets/al_playlist_from_csv/source",
+    "cross_device_checks": [
+      "instruction_setup_evaluation_aligned"
+    ],
+    "fixture_notes": [
+      "playlist.csv is readable and contains exactly the intended three title/artist/note rows",
+      "Setup waits for exact MediaStore rows and verifies all three titles once in Retro Music's visible Songs library before exposure; Work drive must be absent.",
+      "The available runtime observes playlist membership, so the instruction does not promise an unscored ordering requirement."
+    ],
+    "instruction_visible_inputs": [
+      "/tmp/music/playlist.csv"
+    ],
+    "instruction_visible_outputs": [],
+    "native_content_outputs": [],
+    "android_text_outputs": [],
+    "browser_state_outputs": [],
+    "thunderbird_draft_outputs": [],
+    "android_state_outputs": [
+      {
+        "device_id": "android_0",
+        "result_type": "retro_music_playlist",
+        "playlist_name": "Work drive",
+        "expected_songs": [
+          "Northbound Signal",
+          "Coffee at Dawn",
+          "Last Exit Home"
+        ]
+      }
+    ],
+    "android_file_outputs": [],
+    "lite_evaluator_hardening_note": "Evaluator semantics remain unchanged: normalized-exact playlist name and exact order-insensitive song multiset. Setup now distinguishes environment readiness from agent performance by polling exact MediaStore rows, reloading Retro Music, checking each target title exactly once in its Songs GUI, and confirming Work drive is absent; Linux independently validates the exact CSV rows."
+  }
+}

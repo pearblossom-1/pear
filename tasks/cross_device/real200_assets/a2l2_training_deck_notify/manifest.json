@@ -1,0 +1,86 @@
+{
+  "task_id": "a2l2_training_deck_notify",
+  "source_card": "196",
+  "device_topology": "2A+2L",
+  "difficulty": "Medium",
+  "motif": "M5",
+  "interaction_mode": "GUI-focused",
+  "instruction": "Prepare the training deck from the phone event/contacts and linux_1's local template, then use linux_0's notification handoff to draft the referenced ready notice in Thunderbird.",
+  "surfaces": "android_0 Simple Calendar Pro + android_1 Android Contacts app + linux_0 handoff + linux_1 local Impress template/output and Thunderbird",
+  "setup_note": "android_0 写 event；android_1 写 attendees；linux_0 上传 handoff；linux_1 上传本地 template 并配置空 Thunderbird Drafts。",
+  "evaluate_note": "Validates the ODP structure/content plus exact draft recipients, event identification in subject or body, and a positive package-ready body relation containing FO-618.",
+  "requires_helper_audit": false,
+  "source_files": [
+    "source/handoff.txt",
+    "source/training_template_196.odp"
+  ],
+  "expected_files": [
+    "expected/expected_deck.odp"
+  ],
+  "instruction_visible_inputs": [
+    {
+      "path": "/tmp/training/training_deck.odp",
+      "source_file": "source/training_template_196.odp"
+    }
+  ],
+  "instruction_visible_outputs": [
+    "/tmp/training/field_onboarding_deck.odp"
+  ],
+  "native_content_outputs": [
+    {
+      "path": "/tmp/training/field_onboarding_deck.odp",
+      "func": "check_odf_text",
+      "expected_file": null,
+      "device_id": "linux_1",
+      "rules": {
+        "include": [
+          "Training Package Template",
+          "Field onboarding",
+          "2026-06-18",
+          "16:00",
+          "18:00",
+          "Training room A",
+          "Alex Kim",
+          "Priya Rao"
+        ],
+        "exclude": [
+          "missing attendee",
+          "wrong event",
+          "result.json"
+        ]
+      },
+      "result_type": "vm_file"
+    }
+  ],
+  "android_state_outputs": [],
+  "android_file_outputs": [],
+  "android_text_outputs": [],
+  "browser_state_outputs": [],
+  "thunderbird_draft_outputs": [
+    {
+      "device_id": "linux_1",
+      "include": [
+        "alex.kim@example.test",
+        "priya.rao@example.test",
+        "Field onboarding",
+        "FO-618",
+        "package ready"
+      ],
+      "exclude": [
+        "wrong attendee",
+        "missing deck",
+        "result.json"
+      ]
+    }
+  ],
+  "fixture_notes": [
+    "The template and expected example are real ODP packages with the correct mimetype, manifest, office:presentation body, draw:page, and meaningful template anchor.",
+    "Deck text checks complete event fields and attendee names separately, not one fixed separator format.",
+    "Thunderbird draft checks both attendee emails independently.",
+    "Template and final deck are both on linux_1; linux_0 contributes the unique FO-618 handoff.",
+    "The output path and required draft meaning are visible in the instruction."
+  ],
+  "cross_device_checks": [
+    "real200_card_196_parsed_from_v3_expansion"
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "task_id": "android_only_214",
+  "eval": [
+    {
+      "name": "Keep exactly one Depot Gate favorite at the corrected coordinates",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "osmand_favorite_set",
+        "favorites": [
+          {
+            "favorite_name": "Depot Gate",
+            "favorite_lat": 47.6205,
+            "favorite_lon": -122.3493
+          }
+        ],
+        "coordinate_tolerance": 5e-05
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    },
+    {
+      "name": "Record the old-to-new Depot Gate correction and Calendar source",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Depot Gate coordinate repair.md",
+        "rules": {
+          "entities": [
+            "Depot Gate",
+            "47.6100",
+            "-122.3300",
+            "47.6205",
+            "-122.3493",
+            [
+              "Calendar",
+              "calendar event"
+            ]
+          ],
+          "positive_phrases": [
+            "corrected",
+            "updated",
+            "changed",
+            "Old"
+          ],
+          "required_patterns": [
+            "(?s)(?:(?:\\b(?:old|from)\\b\\s*[:=-]?\\s*47\\.6100\\s*,\\s*-122\\.3300.{0,180}\\b(?:new|to)\\b\\s*[:=-]?\\s*47\\.6205\\s*,\\s*-122\\.3493)|(?:\\|\\s*Depot\\s+Gate\\s*\\|\\s*47\\.6100\\s*,\\s*-122\\.3300\\s*\\|\\s*47\\.6205\\s*,\\s*-122\\.3493\\s*\\|\\s*Calendar\\s*\\|))"
+          ],
+          "conflict_phrases": [
+            "unchanged",
+            "rollback",
+            "reverted",
+            "pending",
+            "proposed",
+            "suggested",
+            "uncertain"
+          ],
+          "conflict_patterns": [
+            "(?s)(?:\\b(?:new|from)\\b\\s*[:=-]?\\s*47\\.6205\\s*,\\s*-122\\.3493.{0,180}\\b(?:old|to)\\b\\s*[:=-]?\\s*47\\.6100\\s*,\\s*-122\\.3300)"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "name": "Preserve the first phone's Depot meet source event exactly",
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event_set",
+        "events": [
+          {
+            "title": "Depot meet",
+            "start_ts": 1783159200,
+            "end_ts": 1783161000,
+            "location": "Depot Gate",
+            "description": "Canonical coordinates: 47.6205,-122.3493; old favorite was 47.6100,-122.3300."
+          }
+        ],
+        "identity_fields": [
+          "title",
+          "start_ts"
+        ],
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ]
+}

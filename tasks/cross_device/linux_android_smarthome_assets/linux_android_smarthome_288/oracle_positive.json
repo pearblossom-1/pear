@@ -1,0 +1,45 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /storage/emulated/0/Documents/Markor\ncat > '/storage/emulated/0/Documents/Markor/Guest room decision 288.md' <<'EOF'\nOwner rule applied: the old fallback is cancelled and the 21:30 guest-room workflow is active with the light on and curtain closed.\nEOF"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.cancel_workflow",
+      "parameters": {
+        "workflow_id": "old_guest_room_routine"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_workflow",
+      "parameters": {
+        "workflow_id": "resolved_guest_mode_288",
+        "run_at": "2026-06-16T21:30:00",
+        "steps": [
+          {
+            "device_id": "guest_room_light_1",
+            "command": "turn_on",
+            "args": {}
+          },
+          {
+            "device_id": "guest_room_curtain_1",
+            "command": "close",
+            "args": {}
+          }
+        ]
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

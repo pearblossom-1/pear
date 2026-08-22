@@ -1,0 +1,539 @@
+{
+  "meta": {
+    "sh_type": "SH_android_smarthome",
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1409,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Comfort request results.md",
+        "rules": {
+          "entities": [
+            "Comfort request results",
+            "C1",
+            "C2"
+          ],
+          "ordered_entities": [
+            "Comfort request results",
+            "C1",
+            "C2"
+          ],
+          "allowed_false_assignment_phrases": [
+            "no brightness command",
+            "no brightness capability",
+            "no dimming capability",
+            "no brightness or dimming capability"
+          ],
+          "line_item_sets": [
+            {
+              "pattern": "^(#{1,6}[ \\t]+[^\\r\\n]+?)\\s*$",
+              "items": [
+                "# Comfort request results",
+                "## C1",
+                "## C2"
+              ],
+              "order_sensitive": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "original title and exact C1/C2 section headings are preserved"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Comfort request results.md",
+        "section_start": "## C1",
+        "section_end": "## C2",
+        "rules": {
+          "entities": [
+            "Target",
+            "Status",
+            "Result",
+            [
+              "living-room curtain",
+              "living room curtain",
+              "curtain"
+            ],
+            [
+              "35%",
+              "35 percent"
+            ],
+            "open"
+          ],
+          "conflict_phrases": [
+            "unsupported",
+            "failed"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "Target",
+                [
+                  "living-room curtain",
+                  "living room curtain",
+                  "curtain"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Status"
+              ],
+              "phrases": [
+                "executed",
+                "applied"
+              ],
+              "conflicts": [
+                "unsupported",
+                "failed"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Result",
+                [
+                  "35%",
+                  "35 percent"
+                ],
+                "open"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "C1 binds the curtain request to an executed 35 percent result"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Comfort request results.md",
+        "section_start": "## C2",
+        "rules": {
+          "entities": [
+            "Target",
+            "Status",
+            "Reason",
+            [
+              "living-room basic light",
+              "living room basic light",
+              "basic light"
+            ],
+            "brightness",
+            "unsupported"
+          ],
+          "allowed_negative_capability_phrases": [
+            "no brightness command",
+            "no brightness capability",
+            "no dimming capability",
+            "no brightness or dimming capability",
+            "does not support brightness",
+            "doesn't support brightness",
+            "does not support dimming",
+            "lacks brightness capability",
+            "lacks dimming capability",
+            "has no brightness control",
+            "cannot dim",
+            "cannot be dimmed"
+          ],
+          "allowed_false_assignment_phrases": [
+            "no brightness command",
+            "no brightness capability",
+            "no dimming capability",
+            "no brightness or dimming capability"
+          ],
+          "conflict_phrases": [
+            "substituted",
+            "executed",
+            "applied"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "Target",
+                [
+                  "living-room basic light",
+                  "living room basic light",
+                  "basic light"
+                ],
+                "brightness"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Status",
+                "unsupported"
+              ],
+              "conflicts": [
+                "executed",
+                "applied"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Reason"
+              ],
+              "phrases": [
+                "no brightness command",
+                "no brightness capability",
+                "no dimming capability",
+                "no brightness or dimming capability",
+                "does not support brightness",
+                "doesn't support brightness",
+                "does not support dimming",
+                "lacks brightness capability",
+                "lacks dimming capability",
+                "has no brightness control",
+                "cannot dim",
+                "cannot be dimmed"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "C2 binds the basic-light brightness request to an unsupported reason"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "living_room_curtain_1": {
+                "open_pct": 35,
+                "status": "partial"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
+          }
+        }
+      },
+      "name": "only the living-room curtain reaches 35 percent"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "living_room_curtain_1",
+                "command": "set_open_pct",
+                "args": {
+                  "open_pct": 35
+                }
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "only semantic retries of the curtain 35 command are allowed"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "no schedule is created"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "no workflow is created"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bathroom": {
+        "temperature_c": 25.3,
+        "humidity_pct": 72.3,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 37.7,
+        "noise_level_db": 41.5,
+        "occupied": false
+      },
+      "bedroom": {
+        "temperature_c": 22.8,
+        "humidity_pct": 59.8,
+        "brightness_lux": 900.0,
+        "air_quality_pm25": 26.2,
+        "noise_level_db": 28.2,
+        "occupied": true
+      },
+      "kitchen": {
+        "temperature_c": 25.1,
+        "humidity_pct": 61.2,
+        "brightness_lux": 175.0,
+        "air_quality_pm25": 31.7,
+        "noise_level_db": 44.7,
+        "occupied": true
+      },
+      "living_room": {
+        "temperature_c": 26.0,
+        "humidity_pct": 60.4,
+        "brightness_lux": 800.0,
+        "air_quality_pm25": 39.7,
+        "noise_level_db": 33.9,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bathroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bathroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "bathroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 30.0
+        }
+      },
+      {
+        "device_id": "bathroom_light_1",
+        "device_type": "light",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "mode": "dry",
+          "target_temperature_c": 21.0
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bedroom_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "brightness_pct": 80
+        }
+      },
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "bedroom_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 74
+        }
+      },
+      {
+        "device_id": "kitchen_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "kitchen_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "kitchen_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "brightness_pct": 35
+        }
+      },
+      {
+        "device_id": "kitchen_light_1",
+        "device_type": "light",
+        "room_id": "kitchen",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "mode": "dry",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 0,
+          "status": "closed"
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 35
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

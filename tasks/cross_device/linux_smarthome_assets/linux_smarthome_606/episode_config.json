@@ -1,0 +1,147 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 606,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 856,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "bathroom_dehumidifier_1": {
+                "power": "on",
+                "level": "high"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/reconcile/result.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_606/source/linux_1/tmp/reconcile/result.xlsx",
+          "allowed_changes": [
+            "Result!D2",
+            "Result!E2",
+            "Result!F2",
+            "Result!G2",
+            "Result!D3",
+            "Result!E3",
+            "Result!F3",
+            "Result!G3",
+            "Result!D4",
+            "Result!E4",
+            "Result!F4",
+            "Result!G4"
+          ],
+          "preserve_layout": true,
+          "sheet": "Result",
+          "cells": {
+            "D2": "35",
+            "E2": "Normal",
+            "F2": "Yes",
+            "G2": "No action - snapshot stale",
+            "D3": "76",
+            "E3": "High",
+            "F3": "Yes",
+            "G3": "Run dehumidifier high",
+            "D4": "29",
+            "E4": "High",
+            "F4": "No",
+            "G4": "Manual review"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/reconcile/result.xlsx"
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-25T12:00:00",
+    "rooms": {
+      "bathroom": {
+        "temperature_c": 22.0,
+        "humidity_pct": 76,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 30.0,
+        "occupied": false
+      },
+      "kitchen": {
+        "temperature_c": 22.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 35,
+        "noise_level_db": 30.0,
+        "occupied": false
+      },
+      "office": {
+        "temperature_c": 29,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 30.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bathroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "kitchen_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "kitchen",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "office_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "office",
+        "state": {
+          "power": "off",
+          "mode": "cool",
+          "target_temperature_c": 26.0
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

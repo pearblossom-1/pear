@@ -1,0 +1,86 @@
+{
+  "task_id": "linux_android_1354",
+  "eval": [
+    {
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "cat /tmp/summary/summary.md 2>/dev/null || true"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [],
+          "exclude": [
+            "old route",
+            "archived route",
+            "missing"
+          ],
+          "entity_relation": {
+            "entities": [
+              "Neve",
+              "2026-08-26",
+              "inspect valves",
+              "call depot"
+            ],
+            "conflict_phrases": [
+              "old route",
+              "archived route",
+              "do not inspect",
+              "do not call"
+            ],
+            "reject_questions": true,
+            "reject_uncertainty": true,
+            "reject_negated_relations": true
+          },
+          "markdown_sections": {
+            "title": "Summary",
+            "ordered": true,
+            "case_sensitive": false,
+            "sections": [
+              {
+                "label": "Owner",
+                "required_groups": [
+                  [
+                    "Neve"
+                  ]
+                ]
+              },
+              {
+                "label": "Date",
+                "required_groups": [
+                  [
+                    "2026-08-26"
+                  ]
+                ]
+              },
+              {
+                "label": "Actions",
+                "required_groups": [
+                  [
+                    "inspect valves"
+                  ],
+                  [
+                    "call depot"
+                  ]
+                ]
+              },
+              {
+                "label": "Footer",
+                "required_groups": [
+                  [
+                    "template 1354"
+                  ]
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/summary/summary.md"
+      }
+    }
+  ]
+}

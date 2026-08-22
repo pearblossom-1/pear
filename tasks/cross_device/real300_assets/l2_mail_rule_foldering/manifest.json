@@ -1,0 +1,12 @@
+{
+  "task_id": "l2_mail_rule_foldering",
+  "source_files": [
+    "inbox_seed.mbox",
+    "rules.json"
+  ],
+  "expected_files": [],
+  "device_topology": "L+L",
+  "instruction": "`/tmp/mail/rules.json` on the first Linux machine contains the mail classification rules. Please move each matching message into the corresponding folder in Thunderbird on the second Linux machine, leaving no classified message in Inbox.",
+  "surfaces": "linux_0 rules JSON + linux_1 Thunderbird",
+  "requires_helper_audit": false
+}

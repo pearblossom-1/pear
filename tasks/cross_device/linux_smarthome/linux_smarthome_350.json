@@ -1,0 +1,227 @@
+{
+  "id": "linux_smarthome_350",
+  "instruction": "Can you review `/tmp/maintenance/request.docx` and check whether the maintenance start can actually be scheduled from what's available? Save the decision to `/tmp/maintenance/result.json`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/maintenance/request.docx /tmp/maintenance/result.json && mkdir -p -- /tmp/maintenance",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_350/source/tmp/maintenance/request.docx",
+                "path": "/tmp/maintenance/request.docx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_350/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/maintenance/request.docx /tmp/maintenance/result.json; find /tmp/maintenance -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "json_semantic_match",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/maintenance/result.json"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "missing_anchor": "maintenance start",
+            "status": "not scheduled",
+            "reason_code": "no_visible_event_or_time"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/maintenance/result.json"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_350",
+    "surfaces": [
+      "linux.json",
+      "linux.odt_docx",
+      "smarthome.home_state",
+      "smarthome.command_history"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_350",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_350/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_350/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/maintenance/request.docx"
+    ],
+    "linux_output_paths": [
+      "/tmp/maintenance/result.json"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/maintenance/request.docx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [
+        "/tmp/maintenance/result.json"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "linux_smarthome",
+      "linux_device": "linux_0",
+      "linux_devices": [
+        "linux_0"
+      ],
+      "room_ids": [
+        "bathroom",
+        "bedroom",
+        "garage",
+        "guest_room",
+        "kitchen",
+        "living_room"
+      ],
+      "device_type_counts": {
+        "air_conditioner": 2,
+        "air_purifier": 4,
+        "curtain": 2,
+        "dehumidifier": 2,
+        "dimmable_light": 2,
+        "heater": 3,
+        "humidifier": 3,
+        "light": 3,
+        "robot_vacuum": 1
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 1,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-16T19:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "surface": "linux.json",
+        "path": "/tmp/maintenance/result.json",
+        "goal": "Create or update the task result at this path.",
+        "func": "json_semantic_match",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/maintenance/request.docx and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates that no Home plan or device command was created and checks the visible Linux decision output at /tmp/maintenance/result.json.",
+    "idea_number": 350,
+    "coverage_group": "conflict_infeasible_partial",
+    "lite_hardening_note": "Removed redundant guard/count evaluators while retaining outcome-focused SmartHome and file checks.",
+    "lite_evaluator_hardening_note": "Unified instruction, setup, cleanup, evaluator, metadata, asset path, and oracle paths under /tmp/maintenance."
+  }
+}

@@ -1,0 +1,1 @@
+{"linux_actions": [{"device_id": "linux_0", "type": "oracle.fill_browser_form", "parameters": {"path": "/home/user/form/submit.html", "fields": {"code": "CODE-1307"}}}], "android_setup": {"android_0": []}}

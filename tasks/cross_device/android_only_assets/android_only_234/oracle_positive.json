@@ -1,0 +1,12 @@
+{
+  "android_setup": {
+    "android_1": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /storage/emulated/0/Documents/Markor && cat > /storage/emulated/0/Documents/Markor/photo_status.md <<'EOF'\nPhoto audit from photo_manifest:\n- north_gate.png: present\n- meter_panel.png: present\n- old_notice.png: missing\nNo replacement photo was created.\nEOF"
+        }
+      }
+    ]
+  }
+}

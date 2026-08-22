@@ -1,0 +1,14 @@
+{
+  "linux_actions": [
+    {
+      "device_id": "linux_1",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "mkdir -p '/tmp/blocked' && echo Q0FTRS0xODU4IC8gRkItMTg1OCBmb3IgTGVvIE1hcnRpbiBpcyBibG9ja2VkOiBTTVMgcGhvbmUgKzE1NTUyMDAxODI4IGNvbmZsaWN0cyB3aXRoIHJlY2lwaWVudC10YWJsZSBwaG9uZSArMTU1NTIwMDk5Mjg7IG5vIHJlcGx5IHdhcyBzZW50Lgo= | base64 -d > '/tmp/blocked/blocked_comm.md'",
+        "shell": true
+      }
+    }
+  ],
+  "android_setup": {},
+  "notes": "Positive dry-run oracle writes only the requested final artifacts and native state."
+}

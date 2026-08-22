@@ -1,0 +1,343 @@
+{
+  "id": "linux_android_smarthome_909",
+  "instruction": "A kitchen air incident was reported in Simple SMS Messenger. Check the current kitchen reading in SmartHome against `/tmp/kitchen-air-incident/policy/policy.txt`. If the policy calls for action, apply it without changing devices in other rooms. Fill the existing register's `Room` and `Action` fields in `/tmp/kitchen-air-incident/register/work_register.xlsx`, save the completed copy as `/tmp/kitchen-air-incident/result/work_register_done.xlsx`, and reply in the existing message thread with the affected room, purifier setting applied, and that the action was completed.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/kitchen-air-incident/policy/policy.txt && mkdir -p -- /tmp/kitchen-air-incident/policy",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_909/source/tmp/kitchen-air-incident/policy/policy.txt",
+                "path": "/tmp/kitchen-air-incident/policy/policy.txt"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/kitchen-air-incident/register/work_register.xlsx /tmp/kitchen-air-incident/result/work_register_done.xlsx && mkdir -p -- /tmp/kitchen-air-incident/register /tmp/kitchen-air-incident/result",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_909/source/tmp/kitchen-air-incident/register/work_register.xlsx",
+                "path": "/tmp/kitchen-air-incident/register/work_register.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+155500909",
+            "body": "Kitchen air incident. Use SmartHome and reply when recorded.",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "androidworld_sms_message_preflight",
+          "parameters": {
+            "message": {
+              "address": "+155500909",
+              "body": "Kitchen air incident. Use SmartHome and reply when recorded.",
+              "box": "inbox"
+            },
+            "required_visible_text": [
+              "Kitchen air incident",
+              "reply when recorded"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_909/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/kitchen-air-incident/policy/policy.txt; find /tmp/kitchen-air-incident -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/kitchen-air-incident/register/work_register.xlsx /tmp/kitchen-air-incident/result/work_register_done.xlsx; find /tmp/kitchen-air-incident -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "cat /tmp/kitchen-air-incident/policy/policy.txt 2>/dev/null || true"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "PM2.5 reading at or above 75 is critical",
+            "turn the kitchen purifier on at high",
+            "Do not change devices in other rooms"
+          ],
+          "exclude": []
+        }
+      },
+      "metadata": {
+        "path": "/tmp/kitchen-air-incident/policy/policy.txt"
+      },
+      "enable_score_calc": false
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+155500909",
+        "body_relation": {
+          "entities": [
+            "kitchen",
+            [
+              "purifier",
+              "air cleaner"
+            ],
+            [
+              "high",
+              "maximum",
+              "max"
+            ],
+            [
+              "is on",
+              "turned on",
+              "switched on",
+              "running",
+              "set to",
+              "applied"
+            ]
+          ],
+          "positive_phrases": [
+            "completed",
+            "complete",
+            "done",
+            "applied",
+            "is on",
+            "turned on",
+            "switched on",
+            "running",
+            "set to"
+          ],
+          "conflict_phrases": [
+            "off",
+            "low",
+            "medium",
+            "failed",
+            "could not",
+            "cannot",
+            "not applied",
+            "not changed",
+            "not completed",
+            "incomplete"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "kitchen_air_purifier_1": {
+                "power": "on",
+                "level": "high"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_infeasible_reports": true,
+            "preserve_answer_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/kitchen-air-incident/result/work_register_done.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_909/source/tmp/kitchen-air-incident/register/work_register.xlsx",
+          "allowed_changes": [
+            "Sheet1!B2",
+            "Sheet1!C2"
+          ],
+          "cells": {
+            "A2": "kitchen air incident",
+            "B2": "kitchen",
+            "C2": "Purifier high"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/kitchen-air-incident/result/work_register_done.xlsx"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Immediate air incident with stable device-state evaluation.",
+    "surfaces": [
+      "dual_linux",
+      "linux0_policy",
+      "linux1_register",
+      "sms",
+      "linux_xlsx",
+      "home_command",
+      "guard",
+      "smarthome.home_state"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_909",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_909/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_909/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/kitchen-air-incident/policy/policy.txt",
+      "/tmp/kitchen-air-incident/register/work_register.xlsx"
+    ],
+    "linux_output_paths": [
+      "/tmp/kitchen-air-incident/result/work_register_done.xlsx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/kitchen-air-incident/policy/policy.txt"
+      ],
+      "linux_1": [
+        "/tmp/kitchen-air-incident/register/work_register.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [],
+      "linux_1": [
+        "/tmp/kitchen-air-incident/result/work_register_done.xlsx"
+      ]
+    },
+    "pilot_index": 909,
+    "source_plan": "android_2linux_smarthome_candidate_tasks_871_970"
+  }
+}

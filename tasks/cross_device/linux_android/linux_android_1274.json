@@ -1,0 +1,228 @@
+{
+  "id": "linux_android_1274",
+  "instruction": "Check `/tmp/outreach/request.csv` against the contact on the first phone, verifying both name and phone number. If the name matches but the number does not, explain the mismatch in `/storage/emulated/0/Documents/Markor/Outreach Blocked 1274.md` on the second phone and do not send a text to either number.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/outreach/request.csv && mkdir -p -- /tmp/outreach",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1274/source/tmp/outreach/request.csv",
+                "path": "/tmp/outreach/request.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Rae Lin",
+            "number": "5550001274",
+            "notes": "Same name wrong phone."
+          }
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Ray Lin",
+            "number": "5551201274",
+            "notes": "Near-name wrong contact."
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {"app": "simple sms messenger"}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {"command": "rm -f '/storage/emulated/0/Documents/Markor/Outreach Blocked 1274.md'"}
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/outreach/request.csv; find /tmp/outreach -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Outreach Blocked 1274.md'"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Outreach Blocked 1274.md",
+        "rules": {
+          "entities": ["Rae Lin", "5551201274", "5550001274"],
+          "required_phrases": [["mismatch", "does not match", "different", "conflicts"]],
+          "positive_phrases": ["blocked", "do not send", "must not send"],
+          "forbidden_entities": ["Ray Lin"],
+          "conflict_phrases": ["not blocked", "numbers match", "phones match", "safe to send", "message sent"]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201274",
+        "any_body": true,
+        "recent_within_mins": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550001274",
+        "any_body": true,
+        "recent_within_mins": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1274",
+    "surfaces": [
+      "contacts",
+      "sms",
+      "markor",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1274",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1274/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1274/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/outreach/request.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/outreach/request.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1261-1280-B0005",
+    "candidate_triage": {
+      "decision": "repair",
+      "rationale": "Hard-negative candidate implemented as blocked artifacts plus targeted no-sent-SMS absence checks."
+    },
+    "lite_evaluator_hardening_note": "Uses an exact-path polarity-aware mismatch note plus native no-message outcomes; hidden audit output is removed.",
+    "structured_output_classification": {"Markor blocked note": "primary_artifact", "native sent-box absence": "primary_native_state"}
+  }
+}

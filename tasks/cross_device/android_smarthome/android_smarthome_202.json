@@ -1,0 +1,212 @@
+{
+  "id": "android_smarthome_202",
+  "instruction": "Simple SMS Messenger has an updated request for the living-room air and curtain. Schedule the complete Home adjustment for the time in that message.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "5552020",
+            "body": "At 19:30, set living room purifier high and close the curtain.",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "androidworld_sms_message_preflight",
+          "parameters": {
+            "message": {
+              "box": "inbox",
+              "address": "5552020",
+              "body": "At 19:30, set living room purifier high and close the curtain.",
+              "require_exactly_one_for_address": true
+            },
+            "required_visible_text": [
+              "19:30",
+              "living room purifier high",
+              "close the curtain"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_202/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_planned_effects",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "exact_active_plan_count": 1,
+            "plans": [
+              {
+                "run_at": "2026-06-16T19:30:00",
+                "effects": {
+                  "living_room_air_purifier_1": {
+                    "power": "on",
+                    "level": "high"
+                  },
+                  "living_room_curtain_1": {
+                    "open_pct": 0
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "name": "the exact 19:30 purifier-and-curtain effects may use a workflow or equivalent schedules"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_multi_condition",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "devices": {
+              "living_room_air_purifier_1": {
+                "power": "off",
+                "level": "low"
+              },
+              "living_room_curtain_1": {
+                "open_pct": 90,
+                "status": "partial"
+              }
+            }
+          }
+        }
+      },
+      "name": "purifier and curtain remain at their current state before 19:30"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.advance_time",
+      "parameters": {
+        "minutes": 30
+      },
+      "name": "evaluator advances from 19:00 to the 19:30 trigger"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "living_room_air_purifier_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "level": "high"
+          }
+        }
+      },
+      "name": "after 19:30 the living-room purifier is on at high"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "living_room_curtain_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "open_pct": 0,
+            "status": "closed"
+          }
+        }
+      },
+      "name": "after 19:30 the living-room curtain is closed"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_202",
+    "surfaces": [
+      "sms",
+      "home_workflow"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "smarthome_workflows",
+      "smarthome_device_state"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_202",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_202/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_202/oracle_positive.json",
+    "idea_number": 202,
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

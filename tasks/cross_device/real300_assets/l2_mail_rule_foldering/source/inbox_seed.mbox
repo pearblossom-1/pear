@@ -1,0 +1,20 @@
+From sender@example.com Sat Jun 07 08:00:00 2026
+From: sender@example.com
+Message-ID: <supplier-invoice-batch@mdcbench.test>
+Subject: supplier invoice batch
+
+Please file this invoice with the supplier messages.
+
+From field@example.com Sat Jun 07 08:05:00 2026
+From: field@example.com
+Message-ID: <north-gate-route-update@mdcbench.test>
+Subject: north gate route update
+
+Gate route notes for the morning check.
+
+From ops@example.com Sat Jun 07 08:10:00 2026
+From: ops@example.com
+Message-ID: <urgent-same-day-repair@mdcbench.test>
+Subject: urgent same day repair
+
+Urgent repair notice for same day response.

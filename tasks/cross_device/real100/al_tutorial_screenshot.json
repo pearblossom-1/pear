@@ -1,0 +1,163 @@
+{
+  "id": "al_tutorial_screenshot",
+  "instruction": "I'm writing a Linux tutorial and need a reproducible evidence check. In Android Markor, `tutorial_evidence_request.md` has the title `Tutorial evidence request`; use the row where `page=linux-basics` and `status=needed`. On Linux, create an executable `/tmp/tutorial/linux-basics/capture_evidence.sh` that runs that row's command in its specified working directory and saves the command output to `/tmp/tutorial/linux-basics/evidence.txt`.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {
+    "note_path": "/storage/emulated/0/Documents/Markor/tutorial_evidence_request.md",
+    "script_path": "/tmp/tutorial/linux-basics/capture_evidence.sh",
+    "evidence_path": "/tmp/tutorial/linux-basics/evidence.txt",
+    "input_path": "/tmp/tutorial/linux-basics/tutorial_input.txt"
+  },
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "mkdir -p /storage/emulated/0/Documents/Markor && rm -f '${note_path}'"
+            ]
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real100_assets/al_tutorial_screenshot/source/tutorial_evidence_request.md",
+                "path": "${note_path}"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "test -r '${note_path}'"
+            ],
+            "check_exit_status": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/tutorial/linux-basics && printf 'sample tutorial input\n' > '${input_path}' && rm -f '${script_path}' '${evidence_path}'",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "command -v sha256sum >/dev/null && command -v wc >/dev/null && test -w /tmp/tutorial/linux-basics && test -r '${input_path}' && test -w '${input_path}' && test ! -e '${script_path}' && test ! -e '${evidence_path}'",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "rm -f '${note_path}'"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f '${input_path}' '${script_path}' '${evidence_path}'; rmdir /tmp/tutorial/linux-basics /tmp/tutorial 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+            "command": "set -e\nscript='/tmp/tutorial/linux-basics/capture_evidence.sh'\ninput='/tmp/tutorial/linux-basics/tutorial_input.txt'\nevidence='/tmp/tutorial/linux-basics/evidence.txt'\ntest -x \"$script\"\nrm -f \"$evidence\"\npython3 - \"$input\" <<'PY'\nimport secrets\nimport sys\nfrom pathlib import Path\npath = Path(sys.argv[1])\npath.write_bytes(secrets.token_bytes(128 + secrets.randbelow(128)))\nPY\ncd /tmp\ntimeout 10 \"$script\"\npython3 - \"$input\" \"$evidence\" <<'PY'\nimport hashlib\nimport re\nimport sys\nfrom pathlib import Path\ninput_path = Path(sys.argv[1])\nevidence_path = Path(sys.argv[2])\ntry:\n    payload = input_path.read_bytes()\n    lines = evidence_path.read_text(encoding='utf-8').splitlines()\nexcept Exception:\n    payload = b''\n    lines = []\nshell = lines[1].partition('=')[2].strip() if len(lines) > 1 and lines[1].startswith('shell=') else ''\nsize = lines[2].strip() if len(lines) > 2 else ''\ndigest_fields = lines[3].split() if len(lines) > 3 else []\nok = (\n    len(lines) == 4\n    and lines[0].strip() == '/tmp/tutorial/linux-basics'\n    and bool(shell)\n    and re.fullmatch(r'[0-9]+', size) is not None\n    and int(size) == len(payload)\n    and digest_fields == [hashlib.sha256(payload).hexdigest(), 'tutorial_input.txt']\n)\nprint('pass' if ok else 'fail')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 22,
+    "max_wall_time_s": 220
+  },
+  "metadata": {
+    "category": "real100_cross_device",
+    "task_family": "cross_device_script_execution",
+    "display_name": "al_tutorial_evidence_script",
+    "source_card": "047",
+    "readiness": "R1_native_real_fixture",
+    "device_topology": "1A+1L",
+    "android_surfaces": [
+      "Markor"
+    ],
+    "linux_surfaces": [
+      "terminal",
+      "shell script",
+      "text evidence"
+    ],
+    "implementation_status": "real_evaluator",
+    "cross_device_checks": [
+      "real100_card_047_adapted_from_tutorial_terminal_screenshot_001",
+      "fresh_executable_reproduces_selected_phone_request_in_its_working_directory"
+    ],
+    "asset_source": "tasks/cross_device/real100_assets/al_tutorial_screenshot/source",
+    "difficulty": "Medium",
+    "motif": "M5",
+    "surfaces": "Android Markor request -> Linux executable evidence script and fresh text output",
+    "setup_note": "Android seeds and verifies the readable request note; Linux creates the task directory, resets task-owned outputs, and verifies sha256sum, wc, input readability/writability, and output-directory writability.",
+    "evaluate_note": "Requires an executable script, replaces the ordinary tutorial input with fresh unpredictable bytes, deletes stale evidence, runs from a neutral directory, and verifies the selected command's working-directory, shell, byte-count, and SHA-256 output against that fresh input.",
+    "template_source": "tasks/cross_device/real20/tutorial_terminal_screenshot_001.json",
+    "lite_evaluator_hardening_note": "The Android note contains an ordinary reusable file-inspection command with no benchmark protocol. Evaluation replaces its task-owned input file with fresh unpredictable bytes and independently checks the resulting byte count and SHA-256 output. Stale or fixed output cannot pass; script internals remain unscored."
+  }
+}

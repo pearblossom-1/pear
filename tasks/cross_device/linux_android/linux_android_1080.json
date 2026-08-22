@@ -1,0 +1,250 @@
+{
+  "id": "linux_android_1080",
+  "instruction": "Before sending the confirmation SMS, compare the current row in `/tmp/contact_mismatch_blocks_sms/request_table.csv` with the exact-name Contacts entry on the first phone and follow `/tmp/contact_mismatch_blocks_sms/handoff_policy.md`. If the numbers differ, do not send the confirmation to either number. Explain the case, approval code, owner, both numbers, and blocked reason in `/storage/emulated/0/Documents/Markor/1080-A_blocked.md` on the second phone.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Mira Patel",
+            "number": "+1555011881",
+            "notes": "1080-A; NX08091; Release reviewer"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rows=\"$(content query --uri content://com.android.contacts/data --projection display_name:mimetype:data1 2>/dev/null)\"; printf '%s\\n' \"$rows\" | grep -F 'display_name=Mira Patel' | grep -F 'data1=+1555011881' >/dev/null && printf '%s\\n' \"$rows\" | grep -F 'display_name=Mira Patel' | grep -F '1080-A' | grep -F 'NX08091' | grep -F 'Release reviewer' >/dev/null",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {"type": "ensure_app", "parameters": {"app": "simple sms messenger"}},
+        {"type": "androidworld_sms_clear", "parameters": {}},
+        {"type": "adb_shell", "parameters": {"command": "rm -f '/storage/emulated/0/Documents/Markor/1080-A_blocked.md' && test ! -e '/storage/emulated/0/Documents/Markor/1080-A_blocked.md'", "check_exit_status": true}},
+        {"type": "open_app", "parameters": {"app": "simple sms messenger"}},
+        {"type": "open_app", "parameters": {"app": "markor"}}
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p '/tmp/contact_mismatch_blocks_sms' && rm -f '/tmp/contact_mismatch_blocks_sms/request_table.csv' '/tmp/contact_mismatch_blocks_sms/handoff_policy.md'",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1080/source/request_table.csv",
+                "path": "/tmp/contact_mismatch_blocks_sms/request_table.csv"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1080/source/handoff_policy.md",
+                "path": "/tmp/contact_mismatch_blocks_sms/handoff_policy.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\ndir=/tmp/contact_mismatch_blocks_sms\ntest -r \"$dir/request_table.csv\"\ntest -r \"$dir/handoff_policy.md\"\ntest \"$(awk -F, 'NR > 1 && $1 == \"1080-A\" { count++ } END { print count + 0 }' \"$dir/request_table.csv\")\" -eq 1\nawk -F, 'NR > 1 && $1 == \"1080-A\" && $2 == \"Mira Patel\" && $3 == \"+1555011991\" && $4 == \"blocked\" && $5 == \"NX08091\" { ok = 1 } END { exit !ok }' \"$dir/request_table.csv\"\ngrep -F 'Current approved source row: 1080-A' \"$dir/handoff_policy.md\" >/dev/null\ngrep -F 'do not send the confirmation' \"$dir/handoff_policy.md\" >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/1080-A_blocked.md'"
+          }
+        },
+        {"type": "androidworld_sms_clear", "parameters": {}}
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f '/tmp/contact_mismatch_blocks_sms/request_table.csv' '/tmp/contact_mismatch_blocks_sms/handoff_policy.md'; rmdir '/tmp/contact_mismatch_blocks_sms' 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/1080-A_blocked.md",
+        "rules": {
+          "entities": ["1080-A", "NX08091", "Mira Patel", "+1555011991", "+1555011881"],
+          "required_phrases": [["mismatch", "does not match", "different", "conflicts"]],
+          "positive_phrases": ["blocked", "do not send", "must not send"],
+          "conflict_phrases": ["not blocked", "numbers match", "phones match", "safe to send", "message sent"]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+1555011991",
+        "any_body": true,
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+1555011881",
+        "any_body": true,
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 420
+  },
+  "metadata": {
+    "category": "linux_android_next",
+    "implementation_status": "reviewed_plan6_generated",
+    "source_plan": "docs/plan6/linux_android_next100_tasks_981_1080.md",
+    "source_task_number": 1080,
+    "source_task_title": "Contact mismatch blocks SMS confirmation",
+    "triage_decision": "block",
+    "triage_reason": "Implemented as a positive blocked-state task because the candidate contains missing, conflicting, denied, or otherwise non-actionable source evidence.",
+    "device_topology": "android_0+android_1+linux_0",
+    "surfaces": [
+      "android.android_file",
+      "android.contacts",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1080",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1080/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1080/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_1080/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/contact_mismatch_blocks_sms/request_table.csv",
+      "/tmp/contact_mismatch_blocks_sms/handoff_policy.md"
+    ],
+    "linux_output_paths": [],
+    "android_output_plan": [
+      {
+        "kind": "android_file",
+        "device_id": "android_1",
+        "path": "/storage/emulated/0/Documents/Markor/1080-A_blocked.md",
+        "required": [
+          "1080-A",
+          "NX08091",
+          "Mira Patel",
+          "blocked"
+        ]
+      }
+    ],
+    "expected_data_trace": {
+      "case_id": "1080-A",
+      "approval_code": "NX08091",
+      "owner": "Mira Patel"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "structured_output_classification": {"Markor blocked note": "primary_artifact", "native sent-box absence": "primary_native_state"},
+    "human_quality_hardening": "Creates a real phone mismatch, scores the exact semantic Markor outcome, and proves the branch with native sent-box absence instead of JSON self-report.",
+    "topology_view": "linux_android"
+  }
+}

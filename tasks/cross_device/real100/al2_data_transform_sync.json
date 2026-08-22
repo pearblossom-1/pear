@@ -1,0 +1,243 @@
+{
+  "id": "al2_data_transform_sync",
+  "instruction": "I need the CSV organized into a delivery spreadsheet according to the handoff rule. The Android Markor note `Transform rule` explains how to process `/tmp/data/input.csv` on the first Linux machine. Please create `/tmp/data/result.xlsx` on the second Linux machine and write `/tmp/data/status.json` on the first Linux machine.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {
+    "result_xlsx": "/tmp/data/result.xlsx",
+    "status_json": "/tmp/data/status.json",
+    "rule_note_path": "/storage/emulated/0/Documents/Markor/Transform rule.md"
+  },
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "mkdir -p /storage/emulated/0/Documents/Markor && cat > '/storage/emulated/0/Documents/Markor/Transform rule.md' <<'EOF'\n# Transform rule\nKeep rows where status is ready.\nOutput columns: item, owner, priority.\nSort by priority ascending.\nWrite status.json with row_count and source: android_markor_transform_rule.\nEOF"
+            ],
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "test -r '/storage/emulated/0/Documents/Markor/Transform rule.md'"
+            ],
+            "check_exit_status": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/data && mkdir -p /tmp/data",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real100_assets/al2_data_transform_sync/source/input.csv",
+                "path": "/tmp/data/input.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/data/input.csv && test -w /tmp/data && test ! -e /tmp/data/status.json",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/data && mkdir -p /tmp/data",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -w /tmp/data && test ! -e /tmp/data/result.xlsx",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "rm -f '/storage/emulated/0/Documents/Markor/Transform rule.md'"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/data",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/data",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "${result_xlsx}",
+        "dest": "real100_transform.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "logical_table": {
+            "headers": [
+              "item",
+              "owner",
+              "priority"
+            ],
+            "rows": [
+              [
+                "gamma",
+                "Priya",
+                "1"
+              ],
+              [
+                "alpha",
+                "Lina",
+                "2"
+              ]
+            ],
+            "order_sensitive": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_json",
+      "result": {
+        "type": "vm_file",
+        "path": "${status_json}"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expect": [
+            {
+              "key": [
+                "row_count"
+              ],
+              "method": "eq",
+              "ref": 2
+            },
+            {
+              "key": [
+                "source"
+              ],
+              "method": "eq",
+              "ref": "android_markor_transform_rule"
+            }
+          ],
+          "unexpect": [
+            {
+              "key": [
+                "row_count"
+              ],
+              "method": "eq",
+              "ref": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 28,
+    "max_wall_time_s": 280
+  },
+  "metadata": {
+    "category": "real100_cross_device",
+    "source_card": "085",
+    "difficulty": "Medium",
+    "motif": "M4",
+    "surfaces": "Android Markor rule + linux_0 CSV -> linux_1 XLSX + linux_0 status",
+    "setup_note": "Android 写 rule 并校验可读；linux_0 上传 input.csv、校验输入/状态目录；linux_1 清理 result.xlsx 并校验输出目录可写。",
+    "evaluate_note": "检查 result.xlsx 和 status.json 一致。",
+    "device_topology": "1A+2L",
+    "implementation_status": "real_evaluator",
+    "readiness": "R1_native_real_fixture",
+    "cross_device_checks": [
+      "linux_1_xlsx_and_linux_0_status_follow_android_markor_transform_rule"
+    ],
+    "asset_source": "tasks/cross_device/real100_assets/al2_data_transform_sync/source",
+    "lite_evaluator_hardening_note": "The workbook check accepts harmless sheet names, title rows, and shifted positions, but requires exactly one visible logical output table containing the exact header and two ready rows. Hidden header/data cells fail, while hidden sheets and regions are still scanned so duplicate, stale, draft, or extra dense output cannot be concealed. status.json remains limited to the fields stated in the Android note."
+  }
+}

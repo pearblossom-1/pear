@@ -1,0 +1,246 @@
+{
+  "id": "android_smarthome_219",
+  "instruction": "Check whether the installed bedroom light supports the complete request in Markor. If color control is unavailable, submit one SmartHome infeasible report for the unsupported color-control capability and leave the light unchanged.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_219/android/android_0/markor/Color Light Request.md",
+                "path": "/storage/emulated/0/Documents/Markor/Color Light Request.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_markor_note_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor/Color Light Request.md",
+            "required_visible_text": [
+              "Bedroom light",
+              "blue",
+              "40%",
+              "color control is not available",
+              "unsupported capability"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_219/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Color Light Request.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_infeasible_report",
+      "result": {
+        "type": "smarthome_infeasible_reports"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "semantic_report": {
+              "exact_report_count": 1,
+              "category_aliases": [
+                "unsupported_capability",
+                "unsupported capability",
+                "feature unavailable"
+              ],
+              "target_aliases": [
+                "bedroom light color",
+                "bedroom light color control",
+                {
+                  "room": "bedroom",
+                  "device": "bedroom_dimmable_light_1",
+                  "capability": "color_control"
+                }
+              ],
+              "reason_relation": {
+                "entities": [
+                  [
+                    "bedroom light",
+                    "installed bedroom light"
+                  ],
+                  [
+                    "color control",
+                    "color setting",
+                    "color change"
+                  ]
+                ],
+                "positive_phrases": [
+                  [
+                    "does not support",
+                    "unsupported",
+                    "cannot change color",
+                    "color control is unavailable"
+                  ]
+                ],
+                "allowed_negative_capability_phrases": [
+                  "does not support",
+                  "cannot change color"
+                ],
+                "conflict_phrases": [
+                  [
+                    "supports color control",
+                    "color was changed",
+                    "request is complete"
+                  ]
+                ]
+              }
+            }
+          }
+        }
+      },
+      "name": "exactly one unsupported-capability report identifies bedroom color control"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_device_change",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "device_id": "bedroom_dimmable_light_1"
+          }
+        }
+      },
+      "name": "bedroom dimmable light remains fully unchanged"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_current_time": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "unsupported-capability task leaves every Home device unchanged"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "unsupported-capability task creates no schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "unsupported-capability task creates no workflow"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_219",
+    "surfaces": [
+      "markor",
+      "infeasible_report"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "smarthome_infeasible_reports"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_219",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_219/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_219/oracle_positive.json",
+    "idea_number": 219,
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

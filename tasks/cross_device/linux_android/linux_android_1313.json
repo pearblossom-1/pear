@@ -1,0 +1,272 @@
+{
+  "id": "linux_android_1313",
+  "instruction": "Please build `/tmp/evidence/evidence_package.zip` on the first Linux machine. The evidence manifest on the first phone identifies the approved package candidate and which evidence files are selected. The approval SMS on the second phone provides the approval code. The staged evidence files are under `/tmp/evidence/staged/` on the first Linux machine, and `/tmp/evidence/evidence_index_template.csv` on the second Linux machine shows the index format required by the receiving team. Include only the selected evidence files and a completed `evidence_index.csv` at the ZIP root.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/evidence/staged/form_a.pdf /tmp/evidence/staged/photo_a.jpg /tmp/evidence/staged/old_case.txt /tmp/evidence/evidence_package.zip /tmp/evidence/evidence_index.csv && mkdir -p -- /tmp/evidence/staged",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1313/source/tmp/evidence/staged/form_a.pdf",
+                "path": "/tmp/evidence/staged/form_a.pdf"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1313/source/tmp/evidence/staged/photo_a.jpg",
+                "path": "/tmp/evidence/staged/photo_a.jpg"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1313/source/tmp/evidence/staged/old_case.txt",
+                "path": "/tmp/evidence/staged/old_case.txt"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/evidence/staged/form_a.pdf && test -r /tmp/evidence/staged/photo_a.jpg && test -r /tmp/evidence/staged/old_case.txt && test \"$(sha256sum /tmp/evidence/staged/form_a.pdf | awk '{print $1}')\" = '16c00d9bfff6ed6314bdd6214bf7842796303e3bff645d8f2edd0913ad3893ee' && test \"$(sha256sum /tmp/evidence/staged/photo_a.jpg | awk '{print $1}')\" = '1df5dc21193dca3cd74e1e894c5ccc0d51bd2d066bc8d2038272caa708dfd3b1' && test -w /tmp/evidence && test ! -e /tmp/evidence/evidence_package.zip",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/evidence/evidence_index_template.csv && mkdir -p -- /tmp/evidence",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1313/source/linux_1/tmp/evidence/evidence_index_template.csv",
+                "path": "/tmp/evidence/evidence_index_template.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/evidence/evidence_index_template.csv && test \"$(cat /tmp/evidence/evidence_index_template.csv)\" = 'package,filename,selected,approval_code'",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1313/android/suite_0/evidence_manifest.csv",
+                "path": "/storage/emulated/0/Download/evidence_manifest.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "test -r /storage/emulated/0/Download/evidence_manifest.csv && test \"$(wc -l < /storage/emulated/0/Download/evidence_manifest.csv)\" -eq 4"
+            ],
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "files"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "5551201313",
+            "body": "Approval for PKG-1313 package.\nApproval code: APR-1313",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/evidence/staged/form_a.pdf /tmp/evidence/staged/photo_a.jpg /tmp/evidence/staged/old_case.txt /tmp/evidence/evidence_package.zip /tmp/evidence/evidence_index.csv; find /tmp/evidence -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/evidence/evidence_index_template.csv; find /tmp/evidence -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/evidence_manifest.csv"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - '/tmp/evidence/evidence_package.zip' <<'PY'\nimport csv, hashlib, io, sys, zipfile\npath = sys.argv[1]\nexpected_names = {'form_a.pdf', 'photo_a.jpg', 'evidence_index.csv'}\nexpected_hashes = {\n    'form_a.pdf': '16c00d9bfff6ed6314bdd6214bf7842796303e3bff645d8f2edd0913ad3893ee',\n    'photo_a.jpg': '1df5dc21193dca3cd74e1e894c5ccc0d51bd2d066bc8d2038272caa708dfd3b1',\n}\nexpected_rows = {\n    ('PKG-1313', 'form_a.pdf', 'yes', 'apr-1313'),\n    ('PKG-1313', 'photo_a.jpg', 'yes', 'apr-1313'),\n}\nselected_aliases = {'yes', 'true', '1', 'selected'}\nheader = ['package', 'filename', 'selected', 'approval_code']\nok = False\ntry:\n    with zipfile.ZipFile(path) as archive:\n        names = archive.namelist()\n        structure_ok = len(names) == 3 and len(set(names)) == 3 and set(names) == expected_names and all('/' not in name for name in names)\n        hashes_ok = structure_ok and all(hashlib.sha256(archive.read(name)).hexdigest() == digest for name, digest in expected_hashes.items())\n        index_ok = False\n        if structure_ok:\n            reader = csv.DictReader(io.StringIO(archive.read('evidence_index.csv').decode('utf-8-sig')))\n            rows = list(reader)\n            rows_well_formed = all(set(row) == set(header) and all(value is not None for value in row.values()) for row in rows)\n            actual_rows = {\n                (\n                    row.get('package', '').strip(),\n                    row.get('filename', '').strip().casefold(),\n                    'yes' if row.get('selected', '').strip().casefold() in selected_aliases else None,\n                    row.get('approval_code', '').strip().casefold(),\n                )\n                for row in rows\n            }\n            index_ok = reader.fieldnames == header and len(rows) == 2 and rows_well_formed and len(actual_rows) == 2 and actual_rows == expected_rows\n        ok = structure_ok and hashes_ok and index_ok\nexcept Exception:\n    ok = False\nprint('pass' if ok else 'fail')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "metadata": {
+        "path": "/tmp/evidence/evidence_package.zip"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1313",
+    "surfaces": [
+      "files",
+      "sms",
+      "linux.zip"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1313",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1313/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1313/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/evidence/staged/form_a.pdf",
+      "/tmp/evidence/staged/photo_a.jpg",
+      "/tmp/evidence/staged/old_case.txt",
+      "/tmp/evidence/evidence_index_template.csv"
+    ],
+    "linux_output_paths": [
+      "/tmp/evidence/evidence_package.zip"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/evidence/staged/form_a.pdf",
+        "/tmp/evidence/staged/photo_a.jpg",
+        "/tmp/evidence/staged/old_case.txt"
+      ],
+      "linux_1": [
+        "/tmp/evidence/evidence_index_template.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [
+        "/tmp/evidence/evidence_package.zip"
+      ]
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1301-1320-B0007",
+    "candidate_triage": {
+      "decision": "repair",
+      "rationale": "Binary sources and the exact-byte ZIP output are colocated on linux_0; linux_1 supplies only the receiving-team CSV schema."
+    },
+    "lite_evaluator_hardening_note": "Hidden auxiliary output evaluator(s) removed; scoring remains on visible outcome/state artifacts."
+  }
+}

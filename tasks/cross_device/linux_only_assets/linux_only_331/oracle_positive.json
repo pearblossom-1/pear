@@ -1,0 +1,12 @@
+{
+  "linux_actions": {
+    "linux_1": [
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "python3 - <<'PY'\nimport base64\nfrom pathlib import Path\np=Path('/home/user/notes/play_request.md'); p.parent.mkdir(parents=True, exist_ok=True); p.write_bytes(base64.b64decode('IyMgUGxheWJhY2sgUmVxdWVzdApSZXF1ZXN0ZWQgYnk6IG9wc0BleGFtcGxlLnRlc3QKZmlsZV9pZDogTS0yMDAKcmVxdWVzdGVkX2ZpbGVuYW1lOiBldmVuaW5nX2JyZWV6ZS53YXYKQXBwZW5kIGV4YWN0bHkgb25lIGZpbmFsIGxpbmUuIElmIFZMQyBwbGF5cyB0aGUgcmVxdWVzdGVkIGZpbGUsIHVzZSBgUGxheWJhY2sgc3RhdHVzOiBjb25maXJtZWQg4oCUIFZMQyBpcyBwbGF5aW5nIE0tMjAwIChldmVuaW5nX2JyZWV6ZS53YXYpYC4gT3RoZXJ3aXNlIHVzZSBgUGxheWJhY2sgc3RhdHVzOiBtaXNtYXRjaCDigJQgcmVxdWVzdGVkIE0tMjAwIChldmVuaW5nX2JyZWV6ZS53YXYpOyBWTEMgaXMgcGxheWluZyA8YWN0dWFsX2ZpbGVuYW1lPmAuCkRvIG5vdCBzdGFydCBvciBjaGFuZ2UgcGxheWJhY2suClBsYXliYWNrIHN0YXR1czogbWlzbWF0Y2gg4oCUIHJlcXVlc3RlZCBNLTIwMCAoZXZlbmluZ19icmVlemUud2F2KTsgVkxDIGlzIHBsYXlpbmcgZXZlbmluZ19icmVlemVfZGVtby53YXYK'))\nPY"
+        }
+      }
+    ]
+  }
+}

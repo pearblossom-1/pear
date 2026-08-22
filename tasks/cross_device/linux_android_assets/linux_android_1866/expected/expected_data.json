@@ -1,0 +1,17 @@
+{
+  "case": "CASE-1866",
+  "code": "FB-1866",
+  "route": "RT-66",
+  "site": "Harbor Gate 15",
+  "owner": "Nora Alvarez",
+  "phone": "+15552001830",
+  "email": "nora.alvarez@example.test",
+  "role": "Release coordinator",
+  "time": "2026-07-11 09:00",
+  "lat": "37.728",
+  "lon": "-122.482",
+  "decision": "ready",
+  "included": "rt-66_photo_a.jpg",
+  "missing": "rt-66_photo_missing.jpg",
+  "hold_attachment": "rt-66_hold.jpg"
+}

@@ -1,0 +1,208 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 796,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1046,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/assets/audit.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_796/source/linux_1/tmp/assets/audit.xlsx",
+          "allowed_changes": [
+            "Audit!C2",
+            "Audit!D2",
+            "Audit!E2",
+            "Audit!C3",
+            "Audit!D3",
+            "Audit!E3",
+            "Audit!C4",
+            "Audit!D4",
+            "Audit!E4",
+            "Audit!C5",
+            "Audit!D5",
+            "Audit!E5"
+          ],
+          "preserve_layout": true,
+          "sheet": "Audit",
+          "cells": {
+            "E2": "Supported",
+            "E3": "Unsupported",
+            "E4": "Missing",
+            "E5": "Supported"
+          },
+          "cell_rules": {
+            "C2": {
+              "semantic_text_one_of": [
+                "set_open_pct supported",
+                "curtain supports open percentage",
+                "open percentage supported"
+              ]
+            },
+            "D2": {
+              "semantic_text_one_of": [
+                "live match",
+                "device capability matches catalog",
+                "live capability matches catalog"
+              ]
+            },
+            "C3": {
+              "semantic_text_one_of": [
+                "turn_on/turn_off only",
+                "brightness unsupported",
+                "basic light has no set_brightness",
+                "basic light supports on and off only"
+              ]
+            },
+            "D3": {
+              "semantic_text_one_of": [
+                "catalog overstates capability",
+                "basic light is on/off only",
+                "catalog incorrectly lists brightness"
+              ]
+            },
+            "C4": {
+              "semantic_text_one_of": [
+                "missing from live inventory",
+                "heater not present",
+                "no matching heater in live inventory"
+              ]
+            },
+            "D4": {
+              "semantic_text_one_of": [
+                "asset not present",
+                "no matching heater",
+                "live asset is missing"
+              ]
+            },
+            "C5": {
+              "semantic_text_one_of": [
+                "set_brightness supported",
+                "dimmer supports brightness",
+                "brightness control supported"
+              ]
+            },
+            "D5": {
+              "semantic_text_one_of": [
+                "live match",
+                "device capability matches catalog",
+                "live capability matches catalog"
+              ]
+            }
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/assets/audit.xlsx"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "guest_room": {
+        "temperature_c": 22.5,
+        "humidity_pct": 49.2,
+        "brightness_lux": 240.0,
+        "air_quality_pm25": 33.1,
+        "noise_level_db": 25.0,
+        "occupied": true
+      },
+      "office": {
+        "temperature_c": 22.3,
+        "humidity_pct": 60.2,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 45.9,
+        "noise_level_db": 27.0,
+        "occupied": false
+      },
+      "hallway": {
+        "temperature_c": 22.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 30.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "hallway_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "hallway",
+        "state": {
+          "power": "off",
+          "brightness_pct": 0
+        }
+      },
+      {
+        "device_id": "office_curtain_1",
+        "device_type": "curtain",
+        "room_id": "office",
+        "state": {
+          "open_pct": 20,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "office_light_1",
+        "device_type": "light",
+        "room_id": "office",
+        "state": {
+          "power": "off"
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

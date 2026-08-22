@@ -1,0 +1,4 @@
+Kitchen air policy: a PM2.5 reading at or above 75 is critical.
+For a critical reading, turn the kitchen purifier on at high immediately,
+record the action in the incident register, and reply in the existing incident thread.
+Do not change devices in other rooms or create unrelated SmartHome plans.

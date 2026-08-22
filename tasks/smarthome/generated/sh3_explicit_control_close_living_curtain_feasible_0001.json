@@ -1,0 +1,71 @@
+{
+  "id": "sh3_explicit_control_close_living_curtain_feasible_0001",
+  "instruction": "The late sun is hitting the couch while I'm trying to read; close the living room curtain.",
+  "devices": [
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/smarthome/episode_configs/sh3_explicit_control_close_living_curtain_feasible_0001.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "living_room_curtain_1": {
+                "open_pct": 0,
+                "status": "closed"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_current_time": true
+          }
+        }
+      },
+      "name": "Only the living-room curtain closes; other devices and plans stay unchanged"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "sh_type": "SH3_explicit_control",
+    "case": "feasible",
+    "seed": 1,
+    "room_count": 5,
+    "device_count": 24,
+    "episode_config_ref": "tasks/smarthome/episode_configs/sh3_explicit_control_close_living_curtain_feasible_0001.json"
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "decision": "repair",
+  "reason": "Repaired by keeping OsmAnd initialization empty at setup and making the Linux site row the visible source for the new favorite."
+}

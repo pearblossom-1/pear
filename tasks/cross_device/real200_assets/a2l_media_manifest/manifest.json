@@ -1,0 +1,88 @@
+{
+  "task_id": "a2l_media_manifest",
+  "source_card": "168",
+  "device_topology": "2A+1L",
+  "difficulty": "Simple",
+  "motif": "M2",
+  "interaction_mode": "Hybrid",
+  "instruction": "The first phone just took a field photo, and Audio Recorder on the second phone has a field voice recording. Please create `/tmp/media/manifest.json` on Linux with the filename, file type, and size of both media files as shown in each file's Details view. Use `photo` and `audio` objects, each with `filename`, `type`, and `size`; common labels such as `PNG`, `M4A`, or a MIME type are fine, and keep the displayed size unit.",
+  "surfaces": "android_0 Camera / android_1 Audio Recorder -> Linux manifest",
+  "setup_note": "android_0 扫描 photo 并预检 Gallery Details；android_1 将 audio 放入公共 Recordings、媒体扫描后通过 Audio Recorder Import 预检；Linux 清理 manifest.json。",
+  "evaluate_note": "Semantic validation accepts common PNG/M4A/MIME labels and exact-byte or realistically rounded B/KB/KiB/MB/MiB size displays while rejecting wrong files, types, or sizes.",
+  "requires_helper_audit": false,
+  "source_files": [
+    "source/field_voice_168.m4a",
+    "source/site_photo.png"
+  ],
+  "expected_files": [],
+  "instruction_visible_inputs": [],
+  "instruction_visible_outputs": [
+    "/tmp/media/manifest.json"
+  ],
+  "native_content_outputs": [
+    {
+      "device_id": "linux_0",
+      "path": "/tmp/media/manifest.json",
+      "func": "check_include_exclude",
+      "expected_file": null,
+      "rules": {
+        "photo": {
+          "filename": "incident_scene_168.png",
+          "accepted_types": [
+            "image/png"
+          ],
+          "target_bytes": 5113544,
+          "accepted_size_fields": [
+            "size"
+          ],
+          "accepted_size_units": [
+            "B",
+            "KB",
+            "KiB",
+            "MB",
+            "MiB"
+          ]
+        },
+        "audio": {
+          "filename": "field_voice_168.m4a",
+          "accepted_types": [
+            "audio/m4a",
+            "audio/mp4",
+            "audio/x-m4a"
+          ],
+          "target_bytes": 25633,
+          "accepted_size_fields": [
+            "size"
+          ],
+          "accepted_size_units": [
+            "B",
+            "KB",
+            "KiB",
+            "MB",
+            "MiB"
+          ]
+        },
+        "reject": [
+          "status=failed"
+        ],
+        "expected_command_result": {
+          "include": [
+            "pass"
+          ],
+          "exclude": [
+            "fail"
+          ]
+        }
+      }
+    }
+  ],
+  "android_state_outputs": [],
+  "android_file_outputs": [],
+  "android_text_outputs": [],
+  "browser_state_outputs": [],
+  "thunderbird_draft_outputs": [],
+  "fixture_notes": [
+    "Android Camera photo and public Recordings audio inputs are structurally valid, non-placeholder media; the audio is scanned and imported through Audio Recorder.",
+    "manifest.json requires the public unit-bearing size field, accepts B/KB/KiB/MB/MiB with display-precision rounding, and checks normalized visible container/type labels separately from codecs."
+  ]
+}

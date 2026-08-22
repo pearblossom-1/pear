@@ -1,0 +1,18 @@
+{
+  "task_id": "al2_data_transform_sync",
+  "source_card": "085",
+  "device_topology": "1A+2L",
+  "instruction": "要把一份 CSV 转成交付格式的表格。Android Markor 的 `Transform rule` 笔记写了怎么处理第一台 Linux 的 `/tmp/data/input.csv`。帮我在第二台 Linux 创建 `/tmp/data/result.xlsx`，在第一台 Linux 写 `/tmp/data/status.json`。",
+  "surfaces": "Android Markor rule + linux_0 CSV -> linux_1 XLSX + linux_0 status",
+  "source_files": [
+    "source/Transform rule.md",
+    "source/input.csv"
+  ],
+  "expected_files": [
+    "expected/result.xlsx",
+    "expected/status.json"
+  ],
+  "evaluator_assumptions": [
+    "result.xlsx must follow the Markor transform rule and status.json must describe the generated output"
+  ]
+}

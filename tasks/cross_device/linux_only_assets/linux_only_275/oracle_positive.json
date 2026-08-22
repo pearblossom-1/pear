@@ -1,0 +1,12 @@
+{
+  "linux_actions": {
+    "linux_1": [
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "python3 - <<'PY'\nimport base64\nfrom pathlib import Path\npath = Path('/tmp/portal/missing_pages.csv')\npath.parent.mkdir(parents=True, exist_ok=True)\npath.write_bytes(base64.b64decode('cGFnZSxzdGF0dXMKUmVsZWFzZSBSZWFkaW5lc3MgQ2hlY2tsaXN0LHJlYWR5ClN1cHBvcnQgRXNjYWxhdGlvbiBEaXJlY3RvcnksbWlzc2luZ19ib29rbWFyawpEZXBsb3ltZW50IFJvbGxiYWNrIEd1aWRlLG1pc3NpbmdfZmlsZQo='))\nPY"
+        }
+      }
+    ]
+  }
+}

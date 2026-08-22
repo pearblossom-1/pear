@@ -1,0 +1,61 @@
+{
+  "task_id": "linux_android_1252",
+  "eval": [
+    {
+      "device_id": "linux_1",
+      "func": "check_csv_semantic_records",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/evidence/missing_report.csv"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "column_aliases": {
+            "package_id": ["package id"],
+            "missing_filename": ["missing filename", "missing file"],
+            "decision": ["status", "disposition"]
+          },
+          "value_aliases": {
+            "decision": {
+              "missing required file": [
+                "missing",
+                "required file missing",
+                "missing file",
+                "blocked",
+                "incomplete"
+              ]
+            }
+          },
+          "rows": [
+            {
+              "package_id": "PKG-1252",
+              "missing_filename": "field_photo.jpg",
+              "decision": "missing required file"
+            }
+          ],
+          "order_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/evidence/missing_report.csv"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "path": "/tmp/evidence/evidence_package.zip",
+        "command": "test ! -e /tmp/evidence/evidence_package.zip && echo missing || echo present",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      }
+    }
+  ]
+}

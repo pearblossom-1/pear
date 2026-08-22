@@ -1,0 +1,38 @@
+{
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "5552650",
+          "body": "Bedroom humidity is 32%, below the 35% rule, so the humidifier is running on high."
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "bedroom_humidifier_1",
+        "command": "turn_on",
+        "args": {}
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "bedroom_humidifier_1",
+        "command": "set_level",
+        "args": {
+          "level": "high"
+        }
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

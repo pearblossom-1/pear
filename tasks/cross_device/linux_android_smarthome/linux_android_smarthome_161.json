@@ -1,0 +1,284 @@
+{
+  "id": "linux_android_smarthome_161",
+  "instruction": "Use the authorized climate request in Simple SMS Messenger, the matching contact role, and `/tmp/access/guest-climate.xlsx` to set the guest-room SmartHome climate. Reply to the requester with the actual heater result.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p '/tmp/access' && rm -f -- '/tmp/access/guest-climate.xlsx'",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_161/source/tmp/access/guest-climate.xlsx",
+                "path": "/tmp/access/guest-climate.xlsx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r '/tmp/access/guest-climate.xlsx'",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "nohup libreoffice --calc '/tmp/access/guest-climate.xlsx' >'/tmp/access/guest-climate-calc.log' 2>&1 </dev/null &",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+1555016101",
+            "body": "Please warm the guest room to the allowed setting.",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "androidworld_sms_message_preflight",
+          "parameters": {
+            "message": {
+              "address": "+1555016101",
+              "body": "Please warm the guest room to the allowed setting.",
+              "box": "inbox"
+            },
+            "required_visible_text": [
+              "Please warm the guest room to the allowed setting."
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Alex House",
+            "number": "+1555016101",
+            "notes": "Role: Owner; guest room climate allowed"
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Alex House",
+              "number": "+1555016101",
+              "notes_exact": "Role: Owner; guest room climate allowed"
+            },
+            "required_visible_text": [
+              "Alex House",
+              "Role: Owner",
+              "guest room climate allowed"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_161/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- '/tmp/access/guest-climate.xlsx' '/tmp/access/guest-climate-calc.log'; rmdir '/tmp/access' 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "address": "+1555016101",
+        "body_relation": {
+          "entities": [
+            [
+              "guest room",
+              "guest-room",
+              "guest bedroom"
+            ],
+            [
+              "heater",
+              "heating"
+            ],
+            [
+              "22",
+              "22.0",
+              "twenty-two",
+              "twenty two"
+            ]
+          ],
+          "conflict_phrases": [
+            "off",
+            "failed",
+            "could not",
+            "cannot",
+            "not set",
+            "unavailable",
+            "21",
+            "23",
+            "cooling",
+            "warmed to",
+            "has warmed",
+            "reached 22"
+          ],
+          "required_phrases": [
+            [
+              "is on",
+              "turned on",
+              "set to",
+              "now set",
+              "target is",
+              "target temperature",
+              "heating at",
+              "target for"
+            ]
+          ]
+        },
+        "recent_within_mins": 30,
+        "box": "sent"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "guest_room_heater_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "target_temperature_c": 22.0
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Capability gap 161 authorized guest-room temperature request.",
+    "surfaces": [
+      "sms",
+      "contacts",
+      "linux_xlsx",
+      "home_command"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_161",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_161/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_161/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/access/guest-climate.xlsx"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/access/guest-climate.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "pilot_index": 161,
+    "human_quality_review": "accepted_current_hash_smoke_passed",
+    "current_hash_smoke_status": "passed_current_hash"
+  }
+}

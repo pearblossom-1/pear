@@ -1,0 +1,222 @@
+{
+  "id": "linux_android_1368",
+  "instruction": "Please apply `/tmp/calendar/description_patch.csv` to the matching event in Simple Calendar Pro on the first phone, keeping its title, time, and location unchanged. Also write `Calendar patch CAL-1368.md` in Markor on the second phone with a concise summary of the final event title, time, location, and appended description.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/calendar/description_patch.csv && mkdir -p -- /tmp/calendar",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1368/source/tmp/calendar/description_patch.csv",
+                "path": "/tmp/calendar/description_patch.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "CAL-1368 Permit Review",
+            "start_ts": 1787994000,
+            "end_ts": 1787997600,
+            "location": "Room 9",
+            "description": "Original description"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Calendar patch CAL-1368.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/calendar/description_patch.csv; find /tmp/calendar -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Calendar patch CAL-1368.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event",
+        "title": "CAL-1368 Permit Review",
+        "start_ts": 1787994000,
+        "end_ts": 1787997600,
+        "location": "Room 9",
+        "description_contains": ["Original description", "Bring revised permit packet"],
+        "unique_identity_fields": ["title", "start_ts", "end_ts", "location"]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Calendar patch CAL-1368.md",
+        "rules": {
+          "entities": [
+            "CAL-1368 Permit Review",
+            ["09:00", "9:00", "9 AM", "9:00 AM"],
+            "Room 9",
+            "Bring revised permit packet"
+          ],
+          "required_phrases": [
+            ["updated", "update applied", "applied update", "applied", "final"]
+          ],
+          "positive_phrases": [
+            "final updated event",
+            "updated",
+            "update applied",
+            "applied update",
+            "applied",
+            "final"
+          ],
+          "conflict_phrases": [
+            "proposed",
+            "proposal",
+            "suggested",
+            "pending",
+            "unchanged",
+            "not applied",
+            "not updated",
+            "not final",
+            "not changed",
+            "awaiting approval",
+            "wrong",
+            "do not bring",
+            "reversed"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1368",
+    "surfaces": [
+      "calendar",
+      "markor",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1368",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1368/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1368/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/calendar/description_patch.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/calendar/description_patch.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1361-1380-B0010",
+    "candidate_triage": {
+      "decision": "repair",
+      "rationale": "Fragile in-place GUI update repaired to durable patched artifact, audit note, or supported result helper while preserving the user-visible decision target."
+    },
+    "lite_evaluator_hardening_note": "Hidden auxiliary output evaluator(s) removed; scoring remains on visible outcome/state artifacts."
+  }
+}

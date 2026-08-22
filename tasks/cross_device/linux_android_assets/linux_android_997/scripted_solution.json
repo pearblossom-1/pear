@@ -1,0 +1,25 @@
+{
+  "actions": [
+    {
+      "device_id": "android_1",
+      "type": "androidworld_alarm_add",
+      "parameters": {
+        "hour": 8,
+        "minute": 45,
+        "label": "997-A time check",
+        "enabled": true
+      }
+    },
+    {
+      "device_id": "android_1",
+      "type": "adb_shell",
+      "parameters": {
+        "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && echo Rm9yIDk5Ny1BIC8gTlg5OTc5MiwgQ2FsZW5kYXIgc2hvd3MgMTE6MDAgYW5kIHRoZSBsYXRlc3QgU01TIHNheXMgMTE6MzAuIFRoZSAzMC1taW51dGUgbWlzbWF0Y2ggZXhjZWVkcyBwb2xpY3ksIHNvIHRoZSAwODo0NSA5OTctQSB0aW1lIGNoZWNrIGFsYXJtIGlzIHNldCBmb3IgUHJpeWEgU2hhaC4K | base64 -d > '/storage/emulated/0/Documents/Markor/997-A time check.md'"
+      }
+    },
+    {
+      "type": "done"
+    }
+  ],
+  "notes": "Scripted solution mirrors the current positive dry-run oracle."
+}

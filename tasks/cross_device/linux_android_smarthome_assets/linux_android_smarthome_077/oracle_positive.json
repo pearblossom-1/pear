@@ -1,0 +1,38 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /storage/emulated/0/Documents/Markor\ncat > '/storage/emulated/0/Documents/Markor/Climate correction result.md' <<'EOF'\nThe old 25 C schedule was cancelled and replaced by an active 24 C schedule at 20:00.\nEOF"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.cancel_schedule",
+      "parameters": {
+        "schedule_id": "living_ac_old_2000"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_command",
+      "parameters": {
+        "schedule_id": "living_ac_new_2000",
+        "run_at": "2026-06-16T20:00:00",
+        "device_id": "living_room_air_conditioner_1",
+        "command": "set_target_temperature",
+        "args": {
+          "temperature_c": 24.0
+        }
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "task_id": "a2_alarm_conflict_log",
+  "source_card": "109",
+  "status": "completed",
+  "required_evidence_count": 3,
+  "topology": "2A",
+  "implementation_status": "native_android_app_text_state"
+}

@@ -1,0 +1,318 @@
+{
+  "task_id": "android_only_285",
+  "eval": [
+    {
+      "name": "Preserve all four source-file baseline states on the second phone",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_filesystem_snapshot_state",
+        "snapshot_id": "android_only_285_music_sources",
+        "preserve_directories": [],
+        "file_mappings": [
+          {
+            "baseline_path": "/sdcard/Music/north_loop.mp3",
+            "current_path": "/sdcard/Music/north_loop.mp3"
+          },
+          {
+            "baseline_path": "/sdcard/Music/bridge_check.mp3",
+            "current_path": "/sdcard/Music/bridge_check.mp3"
+          },
+          {
+            "baseline_path": "/sdcard/Music/unlisted.mp3",
+            "current_path": "/sdcard/Music/unlisted.mp3"
+          },
+          {
+            "baseline_path": "/sdcard/Music/missing_song.mp3",
+            "current_path": "/sdcard/Music/missing_song.mp3"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Copy north_loop and bridge_check from their original setup bytes",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_filesystem_snapshot_state",
+        "snapshot_id": "android_only_285_music_sources",
+        "preserve_directories": [],
+        "file_mappings": [
+          {
+            "baseline_path": "/sdcard/Music/north_loop.mp3",
+            "current_path": "/sdcard/Music/Export/north_loop.mp3"
+          },
+          {
+            "baseline_path": "/sdcard/Music/bridge_check.mp3",
+            "current_path": "/sdcard/Music/Export/bridge_check.mp3"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    },
+    {
+      "name": "Music/Export recursive .mp3 business-audio count is 2",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Music/Export",
+        "recursive": true,
+        "suffix": ".mp3",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "2"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Music/Export recursive .wav business-audio count is 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Music/Export",
+        "recursive": true,
+        "suffix": ".wav",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Music/Export recursive .m4a business-audio count is 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Music/Export",
+        "recursive": true,
+        "suffix": ".m4a",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Music/Export recursive .aac business-audio count is 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Music/Export",
+        "recursive": true,
+        "suffix": ".aac",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Music/Export recursive .ogg business-audio count is 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Music/Export",
+        "recursive": true,
+        "suffix": ".ogg",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Music/Export recursive .flac business-audio count is 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Music/Export",
+        "recursive": true,
+        "suffix": ".flac",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "missing_song.mp3 is not fabricated in Music/Export",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Music/Export/missing_song.mp3"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "unlisted.mp3 is not exported",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Music/Export/unlisted.mp3"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Report copied and missing manifest entries without false exports",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Music export report.md",
+        "rules": {
+          "entities": [
+            "north_loop.mp3",
+            "bridge_check.mp3",
+            "missing_song.mp3"
+          ],
+          "required_phrases": [
+            [
+              "copied",
+              "exported"
+            ],
+            [
+              "missing",
+              "absent",
+              "not found"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "copied",
+              "exported"
+            ],
+            [
+              "missing",
+              "absent",
+              "not found"
+            ]
+          ],
+          "conflict_phrases": [
+            "cancelled",
+            "withdrawn"
+          ],
+          "allowed_negative_capability_phrases": [
+            "not copied",
+            "not exported",
+            "not found",
+            "not in the manifest"
+          ],
+          "conflict_patterns": [
+            "missing_song\\.mp3.{0,24}\\b(?:is\\s+)?(?:present|available|exists|copied|exported)\\b",
+            "unlisted\\.mp3.{0,24}(?<!not )(?<!never )\\b(?:copied|exported)\\b",
+            "(?<!not )(?<!never )\\b(?:copied|exported)\\b.{0,24}unlisted\\.mp3"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "north_loop.mp3"
+              ],
+              "phrases": [
+                "copied",
+                "exported"
+              ],
+              "conflicts": [
+                "not copied",
+                "not exported"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "bridge_check.mp3"
+              ],
+              "phrases": [
+                "copied",
+                "exported"
+              ],
+              "conflicts": [
+                "not copied",
+                "not exported"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "missing_song.mp3"
+              ],
+              "phrases": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "conflicts": [
+                "present",
+                "exists",
+                "copied",
+                "exported"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ]
+}

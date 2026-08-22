@@ -1,0 +1,427 @@
+{
+  "meta": {
+    "sh_type": "SH_android_smarthome",
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1766,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_status",
+        "title": "Scene conflict result",
+        "require_exactly_one": true,
+        "completed": false,
+        "notes_relation": {
+          "entities": [
+            [
+              "FocusScene"
+            ],
+            [
+              "20:00",
+              "8:00 PM"
+            ],
+            [
+              "office light"
+            ],
+            [
+              "30",
+              "30%"
+            ],
+            [
+              "office purifier",
+              "purifier"
+            ],
+            [
+              "low"
+            ],
+            [
+              "cleaning plan"
+            ],
+            [
+              "cancelled",
+              "canceled"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "scheduled",
+              "applied",
+              "active"
+            ]
+          ],
+          "nearest_relations": [
+            {
+              "anchor": [
+                "FocusScene"
+              ],
+              "expected": [
+                "scheduled"
+              ],
+              "forbidden": [
+                "not scheduled"
+              ],
+              "max_distance": 10
+            },
+            {
+              "anchor": [
+                "FocusScene"
+              ],
+              "expected": [
+                "20:00"
+              ],
+              "forbidden": [],
+              "max_distance": 12
+            },
+            {
+              "anchor": [
+                "office light"
+              ],
+              "expected": [
+                "30",
+                "30%"
+              ],
+              "forbidden": [
+                "20",
+                "20%",
+                "45",
+                "45%"
+              ],
+              "max_distance": 8
+            },
+            {
+              "anchor": [
+                "office purifier",
+                "purifier"
+              ],
+              "expected": [
+                "low"
+              ],
+              "forbidden": [
+                "medium",
+                "high"
+              ],
+              "max_distance": 8
+            },
+            {
+              "anchor": [
+                "cleaning plan"
+              ],
+              "expected": [
+                "cancelled",
+                "canceled"
+              ],
+              "forbidden": [
+                "active",
+                "remains active",
+                "not cancelled",
+                "not canceled"
+              ],
+              "max_distance": 10
+            }
+          ],
+          "conflict_phrases": [
+            "pending",
+            "not scheduled",
+            "cleaning plan remains active",
+            "not cancelled",
+            "not canceled"
+          ],
+          "allowed_reversal_terms": [
+            "cancelled",
+            "canceled"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "FOUND"
+        }
+      },
+      "name": "Scene conflict result is one incomplete task with the scene settings and conflict outcome"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 0,
+            "match": {
+              "schedule_id": "focus_conflict_cleaning",
+              "run_at": "2026-06-16T20:00:00",
+              "device_id": "living_room_robot_vacuum_1",
+              "command": "start_cleaning",
+              "args": {},
+              "status": "cancelled"
+            }
+          }
+        }
+      },
+      "name": "focus_conflict_cleaning full record is preserved and cancelled"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T20:00:00",
+            "exact_active_workflow_count": 1,
+            "effects": {
+              "office_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 30
+              },
+              "office_air_purifier_1": {
+                "level": "low"
+              }
+            }
+          }
+        }
+      },
+      "name": "the sole active 20:00 FocusScene workflow has canonical effects"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_multi_condition",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "devices": {
+              "office_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 70
+              },
+              "office_air_purifier_1": {
+                "power": "on",
+                "level": "high"
+              }
+            }
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "future scene leaves current office devices at their 19:00 baseline"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the complete schedule set remains exactly one cancelled record"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the complete workflow set contains exactly one active record"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 23.1,
+        "humidity_pct": 48.2,
+        "brightness_lux": 180.0,
+        "air_quality_pm25": 38.1,
+        "noise_level_db": 30.2,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 22.8,
+        "humidity_pct": 40.9,
+        "brightness_lux": 180.0,
+        "air_quality_pm25": 33.1,
+        "noise_level_db": 41.0,
+        "occupied": true
+      },
+      "office": {
+        "temperature_c": 22.1,
+        "humidity_pct": 32.0,
+        "brightness_lux": 750.0,
+        "air_quality_pm25": 32.6,
+        "noise_level_db": 45.1,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "mode": "auto",
+          "target_temperature_c": 23.0
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_curtain_1",
+        "device_type": "curtain",
+        "room_id": "bedroom",
+        "state": {
+          "open_pct": 60,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "bedroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 60,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 80
+        }
+      },
+      {
+        "device_id": "office_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "office",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "office_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "office",
+        "state": {
+          "power": "on",
+          "brightness_pct": 70
+        }
+      },
+      {
+        "device_id": "office_heater_1",
+        "device_type": "heater",
+        "room_id": "office",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 28.0
+        }
+      },
+      {
+        "device_id": "office_light_1",
+        "device_type": "light",
+        "room_id": "office",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "office_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "office",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 92
+        }
+      }
+    ],
+    "schedules": [
+      {
+        "schedule_id": "focus_conflict_cleaning",
+        "run_at": "2026-06-16T20:00:00",
+        "device_id": "living_room_robot_vacuum_1",
+        "command": "start_cleaning",
+        "args": {},
+        "status": "active"
+      }
+    ],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

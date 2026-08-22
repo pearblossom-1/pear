@@ -1,0 +1,3 @@
+name,role,region,message_code,message
+Ava Lane,dispatch,north,MSG-1255,North dispatch window confirmed
+Ava Lane,dispatch,south,MSG-0000,wrong region

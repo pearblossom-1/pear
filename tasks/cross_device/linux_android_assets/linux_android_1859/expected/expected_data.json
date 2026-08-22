@@ -1,0 +1,17 @@
+{
+  "case": "CASE-1859",
+  "code": "FB-1859",
+  "route": "RT-59",
+  "site": "Harbor Gate 8",
+  "owner": "Ari Singh",
+  "phone": "+15552001829",
+  "email": "ari.singh@example.test",
+  "role": "Support owner",
+  "time": "2026-07-24 09:50",
+  "lat": "37.812",
+  "lon": "-122.386",
+  "decision": "ready",
+  "included": "rt-59_photo_a.jpg",
+  "missing": "rt-59_photo_missing.jpg",
+  "hold_attachment": "rt-59_hold.jpg"
+}

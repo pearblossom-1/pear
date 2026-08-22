@@ -1,0 +1,244 @@
+{
+  "task_id": "android_only_236",
+  "eval": [
+    {
+      "name": "Write the contact audit with each status and number role correctly bound",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/contact_audit.md",
+        "rules": {
+          "entities": [
+            "Dock Liaison",
+            "0236",
+            "Gate Runner",
+            "0237",
+            "0999",
+            "Night Medic"
+          ],
+          "required_phrases": [
+            [
+              "present",
+              "found"
+            ],
+            [
+              "mismatch",
+              "mismatches",
+              "does not match",
+              "wrong actual number"
+            ],
+            [
+              "expected"
+            ],
+            [
+              "actual"
+            ],
+            [
+              "missing",
+              "absent",
+              "not found"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "present",
+              "found"
+            ],
+            [
+              "mismatch",
+              "mismatches",
+              "does not match",
+              "wrong actual number"
+            ],
+            [
+              "expected"
+            ],
+            [
+              "actual"
+            ],
+            [
+              "missing",
+              "absent",
+              "not found"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "uncertain",
+            "cancelled",
+            "withdrawn",
+            "all match",
+            "no mismatch"
+          ],
+          "allowed_reversal_terms": [
+            "wrong"
+          ],
+          "allowed_negative_capability_phrases": [
+            "does not match",
+            "not found"
+          ],
+          "conflict_patterns": [
+            "Dock\\s+Liaison.{0,28}\\b(?:missing|absent|not\\s+found)\\b",
+            "Gate\\s+Runner.{0,36}\\b(?:matches|correct)\\b",
+            "(?:actual\\s*[:=-]?\\s*0237|expected\\s*[:=-]?\\s*0999)",
+            "Night\\s+Medic.{0,30}\\b(?:present|found|actual)\\b",
+            "(?<!expected )(?<!expected:)(?<!source )(?<!source:)(?<!ending )\\b0238\\b"
+          ],
+          "preceding_clause_context": {
+            "max_preceding_clauses": 2,
+            "anchors": [
+              [
+                "Dock Liaison"
+              ],
+              [
+                "Gate Runner"
+              ],
+              [
+                "Night Medic"
+              ]
+            ]
+          },
+          "relation_groups": [
+            {
+              "entities": [
+                "Dock Liaison",
+                "0236"
+              ],
+              "phrases": [
+                "present",
+                "found"
+              ],
+              "conflicts": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Gate Runner"
+              ],
+              "phrases": [
+                "mismatch",
+                "mismatches",
+                "does not match",
+                "wrong actual number"
+              ],
+              "conflicts": [
+                "matches",
+                "correct"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Gate Runner",
+                "0237"
+              ],
+              "phrases": [
+                "expected"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Gate Runner",
+                "0999"
+              ],
+              "phrases": [
+                "actual"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Night Medic"
+              ],
+              "phrases": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "conflicts": [
+                "present",
+                "found"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "name": "Keep the Contacts collection at exactly two records",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_contact_count"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "2"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Preserve every Dock Liaison business field",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_contact",
+        "name": "Dock Liaison",
+        "number": "5550236",
+        "numbers_exact": [
+          "5550236"
+        ],
+        "emails_exact": [],
+        "notes_exact": "primary",
+        "require_exactly_one": true,
+        "require_unique_name": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Preserve every Gate Runner business field",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_contact",
+        "name": "Gate Runner",
+        "number": "5550999",
+        "numbers_exact": [
+          "5550999"
+        ],
+        "emails_exact": [],
+        "notes_exact": "wrong phone",
+        "require_exactly_one": true,
+        "require_unique_name": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ]
+}

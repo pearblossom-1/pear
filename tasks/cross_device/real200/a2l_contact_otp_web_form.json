@@ -1,0 +1,236 @@
+{
+  "id": "a2l_contact_otp_web_form",
+  "instruction": "The latest Simple SMS Messenger message on the first phone contains a web form OTP, and the Android Contacts app on the second phone has the client details. Please open `/home/user/web/client.html` in Linux Chrome, fill in the client details and OTP, and submit it.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {
+    "work_root": "/tmp/mdcbench_real200/a2l_contact_otp_web_form",
+    "result_json": "/tmp/mdcbench_real200/a2l_contact_otp_web_form/result.json",
+    "sms_address": "5551002",
+    "sms_body": "OTP for web form: 481269"
+  },
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "5551002",
+            "body": "OTP for web form: 481269",
+            "wait_s": 5
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "North Pier Labs",
+            "number": "555-0169",
+            "notes": "Web form client"
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /home/user/web && mkdir -p /home/user/web",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real200_assets/a2l_contact_otp_web_form/source/visible/5f3aa9f8_client.html",
+                "path": "/home/user/web/client.html"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /home/user/web/client.html && test \"$(grep -o '__MDCBENCH_FORM_ACTION__' /home/user/web/client.html | wc -l)\" -eq 1",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /home/user/web",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "host_form_submission_state",
+        "form_id": "a2l_contact_otp_web_form",
+        "field_names": [
+          "client_name",
+          "phone",
+          "otp"
+        ],
+        "expected_sha256": "d286840dafb5702abeb21f11f2ef372cf583ce3a4b4b995ed9be04af9d22cde3",
+        "field_rules": {
+          "client_name": {
+            "match_mode": "whitespace_normalized_exact",
+            "canonical_value": "North Pier Labs",
+            "case_sensitive": false
+          },
+          "phone": {
+            "match_mode": "phone_visual",
+            "canonical_value": "555-0169"
+          },
+          "otp": {
+            "match_mode": "trimmed_exact",
+            "canonical_value": "481269",
+            "case_sensitive": true
+          }
+        },
+        "client_path": "/home/user/web/client.html",
+        "action_placeholder": "__MDCBENCH_FORM_ACTION__",
+        "preflight_receiver": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 70,
+    "max_wall_time_s": 540
+  },
+  "metadata": {
+    "category": "real200_cross_device",
+    "source_card": "169",
+    "difficulty": "Medium",
+    "motif": "M5",
+    "interaction_mode": "GUI-focused",
+    "device_topology": "2A+1L",
+    "surfaces": "android_0 Simple SMS Messenger + android_1 Android Contacts app + Linux Chrome form",
+    "setup_note": "android_0 注入 OTP；android_1 写入 contact；Linux 准备 web form。",
+    "evaluate_note": "Requires exactly client_name, phone, and otp in the latest POST. Client name is case/whitespace normalized, phone permits only common visual separators around the exact 5550169 digit sequence, and OTP permits outer trim only.",
+    "implementation_status": "fixture_scaffold",
+    "readiness": "R1_native_content",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "asset_source": "tasks/cross_device/real200_assets/a2l_contact_otp_web_form/source",
+    "cross_device_checks": [
+      "real200_card_169_parsed_from_v3_expansion"
+    ],
+    "fixture_notes": [
+      "android_0 SMS OTP is 481269",
+      "android_1 contact is North Pier Labs with phone 555-0169",
+      "The visible HTML contains field/source guidance but no expected contact, phone, or OTP constants.",
+      "The evaluator host owns an ephemeral service with a random per-run submission URL and in-memory state; no verifier process, static secret, or receipt is stored in the guest.",
+      "Each reset creates new host state and injects the run URL into the task-owned HTML; cleanup stops that service and removes the task-owned guest directory."
+    ],
+    "instruction_visible_inputs": [
+      "/home/user/web/client.html"
+    ],
+    "instruction_visible_outputs": [],
+    "native_file_presence_outputs": [],
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "func": "exact_match",
+        "result_type": "host_form_submission_state",
+        "path": "evaluator-host run-scoped form-submission state"
+      }
+    ],
+    "android_state_outputs": [],
+    "android_file_outputs": [],
+    "android_text_outputs": [],
+    "browser_state_outputs": [],
+    "thunderbird_draft_outputs": [],
+    "lite_evaluator_hardening_note": "Run-scoped submission state remains outside the guest and later invalid POSTs invalidate earlier success. Setup opens the two Android source apps, verifies the one action placeholder, then the runtime replaces it and probes the live receiver. Phone normalization removes only spaces, hyphens, parentheses, and periods; it does not infer country codes or alter OTP digits."
+  }
+}

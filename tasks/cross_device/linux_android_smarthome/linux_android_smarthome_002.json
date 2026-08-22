@@ -1,0 +1,286 @@
+{
+  "id": "linux_android_smarthome_002",
+  "instruction": "Use the `Guest check-in` Calendar event, the `Maya Front Desk` contact, and `/tmp/guest-ready/guest_standard.csv` to schedule one active Guest room readiness workflow. The workflow must make every device state listed in the matching standard ready. Send Maya a concise confirmation that identifies the Guest room, the scheduled readiness time, and that the preparation has been scheduled or will be ready at that time.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/guest-ready",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_002/source/guest_standard.csv",
+                "path": "/tmp/guest-ready/guest_standard.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/guest-ready/guest_standard.csv",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Guest check-in",
+            "start_ts": 1781632800,
+            "end_ts": 1781634600,
+            "location": "Guest room",
+            "description": "Prepare the guest room from the Linux standard."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Guest check-in",
+            "start_ts": 1781632800,
+            "location": "Guest room",
+            "description": "Prepare the guest room from the Linux standard.",
+            "search_text": "Guest"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Maya Front Desk",
+            "number": "+1555010202",
+            "notes": "Front desk notification contact"
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Maya Front Desk",
+              "number": "+1555010202",
+              "notes_exact": "Front desk notification contact"
+            },
+            "required_visible_text": [
+              "Maya Front Desk",
+              "Front desk notification contact"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_002/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/guest-ready/guest_standard.csv; rmdir /tmp/guest-ready 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+1555010202",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            "Guest room",
+            [
+              "17:30",
+              "5:30 PM",
+              "5:30PM"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "scheduled",
+              "preparation scheduled",
+              "will be ready",
+              "ready by",
+              "scheduled to be ready",
+              "will be prepared",
+              "preparation is set for",
+              "readiness set for"
+            ]
+          ],
+          "conflict_phrases": [
+            "not ready",
+            "not scheduled",
+            "pending",
+            "cancelled",
+            "failed"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T17:30:00",
+            "status": "active",
+            "exact_active_workflow_count": 1,
+            "effects": {
+              "guest_room_heater_1": {
+                "power": "on",
+                "target_temperature_c": 22.0
+              },
+              "guest_room_air_purifier_1": {
+                "power": "on",
+                "level": "high"
+              },
+              "guest_room_light_1": {
+                "power": "on"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Pilot 02 guest room workflow and front desk SMS.",
+    "surfaces": [
+      "calendar",
+      "contacts",
+      "sms",
+      "linux_csv",
+      "home_workflow"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_002",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_002/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_002/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/guest-ready/guest_standard.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/guest-ready/guest_standard.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "pilot_index": 2
+  }
+}

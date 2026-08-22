@@ -1,0 +1,4 @@
+order_id,customer,item,qty,rush
+ORD-100,Aster Supply,filter kit,3,yes
+ORD-101,Harbor Electric,cable reel,1,no
+ORD-102,Northline Parts,valve pack,5,yes

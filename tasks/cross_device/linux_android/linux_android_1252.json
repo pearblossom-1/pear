@@ -1,0 +1,240 @@
+{
+  "id": "linux_android_1252",
+  "instruction": "Compare `/tmp/evidence/required_manifest.csv` on the first Linux desktop with the phone's Download/evidence folder. If a required file is missing, use the second Linux desktop for the result: do not create `/tmp/evidence/evidence_package.zip` there, and write `/tmp/evidence/missing_report.csv` there with columns `package_id`, `missing_filename`, and `decision`, one row per missing required file.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/evidence/required_manifest.csv && mkdir -p -- /tmp/evidence",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1252/source/tmp/evidence/required_manifest.csv",
+                "path": "/tmp/evidence/required_manifest.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/evidence/missing_report.csv /tmp/evidence/evidence_package.zip && mkdir -p -- /tmp/evidence",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -rf /storage/emulated/0/Download/evidence && mkdir -p /storage/emulated/0/Download/evidence"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1252/android/suite_0/signed_form.pdf",
+                "path": "/storage/emulated/0/Download/evidence/signed_form.pdf"
+              }
+            ]
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1252/android/suite_1/field_photo_old.jpg",
+                "path": "/storage/emulated/0/Download/evidence/field_photo_old.jpg"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/storage/emulated/0/Download/evidence",
+            "expected_filenames": [
+              "signed_form.pdf",
+              "field_photo_old.jpg"
+            ],
+            "missing_filenames": [
+              "field_photo.jpg"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/evidence/required_manifest.csv; find /tmp/evidence -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/evidence/missing_report.csv /tmp/evidence/evidence_package.zip; find /tmp/evidence -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/evidence/signed_form.pdf /storage/emulated/0/Download/evidence/field_photo_old.jpg /storage/emulated/0/Download/evidence/field_photo.jpg; rmdir /storage/emulated/0/Download/evidence 2>/dev/null || true"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_csv_semantic_records",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/evidence/missing_report.csv"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "column_aliases": {
+            "package_id": ["package id"],
+            "missing_filename": ["missing filename", "missing file"],
+            "decision": ["status", "disposition"]
+          },
+          "value_aliases": {
+            "decision": {
+              "missing required file": [
+                "missing",
+                "required file missing",
+                "missing file",
+                "blocked",
+                "incomplete"
+              ]
+            }
+          },
+          "rows": [
+            {
+              "package_id": "PKG-1252",
+              "missing_filename": "field_photo.jpg",
+              "decision": "missing required file"
+            }
+          ],
+          "order_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/evidence/missing_report.csv"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "path": "/tmp/evidence/evidence_package.zip",
+        "command": "test ! -e /tmp/evidence/evidence_package.zip && echo missing || echo present",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1252",
+    "surfaces": [
+      "files",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1252",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1252/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1252/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/evidence/required_manifest.csv"
+    ],
+    "linux_output_paths": [
+      "/tmp/evidence/missing_report.csv"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/evidence/required_manifest.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/evidence/missing_report.csv"
+      ]
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1241-1260-B0004",
+    "candidate_triage": {
+      "decision": "direct",
+      "rationale": "Candidate is realistic, source-closed, and supported by existing Linux and Android helpers."
+    },
+    "human_quality_review": "accepted_current_hash_smoke_passed",
+    "current_hash_smoke_status": "passed_current_hash"
+  }
+}

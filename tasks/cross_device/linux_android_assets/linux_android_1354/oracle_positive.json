@@ -1,0 +1,15 @@
+{
+  "linux_actions": [
+    {
+      "device_id": "linux_1",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "mkdir -p /tmp/summary && printf '%s\\n' '# Summary' 'Owner: Neve' 'Date: 2026-08-26' 'Actions:' '- inspect valves' '- call depot' 'Footer: template 1354' > /tmp/summary/summary.md",
+        "shell": true
+      }
+    }
+  ],
+  "android_setup": {
+    "android_0": []
+  }
+}

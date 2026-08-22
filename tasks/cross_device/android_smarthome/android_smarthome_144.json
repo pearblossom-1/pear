@@ -1,0 +1,355 @@
+{
+  "id": "android_smarthome_144",
+  "instruction": "The first phone has a bedtime plan in Markor. Schedule that Home bedtime routine, then use the confirmation style requested in the saved bedtime contact's note to send the scheduled time and settings from the second phone in Simple SMS Messenger.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_144/android/android_0/markor/Bedtime Plan.md",
+                "path": "/storage/emulated/0/Documents/Markor/Bedtime Plan.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_markor_note_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor/Bedtime Plan.md",
+            "required_visible_text": [
+              "19:20",
+              "close the bedroom curtain",
+              "dim the bedroom light to 15%"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Bedtime Updates",
+            "number": "5551440",
+            "notes": "Send bedtime routine summaries here in this style: Bedtime at TIME: curtain will close; light will dim to LEVEL%."
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Bedtime Updates",
+              "number": "5551440",
+              "notes_exact": "Send bedtime routine summaries here in this style: Bedtime at TIME: curtain will close; light will dim to LEVEL%."
+            },
+            "required_visible_text": [
+              "Bedtime Updates",
+              "5551440",
+              "curtain will close",
+              "light will dim"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_144/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Bedtime Plan.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551440",
+        "recent_within_mins": 30,
+        "require_exactly_one_for_address": true,
+        "body_relation": {
+          "entities": [
+            [
+              "bedtime"
+            ],
+            [
+              "19:20",
+              "7:20 PM",
+              "7.20 PM"
+            ],
+            [
+              "curtain"
+            ],
+            [
+              "close",
+              "closed"
+            ],
+            [
+              "light"
+            ],
+            [
+              "15",
+              "15%"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "scheduled",
+              "will close",
+              "will dim"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "bedtime",
+                [
+                  "19:20",
+                  "7:20 PM",
+                  "7.20 PM"
+                ]
+              ],
+              "phrases": [
+                [
+                  "scheduled",
+                  "set for"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "curtain",
+                [
+                  "close",
+                  "closed"
+                ]
+              ],
+              "phrases": [
+                [
+                  "will close",
+                  "scheduled to close",
+                  "is scheduled to close"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "light",
+                [
+                  "15",
+                  "15%"
+                ],
+                [
+                  "dim",
+                  "dimmed"
+                ]
+              ],
+              "phrases": [
+                [
+                  "will dim",
+                  "scheduled to dim",
+                  "is scheduled to dim"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "conflict_phrases": [
+            "pending",
+            "cancelled",
+            "canceled",
+            "not scheduled",
+            "not active",
+            "will not close",
+            "will not dim"
+          ],
+          "required_phrases": [
+            [
+              "dim",
+              "dimmed"
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "Bedtime Updates receives the future 19:20 curtain-and-light plan"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_planned_effects",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "exact_active_plan_count": 1,
+            "plans": [
+              {
+                "run_at": "2026-06-16T19:20:00",
+                "effects": {
+                  "bedroom_curtain_1": {
+                    "open_pct": 0
+                  },
+                  "bedroom_dimmable_light_1": {
+                    "power": "on",
+                    "brightness_pct": 15
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "name": "the exact 19:20 bedtime effects may use a workflow or equivalent schedules"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_multi_condition",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "devices": {
+              "bedroom_curtain_1": {
+                "open_pct": 80,
+                "status": "partial"
+              },
+              "bedroom_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 70
+              }
+            }
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "bedroom curtain and light remain at their current baseline"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_144",
+    "surfaces": [
+      "markor",
+      "contacts",
+      "home_workflow",
+      "sms"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "androidworld_sms_message",
+      "smarthome_workflows"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "2android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_144",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_144/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_144/oracle_positive.json",
+    "idea_number": 144,
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

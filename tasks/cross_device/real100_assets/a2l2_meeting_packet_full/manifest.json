@@ -1,0 +1,21 @@
+{
+  "task_id": "a2l2_meeting_packet_full",
+  "source_card": "096",
+  "device_topology": "2A+2L",
+  "instruction": "Use the first phone's calendar, the second phone's contacts, the first Linux machine's confirmation handoff, and the second Linux machine's local meeting-packet template to create the packet and send referenced confirmations.",
+  "surfaces": "android_0 Simple Calendar Pro + android_1 Android Contacts app + linux_0 handoff -> linux_1 local DOCX template/output + android_1 Simple SMS Messenger",
+  "source_files": [
+    "source/calendar_event.json",
+    "source/attendees.json",
+    "source/handoff.txt",
+    "source/template.docx"
+  ],
+  "expected_files": [
+    "expected/agenda.docx",
+    "expected/sent_sms.json"
+  ],
+  "evaluator_assumptions": [
+    "The output must be a valid Word package retaining the template anchor and field table, with all four visible meeting fields completed.",
+    "The second phone must contain a positive sent confirmation for every attendee that binds the meeting identity to RP-219."
+  ]
+}

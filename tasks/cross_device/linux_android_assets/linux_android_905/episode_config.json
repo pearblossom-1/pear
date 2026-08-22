@@ -1,0 +1,70 @@
+{
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "retro_music_playlist",
+        "playlist_name": "905-A route set",
+        "expected_songs": [
+          "track_905_alpha",
+          "track_905_bravo"
+        ],
+        "order_sensitive": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "cat '/tmp/event/handoff.txt' 2>/dev/null || echo missing",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [],
+          "exclude": [
+            "missing",
+            "placeholder"
+          ],
+          "entity_relation": {
+            "entities": [
+              "905-A",
+              "NX90530",
+              "Jon Bell"
+            ],
+            "required_phrases": [
+              [
+                "ready",
+                "approved",
+                "prepared"
+              ]
+            ],
+            "conflict_phrases": [
+              "not ready",
+              "pending",
+              "blocked",
+              "905-D"
+            ],
+            "reject_questions": true,
+            "reject_uncertainty": true,
+            "reject_negated_relations": true
+          }
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "task_id": "linux_android_905",
+    "source_plan": "plan6"
+  },
+  "task_id": "linux_android_905"
+}

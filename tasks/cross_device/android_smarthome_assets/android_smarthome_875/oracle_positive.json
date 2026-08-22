@@ -1,0 +1,28 @@
+{
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Daylight log.md' <<'EOF'\n# Daylight log\nThe guest room was unoccupied and above the daylight threshold, so its curtain moved from 100% open to the 25% target.\nThe living room was also bright, but it was occupied and therefore skipped.\nEOF"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "guest_room_curtain_1",
+        "command": "set_open_pct",
+        "args": {
+          "open_pct": 25
+        }
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

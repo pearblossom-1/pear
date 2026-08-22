@@ -1,0 +1,229 @@
+{
+  "id": "linux_only_251",
+  "instruction": "The deployment config merger on the second Linux machine is applying layers in the wrong order. Use `/tmp/config/spec.json` on the first machine to repair `/tmp/config/project/merge_config.py`, run the supplied `/tmp/config/project/tests.py`, and save its console output as `/tmp/config/project/test.txt`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/config && rm -f /tmp/config/spec.json",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_251/source/linux_0/tmp/config/spec.json",
+                "path": "/tmp/config/spec.json"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/config/project && rm -f /tmp/config/project/merge_config.py",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_251/source/linux_1/tmp/config/project/merge_config.py",
+                "path": "/tmp/config/project/merge_config.py"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/config/project && rm -f /tmp/config/project/tests.py",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_251/source/linux_1/tmp/config/project/tests.py",
+                "path": "/tmp/config/project/tests.py"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/config/project/test.txt",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/config/spec.json",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/config/project/merge_config.py",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/config/project/tests.py",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/config/project/test.txt",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nimport copy,importlib.util\ntry:\n spec=importlib.util.spec_from_file_location('merge_config','/tmp/config/project/merge_config.py'); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module); merge=module.merge\n cases=[\n  ({'debug':True,'db':{'host':'base','port':1},'keep':'yes'},{'db':{'host':'env','pool':4},'region':'west'},{'debug':None,'db':{'port':9},'region':'east'},{'db':{'host':'env','port':9,'pool':4},'keep':'yes','region':'east'}),\n  ({'service':{'db':{'host':'base','options':{'ssl':False,'timeout':10}}},'features':['base'],'mode':'base'},{'service':{'db':{'options':{'ssl':True},'pool':4}},'features':['environment']},{'service':{'db':{'host':'override','options':{'timeout':None}}},'features':['override'],'mode':{'kind':'safe'}},{'service':{'db':{'host':'override','options':{'ssl':True},'pool':4}},'features':['override'],'mode':{'kind':'safe'}}),\n  ({'a':{'b':{'c':1,'keep':2}}},{},{'a':{'b':{'c':None}}},{'a':{'b':{'keep':2}}}),\n  ({'value':{'nested':1}},{'value':['replacement']},{'value':'final'},{'value':'final'}),\n ]\n ok=True\n for base,environment,override,expected in cases:\n  originals=copy.deepcopy((base,environment,override)); result=merge(base,environment,override)\n  ok=ok and result==expected and (base,environment,override)==originals\nexcept Exception: ok=False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "deep_merge_behavior"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport subprocess\ntry:\n    result = subprocess.run(['python3', 'tests.py'], cwd='/tmp/config/project', capture_output=True, text=True, timeout=30, check=False)\n    actual = '\\n'.join(line.rstrip() for line in result.stdout.splitlines() if line.strip())\n    saved = '\\n'.join(line.rstrip() for line in Path('/tmp/config/project/test.txt').read_text(encoding='utf-8').splitlines() if line.strip())\n    ok = result.returncode == 0 and actual == '7 passed' and saved == actual\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "metadata": {
+        "path": "/tmp/config/project/test.txt",
+        "role": "supplied_test_execution_provenance"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/config/project/tests.py",
+        "trusted_root": "/tmp/config/project",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "c21b94a951c77fa9c557c5d9bacdaf312b2a3586b9a402f1c6dfe4464a1c0100"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "supplied_test_fixture_guard"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "linux_only",
+    "device_topology": "2linux",
+    "surfaces": [
+      "python",
+      "tests",
+      "text"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_251",
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/config/spec.json"
+      ],
+      "linux_1": [
+        "/tmp/config/project/merge_config.py",
+        "/tmp/config/project/tests.py"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/config/project/merge_config.py",
+        "/tmp/config/project/test.txt"
+      ]
+    },
+    "setup_note": "Generated setup configures linux_0 and linux_1 from visible Linux sources.",
+    "evaluate_note": "Evaluation checks durable outputs on linux_1 with source guards disabled for scoring.",
+    "source_number": 251,
+    "candidate_triage": {
+      "batch_id": "plan6-linux-only-dual-linux-B0003",
+      "decision": "repair",
+      "rationale": "Direct behavior evaluation checks layer precedence, recursive merge, null removal, and input preservation; supplied standard-library tests provide execution evidence."
+    },
+    "oracle_ref": "tasks/cross_device/linux_only_assets/linux_only_251/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/linux_only_assets/linux_only_251/episode_config.json",
+    "lite_evaluator_hardening_note": "Primary evaluation imports and executes merge_config.py behavior; test.txt cannot compensate for an incorrect implementation."
+  }
+}

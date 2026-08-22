@@ -1,0 +1,5 @@
+{
+  "python.testing.pytestEnabled": false,
+  "editor.formatOnSave": false,
+  "files.exclude": {}
+}

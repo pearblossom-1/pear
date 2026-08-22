@@ -1,0 +1,300 @@
+{
+  "meta": {
+    "sh_type": "SH3_explicit_control",
+    "case": "feasible",
+    "seed": 1,
+    "room_count": 5,
+    "device_count": 24,
+    "episode_config_ref": "tasks/smarthome/episode_configs/sh3_explicit_control_close_living_curtain_feasible_0001.json"
+  },
+  "user_location": "living_room",
+  "eval": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "living_room_curtain_1": {
+                "open_pct": 0,
+                "status": "closed"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_current_time": true
+          }
+        }
+      },
+      "name": "Only the living-room curtain closes; other devices and plans stay unchanged"
+    }
+  ],
+  "initial_home_config": {
+    "tick_interval": 1.0,
+    "base_time": "2026-06-05T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "environment": {
+          "temperature_c": 26.9,
+          "humidity_pct": 53.8,
+          "brightness_lux": 560.0,
+          "air_quality_pm25": 52.4,
+          "noise_level_db": 25.0,
+          "occupied": false
+        },
+        "devices": [
+          {
+            "device_id": "bedroom_air_conditioner_1",
+            "device_type": "air_conditioner",
+            "state": {
+              "power": "on",
+              "mode": "auto",
+              "target_temperature_c": 25.0
+            }
+          },
+          {
+            "device_id": "bedroom_curtain_1",
+            "device_type": "curtain",
+            "state": {
+              "open_pct": 20
+            }
+          },
+          {
+            "device_id": "bedroom_dimmable_light_1",
+            "device_type": "dimmable_light",
+            "state": {
+              "power": "off",
+              "brightness_pct": 0
+            }
+          },
+          {
+            "device_id": "bedroom_humidifier_1",
+            "device_type": "humidifier",
+            "state": {
+              "power": "off",
+              "level": "high"
+            }
+          },
+          {
+            "device_id": "bedroom_light_1",
+            "device_type": "light",
+            "state": {
+              "power": "on"
+            }
+          },
+          {
+            "device_id": "bedroom_robot_vacuum_1",
+            "device_type": "robot_vacuum",
+            "state": {
+              "power": "off",
+              "status": "docked",
+              "battery_pct": 64
+            }
+          }
+        ]
+      },
+      "dining_room": {
+        "environment": {
+          "temperature_c": 25.0,
+          "humidity_pct": 51.9,
+          "brightness_lux": 180.3,
+          "air_quality_pm25": 35.7,
+          "noise_level_db": 33.7,
+          "occupied": false
+        },
+        "devices": [
+          {
+            "device_id": "dining_room_air_purifier_1",
+            "device_type": "air_purifier",
+            "state": {
+              "power": "off",
+              "level": "low"
+            }
+          },
+          {
+            "device_id": "dining_room_curtain_1",
+            "device_type": "curtain",
+            "state": {
+              "open_pct": 0
+            }
+          }
+        ]
+      },
+      "guest_room": {
+        "environment": {
+          "temperature_c": 25.3,
+          "humidity_pct": 55.1,
+          "brightness_lux": 1120.0,
+          "air_quality_pm25": 53.9,
+          "noise_level_db": 29.9,
+          "occupied": true
+        },
+        "devices": [
+          {
+            "device_id": "guest_room_air_conditioner_1",
+            "device_type": "air_conditioner",
+            "state": {
+              "power": "off",
+              "mode": "dry",
+              "target_temperature_c": 27.0
+            }
+          },
+          {
+            "device_id": "guest_room_curtain_1",
+            "device_type": "curtain",
+            "state": {
+              "open_pct": 40
+            }
+          },
+          {
+            "device_id": "guest_room_dimmable_light_1",
+            "device_type": "dimmable_light",
+            "state": {
+              "power": "on",
+              "brightness_pct": 100
+            }
+          },
+          {
+            "device_id": "guest_room_heater_1",
+            "device_type": "heater",
+            "state": {
+              "power": "on",
+              "target_temperature_c": 23.0
+            }
+          },
+          {
+            "device_id": "guest_room_light_1",
+            "device_type": "light",
+            "state": {
+              "power": "on"
+            }
+          }
+        ]
+      },
+      "laundry_room": {
+        "environment": {
+          "temperature_c": 26.8,
+          "humidity_pct": 57.4,
+          "brightness_lux": 500.0,
+          "air_quality_pm25": 41.0,
+          "noise_level_db": 52.0,
+          "occupied": true
+        },
+        "devices": [
+          {
+            "device_id": "laundry_room_dehumidifier_1",
+            "device_type": "dehumidifier",
+            "state": {
+              "power": "off",
+              "level": "medium"
+            }
+          },
+          {
+            "device_id": "laundry_room_dryer_1",
+            "device_type": "dryer",
+            "state": {
+              "power": "off",
+              "cycle": "heavy",
+              "remaining_min": 0,
+              "status": "stopped"
+            }
+          },
+          {
+            "device_id": "laundry_room_light_1",
+            "device_type": "light",
+            "state": {
+              "power": "on"
+            }
+          },
+          {
+            "device_id": "laundry_room_washer_1",
+            "device_type": "washer",
+            "state": {
+              "power": "on",
+              "cycle": "quick",
+              "remaining_min": 24,
+              "status": "running"
+            }
+          }
+        ]
+      },
+      "living_room": {
+        "environment": {
+          "temperature_c": 24.7,
+          "humidity_pct": 56.7,
+          "brightness_lux": 1050.0,
+          "air_quality_pm25": 46.6,
+          "noise_level_db": 58.0,
+          "occupied": false
+        },
+        "devices": [
+          {
+            "device_id": "living_room_air_purifier_1",
+            "device_type": "air_purifier",
+            "state": {
+              "power": "on",
+              "level": "low"
+            }
+          },
+          {
+            "device_id": "living_room_curtain_1",
+            "device_type": "curtain",
+            "state": {
+              "open_pct": 80
+            }
+          },
+          {
+            "device_id": "living_room_dehumidifier_1",
+            "device_type": "dehumidifier",
+            "state": {
+              "power": "off",
+              "level": "low"
+            }
+          },
+          {
+            "device_id": "living_room_dimmable_light_1",
+            "device_type": "dimmable_light",
+            "state": {
+              "power": "on",
+              "brightness_pct": 50
+            }
+          },
+          {
+            "device_id": "living_room_humidifier_1",
+            "device_type": "humidifier",
+            "state": {
+              "power": "off",
+              "level": "low"
+            }
+          },
+          {
+            "device_id": "living_room_light_1",
+            "device_type": "light",
+            "state": {
+              "power": "on"
+            }
+          },
+          {
+            "device_id": "living_room_robot_vacuum_1",
+            "device_type": "robot_vacuum",
+            "state": {
+              "power": "on",
+              "status": "cleaning",
+              "battery_pct": 36
+            }
+          }
+        ]
+      }
+    },
+    "schedules": [],
+    "workflows": [],
+    "history": [],
+    "infeasible_reports": [],
+    "answer_reports": []
+  }
+}

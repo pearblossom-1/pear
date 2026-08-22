@@ -1,0 +1,10 @@
+{
+  "case_id": "947-A",
+  "title": "Audio file list creates recording handoff draft",
+  "owner": "Tao Lin",
+  "phone": "+1555011884",
+  "approval_code": "NX94733",
+  "selected_source": "/tmp/audio_file_list_creates_reco/request_table.csv",
+  "status": "ready",
+  "decision": "Audio file list recording handoff"
+}

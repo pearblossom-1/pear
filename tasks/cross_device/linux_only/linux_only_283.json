@@ -1,0 +1,163 @@
+{
+  "id": "linux_only_283",
+  "instruction": "The parser maintainer needs a triage-ready summary before the next test rerun. Use `/tmp/code/test_output.txt` on the first Linux machine and `/tmp/code/maintainer.csv` on the second to create an unsent RFC 5322 email draft at `/tmp/code/test_failure_summary.eml` on the second machine. Address only the responsible maintainer, with no Cc or Bcc recipients, use a clear failure-summary subject, and summarize only the failed tests, including the module and test name; do not send it.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/code && rm -f /tmp/code/test_output.txt",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_283/source/linux_0/tmp/code/test_output.txt",
+                "path": "/tmp/code/test_output.txt"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/code && rm -f /tmp/code/maintainer.csv",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_283/source/linux_1/tmp/code/maintainer.csv",
+                "path": "/tmp/code/maintainer.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/code/test_failure_summary.eml",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/code/test_output.txt",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/code/maintainer.csv",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/code/test_failure_summary.eml",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nfrom email import policy\nfrom email.parser import BytesParser\nfrom email.utils import getaddresses\nimport re\ntry:\n    with open('/tmp/code/test_failure_summary.eml', 'rb') as handle:\n        message = BytesParser(policy=policy.default).parse(handle)\n    to = [address.casefold() for _, address in getaddresses(message.get_all('to', []))]\n    cc = [address.casefold() for _, address in getaddresses(message.get_all('cc', []))]\n    bcc = [address.casefold() for _, address in getaddresses(message.get_all('bcc', []))]\n    subject = str(message.get('subject', '')).strip().casefold()\n    subject_ok = re.search(r'\\b(?:parser|test)\\b', subject) and re.search(r'\\bfail(?:ed|ing|ure|ures)?\\b', subject)\n    if message.is_multipart():\n        plain_parts = [part for part in message.walk() if part.get_content_type() == 'text/plain' and part.get_content_disposition() != 'attachment']\n        other_text = [part for part in message.walk() if part.get_content_maintype() == 'text' and part.get_content_type() != 'text/plain' and part.get_content_disposition() != 'attachment']\n        body = '\\n'.join(str(part.get_content()) for part in plain_parts)\n        plain_ok = len(plain_parts) == 1 and not other_text\n    else:\n        body = str(message.get_content())\n        plain_ok = message.get_content_type() == 'text/plain'\n    lowered = body.casefold()\n    mentioned = set(re.findall(r'\\btest_[a-z0-9_]+\\b', lowered))\n    clauses = [item.strip() for item in re.split(r'[\\n\\r]+|(?<=[.!?])\\s+', lowered) if item.strip()]\n    test_clauses = [item for item in clauses if re.search(r'\\btest_parse_dates\\b', item)]\n    failed = any(re.search(r'\\b(?:fail(?:ed|ing|ure)?|error)\\b', item) for item in test_clauses)\n    contradictory = any(re.search(r'\\b(?:passed|passing|successful|not failing|did not fail|no failure|maybe|perhaps|possibly|might|pending|uncertain|unknown)\\b', item) or '?' in item for item in test_clauses)\n    ok = to == ['maintainer@example.test'] and not cc and not bcc and bool(subject_ok) and plain_ok\n    ok = ok and mentioned == {'test_parse_dates'} and 'parser.py' in lowered and failed and not contradictory\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "failed_test_email_draft"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "linux_only",
+    "device_topology": "2linux",
+    "surfaces": [
+      "csv",
+      "json",
+      "email"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_283",
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/code/test_output.txt"
+      ],
+      "linux_1": [
+        "/tmp/code/maintainer.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/code/test_failure_summary.eml"
+      ]
+    },
+    "setup_note": "Generated setup configures linux_0 and linux_1 from visible Linux sources.",
+    "evaluate_note": "Evaluation checks durable outputs on linux_1 with source guards disabled for scoring.",
+    "source_number": 283,
+    "candidate_triage": {
+      "batch_id": "plan6-linux-only-dual-linux-B0004",
+      "decision": "repair",
+      "rationale": "An unsent RFC 5322 draft is a durable handoff artifact; scoring parses the sole recipient and failure-oriented subject, then classifies each mentioned test line so the failed set is exactly parser.py::test_parse_dates and test_basic_ok is allowed only as explicitly passed."
+    },
+    "oracle_ref": "tasks/cross_device/linux_only_assets/linux_only_283/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/linux_only_assets/linux_only_283/episode_config.json",
+    "lite_evaluator_hardening_note": "Body parsing binds parser.py and test_parse_dates on one line, requires explicit failed/failure/error polarity, rejects passed or negated-failure wording for that test, rejects unknown tests, and permits test_basic_ok only with an unambiguous passed status."
+  }
+}

@@ -1,0 +1,188 @@
+{
+  "id": "linux_only_331",
+  "instruction": "Observe the filename currently playing in VLC on the first Linux machine without changing playback. On the second, preserve `/home/user/notes/play_request.md` and append one final status line using the matching confirmation or mismatch form described in the request and the observed basename.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /home/user/media /home/user/.cache/mdcbench && pkill -x vlc 2>/dev/null || true; rm -f /home/user/media/evening_breeze_demo.wav /home/user/.cache/mdcbench/vlc_331.log /home/user/.cache/mdcbench/vlc_331_process_baseline",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_331/source/evening_breeze_demo.wav",
+                "path": "/home/user/media/evening_breeze_demo.wav"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e; nohup vlc --intf qt --extraintf http --http-port 8080 --http-password password --loop /home/user/media/evening_breeze_demo.wav >/home/user/.cache/mdcbench/vlc_331.log 2>&1 & sleep 3; pid=\"$(pgrep -n -x vlc)\"; test -n \"$pid\"; start=\"$(awk '{print $22}' \"/proc/$pid/stat\")\"; test -n \"$start\"; printf '%s %s\\n' \"$pid\" \"$start\" > /home/user/.cache/mdcbench/vlc_331_process_baseline",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /home/user/notes && rm -f /home/user/notes/play_request.md",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_331/source/play_request.md",
+                "path": "/home/user/notes/play_request.md"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "pkill -x vlc 2>/dev/null || true; rm -f /home/user/media/evening_breeze_demo.wav /home/user/.cache/mdcbench/vlc_331.log /home/user/.cache/mdcbench/vlc_331_process_baseline",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /home/user/notes/play_request.md",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport base64\nsource = base64.b64decode('IyMgUGxheWJhY2sgUmVxdWVzdApSZXF1ZXN0ZWQgYnk6IG9wc0BleGFtcGxlLnRlc3QKZmlsZV9pZDogTS0yMDAKcmVxdWVzdGVkX2ZpbGVuYW1lOiBldmVuaW5nX2JyZWV6ZS53YXYKQXBwZW5kIGV4YWN0bHkgb25lIGZpbmFsIGxpbmUuIElmIFZMQyBwbGF5cyB0aGUgcmVxdWVzdGVkIGZpbGUsIHVzZSBgUGxheWJhY2sgc3RhdHVzOiBjb25maXJtZWQg4oCUIFZMQyBpcyBwbGF5aW5nIE0tMjAwIChldmVuaW5nX2JyZWV6ZS53YXYpYC4gT3RoZXJ3aXNlIHVzZSBgUGxheWJhY2sgc3RhdHVzOiBtaXNtYXRjaCDigJQgcmVxdWVzdGVkIE0tMjAwIChldmVuaW5nX2JyZWV6ZS53YXYpOyBWTEMgaXMgcGxheWluZyA8YWN0dWFsX2ZpbGVuYW1lPmAuCkRvIG5vdCBzdGFydCBvciBjaGFuZ2UgcGxheWJhY2suCg==')\nexpected_line = 'Playback status: mismatch — requested M-200 (evening_breeze.wav); VLC is playing evening_breeze_demo.wav'.encode('utf-8')\ntry:\n    actual = Path('/home/user/notes/play_request.md').read_bytes()\n    ok = actual.startswith(source) and actual[len(source):] == expected_line\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "metadata": {
+        "role": "request_prefix_and_single_status_append"
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vlc_playing_file",
+        "expected_file": "/home/user/media/evening_breeze_demo.wav",
+        "retries": 3,
+        "retry_delay_s": 1
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "true"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport os\nimport subprocess\ntry:\n    pid_text, start = Path('/home/user/.cache/mdcbench/vlc_331_process_baseline').read_text(encoding='utf-8').split()\n    pid = int(pid_text)\n    stat_text = Path(f'/proc/{pid}/stat').read_text(encoding='utf-8').strip()\n    end = stat_text.rfind(')')\n    fields = stat_text[end + 2:].split()\n    same_start = end >= 0 and len(fields) > 19 and fields[19] == start\n    command = Path(f'/proc/{pid}/cmdline').read_bytes().replace(b'\\x00', b' ').decode('utf-8', errors='strict')\n    same_media = '/home/user/media/evening_breeze_demo.wav' in command and 'vlc' in command.casefold()\n    windows = subprocess.run(['wmctrl', '-lp'], capture_output=True, text=True, timeout=5, check=False)\n    visible = False\n    for line in windows.stdout.splitlines():\n        parts = line.split(None, 4)\n        if len(parts) == 5 and parts[2] == str(pid):\n            title = parts[4].casefold()\n            visible = 'vlc' in title and 'evening_breeze_demo' in title\n            if visible:\n                break\n    ok = same_start and same_media and visible\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "same_gui_vlc_process_guard"
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/home/user/media/evening_breeze_demo.wav",
+        "trusted_root": "/home/user/media",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "33aefeebc78cc62fe39846e430c18777ab8afc885cf9cd90207353ae019fded7"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "source_wav_integrity_guard"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 40,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "generated_cross_device",
+    "implementation_status": "final",
+    "readiness": "static_reviewed",
+    "device_topology": "2linux",
+    "surfaces": [
+      "linux.text_markdown",
+      "linux.vlc_playback"
+    ],
+    "review_summary": "A real WAV and live VLC getter replace `/tmp` JSON simulation; exact whole-file scoring proves the unchanged request, one final append, correct mismatch branch, IDs, and observed basename.",
+    "topology_view": "linux_only"
+  }
+}

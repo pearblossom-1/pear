@@ -1,0 +1,9 @@
+{
+  "order": ["base", "environment", "override"],
+  "override_null": "remove_key",
+  "dict_conflict": "recursive_merge",
+  "list_conflict": "higher_priority_replaces",
+  "non_dict_conflict": "higher_priority_replaces",
+  "type_change": "higher_priority_replaces",
+  "mutate_inputs": false
+}

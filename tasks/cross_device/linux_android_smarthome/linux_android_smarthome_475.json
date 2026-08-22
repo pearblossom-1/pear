@@ -1,0 +1,326 @@
+{
+  "id": "linux_android_smarthome_475",
+  "instruction": "Please set up the current `Quiet Piano` scene. Match the playlist on the first phone to its Calendar event on the second using `/tmp/home_ops/comfort-checks/source/music_scene.csv`. Use the Calendar location as the room, retire the obsolete music-vacuum workflow selected by the matching rule, turn on the room light requested by that scene, and leave a short record of what changed in Markor on the second phone as `Quiet Piano decision.md`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/home_ops/comfort-checks/source",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_475/source/tmp/home_ops/comfort-checks/source/music_scene.csv",
+                "path": "/tmp/home_ops/comfort-checks/source/music_scene.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "nohup libreoffice --calc '/tmp/home_ops/comfort-checks/source/music_scene.csv' >'/tmp/home_ops/comfort-checks/source/music-scene-calc.log' 2>&1 </dev/null &",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "retro music"
+          }
+        },
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_mp3_push",
+          "parameters": {
+            "songs": [
+              "quiet_piano_one",
+              "quiet_piano_two"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_playlist_add",
+          "parameters": {
+            "playlist_name": "Quiet Piano",
+            "songs": [
+              "quiet_piano_one",
+              "quiet_piano_two"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_music_library_preflight",
+          "parameters": {
+            "songs": [
+              "quiet_piano_one",
+              "quiet_piano_two"
+            ],
+            "forbidden_songs": [],
+            "forbidden_playlist_names": [],
+            "required_playlist": {
+              "name": "Quiet Piano",
+              "songs": [
+                "quiet_piano_one",
+                "quiet_piano_two"
+              ]
+            },
+            "verify_playlist_creation_entry": false
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Quiet Piano scene",
+            "start_ts": 1781641800,
+            "end_ts": 1781643600,
+            "location": "bedroom",
+            "description": "Use the playlist scene."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Quiet Piano scene",
+            "start_ts": 1781641800,
+            "location": "bedroom",
+            "description": "Use the playlist scene.",
+            "search_text": "Quiet"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Quiet Piano decision.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_475/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/home_ops/comfort-checks/source/music_scene.csv /tmp/home_ops/comfort-checks/source/music-scene-calc.log; rmdir /tmp/home_ops/comfort-checks/source 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Quiet Piano decision.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Quiet Piano decision.md",
+        "rules": {
+          "entities": [
+            "Quiet Piano",
+            "bedroom",
+            [
+              "old vacuum",
+              "music vacuum"
+            ],
+            [
+              "light on",
+              "light turned on"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "applied",
+              "complete"
+            ],
+            [
+              "cancelled",
+              "retired"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "proposed",
+            "light not on",
+            "vacuum remains active"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true,
+          "allowed_reversal_terms": [
+            "cancelled"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_status",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "workflow_id": "old_music_vacuum_475",
+            "status": "cancelled"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "bedroom_light_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on"
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "475 Retro Music playlist mapped to SmartHome scene.",
+    "surfaces": [
+      "android_dual",
+      "retro_music",
+      "calendar",
+      "markor",
+      "linux_csv",
+      "home_cancel_workflow",
+      "home_command"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_475",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_475/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_475/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/home_ops/comfort-checks/source/music_scene.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/home_ops/comfort-checks/source/music_scene.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "pilot_index": 475
+  }
+}

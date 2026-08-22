@@ -1,0 +1,298 @@
+{
+  "id": "linux_smarthome_983",
+  "instruction": "Prepare the maintenance-freeze handoff. Use `/tmp/protection/current.docx` on the first Linux machine to decide the four requests in `/tmp/protection/board.xlsx` on the second, record each decision and resulting value in that workbook, and carry out only the requests allowed by the active SmartHome rules.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/protection/current.docx && mkdir -p -- /tmp/protection",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_983/source/tmp/protection/current.docx",
+                "path": "/tmp/protection/current.docx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/protection/board.xlsx && mkdir -p -- /tmp/protection",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_983/source/linux_1/tmp/protection/board.xlsx",
+                "path": "/tmp/protection/board.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_983/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/protection/current.docx; find /tmp/protection -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/protection/board.xlsx; find /tmp/protection -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/protection/board.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_983/source/linux_1/tmp/protection/board.xlsx",
+          "allowed_changes": [
+            "Board!D2",
+            "Board!E2",
+            "Board!F2",
+            "Board!G2",
+            "Board!D3",
+            "Board!E3",
+            "Board!F3",
+            "Board!G3",
+            "Board!D4",
+            "Board!E4",
+            "Board!F4",
+            "Board!G4",
+            "Board!D5",
+            "Board!E5",
+            "Board!F5",
+            "Board!G5"
+          ],
+          "preserve_layout": true,
+          "sheet": "Board",
+          "cells": {
+            "F2": "Protected",
+            "G2": "on",
+            "F3": "Exempt Executed",
+            "G3": "low",
+            "F4": "Normal Executed",
+            "G4": "on",
+            "F5": "Expired Exception - Protected",
+            "G5": "medium"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/protection/board.xlsx"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "office_air_purifier_1": {
+                "level": "low"
+              },
+              "hallway_light_1": {
+                "power": "on"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "office_air_purifier_1",
+                "command": "set_level",
+                "args": {
+                  "level": "low"
+                }
+              },
+              {
+                "device_id": "hallway_light_1",
+                "command": "turn_on",
+                "args": {}
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_983",
+    "surfaces": [
+      "2linux",
+      "linux_xlsx_source",
+      "home_protection_board",
+      "linux_xlsx_output",
+      "linux_docx_source"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_983",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_983/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_983/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/protection/current.docx",
+      "/tmp/protection/board.xlsx"
+    ],
+    "linux_output_paths": [
+      "/tmp/protection/board.xlsx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/protection/current.docx"
+      ],
+      "linux_1": [
+        "/tmp/protection/board.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [],
+      "linux_1": [
+        "/tmp/protection/board.xlsx"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "2linux_smarthome",
+      "linux_devices": [
+        "linux_0",
+        "linux_1"
+      ],
+      "room_ids": [
+        "bedroom",
+        "hallway",
+        "kitchen",
+        "office"
+      ],
+      "device_type_counts": {
+        "air_purifier": 2,
+        "light": 2
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 2,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-07-15T12:10:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_1",
+        "surface": "linux.xlsx",
+        "path": "/tmp/protection/board.xlsx",
+        "goal": "Create or update the task result at this path.",
+        "func": "check_xlsx_cells",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/protection/current.docx, /tmp/protection/board.xlsx and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the Home protection outcome and Linux output path /tmp/protection/board.xlsx.",
+    "idea_number": 983,
+    "candidate_triage": {
+      "batch_id": "plan5-861-1010-linux-smarthome-B0007",
+      "decision": "direct",
+      "note": "Current effective windows are explicit, and the two allowed rows use supported device commands."
+    },
+    "lite_evaluator_hardening_note": "Hidden auxiliary output evaluator(s) removed; scoring remains on visible outcome/state artifacts."
+  }
+}

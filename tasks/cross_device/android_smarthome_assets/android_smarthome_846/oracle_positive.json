@@ -1,0 +1,36 @@
+{
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "androidworld_task_add",
+        "parameters": {
+          "title": "Rollback correction result",
+          "notes": "Correction applied: the earlier success message conflicts with the quiet rollback policy, so the living-room light is off and the repeat plan is cancelled.",
+          "completed": 0
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "living_room_dimmable_light_1",
+        "command": "turn_off",
+        "args": {}
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.cancel_schedule",
+      "parameters": {
+        "schedule_id": "bad_scene_repeat"
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

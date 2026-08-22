@@ -1,0 +1,315 @@
+{
+  "id": "al2_alarm_calc_email",
+  "instruction": "The Android Clock app has a `Delivery` alarm. Please open `/tmp/delivery/schedule.xlsx` in LibreOffice Calc on the first Linux machine, find the Delivery row and fill in the alarm time, then create a notification draft in Thunderbird on the second Linux machine.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "clock"
+          }
+        },
+        {
+          "type": "androidworld_clock_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_alarm_add",
+          "parameters": {
+            "hour": 8,
+            "minute": 45,
+            "label": "Delivery"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/delivery",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real200_assets/al2_alarm_calc_email/source/visible/deb4d71f_schedule.xlsx",
+                "path": "/tmp/delivery/schedule.xlsx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/delivery/.~lock.schedule.xlsx#",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "python3 -c \"import zipfile,xml.etree.ElementTree as E;p='/tmp/delivery/schedule.xlsx';z=zipfile.ZipFile(p);assert z.testzip() is None;r=E.fromstring(z.read('xl/worksheets/sheet1.xml'));ns={'m':'http://schemas.openxmlformats.org/spreadsheetml/2006/main'};cells={c.attrib['r']:''.join(c.itertext()) for c in r.findall('.//m:c',ns)};assert cells.get('A2')=='Delivery';assert 'delivery-team@example.test' in cells.get('H2','');assert 'C2' not in cells\"",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nrm -rf \"$HOME/.thunderbird/mail.default-release\"\nprofile=\"$HOME/.thunderbird/mail.default-release\"\nmkdir -p \"$profile/Mail/Local Folders\"\ncat > \"$HOME/.thunderbird/profiles.ini\" <<'EOF'\n[Profile0]\nName=local\nIsRelative=1\nPath=mail.default-release\nDefault=1\n\n[General]\nStartWithLastProfile=1\nVersion=2\nEOF\ncat > \"$profile/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server1\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.identity.id1.fullName\", \"Field Operator\");\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nEOF\n: > \"$profile/Mail/Local Folders/Drafts\"\n: > \"$profile/Mail/Local Folders/Drafts.msf\"\n",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "profile=\"$HOME/.thunderbird/mail.default-release\"; command -v thunderbird >/dev/null && test -f \"$profile/prefs.js\" && test ! -s \"$profile/Mail/Local Folders/Drafts\"",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_clock_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/delivery/schedule.xlsx /tmp/delivery/.~lock.schedule.xlsx#; rmdir /tmp/delivery 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf \"$HOME/.thunderbird/mail.default-release\" \"$HOME/.thunderbird/profiles.ini\"",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/delivery/schedule.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "sheet": "Schedule",
+          "preserve_from": "${repo_root}/tasks/cross_device/real200_assets/al2_alarm_calc_email/source/visible/deb4d71f_schedule.xlsx",
+          "allowed_changes": [
+            "Schedule!C2"
+          ],
+          "cells": {
+            "A1": "item",
+            "A2": "Delivery",
+            "C2": "08:45"
+          },
+          "forbidden": [
+            {
+              "cell": "C2",
+              "value": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "thunderbird_draft_state",
+        "profile_root": "~/.thunderbird/mail.default-release",
+        "recipients": [
+          "delivery-team@example.test"
+        ],
+        "allow_extra_recipients": false,
+        "recipient_header_policy": "single_to_only",
+        "exact_total_drafts": 1,
+        "attachments": [],
+        "allow_extra_attachments": false,
+        "mime_body_policy": "safe_visible_text",
+        "message_relation": {
+          "entities": [
+            "Delivery",
+            [
+              "08:45",
+              "8:45",
+              "08:45 AM",
+              "8:45 AM",
+              "8:45AM"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "updated",
+              "update is complete",
+              "scheduled",
+              "notification time",
+              "alarm",
+              "set for",
+              "at"
+            ]
+          ],
+          "reject_unlisted_entity_pattern": "(?<!\\d)(?:[01]?\\d|2[0-3]):[0-5]\\d(?:\\s*[ap]\\.?m\\.?)?(?!\\d)",
+          "allowed_unlisted_entities": [
+            "08:45",
+            "8:45",
+            "08:45 AM",
+            "8:45 AM",
+            "8:45AM"
+          ],
+          "reject_incomplete_semantics": true
+        },
+        "reject_negative_or_uncertain_claims": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "enable_score_calc": false,
+      "result": {
+        "type": "thunderbird_folder_state",
+        "profile_root": "~/.thunderbird/mail.default-release",
+        "inbox_messages": [],
+        "folder_messages": {
+          "Sent": []
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 70,
+    "max_wall_time_s": 540
+  },
+  "metadata": {
+    "category": "real200_cross_device",
+    "source_card": "184",
+    "difficulty": "Medium",
+    "motif": "M5",
+    "interaction_mode": "GUI-focused",
+    "device_topology": "1A+2L",
+    "surfaces": "Android Clock app + linux_0 Calc + linux_1 Thunderbird",
+    "setup_note": "Android 创建 Delivery alarm；linux_0 准备 schedule.xlsx；linux_1 准备 Thunderbird draft。",
+    "evaluate_note": "Checks the source-preserving Calc update and exactly one unsent, attachment-free draft. Delivery and an accepted 08:45 form may be split across subject and body, but must form a positive, non-negated, non-uncertain notification.",
+    "implementation_status": "fixture_scaffold",
+    "readiness": "R1_native_content_thunderbird_state",
+    "native_evaluator_status": "native_content_thunderbird_state",
+    "requires_helper_audit": false,
+    "asset_source": "tasks/cross_device/real200_assets/al2_alarm_calc_email/source",
+    "cross_device_checks": [
+      "alarm_time_updates_workbook_and_notification_draft"
+    ],
+    "fixture_notes": [
+      "/tmp/delivery/schedule.xlsx has in-place workbook cell evaluator rules",
+      "android_0 creates Delivery alarm at 08:45",
+      "schedule.xlsx includes delivery-team@example.test as the draft recipient cue",
+      "Thunderbird draft must contain the recipient, alarm label, and alarm time"
+    ],
+    "instruction_visible_inputs": [
+      "/tmp/delivery/schedule.xlsx"
+    ],
+    "instruction_visible_outputs": [],
+    "native_file_presence_outputs": [],
+    "native_content_outputs": [
+      {
+        "path": "/tmp/delivery/schedule.xlsx",
+        "func": "check_xlsx_cells",
+        "expected_file": null,
+        "device_id": "linux_0",
+        "rules": {
+          "sheet": "Schedule",
+          "cells": {
+            "A1": "item",
+            "A2": "Delivery",
+            "C2": "08:45"
+          },
+          "forbidden": [
+            {
+              "cell": "C2",
+              "value": ""
+            }
+          ]
+        }
+      }
+    ],
+    "android_state_outputs": [],
+    "android_file_outputs": [],
+    "android_text_outputs": [],
+    "browser_state_outputs": [],
+    "thunderbird_draft_outputs": [
+      {
+        "device_id": "linux_1",
+        "include": [
+          "delivery-team@example.test",
+          "Delivery",
+          "08:45"
+        ],
+        "exclude": [
+          "wrong time",
+          "missing alarm"
+        ]
+      }
+    ],
+    "lite_evaluator_hardening_note": "The workbook preserves all meaningful source cells, sheet state, and relevant row/column visibility while permitting only Schedule!C2; visible Calc time serials normalize to HH:MM. The draft getter reads only the exact profile Drafts store, requires exactly one draft and one To recipient, rejects attachments and sent copies, and binds Delivery plus an equivalent 08:45 form across subject and body in one affirmative relation. Setup validates the workbook cue/empty target cell and the usable empty Thunderbird profile."
+  }
+}

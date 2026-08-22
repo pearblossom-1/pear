@@ -1,0 +1,14 @@
+{
+  "task_id": "a2_gallery_cleanup_log",
+  "source_files": [
+    "site_a_overview.png",
+    "site_b_entrance.png",
+    "site_c_storage.png",
+    "site_d_parking.png"
+  ],
+  "expected_files": [],
+  "device_topology": "A+A",
+  "instruction": "The first phone's Markor note `Album rule` says which pictures to keep in the `Cleanup Review` album in Simple Gallery Pro on the second phone. Please clean up the second phone according to the rule: keep only the images named in the note and delete the other images from the same album.",
+  "surfaces": "android_0 Markor rule -> android_1 Simple Gallery Pro / Android Files",
+  "requires_helper_audit": false
+}

@@ -1,0 +1,1 @@
+{"linux_actions": [{"device_id": "linux_0", "type": "oracle.fill_browser_form", "parameters": {"path": "/home/user/forms/request.html", "fields": {"request_code": "REQ-508", "approval_code": "APP-5088"}}}], "android_setup": {"android_0": []}}

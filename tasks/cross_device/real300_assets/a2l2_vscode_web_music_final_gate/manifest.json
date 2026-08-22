@@ -1,0 +1,17 @@
+{
+  "task_id": "a2l2_vscode_web_music_final_gate",
+  "source_files": [
+    "source/project/README.md",
+    "source/validator.html"
+  ],
+  "expected_files": [],
+  "device_topology": "A+A+L+L",
+  "instruction": "Prepare the launch validator for the staging kiosk. The first phone's Markor note `Launch checklist` contains the approved operations checklist, and the second phone's Retro Music playlist `Launch audio` contains the approved audio cues. In the VSCode project on the first Linux machine, fix `/tmp/launch/validator.html` so `evaluateLaunchGate(checklist, playlistTracks)` accepts exactly those two approved lists; missing, substituted, duplicated, extra, or non-list values must fail. Copy the corrected file from the first Linux machine to `/home/user/launch/validator.html` on the second Linux machine. Open that copied page in Chrome, enter the approved checklist and audio-cue lists in the page, run validation, and leave the page showing that `checklistReady`, `audioReady`, and `launch_passed` are all `true`.",
+  "surfaces": "Markor + Retro Music + VSCode + Chrome validator",
+  "requires_helper_audit": true,
+  "fixture_notes": [
+    "The current approved checklist and audio cues are maintained on the two operations phones.",
+    "Both linux_0 source and linux_1 deployed pages receive fresh isolated Chrome behavioral cases covering correct/reordered inputs, missing members, substitutions, duplicates, extras, non-list inputs, and exact boolean readiness flags.",
+    "The two persisted files must match after only line-ending/final-newline normalization, and Linux1 Chrome must remain on the copied file with the approved textarea values and a visible all-true JSON result."
+  ]
+}

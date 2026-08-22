@@ -1,0 +1,83 @@
+{
+  "task_id": "linux_android_1078",
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/1078-A_blocked.md",
+        "rules": {
+          "entities": ["1078-A", "NX07877", "Owen Park"],
+          "positive_phrases": ["blocked"],
+          "required_phrases": [
+            [
+              "the required SMS form code is unavailable",
+              "required SMS form code is unavailable",
+              "the SMS did not provide the required form code",
+              "the form code is missing from the latest SMS",
+              "form code is missing from the latest SMS",
+              "no usable SMS form code was provided",
+              "the required code was not included in the SMS",
+              "required code was not included in the SMS",
+              "SMS form code unavailable",
+              "SMS form code is unavailable",
+              "SMS form code missing",
+              "SMS form code is missing",
+              "SMS form code not provided",
+              "SMS form code was not provided",
+              "required form code unavailable",
+              "required form code is unavailable",
+              "required form code missing",
+              "required form code is missing",
+              "required form code not provided",
+              "required form code was not provided"
+            ]
+          ],
+          "allowed_negative_capability_phrases": [
+            "the SMS did not provide the required form code",
+            "no usable SMS form code was provided",
+            "the required code was not included in the SMS",
+            "required code was not included in the SMS",
+            "SMS form code not provided",
+            "SMS form code was not provided",
+            "required form code not provided",
+            "required form code was not provided"
+          ],
+          "conflict_phrases": [
+            "ready",
+            "submitted",
+            "not blocked",
+            "required SMS form code is available",
+            "SMS form code is available",
+            "form code is available",
+            "SMS provided the required form code",
+            "required code was included in the SMS",
+            "blocked for an unknown reason",
+            "unknown reason",
+            "blocked because the owner is unavailable",
+            "owner is unavailable",
+            "blocked because approval is missing",
+            "approval is missing"
+          ]
+        }
+      },
+      "expected": {"type": "rule", "rules": {"expected": "pass"}}
+    },
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "host_form_submission_state",
+        "form_id": "linux_android_1078",
+        "field_names": ["case_id", "sms_code"],
+        "expected_sha256": "841134df5a4787b55912020f3653842b7cd36fb45c176117b58aa89338b259fa",
+        "expected_state": "not_submitted",
+        "client_path": "/tmp/form/request_form.html",
+        "action_placeholder": "__MDCBENCH_FORM_ACTION__"
+      },
+      "expected": {"type": "rule", "rules": {"expected": "pass"}}
+    }
+  ],
+  "metadata": {"task_id": "linux_android_1078", "source_plan": "plan6"}
+}

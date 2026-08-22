@@ -1,0 +1,15 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && echo T3V0cmVhY2ggZm9yIFJhZSBMaW4gaXMgYmxvY2tlZDogcmVxdWVzdCBwaG9uZSA1NTUxMjAxMjc0IGNvbmZsaWN0cyB3aXRoIGNvbnRhY3QgcGhvbmUgNTU1MDAwMTI3NC4K | base64 -d > '/storage/emulated/0/Documents/Markor/Outreach Blocked 1274.md'"
+        }
+      }
+    ]
+  },
+  "notes": "Positive dry-run oracle writes only the requested final artifacts and native state."
+}

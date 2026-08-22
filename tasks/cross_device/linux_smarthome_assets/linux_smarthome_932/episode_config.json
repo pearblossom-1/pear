@@ -1,0 +1,108 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 932,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1182,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/ranges/register.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_932/source/linux_1/tmp/ranges/register.xlsx",
+          "allowed_changes": [
+            "Register!B2",
+            "Register!D2",
+            "Register!E2",
+            "Register!F2"
+          ],
+          "preserve_layout": true,
+          "sheet": "Register",
+          "cells": {
+            "B2": 65,
+            "D2": "yes",
+            "E2": "Live In Range",
+            "F2": "no repair"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/ranges/register.xlsx"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-07-15T10:00:00",
+    "rooms": {
+      "office": {
+        "temperature_c": 22.4,
+        "humidity_pct": 47.7,
+        "brightness_lux": 550.0,
+        "air_quality_pm25": 29.2,
+        "noise_level_db": 33.5,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "office_curtain_1",
+        "device_type": "curtain",
+        "room_id": "office",
+        "state": {
+          "open_pct": 65,
+          "status": "partial"
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

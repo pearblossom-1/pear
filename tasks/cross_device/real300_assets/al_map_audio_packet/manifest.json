@@ -1,0 +1,11 @@
+{
+  "task_id": "al_map_audio_packet",
+  "source_files": [
+    "site_favorites.gpx"
+  ],
+  "expected_files": [],
+  "device_topology": "A+L",
+  "instruction": "Android OsmAnd has three site favorites for today: `North gate`, `Pump shed`, and `Service yard`. Record a 2-5 second Audio Recorder memo for each one, then use Android Files to export them to `Recordings` as `north_gate_memo.m4a`, `pump_shed_memo.m4a`, and `service_yard_memo.m4a`. Then create `/tmp/sites/packet.odt` in Linux LibreOffice Writer with one line per site relating its name, coordinates, and memo filename, and export `/tmp/sites/packet.pdf` as the field record.",
+  "surfaces": "OsmAnd + Audio Recorder + Writer/PDF",
+  "requires_helper_audit": false
+}

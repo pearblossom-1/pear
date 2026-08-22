@@ -1,0 +1,17 @@
+{
+  "case": "CASE-1831",
+  "code": "FB-1831",
+  "route": "RT-31",
+  "site": "Harbor Gate 14",
+  "owner": "Theo Brooks",
+  "phone": "+15552001831",
+  "email": "theo.brooks@example.test",
+  "role": "Route planner",
+  "time": "2026-07-16 09:10",
+  "lat": "37.749",
+  "lon": "-122.416",
+  "decision": "ready",
+  "included": "rt-31_photo_a.jpg",
+  "missing": "rt-31_photo_missing.jpg",
+  "hold_attachment": "rt-31_hold.jpg"
+}

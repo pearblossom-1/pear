@@ -1,0 +1,202 @@
+{
+  "id": "al_writer_from_note_gui",
+  "instruction": "The Android Markor note `Memo draft` is a short notice. Please use LibreOffice Writer on Linux to create `/tmp/memo/memo.odt` with the title and body.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "mkdir -p /storage/emulated/0/Documents/Markor && printf %s '# Memo draft\n\nTitle: Dock schedule change\n\nBody: Please tell the morning crew that badge pickup moves to 08:45 and the north desk should stay staffed until 10:15.\n' > '/storage/emulated/0/Documents/Markor/Memo draft.md'"
+            ]
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "markor"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/memo && mkdir -p /tmp/memo && rm -f /tmp/memo/memo.odt && test -w /tmp/memo && test ! -e /tmp/memo/memo.odt && (command -v libreoffice >/dev/null || command -v lowriter >/dev/null)",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "rm -f '/storage/emulated/0/Documents/Markor/Memo draft.md'"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/memo",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_odf_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/memo/memo.odt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "Dock schedule change",
+            "Please tell the morning crew that badge pickup moves to 08:45 and the north desk should stay staffed until 10:15."
+          ],
+          "exclude": [
+            "placeholder summary",
+            "WRONG-000"
+          ],
+          "require_valid_package": true,
+          "required_members": [
+            "styles.xml",
+            "meta.xml"
+          ],
+          "odf_kind": "text",
+          "min_paragraphs": 2,
+          "paragraph_label_normalized": [
+            {
+              "value": "Dock schedule change",
+              "prefixes": [
+                "Title",
+                "Subject",
+                "Heading"
+              ]
+            },
+            {
+              "value": "Please tell the morning crew that badge pickup moves to 08:45 and the north desk should stay staffed until 10:15.",
+              "prefixes": [
+                "Body",
+                "Notice"
+              ]
+            }
+          ],
+          "paragraph_label_normalized_ordered_unique": true,
+          "paragraph_conflict_patterns": [
+            "\\b(?:do\\s+not|don't|dont)\\s+(?:use|follow)\\b.{0,30}\\b(?:notice|message|text|instructions?|directions?|content)\\b",
+            "(?<!not )(?<!never )\\b(?:ignore|disregard)\\b.{0,20}\\b(?:(?:this|the|above)\\s+)?(?:notice|message|text|instructions?|directions?|content)\\b",
+            "\\b(?:notice|message|text|instructions?|directions?|content)\\b.{0,40}(?:(?:\\bis|was|became|has\\s+been)\\s+|[:=\\-]\\s*)(?!not\\b)(?:cancelled|canceled|obsolete|superseded|withdrawn|retracted|revoked|invalid)\\b",
+            "(?<!not )(?<!never )\\b(?:cancel|cancelled|canceled|supersede(?:d)?|withdraw(?:n)?|retract(?:ed)?|revoke(?:d)?)\\b.{0,30}\\b(?:(?:this|the|above)\\s+)?(?:notice|message|text|instructions?|directions?|content)\\b",
+            "\\bbadge\\s+pickup\\b.{0,80}\\b(?:not|never|no\\s+longer)\\b.{0,30}\\b(?:08:45|8:45)\\b",
+            "\\b(?:08:45|8:45)\\b.{0,30}\\b(?:is|was)\\s+(?!not\\b)(?:wrong|replaced|invalid)\\b",
+            "\\bnorth\\s+desk\\b.{0,80}\\b(?:not|never|no\\s+longer)\\b.{0,30}\\b10:15\\b",
+            "\\b10:15\\b.{0,30}\\b(?:is|was)\\s+(?!not\\b)(?:wrong|replaced|invalid)\\b",
+            "\\bbadge\\s+pickup\\b.{0,100}\\b(?:moves?|moved|at|to|instead)\\b.{0,24}\\b(?!(?:08:45|8:45)\\b)(?:[01]?\\d|2[0-3]):[0-5]\\d\\b",
+            "\\bnorth\\s+desk\\b.{0,100}\\b(?:staffed|until|to|instead)\\b.{0,24}\\b(?!10:15\\b)(?:[01]?\\d|2[0-3]):[0-5]\\d\\b"
+          ],
+          "case_sensitive": false
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 45,
+    "max_wall_time_s": 360
+  },
+  "metadata": {
+    "category": "real200_cross_device",
+    "source_card": "137",
+    "difficulty": "Simple",
+    "motif": "M3",
+    "interaction_mode": "GUI-focused",
+    "device_topology": "1A+1L",
+    "surfaces": "Android Markor -> Linux LibreOffice Writer",
+    "setup_note": "Android 写入 Memo draft note；Linux 清理 memo.odt。",
+    "evaluate_note": "Requires a valid Writer ODT with two ordered visible blocks. Optional Title/Subject/Heading and Body/Notice prefixes are stripped before normalized comparison; styling may vary, while cancellation and explicit time contradictions fail.",
+    "implementation_status": "fixture_scaffold",
+    "requires_helper_audit": false,
+    "cross_device_checks": [
+      "real200_card_137_reviewed_after_81_90_audit",
+      "native_sources_and_outputs_checked"
+    ],
+    "readiness": "R1_native_content",
+    "native_evaluator_status": "native_content",
+    "fixture_notes": [
+      "真实输入直接注入到 instruction 可见位置",
+      "评估检查任务关键产物而非内部状态字段"
+    ],
+    "instruction_visible_inputs": [],
+    "instruction_visible_outputs": [
+      "/tmp/memo/memo.odt"
+    ],
+    "native_file_presence_outputs": [],
+    "native_content_outputs": [
+      {
+        "path": "/tmp/memo/memo.odt",
+        "func": "check_odf_text",
+        "expected_file": null,
+        "device_id": "linux_0",
+        "rules": {
+          "include": [
+            "Dock schedule change",
+            "Please tell the morning crew that badge pickup moves to 08:45 and the north desk should stay staffed until 10:15."
+          ],
+          "exclude": [
+            "placeholder summary",
+            "WRONG-000"
+          ]
+        }
+      }
+    ],
+    "android_state_outputs": [],
+    "android_file_outputs": [],
+    "android_text_outputs": [],
+    "browser_state_outputs": [],
+    "thunderbird_draft_outputs": [],
+    "lite_evaluator_hardening_note": "The valid ODT package and visibility checks remain. Title and body now match as ordered unique visible blocks after optional declared label-prefix normalization, so common Writer forms such as `Title:` and `Notice:` pass without weakening the canonical content. Contradictory cancellation or replacement/time claims still fail; setup opens Markor and verifies Writer/output readiness."
+  }
+}

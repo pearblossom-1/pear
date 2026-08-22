@@ -1,0 +1,227 @@
+{
+  "id": "linux_android_1217",
+  "instruction": "Read `/tmp/review/policy.pdf` on the first Linux machine and `/tmp/review/followup_task.md` on the second, then check Contacts. If the required reviewer is missing, create the incomplete follow-up task described by those sources.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/review/policy.pdf && mkdir -p -- /tmp/review",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1217/source/tmp/review/policy.pdf",
+                "path": "/tmp/review/policy.pdf"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\ntest -r /tmp/review/policy.pdf\ncommand -v pdfinfo >/dev/null\ncommand -v pdftotext >/dev/null\ncommand -v evince >/dev/null\ntest \"$(pdfinfo /tmp/review/policy.pdf | awk '/^Pages:/ {print $2}')\" -ge 1\ntext=\"$(pdftotext /tmp/review/policy.pdf -)\"\ntest -n \"$text\"\nfor phrase in 'Casey Hart' 'Safety approver' 'Create one incomplete reviewer contact task'; do printf '%s\\n' \"$text\" | grep -F \"$phrase\" >/dev/null; done\nDISPLAY=:0 nohup evince /tmp/review/policy.pdf >/tmp/review/evince.log 2>&1 &\nsleep 4\npgrep -x evince >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/review/followup_task.md && mkdir -p -- /tmp/review",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1217/source/linux_1/tmp/review/followup_task.md",
+                "path": "/tmp/review/followup_task.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/review/followup_task.md && grep -F 'Create reviewer contact' /tmp/review/followup_task.md >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Casey Harper",
+            "number": "5551201217",
+            "notes": "near-name decoy; role observer"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rows=\"$(content query --uri content://com.android.contacts/data --projection display_name:mimetype:data1 2>/dev/null)\"; printf '%s\\n' \"$rows\" | grep -F 'display_name=Casey Harper' | grep -F 'data1=5551201217' >/dev/null && printf '%s\\n' \"$rows\" | grep -F 'display_name=Casey Harper' | grep -F 'role observer' >/dev/null && ! printf '%s\\n' \"$rows\" | grep -F 'display_name=Casey Hart' >/dev/null",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "pkill -x evince 2>/dev/null || true; rm -f -- /tmp/review/policy.pdf /tmp/review/evince.log; find /tmp/review -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/review/followup_task.md; find /tmp/review -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_set",
+        "titles": ["Create reviewer contact"],
+        "completed": false,
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1217",
+    "surfaces": [
+      "contacts",
+      "tasks",
+      "linux.pdf",
+      "linux.markdown"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1217",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1217/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1217/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/review/policy.pdf",
+      "/tmp/review/followup_task.md"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": ["/tmp/review/policy.pdf"],
+      "linux_1": [
+        "/tmp/review/followup_task.md"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1201-1220-B0002",
+    "candidate_triage": {
+      "decision": "direct",
+      "rationale": "Candidate is realistic, source-closed, and supported by existing Linux and Android helpers."
+    },
+    "structured_output_classification": {
+      "native_task_set": "primary_native_state"
+    },
+    "lite_evaluator_hardening_note": "Scores the exact incomplete native task multiset; the redundant audit CSV was replaced by a visible task-template source."
+  }
+}

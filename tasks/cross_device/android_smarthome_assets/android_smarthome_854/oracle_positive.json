@@ -1,0 +1,18 @@
+{
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "androidworld_task_add",
+        "parameters": {
+          "title": "Missing playlist result",
+          "notes": "Evening Wind Down Kids was unavailable, so I left the routine unscheduled."
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "type": "done"
+    }
+  ]
+}

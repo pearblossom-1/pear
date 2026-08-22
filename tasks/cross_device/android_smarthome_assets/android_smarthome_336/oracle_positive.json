@@ -1,0 +1,17 @@
+{
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Home air audit.md' <<'EOF'\n# Home air audit\n1. kitchen — PM2.5 92; purifier: off; plan: none; status: none\n2. study — PM2.5 71; purifier: running; plan: 20:00 high; status: active\n3. bedroom — PM2.5 58; purifier: running; plan: none; status: none\nRecommendation: review kitchen ventilation and purifier use with the household; no purifier or plan was changed during this audit.\nEOF"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "type": "done"
+    }
+  ]
+}

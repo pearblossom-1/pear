@@ -1,0 +1,485 @@
+{
+  "id": "android_only_285",
+  "instruction": "`music_export_manifest.csv` on the first phone lists the MP3 files to export. On the second phone, copy each listed song that exists into the Music/Export folder, then create `Music export report.md` in Markor on that same phone for the audio producer, identifying every listed file as copied or missing. Do not export files that are absent from the manifest.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_only_assets/android_only_285/android_0/files/music_export_manifest.csv",
+                "path": "/sdcard/Download/music_export_manifest.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/sdcard/Download",
+            "expected_filenames": [
+              "music_export_manifest.csv"
+            ],
+            "missing_filenames": [],
+            "open_filename": "music_export_manifest.csv",
+            "required_visible_text": [
+              "north_loop.mp3",
+              "bridge_check.mp3",
+              "missing_song.mp3"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -rf /sdcard/Music/Export && mkdir -p /sdcard/Music/Export && rm -f /sdcard/Music/north_loop.mp3 /sdcard/Music/bridge_check.mp3 /sdcard/Music/unlisted.mp3 /sdcard/Music/missing_song.mp3 '/storage/emulated/0/Documents/Markor/Music export report.md' && content delete --uri content://media/external/audio/media --where \"_display_name='north_loop.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='bridge_check.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='unlisted.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='missing_song.mp3'\" >/dev/null 2>&1 || true"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "retro music"
+          }
+        },
+        {
+          "type": "androidworld_mp3_push",
+          "parameters": {
+            "songs": [
+              "north_loop",
+              "bridge_check",
+              "unlisted"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/sdcard/Music",
+            "expected_filenames": [
+              "north_loop.mp3",
+              "bridge_check.mp3",
+              "unlisted.mp3"
+            ],
+            "missing_filenames": [
+              "missing_song.mp3"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_filesystem_snapshot",
+          "parameters": {
+            "snapshot_id": "android_only_285_music_sources",
+            "directories": [],
+            "files": [
+              "/sdcard/Music/north_loop.mp3",
+              "/sdcard/Music/bridge_check.mp3",
+              "/sdcard/Music/unlisted.mp3",
+              "/sdcard/Music/missing_song.mp3"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /sdcard/Download/music_export_manifest.csv"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -rf /sdcard/Music/Export && rm -f /sdcard/Music/north_loop.mp3 /sdcard/Music/bridge_check.mp3 /sdcard/Music/unlisted.mp3 /sdcard/Music/missing_song.mp3 '/storage/emulated/0/Documents/Markor/Music export report.md' && content delete --uri content://media/external/audio/media --where \"_display_name='north_loop.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='bridge_check.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='unlisted.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='missing_song.mp3'\" >/dev/null 2>&1 || true"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Preserve all four source-file baseline states on the second phone",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_filesystem_snapshot_state",
+        "snapshot_id": "android_only_285_music_sources",
+        "preserve_directories": [],
+        "file_mappings": [
+          {
+            "baseline_path": "/sdcard/Music/north_loop.mp3",
+            "current_path": "/sdcard/Music/north_loop.mp3"
+          },
+          {
+            "baseline_path": "/sdcard/Music/bridge_check.mp3",
+            "current_path": "/sdcard/Music/bridge_check.mp3"
+          },
+          {
+            "baseline_path": "/sdcard/Music/unlisted.mp3",
+            "current_path": "/sdcard/Music/unlisted.mp3"
+          },
+          {
+            "baseline_path": "/sdcard/Music/missing_song.mp3",
+            "current_path": "/sdcard/Music/missing_song.mp3"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Copy north_loop and bridge_check from their original setup bytes",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_filesystem_snapshot_state",
+        "snapshot_id": "android_only_285_music_sources",
+        "preserve_directories": [],
+        "file_mappings": [
+          {
+            "baseline_path": "/sdcard/Music/north_loop.mp3",
+            "current_path": "/sdcard/Music/Export/north_loop.mp3"
+          },
+          {
+            "baseline_path": "/sdcard/Music/bridge_check.mp3",
+            "current_path": "/sdcard/Music/Export/bridge_check.mp3"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    },
+    {
+      "name": "Music/Export recursive .mp3 business-audio count is 2",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Music/Export",
+        "recursive": true,
+        "suffix": ".mp3",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "2"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Music/Export recursive .wav business-audio count is 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Music/Export",
+        "recursive": true,
+        "suffix": ".wav",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Music/Export recursive .m4a business-audio count is 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Music/Export",
+        "recursive": true,
+        "suffix": ".m4a",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Music/Export recursive .aac business-audio count is 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Music/Export",
+        "recursive": true,
+        "suffix": ".aac",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Music/Export recursive .ogg business-audio count is 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Music/Export",
+        "recursive": true,
+        "suffix": ".ogg",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Music/Export recursive .flac business-audio count is 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Music/Export",
+        "recursive": true,
+        "suffix": ".flac",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "missing_song.mp3 is not fabricated in Music/Export",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Music/Export/missing_song.mp3"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "unlisted.mp3 is not exported",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Music/Export/unlisted.mp3"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Report copied and missing manifest entries without false exports",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Music export report.md",
+        "rules": {
+          "entities": [
+            "north_loop.mp3",
+            "bridge_check.mp3",
+            "missing_song.mp3"
+          ],
+          "required_phrases": [
+            [
+              "copied",
+              "exported"
+            ],
+            [
+              "missing",
+              "absent",
+              "not found"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "copied",
+              "exported"
+            ],
+            [
+              "missing",
+              "absent",
+              "not found"
+            ]
+          ],
+          "conflict_phrases": [
+            "cancelled",
+            "withdrawn"
+          ],
+          "allowed_negative_capability_phrases": [
+            "not copied",
+            "not exported",
+            "not found",
+            "not in the manifest"
+          ],
+          "conflict_patterns": [
+            "missing_song\\.mp3.{0,24}\\b(?:is\\s+)?(?:present|available|exists|copied|exported)\\b",
+            "unlisted\\.mp3.{0,24}(?<!not )(?<!never )\\b(?:copied|exported)\\b",
+            "(?<!not )(?<!never )\\b(?:copied|exported)\\b.{0,24}unlisted\\.mp3"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "north_loop.mp3"
+              ],
+              "phrases": [
+                "copied",
+                "exported"
+              ],
+              "conflicts": [
+                "not copied",
+                "not exported"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "bridge_check.mp3"
+              ],
+              "phrases": [
+                "copied",
+                "exported"
+              ],
+              "conflicts": [
+                "not copied",
+                "not exported"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "missing_song.mp3"
+              ],
+              "phrases": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "conflicts": [
+                "present",
+                "exists",
+                "copied",
+                "exported"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "android_only",
+    "device_topology": "2android",
+    "surfaces": [
+      "files",
+      "markor"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/android_only_assets/android_only_285",
+    "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",
+    "evaluate_note": "Evaluation checks durable Android outputs with source guards kept non-scoring.",
+    "source_number": 285,
+    "candidate_triage": {
+      "batch_id": "plan6-android-only-dual-android-B0004",
+      "decision": "direct",
+      "rationale": "Supported music file copy from manifest with source files preserved and missing song reported."
+    },
+    "oracle_ref": "tasks/cross_device/android_only_assets/android_only_285/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_285/episode_config.json",
+    "lite_hardening_note": "Removed unscored Android source-state evaluators and consolidated file-output checks where appropriate."
+  }
+}

@@ -1,0 +1,357 @@
+{
+  "id": "a2l2_vscode_web_music_final_gate",
+  "instruction": "Prepare the launch validator for the staging kiosk. The first phone's Markor note `Launch checklist` contains the approved operations checklist, and the second phone's Retro Music playlist `Launch audio` contains the approved audio cues. In the VSCode project on the first Linux machine, fix `/tmp/launch/validator.html` so `evaluateLaunchGate(checklist, playlistTracks)` accepts exactly those two approved lists; missing, substituted, duplicated, extra, or non-list values must fail. Copy the corrected file from the first Linux machine to `/home/user/launch/validator.html` on the second Linux machine. Open that copied page in Chrome, enter the approved checklist and audio-cue lists in the page, run validation, and leave the page showing that `checklistReady`, `audioReady`, and `launch_passed` are all `true`.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "set -e\nmkdir -p /storage/emulated/0/Documents/Markor\ncat > '/storage/emulated/0/Documents/Markor/Launch checklist.md' <<'EOF'\n# Launch checklist\n\n- copy approved\n- test suite passed\n- handoff owner assigned\nEOF"
+            ]
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "markor"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "retro music"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for name in launch_intro.mp3 safety_brief.mp3 handoff_cue.mp3; do rm -f \"/sdcard/Music/$name\"; content delete --uri content://media/external/audio/media --where \"_display_name='$name' AND relative_path='Music/'\" >/dev/null 2>&1 || true; done"
+          }
+        },
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_mp3_push",
+          "parameters": {
+            "songs": [
+              "launch_intro",
+              "safety_brief",
+              "handoff_cue"
+            ],
+            "duration_milliseconds": 60000
+          }
+        },
+        {
+          "type": "androidworld_retro_playlist_add",
+          "parameters": {
+            "playlist_name": "Launch audio",
+            "songs": [
+              "launch_intro",
+              "safety_brief",
+              "handoff_cue"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_music_library_preflight",
+          "parameters": {
+            "songs": [
+              "launch_intro",
+              "safety_brief",
+              "handoff_cue"
+            ],
+            "required_playlist": {
+              "name": "Launch audio",
+              "songs": [
+                "launch_intro",
+                "safety_brief",
+                "handoff_cue"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/launch && mkdir -p /tmp/launch",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2l2_vscode_web_music_final_gate/source/project/README.md",
+                "path": "/tmp/launch/README.md"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2l2_vscode_web_music_final_gate/source/validator.html",
+                "path": "/tmp/launch/validator.html"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -w /tmp/launch && test -r /tmp/launch/README.md && test -w /tmp/launch/validator.html && grep -Fq 'launch_passed: false' /tmp/launch/validator.html",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /home/user/launch && mkdir -p /home/user/launch && test -w /home/user/launch && test ! -e /home/user/launch/validator.html",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Launch checklist.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for name in launch_intro.mp3 safety_brief.mp3 handoff_cue.mp3; do rm -f \"/sdcard/Music/$name\"; content delete --uri content://media/external/audio/media --where \"_display_name='$name' AND relative_path='Music/'\" >/dev/null 2>&1 || true; done"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/launch",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /home/user/launch",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "chrome_persisted_file_cases",
+        "url": "file:///tmp/launch/validator.html",
+        "source_via_vm_file": {
+          "path": "/tmp/launch/validator.html",
+          "trusted_root": "/tmp/launch",
+          "require_regular_file_no_symlink": true,
+          "encoding": "utf-8"
+        },
+        "function_name": "evaluateLaunchGate",
+        "canonical": {
+          "checklist": [
+            "copy approved",
+            "test suite passed",
+            "handoff owner assigned"
+          ],
+          "tracks": [
+            "launch_intro",
+            "safety_brief",
+            "handoff_cue"
+          ]
+        },
+        "failure_value": "fail"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "chrome_persisted_file_cases",
+        "url": "file:///home/user/launch/validator.html",
+        "function_name": "evaluateLaunchGate",
+        "canonical": {
+          "checklist": [
+            "copy approved",
+            "test suite passed",
+            "handoff owner assigned"
+          ],
+          "tracks": [
+            "launch_intro",
+            "safety_brief",
+            "handoff_cue"
+          ]
+        },
+        "failure_value": "fail"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "scope": "global",
+      "func": "normalized_text_exact_match",
+      "enable_score_calc": false,
+      "result": {
+        "device_id": "linux_0",
+        "type": "vm_file_text",
+        "path": "/tmp/launch/validator.html",
+        "trusted_root": "/tmp/launch",
+        "require_regular_file_no_symlink": true,
+        "encoding": "utf-8"
+      },
+      "expected": {
+        "device_id": "linux_1",
+        "type": "vm_file_text",
+        "path": "/home/user/launch/validator.html",
+        "trusted_root": "/home/user/launch",
+        "require_regular_file_no_symlink": true,
+        "encoding": "utf-8"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "chrome_js_result",
+        "url": "file:///home/user/launch/validator.html",
+        "expression": "(() => { const exact = (actual, expected) => Array.isArray(actual) && actual.length === expected.length && [...actual].sort().every((value, index) => value === [...expected].sort()[index]); const lines = selector => document.querySelector(selector).value.split(/\\r?\\n/).map(value => value.trim()).filter(Boolean); const result = document.querySelector('#result'); if (!result) return 'fail'; const style = getComputedStyle(result); const rect = result.getBoundingClientRect(); if (style.display === 'none' || style.visibility === 'hidden' || Number(style.opacity) === 0 || rect.width <= 0 || rect.height <= 0) return 'fail'; let state; try { state = JSON.parse(result.textContent); } catch { return 'fail'; } const checklist = lines('#checklist'); const tracks = lines('#tracks'); const expectedChecklist = ['copy approved', 'test suite passed', 'handoff owner assigned']; const expectedTracks = ['launch_intro', 'safety_brief', 'handoff_cue']; return state.checklistReady === true && state.audioReady === true && state.launch_passed === true && exact(checklist, expectedChecklist) && exact(tracks, expectedTracks) ? 'pass' : 'fail'; })()",
+        "failure_value": "fail"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 70,
+    "max_wall_time_s": 540
+  },
+  "metadata": {
+    "category": "real300_cross_device",
+    "source_card": "a2l2",
+    "difficulty": "Complex",
+    "motif": "M6",
+    "interaction_mode": "GUI",
+    "device_topology": "A+A+L+L",
+    "surfaces": "Markor + Retro Music + VSCode + Chrome validator",
+    "setup_note": "android_0 opens the visible checklist; android_1 verifies the visible Launch audio playlist and its three unique MediaStore tracks; linux_0 validates the writable broken source project; linux_1 validates an empty writable deployment root.",
+    "evaluate_note": "Three equally weighted checks require randomized exact-list behavior in the linux_0 source, the same behavior in the linux_1 deployment, and the final visible Chrome DOM with approved textarea values plus three actual true booleans. A separate normalized-text equality guard enforces the copy.",
+    "implementation_status": "real_evaluator",
+    "readiness": "R1_native_ready",
+    "native_evaluator_status": "mixed_native_content",
+    "requires_helper_audit": true,
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "func": "exact_match",
+        "result_type": "chrome_persisted_file_cases",
+        "path": "file:///tmp/launch/validator.html (loaded from the exact VM file through a data URL because snap Chrome cannot access /tmp)"
+      },
+      {
+        "device_id": "linux_1",
+        "func": "exact_match",
+        "result_type": "chrome_persisted_file_cases",
+        "path": "file:///home/user/launch/validator.html"
+      },
+      {
+        "device_id": "linux_1",
+        "func": "exact_match",
+        "result_type": "chrome_js_result",
+        "path": "file:///home/user/launch/validator.html"
+      },
+      {
+        "device_id": "global linux_0 -> linux_1 guard",
+        "func": "normalized_text_exact_match",
+        "result_type": "vm_file_text",
+        "path": "/tmp/launch/validator.html == /home/user/launch/validator.html after CRLF/LF and final-newline normalization"
+      }
+    ],
+    "lite_evaluator_hardening_note": "The host runs the same opaque randomized mutation families against both persisted files. Linux0's exact /tmp bytes are read by the trusted VM getter and loaded into isolated Chrome data-URL contexts, avoiding snap /tmp access without skipping source scoring. Linux1 is scored from its copied file URL. The final Chrome getter requires that exact URL, approved unique input multisets, a visible parsed result, and boolean true readiness/pass fields. Direct normalized text comparison is a hard copy-integrity guard."
+  }
+}

@@ -1,0 +1,200 @@
+{
+  "id": "linux_smarthome_387",
+  "instruction": "Review each request on `/home/user/climate/mode-check.html` against the available SmartHome capabilities. Apply only supported mode changes, record the outcome for every row using the page's choices, and submit the form.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /home/user/climate/mode-check.html && mkdir -p -- /home/user/climate",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_387/source/home/user/climate/mode-check.html",
+                "path": "/home/user/climate/mode-check.html"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_387/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /home/user/climate/mode-check.html; find /home/user/climate -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "living_room_air_conditioner_1": {
+                "power": "on",
+                "mode": "cool"
+              },
+              "study_air_conditioner_1": {
+                "power": "on",
+                "mode": "auto"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_infeasible_reports": true,
+            "preserve_answer_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "is_expected_tabs",
+      "result": {
+        "type": "open_tabs_info",
+        "ignore_default_tabs": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "type": "url",
+          "scoped_url_contract": true,
+          "query_value_match": "semantic",
+          "urls": [
+            "file:///home/user/climate/mode-check.html?living_room=cool+supported+executed&bedroom=eco+unsupported+kept&study=auto+supported+executed#submitted-mode-check"
+          ],
+          "owned_url_prefixes": [
+            "file:///home/user/climate/mode-check.html"
+          ],
+          "forbidden_urls": [
+            "file:///home/user/climate/mode-check.html"
+          ]
+        }
+      },
+      "metadata": {
+        "url": "file:///home/user/climate/mode-check.html?living_room=cool+supported+executed&bedroom=eco+unsupported+kept&study=auto+supported+executed#submitted-mode-check"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_387",
+    "surfaces": [
+      "browser_tab",
+      "linux.browser",
+      "linux.html",
+      "smarthome.capability",
+      "smarthome.device_state",
+      "smarthome.home_state"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_387",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_387/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_387/oracle_positive.json",
+    "linux_source_paths": [
+      "/home/user/climate/mode-check.html"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/home/user/climate/mode-check.html"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "linux_smarthome",
+      "linux_device": "linux_0",
+      "linux_devices": [
+        "linux_0"
+      ],
+      "room_ids": [
+        "bedroom",
+        "living_room",
+        "study"
+      ],
+      "device_type_counts": {
+        "air_conditioner": 3,
+        "air_purifier": 2,
+        "dehumidifier": 2,
+        "dimmable_light": 2,
+        "heater": 2,
+        "light": 2,
+        "robot_vacuum": 1
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 1,
+      "linux_outputs_expected": 0,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-16T19:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "home_0",
+        "surface": "smarthome.home_state",
+        "goal": "Apply the requested SmartHome state, schedule, workflow, or report outcome.",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /home/user/climate/mode-check.html and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates a semantic submitted mode-check form and permits only the supported living-room and study AC power/mode changes, preserving target temperatures, every other device, and all plans.",
+    "idea_number": 387,
+    "coverage_group": "capability_device_selection"
+  }
+}

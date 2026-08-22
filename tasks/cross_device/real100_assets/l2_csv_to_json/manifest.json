@@ -1,0 +1,16 @@
+{
+  "task_id": "l2_csv_to_json",
+  "source_card": "012",
+  "device_topology": "2L",
+  "instruction": "第一台 Linux 的 `/tmp/orders/orders.csv` 是今天要处理的订单。帮我在第二台 Linux 上转成 `/tmp/orders/orders.json`。",
+  "surfaces": "linux_0 CSV -> linux_1 JSON",
+  "source_files": [
+    "source/orders.csv"
+  ],
+  "expected_files": [
+    "expected/orders.json"
+  ],
+  "evaluator_assumptions": [
+    "orders.json must preserve every CSV row; common list- and object-based representations are accepted"
+  ]
+}

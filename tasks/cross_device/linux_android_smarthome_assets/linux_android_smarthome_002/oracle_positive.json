@@ -1,0 +1,58 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "+1555010202",
+          "body": "The Guest room readiness workflow is scheduled and ready for 17:30."
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_workflow",
+      "parameters": {
+        "workflow_id": "guest_room_ready",
+        "run_at": "2026-06-16T17:30:00",
+        "steps": [
+          {
+            "device_id": "guest_room_air_purifier_1",
+            "command": "turn_on",
+            "args": {}
+          },
+          {
+            "device_id": "guest_room_heater_1",
+            "command": "turn_on",
+            "args": {}
+          },
+          {
+            "device_id": "guest_room_heater_1",
+            "command": "set_target_temperature",
+            "args": {
+              "temperature_c": 22.0
+            }
+          },
+          {
+            "device_id": "guest_room_air_purifier_1",
+            "command": "set_level",
+            "args": {
+              "level": "high"
+            }
+          },
+          {
+            "device_id": "guest_room_light_1",
+            "command": "turn_on",
+            "args": {}
+          }
+        ]
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

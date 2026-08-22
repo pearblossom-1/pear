@@ -1,0 +1,268 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 670,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 920,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_status",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "schedule_id": "bedroom_light_protected",
+            "run_at": "2026-06-26T09:00:00",
+            "device_id": "bedroom_light_1",
+            "command": "turn_on",
+            "args": {},
+            "status": "cancelled"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/protection/plan-audit.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_670/source/linux_1/tmp/protection/plan-audit.xlsx",
+          "allowed_changes": [
+            "Audit!D2",
+            "Audit!E2",
+            "Audit!F2",
+            "Audit!D3",
+            "Audit!E3",
+            "Audit!F3",
+            "Audit!D4",
+            "Audit!E4",
+            "Audit!F4"
+          ],
+          "preserve_layout": true,
+          "sheet": "Audit",
+          "cells": {
+            "D2": "protected - no exception",
+            "E2": "Cancel",
+            "F2": "Cancelled",
+            "D3": "allowed quiet exception",
+            "E3": "Keep",
+            "F3": "Active",
+            "D4": "not protected",
+            "E4": "Keep",
+            "F4": "Active"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/protection/plan-audit.xlsx"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_status",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "schedule_id": "office_light_regular",
+            "run_at": "2026-06-26T09:05:00",
+            "device_id": "office_light_1",
+            "command": "turn_on",
+            "args": {},
+            "status": "active"
+          }
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_status",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "workflow_id": "kids_room_quiet_exception",
+            "run_at": "2026-06-26T09:10:00",
+            "steps": [
+              {
+                "device_id": "kids_room_dimmable_light_1",
+                "command": "set_brightness",
+                "args": {
+                  "brightness_pct": 20
+                }
+              }
+            ],
+            "steps_ordered": true,
+            "status": "active"
+          }
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 2,
+            "match": {}
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "match": {}
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-26T08:30:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 25.0,
+        "humidity_pct": 36.4,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 23.9,
+        "noise_level_db": 29.4,
+        "occupied": false
+      },
+      "kids_room": {
+        "temperature_c": 22.3,
+        "humidity_pct": 53.0,
+        "brightness_lux": 175.0,
+        "air_quality_pm25": 46.2,
+        "noise_level_db": 25.0,
+        "occupied": true
+      },
+      "office": {
+        "temperature_c": 23.2,
+        "humidity_pct": 43.8,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 48.4,
+        "noise_level_db": 28.0,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "kids_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "kids_room",
+        "state": {
+          "power": "off",
+          "brightness_pct": 0
+        }
+      },
+      {
+        "device_id": "office_light_1",
+        "device_type": "light",
+        "room_id": "office",
+        "state": {
+          "power": "off"
+        }
+      }
+    ],
+    "schedules": [
+      {
+        "schedule_id": "bedroom_light_protected",
+        "run_at": "2026-06-26T09:00:00",
+        "device_id": "bedroom_light_1",
+        "command": "turn_on",
+        "args": {},
+        "status": "active"
+      },
+      {
+        "schedule_id": "office_light_regular",
+        "run_at": "2026-06-26T09:05:00",
+        "device_id": "office_light_1",
+        "command": "turn_on",
+        "args": {},
+        "status": "active"
+      }
+    ],
+    "workflows": [
+      {
+        "workflow_id": "kids_room_quiet_exception",
+        "run_at": "2026-06-26T09:10:00",
+        "steps": [
+          {
+            "device_id": "kids_room_dimmable_light_1",
+            "command": "set_brightness",
+            "args": {
+              "brightness_pct": 20
+            }
+          }
+        ],
+        "status": "active",
+        "steps_done": 0,
+        "error": null
+      }
+    ],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

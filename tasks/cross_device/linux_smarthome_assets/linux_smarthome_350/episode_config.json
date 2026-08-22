@@ -1,0 +1,340 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 350,
+    "spec_version": "smarthome-custom-v1",
+    "case": "infeasible",
+    "seed": 600,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "json_semantic_match",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/maintenance/result.json"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "missing_anchor": "maintenance start",
+            "status": "not scheduled",
+            "reason_code": "no_visible_event_or_time"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/maintenance/result.json"
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bathroom": {
+        "temperature_c": 22.9,
+        "humidity_pct": 56.9,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 53.7,
+        "noise_level_db": 29.6,
+        "occupied": false
+      },
+      "bedroom": {
+        "temperature_c": 24.8,
+        "humidity_pct": 45.3,
+        "brightness_lux": 155.9,
+        "air_quality_pm25": 37.9,
+        "noise_level_db": 37.7,
+        "occupied": false
+      },
+      "guest_room": {
+        "temperature_c": 24.8,
+        "humidity_pct": 40.6,
+        "brightness_lux": 600.0,
+        "air_quality_pm25": 42.6,
+        "noise_level_db": 30.6,
+        "occupied": false
+      },
+      "kitchen": {
+        "temperature_c": 22.8,
+        "humidity_pct": 54.6,
+        "brightness_lux": 325.0,
+        "air_quality_pm25": 54.0,
+        "noise_level_db": 36.6,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 24.4,
+        "humidity_pct": 49.0,
+        "brightness_lux": 180.0,
+        "air_quality_pm25": 45.9,
+        "noise_level_db": 42.8,
+        "occupied": true
+      },
+      "garage": {
+        "temperature_c": 22.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 30.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bathroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "bathroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bathroom_light_1",
+        "device_type": "light",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "mode": "auto",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_curtain_1",
+        "device_type": "curtain",
+        "room_id": "bedroom",
+        "state": {
+          "open_pct": 0,
+          "status": "closed"
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "bedroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "garage_heater_1",
+        "device_type": "heater",
+        "room_id": "garage",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 20.0
+        }
+      },
+      {
+        "device_id": "guest_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off",
+          "mode": "cool",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "guest_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "guest_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "guest_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 20
+        }
+      },
+      {
+        "device_id": "guest_room_light_1",
+        "device_type": "light",
+        "room_id": "guest_room",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "kitchen_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "kitchen_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "kitchen",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "kitchen_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "brightness_pct": 65
+        }
+      },
+      {
+        "device_id": "kitchen_light_1",
+        "device_type": "light",
+        "room_id": "kitchen",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "kitchen_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "kitchen",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 51
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 60,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

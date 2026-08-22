@@ -1,0 +1,9 @@
+Guest booking update
+
+Request: GS-2047
+Received: 2026-06-16 17:45
+Status: Cancelled by guest
+
+Operations rule: the latest booking update overrides an older room-preparation
+request. For a cancelled stay, do not issue any Home command. Close the request
+as Cancelled and record the Home result as No change - booking cancelled.

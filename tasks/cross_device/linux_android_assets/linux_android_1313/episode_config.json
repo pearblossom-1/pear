@@ -1,0 +1,23 @@
+{
+  "task_id": "linux_android_1313",
+  "eval": [
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - '/tmp/evidence/evidence_package.zip' <<'PY'\nimport csv, hashlib, io, sys, zipfile\npath = sys.argv[1]\nexpected_names = {'form_a.pdf', 'photo_a.jpg', 'evidence_index.csv'}\nexpected_hashes = {\n    'form_a.pdf': '16c00d9bfff6ed6314bdd6214bf7842796303e3bff645d8f2edd0913ad3893ee',\n    'photo_a.jpg': '1df5dc21193dca3cd74e1e894c5ccc0d51bd2d066bc8d2038272caa708dfd3b1',\n}\nexpected_rows = {\n    ('PKG-1313', 'form_a.pdf', 'yes', 'apr-1313'),\n    ('PKG-1313', 'photo_a.jpg', 'yes', 'apr-1313'),\n}\nselected_aliases = {'yes', 'true', '1', 'selected'}\nheader = ['package', 'filename', 'selected', 'approval_code']\nok = False\ntry:\n    with zipfile.ZipFile(path) as archive:\n        names = archive.namelist()\n        structure_ok = len(names) == 3 and len(set(names)) == 3 and set(names) == expected_names and all('/' not in name for name in names)\n        hashes_ok = structure_ok and all(hashlib.sha256(archive.read(name)).hexdigest() == digest for name, digest in expected_hashes.items())\n        index_ok = False\n        if structure_ok:\n            reader = csv.DictReader(io.StringIO(archive.read('evidence_index.csv').decode('utf-8-sig')))\n            rows = list(reader)\n            rows_well_formed = all(set(row) == set(header) and all(value is not None for value in row.values()) for row in rows)\n            actual_rows = {\n                (\n                    row.get('package', '').strip(),\n                    row.get('filename', '').strip().casefold(),\n                    'yes' if row.get('selected', '').strip().casefold() in selected_aliases else None,\n                    row.get('approval_code', '').strip().casefold(),\n                )\n                for row in rows\n            }\n            index_ok = reader.fieldnames == header and len(rows) == 2 and rows_well_formed and len(actual_rows) == 2 and actual_rows == expected_rows\n        ok = structure_ok and hashes_ok and index_ok\nexcept Exception:\n    ok = False\nprint('pass' if ok else 'fail')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "metadata": {
+        "path": "/tmp/evidence/evidence_package.zip"
+      }
+    }
+  ]
+}

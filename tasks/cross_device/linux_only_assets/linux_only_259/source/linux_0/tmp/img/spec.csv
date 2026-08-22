@@ -1,0 +1,5 @@
+requirement,value
+supported_extensions,png|jpg|jpeg
+extension_matching,case_insensitive
+index_columns,file|width|height|label
+label_rule,basename_without_extension_and_trailing_width_x_height

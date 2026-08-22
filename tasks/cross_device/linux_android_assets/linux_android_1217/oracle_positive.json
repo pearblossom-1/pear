@@ -1,0 +1,16 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "androidworld_task_add",
+        "parameters": {
+          "title": "Create reviewer contact",
+          "notes": "Missing safety approver Casey Hart; follow policy.pdf.",
+          "completed": false
+        }
+      }
+    ]
+  },
+  "notes": "Positive dry-run oracle writes only the requested final artifacts and native state."
+}

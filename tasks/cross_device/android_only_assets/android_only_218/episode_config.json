@@ -1,0 +1,69 @@
+{
+  "task_id": "android_only_218",
+  "eval": [
+    {
+      "name": "Make the second phone's Calendar exactly the current RC-42 event",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event_set",
+        "events": [
+          {
+            "title": "Site briefing",
+            "start_ts": 1783243800,
+            "end_ts": 1783245600,
+            "location": "North Yard",
+            "description": "RC-42 current briefing."
+          }
+        ],
+        "identity_fields": [
+          "title",
+          "start_ts"
+        ],
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    },
+    {
+      "name": "Preserve both first-phone Site briefing source events exactly",
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event_set",
+        "events": [
+          {
+            "title": "Site briefing",
+            "start_ts": 1783243800,
+            "end_ts": 1783245600,
+            "location": "North Yard",
+            "description": "RC-42 current briefing."
+          },
+          {
+            "title": "Site briefing",
+            "start_ts": 1783251000,
+            "end_ts": 1783252800,
+            "location": "East Lot",
+            "description": "RC-99 current briefing."
+          }
+        ],
+        "identity_fields": [
+          "title",
+          "start_ts"
+        ],
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ]
+}

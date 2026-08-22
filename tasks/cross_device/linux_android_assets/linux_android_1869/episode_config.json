@@ -1,0 +1,81 @@
+{
+  "eval": [
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "thunderbird_draft_state",
+        "profile_root": "~/.thunderbird/mail.default-release",
+        "recipients": [
+          "maya.chen@example.test"
+        ],
+        "message_relation": {
+          "entities": [
+            "CASE-1869",
+            "FB-1869",
+            [
+              "P1",
+              "priority 1",
+              "high priority"
+            ],
+            [
+              "Escalation lead",
+              "escalation owner"
+            ],
+            "RT-69",
+            "Harbor Gate 18",
+            [
+              "2026-07-14 09:30",
+              "July 14, 2026 at 9:30 AM",
+              "7/14/2026 9:30 AM",
+              "9:30 AM on July 14, 2026",
+              "07/14/2026 09:30"
+            ]
+          ],
+          "conflict_phrases": [
+            "CASE-OLD",
+            "HOLD-42",
+            "Harbor Gate 18 Annex",
+            "wrong route",
+            "wrong site",
+            "wrong time",
+            "not an escalation",
+            "do not send",
+            "cancelled",
+            "canceled"
+          ],
+          "reject_incomplete_semantics": true
+        },
+        "allow_extra_recipients": false,
+        "recipient_header_policy": "single_to_only"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "thunderbird_folder_state",
+        "profile_root": "~/.thunderbird/mail.default-release",
+        "folder_messages": {
+          "Sent": []
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "task_id": "linux_android_1869",
+    "source_plan": "plan6_final_balancing"
+  }
+}

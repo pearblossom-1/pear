@@ -1,0 +1,23 @@
+{
+  "task_id": "linux_android_1217",
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_set",
+        "titles": [
+          "Create reviewer contact"
+        ],
+        "completed": false,
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    }
+  ]
+}

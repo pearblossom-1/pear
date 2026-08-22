@@ -1,0 +1,26 @@
+{
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Vacuum battery action result.md' <<'EOF'\n# Vacuum battery action result\nBattery was 18 percent. The robot returned to the dock.\nThe safe_pause_schedule remained active.\nEOF"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "living_room_robot_vacuum_1",
+        "command": "return_to_dock",
+        "args": {}
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

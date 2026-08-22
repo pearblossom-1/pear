@@ -1,0 +1,395 @@
+{
+  "id": "android_smarthome_464",
+  "instruction": "The first phone has `home_alert_config.json`, and the second phone has the role contacts. Use the live Home readings and the config to send only the highest-priority alert from the second phone to the correct role contact. The alert should identify the affected metric and room, the current reading, and that it is the highest-priority alert.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_464/android/android_0/files/home_alert_config.json",
+                "path": "/storage/emulated/0/Download/home_alert_config.json"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/storage/emulated/0/Download",
+            "expected_filenames": [
+              "home_alert_config.json"
+            ],
+            "open_filename": "home_alert_config.json",
+            "required_visible_text": [
+              "kitchen PM2.5",
+              "priority_order",
+              "air quality",
+              "send_highest_only",
+              "true"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Air Quality Lead",
+            "number": "5550464",
+            "notes": "Role: air quality alerts"
+          }
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Laundry Lead",
+            "number": "5550465",
+            "notes": "Role: humidity alerts"
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Air Quality Lead",
+              "number": "5550464",
+              "notes": "Role: air quality alerts"
+            },
+            "required_visible_text": [
+              "Air Quality Lead",
+              "5550464",
+              "air quality alerts"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Laundry Lead",
+              "number": "5550465",
+              "notes": "Role: humidity alerts"
+            },
+            "required_visible_text": [
+              "Laundry Lead",
+              "5550465",
+              "humidity alerts"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_464/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/home_alert_config.json"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550464",
+        "recent_within_mins": 30,
+        "require_exactly_one_for_address": true,
+        "body_relation": {
+          "entities": [
+            [
+              "kitchen"
+            ],
+            [
+              "PM2.5",
+              "PM 2.5",
+              "air quality"
+            ],
+            [
+              "91"
+            ],
+            [
+              "highest-priority",
+              "highest priority"
+            ],
+            [
+              "alert"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "alert",
+              "highest-priority",
+              "highest priority"
+            ]
+          ],
+          "nearest_relations": [
+            {
+              "anchor": [
+                "kitchen"
+              ],
+              "expected": [
+                "PM2.5",
+                "PM 2.5",
+                "air quality"
+              ],
+              "forbidden": [],
+              "max_distance": 12
+            },
+            {
+              "anchor": [
+                "kitchen"
+              ],
+              "expected": [
+                "91"
+              ],
+              "forbidden": [],
+              "max_distance": 16
+            },
+            {
+              "anchor": [
+                "91"
+              ],
+              "expected": [
+                "highest-priority",
+                "highest priority"
+              ],
+              "forbidden": [
+                "lower priority alert"
+              ],
+              "max_distance": 20
+            }
+          ],
+          "conflict_phrases": [
+            "pending",
+            "cancelled",
+            "canceled",
+            "not the highest priority",
+            "lower priority",
+            "not an alert",
+            "uncertain"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "Air Quality Lead receives the bound kitchen PM2.5 91 highest-priority alert"
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_box_count",
+        "box": "sent",
+        "exact_count": 1
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "send_highest_only produces exactly one sent SMS globally"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_current_time": true,
+            "preserve_rooms": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "notification-only task leaves the complete Home unchanged"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "notification-only task issues no transient Home command"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "notification-only task creates no schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "notification-only task creates no workflow"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_464",
+    "surfaces": [
+      "files",
+      "contacts",
+      "sms",
+      "home_state",
+      "audit_only",
+      "two_android"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "androidworld_sms_message"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "2android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_464",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_464/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_464/oracle_positive.json",
+    "idea_number": 464,
+    "candidate_triage": {
+      "batch_id": "plan5-android-smarthome-369-868-B0005",
+      "decision": "direct",
+      "rationale": "Supported audit-to-SMS routing with visible role mapping and query-only Home answer report."
+    },
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

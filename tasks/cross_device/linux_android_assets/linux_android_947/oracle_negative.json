@@ -1,0 +1,31 @@
+{
+  "linux_actions": [
+    {
+      "device_id": "linux_0",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "mkdir -p '/tmp/audio_file_list_creates_reco' && echo W3siY2FzZV9pZCI6Ijk0Ny1BIiwiYXBwcm92YWxfY29kZSI6Ik5YOTQ3MzMiLCJvd25lciI6IlRhbyBMaW4iLCJzZWxlY3RlZF9zb3VyY2UiOiIvdG1wL2F1ZGlvX2ZpbGVfbGlzdF9jcmVhdGVzX3JlY28vcmVxdWVzdF90YWJsZS5jc3YiLCJzdGF0dXMiOiJyZWFkeSIsImNvbXBsZXRlZCI6dHJ1ZX1dCg== | base64 -d > '/tmp/audio_file_list_creates_reco/decision.json'",
+        "shell": true
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "mkdir -p '/tmp/audio_file_list_creates_reco' && echo OTQ3LUEgLyBOWDk0NzMzIGZvciBUYW8gTGluOiB0aGUgcmVjb3JkaW5nIGhhbmRvZmYgaXMgcmVhZHkgZm9yIHRoZSBzZWNvbmQtTGludXggdHJhbnNmZXIgb3BlcmF0b3IuCg== | base64 -d > '/tmp/audio_file_list_creates_reco/handoff.txt'",
+        "shell": true
+      }
+    }
+  ],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && echo OTQ3LUEgLyBOWDk0NzMzIGZvciBUYW8gTGluIGlzIHJlYWR5IGZvciB0aGUgYXVkaW8gcmVjb3JkaW5nIGhhbmRvZmYuCg== | base64 -d > '/storage/emulated/0/Documents/Markor/947-A recording handoff.md'"
+        }
+      }
+    ]
+  },
+  "notes": "Negative smoke keeps both human-readable handoffs correct but adds an undisclosed completed field to the router JSON."
+}

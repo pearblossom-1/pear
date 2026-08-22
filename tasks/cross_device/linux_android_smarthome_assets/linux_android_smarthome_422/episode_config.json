@@ -1,0 +1,249 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 422,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 422,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task",
+        "title": "Client Call follow-up",
+        "completed": 1,
+        "identity_snapshot": "client_call_followup_422",
+        "require_exactly_one": true,
+        "notes_relation": {
+          "entities": [
+            [
+              "08:10",
+              "8:10 AM"
+            ],
+            "study",
+            [
+              "robot vacuum",
+              "vacuum"
+            ],
+            [
+              "pause",
+              "paused"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "scheduled",
+              "schedule"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "not scheduled",
+            "paused immediately",
+            "already paused",
+            "cancelled"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {
+              "run_at": "2026-06-17T08:10:00",
+              "device_id": "study_robot_vacuum_1",
+              "command": "pause",
+              "args": {},
+              "status": "active"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T18:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 23.3,
+        "humidity_pct": 42.9,
+        "brightness_lux": 565.0,
+        "air_quality_pm25": 33.2,
+        "noise_level_db": 32.2,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 23.6,
+        "humidity_pct": 36.8,
+        "brightness_lux": 120.0,
+        "air_quality_pm25": 24.5,
+        "noise_level_db": 36.9,
+        "occupied": false
+      },
+      "study": {
+        "temperature_c": 23.2,
+        "humidity_pct": 49.2,
+        "brightness_lux": 100.0,
+        "air_quality_pm25": 44.4,
+        "noise_level_db": 58.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_curtain_1",
+        "device_type": "curtain",
+        "room_id": "bedroom",
+        "state": {
+          "open_pct": 80,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "bedroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "brightness_pct": 65
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "mode": "auto",
+          "target_temperature_c": 23.0
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 40,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "study_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "study",
+        "state": {
+          "power": "off",
+          "mode": "fan",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "study_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "study_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "brightness_pct": 20
+        }
+      },
+      {
+        "device_id": "study_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "status": "cleaning",
+          "battery_pct": 34
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

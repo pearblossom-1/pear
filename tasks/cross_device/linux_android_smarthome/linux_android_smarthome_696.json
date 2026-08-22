@@ -1,0 +1,284 @@
+{
+  "id": "linux_android_smarthome_696",
+  "instruction": "Match the recipe code in the existing `Dinner scene request` Task with the Broccoli recipe and `/tmp/home_ops/service-notes/source/index.csv`. Schedule the mapped SmartHome cooking scene, then complete that original Task—do not create a duplicate—and update its note with the matched recipe, the scheduled scene time, and that the scene has been scheduled.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p '/tmp/home_ops/service-notes/source' && rm -f -- '/tmp/home_ops/service-notes/source/index.csv'",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_696/source/tmp/home_ops/service-notes/source/index.csv",
+                "path": "/tmp/home_ops/service-notes/source/index.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r '/tmp/home_ops/service-notes/source/index.csv'",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_task_add",
+          "parameters": {
+            "title": "Dinner scene request",
+            "notes": "Recipe code: R-5",
+            "dueDate": 0,
+            "completed": 0
+          }
+        },
+        {
+          "type": "androidworld_task_identity_snapshot",
+          "parameters": {
+            "snapshot_id": "dinner_scene_request_696",
+            "title": "Dinner scene request",
+            "notes": "Recipe code: R-5"
+          }
+        },
+        {
+          "type": "androidworld_task_record_preflight",
+          "parameters": {
+            "task": {
+              "title": "Dinner scene request",
+              "notes": "Recipe code: R-5",
+              "completed": 0
+            },
+            "required_visible_text": [
+              "Dinner scene request",
+              "Recipe code: R-5"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "broccoli app"
+          }
+        },
+        {
+          "type": "androidworld_recipes_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_recipe_add",
+          "parameters": {
+            "title": "Stir Fry",
+            "ingredients": "tofu, vegetables, oil",
+            "directions": "Stir fry tofu and vegetables in oil.",
+            "preparationTime": "20 minutes"
+          }
+        },
+        {
+          "type": "androidworld_broccoli_recipe_preflight",
+          "parameters": {
+            "recipe": {
+              "title": "Stir Fry",
+              "ingredients": "tofu, vegetables, oil",
+              "directions": "Stir fry tofu and vegetables in oil.",
+              "preparationTime": "20 minutes"
+            },
+            "required_visible_text": [
+              "Stir Fry",
+              "tofu",
+              "vegetables",
+              "oil"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_696/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- '/tmp/home_ops/service-notes/source/index.csv'; find /tmp/home_ops -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_recipes_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task",
+        "title": "Dinner scene request",
+        "completed": 1,
+        "notes_relation": {
+          "entities": [
+            "Stir Fry",
+            [
+              "18:05",
+              "6:05 PM",
+              "6:05PM"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "scheduled",
+              "will be prepared",
+              "will be ready"
+            ]
+          ],
+          "conflict_phrases": [
+            "not scheduled",
+            "cancelled",
+            "pending",
+            "wrong recipe"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        },
+        "require_exactly_one": true,
+        "identity_snapshot": "dinner_scene_request_696"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T18:05:00",
+            "status": "active",
+            "effects": {
+              "kitchen_air_purifier_1": {
+                "power": "on",
+                "level": "high"
+              },
+              "dining_room_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 50
+              }
+            },
+            "exact_active_workflow_count": 1
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "696 recipe code avoids using the wrong recipe scene.",
+    "surfaces": [
+      "android_single",
+      "tasks",
+      "recipe",
+      "linux_json",
+      "home_workflow"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_696",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_696/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_696/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/home_ops/service-notes/source/index.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/home_ops/service-notes/source/index.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "pilot_index": 696,
+    "source_plan": "android_linux_smarthome_tasks_671_770",
+    "human_quality_review": "accepted_current_hash_smoke_passed",
+    "current_hash_smoke_status": "passed_current_hash"
+  }
+}

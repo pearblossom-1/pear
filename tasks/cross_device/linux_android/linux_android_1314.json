@@ -1,0 +1,191 @@
+{
+  "id": "linux_android_1314",
+  "instruction": "The phone identifies the current approval for REL-1314. Match that approval against `/tmp/release/manifest.csv`, then create `/tmp/release/ready_release.zip` containing exactly the two required payload files for that approval plus an unmodified full copy of `/tmp/release/manifest.csv` at the ZIP root named `manifest_copy.csv`. Exclude obsolete and draft payload files from the archive, but keep all original manifest rows unchanged in `manifest_copy.csv`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf -- /tmp/release && mkdir -p -- /tmp/release/files",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1314/source/tmp/release/manifest.csv",
+                "path": "/tmp/release/manifest.csv"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1314/source/tmp/release/files/dispatch_client.py",
+                "path": "/tmp/release/files/dispatch_client.py"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1314/source/tmp/release/files/release_notes.md",
+                "path": "/tmp/release/files/release_notes.md"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1314/source/tmp/release/files/release_notes_draft.md",
+                "path": "/tmp/release/files/release_notes_draft.md"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1314/source/tmp/release/files/legacy_config.json",
+                "path": "/tmp/release/files/legacy_config.json"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nmanifest=/tmp/release/manifest.csv\ntest -r \"$manifest\"\nhead -n 1 \"$manifest\" | grep -Fx 'release,approval_ref,filename,status' >/dev/null\ntest \"$(awk -F, 'NR > 1 && $1 == \"REL-1314\" && $2 == \"AP-1314\" && $4 == \"required\" { count++ } END { print count + 0 }' \"$manifest\")\" -eq 2\ntest \"$(awk 'END { print NR }' \"$manifest\")\" -eq 5\nfor file in dispatch_client.py release_notes.md release_notes_draft.md legacy_config.json; do test -s \"/tmp/release/files/$file\"; done\ntest \"$(sha256sum /tmp/release/files/dispatch_client.py | awk '{print $1}')\" = '2c0c8f8afa8c0159416e54a822161686a26e51732b5e67ccd59ca888961360d2'\ntest \"$(sha256sum /tmp/release/files/release_notes.md | awk '{print $1}')\" = 'eb68c5a620b933dd30887a1f83c76e4d6ee716b928e6fa455b655577e799896e'\ntest -w /tmp/release\ntest ! -e /tmp/release/ready_release.zip",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "5551201314",
+            "body": "Approved REL-1314 with AP-1314.",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "row=\"$(content query --uri content://sms/inbox --projection address:body --where \"address='5551201314'\" --sort 'date DESC,_id DESC' 2>/dev/null | sed -n '1p')\"; printf '%s\n' \"$row\" | grep -F 'address=5551201314' >/dev/null && printf '%s\n' \"$row\" | grep -F 'body=Approved REL-1314 with AP-1314.' >/dev/null",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/release/manifest.csv /tmp/release/ready_release.zip /tmp/release/files/dispatch_client.py /tmp/release/files/release_notes.md /tmp/release/files/release_notes_draft.md /tmp/release/files/legacy_config.json; rmdir /tmp/release/files /tmp/release 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_archive_contents",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/release/ready_release.zip"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "members": {
+            "dispatch_client.py": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1314/source/tmp/release/files/dispatch_client.py",
+            "release_notes.md": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1314/source/tmp/release/files/release_notes.md",
+            "manifest_copy.csv": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1314/source/tmp/release/manifest.csv"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/release/ready_release.zip"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1314",
+    "surfaces": [
+      "sms",
+      "linux.csv",
+      "linux.zip"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1314",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1314/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1314/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/release/files/dispatch_client.py",
+      "/tmp/release/files/release_notes.md",
+      "/tmp/release/files/release_notes_draft.md",
+      "/tmp/release/files/legacy_config.json",
+      "/tmp/release/manifest.csv"
+    ],
+    "linux_output_paths": [
+      "/tmp/release/ready_release.zip"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/release/files/dispatch_client.py",
+        "/tmp/release/files/release_notes.md",
+        "/tmp/release/files/release_notes_draft.md",
+        "/tmp/release/files/legacy_config.json",
+        "/tmp/release/manifest.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [
+        "/tmp/release/ready_release.zip"
+      ]
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1301-1320-B0007",
+    "candidate_triage": {
+      "decision": "direct",
+      "rationale": "Candidate is realistic, source-closed, and supported by existing Linux and Android helpers."
+    },
+    "human_quality_review": "accepted_current_hash_smoke_passed",
+    "current_hash_smoke_status": "passed_current_hash"
+  }
+}

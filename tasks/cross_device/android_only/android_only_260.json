@@ -1,0 +1,177 @@
+{
+  "id": "android_only_260",
+  "instruction": "The playlist manifest on the first phone is the source for creation. Create the Road Survey playlist in Retro Music on the second phone with only the songs listed in the manifest.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_only_assets/android_only_260/android_0/files/road_survey_playlist.csv",
+                "path": "/sdcard/Download/road_survey_playlist.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/sdcard/Download",
+            "expected_filenames": [
+              "road_survey_playlist.csv"
+            ],
+            "missing_filenames": [],
+            "open_filename": "road_survey_playlist.csv",
+            "required_visible_text": [
+              "Road Survey",
+              "north_loop",
+              "bridge_check",
+              "gate_exit"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "retro music"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /sdcard/Music/north_loop.mp3 /sdcard/Music/bridge_check.mp3 /sdcard/Music/gate_exit.mp3"
+          }
+        },
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_mp3_push",
+          "parameters": {
+            "songs": [
+              "north_loop",
+              "bridge_check",
+              "gate_exit"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_music_library_preflight",
+          "parameters": {
+            "songs": [
+              "north_loop",
+              "bridge_check",
+              "gate_exit"
+            ],
+            "forbidden_playlist_names": [
+              "Road Survey"
+            ],
+            "verify_playlist_creation_entry": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /sdcard/Download/road_survey_playlist.csv"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /sdcard/Music/north_loop.mp3 /sdcard/Music/bridge_check.mp3 /sdcard/Music/gate_exit.mp3"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Create one Road Survey playlist with exactly the three manifest songs",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "retro_music_playlist",
+        "playlist_name": "Road Survey",
+        "expected_songs": [
+          "north_loop",
+          "bridge_check",
+          "gate_exit"
+        ],
+        "track_count": 3
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "android_only",
+    "device_topology": "2android",
+    "surfaces": [
+      "files",
+      "retro_music"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/android_only_assets/android_only_260",
+    "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",
+    "evaluate_note": "Evaluation checks durable Android outputs with source guards kept non-scoring.",
+    "source_number": 260,
+    "candidate_triage": {
+      "batch_id": "plan6-android-only-dual-android-B0003",
+      "decision": "direct",
+      "rationale": "Supported file manifest to Retro playlist output with exact song set."
+    },
+    "oracle_ref": "tasks/cross_device/android_only_assets/android_only_260/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_260/episode_config.json",
+    "lite_hardening_note": "Removed unscored Android source-state evaluators and consolidated file-output checks where appropriate."
+  }
+}

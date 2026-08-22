@@ -1,0 +1,420 @@
+{
+  "id": "a2l2_training_deck_notify",
+  "instruction": "Please prepare a training package across four devices. Simple Calendar Pro on the first phone has the training event, and Android Contacts on the second phone has the attendees. The first Linux machine has `/tmp/training/handoff.txt` with the notification requirement, while the second Linux machine has the Impress template `/tmp/training/training_deck.odp` and Thunderbird. On the second Linux machine, use the local template to create `/tmp/training/field_onboarding_deck.odp`, filling in the event title, date, start and end time, location, and all attendee names. Then create a Thunderbird draft addressed to every attendee. Identify the event in the subject or body, and in the body state that the training package is ready and include the package reference from `/tmp/training/handoff.txt`. Save it as a draft; do not send it.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {
+    "work_root": "/tmp/mdcbench_real200/a2l2_training_deck_notify",
+    "result_json": "/tmp/mdcbench_real200/a2l2_training_deck_notify/result.json"
+  },
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Field onboarding",
+            "start_ts": 1781798400,
+            "end_ts": 1781805600,
+            "location": "Training room A",
+            "description": "Training event: Field onboarding; deck required; attendees listed on second phone contacts",
+            "reminder_1_minutes": 60
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Alex Kim",
+            "number": "5550196",
+            "email": "alex.kim@example.test",
+            "notes": "Training attendee"
+          }
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Priya Rao",
+            "number": "5550197",
+            "email": "priya.rao@example.test",
+            "notes": "Training attendee"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/training/field_onboarding_deck.odp; rm -rf /tmp/training && mkdir -p /tmp/training",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real200_assets/a2l2_training_deck_notify/source/handoff.txt",
+                "path": "/tmp/training/handoff.txt"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/training/handoff.txt && test -w /tmp/training",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/training/field_onboarding_deck.odp; rm -rf /tmp/training && mkdir -p /tmp/training",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real200_assets/a2l2_training_deck_notify/source/training_template_196.odp",
+                "path": "/tmp/training/training_deck.odp"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "\nset -e\nrm -rf \"$HOME/.thunderbird/mail.default-release\"\nprofile=\"$HOME/.thunderbird/mail.default-release\"\nmkdir -p \"$profile/Mail/Local Folders\"\ncat > \"$HOME/.thunderbird/profiles.ini\" <<'EOF'\n[Profile0]\nName=local\nIsRelative=1\nPath=mail.default-release\nDefault=1\n\n[General]\nStartWithLastProfile=1\nVersion=2\nEOF\ncat > \"$profile/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server1\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.identity.id1.fullName\", \"Field Operator\");\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nEOF\n: > \"$profile/Mail/Local Folders/Drafts\"\n: > \"$profile/Mail/Local Folders/Drafts.msf\"\n",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/training/training_deck.odp && test -w /tmp/training && test ! -e /tmp/training/field_onboarding_deck.odp && test -r \"$HOME/.thunderbird/profiles.ini\" && test -w \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Drafts\" && test ! -s \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Drafts\"",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/training",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/training",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf \"$HOME/.thunderbird/mail.default-release\" \"$HOME/.thunderbird/profiles.ini\"",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_odf_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/training/field_onboarding_deck.odp"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "Training Package Template"
+          ],
+          "exclude": [
+            "[[EVENT]]",
+            "[[DATE]]",
+            "[[TIME]]",
+            "[[LOCATION]]",
+            "[[ATTENDEES]]",
+            "missing attendee",
+            "wrong event",
+            "result.json"
+          ],
+          "require_valid_package": true,
+        "required_members": [
+          "styles.xml",
+          "meta.xml"
+        ],
+          "odf_kind": "presentation",
+          "min_draw_pages": 1,
+          "presentation_anchor": "Training Package Template",
+          "presentation_structure": {
+            "exact_pages": 1,
+            "exact_frames": 1,
+            "fields_same_frame": true,
+            "exact_visible_paragraphs": 6
+          },
+          "presentation_template": {
+            "page_orientation": "landscape",
+            "page_aspect_ratio": 1.3333333333,
+            "page_aspect_tolerance": 0.2,
+            "frame_geometry": {
+              "x": [
+                0.04,
+                0.15
+              ],
+              "y": [
+                0.04,
+                0.15
+              ],
+              "width": [
+                0.7,
+                0.95
+              ],
+              "height": [
+                0.65,
+                0.9
+              ]
+            }
+          },
+          "presentation_fields": {
+            "Event": {
+              "exact": "Field onboarding"
+            },
+            "Date": {
+              "date": "2026-06-18"
+            },
+            "Time": {
+              "time_range": [
+                "16:00",
+                "18:00"
+              ]
+            },
+            "Location": {
+              "exact": "Training room A"
+            },
+            "Attendees": {
+              "csv_set": [
+                "Alex Kim",
+                "Priya Rao"
+              ]
+            }
+          },
+          "case_sensitive": false
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "thunderbird_draft_state",
+        "profile_root": "~/.thunderbird/mail.default-release",
+        "recipients": [
+          "alex.kim@example.test",
+          "priya.rao@example.test"
+        ],
+        "message_contains": [
+          "Field onboarding"
+        ],
+        "body_relation": {
+          "entities": [
+            [
+              "training package",
+              "package"
+            ],
+            "FO-618"
+          ],
+          "positive_phrases": [
+            "ready",
+            "prepared",
+            "complete",
+            "completed",
+            "available",
+            "finalized"
+          ],
+          "reject_incomplete_semantics": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 70,
+    "max_wall_time_s": 540
+  },
+  "metadata": {
+    "category": "real200_cross_device",
+    "source_card": "196",
+    "difficulty": "Medium",
+    "motif": "M5",
+    "interaction_mode": "GUI-focused",
+    "device_topology": "2A+2L",
+    "surfaces": "android_0 Simple Calendar Pro + android_1 Android Contacts app + linux_0 notification handoff + linux_1 local Impress template/output and Thunderbird",
+    "setup_note": "android_0 supplies the event; android_1 supplies attendees; linux_0 supplies and verifies the FO-618 handoff; linux_1 receives the local template, a clean output directory, and an empty usable Thunderbird Drafts profile.",
+    "evaluate_note": "Structurally validates the completed local-template ODP. The exact Drafts store must contain the intended recipient set, identify Field onboarding in subject or body, and state a positive package-ready relation with FO-618 in the body.",
+    "implementation_status": "fixture_scaffold",
+    "readiness": "R1_native_content_thunderbird_state",
+    "native_evaluator_status": "native_content_thunderbird_state",
+    "requires_helper_audit": false,
+    "asset_source": "tasks/cross_device/real200_assets/a2l2_training_deck_notify/source",
+    "cross_device_checks": [
+      "event_attendees_template_output_and_draft_are_independently_observed"
+    ],
+    "fixture_notes": [
+      "The output path is user-visible and task-specific; the template is local to linux_1.",
+      "Linux_0 remains necessary because only its handoff contains FO-618.",
+      "Cleanup removes only the task output and task-created Thunderbird profile."
+    ],
+    "instruction_visible_inputs": [
+      {
+        "path": "/tmp/training/training_deck.odp",
+        "source_file": "source/training_template_196.odp"
+      }
+    ],
+    "instruction_visible_outputs": [
+      "/tmp/training/field_onboarding_deck.odp"
+    ],
+    "native_content_outputs": [
+      {
+        "path": "/tmp/training/field_onboarding_deck.odp",
+        "func": "check_odf_text",
+        "expected_file": null,
+        "device_id": "linux_1",
+        "rules": {
+          "include": [
+          "Training Package Template",
+          "Field onboarding",
+          "2026-06-18",
+          "16:00",
+          "18:00",
+          "Training room A",
+          "Alex Kim",
+          "Priya Rao"
+          ],
+          "exclude": [
+            "missing attendee",
+            "wrong event",
+            "result.json"
+          ]
+        },
+        "result_type": "vm_file"
+      }
+    ],
+    "thunderbird_draft_outputs": [
+      {
+        "device_id": "linux_1",
+        "include": [
+          "alex.kim@example.test",
+          "priya.rao@example.test",
+          "Field onboarding",
+          "FO-618",
+          "package ready"
+        ],
+        "exclude": [
+          "wrong attendee",
+          "missing deck",
+          "result.json"
+        ]
+      }
+    ],
+    "lite_evaluator_hardening_note": "The ODP template is local to linux_1 and the FO-618 notification requirement exists only on linux_0. Draft scoring remains scoped to the exact profile and exact recipient set; `message_contains` permits Field onboarding in subject or body, while the body relation separately requires a declarative non-uncertain ready/prepared/complete/available/finalized package claim bound to FO-618. No attachment is required."
+  }
+}

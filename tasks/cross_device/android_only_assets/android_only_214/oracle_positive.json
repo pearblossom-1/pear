@@ -1,0 +1,33 @@
+{
+  "android_setup": {
+    "android_1": [
+      {
+        "type": "ensure_app",
+        "parameters": {
+          "app": "osmand"
+        }
+      },
+      {
+        "type": "androidworld_osmand_favorites_setup",
+        "parameters": {}
+      },
+      {
+        "type": "upload_file",
+        "parameters": {
+          "files": [
+            {
+              "local_path": "${repo_root}/tasks/cross_device/android_only_assets/android_only_214/android_1/osmand_result/favorites.gpx",
+              "path": "/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx"
+            }
+          ]
+        }
+      },
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /storage/emulated/0/Documents/Markor && cat > '/storage/emulated/0/Documents/Markor/Depot Gate coordinate repair.md' <<'EOF'\nDepot Gate was corrected from 47.6100,-122.3300 to 47.6205,-122.3493 based on Calendar.\nEOF"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,260 @@
+{
+  "id": "android_only_214",
+  "instruction": "The Depot meet event in Calendar on the first phone has the current coordinates. Use them to fix the Depot Gate favorite on the second phone, then leave the field team a Markor handoff named `Depot Gate coordinate repair.md` recording the favorite name, old and new coordinates, and Calendar as the source.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Depot meet",
+            "start_ts": 1783159200,
+            "end_ts": 1783161000,
+            "location": "Depot Gate",
+            "description": "Canonical coordinates: 47.6205,-122.3493; old favorite was 47.6100,-122.3300."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Depot meet",
+            "start_ts": 1783159200,
+            "location": "Depot Gate",
+            "description": "Canonical coordinates: 47.6205,-122.3493; old favorite was 47.6100,-122.3300.",
+            "search_text": "Depot"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "osmand"
+          }
+        },
+        {
+          "type": "androidworld_osmand_favorites_setup",
+          "parameters": {}
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_only_assets/android_only_214/android_1/osmand_source/favorites.gpx",
+                "path": "/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_osmand_favorites_preflight",
+          "parameters": {
+            "favorites": [
+              {
+                "name": "Depot Gate",
+                "latitude": "47.6100",
+                "longitude": "-122.3300"
+              }
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Depot Gate coordinate repair.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "name": "Keep exactly one Depot Gate favorite at the corrected coordinates",
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx /data/data/net.osmand/files/favourites_bak.gpx"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Depot Gate coordinate repair.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Keep exactly one Depot Gate favorite at the corrected coordinates",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "osmand_favorite_set",
+        "favorites": [
+          {
+            "favorite_name": "Depot Gate",
+            "favorite_lat": 47.6205,
+            "favorite_lon": -122.3493
+          }
+        ],
+        "coordinate_tolerance": 5e-05
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    },
+    {
+      "name": "Record the old-to-new Depot Gate correction and Calendar source",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Depot Gate coordinate repair.md",
+        "rules": {
+          "entities": [
+            "Depot Gate",
+            "47.6100",
+            "-122.3300",
+            "47.6205",
+            "-122.3493",
+            [
+              "Calendar",
+              "calendar event"
+            ]
+          ],
+          "positive_phrases": [
+            "corrected",
+            "updated",
+            "changed",
+            "Old"
+          ],
+          "required_patterns": [
+            "(?s)(?:(?:\\b(?:old|from)\\b\\s*[:=-]?\\s*47\\.6100\\s*,\\s*-122\\.3300.{0,180}\\b(?:new|to)\\b\\s*[:=-]?\\s*47\\.6205\\s*,\\s*-122\\.3493)|(?:\\|\\s*Depot\\s+Gate\\s*\\|\\s*47\\.6100\\s*,\\s*-122\\.3300\\s*\\|\\s*47\\.6205\\s*,\\s*-122\\.3493\\s*\\|\\s*Calendar\\s*\\|))"
+          ],
+          "conflict_phrases": [
+            "unchanged",
+            "rollback",
+            "reverted",
+            "pending",
+            "proposed",
+            "suggested",
+            "uncertain"
+          ],
+          "conflict_patterns": [
+            "(?s)(?:\\b(?:new|from)\\b\\s*[:=-]?\\s*47\\.6205\\s*,\\s*-122\\.3493.{0,180}\\b(?:old|to)\\b\\s*[:=-]?\\s*47\\.6100\\s*,\\s*-122\\.3300)"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "name": "Preserve the first phone's Depot meet source event exactly",
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event_set",
+        "events": [
+          {
+            "title": "Depot meet",
+            "start_ts": 1783159200,
+            "end_ts": 1783161000,
+            "location": "Depot Gate",
+            "description": "Canonical coordinates: 47.6205,-122.3493; old favorite was 47.6100,-122.3300."
+          }
+        ],
+        "identity_fields": [
+          "title",
+          "start_ts"
+        ],
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "android_only",
+    "device_topology": "2android",
+    "surfaces": [
+      "calendar",
+      "osmand",
+      "markor"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/android_only_assets/android_only_214",
+    "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",
+    "evaluate_note": "Evaluation checks durable Android outputs with source guards kept non-scoring.",
+    "source_number": 214,
+    "candidate_triage": {
+      "batch_id": "plan6-android-only-dual-android-B0001",
+      "decision": "repair",
+      "rationale": "OsmAnd editing is represented by supported favorites GPX upload/output instead of brittle GUI favorite editing."
+    },
+    "oracle_ref": "tasks/cross_device/android_only_assets/android_only_214/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_214/episode_config.json",
+    "lite_hardening_note": "Removed unscored Android source-state evaluators and consolidated file-output checks where appropriate.",
+    "lite_evaluator_hardening_note": "Markor evaluator searches user-created notes by required content rather than requiring a hidden filename."
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /storage/emulated/0/Documents/Markor\ncat > '/storage/emulated/0/Documents/Markor/Dinner Restore.md' <<'EOF'\nDinner restore is active at 21:10: light 20%, curtain closed, purifier off, heater 20 C.\nEOF"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_workflow",
+      "parameters": {
+        "workflow_id": "guest_restore",
+        "run_at": "2026-06-16T21:10:00",
+        "steps": [
+          {
+            "device_id": "living_room_dimmable_light_1",
+            "command": "set_brightness",
+            "args": {
+              "brightness_pct": 20
+            }
+          },
+          {
+            "device_id": "living_room_curtain_1",
+            "command": "close",
+            "args": {}
+          },
+          {
+            "device_id": "living_room_air_purifier_1",
+            "command": "turn_off",
+            "args": {}
+          },
+          {
+            "device_id": "living_room_heater_1",
+            "command": "set_target_temperature",
+            "args": {
+              "temperature_c": 20.0
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

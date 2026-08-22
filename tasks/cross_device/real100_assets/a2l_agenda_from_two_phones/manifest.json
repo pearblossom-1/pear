@@ -1,0 +1,19 @@
+{
+  "task_id": "a2l_agenda_from_two_phones",
+  "source_card": "071",
+  "device_topology": "2A+1L",
+  "instruction": "Combine the first phone's Partner planning calendar event with the second phone's ordered Markor topic/timebox note, complete the Linux timed-agenda template, and fill its total row so the topic sum matches the meeting duration.",
+  "surfaces": "android_0 Simple Calendar Pro + android_1 Markor + Linux timed-agenda template -> DOCX",
+  "source_files": [
+    "source/calendar_event.json",
+    "source/topics.md",
+    "source/template.docx"
+  ],
+  "expected_files": [
+    "expected/agenda.docx"
+  ],
+  "evaluator_assumptions": [
+    "The output must be a valid Word package retaining the timed-agenda anchor and two-table structure.",
+    "All ordered topics and timeboxes must appear; topic durations accept bare or unit-bearing minute forms, and the final merged row must explicitly total 60 minutes."
+  ]
+}

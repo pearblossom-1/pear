@@ -1,0 +1,190 @@
+{
+  "task_id": "linux_only_218",
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/training/certificate_gaps.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "logical_table": {
+            "headers": [
+              "attendee",
+              "required session",
+              "certificate disposition"
+            ],
+            "header_aliases": {
+              "attendee": [
+                "person",
+                "name"
+              ],
+              "required session": [
+                "session",
+                "session id"
+              ],
+              "certificate disposition": [
+                "disposition",
+                "status",
+                "certificate status"
+              ]
+            },
+            "rows": [
+              [
+                "Alma Reid",
+                "S-31",
+                "alma gap"
+              ],
+              [
+                "Dev Ban",
+                "S-28",
+                "dev mismatch"
+              ]
+            ],
+            "allow_column_reordering": true,
+            "order_sensitive": false,
+            "value_relations": {
+              "certificate disposition": {
+                "alma gap": {
+                  "entities": [
+                    [
+                      "certificate needed",
+                      "certificate is needed",
+                      "needs a certificate",
+                      "need a certificate",
+                      "required certificate missing",
+                      "required certificate is missing",
+                      "no certificate",
+                      "no matching certificate",
+                      "no valid certificate",
+                      "certificate for S-31 is needed",
+                      "certificate for S 31 is needed",
+                      "valid certificate for S-31 is needed",
+                      "valid certificate for S 31 is needed"
+                    ]
+                  ],
+                  "allowed_negative_capability_phrases": [
+                    [
+                      "no certificate",
+                      "no matching certificate",
+                      "no valid certificate"
+                    ]
+                  ],
+                  "conflict_patterns": [
+                    "\\bvalid\\s+certificate(?:\\s+for)?\\s+s[- ]?31\\b(?!\\s+(?:is\\s+)?needed\\b)",
+                    "\\b(?:does not|doesn't)\\s+need\\s+(?:a\\s+)?certificate\\b"
+                  ]
+                },
+                "dev mismatch": {
+                  "entities": [
+                    [
+                      "S-20",
+                      "S 20"
+                    ],
+                    [
+                      "invalid",
+                      "wrong session",
+                      "certificate mismatch",
+                      "does not cover",
+                      "doesn't cover",
+                      "not valid for",
+                      "no valid certificate"
+                    ]
+                  ],
+                  "allowed_negative_capability_phrases": [
+                    [
+                      "does not cover",
+                      "doesn't cover",
+                      "not valid for",
+                      "no valid certificate"
+                    ]
+                  ],
+                  "allowed_reversal_terms": [
+                    "invalid",
+                    "wrong"
+                  ],
+                  "allowed_false_assignment_phrases": [
+                    [
+                      "is invalid",
+                      "invalid certificate"
+                    ]
+                  ],
+                  "conflict_patterns": [
+                    "\\bs[- ]?20\\b.{0,32}\\b(?:is|remains|considered)\\s+valid\\b.{0,32}\\bs[- ]?28\\b",
+                    "\\bvalid\\s+certificate(?:\\s+for)?\\s+s[- ]?28\\b(?!\\s+(?:is\\s+)?needed\\b)"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "certificate_gap_workbook"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport re\n\ndef norm(value):\n    return re.sub(r'[^a-z0-9]+', ' ', str(value or '').casefold()).strip()\n\ndef uncertain(value):\n    marker = r'\\b(?:maybe|perhaps|possibly|might|uncertain|unknown|unconfirmed)\\b'\n    outcome = r'\\b(?:needs?|needed|required|missing|invalid|wrong|mismatch|does not cover|doesn t cover|not valid)\\b'\n    for raw_clause in re.split(r'[\\n\\r]+|(?<=[.!?;])\\s+', str(value or '')):\n        clause = norm(raw_clause)\n        if not clause or not re.search(outcome, clause):\n            continue\n        if '?' in raw_clause or re.search(marker, clause):\n            return True\n    return False\n\ndef alma_ok(value):\n    text = norm(value)\n    positive = re.search(r'\\b(?:needs? (?:a )?certificate|(?:valid )?certificate(?: for s 31)? (?:is )?needed|required certificate (?:is )?missing|no (?:matching |valid )?certificate)\\b', text)\n    conflict = re.search(r'\\bvalid certificate(?: for)? s 31\\b(?! (?:is )?needed\\b)|\\b(?:does not|doesn t) need (?:a )?certificate\\b', text)\n    return bool(re.search(r'\\bs 31\\b', text) and positive and not conflict and not uncertain(value))\n\ndef dev_ok(value):\n    text = norm(value)\n    mismatch = re.search(r'\\b(?:invalid|wrong session|mismatch|does not cover|doesn t cover|not valid for)\\b', text)\n    s20_valid_for_s28 = re.search(r'\\bs 20\\b(?: s)?(?: certificate)? (?:is |remains |considered )?valid (?:for )?s 28\\b', text)\n    existing_valid_s28 = re.search(r'\\bvalid certificate(?: for)? s 28\\b(?! (?:is )?needed\\b)', text)\n    return bool(re.search(r'\\bs 28\\b', text) and re.search(r'\\bs 20\\b', text) and mismatch and not s20_valid_for_s28 and not existing_valid_s28 and not uncertain(value))\n\ntry:\n    raw = Path('/tmp/training/email_notes.md').read_text(encoding='utf-8').casefold()\n    hits = [(match.start(), match.group(0)) for match in re.finditer(r'\\b(?:alma reid|dev ban)\\b', raw)]\n    segments = []\n    for index, (start, name) in enumerate(hits):\n        if index and hits[index - 1][1] == name:\n            continue\n        end = len(raw)\n        for next_start, next_name in hits[index + 1:]:\n            if next_name != name:\n                end = next_start\n                break\n        segments.append((name, raw[start:end]))\n    alma_records = [segment for name, segment in segments if name == 'alma reid']\n    dev_records = [segment for name, segment in segments if name == 'dev ban']\n    ok = any(alma_ok(record) for record in alma_records) and any(dev_ok(record) for record in dev_records)\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "coordinator_email_notes"
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/training/attendance.csv",
+        "trusted_root": "/tmp/training",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "084504b5b13879861267b151ae8cbf1c055d884cbf9f2b54f83efc959dabc774"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "attendance_source_integrity_guard"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/training/certificates.csv",
+        "trusted_root": "/tmp/training",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "3297997797a7240a935fdc358a9b666cccf13fd1ad6b6ead6c5fdb501451423a"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "certificate_source_integrity_guard"
+      }
+    }
+  ]
+}

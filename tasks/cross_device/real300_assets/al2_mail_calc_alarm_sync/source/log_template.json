@@ -1,0 +1,11 @@
+{
+  "fallback_alarm": {
+    "label": "",
+    "time": ""
+  },
+  "actual_alarm": {
+    "label": "",
+    "time": ""
+  },
+  "reference": ""
+}

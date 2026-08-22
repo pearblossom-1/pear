@@ -1,0 +1,177 @@
+{
+  "id": "al_camera_web_upload_form",
+  "instruction": "The Android Camera folder contains `asset_tag_photo.jpg`. Inspect the asset label and the shelf/location shown in that photo. Then open `/home/user/upload/form.html` in Linux Chrome, enter the asset id, the shelf/location, and the photo filename shown on the phone, and submit the form.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /sdcard/DCIM/Camera/asset_tag_photo.jpg; content delete --uri content://media/external/images/media --where \"_display_name='asset_tag_photo.jpg' AND relative_path='DCIM/Camera/'\" >/dev/null 2>&1 || true"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "camera"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple gallery pro"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/al_camera_web_upload_form/source/asset_tag_photo.jpg",
+                "path": "/sdcard/DCIM/Camera/asset_tag_photo.jpg"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/DCIM/Camera/asset_tag_photo.jpg >/dev/null 2>&1 || true"
+          }
+        },
+        {
+          "type": "androidworld_gallery_media_details_preflight",
+          "parameters": {
+            "path": "/sdcard/DCIM/Camera/asset_tag_photo.jpg",
+            "filename": "asset_tag_photo.jpg",
+            "relative_path": "DCIM/Camera/",
+            "mime_type": "image/jpeg"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /home/user/upload && mkdir -p /home/user/upload",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/al_camera_web_upload_form/source/photo_upload_form.html",
+                "path": "/home/user/upload/form.html"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /sdcard/DCIM/Camera/asset_tag_photo.jpg; content delete --uri content://media/external/images/media --where \"_display_name='asset_tag_photo.jpg' AND relative_path='DCIM/Camera/'\" >/dev/null 2>&1 || true"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /home/user/upload",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "host_form_submission_state",
+        "form_id": "al_camera_web_upload_form",
+        "field_names": ["asset_id", "location", "photo_filename"],
+        "expected_sha256": "affa27b19d09079de7f0e6061be07d73a8954e1fe72e1b9833a8051d04d0da90",
+        "field_rules": {
+          "asset_id": {
+            "match_mode": "trimmed_exact",
+            "canonical_value": "AT-4172",
+            "case_sensitive": false
+          },
+          "location": {
+            "required_tokens": ["north", "shelf"],
+            "forbidden_phrases": ["south shelf", "east shelf", "west shelf"],
+            "canonical_value": "north shelf"
+          },
+          "photo_filename": {
+            "match_mode": "trimmed_exact",
+            "canonical_value": "asset_tag_photo.jpg",
+            "case_sensitive": false
+          }
+        },
+        "client_path": "/home/user/upload/form.html",
+        "action_placeholder": "__MDCBENCH_FORM_ACTION__",
+        "preflight_receiver": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "category": "real300_cross_device",
+    "source_card": "al",
+    "difficulty": "Medium",
+    "motif": "M3",
+    "interaction_mode": "GUI",
+    "device_topology": "A+L",
+    "surfaces": "Android Camera folder / Simple Gallery Pro + Linux Chrome intake form",
+    "setup_note": "Android 清理 Camera 输出、写入照片，并通过 Gallery Properties 预检完整文件名与 GUI 可见性；Linux 准备由 harness 注入 run-scoped action 的本地文本表单。",
+    "evaluate_note": "读取 evaluator-host 持有的本轮提交状态；要求表单恰好提交 asset_id、location、photo_filename 三个文本字段。Asset ID 与文件名做保留标点的大小写无关精确匹配，location 接受肯定的 north+shelf 自然表达；不再要求跨设备上传 JPEG 字节。",
+    "readiness": "R1_native_ready",
+    "native_evaluator_status": "mixed_native_content",
+    "requires_helper_audit": false,
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "func": "exact_match",
+        "path": "evaluator-host run-scoped multipart submission state",
+        "result_type": "host_form_submission_state"
+      }
+    ]
+  },
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 420
+  }
+}

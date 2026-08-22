@@ -1,0 +1,408 @@
+{
+  "id": "linux_android_smarthome_185",
+  "instruction": "Assess the Owner's request for the basic living-room light against /tmp/access/capability.pdf and the actual SmartHome devices. If percentage dimming is unsupported for that target, leave the requested basic light unchanged and do not substitute a different living-room light. Record one infeasible capability report in SmartHome and send the Owner a clear natural explanation that identifies the requested level and unchanged result.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/access",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_185/source/tmp/access/capability.pdf",
+                "path": "/tmp/access/capability.pdf"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "nohup evince '/tmp/access/capability.pdf' >'/tmp/access/capability-evince.log' 2>&1 </dev/null &",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+1555018501",
+            "body": "Approved request: set the basic living room light to 35%.",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "androidworld_sms_message_preflight",
+          "parameters": {
+            "message": {
+              "address": "+1555018501",
+              "body": "Approved request: set the basic living room light to 35%.",
+              "box": "inbox"
+            },
+            "required_visible_text": [
+              "Approved request: set the basic living room light to 35%."
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "House Owner",
+            "number": "+1555018501",
+            "notes": "Role: Owner"
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "House Owner",
+              "number": "+1555018501",
+              "notes_exact": "Role: Owner"
+            },
+            "required_visible_text": [
+              "House Owner",
+              "Role: Owner"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_185/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/access/capability.pdf /tmp/access/capability-evince.log; rmdir /tmp/access 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+1555018501",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            [
+              "living room",
+              "living-room"
+            ],
+            [
+              "basic light",
+              "non-dimmable light",
+              "basic living room light",
+              "basic living-room light"
+            ],
+            [
+              "35%",
+              "35 percent"
+            ],
+            [
+              "unsupported",
+              "cannot dim",
+              "could not be changed",
+              "couldn't be changed",
+              "cannot be changed",
+              "can't be changed",
+              "does not support 35% dimming",
+              "does not support 35 percent dimming",
+              "does not support dimming",
+              "not supported"
+            ],
+            [
+              "unchanged",
+              "left unchanged",
+              "remains unchanged",
+              "stays unchanged",
+              "no light setting was changed",
+              "no light was changed",
+              "was not changed"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "unsupported",
+              "cannot dim",
+              "could not be changed",
+              "couldn't be changed",
+              "cannot be changed",
+              "can't be changed",
+              "does not support 35% dimming",
+              "does not support 35 percent dimming",
+              "does not support dimming",
+              "not supported"
+            ]
+          ],
+          "conflict_phrases": [
+            "successfully changed to 35%",
+            "successfully changed to 35 percent",
+            "set to 35%",
+            "set to 35 percent",
+            "now 35%",
+            "now at 35%",
+            "applied 35%",
+            "applied 35 percent"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true,
+          "allowed_negative_capability_phrases": [
+            "does not support 35% dimming",
+            "does not support 35 percent dimming",
+            "does not support dimming",
+            "is not dimmable",
+            "not supported",
+            "is not supported",
+            "cannot dim",
+            "can't dim",
+            "could not be changed to 35%",
+            "could not be changed to 35 percent",
+            "couldn't be changed to 35%",
+            "couldn't be changed to 35 percent",
+            "cannot be changed to 35%",
+            "cannot be changed to 35 percent",
+            "can't be changed to 35%",
+            "can't be changed to 35 percent"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_infeasible_report",
+      "result": {
+        "type": "smarthome_infeasible_reports"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "semantic_report": {
+              "exact_report_count": 1,
+              "category_aliases": [
+                "unsupported command",
+                "unsupported capability",
+                "dimming unavailable",
+                "capability issue"
+              ],
+              "target_aliases": [
+                "basic living room light",
+                "basic living-room light",
+                "living_room_light_1",
+                "35 percent basic light request"
+              ],
+              "reason_relation": {
+                "entities": [
+                  [
+                    "basic living room light",
+                    "basic living-room light",
+                    "living_room_light_1"
+                  ],
+                  [
+                    "35%",
+                    "35 percent"
+                  ],
+                  [
+                    "dimming",
+                    "brightness",
+                    "dim",
+                    "dimmable"
+                  ],
+                  [
+                    "unsupported",
+                    "not dimmable",
+                    "does not support",
+                    "cannot dim",
+                    "can't dim",
+                    "cannot be changed"
+                  ]
+                ],
+                "positive_phrases": [
+                  [
+                    "unsupported",
+                    "not dimmable",
+                    "does not support",
+                    "cannot dim",
+                    "can't dim",
+                    "cannot be changed"
+                  ]
+                ],
+                "allowed_negative_capability_phrases": [
+                  "not dimmable",
+                  "does not support dimming",
+                  "cannot dim",
+                  "can't dim",
+                  "cannot be changed to 35%",
+                  "cannot be changed to 35 percent"
+                ],
+                "conflict_phrases": [
+                  "supports dimming",
+                  "set to 35%",
+                  "set to 35 percent",
+                  "changed to 35%",
+                  "changed to 35 percent"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_device_change",
+      "enable_score_calc": true,
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "device_id": "living_room_light_1"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_device_change",
+      "enable_score_calc": true,
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "device_id": "living_room_dimmable_light_1"
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Capability gap 185 authorization exists but device capability is missing.",
+    "surfaces": [
+      "sms",
+      "contacts",
+      "linux_pdf",
+      "home_infeasible",
+      "guard"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_185",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_185/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_185/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/access/capability.pdf"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/access/capability.pdf"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "pilot_index": 185
+  }
+}

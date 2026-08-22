@@ -1,0 +1,307 @@
+{
+  "id": "linux_android_smarthome_288",
+  "instruction": "The Owner has sent an updated guest-room routine that may supersede the Calendar fallback. Confirm the authority and timing with the Owner contact, the Owner SMS, and `/tmp/conflicts/rules_288.xlsx`. Retire the old guest-room workflow, schedule the authorized replacement with the requested light and curtain settings, and leave a concise account of the change in Markor as `Guest room decision 288.md`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/conflicts",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_288/source/tmp/conflicts/rules_288.xlsx",
+                "path": "/tmp/conflicts/rules_288.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Guest-room routine update",
+            "start_ts": 1781641800,
+            "end_ts": 1781643600,
+            "location": "Guest room",
+            "description": "Old calendar routine source; use only as fallback if the priority sheet selects Old Calendar."
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+1555000288",
+            "body": "Owner SMS: use the updated guest-room routine at 21:30; turn on the light and close the curtain.",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Guest routine owner",
+            "number": "+1555000288",
+            "notes": "Role: Owner for guest-room routine decisions."
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Guest room decision 288.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_288/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/conflicts/rules_288.xlsx; rmdir /tmp/conflicts 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Guest room decision 288.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Guest room decision 288.md",
+        "rules": {
+          "entities": [
+            "Owner",
+            [
+              "21:30",
+              "9:30 PM"
+            ],
+            [
+              "old fallback",
+              "old guest-room workflow"
+            ],
+            [
+              "new workflow",
+              "guest-room workflow"
+            ],
+            [
+              "light on",
+              "turn on the light"
+            ],
+            [
+              "curtain closed",
+              "close the curtain"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "applied",
+              "active"
+            ],
+            [
+              "cancelled",
+              "retired"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "proposed",
+            "new workflow cancelled",
+            "old fallback remains"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true,
+          "allowed_reversal_terms": [
+            "cancelled"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_status",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "workflow_id": "old_guest_room_routine",
+            "status": "cancelled"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T21:30:00",
+            "status": "active",
+            "exact_active_workflow_count": 1,
+            "effects": {
+              "guest_room_light_1": {
+                "power": "on"
+              },
+              "guest_room_curtain_1": {
+                "open_pct": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Capability gap 288 multi-source conflict.",
+    "surfaces": [
+      "calendar",
+      "sms",
+      "contacts",
+      "markor",
+      "linux_xlsx",
+      "home_cancel_workflow",
+      "home_workflow"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_288",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_288/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_288/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/conflicts/rules_288.xlsx"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/conflicts/rules_288.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "pilot_index": 288
+  }
+}

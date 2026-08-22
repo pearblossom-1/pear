@@ -1,0 +1,16 @@
+{
+  "actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.report_infeasible",
+      "parameters": {
+        "category": "missing_device",
+        "reason": "balcony_light_1 is not present in this home.",
+        "target": "balcony_light_1"
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

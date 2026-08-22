@@ -1,0 +1,24 @@
+{
+  "android_setup": {
+    "android_0": []
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.report_infeasible",
+      "parameters": {
+        "category": "unsupported_capability",
+      "reason": "The installed bedroom light does not support color control, so the complete request cannot be applied.",
+        "target": {
+          "room": "bedroom",
+          "device": "bedroom_dimmable_light_1",
+          "capability": "color_control"
+        },
+        "details": {}
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

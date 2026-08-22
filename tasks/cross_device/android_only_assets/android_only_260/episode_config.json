@@ -1,0 +1,26 @@
+{
+  "task_id": "android_only_260",
+  "eval": [
+    {
+      "name": "Create one Road Survey playlist with exactly the three manifest songs",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "retro_music_playlist",
+        "playlist_name": "Road Survey",
+        "expected_songs": [
+          "north_loop",
+          "bridge_check",
+          "gate_exit"
+        ],
+        "track_count": 3
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    }
+  ]
+}

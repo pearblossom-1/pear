@@ -1,0 +1,53 @@
+{
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Sleep Decision.md' <<'EOF'\nThe bedroom rule triggered. Bedtime prep is scheduled for 19:40: cool to 22 C and dim the light to 15%.\nEOF"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_workflow",
+      "parameters": {
+        "workflow_id": "sleep_condition_fix",
+        "run_at": "2026-06-16T19:40:00",
+        "steps": [
+          {
+            "device_id": "bedroom_air_conditioner_1",
+            "command": "turn_on",
+            "args": {}
+          },
+          {
+            "device_id": "bedroom_air_conditioner_1",
+            "command": "set_mode",
+            "args": {
+              "mode": "cool"
+            }
+          },
+          {
+            "device_id": "bedroom_air_conditioner_1",
+            "command": "set_target_temperature",
+            "args": {
+              "temperature_c": 22.0
+            }
+          },
+          {
+            "device_id": "bedroom_dimmable_light_1",
+            "command": "set_brightness",
+            "args": {
+              "brightness_pct": 15
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

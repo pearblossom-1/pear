@@ -1,0 +1,1 @@
+{"linux_actions": [{"device_id": "linux_0", "type": "cli.execute", "parameters": {"command": "mkdir -p /tmp/rooms && printf '%s\n' '# Booking status' 'BK-4471 / Orchid Room / July 8, 2026 — status: available.' > /tmp/rooms/booking_status.md", "shell": true}}], "android_setup": {"android_0": []}}

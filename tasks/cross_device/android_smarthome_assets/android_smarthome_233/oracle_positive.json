@@ -1,0 +1,23 @@
+{
+  "android_setup": {
+    "android_0": []
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.report_infeasible",
+      "parameters": {
+        "category": "missing_device",
+      "reason": "The kitchen has no aroma diffuser, so the lavender setting cannot be applied.",
+        "target": {
+          "room": "kitchen",
+          "need": "aroma_diffuser"
+        },
+        "details": {}
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

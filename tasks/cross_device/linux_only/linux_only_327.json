@@ -1,0 +1,189 @@
+{
+  "id": "linux_only_327",
+  "instruction": "Assemble `/home/user/releases/release_candidate.zip` on the second Linux machine from the approved rows in `/home/user/manifests/release_manifest.xlsx` on the first and the original files in `/home/user/incoming/reports_bundle.zip` on the second. Then add only a `packaged` column to the workbook, marking every row yes or no according to actual archive membership.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /home/user/manifests && rm -f /home/user/manifests/release_manifest.xlsx",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_327/source/release_manifest.xlsx",
+                "path": "/home/user/manifests/release_manifest.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /home/user/incoming /home/user/releases && rm -f /home/user/incoming/reports_bundle.zip /home/user/releases/release_candidate.zip",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_327/source/reports_bundle.zip",
+                "path": "/home/user/incoming/reports_bundle.zip"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /home/user/manifests/release_manifest.xlsx",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /home/user/incoming/reports_bundle.zip /home/user/releases/release_candidate.zip",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_archive_contents",
+      "result": {
+        "type": "vm_file",
+        "path": "/home/user/releases/release_candidate.zip"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "members": {
+            "Alpha_Report_v2.pdf": {
+              "archive": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_327/source/reports_bundle.zip",
+              "member": "Alpha_Report_v2.pdf"
+            },
+            "Beta_Summary_v1.pdf": {
+              "archive": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_327/source/reports_bundle.zip",
+              "member": "Beta_Summary_v1.pdf"
+            }
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/home/user/manifests/release_manifest.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_327/source/release_manifest.xlsx",
+          "preserve_layout": true,
+          "allowed_changes": [
+            "Sheet1!E1",
+            "Sheet1!E2",
+            "Sheet1!E3",
+            "Sheet1!E4",
+            "Sheet1!E5",
+            "Sheet1!E6",
+            "Sheet1!E7",
+            "Sheet1!E8",
+            "Sheet1!E9"
+          ],
+          "sheet": "Sheet1",
+          "cells": {
+            "E1": "packaged",
+            "E2": "yes",
+            "E3": "no",
+            "E4": "yes",
+            "E5": "no",
+            "E6": "no",
+            "E7": "no",
+            "E8": "no",
+            "E9": "no"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/home/user/incoming/reports_bundle.zip",
+        "trusted_root": "/home/user/incoming",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "dd2ba072f84a10f34ae7159eb1a6116bfbc96d69b0daf7b4055dc010532eaf1d"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "source_reports_archive_guard"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 40,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "generated_cross_device",
+    "implementation_status": "final",
+    "readiness": "static_reviewed",
+    "device_topology": "2linux",
+    "surfaces": [
+      "linux.xlsx",
+      "linux.zip_archive",
+      "linux.pdf"
+    ],
+    "review_summary": "The visible source and output paths are explicit. Exact source-member bytes and a source-preserving nine-cell workbook update cover every manifest row and reject extra, stale, or altered package members.",
+    "topology_view": "linux_only"
+  }
+}

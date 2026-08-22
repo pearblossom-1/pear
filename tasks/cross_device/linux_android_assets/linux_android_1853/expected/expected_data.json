@@ -1,0 +1,17 @@
+{
+  "case": "CASE-1853",
+  "code": "FB-1853",
+  "route": "RT-53",
+  "site": "Harbor Gate 2",
+  "owner": "Ari Singh",
+  "phone": "+15552001829",
+  "email": "ari.singh@example.test",
+  "role": "Support owner",
+  "time": "2026-07-18 09:50",
+  "lat": "37.77",
+  "lon": "-122.422",
+  "decision": "ready",
+  "included": "rt-53_photo_a.jpg",
+  "missing": "rt-53_photo_missing.jpg",
+  "decoy": "rt-53_decoy.jpg"
+}

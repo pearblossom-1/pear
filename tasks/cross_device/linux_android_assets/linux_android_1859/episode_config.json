@@ -1,0 +1,123 @@
+{
+  "task_id": "linux_android_1859",
+  "eval": [
+    {
+      "device_id": "linux_1",
+      "func": "check_odf_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/inspection/packet.odt"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "Field Inspection Packet",
+            "CASE-1859",
+            "FB-1859",
+            "Ari Singh",
+            "RT-59",
+            "Harbor Gate 8",
+            "37.812",
+            "Inspection window",
+            "2026-07-24 09:50"
+          ],
+          "exclude": [
+            "PLACEHOLDER",
+            "CASE-OLD",
+            "HOLD-42",
+            "rt-59_hold.jpg",
+            "[[CASE]]",
+            "[[APPROVAL]]",
+            "[[OWNER]]",
+            "[[ROUTE]]",
+            "[[SITE]]",
+            "[[COORDINATES]]",
+            "[[INSPECTION_WINDOW]]",
+            "[[DECISION]]",
+            "[[PHOTO_OBSERVATION]]"
+          ],
+          "require_valid_package": true,
+          "required_members": [
+            "styles.xml",
+            "meta.xml"
+          ],
+          "min_paragraphs": 10,
+          "odf_kind": "text",
+          "case_sensitive": false,
+          "paragraph_exact": [
+            "Field Inspection Packet"
+          ],
+          "paragraph_ordered_unique": true,
+          "paragraph_reject_negative_semantics": true,
+          "paragraph_relations": [
+            [
+              "Case",
+              "CASE-1859"
+            ],
+            [
+              "Approval",
+              "FB-1859"
+            ],
+            [
+              "Owner",
+              "Ari Singh"
+            ],
+            [
+              "Route",
+              "RT-59"
+            ],
+            [
+              "Site",
+              "Harbor Gate 8"
+            ],
+            [
+              "Coordinates",
+              [
+                "37.812",
+                "37.812 N",
+                "37.812° N"
+              ],
+              [
+                "-122.386",
+                "122.386 W",
+                "122.386° W"
+              ]
+            ],
+            [
+              "Inspection window",
+              "2026-07-24 09:50"
+            ],
+            [
+              "Decision",
+              [
+                "ready",
+                "inspection ready",
+                "approved and ready",
+                "ready for inspection"
+              ]
+            ],
+            [
+              "Photo observation",
+              [
+                "orange traffic cone",
+                "orange cone",
+                "orange safety cone",
+                "traffic cone that is orange",
+                "orange road cone"
+              ],
+              [
+                "blue utility cabinet",
+                "blue equipment cabinet",
+                "blue electrical cabinet",
+                "large blue cabinet",
+                "blue equipment box",
+                "blue utility box"
+              ]
+            ]
+          ]
+        }
+      }
+    }
+  ]
+}

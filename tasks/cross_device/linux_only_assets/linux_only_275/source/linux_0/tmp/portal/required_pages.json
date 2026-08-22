@@ -1,0 +1,42 @@
+{
+  "folder": "Review",
+  "pages": [
+    {
+      "name": "Release Readiness Checklist",
+      "path": "/tmp/portal/local_pages/a.html"
+    },
+    {
+      "name": "Support Escalation Directory",
+      "path": "/tmp/portal/local_pages/b.html"
+    },
+    {
+      "name": "Deployment Rollback Guide",
+      "path": "/tmp/portal/local_pages/c.html"
+    }
+  ],
+  "report_schema": {
+    "columns": [
+      "page",
+      "status"
+    ],
+    "priority": [
+      "missing_file",
+      "missing_bookmark",
+      "ready"
+    ],
+    "dispositions": [
+      {
+        "status": "ready",
+        "meaning": "the required page file exists and its bookmark is in the required folder"
+      },
+      {
+        "status": "missing_bookmark",
+        "meaning": "the page file exists but the required-folder bookmark is missing"
+      },
+      {
+        "status": "missing_file",
+        "meaning": "the local page file is missing; this takes priority if its bookmark is also missing"
+      }
+    ]
+  }
+}

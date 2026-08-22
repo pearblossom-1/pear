@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Quiet cleaning rule</title></head>
+<body>
+  <h1>Quiet cleaning rule</h1>
+  <ul>
+  <li>Quiet area 21:30-06:30.</li>
+  <li>Pause current conflict cleaning.</li>
+  <li>Cancel future schedule or workflow that targets quiet rooms.</li>
+  </ul>
+  <form id="task-form">
+    <label>Current cleaning
+      <select name="current">
+        <option value="unchanged">Left unchanged</option>
+        <option value="paused">Paused</option>
+      </select>
+    </label>
+    <label>Future schedule
+      <select name="future_schedule">
+        <option value="kept">Kept active</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </label>
+    <label>Future workflow
+      <select name="future_workflow">
+        <option value="kept">Kept active</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </label>
+    <label>Current vacuum battery
+      <select name="battery">
+        <option value="55">55%</option>
+        <option value="64">64%</option>
+        <option value="82">82%</option>
+      </select>
+    </label>
+  </form>
+  <button id="submit" onclick="const p = new URLSearchParams(new FormData(document.getElementById('task-form'))); window.location.href = window.location.href.split('?')[0].split('#')[0] + '?' + p.toString() + '#submitted-quiet-cleaning'">Submit</button>
+</body>
+</html>

@@ -1,0 +1,189 @@
+{
+  "id": "android_only_264",
+  "instruction": "The Safety walk event in Calendar on the first phone is the time source. Please use the lead time in `alarm_policy.json` on the second phone to create the corresponding Clock alarm on the second phone.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Safety walk",
+            "start_ts": 1784881800,
+            "end_ts": 1784883600,
+            "location": "Gate 4",
+            "description": "Needs policy alarm."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Safety walk",
+            "start_ts": 1784881800,
+            "location": "Gate 4",
+            "description": "Needs policy alarm.",
+            "search_text": "Safety"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_only_assets/android_only_264/android_1/files/alarm_policy.json",
+                "path": "/sdcard/Download/alarm_policy.json"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/sdcard/Download",
+            "expected_filenames": [
+              "alarm_policy.json"
+            ],
+            "missing_filenames": [],
+            "open_filename": "alarm_policy.json",
+            "required_visible_text": [
+              "lead_minutes",
+              "25",
+              "Prep for"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "clock"
+          }
+        },
+        {
+          "type": "androidworld_clock_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_clock_alarm_set_preflight",
+          "parameters": {
+            "alarms": [],
+            "allow_unrelated": false,
+            "exact_user_visible_set": true,
+            "reject_identity_duplicates": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /sdcard/Download/alarm_policy.json"
+          }
+        },
+        {
+          "type": "androidworld_clock_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Create exactly one enabled one-time 08:05 Safety walk alarm",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_alarm_set",
+        "alarms": [
+          {
+            "hour": 8,
+            "minute": 5,
+            "label": "Prep for Safety walk",
+            "enabled": true
+          }
+        ],
+        "allow_unrelated": false,
+        "one_time": true,
+        "exact_user_visible_set": true,
+        "reject_identity_duplicates": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "android_only",
+    "device_topology": "2android",
+    "surfaces": [
+      "calendar",
+      "files",
+      "clock"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/android_only_assets/android_only_264",
+    "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",
+    "evaluate_note": "Evaluation checks durable Android outputs with source guards kept non-scoring.",
+    "source_number": 264,
+    "candidate_triage": {
+      "batch_id": "plan6-android-only-dual-android-B0003",
+      "decision": "direct",
+      "rationale": "Supported Calendar time plus file policy to computed Clock alarm."
+    },
+    "oracle_ref": "tasks/cross_device/android_only_assets/android_only_264/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_264/episode_config.json",
+    "lite_hardening_note": "Removed unscored Android source-state evaluators and consolidated file-output checks where appropriate."
+  }
+}

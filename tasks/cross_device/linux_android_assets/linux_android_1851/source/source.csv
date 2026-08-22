@@ -1,0 +1,5 @@
+case,status,code,owner,phone,email,route,site,time,filename,include,notes
+CASE-1851,current,FB-1851,Maya Chen,,,RT-51,Harbor Gate 17,2026-07-16 09:30,rt-51_photo_a.jpg,yes,approved source row; contact details are in Android Contacts
+CASE-OLD,archived,OLD-17,Archived Owner,+15550000000,old@example.test,RT-00,Old Yard,2026-06-01 08:00,old_photo.jpg,no,inactive archive
+CASE-HOLD,hold,HOLD-42,Hold Owner,+15550009999,,RT-51,Harbor Gate 17 Annex,2026-07-16 09:30,rt-51_hold.jpg,no,similar-name hold
+CASE-1851,missing,FB-1851,Maya Chen,,,RT-51,Harbor Gate 17,2026-07-16 09:30,rt-51_photo_missing.jpg,no,incomplete non-current row; contact details unavailable

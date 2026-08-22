@@ -1,0 +1,135 @@
+{
+  "id": "linux_android_1208",
+  "instruction": "Submit the ready request in `/home/user/forms/request_rows.csv` through `/home/user/forms/request.html` in Chrome. Use the current approval code from the phone message and ignore non-ready rows.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /home/user/forms && rm -f /home/user/forms/request.html /home/user/forms/request_rows.csv",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1208/source/tmp/forms/request.html",
+                "path": "/home/user/forms/request.html"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1208/source/tmp/forms/request_rows.csv",
+                "path": "/home/user/forms/request_rows.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "5551201208",
+            "body": "Today's request approval code is APP-5088.",
+            "wait_s": 5.0
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /home/user/forms/request.html /home/user/forms/request_rows.csv; rmdir /home/user/forms 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "host_form_submission_state",
+        "form_id": "linux_android_1208",
+        "field_names": [
+          "request_code",
+          "approval_code"
+        ],
+        "expected_sha256": "de422724e9d6b3392cba0f18e139a59f5b576ae9ce85926db962b15951cfe225",
+        "client_path": "/home/user/forms/request.html",
+        "action_placeholder": "__MDCBENCH_FORM_ACTION__"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1208",
+    "surfaces": [
+      "sms",
+      "linux.chrome",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1208",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1208/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1208/oracle_positive.json",
+    "linux_source_paths": [
+      "/home/user/forms/request.html",
+      "/home/user/forms/request_rows.csv"
+    ],
+    "linux_output_paths": [],
+    "authoritative_after_build": "host_form_state",
+    "human_quality_review": "accepted_current_hash_smoke_passed",
+    "current_hash_smoke_status": "passed_current_hash"
+  }
+}

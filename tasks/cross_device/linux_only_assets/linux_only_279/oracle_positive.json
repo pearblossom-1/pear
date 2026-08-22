@@ -1,0 +1,12 @@
+{
+  "linux_actions": {
+    "linux_1": [
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "python3 - <<'PY'\nimport base64\nfrom pathlib import Path\npath = Path('/tmp/site/missing_evidence.eml')\npath.parent.mkdir(parents=True, exist_ok=True)\npath.write_bytes(base64.b64decode('VG86IGZpZWxkLXJldmlld0BleGFtcGxlLnRlc3QKU3ViamVjdDogTWlzc2luZyBldmlkZW5jZQoKUGxlYXNlIHByb3ZpZGUgdGhlIGZvbGxvd2luZyBtaXNzaW5nIHJlcXVpcmVkIGV2aWRlbmNlOiBFVi0xNyBwaG90bzsgRVYtMjIgc2lnbmVkIGZvcm0uCg=='))\nPY"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+case_id,owner,phone,status,code,target,due_time,priority
+1080-00,Mira Patel,+1555011881,pending,D10800,Contact mismatch SMS confirmation,2026-07-10 08:30,normal
+1080-01,Jon Bell,+1555011882,pending,D10801,Contact mismatch SMS confirmation,2026-07-11 09:30,normal
+1080-02,Nadia Ross,+1555011883,pending,D10802,Contact mismatch SMS confirmation,2026-07-12 10:30,normal
+1080-A,Mira Patel,+1555011991,blocked,NX08091,Contact mismatch SMS confirmation,2026-07-13 11:30,high
+1080-04,Elena Cruz,+1555011885,pending,D10804,Contact mismatch SMS confirmation,2026-07-14 12:30,normal
+1080-05,Priya Shah,+1555011886,pending,D10805,Contact mismatch SMS confirmation,2026-07-15 13:30,normal
+1080-06,Owen Park,+1555011887,pending,D10806,Contact mismatch SMS confirmation,2026-07-16 14:30,normal
+1080-D,Mira Patel,+1555011888,hold,D10807,Contact mismatch SMS confirmation,2026-07-17 15:30,normal
+1080-08,Mira Patel,+1555011881,pending,D10808,Contact mismatch SMS confirmation,2026-07-18 16:30,normal
+1080-09,Jon Bell,+1555011882,pending,D10809,Contact mismatch SMS confirmation,2026-07-19 08:30,normal
+1080-10,Nadia Ross,+1555011883,pending,D108010,Contact mismatch SMS confirmation,2026-07-20 09:30,normal
+1080-11,Tao Lin,+1555011884,pending,D108011,Contact mismatch SMS confirmation,2026-07-21 10:30,normal

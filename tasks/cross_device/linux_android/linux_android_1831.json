@@ -1,0 +1,173 @@
+{
+  "id": "linux_android_1831",
+  "instruction": "Open `/tmp/android_targets/site_row.csv` on the Linux desktop and create an OsmAnd favorite on the phone from the row that is current and marked for inclusion. Use that row's site name, latitude, and longitude, and skip rows marked archived, hold, or missing-photo.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "osmand"
+          }
+        },
+        {
+          "type": "androidworld_osmand_favorites_setup",
+          "parameters": {}
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "osmand"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/android_targets && rm -f /tmp/android_targets/site_row.csv",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1831/source/site_row.csv",
+                "path": "/tmp/android_targets/site_row.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/android_targets/site_row.csv && python3 -c \"import csv; p='/tmp/android_targets/site_row.csv'; f=open(p, encoding='utf-8-sig', newline=''); r=csv.DictReader(f); rows=list(r); assert r.fieldnames == ['case','status','code','owner','phone','email','route','site','lat','lon','time','filename','include','notes']; current=[row for row in rows if row['status']=='current' and row['include']=='yes']; assert len(current)==1 and current[0]['site'].strip() and current[0]['lat'].strip() and current[0]['lon'].strip()\"",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx /storage/emulated/0/Android/data/net.osmand/files/favourites_bak.gpx"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/android_targets/site_row.csv; rmdir /tmp/android_targets 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "osmand_favorite_set",
+        "favorites": [
+          {
+            "favorite_name": "Harbor Gate 14",
+            "favorite_lat": 37.749,
+            "favorite_lon": -122.416
+          }
+        ],
+        "coordinate_tolerance": 0.0001
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 60,
+    "max_wall_time_s": 480
+  },
+  "metadata": {
+    "category": "linux_android_final_balancing",
+    "implementation_status": "builder_batch_1827_1876",
+    "source_plan": "docs/plan6/linux_android_final_balancing_tasks_1777_1876.md",
+    "source_task_number": 1831,
+    "source_task_title": "Linux site row creates OsmAnd favorite",
+    "triage_decision": "repair",
+    "triage_reason": "Repaired by keeping OsmAnd initialization empty at setup and making the Linux site row the visible source for the new favorite.",
+    "device_topology": "android_0+linux_0",
+    "surfaces": [
+      "android.osmand"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1831",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1831/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1831/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_1831/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/android_targets/site_row.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "android_output_plan": [
+      {
+        "device_id": "android_0",
+        "kind": "osmand",
+        "public": "OsmAnd favorite"
+      }
+    ],
+    "expected_data_trace": {
+      "case": "CASE-1831",
+      "code": "FB-1831",
+      "route": "RT-31",
+      "site": "Harbor Gate 14",
+      "owner": "Theo Brooks",
+      "phone": "+15552001831",
+      "email": "theo.brooks@example.test",
+      "role": "Route planner",
+      "time": "2026-07-16 09:10",
+      "lat": "37.749",
+      "lon": "-122.416",
+      "decision": "ready",
+      "included": "rt-31_photo_a.jpg",
+      "missing": "rt-31_photo_missing.jpg",
+      "hold_attachment": "rt-31_hold.jpg"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "lite_evaluator_hardening_note": "The final task-owned OsmAnd waypoint set is scored semantically: normalized exact name, coordinate tolerance, exact multiplicity, and no archived/hold/near-name extras. Public and backup GPX state are both cleaned.",
+    "topology_view": "linux_android"
+  }
+}

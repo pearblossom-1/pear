@@ -1,0 +1,49 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "+1555000466",
+          "body": "East Accessible Entrance is scheduled to be prepared at 19:30 for the 19:45 arrival."
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_workflow",
+      "parameters": {
+        "workflow_id": "osmand_scene_466",
+        "run_at": "2026-06-16T19:30:00",
+        "steps": [
+          {
+            "device_id": "guest_room_dimmable_light_1",
+            "command": "turn_on",
+            "args": {}
+          },
+          {
+            "device_id": "guest_room_dimmable_light_1",
+            "command": "set_brightness",
+            "args": {
+              "brightness_pct": 45
+            }
+          },
+          {
+            "device_id": "guest_room_curtain_1",
+            "command": "set_open_pct",
+            "args": {
+              "open_pct": 50
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

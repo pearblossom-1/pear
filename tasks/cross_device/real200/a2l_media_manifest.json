@@ -1,0 +1,294 @@
+{
+  "id": "a2l_media_manifest",
+  "instruction": "The first phone just took a field photo, and Audio Recorder on the second phone has a field voice recording. Please create `/tmp/media/manifest.json` on Linux with the filename, file type, and size of both media files as shown in each file's Details view. Use `photo` and `audio` objects, each with `filename`, `type`, and `size`; common labels such as `PNG`, `M4A`, or a MIME type are fine, and keep the displayed size unit.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {
+    "work_root": "/tmp/mdcbench_real200/a2l_media_manifest",
+    "result_json": "/tmp/mdcbench_real200/a2l_media_manifest/result.json"
+  },
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "camera"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple gallery pro"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/DCIM/Camera/incident_scene_168.png; content delete --uri content://media/external/images/media --where \"_display_name='incident_scene_168.png' AND relative_path='DCIM/Camera/'\" >/dev/null 2>&1 || true"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real200_assets/a2l_media_manifest/source/site_photo.png",
+                "path": "/storage/emulated/0/DCIM/Camera/incident_scene_168.png"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///storage/emulated/0/DCIM/Camera/incident_scene_168.png >/dev/null 2>&1 || true"
+          }
+        },
+        {
+          "type": "androidworld_gallery_media_details_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/DCIM/Camera/incident_scene_168.png",
+            "filename": "incident_scene_168.png",
+            "relative_path": "DCIM/Camera/",
+            "mime_type": "image/png"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "audio recorder"
+          }
+        },
+        {
+          "type": "androidworld_audio_recorder_delete_by_name",
+          "parameters": {
+            "filename": "field_voice_168.m4a",
+            "name": "field_voice_168",
+            "source_path": "/sdcard/Recordings/field_voice_168.m4a",
+            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/field_voice_168.m4a",
+            "format": "m4a"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real200_assets/a2l_media_manifest/source/field_voice_168.m4a",
+                "path": "/sdcard/Recordings/field_voice_168.m4a"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///storage/emulated/0/Recordings/field_voice_168.m4a >/dev/null",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "androidworld_audio_recorder_import_preflight",
+          "parameters": {
+            "filename": "field_voice_168.m4a",
+            "name": "field_voice_168",
+            "source_path": "/sdcard/Recordings/field_voice_168.m4a",
+            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/field_voice_168.m4a",
+            "format": "m4a"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/media && mkdir -p /tmp/media && rm -f /tmp/media/manifest.json && test -w /tmp/media && test ! -e /tmp/media/manifest.json",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/DCIM/Camera/incident_scene_168.png; am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///storage/emulated/0/DCIM/Camera/incident_scene_168.png >/dev/null 2>&1 || true; content delete --uri content://media/external/images/media --where \"_display_name='incident_scene_168.png' AND relative_path='DCIM/Camera/'\" >/dev/null 2>&1 || true"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_audio_recorder_delete_by_name",
+          "parameters": {
+            "filename": "field_voice_168.m4a",
+            "name": "field_voice_168",
+            "source_path": "/sdcard/Recordings/field_voice_168.m4a",
+            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/field_voice_168.m4a",
+            "format": "m4a"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/media",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nimport json, re\nfrom pathlib import Path\nPHOTO_BYTES = 5113544\nAUDIO_BYTES = 25633\ndef normalized_type(value):\n    return re.sub(r'[^a-z0-9/+.-]+', ' ', str(value).casefold()).strip()\ndef parse_size(value, target):\n    if not isinstance(value, str):\n        return False\n    text = value.strip().casefold().replace(',', '')\n    match = re.fullmatch(r'([0-9]+(?:\\.[0-9]+)?)\\s*(bytes?|b|kb|kib|mb|mib)', text)\n    if not match:\n        return False\n    number_text, unit = match.groups()\n    factors = {'b': 1, 'byte': 1, 'bytes': 1, 'kb': 1024, 'kib': 1024, 'mb': 1048576, 'mib': 1048576}\n    shown = float(number_text) * factors[unit]\n    decimals = len(number_text.partition('.')[2])\n    rounding = 0.5 * (10 ** -decimals) * factors[unit]\n    return abs(shown - target) <= max(1, rounding + 1)\ntry:\n    data = json.loads(Path('/tmp/media/manifest.json').read_text(encoding='utf-8'))\n    photo = data['photo']\n    audio = data['audio']\n    photo_type = normalized_type(photo.get('type', ''))\n    audio_type = normalized_type(audio.get('type', ''))\n    ok = (\n        photo.get('filename') == 'incident_scene_168.png'\n        and photo_type in {'image/png', 'png', 'png image', 'image png'}\n        and parse_size(photo.get('size'), PHOTO_BYTES)\n        and audio.get('filename') == 'field_voice_168.m4a'\n        and audio_type in {'audio/m4a', 'audio/mp4', 'audio/x-m4a', 'm4a', 'm4a audio'}\n        and parse_size(audio.get('size'), AUDIO_BYTES)\n        and data.get('status') != 'failed'\n    )\nexcept Exception:\n    ok = False\nprint('pass' if ok else 'fail')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "pass"
+          ],
+          "exclude": [
+            "fail"
+          ]
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 45,
+    "max_wall_time_s": 360
+  },
+  "metadata": {
+    "category": "real200_cross_device",
+    "source_card": "168",
+    "difficulty": "Simple",
+    "motif": "M2",
+    "interaction_mode": "Hybrid",
+    "device_topology": "2A+1L",
+    "surfaces": "android_0 Camera / android_1 Audio Recorder -> Linux manifest",
+    "setup_note": "android_0 注入并在 Simple Gallery Properties 中预检 photo；android_1 将 audio 放入公共 Recordings、触发媒体扫描，再通过 Audio Recorder 的 Import 流程及 Information 页预检；Linux 清理并验证 manifest 输出目录。",
+    "evaluate_note": "Validates both filenames, distinguishes PNG/M4A container labels from codecs, and accepts the binary-scaled KB/MB values shown by the supported Android apps at realistic UI precision.",
+    "implementation_status": "fixture_scaffold",
+    "readiness": "R1_native_content",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "asset_source": "tasks/cross_device/real200_assets/a2l_media_manifest/source",
+    "cross_device_checks": [
+      "android_photo_and_audio_sources",
+      "manifest_json_fields_checked"
+    ],
+    "fixture_notes": [
+      "Android photo is indexed in MediaStore and its Simple Gallery Properties view exposes the full .png filename and a size with unit; the same row is bound to image/png.",
+      "The m4a is placed in public Recordings, indexed by MediaStore, and imported through Audio Recorder rather than copied blindly into its private folder; Information must visibly expose name, m4a format, size with unit, and the exact filename in Location.",
+      "manifest.json checks concrete filenames and accepts normalized type/size representations at realistic UI precision, including the binary-scaled MB labels shown by Gallery and Audio Recorder.",
+      "Setup and cleanup remove only the two task-specific Android files."
+    ],
+    "instruction_visible_inputs": [],
+    "instruction_visible_outputs": [
+      "/tmp/media/manifest.json"
+    ],
+    "native_file_presence_outputs": [],
+    "native_content_outputs": [
+      {
+        "device_id": "linux_0",
+        "path": "/tmp/media/manifest.json",
+        "func": "check_include_exclude",
+        "expected_file": null,
+        "rules": {
+          "photo": {
+            "filename": "incident_scene_168.png",
+            "accepted_types": [
+              "image/png",
+              "PNG"
+            ],
+            "accepted_size_fields": [
+              "size"
+            ],
+            "accepted_size_units": [
+              "B",
+              "KB",
+              "KiB",
+              "MB",
+              "MiB"
+            ]
+          },
+          "audio": {
+            "filename": "field_voice_168.m4a",
+            "accepted_types": [
+              "audio/m4a",
+              "audio/mp4",
+              "audio/x-m4a",
+              "M4A"
+            ],
+            "accepted_size_fields": [
+              "size"
+            ],
+            "accepted_size_units": [
+              "B",
+              "KB",
+              "KiB",
+              "MB",
+              "MiB"
+            ]
+          },
+          "reject": [
+            "status=failed"
+          ],
+          "expected_command_result": {
+            "include": [
+              "pass"
+            ],
+            "exclude": [
+              "fail"
+            ]
+          }
+        }
+      }
+    ],
+    "android_state_outputs": [],
+    "android_file_outputs": [],
+    "android_text_outputs": [],
+    "browser_state_outputs": [],
+    "thunderbird_draft_outputs": [],
+    "lite_evaluator_hardening_note": "Evaluator semantics remain unchanged. Setup now fails invalid before task exposure unless the photo is one exact MediaStore row and its GUI Properties page shows filename/format suffix/size, and unless Audio Recorder imports the task m4a into its index and visibly shows name/format/size/filename on Information. Cleanup removes the exact imported row/files only."
+  }
+}

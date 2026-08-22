@@ -1,0 +1,267 @@
+{
+  "id": "linux_smarthome_606",
+  "instruction": "Please help reconcile the records using the current policy at `/tmp/reconcile/policy.pdf`, the old snapshot at `/tmp/reconcile/snapshot.json`, and the workbook at `/tmp/reconcile/result.xlsx`. Treat the live home state as authoritative; only fix the item that is still violating policy and is allowed for automatic handling, then complete the workbook.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/reconcile/policy.pdf && mkdir -p -- /tmp/reconcile",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_606/source/tmp/reconcile/policy.pdf",
+                "path": "/tmp/reconcile/policy.pdf"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/reconcile/snapshot.json /tmp/reconcile/result.xlsx && mkdir -p -- /tmp/reconcile",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_606/source/linux_1/tmp/reconcile/snapshot.json",
+                "path": "/tmp/reconcile/snapshot.json"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_606/source/linux_1/tmp/reconcile/result.xlsx",
+                "path": "/tmp/reconcile/result.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_606/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/reconcile/policy.pdf; find /tmp/reconcile -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/reconcile/snapshot.json /tmp/reconcile/result.xlsx; find /tmp/reconcile -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "bathroom_dehumidifier_1": {
+                "power": "on",
+                "level": "high"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/reconcile/result.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_606/source/linux_1/tmp/reconcile/result.xlsx",
+          "allowed_changes": [
+            "Result!D2",
+            "Result!E2",
+            "Result!F2",
+            "Result!G2",
+            "Result!D3",
+            "Result!E3",
+            "Result!F3",
+            "Result!G3",
+            "Result!D4",
+            "Result!E4",
+            "Result!F4",
+            "Result!G4"
+          ],
+          "preserve_layout": true,
+          "sheet": "Result",
+          "cells": {
+            "D2": "35",
+            "E2": "Normal",
+            "F2": "Yes",
+            "G2": "No action - snapshot stale",
+            "D3": "76",
+            "E3": "High",
+            "F3": "Yes",
+            "G3": "Run dehumidifier high",
+            "D4": "29",
+            "E4": "High",
+            "F4": "No",
+            "G4": "Manual review"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/reconcile/result.xlsx"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_606",
+    "surfaces": [
+      "linux.json",
+      "linux.pdf",
+      "linux.xlsx",
+      "smarthome.device_state",
+      "smarthome.home_state"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_606",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_606/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_606/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/reconcile/policy.pdf",
+      "/tmp/reconcile/snapshot.json",
+      "/tmp/reconcile/result.xlsx"
+    ],
+    "linux_output_paths": [
+      "/tmp/reconcile/result.xlsx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/reconcile/policy.pdf"
+      ],
+      "linux_1": [
+        "/tmp/reconcile/snapshot.json",
+        "/tmp/reconcile/result.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/reconcile/result.xlsx"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "2linux_smarthome",
+      "linux_devices": [
+        "linux_0",
+        "linux_1"
+      ],
+      "room_ids": [
+        "bathroom",
+        "kitchen",
+        "office"
+      ],
+      "device_type_counts": {
+        "air_conditioner": 1,
+        "air_purifier": 1,
+        "dehumidifier": 1
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 3,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-25T12:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_1",
+        "surface": "linux.xlsx",
+        "path": "/tmp/reconcile/result.xlsx",
+        "goal": "Create or update the task result at this path.",
+        "func": "check_xlsx_cells",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/reconcile/policy.pdf, /tmp/reconcile/snapshot.json, /tmp/reconcile/result.xlsx and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the preserved reconciliation workbook and permits only the bathroom dehumidifier to change to on/high, with no new schedules or workflows.",
+    "idea_number": 606,
+    "lite_hardening_note": "Removed redundant guard/count evaluators while retaining outcome-focused SmartHome and file checks."
+  }
+}

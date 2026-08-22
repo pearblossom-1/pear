@@ -1,0 +1,3 @@
+latitude,longitude,room,light_device_id,curtain_device_id,arrival_basis,lead_minutes,light_pct,curtain_pct
+47.6566,-122.3766,guest room,guest_room_dimmable_light_1,guest_room_curtain_1,event_start,15,45,50
+37.7812,-122.4018,living room,living_room_dimmable_light_1,living_room_curtain_1,event_start,10,25,30

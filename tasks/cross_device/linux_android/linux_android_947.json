@@ -1,0 +1,278 @@
+{
+  "id": "linux_android_947",
+  "instruction": "The approved recording case needs to be handed to both the phone recording operator and the second-Linux transfer operator. Reconcile `/sdcard/Download/947-A_source.md` with `/tmp/audio_file_list_creates_reco/request_table.csv` and follow `/tmp/audio_file_list_creates_reco/handoff_policy.md`. Save the routing decision to `/tmp/audio_file_list_creates_reco/decision.json`, leave the phone operator a `947-A recording handoff` note in Markor, and write the transfer handoff to `/tmp/audio_file_list_creates_reco/handoff.txt` on the second Linux machine.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/947-A recording handoff.md'"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_947/android/947-A_source.md",
+                "path": "/sdcard/Download/947-A_source.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "test -r '/sdcard/Download/947-A_source.md' && grep -F '947-A' '/sdcard/Download/947-A_source.md' >/dev/null && grep -F 'NX94733' '/sdcard/Download/947-A_source.md' >/dev/null && grep -F 'Tao Lin' '/sdcard/Download/947-A_source.md' >/dev/null && test ! -e '/storage/emulated/0/Documents/Markor/947-A recording handoff.md'",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "markor"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p '/tmp/audio_file_list_creates_reco' && rm -f '/tmp/audio_file_list_creates_reco/request_table.csv' '/tmp/audio_file_list_creates_reco/handoff_policy.md' '/tmp/audio_file_list_creates_reco/decision.json'",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_947/source/request_table.csv",
+                "path": "/tmp/audio_file_list_creates_reco/request_table.csv"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_947/source/handoff_policy.md",
+                "path": "/tmp/audio_file_list_creates_reco/handoff_policy.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\ndir=/tmp/audio_file_list_creates_reco\ntest -r \"$dir/request_table.csv\"\ntest -r \"$dir/handoff_policy.md\"\ntest -w \"$dir\"\ntest ! -e \"$dir/decision.json\"\ngrep -F '947-A,Tao Lin' \"$dir/request_table.csv\" >/dev/null\ngrep -F 'Prepare the approved recording handoff' \"$dir/handoff_policy.md\" >/dev/null\ngrep -F 'phone recording operator' \"$dir/handoff_policy.md\" >/dev/null\ngrep -F 'second-Linux transfer operator' \"$dir/handoff_policy.md\" >/dev/null\n! grep -F 'missing transcript or failed processing' \"$dir/handoff_policy.md\" >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nmkdir -p '/tmp/audio_file_list_creates_reco'\nrm -f '/tmp/audio_file_list_creates_reco/handoff.txt'\ntest -w '/tmp/audio_file_list_creates_reco'\ntest ! -e '/tmp/audio_file_list_creates_reco/handoff.txt'",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/sdcard/Download/947-A_source.md'"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/947-A recording handoff.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f '/tmp/audio_file_list_creates_reco/request_table.csv' '/tmp/audio_file_list_creates_reco/handoff_policy.md' '/tmp/audio_file_list_creates_reco/decision.json'; rmdir '/tmp/audio_file_list_creates_reco' 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f '/tmp/audio_file_list_creates_reco/handoff.txt'; rmdir '/tmp/audio_file_list_creates_reco' 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/947-A recording handoff.md",
+        "rules": {
+          "entities": ["947-A", "NX94733", "Tao Lin", "recording handoff"],
+          "positive_phrases": ["ready", "approved", "prepare handoff"],
+          "conflict_phrases": ["not ready", "blocked", "do not hand off", "placeholder"]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_json_records",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/audio_file_list_creates_reco/decision.json"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "payload_key": "handoffs",
+          "accepted_payload_shapes": ["array", "payload_array"],
+          "canonical_id": "case_id",
+          "id_keys": ["case_id", "id"],
+          "case_sensitive": true,
+          "rows": [{"case_id": "947-A", "approval_code": "NX94733", "owner": "Tao Lin", "selected_source": "/tmp/audio_file_list_creates_reco/request_table.csv", "status": "ready"}]
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "cat '/tmp/audio_file_list_creates_reco/handoff.txt' 2>/dev/null || echo missing",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": ["947-A", "NX94733", "Tao Lin"],
+          "exclude": ["missing", "placeholder"],
+          "entity_relation": {
+            "entities": ["947-A", "NX94733", "Tao Lin", ["second Linux", "second-Linux", "transfer operator"], "recording handoff"],
+            "positive_phrases": ["ready", "prepared", "approved", "ready for handoff", "handoff prepared", "prepared for transfer"],
+            "conflict_phrases": ["not ready", "blocked", "do not hand off"]
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 420
+  },
+  "metadata": {
+    "category": "linux_android_next",
+    "implementation_status": "reviewed_plan6_generated",
+    "source_plan": "docs/plan6/linux_android_next100_tasks_881_980.md",
+    "source_task_number": 947,
+    "source_task_title": "Audio file list creates recording handoff draft",
+    "triage_decision": "repair",
+    "triage_reason": "Repaired candidate to stable evaluator-visible document/file/app state while preserving the source decision and output intent.",
+    "device_topology": "android_0+linux_0+linux_1",
+    "surfaces": [
+      "android.android_file",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_947",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_947/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_947/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_947/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/audio_file_list_creates_reco/request_table.csv",
+      "/tmp/audio_file_list_creates_reco/handoff_policy.md"
+    ],
+    "linux_output_paths": [
+      "/tmp/audio_file_list_creates_reco/decision.json",
+      "/tmp/audio_file_list_creates_reco/handoff.txt"
+    ],
+    "android_output_plan": [
+      {
+        "kind": "android_file",
+        "device_id": "android_0",
+        "path": "/storage/emulated/0/Documents/Markor/947-A recording handoff.md",
+        "required": [
+          "947-A",
+          "NX94733",
+          "Tao Lin",
+          "Audio file list recording handoff"
+        ]
+      }
+    ],
+    "expected_data_trace": {
+      "case_id": "947-A",
+      "approval_code": "NX94733",
+      "owner": "Tao Lin"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "structured_output_classification": {"decision.json": "justified_handoff", "phone handoff note": "justified_handoff", "linux_1 handoff text": "justified_handoff"},
+    "human_quality_hardening": "Scores the three named downstream handoffs semantically; decision.json uses the complete public schema and rejects extra fields/records.",
+    "topology_view": "linux_android"
+  }
+}

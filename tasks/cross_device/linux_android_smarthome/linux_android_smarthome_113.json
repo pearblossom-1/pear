@@ -1,0 +1,402 @@
+{
+  "id": "linux_android_smarthome_113",
+  "instruction": "Jordan is visiting, so please prepare the Guest room using the saved contact preferences, Calendar timing, current SmartHome state, and `/tmp/visit/standard.xlsx`. Schedule the preparation workflow and send Jordan a concise confirmation of the room, time, and settings. Also create `/tmp/visit/record.docx` titled `Visitor record` with a readable two-column summary labeled `Visitor`, `Room`, `Workflow time`, `Temperature`, `Light`, and `Air purifier`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/visit && rm -f /tmp/visit/record.docx",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/source/tmp/visit/standard.xlsx",
+                "path": "/tmp/visit/standard.xlsx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "nohup libreoffice --calc '/tmp/visit/standard.xlsx' >'/tmp/visit/standard-calc.log' 2>&1 </dev/null &",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Jordan Visitor",
+            "number": "+1555021301",
+            "notes": "Preference: cool, soft, clean"
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Jordan Visitor",
+              "number": "+1555021301",
+              "notes_exact": "Preference: cool, soft, clean"
+            },
+            "required_visible_text": [
+              "Jordan Visitor",
+              "Preference: cool, soft, clean"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Jordan visit",
+            "start_ts": 1781640000,
+            "end_ts": 1781647200,
+            "location": "Guest room",
+            "description": "Use visitor standard."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Jordan visit",
+            "start_ts": 1781640000,
+            "location": "Guest room",
+            "description": "Use visitor standard.",
+            "search_text": "Jordan"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/visit/standard.xlsx /tmp/visit/standard-calc.log /tmp/visit/record.docx; rmdir /tmp/visit 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+1555021301",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            "Jordan",
+            "Guest room",
+            [
+              "19:35",
+              "7:35 PM"
+            ],
+            [
+              "24 C",
+              "24 degrees"
+            ],
+            [
+              "35%",
+              "35 percent"
+            ],
+            [
+              "purifier low",
+              "low purifier"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "scheduled",
+              "will be prepared",
+              "will be ready",
+              "prepared at",
+              "preparation time"
+            ]
+          ],
+          "conflict_phrases": [
+            "not ready",
+            "cancelled",
+            "pending",
+            "already ready",
+            "already prepared",
+            "is ready",
+            "is prepared",
+            "was ready",
+            "was prepared",
+            "ready now",
+            "prepared now"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T19:35:00",
+            "status": "active",
+            "exact_active_workflow_count": 1,
+            "effects": {
+              "guest_room_air_conditioner_1": {
+                "power": "on",
+                "target_temperature_c": 24.0
+              },
+              "guest_room_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 35
+              },
+              "guest_room_air_purifier_1": {
+                "power": "on",
+                "level": "low"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/visit/record.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "Visitor record"
+          ],
+          "exclude": [
+            "placeholder"
+          ],
+          "require_valid_package": true,
+          "case_sensitive": false,
+          "template_structure": {
+            "body_paragraphs": [
+              "Visitor record"
+            ],
+            "exact_tables": 1
+          },
+          "table_contracts": [
+            {
+              "table_index": 0,
+              "exact_rows": true,
+              "exact_columns": true,
+              "rows": [
+                [
+                  "Visitor",
+                  {
+                    "alternatives": [
+                      "Jordan"
+                    ]
+                  }
+                ],
+                [
+                  "Room",
+                  {
+                    "alternatives": [
+                      "Guest room"
+                    ]
+                  }
+                ],
+                [
+                  "Workflow time",
+                  {
+                    "alternatives": [
+                      "19:35",
+                      "7:35 PM",
+                      "7:35PM"
+                    ]
+                  }
+                ],
+                [
+                  "Temperature",
+                  {
+                    "alternatives": [
+                      "24 C",
+                      "24°C",
+                      "24 degrees C",
+                      "24 degrees"
+                    ]
+                  }
+                ],
+                [
+                  "Light",
+                  {
+                    "alternatives": [
+                      "35%",
+                      "35 percent"
+                    ]
+                  }
+                ],
+                [
+                  "Air purifier",
+                  {
+                    "alternatives": [
+                      "low"
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      },
+      "metadata": {
+        "path": "/tmp/visit/record.docx"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Pilot 113 visitor prep with dual output consistency.",
+    "surfaces": [
+      "contacts",
+      "calendar",
+      "sms",
+      "linux_xlsx",
+      "linux_docx",
+      "home_workflow"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/visit/standard.xlsx"
+    ],
+    "linux_output_paths": [
+      "/tmp/visit/record.docx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/visit/standard.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [
+        "/tmp/visit/record.docx"
+      ]
+    },
+    "pilot_index": 113
+  }
+}

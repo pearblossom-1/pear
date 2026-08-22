@@ -1,0 +1,281 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 9161,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 9161,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "address": "+1555016101",
+        "body_relation": {
+          "entities": [
+            [
+              "guest room",
+              "guest-room",
+              "guest bedroom"
+            ],
+            [
+              "heater",
+              "heating"
+            ],
+            [
+              "22",
+              "22.0",
+              "twenty-two",
+              "twenty two"
+            ]
+          ],
+          "conflict_phrases": [
+            "off",
+            "failed",
+            "could not",
+            "cannot",
+            "not set",
+            "unavailable",
+            "21",
+            "23",
+            "cooling",
+            "warmed to",
+            "has warmed",
+            "reached 22"
+          ],
+          "required_phrases": [
+            [
+              "is on",
+              "turned on",
+              "set to",
+              "now set",
+              "target is",
+              "target temperature",
+              "heating at",
+              "target for"
+            ]
+          ]
+        },
+        "recent_within_mins": 30,
+        "box": "sent"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "guest_room_heater_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "on",
+            "target_temperature_c": 22.0
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bathroom": {
+        "temperature_c": 26.5,
+        "humidity_pct": 63.8,
+        "brightness_lux": 282.3,
+        "air_quality_pm25": 35.8,
+        "noise_level_db": 35.5,
+        "occupied": true
+      },
+      "bedroom": {
+        "temperature_c": 24.5,
+        "humidity_pct": 51.8,
+        "brightness_lux": 175.0,
+        "air_quality_pm25": 23.6,
+        "noise_level_db": 36.0,
+        "occupied": false
+      },
+      "guest_room": {
+        "temperature_c": 18.4,
+        "humidity_pct": 41.4,
+        "brightness_lux": 100.0,
+        "air_quality_pm25": 36.3,
+        "noise_level_db": 37.0,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 24.7,
+        "humidity_pct": 51.0,
+        "brightness_lux": 400.0,
+        "air_quality_pm25": 43.9,
+        "noise_level_db": 31.5,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bathroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "bathroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 29.0
+        }
+      },
+      {
+        "device_id": "bathroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bathroom_light_1",
+        "device_type": "light",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "mode": "fan",
+          "target_temperature_c": 20.0
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "brightness_pct": 35
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "guest_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "guest_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "guest_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 20
+        }
+      },
+      {
+        "device_id": "guest_room_heater_1",
+        "device_type": "heater",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 19.0
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "mode": "dry",
+          "target_temperature_c": 23.0
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 80
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 99
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  },
+  "task_id": "linux_android_smarthome_161"
+}

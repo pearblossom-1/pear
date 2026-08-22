@@ -1,0 +1,460 @@
+{
+  "id": "android_smarthome_854",
+  "instruction": "`playlist_manifest.csv` in the Android Files app requires an exact Retro Music playlist. Check the requested name, do not substitute the available near-match, and create a Tasks item titled `Missing playlist result` that records the requested playlist and the fact that the exact playlist is missing and no routine was scheduled.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "retro music"
+          }
+        },
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_mp3_push",
+          "parameters": {
+            "songs": [
+              "Blue Hall",
+              "Soft Landing"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_playlist_add",
+          "parameters": {
+            "playlist_name": "Evening Wind Down",
+            "songs": [
+              "Blue Hall",
+              "Soft Landing"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_music_library_preflight",
+          "parameters": {
+            "songs": [
+              "Blue Hall",
+              "Soft Landing"
+            ],
+            "forbidden_songs": [],
+            "forbidden_playlist_names": [
+              "Evening Wind Down Kids"
+            ],
+            "required_playlist": {
+              "name": "Evening Wind Down",
+              "songs": [
+                "Blue Hall",
+                "Soft Landing"
+              ]
+            },
+            "verify_playlist_creation_entry": false
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_854/android/android_0/files/playlist_manifest.csv",
+                "path": "/storage/emulated/0/Download/home/playlist_manifest.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/storage/emulated/0/Download/home",
+            "expected_filenames": [
+              "playlist_manifest.csv"
+            ],
+            "open_filename": "playlist_manifest.csv",
+            "required_visible_text": [
+              "Evening Wind Down Kids",
+              "Evening Wind Down",
+              "no substitution"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_task_add",
+          "parameters": {
+            "title": "MDCBench Tasks backend sentinel 854",
+            "notes": "Temporary backend health check.",
+            "dueDate": 0,
+            "completed": 0
+          }
+        },
+        {
+          "type": "androidworld_task_record_preflight",
+          "parameters": {
+            "task": {
+              "title": "MDCBench Tasks backend sentinel 854",
+              "notes": "Temporary backend health check.",
+              "dueDate": 0,
+              "completed": 0
+            },
+            "required_visible_text": [
+              "MDCBench Tasks backend sentinel 854",
+              "Temporary backend health check."
+            ]
+          }
+        },
+        {
+          "type": "androidworld_tasks_delete_by_title",
+          "parameters": {
+            "title": "MDCBench Tasks backend sentinel 854"
+          }
+        },
+        {
+          "type": "androidworld_task_backend_preflight",
+          "parameters": {
+            "absent_title": "MDCBench Tasks backend sentinel 854"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_854/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/home/playlist_manifest.csv"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_status",
+        "title": "Missing playlist result",
+        "require_exactly_one": true,
+        "notes_relation": {
+          "entities": [
+            "Evening Wind Down Kids"
+          ],
+          "required_phrases": [
+            [
+              "missing",
+              "not found",
+              "could not be found",
+              "unavailable",
+              "absent"
+            ],
+            [
+              "no routine was scheduled",
+              "routine was not scheduled",
+              "did not schedule a routine",
+              "nothing was scheduled",
+              "left the routine unscheduled",
+              "no schedule was created"
+            ]
+          ],
+          "allowed_negative_capability_phrases": [
+            "not found",
+            "could not be found"
+          ],
+          "conflict_phrases": [
+            "exact playlist is available",
+            "exact playlist was found",
+            "substituted Evening Wind Down",
+            "used Evening Wind Down instead",
+            "routine was scheduled",
+            "scheduled the routine"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "FOUND"
+        }
+      },
+      "name": "exactly one Tasks result records the missing exact playlist and no schedule"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_status",
+        "title": "Missing playlist result",
+        "require_exactly_one": true,
+        "notes_relation": {
+          "entities": [
+            "Evening Wind Down Kids"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "FOUND"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Tasks backend is healthy and the exact requested playlist name is present"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_status",
+        "title": "Missing playlist result",
+        "require_exactly_one": true,
+        "notes_relation": {
+          "entities": [
+            "Evening Wind Down Kids"
+          ],
+          "required_phrases": [
+            [
+              "missing",
+              "not found",
+              "could not be found",
+              "unavailable",
+              "absent"
+            ]
+          ],
+          "allowed_negative_capability_phrases": [
+            "not found",
+            "could not be found"
+          ],
+          "conflict_phrases": [
+            "exact playlist is available",
+            "exact playlist was found"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "FOUND"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Missing playlist result states that the exact playlist is unavailable"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_status",
+        "title": "Missing playlist result",
+        "require_exactly_one": true,
+        "notes_relation": {
+          "entities": [
+            "Evening Wind Down Kids"
+          ],
+          "required_phrases": [
+            [
+              "no routine was scheduled",
+              "routine was not scheduled",
+              "did not schedule a routine",
+              "nothing was scheduled",
+              "left the routine unscheduled",
+              "no schedule was created"
+            ]
+          ],
+          "conflict_phrases": [
+            "routine was scheduled",
+            "scheduled the routine"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "FOUND"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Missing playlist result states that no routine was scheduled"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "retro_music_playlist",
+        "playlist_name": "Evening Wind Down",
+        "expected_songs": [
+          "Blue Hall",
+          "Soft Landing"
+        ],
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "the one near-match playlist remains unchanged and is not substituted"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "name": "no SmartHome schedule is created"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "name": "no SmartHome workflow is created"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "missing playlist handling issues no direct device commands"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_device_change",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "device_id": "kids_room_dimmable_light_1"
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "kids-room light baseline is fully unchanged"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_854",
+    "surfaces": [
+      "retro",
+      "files",
+      "tasks",
+      "home_schedule",
+      "home_workflow",
+      "no_op"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "androidworld_task"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks the visible Tasks record, requires zero Home schedules and workflows, and guards the kids-room light against change.",
+    "device_topology": "android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_854",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_854/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_854/oracle_positive.json",
+    "idea_number": 854,
+    "candidate_triage": {
+      "batch_id": "plan5-android-smarthome-369-868-B0025",
+      "decision": "direct",
+      "rationale": "Supported exact-missing-playlist no-op with a visible Retro decoy, a human-facing Tasks result, and no Home control."
+    },
+    "lite_hardening_note": "Retained the human-facing Tasks result, added scored native absence checks for schedules and workflows, kept the no-change guard, and removed the redundant internal answer report."
+  }
+}

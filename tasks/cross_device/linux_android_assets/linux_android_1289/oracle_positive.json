@@ -1,0 +1,14 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && echo Qmx1ZSBIYXJib3IgU2V0IGlzIGJsb2NrZWQgYmVjYXVzZSBCbHVlIEhhcmJvciBFeHRlbmRlZCBpcyBtaXNzaW5nLiBCbHVlIEhhcmJvciBpcyBvbmx5IGEgbmVhciBtYXRjaDsgcGxheWxpc3QgY3JlYXRpb24gaXMgYmxvY2tlZC4K | base64 -d > '/storage/emulated/0/Documents/Markor/Blue Harbor Set gap.md'"
+        }
+      }
+    ]
+  },
+  "notes": "Positive dry-run oracle writes only the requested final artifacts and native state."
+}

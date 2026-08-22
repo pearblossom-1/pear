@@ -1,0 +1,181 @@
+{
+  "id": "linux_android_1264",
+  "instruction": "Compare the phone calendar with `/tmp/schedule/schedule_table.csv` and save `/tmp/schedule/calendar_mismatch.csv`. Use exactly these columns: `event_code`, `android_value`, `linux_value`, and `match_status`. Include every source event once, using `matched`, `location_mismatch`, or `missing_android_event` as appropriate. In each `android_value` and `linux_value`, write an event as `YYYY-MM-DDTHH:MM:SS Location` with one space between the timestamp and location; use `missing` when that side has no event.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/schedule/schedule_table.csv /tmp/schedule/calendar_mismatch.csv && mkdir -p -- /tmp/schedule",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1264/source/tmp/schedule/schedule_table.csv",
+                "path": "/tmp/schedule/schedule_table.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "EVT-1264 Dock Briefing",
+            "start_ts": 1785826800,
+            "end_ts": 1785830400,
+            "location": "Dock A",
+            "description": "event_code EVT-1264"
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "EVT-1265 Yard Check",
+            "start_ts": 1785830400,
+            "end_ts": 1785834000,
+            "location": "Yard C",
+            "description": "event_code EVT-1265"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/schedule/schedule_table.csv /tmp/schedule/calendar_mismatch.csv; find /tmp/schedule -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_csv",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/schedule/calendar_mismatch.csv"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "columns": [
+            "event_code",
+            "android_value",
+            "linux_value",
+            "match_status"
+          ],
+          "rows": [
+            {
+              "event_code": "EVT-1264",
+              "android_value": "2026-08-04T07:00:00 Dock A",
+              "linux_value": "2026-08-04T07:00:00 Dock A",
+              "match_status": "matched"
+            },
+            {
+              "event_code": "EVT-1265",
+              "android_value": "2026-08-04T08:00:00 Yard C",
+              "linux_value": "2026-08-04T08:00:00 Yard B",
+              "match_status": "location_mismatch"
+            },
+            {
+              "event_code": "EVT-1266",
+              "android_value": "missing",
+              "linux_value": "2026-08-04T09:00:00 Office",
+              "match_status": "missing_android_event"
+            }
+          ],
+          "exact_logical_rows": true,
+          "order_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/schedule/calendar_mismatch.csv"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1264",
+    "surfaces": [
+      "calendar",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1264",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1264/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1264/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/schedule/schedule_table.csv"
+    ],
+    "linux_output_paths": [
+      "/tmp/schedule/calendar_mismatch.csv"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/schedule/schedule_table.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [
+        "/tmp/schedule/calendar_mismatch.csv"
+      ]
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1261-1280-B0005",
+    "candidate_triage": {
+      "decision": "direct",
+      "rationale": "Candidate is realistic, source-closed, and supported by existing Linux and Android helpers."
+    },
+    "human_quality_review": "accepted_current_hash_smoke_passed",
+    "current_hash_smoke_status": "passed_current_hash"
+  }
+}

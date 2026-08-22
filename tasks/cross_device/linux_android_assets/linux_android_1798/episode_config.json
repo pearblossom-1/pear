@@ -1,0 +1,113 @@
+{
+  "eval": [
+    {
+      "device_id": "linux_1",
+      "func": "check_csv_semantic_records",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/music/playlist_audit.csv"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "column_aliases": {
+            "playlist": [],
+            "track_title": [],
+            "manifest_required": [],
+            "android_playlist": [],
+            "category": []
+          },
+          "value_aliases": {
+            "manifest_required": {
+              "yes": [
+                "required",
+                "true",
+                "1"
+              ],
+              "no": [
+                "not required",
+                "optional",
+                "false",
+                "0"
+              ]
+            },
+            "android_playlist": {
+              "present": [
+                "found",
+                "in playlist",
+                "included",
+                "yes",
+                "true"
+              ],
+              "missing": [
+                "absent",
+                "not found",
+                "not in playlist",
+                "no",
+                "false"
+              ]
+            },
+            "category": {
+              "present": [
+                "match",
+                "matched",
+                "required and present",
+                "in both"
+              ],
+              "missing": [
+                "absent",
+                "not found",
+                "required but missing"
+              ],
+              "extra": [
+                "unexpected",
+                "unlisted",
+                "playlist only",
+                "not required",
+                "additional"
+              ]
+            }
+          },
+          "order_sensitive": false,
+          "rows": [
+            {
+              "playlist": "Route review set",
+              "track_title": "north gate brief",
+              "manifest_required": "yes",
+              "android_playlist": "present",
+              "category": "present"
+            },
+            {
+              "playlist": "Route review set",
+              "track_title": "harbor loop cue",
+              "manifest_required": "yes",
+              "android_playlist": "present",
+              "category": "present"
+            },
+            {
+              "playlist": "Route review set",
+              "track_title": "missing signature cue",
+              "manifest_required": "yes",
+              "android_playlist": "missing",
+              "category": "missing"
+            },
+            {
+              "playlist": "Route review set",
+              "track_title": "old archive outro",
+              "manifest_required": "no",
+              "android_playlist": "present",
+              "category": "extra"
+            }
+          ]
+        }
+      },
+      "metadata": {
+        "path": "/tmp/music/playlist_audit.csv"
+      }
+    }
+  ],
+  "metadata": {
+    "task_id": "linux_android_1798",
+    "source_plan": "plan6_final_balancing"
+  }
+}

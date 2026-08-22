@@ -1,0 +1,276 @@
+{
+  "id": "android_only_270",
+  "instruction": "The Site Manager contact on the first phone has the responsible person's number. Combine it with the Dock West favorite in OsmAnd on the second phone and leave `Dock West handoff.md` in Markor with the contact name, number, favorite name, and coordinates.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Site Manager",
+            "number": "5550270",
+            "notes": "Manager for Dock West handoff."
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Site Manager",
+              "number": "5550270",
+              "notes_exact": "Manager for Dock West handoff.",
+              "require_exactly_one": true
+            },
+            "required_visible_text": [
+              "Site Manager",
+              "5550270",
+              "Manager for Dock West handoff."
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "osmand"
+          }
+        },
+        {
+          "type": "androidworld_osmand_favorites_setup",
+          "parameters": {}
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_only_assets/android_only_270/android_1/osmand/favorites.gpx",
+                "path": "/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_osmand_favorites_preflight",
+          "parameters": {
+            "favorites": [
+              {
+                "name": "Dock West",
+                "latitude": "47.671200",
+                "longitude": "-122.302200"
+              }
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Dock West handoff.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx /data/data/net.osmand/files/favourites_bak.gpx"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Dock West handoff.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Bind Site Manager to the number and Dock West to its numeric coordinates",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Dock West handoff.md",
+        "rules": {
+          "entities": [
+            "Site Manager",
+            "5550270",
+            "Dock West"
+          ],
+          "allowed_negative_capability_phrases": [
+            "not current",
+            "non-current"
+          ],
+          "nearest_relations": [
+            {
+              "anchor": [
+                "Site Manager"
+              ],
+              "expected": [
+                "5550270"
+              ],
+              "forbidden": [],
+              "max_distance": 12
+            }
+          ],
+          "numeric_coordinate_relations": [
+            {
+              "anchor": "Dock West",
+              "latitude": 47.6712,
+              "longitude": -122.3022,
+              "tolerance": 0.000005,
+              "max_anchor_gap_chars": 160
+            }
+          ],
+          "conflict_patterns": [
+            "\\bSite\\s+Manager\\b[^.;\\n]{0,48}\\b(?!5550270\\b)\\d{7}\\b"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "name": "Preserve every Site Manager contact business field",
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_contact",
+        "name": "Site Manager",
+        "number": "5550270",
+        "numbers_exact": [
+          "5550270"
+        ],
+        "emails_exact": [],
+        "notes_exact": "Manager for Dock West handoff.",
+        "require_exactly_one": true,
+        "require_unique_name": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Keep the first phone's Contacts collection to exactly Site Manager",
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_contact_count"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "1"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Preserve the exact Dock West OsmAnd favorite set",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "osmand_favorite_set",
+        "favorites": [
+          {
+            "favorite_name": "Dock West",
+            "favorite_lat": 47.6712,
+            "favorite_lon": -122.3022
+          }
+        ],
+        "coordinate_tolerance": 0.000005,
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "android_only",
+    "device_topology": "2android",
+    "surfaces": [
+      "contacts",
+      "osmand",
+      "markor"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/android_only_assets/android_only_270",
+    "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",
+    "evaluate_note": "Evaluation binds the contact name to its number, parses Dock West coordinates numerically across equivalent decimal representations, and preserves both source collections.",
+    "source_number": 270,
+    "candidate_triage": {
+      "batch_id": "plan6-android-only-dual-android-B0004",
+      "decision": "direct",
+      "rationale": "Supported contact plus OsmAnd favorite join into durable Markor note."
+    },
+    "oracle_ref": "tasks/cross_device/android_only_assets/android_only_270/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_270/episode_config.json",
+    "lite_hardening_note": "Smoke repair: fixed adb_shell grep negative-coordinate option parsing.",
+    "lite_evaluator_hardening_note": "Markor evaluator searches user-created notes by required content rather than requiring a hidden filename."
+  }
+}

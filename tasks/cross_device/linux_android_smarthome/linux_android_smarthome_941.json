@@ -1,0 +1,383 @@
+{
+  "id": "linux_android_smarthome_941",
+  "instruction": "The pending guest-room setup may have been superseded, so please close it out against the latest booking status. Reconcile the property phone's `Guest arrival setup request` note with `/tmp/guest-stay-reconcile/booking/latest.txt` on the booking-status Linux workstation. Complete the front-desk register at `/tmp/guest-stay-reconcile/register/request_register.xlsx` and save the finished copy as `/tmp/guest-stay-reconcile/result/request_register_done.xlsx`. Check the live SmartHome state, change the room only if the latest booking still authorizes it, and record the outcome in the original Markor note.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/guest-stay-reconcile/booking/latest.txt && mkdir -p -- /tmp/guest-stay-reconcile/booking",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_941/source/tmp/guest-stay-reconcile/booking/latest.txt",
+                "path": "/tmp/guest-stay-reconcile/booking/latest.txt"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/guest-stay-reconcile/register/request_register.xlsx /tmp/guest-stay-reconcile/result/request_register_done.xlsx && mkdir -p -- /tmp/guest-stay-reconcile/register /tmp/guest-stay-reconcile/result",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_941/source/tmp/guest-stay-reconcile/register/request_register.xlsx",
+                "path": "/tmp/guest-stay-reconcile/register/request_register.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Guest arrival setup request.md'"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_941/android/android_0/Guest arrival setup request.md",
+                "path": "/storage/emulated/0/Documents/Markor/Guest arrival setup request.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_markor_note_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor/Guest arrival setup request.md",
+            "required_visible_text": [
+              "Request GS-2047",
+              "guest-room curtain",
+              "20 percent",
+              "Closeout:",
+              "Outcome:",
+              "Home result:"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_941/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/guest-stay-reconcile/booking/latest.txt; rmdir --ignore-fail-on-non-empty /tmp/guest-stay-reconcile/booking /tmp/guest-stay-reconcile 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/guest-stay-reconcile/register/request_register.xlsx /tmp/guest-stay-reconcile/result/request_register_done.xlsx; rmdir --ignore-fail-on-non-empty /tmp/guest-stay-reconcile/register /tmp/guest-stay-reconcile/result /tmp/guest-stay-reconcile 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Guest arrival setup request.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Guest arrival setup request.md",
+        "rules": {
+          "entities": [
+            "Closeout",
+            [
+              "Outcome: Cancelled",
+              "Outcome: Canceled"
+            ],
+            "Home result",
+            "GS-2047",
+            [
+              "guest room",
+              "guest-room",
+              "guest_room"
+            ],
+            "curtain",
+            [
+              "20 percent",
+              "20%"
+            ]
+          ],
+          "allowed_reversal_terms": [
+            "cancelled",
+            "canceled"
+          ],
+          "allowed_false_assignment_phrases": [
+            "Home result: No change",
+            "Home result: No Home command",
+            "Home result: No Home commands"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "Home result",
+                [
+                  "no change",
+                  "left unchanged",
+                  "unchanged",
+                  "no home command",
+                  "no home commands",
+                  "home remained as-is",
+                  "home remained unchanged"
+                ],
+                [
+                  "booking cancelled",
+                  "booking canceled",
+                  "booking was cancelled",
+                  "booking was canceled",
+                  "cancelled booking",
+                  "canceled booking",
+                  "cancellation",
+                  "guest cancelled",
+                  "guest canceled"
+                ]
+              ],
+              "conflicts": [
+                "curtain changed to 20",
+                "curtain set to 20",
+                "change applied",
+                "pending",
+                "not confirmed",
+                "unverified",
+                "unknown"
+              ]
+            }
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_current_time": true,
+            "preserve_rooms": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/guest-stay-reconcile/result/request_register_done.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_941/source/tmp/guest-stay-reconcile/register/request_register.xlsx",
+          "allowed_changes": [
+            "Request Register!D2",
+            "Request Register!E2"
+          ],
+          "cells": {
+            "D2": "Cancelled",
+            "E2": "No change - booking cancelled"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/guest-stay-reconcile/result/request_register_done.xlsx"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Property-operations reconciliation of an obsolete room-preparation request against the latest booking status.",
+    "surfaces": [
+      "dual_linux",
+      "linux_booking_update",
+      "linux_xlsx",
+      "markor",
+      "home_state",
+      "home_command_history"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_941",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_941/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_941/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/guest-stay-reconcile/booking/latest.txt",
+      "/tmp/guest-stay-reconcile/register/request_register.xlsx"
+    ],
+    "linux_output_paths": [
+      "/tmp/guest-stay-reconcile/result/request_register_done.xlsx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/guest-stay-reconcile/booking/latest.txt"
+      ],
+      "linux_1": [
+        "/tmp/guest-stay-reconcile/register/request_register.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [],
+      "linux_1": [
+        "/tmp/guest-stay-reconcile/result/request_register_done.xlsx"
+      ]
+    },
+    "readiness": {
+      "linux_sources_present": 2,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-16T18:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_1",
+        "surface": "linux.xlsx",
+        "path": "/tmp/guest-stay-reconcile/result/request_register_done.xlsx",
+        "func": "check_xlsx_cells",
+        "result_type": "vm_file"
+      },
+      {
+        "device_id": "android_0",
+        "surface": "markor",
+        "path": "/storage/emulated/0/Documents/Markor/Guest arrival setup request.md",
+        "func": "exact_match",
+        "result_type": "adb_shell"
+      }
+    ],
+    "setup_note": "Uploads the pending request note, latest booking update, and controlled request register, then resets Home from the episode config.",
+    "evaluate_note": "Evaluates the cancelled-request handoff, complete no-action protection across direct commands and future plans, and the preserved completed register.",
+    "pilot_index": 941,
+    "source_plan": "android_2linux_smarthome_candidate_tasks_871_970",
+    "round2_replacement_reason": "Replaced the original exact duplicate of task 940 and a first round-2 office-glare design that overlapped existing task families, while preserving Lite index L105 and task ID 941."
+  }
+}

@@ -1,0 +1,659 @@
+{
+  "meta": {
+    "sh_type": "SH_android_smarthome",
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1407,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Entry inspection audit.md",
+        "rules": {
+          "entities": [
+            "entry_photo_407.png",
+            "entry",
+            "door",
+            "shoes",
+            "brightness",
+            [
+              "82 lux",
+              "82.0 lux"
+            ],
+            "light"
+          ],
+          "conflict_phrases": [
+            "door open",
+            "no shoes",
+            "shoes absent",
+            "light on"
+          ],
+          "conflict_patterns": [
+            "\\b(?:entry\\s+)?door\\b\\s*(?:status\\s*[:=]\\s*)?(?:is\\s+)?open\\b",
+            "\\b(?:no\\s+shoes|shoes\\b\\s*(?:status\\s*[:=]\\s*)?(?:(?:are\\s+)?(?:absent|missing)|(?:are\\s+)?not\\s+present))\\b",
+            "\\blight\\b\\s*(?:state\\s*[:=]\\s*)?(?:is\\s+)?on\\b"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "photo",
+                "entry_photo_407.png"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "room",
+                "entry"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "door"
+              ],
+              "phrases": [
+                "closed"
+              ],
+              "conflicts": [
+                "open"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "shoes"
+              ],
+              "phrases": [
+                "present",
+                "visible"
+              ],
+              "conflicts": [
+                "absent",
+                "none",
+                "no shoes"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "brightness",
+                [
+                  "82 lux",
+                  "82.0 lux"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "light"
+              ],
+              "phrases": [
+                "off"
+              ],
+              "conflicts": [
+                "light on"
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "numeric_unit_relations": [
+            {
+              "anchor": "brightness",
+              "value": 82,
+              "units": [
+                "lux"
+              ],
+              "tolerance": 0
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "audit note binds the photo, room, visual facts, and live Home readings"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Entry inspection audit.md",
+        "rules": {
+          "entities": [
+            "photo",
+            "entry_photo_407.png"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "photo",
+                "entry_photo_407.png"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Entry audit photo name equals entry_photo_407.png"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Entry inspection audit.md",
+        "rules": {
+          "entities": [
+            "room",
+            "entry"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "room",
+                "entry"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Entry audit room equals entry"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Entry inspection audit.md",
+        "rules": {
+          "entities": [
+            "door",
+            "closed"
+          ],
+          "conflict_phrases": [
+            "door open"
+          ],
+          "conflict_patterns": [
+            "\\b(?:entry\\s+)?door\\b\\s*(?:status\\s*[:=]\\s*)?(?:is\\s+)?open\\b"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "door"
+              ],
+              "phrases": [
+                "closed"
+              ],
+              "conflicts": [
+                "open"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Entry audit door status is closed"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Entry inspection audit.md",
+        "rules": {
+          "entities": [
+            "shoes",
+            [
+              "present",
+              "visible"
+            ]
+          ],
+          "conflict_phrases": [
+            "no shoes",
+            "shoes absent"
+          ],
+          "conflict_patterns": [
+            "\\b(?:no\\s+shoes|shoes\\b\\s*(?:status\\s*[:=]\\s*)?(?:(?:are\\s+)?(?:absent|missing)|(?:are\\s+)?not\\s+present))\\b"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "shoes"
+              ],
+              "phrases": [
+                "present",
+                "visible"
+              ],
+              "conflicts": [
+                "absent",
+                "none",
+                "no shoes"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Entry audit records shoes as present or visible"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Entry inspection audit.md",
+        "rules": {
+          "entities": [
+            "brightness",
+            [
+              "82 lux",
+              "82.0 lux"
+            ]
+          ],
+          "numeric_unit_relations": [
+            {
+              "anchor": "brightness",
+              "value": 82,
+              "units": [
+                "lux"
+              ],
+              "tolerance": 0
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Entry audit brightness is exactly 82 lux with unit"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Entry inspection audit.md",
+        "rules": {
+          "entities": [
+            "light",
+            "off"
+          ],
+          "conflict_phrases": [
+            "light on"
+          ],
+          "conflict_patterns": [
+            "\\blight\\b\\s*(?:state\\s*[:=]\\s*)?(?:is\\s+)?on\\b"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "light"
+              ],
+              "phrases": [
+                "off"
+              ],
+              "conflicts": [
+                "light on"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "Entry audit light state is off"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "name": "inspection issues no direct Home command"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "inspection creates no schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "inspection creates no workflow"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bathroom": {
+        "temperature_c": 25.2,
+        "humidity_pct": 56.8,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 27.6,
+        "noise_level_db": 34.3,
+        "occupied": false
+      },
+      "bedroom": {
+        "temperature_c": 25.2,
+        "humidity_pct": 44.4,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 41.2,
+        "noise_level_db": 25.0,
+        "occupied": true
+      },
+      "living_room": {
+        "temperature_c": 25.8,
+        "humidity_pct": 39.0,
+        "brightness_lux": 300.0,
+        "air_quality_pm25": 27.7,
+        "noise_level_db": 31.5,
+        "occupied": true
+      },
+      "office": {
+        "temperature_c": 24.1,
+        "humidity_pct": 39.4,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 42.3,
+        "noise_level_db": 32.4,
+        "occupied": false
+      },
+      "study": {
+        "temperature_c": 26.4,
+        "humidity_pct": 45.9,
+        "brightness_lux": 161.2,
+        "air_quality_pm25": 20.5,
+        "noise_level_db": 33.8,
+        "occupied": false
+      },
+      "entry": {
+        "temperature_c": 22.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 82.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 30.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bathroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "bathroom_light_1",
+        "device_type": "light",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "mode": "fan",
+          "target_temperature_c": 22.0
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 22.0
+        }
+      },
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "entry_light_1",
+        "device_type": "light",
+        "room_id": "entry",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "mode": "dry",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 100,
+          "status": "open"
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 89
+        }
+      },
+      {
+        "device_id": "office_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "office",
+        "state": {
+          "power": "on",
+          "brightness_pct": 100
+        }
+      },
+      {
+        "device_id": "office_heater_1",
+        "device_type": "heater",
+        "room_id": "office",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "office_light_1",
+        "device_type": "light",
+        "room_id": "office",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "office_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "office",
+        "state": {
+          "power": "on",
+          "status": "paused",
+          "battery_pct": 92
+        }
+      },
+      {
+        "device_id": "study_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "study",
+        "state": {
+          "power": "off",
+          "mode": "heat",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "study_heater_1",
+        "device_type": "heater",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 23.0
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

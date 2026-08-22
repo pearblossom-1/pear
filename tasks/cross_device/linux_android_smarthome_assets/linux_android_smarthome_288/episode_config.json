@@ -1,0 +1,272 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 9288,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 9288,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Guest room decision 288.md",
+        "rules": {
+          "entities": [
+            "Owner",
+            [
+              "21:30",
+              "9:30 PM"
+            ],
+            [
+              "old fallback",
+              "old guest-room workflow"
+            ],
+            [
+              "new workflow",
+              "guest-room workflow"
+            ],
+            [
+              "light on",
+              "turn on the light"
+            ],
+            [
+              "curtain closed",
+              "close the curtain"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "applied",
+              "active"
+            ],
+            [
+              "cancelled",
+              "retired"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "proposed",
+            "new workflow cancelled",
+            "old fallback remains"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true,
+          "allowed_reversal_terms": [
+            "cancelled"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_status",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "workflow_id": "old_guest_room_routine",
+            "status": "cancelled"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T21:30:00",
+            "status": "active",
+            "exact_active_workflow_count": 1,
+            "effects": {
+              "guest_room_light_1": {
+                "power": "on"
+              },
+              "guest_room_curtain_1": {
+                "open_pct": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 21.2,
+        "humidity_pct": 39.6,
+        "brightness_lux": 277.0,
+        "air_quality_pm25": 25.4,
+        "noise_level_db": 27.4,
+        "occupied": true
+      },
+      "guest_room": {
+        "temperature_c": 22.9,
+        "humidity_pct": 39.1,
+        "brightness_lux": 620.0,
+        "air_quality_pm25": 28.4,
+        "noise_level_db": 40.6,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 23.9,
+        "humidity_pct": 47.3,
+        "brightness_lux": 750.0,
+        "air_quality_pm25": 29.1,
+        "noise_level_db": 33.0,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "mode": "fan",
+          "target_temperature_c": 22.0
+        }
+      },
+      {
+        "device_id": "bedroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "bedroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "guest_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "guest_room",
+        "state": {
+          "open_pct": 80,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "guest_room_light_1",
+        "device_type": "light",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "mode": "cool",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 50
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on"
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [
+      {
+        "workflow_id": "old_guest_room_routine",
+        "run_at": "2026-06-16T20:00:00",
+        "steps": [
+          {
+            "device_id": "guest_room_light_1",
+            "command": "turn_on",
+            "args": {}
+          }
+        ],
+        "status": "active",
+        "steps_done": 0,
+        "error": null
+      }
+    ],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

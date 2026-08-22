@@ -1,0 +1,321 @@
+{
+  "id": "linux_only_305",
+  "instruction": "Create `/tmp/banner/banner_CASE-500.png` on the second Linux machine using `source.png` there and `banner_spec.csv` on the first machine. The banner must use the specified dimensions and visibly show the case code and label. Then create `/tmp/banner/brief.pdf` referencing the banner filename, case code, and label.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/banner && rm -f /tmp/banner/banner_spec.csv",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_305/source/linux_0/tmp/banner/banner_spec.csv",
+                "path": "/tmp/banner/banner_spec.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/banner && rm -f /tmp/banner/source.png",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_305/source/linux_1/tmp/banner/source.png",
+                "path": "/tmp/banner/source.png"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/banner/banner_CASE-500.png /tmp/banner/.banner_CASE-500.b64",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/banner/brief.pdf",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/banner/banner_spec.csv",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/banner/source.png",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/banner/banner_CASE-500.png /tmp/banner/.banner_CASE-500.b64",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/banner/brief.pdf",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Require banner_CASE-500.png to be an actual 1600 by 500 PNG",
+      "device_id": "linux_1",
+      "func": "check_image_dimensions",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/banner/banner_CASE-500.png"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "exact_size": [
+            1600,
+            500
+          ],
+          "required_format": "PNG"
+        }
+      },
+      "metadata": {
+        "path": "/tmp/banner/banner_CASE-500.png"
+      }
+    },
+    {
+      "name": "Require visible CASE-500 and Winter readiness banner text",
+      "device_id": "linux_1",
+      "func": "check_image_text_relation",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/banner/banner_CASE-500.png"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "exact_size": [
+            1600,
+            500
+          ],
+          "ocr_scale": 2,
+          "ocr_modes": [
+            "grayscale_autocontrast",
+            "rgb",
+            "red_channel",
+            "green_channel",
+            "blue_channel",
+            "red_difference"
+          ],
+          "entity_relation": {
+            "entities": [
+              [
+                "CASE-500",
+                "CASE-5OO"
+              ],
+              "Winter readiness"
+            ],
+            "required_phrases": [
+              [
+                "CASE-500",
+                "CASE-5OO"
+              ],
+              "Winter readiness"
+            ],
+            "conflict_phrases": [
+              "CASE-501",
+              "Summer readiness"
+            ],
+            "reject_questions": true,
+            "reject_uncertainty": true,
+            "reject_negated_relations": true
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/banner/banner_CASE-500.png"
+      }
+    },
+    {
+      "name": "Keep the source photograph materially present in the banner",
+      "device_id": "linux_1",
+      "func": "check_image_source_similarity",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/banner/banner_CASE-500.png"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "source_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_305/source/linux_1/tmp/banner/source.png",
+          "min_total_match": 0.3,
+          "min_salient_match": 0.48,
+          "min_edge_match": 0.38,
+          "color_tolerance": 58
+        }
+      },
+      "metadata": {
+        "path": "/tmp/banner/banner_CASE-500.png"
+      }
+    },
+    {
+      "name": "Require the PDF brief to reference only the CASE-500 banner facts",
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "PDF='/tmp/banner/brief.pdf'\n[ -s \"$PDF\" ] && [ \"$(head -c 5 \"$PDF\" 2>/dev/null)\" = '%PDF-' ] || { echo invalid; exit 0; }\ncommand -v pdftotext >/dev/null 2>&1 || { echo missing; exit 0; }\nTMP=$(mktemp)\npdftotext \"$PDF\" \"$TMP\" 2>/dev/null || { rm -f \"$TMP\"; echo invalid; exit 0; }\ncat \"$TMP\"\nrm -f \"$TMP\"",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "CASE-500",
+            "banner_CASE-500.png",
+            "Winter readiness"
+          ],
+          "exclude": [
+            "CASE-501",
+            "banner_CASE-501.png",
+            "Summer readiness"
+          ],
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/banner/brief.pdf"
+      }
+    },
+    {
+      "name": "Preserve banner_spec.csv byte for byte",
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/banner/banner_spec.csv",
+        "trusted_root": "/tmp/banner",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "4f51e9cadaeabfe85da74ef8ee20ef64b4f57c2a55ca362feee6c13f41c2e0b8"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Preserve source.png byte for byte",
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/banner/source.png",
+        "trusted_root": "/tmp/banner",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "1f7c93da5e805f8352792fb4e63ee2e9d49927e9aa05030945b5c410cbbde780"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "linux_only",
+    "device_topology": "2linux",
+    "surfaces": [
+      "csv",
+      "image",
+      "pdf"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_305",
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/banner/banner_spec.csv"
+      ],
+      "linux_1": [
+        "/tmp/banner/source.png"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/banner/banner_CASE-500.png",
+        "/tmp/banner/brief.pdf"
+      ]
+    },
+    "setup_note": "Setup places the banner specification on linux_0 and the source photograph on linux_1.",
+    "evaluate_note": "Evaluation requires an actual PNG at 1600x500, visible case text, source-photo continuity, a semantically correct PDF brief, and unchanged source files.",
+    "source_number": 305,
+    "candidate_triage": {
+      "batch_id": "plan6-linux-only-dual-linux-B0005",
+      "decision": "repair",
+      "rationale": "GIMP-style banner work is repaired to durable PNG/PDF artifacts with stable dimension and text anchors."
+    },
+    "oracle_ref": "tasks/cross_device/linux_only_assets/linux_only_305/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/linux_only_assets/linux_only_305/episode_config.json",
+    "lite_evaluator_hardening_note": "Banner must be a real 1600x500 PNG; PDF brief is checked by header and text anchors."
+  }
+}

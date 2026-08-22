@@ -1,0 +1,12 @@
+{
+  "linux_actions": {
+    "linux_1": [
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "python3 - <<'PY'\nimport base64\nfrom pathlib import Path\npath = Path('/tmp/code/test_failure_summary.eml')\npath.parent.mkdir(parents=True, exist_ok=True)\npath.write_bytes(base64.b64decode('VG86IG1haW50YWluZXJAZXhhbXBsZS50ZXN0ClN1YmplY3Q6IHRlc3QgZmFpbHVyZXMKCkZhaWx1cmUgaW4gcGFyc2VyLnB5OiB0ZXN0X3BhcnNlX2RhdGVzLgo='))\nPY"
+        }
+      }
+    ]
+  }
+}

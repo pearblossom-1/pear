@@ -1,0 +1,13 @@
+{
+  "task_id": "al_tutorial_screenshot",
+  "source_files": [
+    "source/tutorial_evidence_request.md"
+  ],
+  "expected_files": [],
+  "note": "The selected request row identifies the working directory and an ordinary byte-count/SHA-256 command for tutorial_input.txt. Evaluation replaces that task-owned input with fresh unpredictable bytes, removes stale evidence, executes the task-created script, and independently checks the resulting directory, shell, byte count, and digest.",
+  "source_card": "047",
+  "device_topology": "1A+1L",
+  "instruction": "Use the needed linux-basics row in the Android Markor request to create a reusable Linux evidence script that runs the selected command in its requested working directory and saves its output.",
+  "surfaces": "Android Markor request -> Linux executable script and fresh text evidence",
+  "template_source": "tasks/cross_device/real20/tutorial_terminal_screenshot_001.json"
+}

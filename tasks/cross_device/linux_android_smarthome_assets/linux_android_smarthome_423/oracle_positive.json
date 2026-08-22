@@ -1,0 +1,35 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "androidworld_task_update",
+        "parameters": {
+          "match_title": "Kitchen Filter Service follow-up",
+          "match_notes": "Schedule the kitchen purifier shutdown before filter service, then close this follow-up.",
+          "updates": {
+            "notes": "Kitchen air purifier shutdown scheduled for 09:15.",
+            "completed": 1
+          }
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_command",
+      "parameters": {
+        "schedule_id": "alarm_purifier_off_423",
+        "run_at": "2026-06-17T09:15:00",
+        "device_id": "kitchen_air_purifier_1",
+        "command": "turn_off",
+        "args": {}
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "task_id": "a2_route_media_status",
+  "source_card": "110",
+  "status": "completed",
+  "required_evidence_count": 4,
+  "topology": "2A",
+  "implementation_status": "scaffold_expected_result"
+}

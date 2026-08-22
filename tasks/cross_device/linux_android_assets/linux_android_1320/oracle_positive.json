@@ -1,0 +1,17 @@
+{
+  "linux_actions": [
+    {
+      "device_id": "linux_1",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "mkdir -p '/tmp/meal' && echo U2VzYW1lIFJpY2UgQm93bCBpcyBibG9ja2VkIGJlY2F1c2UgR3Vlc3QgQWxsZXJneSBoYXMgYSBzZXNhbWUgYWxsZXJneSBhbmQgdGhlIHJlY2lwZSB1c2VzIHNlc2FtZSBvaWwuIERvIG5vdCBwbGFjZSBhIHN1cHBsaWVyIG9yZGVyLgo= | base64 -d > '/tmp/meal/meal_decision.md'",
+        "shell": true
+      }
+    }
+  ],
+  "android_setup": {
+    "android_0": [],
+    "android_1": []
+  },
+  "notes": "Positive dry-run oracle writes only the requested final artifacts and native state."
+}

@@ -1,0 +1,299 @@
+{
+  "id": "linux_only_298",
+  "instruction": "Prepare a playback handoff on the second Linux machine. Use the active session from `current_session.csv` on the first machine and confirm that its referenced clip exists on the second Linux machine, then write `/tmp/media/playback_review.md` with that session, its clip filename, and its assigned reviewer.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/media && rm -f /tmp/media/current_session.csv",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_298/source/linux_0/tmp/media/current_session.csv",
+                "path": "/tmp/media/current_session.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "python3 - <<'PY'\nimport math, struct, wave\nfrom pathlib import Path\nroot = Path('/tmp/media/clips')\nroot.mkdir(parents=True, exist_ok=True)\nfor name, frequency in [('long_audio_A.wav', 440), ('old_session.wav', 660)]:\n    path = root / name\n    path.unlink(missing_ok=True)\n    with wave.open(str(path), 'wb') as out:\n        out.setnchannels(1); out.setsampwidth(2); out.setframerate(16000)\n        frames = [struct.pack('<h', int(9000 * math.sin(2 * math.pi * frequency * i / 16000))) for i in range(16000)]\n        out.writeframes(b''.join(frames))\nPY",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/media/playback_review.md",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/media/current_session.csv",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/media/clips/long_audio_A.wav",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/media/clips/old_session.wav",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/media/playback_review.md",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Record the current S-84 clip and reviewer mapping while allowing explicit archive history",
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "cat /tmp/media/playback_review.md",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [],
+          "exclude": [],
+          "entity_relation": {
+            "entities": [
+              "S-84",
+              "long_audio_A.wav",
+              "Mara"
+            ],
+            "required_phrases": [
+              [
+                "session",
+                "playback"
+              ],
+              [
+                "clip",
+                "uses",
+                "audio"
+              ],
+              [
+                "reviewer",
+                "assigned"
+              ]
+            ],
+            "positive_phrases": [
+              [
+                "session",
+                "playback"
+              ],
+              [
+                "clip",
+                "uses",
+                "audio"
+              ],
+              [
+                "reviewer",
+                "assigned"
+              ]
+            ],
+            "conflict_phrases": [
+              "withdrawn",
+              "retracted",
+              "cancelled",
+              "canceled",
+              "not assigned",
+              "wrong"
+            ],
+            "conflict_patterns": [
+              "(?im)(?:^|[;\\n]|\\.(?=\\s|$))(?!\\s*(?:(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b|\\bS-71\\b\\s+(?:is|was)\\s+(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b))\\s*[^.;\\n]{0,120}(?:(?:\\b(?:session|playback)\\b[^.;\\n]{0,48}\\bS-71\\b)|(?:\\bS-71\\b[^.;\\n]{0,48}\\b(?:current|active|session|playback)\\b))",
+              "(?im)(?:^|[;\\n]|\\.(?=\\s|$))(?!\\s*(?:(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b|\\bold_session\\.wav\\b\\s+(?:is|was)\\s+(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b))\\s*[^.;\\n]{0,120}(?:(?:\\b(?:clip|audio)\\b[^.;\\n]{0,48}\\bold_session\\.wav\\b)|(?:\\bold_session\\.wav\\b[^.;\\n]{0,48}\\b(?:current|active|clip|audio)\\b))",
+              "(?im)(?:^|[;\\n]|\\.(?=\\s|$))(?!\\s*(?:(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b|\\bIris\\b\\s+(?:is|was)\\s+(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b))\\s*[^.;\\n]{0,120}(?:(?:\\b(?:reviewer|assigned)\\b[^.;\\n]{0,48}\\bIris\\b)|(?:\\bIris\\b[^.;\\n]{0,48}\\b(?:current|active|reviewer|assigned)\\b))"
+            ],
+            "relation_groups": [
+              {
+                "entities": [
+                  "S-84"
+                ],
+                "phrases": [
+                  "session",
+                  "playback"
+                ],
+                "allow_multiple_matches": true
+              },
+              {
+                "entities": [
+                  "long_audio_A.wav"
+                ],
+                "phrases": [
+                  "clip",
+                  "uses",
+                  "audio"
+                ],
+                "allow_multiple_matches": true
+              },
+              {
+                "entities": [
+                  "Mara"
+                ],
+                "phrases": [
+                  "reviewer",
+                  "assigned"
+                ],
+                "allow_multiple_matches": true
+              }
+            ]
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/media/playback_review.md"
+      }
+    },
+    {
+      "name": "Confirm the active clip is a valid one-second mono WAV",
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nimport wave\nfrom pathlib import Path\ntry:\n    path = Path('/tmp/media/clips/long_audio_A.wav')\n    with wave.open(str(path), 'rb') as source:\n        ok = path.is_file() and (source.getnchannels(), source.getsampwidth(), source.getframerate(), source.getnframes()) == (1, 2, 16000, 16000)\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "path": "/tmp/media/clips/long_audio_A.wav"
+      }
+    },
+    {
+      "name": "Preserve long_audio_A.wav byte for byte",
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/media/clips/long_audio_A.wav",
+        "trusted_root": "/tmp/media/clips",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "13adab0a810c3e6a0eec4f3fcd896fc208e78f65c7b62af5e8bbc22ec0986032"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Preserve current_session.csv byte for byte",
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/media/current_session.csv",
+        "trusted_root": "/tmp/media",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "7890954aca632b79990ffe59a2285beef93570ff26060a520ac8f97d2e549be4"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "linux_only",
+    "device_topology": "2linux",
+    "surfaces": [
+      "csv",
+      "audio",
+      "markdown"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_298",
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/media/current_session.csv"
+      ],
+      "linux_1": [
+        "/tmp/media/clips/long_audio_A.wav",
+        "/tmp/media/clips/old_session.wav"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/media/playback_review.md"
+      ]
+    },
+    "setup_note": "Generated setup configures linux_0 and linux_1 from visible Linux sources.",
+    "evaluate_note": "Evaluation checks the current S-84/long_audio_A.wav/Mara mapping, permits explicitly historical archived facts, verifies the active clip is a valid unchanged WAV, and preserves the session CSV.",
+    "source_number": 298,
+    "candidate_triage": {
+      "batch_id": "plan6-linux-only-dual-linux-B0005",
+      "decision": "repair",
+      "rationale": "VLC playback state is not required for scoring; the durable review note verifies the selected clip."
+    },
+    "oracle_ref": "tasks/cross_device/linux_only_assets/linux_only_298/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/linux_only_assets/linux_only_298/episode_config.json"
+  }
+}

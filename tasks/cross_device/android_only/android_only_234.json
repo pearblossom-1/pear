@@ -1,0 +1,392 @@
+{
+  "id": "android_only_234",
+  "instruction": "The first phone's photo manifest lists the site photos to verify. Check the Site folder on the second phone and leave the field coordinator a present/missing report named `photo_status.md` in Markor. Do not take or create replacement photos.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_only_assets/android_only_234/android_0/markor/photo_manifest.md",
+                "path": "/storage/emulated/0/Documents/Markor/photo_manifest.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_markor_note_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor/photo_manifest.md",
+            "required_visible_text": [
+              "north_gate.png",
+              "meter_panel.png",
+              "old_notice.png"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "mkdir -p /sdcard/Pictures/Site && rm -f /sdcard/Pictures/Site/north_gate.png /sdcard/Pictures/Site/meter_panel.png /sdcard/Pictures/Site/old_notice.png && content delete --uri content://media/external/images/media --where \"_display_name='north_gate.png'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/images/media --where \"_display_name='meter_panel.png'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/images/media --where \"_display_name='old_notice.png'\" >/dev/null 2>&1 || true"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_only_assets/android_only_234/android_1/site_photos/north_gate.png",
+                "path": "/sdcard/Pictures/Site/north_gate.png"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_only_assets/android_only_234/android_1/site_photos/meter_panel.png",
+                "path": "/sdcard/Pictures/Site/meter_panel.png"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/Pictures/Site/north_gate.png >/dev/null 2>&1 || true && am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/Pictures/Site/meter_panel.png >/dev/null 2>&1 || true"
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/sdcard/Pictures/Site",
+            "expected_filenames": [
+              "north_gate.png",
+              "meter_panel.png"
+            ],
+            "missing_filenames": [
+              "old_notice.png"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_filesystem_snapshot",
+          "parameters": {
+            "snapshot_id": "android_only_234_site",
+            "directories": [],
+            "files": [
+              "/sdcard/Pictures/Site/north_gate.png",
+              "/sdcard/Pictures/Site/meter_panel.png",
+              "/sdcard/Pictures/Site/old_notice.png"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Documents/Markor/photo_status.md"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Documents/Markor/photo_manifest.md"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Write the three manifest-bound photo statuses in photo_status.md",
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /sdcard/Pictures/Site/north_gate.png /sdcard/Pictures/Site/meter_panel.png /sdcard/Pictures/Site/old_notice.png && content delete --uri content://media/external/images/media --where \"_display_name='north_gate.png'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/images/media --where \"_display_name='meter_panel.png'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/images/media --where \"_display_name='old_notice.png'\" >/dev/null 2>&1 || true && rmdir /sdcard/Pictures/Site 2>/dev/null || true"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Documents/Markor/photo_status.md"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Write the three manifest-bound photo statuses in photo_status.md",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/photo_status.md",
+        "rules": {
+          "entities": [
+            "north_gate.png",
+            "meter_panel.png",
+            "old_notice.png"
+          ],
+          "required_phrases": [
+            [
+              "present",
+              "available",
+              "found"
+            ],
+            [
+              "missing",
+              "absent",
+              "not found"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "present",
+              "available",
+              "found"
+            ],
+            [
+              "missing",
+              "absent",
+              "not found"
+            ]
+          ],
+          "conflict_patterns": [
+            "north_gate\\.png.{0,24}\\b(?:is\\s+)?(?:missing|absent|not\\s+found)\\b",
+            "meter_panel\\.png.{0,24}\\b(?:is\\s+)?(?:missing|absent|not\\s+found)\\b",
+            "old_notice\\.png.{0,24}\\b(?:is\\s+)?(?:present|available|exists|found)\\b"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "north_gate.png"
+              ],
+              "phrases": [
+                "present",
+                "available",
+                "found"
+              ],
+              "conflicts": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "meter_panel.png"
+              ],
+              "phrases": [
+                "present",
+                "available",
+                "found"
+              ],
+              "conflicts": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "old_notice.png"
+              ],
+              "phrases": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "conflicts": [
+                "present",
+                "available",
+                "exists"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "name": "Preserve both source image bytes and keep old_notice absent",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_filesystem_snapshot_state",
+        "snapshot_id": "android_only_234_site",
+        "preserve_directories": [],
+        "file_mappings": [
+          {
+            "baseline_path": "/sdcard/Pictures/Site/north_gate.png",
+            "current_path": "/sdcard/Pictures/Site/north_gate.png"
+          },
+          {
+            "baseline_path": "/sdcard/Pictures/Site/meter_panel.png",
+            "current_path": "/sdcard/Pictures/Site/meter_panel.png"
+          },
+          {
+            "baseline_path": "/sdcard/Pictures/Site/old_notice.png",
+            "current_path": "/sdcard/Pictures/Site/old_notice.png"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Site recursive .png business-image count remains 2",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Pictures/Site",
+        "recursive": true,
+        "suffix": ".png",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "2"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Site recursive .jpg business-image count remains 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Pictures/Site",
+        "recursive": true,
+        "suffix": ".jpg",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Site recursive .jpeg business-image count remains 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Pictures/Site",
+        "recursive": true,
+        "suffix": ".jpeg",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Site recursive .webp business-image count remains 0",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Pictures/Site",
+        "recursive": true,
+        "suffix": ".webp",
+        "case_insensitive_suffix": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "0"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "android_only",
+    "device_topology": "2android",
+    "surfaces": [
+      "markor",
+      "files"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/android_only_assets/android_only_234",
+    "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",
+    "evaluate_note": "Evaluation checks the durable Markor report and keeps a non-scoring exact folder inventory with decodable image constraints.",
+    "source_number": 234,
+    "candidate_triage": {
+      "batch_id": "plan6-android-only-dual-android-B0002",
+      "decision": "direct",
+      "rationale": "Photo audit uses stable file presence and durable Markor report; missing photos are not created."
+    },
+    "oracle_ref": "tasks/cross_device/android_only_assets/android_only_234/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_234/episode_config.json",
+    "lite_hardening_note": "Retained only the task-relevant exact photo inventory guard; removed hidden byte-for-byte source hashes while preserving filename, format, and dimension checks.",
+    "lite_evaluator_hardening_note": "Markor evaluator searches user-created notes by required content rather than requiring a hidden filename."
+  }
+}

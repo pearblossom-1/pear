@@ -1,0 +1,3 @@
+rule_id,phrase,canonical
+RULE-ARRIVED,arrived and unloading,onsite
+RULE-DELAY,running late,delayed

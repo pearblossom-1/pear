@@ -1,0 +1,29 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "+1555061401",
+          "body": "The previous continue cleaning request was superseded; the robot is now docked."
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "living_room_robot_vacuum_1",
+        "command": "return_to_dock",
+        "args": {}
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

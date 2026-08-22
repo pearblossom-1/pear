@@ -1,0 +1,12 @@
+{
+  "task_id": "al_sms_web_download_statement",
+  "source_files": [
+    "download_portal.html",
+    "statement_source.pdf"
+  ],
+  "expected_files": [],
+  "device_topology": "A+L",
+  "instruction": "The latest Android Simple SMS Messenger message contains the statement download code. Please enter the code in `/home/user/download/portal.html` in Linux Chrome and download the statement, saving it to `/home/user/download/statement.pdf` for later reconciliation.",
+  "surfaces": "Simple SMS Messenger -> Linux Chrome download",
+  "requires_helper_audit": false
+}

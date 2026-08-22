@@ -1,0 +1,331 @@
+{
+  "id": "linux_smarthome_999",
+  "instruction": "Triage the four appliance service requests in `/tmp/lifecycle/board.xlsx` on the second Linux machine using `/tmp/lifecycle/policy.html` on the first. Check the live SmartHome devices, perform only the actions that should happen now, and complete each row's decision and after-state in the workbook.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/lifecycle/policy.html && mkdir -p -- /tmp/lifecycle",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_999/source/tmp/lifecycle/policy.html",
+                "path": "/tmp/lifecycle/policy.html"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/lifecycle/board.xlsx && mkdir -p -- /tmp/lifecycle",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_999/source/linux_1/tmp/lifecycle/board.xlsx",
+                "path": "/tmp/lifecycle/board.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_999/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/lifecycle/policy.html; find /tmp/lifecycle -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/lifecycle/board.xlsx; find /tmp/lifecycle -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/lifecycle/board.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_999/source/linux_1/tmp/lifecycle/board.xlsx",
+          "sheet": "Board",
+          "allowed_changes": [
+            "Board!G2",
+            "Board!H2",
+            "Board!G3",
+            "Board!H3",
+            "Board!G4",
+            "Board!H4",
+            "Board!G5",
+            "Board!H5"
+          ],
+          "preserve_layout": true,
+          "cells": {
+            "G2": "Start",
+            "H2": "running delicate",
+            "G3": "Stop",
+            "H3": "stopped",
+            "G4": "Defer",
+            "H4": "running normal",
+            "G5": "Missing",
+            "H5": "no action"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/lifecycle/board.xlsx"
+      },
+      "name": "bounded lifecycle workbook decisions"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "laundry_room_washer_1": {
+                "power": "on",
+                "status": "running",
+                "cycle": "delicate",
+                "remaining_min": 40
+              },
+              "laundry_room_dryer_1": {
+                "power": "off",
+                "status": "stopped",
+                "remaining_min": 0
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
+          }
+        }
+      },
+      "name": "only approved washer start and dryer stop change state"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "laundry_room_washer_1",
+                "command": "start_cycle",
+                "args": {
+                  "cycle": "delicate"
+                }
+              },
+              {
+                "device_id": "laundry_room_dryer_1",
+                "command": "stop_cycle",
+                "args": {}
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "direct commands are restricted by semantic identity"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "no appliance schedule is added"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "no appliance workflow is added"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_999",
+    "surfaces": [
+      "2linux",
+      "linux_xlsx_source",
+      "home_lifecycle_board",
+      "linux_xlsx_output",
+      "linux_html_source"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_999",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_999/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_999/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/lifecycle/policy.html",
+      "/tmp/lifecycle/board.xlsx"
+    ],
+    "linux_output_paths": [
+      "/tmp/lifecycle/board.xlsx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/lifecycle/policy.html"
+      ],
+      "linux_1": [
+        "/tmp/lifecycle/board.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": [],
+      "linux_1": [
+        "/tmp/lifecycle/board.xlsx"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "2linux_smarthome",
+      "linux_devices": [
+        "linux_0",
+        "linux_1"
+      ],
+      "room_ids": [
+        "guest_room",
+        "laundry_room",
+        "utility_room"
+      ],
+      "device_type_counts": {
+        "dryer": 1,
+        "washer": 2
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 2,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-07-15T13:50:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_1",
+        "surface": "linux.xlsx",
+        "path": "/tmp/lifecycle/board.xlsx",
+        "goal": "Create or update the task result at this path.",
+        "func": "check_xlsx_cells",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/lifecycle/policy.html, /tmp/lifecycle/board.xlsx and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the appliance lifecycle outcomes and Linux output path /tmp/lifecycle/board.xlsx.",
+    "idea_number": 999,
+    "candidate_triage": {
+      "batch_id": "plan5-861-1010-linux-smarthome-B0007",
+      "decision": "direct",
+      "note": "Lifecycle decisions use supported washer/dryer commands and a missing-device no-substitution row."
+    },
+    "lite_evaluator_hardening_note": "Hidden auxiliary output evaluator(s) removed; scoring remains on visible outcome/state artifacts."
+  }
+}

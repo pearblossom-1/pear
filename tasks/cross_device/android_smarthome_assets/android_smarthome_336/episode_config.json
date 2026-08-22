@@ -1,0 +1,389 @@
+{
+  "meta": {
+    "sh_type": "SH_android_smarthome",
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1336,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "adb_shell",
+        "command": "test -f '/storage/emulated/0/Documents/Markor/Home air audit.md' || { echo missing; exit 0; }\nok=1\ngrep -Eiq '(^|[^0-9])1([^0-9]|$).*kitchen.*92.*purifier:[[:space:]]*off.*plan:[[:space:]]*none.*status:[[:space:]]*none' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\ngrep -Eiq '(^|[^0-9])2([^0-9]|$).*study.*71.*purifier:[[:space:]]*(on|running).*plan:[[:space:]]*20:00.*high.*status:[[:space:]]*active' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\ngrep -Eiq '(^|[^0-9])3([^0-9]|$).*bedroom.*58.*purifier:[[:space:]]*(on|running).*plan:[[:space:]]*none.*status:[[:space:]]*none' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\ngrep -Eiq '^recommendation:[[:space:]]*.+' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\nif grep -Eiq 'purifier:[[:space:]]*(not|never)|plan:[[:space:]]*(no[[:space:]]+plan|not)|status:[[:space:]]*(not|inactive|cancel)' '/storage/emulated/0/Documents/Markor/Home air audit.md'; then ok=0; fi\nif [ \"$ok\" -eq 1 ]; then echo present; else echo missing; fi"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "Home air audit follows the published top-three row template"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_multi_condition",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "devices": {
+              "bathroom_air_purifier_1": {
+                "power": "on",
+                "level": "low"
+              },
+              "bedroom_air_purifier_1": {
+                "power": "on",
+                "level": "medium"
+              },
+              "kitchen_air_purifier_1": {
+                "power": "off",
+                "level": "low"
+              },
+              "study_air_purifier_1": {
+                "power": "on",
+                "level": "medium"
+              }
+            }
+          }
+        }
+      },
+      "name": "all four purifier baselines remain unchanged"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {
+              "schedule_id": "study_air_plan_2000",
+              "run_at": "2026-06-16T20:00:00",
+              "device_id": "study_air_purifier_1",
+              "command": "set_level",
+              "args": {
+                "level": "high"
+              },
+              "status": "active"
+            }
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "study_air_plan_2000 full active record is preserved"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the complete schedule set remains exactly one record"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the audit creates no workflow"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the audit issues no transient device command"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bathroom": {
+        "temperature_c": 23.0,
+        "humidity_pct": 58.4,
+        "brightness_lux": 456.4,
+        "air_quality_pm25": 53.0,
+        "noise_level_db": 34.0,
+        "occupied": true
+      },
+      "bedroom": {
+        "temperature_c": 25.6,
+        "humidity_pct": 41.8,
+        "brightness_lux": 175.0,
+        "air_quality_pm25": 58.0,
+        "noise_level_db": 35.0,
+        "occupied": false
+      },
+      "kitchen": {
+        "temperature_c": 22.9,
+        "humidity_pct": 50.2,
+        "brightness_lux": 175.0,
+        "air_quality_pm25": 92.0,
+        "noise_level_db": 47.1,
+        "occupied": true
+      },
+      "living_room": {
+        "temperature_c": 25.4,
+        "humidity_pct": 46.2,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 44.0,
+        "noise_level_db": 35.4,
+        "occupied": true
+      },
+      "study": {
+        "temperature_c": 25.2,
+        "humidity_pct": 45.7,
+        "brightness_lux": 465.2,
+        "air_quality_pm25": 71.0,
+        "noise_level_db": 39.9,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bathroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "bathroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bathroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 22.0
+        }
+      },
+      {
+        "device_id": "bathroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "mode": "fan",
+          "target_temperature_c": 22.0
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "brightness_pct": 35
+        }
+      },
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "bedroom_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 48
+        }
+      },
+      {
+        "device_id": "kitchen_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "kitchen",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "kitchen_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "kitchen_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "brightness_pct": 35
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "mode": "dry",
+          "target_temperature_c": 21.0
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 0,
+          "status": "closed"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 100
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "status": "paused",
+          "battery_pct": 50
+        }
+      },
+      {
+        "device_id": "study_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "study_heater_1",
+        "device_type": "heater",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 29.0
+        }
+      }
+    ],
+    "schedules": [
+      {
+        "schedule_id": "study_air_plan_2000",
+        "run_at": "2026-06-16T20:00:00",
+        "device_id": "study_air_purifier_1",
+        "command": "set_level",
+        "args": {
+          "level": "high"
+        },
+        "status": "active"
+      }
+    ],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

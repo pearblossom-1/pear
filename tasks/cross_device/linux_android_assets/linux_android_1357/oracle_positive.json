@@ -1,0 +1,14 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Blocked route SITE-1357.md' <<'EOF'\nRoute blocked: SITE-1357 (South Annex) is missing coordinates.\nEOF"
+        }
+      }
+    ]
+  }
+}

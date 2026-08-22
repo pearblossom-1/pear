@@ -1,0 +1,5 @@
+row_id,customer,phone,case_code,status,next_step
+8,Mira Chen,5551201181,CASE-4187,parts allocated,Depot pickup Friday
+9,Mira Cheng,5551201199,CASE-4187,waiting,Call back
+10,Mira Chen,5551201181,CASE-4180,closed,No action
+11,Noah Patel,5551201110,CASE-4100,queued,Triage

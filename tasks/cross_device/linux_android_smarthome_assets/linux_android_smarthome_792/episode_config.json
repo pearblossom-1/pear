@@ -1,0 +1,225 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 792,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 792,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Hallway daylight decision.md",
+        "rules": {
+          "entities": [
+            "Hallway",
+            [
+              "120 lux",
+              "120-lux"
+            ],
+            [
+              "moderate daylight",
+              "moderate-daylight"
+            ],
+            [
+              "65 percent",
+              "65%"
+            ],
+            [
+              "curtain",
+              "curtains"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "applied",
+              "set",
+              "opened"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "not applied",
+            "unchanged"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "hallway_curtain_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "open_pct": 65
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T11:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 21.1,
+        "humidity_pct": 43.6,
+        "brightness_lux": 240.0,
+        "air_quality_pm25": 32.1,
+        "noise_level_db": 25.0,
+        "occupied": true
+      },
+      "living_room": {
+        "temperature_c": 23.9,
+        "humidity_pct": 42.8,
+        "brightness_lux": 550.0,
+        "air_quality_pm25": 44.8,
+        "noise_level_db": 33.2,
+        "occupied": false
+      },
+      "hallway": {
+        "temperature_c": 22.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 120.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 30.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "mode": "fan",
+          "target_temperature_c": 20.0
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bedroom_curtain_1",
+        "device_type": "curtain",
+        "room_id": "bedroom",
+        "state": {
+          "open_pct": 80,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 28.0
+        }
+      },
+      {
+        "device_id": "bedroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "bedroom_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "status": "paused",
+          "battery_pct": 77
+        }
+      },
+      {
+        "device_id": "hallway_curtain_1",
+        "device_type": "curtain",
+        "room_id": "hallway",
+        "state": {
+          "open_pct": 10,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "mode": "fan",
+          "target_temperature_c": 22.0
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 100,
+          "status": "open"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 50
+        }
+      },
+      {
+        "device_id": "living_room_heater_1",
+        "device_type": "heater",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 30.0
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

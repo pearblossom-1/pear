@@ -1,0 +1,10 @@
+{
+  "case_id": "1080-A",
+  "title": "Contact mismatch blocks SMS confirmation",
+  "owner": "Mira Patel",
+  "phone": "+1555011881",
+  "approval_code": "NX08091",
+  "selected_source": "/tmp/contact_mismatch_blocks_sms/request_table.csv",
+  "status": "blocked",
+  "decision": "Contact mismatch SMS confirmation"
+}

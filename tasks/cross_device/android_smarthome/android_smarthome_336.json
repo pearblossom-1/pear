@@ -1,0 +1,257 @@
+{
+  "id": "android_smarthome_336",
+  "instruction": "Use the Air audit format in Markor to review the live Home air quality. Create a Markor note named `Home air audit` that ranks the three rooms with the highest PM2.5 readings, records their purifier situation and any existing purifier plan, and recommends follow-up. Do not change any purifier or purifier plan.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_336/android/android_0/markor/Air audit format.md",
+                "path": "/storage/emulated/0/Documents/Markor/Air audit format.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_markor_note_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor/Air audit format.md",
+            "required_visible_text": [
+              "Rank the three rooms",
+              "purifier: STATE",
+              "plan: none; status: none",
+              "Recommend a follow-up action"
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Home air audit.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_336/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Air audit format.md'"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Home air audit.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "adb_shell",
+        "command": "test -f '/storage/emulated/0/Documents/Markor/Home air audit.md' || { echo missing; exit 0; }\nok=1\ngrep -Eiq '(^|[^0-9])1([^0-9]|$).*kitchen.*92.*purifier:[[:space:]]*off.*plan:[[:space:]]*none.*status:[[:space:]]*none' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\ngrep -Eiq '(^|[^0-9])2([^0-9]|$).*study.*71.*purifier:[[:space:]]*(on|running).*plan:[[:space:]]*20:00.*high.*status:[[:space:]]*active' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\ngrep -Eiq '(^|[^0-9])3([^0-9]|$).*bedroom.*58.*purifier:[[:space:]]*(on|running).*plan:[[:space:]]*none.*status:[[:space:]]*none' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\ngrep -Eiq '^recommendation:[[:space:]]*.+' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\nif grep -Eiq 'purifier:[[:space:]]*(not|never)|plan:[[:space:]]*(no[[:space:]]+plan|not)|status:[[:space:]]*(not|inactive|cancel)' '/storage/emulated/0/Documents/Markor/Home air audit.md'; then ok=0; fi\nif [ \"$ok\" -eq 1 ]; then echo present; else echo missing; fi"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "Home air audit follows the published top-three row template"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_multi_condition",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "devices": {
+              "bathroom_air_purifier_1": {
+                "power": "on",
+                "level": "low"
+              },
+              "bedroom_air_purifier_1": {
+                "power": "on",
+                "level": "medium"
+              },
+              "kitchen_air_purifier_1": {
+                "power": "off",
+                "level": "low"
+              },
+              "study_air_purifier_1": {
+                "power": "on",
+                "level": "medium"
+              }
+            }
+          }
+        }
+      },
+      "name": "all four purifier baselines remain unchanged"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {
+              "schedule_id": "study_air_plan_2000",
+              "run_at": "2026-06-16T20:00:00",
+              "device_id": "study_air_purifier_1",
+              "command": "set_level",
+              "args": {
+                "level": "high"
+              },
+              "status": "active"
+            }
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "study_air_plan_2000 full active record is preserved"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the complete schedule set remains exactly one record"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the audit creates no workflow"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the audit issues no transient device command"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_336",
+    "surfaces": [
+      "markor",
+      "home_state"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "adb_shell"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_336",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_336/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_336/oracle_positive.json",
+    "idea_number": 336,
+    "candidate_triage": {
+      "batch_id": "plan5-android-smarthome-269-368-B0004",
+      "decision": "direct",
+      "rationale": "Supported air-quality audit ranking with Markor note and no purifier controls."
+    },
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

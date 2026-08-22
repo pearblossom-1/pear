@@ -1,0 +1,329 @@
+{
+  "id": "linux_smarthome_796",
+  "instruction": "`/home/user/assets/labels.csv` on the first Linux machine lists the asset IDs, and `/tmp/assets/audit.xlsx` on the second Linux machine is the audit workbook. Query Home capabilities and complete the reconciliation.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /home/user/assets/labels.csv && mkdir -p -- /home/user/assets",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_796/source/home/user/assets/labels.csv",
+                "path": "/home/user/assets/labels.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/assets/audit.xlsx && mkdir -p -- /tmp/assets",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_796/source/linux_1/tmp/assets/audit.xlsx",
+                "path": "/tmp/assets/audit.xlsx"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_796/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /home/user/assets/labels.csv; find /home/user/assets -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/assets/audit.xlsx; find /tmp/assets -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_xlsx_cells",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/assets/audit.xlsx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "preserve_from": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_796/source/linux_1/tmp/assets/audit.xlsx",
+          "allowed_changes": [
+            "Audit!C2",
+            "Audit!D2",
+            "Audit!E2",
+            "Audit!C3",
+            "Audit!D3",
+            "Audit!E3",
+            "Audit!C4",
+            "Audit!D4",
+            "Audit!E4",
+            "Audit!C5",
+            "Audit!D5",
+            "Audit!E5"
+          ],
+          "preserve_layout": true,
+          "sheet": "Audit",
+          "cells": {
+            "E2": "Supported",
+            "E3": "Unsupported",
+            "E4": "Missing",
+            "E5": "Supported"
+          },
+          "cell_rules": {
+            "C2": {
+              "semantic_text_one_of": [
+                "set_open_pct supported",
+                "curtain supports open percentage",
+                "open percentage supported"
+              ]
+            },
+            "D2": {
+              "semantic_text_one_of": [
+                "live match",
+                "device capability matches catalog",
+                "live capability matches catalog"
+              ]
+            },
+            "C3": {
+              "semantic_text_one_of": [
+                "turn_on/turn_off only",
+                "brightness unsupported",
+                "basic light has no set_brightness",
+                "basic light supports on and off only"
+              ]
+            },
+            "D3": {
+              "semantic_text_one_of": [
+                "catalog overstates capability",
+                "basic light is on/off only",
+                "catalog incorrectly lists brightness"
+              ]
+            },
+            "C4": {
+              "semantic_text_one_of": [
+                "missing from live inventory",
+                "heater not present",
+                "no matching heater in live inventory"
+              ]
+            },
+            "D4": {
+              "semantic_text_one_of": [
+                "asset not present",
+                "no matching heater",
+                "live asset is missing"
+              ]
+            },
+            "C5": {
+              "semantic_text_one_of": [
+                "set_brightness supported",
+                "dimmer supports brightness",
+                "brightness control supported"
+              ]
+            },
+            "D5": {
+              "semantic_text_one_of": [
+                "live match",
+                "device capability matches catalog",
+                "live capability matches catalog"
+              ]
+            }
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/assets/audit.xlsx"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_796",
+    "surfaces": [
+      "2linux",
+      "linux_csv_source",
+      "linux_xlsx_source",
+      "home_capability_audit",
+      "linux_xlsx_output"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_796",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_796/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_796/oracle_positive.json",
+    "linux_source_paths": [
+      "/home/user/assets/labels.csv",
+      "/tmp/assets/audit.xlsx"
+    ],
+    "linux_output_paths": [
+      "/tmp/assets/audit.xlsx"
+    ],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/home/user/assets/labels.csv"
+      ],
+      "linux_1": [
+        "/tmp/assets/audit.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/assets/audit.xlsx"
+      ]
+    },
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "2linux_smarthome",
+      "linux_devices": [
+        "linux_0",
+        "linux_1"
+      ],
+      "room_ids": [
+        "guest_room",
+        "hallway",
+        "office"
+      ],
+      "device_type_counts": {
+        "curtain": 1,
+        "dimmable_light": 1,
+        "light": 1
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 2,
+      "linux_outputs_expected": 1,
+      "initial_schedules": 0,
+      "initial_workflows": 0,
+      "current_time": "2026-06-16T19:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "linux_1",
+        "surface": "linux.xlsx",
+        "path": "/tmp/assets/audit.xlsx",
+        "goal": "Create or update the task result at this path.",
+        "func": "check_xlsx_cells",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /home/user/assets/labels.csv and /tmp/assets/audit.xlsx, then resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates the preserved capability audit with semantic Actual/Notes fields and exact Decision tokens, and requires zero Home commands, schedules, workflows, or device changes.",
+    "idea_number": 796,
+    "candidate_triage": {
+      "batch_id": "plan5-661-860-linux-smarthome-B0007",
+      "decision": "repair",
+      "note": "labels.csv and the workbook carry the visible asset mapping and structured capability audit."
+    },
+    "lite_evaluator_hardening_note": "Hidden auxiliary output evaluator(s) removed; scoring remains on visible outcome/state artifacts."
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "actions": [
+    {
+      "device_id": "android_0",
+      "type": "android.setup",
+      "config": [
+        {
+          "type": "androidworld_alarm_add",
+          "parameters": {
+            "hour": 7,
+            "minute": 28,
+            "label": "CASE-1828 RT-28",
+            "enabled": true
+          }
+        }
+      ]
+    },
+    {
+      "type": "done"
+    }
+  ],
+  "notes": "Adds only the actual-departure alarm; setup owns the fallback."
+}

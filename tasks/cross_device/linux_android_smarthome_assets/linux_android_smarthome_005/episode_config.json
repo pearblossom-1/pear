@@ -1,0 +1,368 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 9005,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 9005,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Quiet Hours Audit.md",
+        "rules": {
+          "entities": [
+            "Quiet hours",
+            [
+              "late washer",
+              "late_washer"
+            ],
+            [
+              "bedroom lights-out",
+              "bedroom_lights_out"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "cancelled",
+              "retired"
+            ],
+            [
+              "active",
+              "kept"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "late washer",
+                  "late_washer"
+                ]
+              ],
+              "phrases": [
+                [
+                  "cancelled",
+                  "retired"
+                ]
+              ]
+            },
+            {
+              "entities": [
+                [
+                  "bedroom lights-out",
+                  "bedroom_lights_out"
+                ]
+              ],
+              "phrases": [
+                [
+                  "active",
+                  "kept",
+                  "remains active"
+                ]
+              ]
+            }
+          ],
+          "nearest_relations": [
+            {
+              "anchor": [
+                "late washer",
+                "late_washer"
+              ],
+              "expected": [
+                "cancelled",
+                "retired"
+              ],
+              "forbidden": [
+                "active",
+                "kept",
+                "pending"
+              ],
+              "max_distance": 8,
+              "same_clause": true
+            },
+            {
+              "anchor": [
+                "bedroom lights-out",
+                "bedroom_lights_out"
+              ],
+              "expected": [
+                "active",
+                "kept"
+              ],
+              "forbidden": [
+                "cancelled",
+                "retired",
+                "pending"
+              ],
+              "max_distance": 8,
+              "same_clause": true
+            }
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true,
+          "allowed_reversal_terms": [
+            "cancelled"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_status",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "workflow_id": "late_washer",
+            "status": "cancelled"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {
+              "workflow_id": "bedroom_lights_out",
+              "status": "active"
+            }
+          }
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_preserved",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "workflow_id": "bedroom_lights_out"
+          }
+        }
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bathroom": {
+        "temperature_c": 24.4,
+        "humidity_pct": 43.9,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 35.2,
+        "noise_level_db": 33.4,
+        "occupied": true
+      },
+      "bedroom": {
+        "temperature_c": 24.5,
+        "humidity_pct": 35.0,
+        "brightness_lux": 282.4,
+        "air_quality_pm25": 45.0,
+        "noise_level_db": 33.9,
+        "occupied": true
+      },
+      "laundry_room": {
+        "temperature_c": 23.0,
+        "humidity_pct": 42.7,
+        "brightness_lux": 117.2,
+        "air_quality_pm25": 42.0,
+        "noise_level_db": 44.0,
+        "occupied": true
+      },
+      "living_room": {
+        "temperature_c": 24.8,
+        "humidity_pct": 34.8,
+        "brightness_lux": 168.3,
+        "air_quality_pm25": 43.2,
+        "noise_level_db": 46.6,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bathroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "bathroom_light_1",
+        "device_type": "light",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bedroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "laundry_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "laundry_room_dryer_1",
+        "device_type": "dryer",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "off",
+          "cycle": "normal",
+          "remaining_min": 0,
+          "status": "complete"
+        }
+      },
+      {
+        "device_id": "laundry_room_washer_1",
+        "device_type": "washer",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "off",
+          "cycle": "normal",
+          "remaining_min": 0,
+          "status": "stopped"
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "mode": "fan",
+          "target_temperature_c": 25.0
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "brightness_pct": 0
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [
+      {
+        "workflow_id": "bedroom_lights_out",
+        "run_at": "2026-06-16T22:10:00",
+        "steps": [
+          {
+            "device_id": "bedroom_light_1",
+            "command": "turn_off",
+            "args": {}
+          }
+        ],
+        "status": "active",
+        "steps_done": 0,
+        "error": null
+      },
+      {
+        "workflow_id": "late_washer",
+        "run_at": "2026-06-16T23:15:00",
+        "steps": [
+          {
+            "device_id": "laundry_room_washer_1",
+            "command": "start_cycle",
+            "args": {
+              "cycle": "normal"
+            }
+          }
+        ],
+        "status": "active",
+        "steps_done": 0,
+        "error": null
+      }
+    ],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

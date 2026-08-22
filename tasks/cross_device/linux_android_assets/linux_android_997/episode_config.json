@@ -1,0 +1,92 @@
+{
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_alarm_set",
+        "alarms": [
+          {
+            "hour": 8,
+            "minute": 45,
+            "label": "997-A time check",
+            "enabled": true
+          }
+        ],
+        "allow_unrelated": false,
+        "reject_identity_duplicates": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/997-A time check.md",
+        "rules": {
+          "entities": [
+            "997-A",
+            "NX99792",
+            "Priya Shah",
+            "11:00",
+            "11:30",
+            "30",
+            "08:45"
+          ],
+          "required_phrases": [
+            [
+              "mismatch",
+              "difference",
+              "differs",
+              "outside"
+            ],
+            [
+              "alarm is set",
+              "alarm set",
+              "fallback alarm",
+              "added alarm",
+              "alarm is enabled",
+              "enabled alarm"
+            ]
+          ],
+          "positive_phrases": [
+            "alarm is set",
+            "alarm set",
+            "fallback alarm",
+            "added alarm",
+            "alarm is enabled",
+            "enabled alarm"
+          ],
+          "conflict_phrases": [
+            "times match",
+            "no mismatch",
+            "alarm not set",
+            "do not set",
+            "blocked",
+            "removed",
+            "deleted",
+            "cancelled",
+            "canceled",
+            "disabled"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "task_id": "linux_android_997",
+    "source_plan": "plan6"
+  }
+}

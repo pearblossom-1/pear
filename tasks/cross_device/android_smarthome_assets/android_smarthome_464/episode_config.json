@@ -1,0 +1,382 @@
+{
+  "meta": {
+    "sh_type": "SH_android_smarthome",
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1464,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550464",
+        "recent_within_mins": 30,
+        "require_exactly_one_for_address": true,
+        "body_relation": {
+          "entities": [
+            [
+              "kitchen"
+            ],
+            [
+              "PM2.5",
+              "PM 2.5",
+              "air quality"
+            ],
+            [
+              "91"
+            ],
+            [
+              "highest-priority",
+              "highest priority"
+            ],
+            [
+              "alert"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "alert",
+              "highest-priority",
+              "highest priority"
+            ]
+          ],
+          "nearest_relations": [
+            {
+              "anchor": [
+                "kitchen"
+              ],
+              "expected": [
+                "PM2.5",
+                "PM 2.5",
+                "air quality"
+              ],
+              "forbidden": [],
+              "max_distance": 12
+            },
+            {
+              "anchor": [
+                "kitchen"
+              ],
+              "expected": [
+                "91"
+              ],
+              "forbidden": [],
+              "max_distance": 16
+            },
+            {
+              "anchor": [
+                "91"
+              ],
+              "expected": [
+                "highest-priority",
+                "highest priority"
+              ],
+              "forbidden": [
+                "lower priority alert"
+              ],
+              "max_distance": 20
+            }
+          ],
+          "conflict_phrases": [
+            "pending",
+            "cancelled",
+            "canceled",
+            "not the highest priority",
+            "lower priority",
+            "not an alert",
+            "uncertain"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "Air Quality Lead receives the bound kitchen PM2.5 91 highest-priority alert"
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_box_count",
+        "box": "sent",
+        "exact_count": 1
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "send_highest_only produces exactly one sent SMS globally"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_home_mutation",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_current_time": true,
+            "preserve_rooms": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "notification-only task leaves the complete Home unchanged"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "notification-only task issues no transient Home command"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "notification-only task creates no schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "notification-only task creates no workflow"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 26.2,
+        "humidity_pct": 46.0,
+        "brightness_lux": 117.5,
+        "air_quality_pm25": 43.8,
+        "noise_level_db": 39.2,
+        "occupied": true
+      },
+      "kitchen": {
+        "temperature_c": 25.2,
+        "humidity_pct": 47.5,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 91.0,
+        "noise_level_db": 40.0,
+        "occupied": false
+      },
+      "laundry_room": {
+        "temperature_c": 24.0,
+        "humidity_pct": 68.0,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 38.9,
+        "noise_level_db": 32.8,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 26.0,
+        "humidity_pct": 39.9,
+        "brightness_lux": 300.0,
+        "air_quality_pm25": 56.6,
+        "noise_level_db": 32.7,
+        "occupied": false
+      },
+      "entry": {
+        "temperature_c": 24.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 30.0,
+        "occupied": false
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "mode": "auto",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 28.0
+        }
+      },
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "entry_light_1",
+        "device_type": "light",
+        "room_id": "entry",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "kitchen_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "kitchen",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "kitchen_light_1",
+        "device_type": "light",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "laundry_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "laundry_room_dryer_1",
+        "device_type": "dryer",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "off",
+          "cycle": "quick",
+          "remaining_min": 0,
+          "status": "stopped"
+        }
+      },
+      {
+        "device_id": "laundry_room_light_1",
+        "device_type": "light",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 100,
+          "status": "open"
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 52
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "android_setup": {
+    "android_1": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Reminder audit.md' <<'EOF'\n# Reminder audit\n\nDock review: required 30 minutes; current 30 minutes; matches.\nGate call: required 15 minutes; current 5 minutes; mismatch.\nCrew bus: required 10 minutes; current event missing; result missing.\nEOF"
+        }
+      }
+    ]
+  }
+}

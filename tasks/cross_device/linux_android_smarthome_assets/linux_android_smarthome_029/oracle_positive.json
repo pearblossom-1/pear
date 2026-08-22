@@ -1,0 +1,31 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /storage/emulated/0/Documents/Markor\ncat > '/storage/emulated/0/Documents/Markor/Homecoming Heat.md' <<'EOF'\nHomecoming Heat is active: 17.8 C is in the 17-19 C band, so 22 C is scheduled at 18:05.\nEOF"
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_command",
+      "parameters": {
+        "schedule_id": "homecoming_preheat",
+        "run_at": "2026-06-16T18:05:00",
+        "device_id": "living_room_heater_1",
+        "command": "set_target_temperature",
+        "args": {
+          "temperature_c": 22.0
+        }
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

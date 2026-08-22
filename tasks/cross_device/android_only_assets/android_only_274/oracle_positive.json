@@ -1,0 +1,48 @@
+{
+  "android_setup": {
+    "android_1": [
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /sdcard/Download/Keep && cat > /sdcard/Download/Keep/keep_alpha.txt <<'EOF'\nalpha\nEOF"
+        }
+      },
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /sdcard/Download/Review && cat > /sdcard/Download/Review/review_beta.txt <<'EOF'\nbeta\nEOF"
+        }
+      },
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p /sdcard/Download/incoming && cat > /sdcard/Download/incoming/skip_notes.txt <<'EOF'\nskip\nEOF"
+        }
+      },
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "rm -f /sdcard/Download/incoming/keep_alpha.txt"
+        }
+      },
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "rm -f /sdcard/Download/incoming/review_beta.txt"
+        }
+      },
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "rm -f /sdcard/Download/Review/missing_gamma.txt"
+        }
+      },
+      {
+        "type": "adb_shell",
+        "parameters": {
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Sort summary.md' <<'EOF'\nkeep_alpha.txt: moved to Keep\nreview_beta.txt: moved to Review\nskip_notes.txt: left in incoming\nmissing_gamma.txt: missing\nEOF"
+        }
+      }
+    ]
+  }
+}

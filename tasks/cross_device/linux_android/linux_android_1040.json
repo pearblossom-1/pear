@@ -1,0 +1,349 @@
+{
+  "id": "linux_android_1040",
+  "instruction": "Please set up the approved route-review session. Match `/sdcard/Download/1040-A_source.md` on the first phone to the current event in `/tmp/music/event_schedule.csv` using `/tmp/music/handoff_policy.md`; the second phone's `/sdcard/Download/1040-A_android_1_context.md` gives the track order. On the first phone, create the approved Simple Calendar Pro event and the Retro Music playlist `1040-A route set` in that order. Save the route-handoff decision to `/tmp/music/decision.json` on Linux using the schema shown in the policy.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1040/android/1040-A_source.md",
+                "path": "/sdcard/Download/1040-A_source.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "retro music"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for name in 'harbor check-in.mp3' 'night route brief.mp3'; do rm -f \"/sdcard/Music/$name\"; content delete --uri content://media/external/audio/media --where \"_display_name='$name' AND relative_path='Music/'\" >/dev/null 2>&1 || true; done"
+          }
+        },
+        {
+          "type": "androidworld_mp3_push",
+          "parameters": {
+            "songs": [
+              "harbor check-in",
+              "night route brief"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_retro_music_library_preflight",
+          "parameters": {
+            "songs": [
+              "harbor check-in",
+              "night route brief"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1040/android/1040-A_android_1_context.md",
+                "path": "/sdcard/Download/1040-A_android_1_context.md"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p '/tmp/music' && rm -f '/tmp/music/event_schedule.csv' '/tmp/music/handoff_policy.md' '/tmp/music/decision.json'",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1040/source/event_schedule.csv",
+                "path": "/tmp/music/event_schedule.csv"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1040/source/handoff_policy.md",
+                "path": "/tmp/music/handoff_policy.md"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/sdcard/Download/1040-A_source.md'"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_retro_music_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for name in 'harbor check-in.mp3' 'night route brief.mp3'; do rm -f \"/sdcard/Music/$name\"; content delete --uri content://media/external/audio/media --where \"_display_name='$name' AND relative_path='Music/'\" >/dev/null 2>&1 || true; done"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/sdcard/Download/1040-A_android_1_context.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f '/tmp/music/event_schedule.csv' '/tmp/music/handoff_policy.md' '/tmp/music/decision.json'; rmdir '/tmp/music' 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event",
+        "title": "Route review briefing",
+        "start_ts": 1784374200,
+        "end_ts": 1784376900,
+        "location": "Operations Room"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "retro_music_playlist",
+        "playlist_name": "1040-A route set",
+        "expected_songs": [
+          "harbor check-in",
+          "night route brief"
+        ],
+        "order_sensitive": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_json",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/music/decision.json"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expect": [
+            {
+              "key": [
+                "case_id"
+              ],
+              "method": "eq",
+              "ref": "1040-A"
+            },
+            {
+              "key": [
+                "approval_code"
+              ],
+              "method": "eq",
+              "ref": "NX04005"
+            },
+            {
+              "key": [
+                "owner"
+              ],
+              "method": "eq",
+              "ref": "Mira Patel"
+            },
+            {
+              "key": [
+                "status"
+              ],
+              "method": "eq",
+              "ref": "ready"
+            },
+            {
+              "key": [
+                "selected_source"
+              ],
+              "method": "eq",
+              "ref": "event_schedule.csv#1040-A"
+            }
+          ],
+          "unexpect": [
+            {
+              "key": [
+                "case_id"
+              ],
+              "method": "eq",
+              "ref": "1040-D"
+            },
+            {
+              "key": [
+                "status"
+              ],
+              "method": "eq",
+              "ref": "placeholder"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 420
+  },
+  "metadata": {
+    "category": "linux_android_next",
+    "implementation_status": "reviewed_plan6_generated",
+    "source_plan": "docs/plan6/linux_android_next100_tasks_981_1080.md",
+    "source_task_number": 1040,
+    "source_task_title": "Event schedule creates Retro playlist and calendar event",
+    "triage_decision": "repair",
+    "triage_reason": "Repaired candidate to stable evaluator-visible document/file/app state while preserving the source decision and output intent.",
+    "device_topology": "android_0+android_1+linux_0",
+    "surfaces": [
+      "android.calendar",
+      "android.retro_music",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1040",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1040/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1040/oracle_positive.json",
+    "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_1040/scripted_solution.json",
+    "linux_source_paths": [
+      "/tmp/music/event_schedule.csv",
+      "/tmp/music/handoff_policy.md"
+    ],
+    "linux_output_paths": [
+      "/tmp/music/decision.json"
+    ],
+    "android_output_plan": [
+      {
+        "kind": "calendar",
+        "device_id": "android_0",
+        "title": "Route review briefing",
+        "start_ts": 1784374200,
+        "end_ts": 1784376900,
+        "location": "Operations Room"
+      },
+      {
+        "kind": "retro_music",
+        "device_id": "android_0",
+        "playlist": "1040-A route set",
+        "songs": [
+          "harbor check-in",
+          "night route brief"
+        ]
+      }
+    ],
+    "expected_data_trace": {
+      "case_id": "1040-A",
+      "approval_code": "NX04005",
+      "owner": "Mira Patel",
+      "selected_source": "event_schedule.csv#1040-A"
+    },
+    "readiness": "R1_native_real_fixture",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "topology_view": "linux_android"
+  }
+}

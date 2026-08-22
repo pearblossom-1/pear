@@ -1,0 +1,312 @@
+{
+  "id": "a2l_agenda_from_two_phones",
+  "instruction": "I need a timed agenda for the `Partner planning` meeting. The first phone's Simple Calendar Pro has the meeting details, and the second phone's Markor note `Partner planning topics` has the ordered topics and timeboxes. On Linux, use `/tmp/meeting/template.docx` to create `/tmp/meeting/agenda.docx`, fill the meeting fields, and complete the topic table in the note's order. Fill the total agenda time row so that the sum of all topic timeboxes matches the Calendar meeting duration.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {
+    "agenda_docx": "/tmp/meeting/agenda.docx"
+  },
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Partner planning",
+            "start_ts": 1802952000,
+            "end_ts": 1802955600,
+            "location": "Room 5",
+            "description": "Planning agenda"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "mkdir -p /storage/emulated/0/Documents/Markor && rm -f '/storage/emulated/0/Documents/Markor/Partner planning topics.md'"
+            ]
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real100_assets/a2l_agenda_from_two_phones/source/topics.md",
+                "path": "/storage/emulated/0/Documents/Markor/Partner planning topics.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "test -r '/storage/emulated/0/Documents/Markor/Partner planning topics.md'"
+            ],
+            "check_exit_status": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/meeting && mkdir -p /tmp/meeting",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real100_assets/a2l_agenda_from_two_phones/source/template.docx",
+                "path": "/tmp/meeting/template.docx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/meeting/template.docx && test -w /tmp/meeting && test ! -e /tmp/meeting/agenda.docx",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": [
+              "sh",
+              "-c",
+              "rm -f '/storage/emulated/0/Documents/Markor/Partner planning topics.md'"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/meeting",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "${agenda_docx}"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "Timed Agenda Template",
+            "Partner planning",
+            "Room 5",
+            "Introductions",
+            "Delivery risks",
+            "Next steps"
+          ],
+          "exclude": [
+            "[[TITLE]]",
+            "[[TOPIC_1]]",
+            "[[TOTAL]]"
+          ],
+          "require_valid_package": true,
+          "required_members": [
+            "word/styles.xml"
+          ],
+          "min_tables": 2,
+          "min_paragraphs": 6,
+          "case_sensitive": false,
+          "template_structure": {
+            "body_paragraphs": [
+              "Timed Agenda Template",
+              "Build the agenda from the Calendar event and the ordered topic note.",
+              "Agenda"
+            ],
+            "exact_tables": 2,
+            "format": {
+              "title": "Timed Agenda Template",
+              "title_min_half_points": 30,
+              "page_orientation": "portrait",
+              "tables": [
+                {
+                  "table_index": 0,
+                  "require_visible_grid": true,
+                  "column_width_ratios": [
+                    0.5,
+                    0.5
+                  ],
+                  "ratio_tolerance": 0.15
+                },
+                {
+                  "table_index": 1,
+                  "require_visible_grid": true,
+                  "column_width_ratios": [
+                    0.5,
+                    0.5
+                  ],
+                  "ratio_tolerance": 0.15
+                }
+              ]
+            }
+          },
+          "table_contracts": [
+            {
+              "table_index": 0,
+              "exact_rows": true,
+              "exact_columns": true,
+              "rows": [
+                [
+                  "Title:",
+                  "Partner planning"
+                ],
+                [
+                  "Time:",
+                  {
+                    "date": "2027-02-18",
+                    "time_range": [
+                      "12:00",
+                      "13:00"
+                    ]
+                  }
+                ],
+                [
+                  "Location:",
+                  "Room 5"
+                ]
+              ]
+            },
+            {
+              "table_index": 1,
+              "exact_rows": true,
+              "exact_columns": true,
+              "rows": [
+                [
+                  "Topic",
+                  "Minutes"
+                ],
+                [
+                  "Introductions",
+                  {
+                    "duration_minutes": 10,
+                    "allow_bare_number": true
+                  }
+                ],
+                [
+                  "Delivery risks",
+                  {
+                    "duration_minutes": 20,
+                    "allow_bare_number": true
+                  }
+                ],
+                [
+                  "Next steps",
+                  {
+                    "duration_minutes": 30,
+                    "allow_bare_number": true
+                  }
+                ],
+                [
+                  {
+                    "duration_minutes": 60
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 30,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "real100_cross_device",
+    "source_card": "071",
+    "difficulty": "Medium",
+    "motif": "M2",
+    "surfaces": "android_0 Simple Calendar Pro + android_1 Markor topics + Linux timed-agenda template -> DOCX",
+    "setup_note": "android_0 supplies the Calendar event; android_1 supplies and verifies a readable ordered Markor topic/timebox note; Linux receives the timed-agenda template and verifies the template/output directory preflight.",
+    "evaluate_note": "Checks the material visible two-table template structure, semantically equivalent meeting date/time, each ordered topic duration as canonical integer minutes, and an explicit 60-minute total.",
+    "device_topology": "2A+1L",
+    "implementation_status": "real_evaluator",
+    "readiness": "R1_native_real_fixture",
+    "cross_device_checks": [
+      "linux_timed_agenda_combines_android_calendar_and_android_markor_topics"
+    ],
+    "asset_source": "tasks/cross_device/real100_assets/a2l_agenda_from_two_phones/source",
+    "lite_evaluator_hardening_note": "The source template now labels the merged final row as `Total agenda time: [[TOTAL]] minutes`. Topic cells canonicalize bare numbers and min/mins/minute/minutes variants to 10, 20, and 30 minutes; the merged total still requires explicit minute units and must equal 60."
+  }
+}

@@ -1,0 +1,5 @@
+filename,action
+keep_alpha.txt,keep
+review_beta.txt,review
+skip_notes.txt,skip
+missing_gamma.txt,review

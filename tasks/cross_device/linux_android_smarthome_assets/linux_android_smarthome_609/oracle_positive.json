@@ -1,0 +1,69 @@
+{
+  "linux_actions": [],
+  "android_setup": {
+    "android_0": [
+      {
+        "type": "androidworld_calendar_clear",
+        "parameters": {}
+      },
+      {
+        "type": "androidworld_calendar_event_add",
+        "parameters": {
+          "title": "Guest arrival",
+          "start_ts": 1781638800,
+          "end_ts": 1781640600,
+          "location": "Guest room",
+          "description": "Owner update applied: prep 19:20 for 19:40 arrival."
+        }
+      }
+    ],
+    "android_1": [
+      {
+        "type": "androidworld_sms_send",
+        "parameters": {
+          "address": "+1555060901",
+          "body": "The old 18:40 preparation for the 19:00 arrival was replaced by the new 19:20 preparation for the revised 19:40 arrival."
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.cancel_workflow",
+      "parameters": {
+        "workflow_id": "guest_prep_old_1840"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_workflow",
+      "parameters": {
+        "workflow_id": "guest_prep_owner_1920",
+        "run_at": "2026-06-16T19:20:00",
+        "steps": [
+          {
+            "device_id": "guest_room_heater_1",
+            "command": "turn_on",
+            "args": {}
+          },
+          {
+            "device_id": "guest_room_heater_1",
+            "command": "set_target_temperature",
+            "args": {
+              "temperature_c": 23.0
+            }
+          },
+          {
+            "device_id": "guest_room_light_1",
+            "command": "turn_on",
+            "args": {}
+          }
+        ]
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

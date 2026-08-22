@@ -1,0 +1,1 @@
+Only Owner contacts may cancel away routines. Guest and Neighbor contacts must be rejected, and the routine must stay active.

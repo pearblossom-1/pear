@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>Bedroom cooling choice</title></head>
+<body>
+  <h1>Bedroom cooling choice</h1>
+  <ul>
+  <li>Target temperature: 21 C.</li>
+  <li>Forbidden device type: heater.</li>
+  <li>Use only a device that supports cool mode and target temperature control.</li>
+  </ul>
+  <h2>Available bedroom climate capabilities</h2>
+  <ul>
+    <li>Air conditioner: supports cool mode and target temperature control.</li>
+    <li>Heater: heating only; do not use it for this cooling request.</li>
+  </ul>
+  <p>For a supported cooling request, apply the requested target with the air conditioner powered on.</p>
+  <form id="task-form">
+    <label>Selected device type
+      <select name="selected">
+        <option value="heater">Heater</option>
+        <option value="air conditioner">Air conditioner</option>
+      </select>
+    </label>
+    <label>Mode
+      <select name="mode">
+        <option value="heat">Heat</option>
+        <option value="cool">Cool</option>
+      </select>
+    </label>
+    <label>Target
+      <select name="target">
+        <option value="24">24 C</option>
+        <option value="21">21 C</option>
+      </select>
+    </label>
+    <label>Forbidden-device check
+      <select name="forbidden">
+        <option value="heater used">Heater used</option>
+        <option value="heater not used">Heater not used</option>
+      </select>
+    </label>
+  </form>
+  <button id="submit" onclick="const p = new URLSearchParams(new FormData(document.getElementById('task-form'))); window.location.href = window.location.href.split('?')[0].split('#')[0] + '?' + p.toString() + '#submitted-cooling-choice'">Submit</button>
+</body>
+</html>

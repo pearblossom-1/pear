@@ -1,0 +1,239 @@
+{
+  "id": "linux_android_1357",
+  "instruction": "Use the request in `/storage/emulated/0/Download/site_request_1357.txt` on the first phone to select the matching row from `/tmp/site/site_rows.csv`. If that exact site lacks coordinates, write `Blocked route SITE-1357.md` in Markor on the second phone with the selected site code, display name, and reason the route is blocked.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/site/site_rows.csv && mkdir -p -- /tmp/site",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1357/source/tmp/site/site_rows.csv",
+                "path": "/tmp/site/site_rows.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1357/android/suite_0/site_request_1357.txt",
+                "path": "/storage/emulated/0/Download/site_request_1357.txt"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Blocked route SITE-1357.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/site/site_rows.csv; find /tmp/site -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/site_request_1357.txt"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Blocked route SITE-1357.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Blocked route SITE-1357.md",
+        "rules": {
+          "entities": [
+            "SITE-1357",
+            "South Annex"
+          ],
+          "required_phrases": [
+            [
+              "route blocked",
+              "blocked route",
+              "is blocked",
+              "remains blocked",
+              "route is blocked",
+              "route remains blocked",
+              "routing blocked",
+              "routing is blocked",
+              "cannot route",
+              "cannot be routed",
+              "cannot be made",
+              "route cannot be made"
+            ],
+            [
+              "missing coordinates",
+              "coordinates missing",
+              "coordinates are missing",
+              "no coordinates",
+              "coordinates unavailable",
+              "coordinates are unavailable",
+              "coordinates not provided",
+              "coordinates were not provided"
+            ]
+          ],
+          "positive_phrases": [
+            "route blocked because coordinates are missing",
+            "route blocked",
+            "blocked route",
+            "is blocked",
+            "remains blocked",
+            "route is blocked",
+            "route remains blocked",
+            "routing blocked",
+            "routing is blocked",
+            "cannot route",
+            "cannot be routed",
+            "cannot be made",
+            "route cannot be made"
+          ],
+          "forbidden_entities": [
+            "SITE-1357B"
+          ],
+          "conflict_phrases": [
+            "coordinates available",
+            "coordinates are available",
+            "coordinates present",
+            "coordinates are present",
+            "has coordinates",
+            "have coordinates",
+            "coordinates exist",
+            "coordinates are provided",
+            "but coordinates provided",
+            "although coordinates provided",
+            "yet coordinates provided",
+            "but coordinates were provided",
+            "although coordinates were provided",
+            "yet coordinates were provided",
+            "not missing",
+            "route open",
+            "route is open",
+            "can route",
+            "can be routed",
+            "wrong site"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1357",
+    "surfaces": [
+      "markor",
+      "linux.csv"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1357",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1357/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1357/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/site/site_rows.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/site/site_rows.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1341-1360-B0009",
+    "candidate_triage": {
+      "decision": "repair",
+      "rationale": "Hard-negative candidate repaired to durable blocked note/report as the positive outcome, with narrow absence checks only for tempting wrong outputs."
+    },
+    "lite_evaluator_hardening_note": "The unrequested CSV self-report is removed; the exact Markor path is scored through a polarity-aware, entity-bound blocked-route relation."
+  }
+}

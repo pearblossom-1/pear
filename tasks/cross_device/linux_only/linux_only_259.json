@@ -1,0 +1,229 @@
+{
+  "id": "linux_only_259",
+  "instruction": "The media catalog import is blocked by the image-index helper on the second Linux machine. Use `/tmp/img/spec.csv` on the first machine to repair `/tmp/img/project/index_images.py`, run the supplied `/tmp/img/project/tests.py`, and save its console output as `/tmp/img/project/test.log`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/img && rm -f /tmp/img/spec.csv",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_259/source/linux_0/tmp/img/spec.csv",
+                "path": "/tmp/img/spec.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/img/project && rm -f /tmp/img/project/index_images.py",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_259/source/linux_1/tmp/img/project/index_images.py",
+                "path": "/tmp/img/project/index_images.py"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/img/project && rm -f /tmp/img/project/tests.py",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_259/source/linux_1/tmp/img/project/tests.py",
+                "path": "/tmp/img/project/tests.py"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/img/project/test.log",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/img/spec.csv",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/img/project/index_images.py",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/img/project/tests.py",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/img/project/test.log",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nimport importlib.util\ntry:\n spec=importlib.util.spec_from_file_location('image_index','/tmp/img/project/index_images.py'); module=importlib.util.module_from_spec(spec); spec.loader.exec_module(module)\n cases=[\n  ('asset.png',True),('PHOTO.JPG',True),('scan.Jpeg',True),('notes.txt',False),('fake.png.txt',False),('map.gif',False),\n ]\n checks=[module.include(name) is expected for name,expected in cases]\n labels={\n  '/drop/kitchen_400x200.png':'kitchen','/drop/north_gate_640x480.JPG':'north_gate','portrait.jpeg':'portrait',\n  '/drop/archive.photo_123x45.PNG':'archive.photo','site.v2_99x101.jpeg':'site.v2','a.b.c_7x11.jpg':'a.b.c',\n }\n checks += [module.label_for(name)==expected for name,expected in labels.items()]\n rows=[\n  ('north_gate_640x480.JPG',640,480,{'file':'north_gate_640x480.JPG','width':640,'height':480,'label':'north_gate'}),\n  ('archive.photo_123x45.PNG',123,45,{'file':'archive.photo_123x45.PNG','width':123,'height':45,'label':'archive.photo'}),\n  ('tiny.v3_7x11.jpeg',7,11,{'file':'tiny.v3_7x11.jpeg','width':7,'height':11,'label':'tiny.v3'}),\n ]\n checks += [module.row_for(name,width,height)==expected for name,width,height,expected in rows]\n ok=all(checks)\nexcept Exception: ok=False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": true,
+      "metadata": {
+        "role": "image_index_behavior"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport subprocess\ntry:\n    result = subprocess.run(['python3', 'tests.py'], cwd='/tmp/img/project', capture_output=True, text=True, timeout=30, check=False)\n    actual = '\\n'.join(line.rstrip() for line in result.stdout.splitlines() if line.strip())\n    saved = '\\n'.join(line.rstrip() for line in Path('/tmp/img/project/test.log').read_text(encoding='utf-8').splitlines() if line.strip())\n    ok = result.returncode == 0 and actual == '10 passed' and saved == actual\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "metadata": {
+        "path": "/tmp/img/project/test.log",
+        "role": "supplied_test_execution_provenance"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/img/project/tests.py",
+        "trusted_root": "/tmp/img/project",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "6b4c56b6cceaf5deca94ce7aa976bb9d7d63ad927c8fb787334d96391df77f6b"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "supplied_test_fixture_guard"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "linux_only",
+    "device_topology": "2linux",
+    "surfaces": [
+      "python",
+      "tests",
+      "text"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_259",
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/img/spec.csv"
+      ],
+      "linux_1": [
+        "/tmp/img/project/index_images.py",
+        "/tmp/img/project/tests.py"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/img/project/index_images.py",
+        "/tmp/img/project/test.log"
+      ]
+    },
+    "setup_note": "Generated setup configures linux_0 and linux_1 from visible Linux sources.",
+    "evaluate_note": "Evaluation checks durable outputs on linux_1 with source guards disabled for scoring.",
+    "source_number": 259,
+    "candidate_triage": {
+      "batch_id": "plan6-linux-only-dual-linux-B0003",
+      "decision": "repair",
+      "rationale": "Direct behavior evaluation checks case-insensitive extension filtering, filename-derived labels, and complete index rows; the supplied standard-library tests provide execution evidence."
+    },
+    "oracle_ref": "tasks/cross_device/linux_only_assets/linux_only_259/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/linux_only_assets/linux_only_259/episode_config.json",
+    "lite_evaluator_hardening_note": "Primary evaluation imports and executes index_images.py behavior; test.log cannot compensate for an incorrect implementation."
+  }
+}

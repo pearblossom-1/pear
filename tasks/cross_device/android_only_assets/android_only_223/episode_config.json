@@ -1,0 +1,120 @@
+{
+  "task_id": "android_only_223",
+  "eval": [
+    {
+      "name": "Keep exactly one incomplete Site photo checklist with the current manifest facts",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_set",
+        "tasks": [
+          {
+            "title": "Site photo checklist",
+            "dueDate": 0,
+            "completed": false,
+            "notes_relation": {
+              "entities": [
+                "north_gate.jpg",
+                "meter_panel.jpg",
+                "old_gate.jpg"
+              ],
+              "required_phrases": [
+                [
+                  "present",
+                  "available"
+                ],
+                [
+                  "missing",
+                  "absent",
+                  "not found"
+                ]
+              ],
+              "preceding_clause_context": {
+                "max_preceding_clauses": 1,
+                "anchors": [
+                  [
+                    "north_gate.jpg"
+                  ],
+                  [
+                    "meter_panel.jpg"
+                  ],
+                  [
+                    "old_gate.jpg"
+                  ]
+                ]
+              },
+              "relation_groups": [
+                {
+                  "entities": [
+                    "north_gate.jpg"
+                  ],
+                  "phrases": [
+                    "present",
+                    "available"
+                  ],
+                  "allow_multiple_matches": true
+                },
+                {
+                  "entities": [
+                    "meter_panel.jpg"
+                  ],
+                  "phrases": [
+                    "present",
+                    "available"
+                  ],
+                  "allow_multiple_matches": true
+                },
+                {
+                  "entities": [
+                    "old_gate.jpg"
+                  ],
+                  "phrases": [
+                    "missing",
+                    "absent",
+                    "not found"
+                  ],
+                  "allow_multiple_matches": true
+                }
+              ],
+              "conflict_patterns": [
+                "(?im)(?:^|[;\\n]|\\.(?=\\s|$))(?!\\s*(?:(?:the\\s+)?(?:old|previous|prior|historical|former|archived)\\b|according\\s+to\\s+(?:the\\s+)?(?:old|previous|prior|historical|archived)\\b))\\s*[^.;\\n]{0,160}(?:\\bnorth_gate\\.jpg\\b[^.;\\n]{0,56}\\b(?:missing|absent|not\\s+found)\\b|\\b(?:missing|absent|not\\s+found)\\b[^.;\\n]{0,56}\\bnorth_gate\\.jpg\\b)",
+                "(?im)(?:^|[;\\n]|\\.(?=\\s|$))(?!\\s*(?:(?:the\\s+)?(?:old|previous|prior|historical|former|archived)\\b|according\\s+to\\s+(?:the\\s+)?(?:old|previous|prior|historical|archived)\\b))\\s*[^.;\\n]{0,160}(?:\\bmeter_panel\\.jpg\\b[^.;\\n]{0,56}\\b(?:missing|absent|not\\s+found)\\b|\\b(?:missing|absent|not\\s+found)\\b[^.;\\n]{0,56}\\bmeter_panel\\.jpg\\b)",
+                "(?im)(?:^|[;\\n]|\\.(?=\\s|$))(?!\\s*(?:(?:the\\s+)?(?:old|previous|prior|historical|former|archived)\\b|according\\s+to\\s+(?:the\\s+)?(?:old|previous|prior|historical|archived)\\b))\\s*[^.;\\n]{0,160}(?:\\bold_gate\\.jpg\\b[^.;\\n]{0,56}\\b(?:present|available)\\b|\\b(?:present|available)\\b[^.;\\n]{0,56}\\bold_gate\\.jpg\\b)"
+              ]
+            }
+          }
+        ],
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    },
+    {
+      "name": "Preserve site_photo_manifest.csv byte for byte",
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_filesystem_snapshot_state",
+        "snapshot_id": "android_only_223_manifest",
+        "preserve_directories": [],
+        "file_mappings": [
+          {
+            "baseline_path": "/sdcard/Download/site_photo_manifest.csv",
+            "current_path": "/sdcard/Download/site_photo_manifest.csv"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ]
+}

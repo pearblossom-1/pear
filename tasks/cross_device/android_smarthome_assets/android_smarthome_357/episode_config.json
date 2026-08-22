@@ -1,0 +1,364 @@
+{
+  "meta": {
+    "sh_type": "SH_android_smarthome",
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1357,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Mira guest prep log.md",
+        "rules": {
+          "entities": [
+            "Guest Entrance",
+            "20:00",
+            [
+              "23 C",
+              "23C"
+            ],
+            [
+              "48%",
+              "48 percent"
+            ]
+          ],
+          "conflict_phrases": [
+            "not scheduled",
+            "cancelled",
+            "pending",
+            "applied now",
+            "already prepared",
+            "currently prepared"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "guest-room preparation",
+                  "guest room preparation",
+                  "guest-room prep",
+                  "guest room prep",
+                  "guest-room plan",
+                  "guest room plan",
+                  "guest room",
+                  "guest-room"
+                ],
+                [
+                  "scheduled",
+                  "planned",
+                  "arranged",
+                  "will be prepared"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "guest-room preparation note states a future scheduled relation"
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5550357",
+        "body_relation": {
+          "entities": [
+            [
+              "guest room",
+              "guest-room",
+              "guest bedroom"
+            ],
+            "20:00"
+          ],
+          "required_phrases": [
+            [
+              "prep",
+              "preparation",
+              "scheduled"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "not prepared",
+            "not ready",
+            "cancelled",
+            "failed"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "SMS to Mira names the guest-room 20:00 preparation"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_planned_effects",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "exact_active_plan_count": 1,
+            "plans": [
+              {
+                "run_at": "2026-06-16T20:00:00",
+                "effects": {
+                  "guest_room_heater_1": {
+                    "power": "on",
+                    "target_temperature_c": 23.0
+                  },
+                  "guest_room_dimmable_light_1": {
+                    "power": "on",
+                    "brightness_pct": 48
+                  }
+                }
+              }
+            ]
+          }
+        }
+      },
+      "name": "the exact 20:00 guest-room effects may use a workflow or equivalent schedules"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_device_change",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "device_id": "guest_room_heater_1"
+          }
+        }
+      },
+      "name": "guest-room heater baseline is unchanged before 20:00"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_device_change",
+      "enable_score_calc": false,
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "device_id": "guest_room_dimmable_light_1"
+          }
+        }
+      },
+      "name": "guest-room light baseline is unchanged before 20:00"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 21.4,
+        "humidity_pct": 40.1,
+        "brightness_lux": 122.1,
+        "air_quality_pm25": 32.8,
+        "noise_level_db": 26.3,
+        "occupied": false
+      },
+      "guest_room": {
+        "temperature_c": 21.9,
+        "humidity_pct": 42.0,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 38.8,
+        "noise_level_db": 28.2,
+        "occupied": false
+      },
+      "kitchen": {
+        "temperature_c": 21.3,
+        "humidity_pct": 39.1,
+        "brightness_lux": 322.6,
+        "air_quality_pm25": 64.4,
+        "noise_level_db": 35.2,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 24.1,
+        "humidity_pct": 54.6,
+        "brightness_lux": 560.0,
+        "air_quality_pm25": 46.4,
+        "noise_level_db": 35.3,
+        "occupied": false
+      },
+      "office": {
+        "temperature_c": 22.2,
+        "humidity_pct": 53.0,
+        "brightness_lux": 500.0,
+        "air_quality_pm25": 48.1,
+        "noise_level_db": 39.2,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "mode": "auto",
+          "target_temperature_c": 23.0
+        }
+      },
+      {
+        "device_id": "bedroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 23.0
+        }
+      },
+      {
+        "device_id": "guest_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off",
+          "brightness_pct": 0
+        }
+      },
+      {
+        "device_id": "guest_room_heater_1",
+        "device_type": "heater",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 20.0
+        }
+      },
+      {
+        "device_id": "guest_room_light_1",
+        "device_type": "light",
+        "room_id": "guest_room",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "kitchen_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "kitchen_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "status": "paused",
+          "battery_pct": 50
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "mode": "heat",
+          "target_temperature_c": 21.0
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 20,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 83
+        }
+      },
+      {
+        "device_id": "office_heater_1",
+        "device_type": "heater",
+        "room_id": "office",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "office_light_1",
+        "device_type": "light",
+        "room_id": "office",
+        "state": {
+          "power": "on"
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

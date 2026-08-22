@@ -1,0 +1,26 @@
+{
+  "task_id": "linux_android_1314",
+  "eval": [
+    {
+      "device_id": "linux_0",
+      "func": "check_archive_contents",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/release/ready_release.zip"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "members": {
+            "dispatch_client.py": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1314/source/tmp/release/files/dispatch_client.py",
+            "release_notes.md": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1314/source/tmp/release/files/release_notes.md",
+            "manifest_copy.csv": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1314/source/tmp/release/manifest.csv"
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/release/ready_release.zip"
+      }
+    }
+  ]
+}

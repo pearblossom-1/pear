@@ -1,0 +1,16 @@
+{
+  "actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.report_infeasible",
+      "parameters": {
+        "category": "unsupported_state_query",
+        "reason": "The bedroom SmartHome state does not expose energy use in kWh.",
+        "target": "bedroom.energy_use_kwh"
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "linux_actions": {
+    "linux_1": [
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "python3 - <<'PY'\nfrom pathlib import Path\nfrom PIL import Image, ImageDraw, ImageFont\n\nroot = Path('/tmp/banner')\nimage = Image.open(root / 'source.png').convert('RGB')\ndraw = ImageDraw.Draw(image)\ndraw.rectangle((80, 310, 1519, 459), fill=(245, 245, 245))\ndraw.text(\n    (120, 320),\n    'CASE-500',\n    font=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 58),\n    fill=(15, 20, 30),\n)\ndraw.text(\n    (120, 392),\n    'Winter readiness',\n    font=ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf', 42),\n    fill=(15, 20, 30),\n)\nimage.save(root / 'banner_CASE-500.png', format='PNG', optimize=True)\nPY"
+        }
+      },
+      {
+        "type": "cli.execute",
+        "parameters": {
+          "command": "python3 - <<'PY'\nimport base64\nfrom pathlib import Path\npath = Path('/tmp/banner/brief.pdf')\npath.parent.mkdir(parents=True, exist_ok=True)\npath.write_bytes(base64.b64decode('JVBERi0xLjcKJcK1wrYKJSBXcml0dGVuIGJ5IE11UERGIDEuMjcuMgoKMSAwIG9iago8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMiAwIFIvSW5mbzw8L1Byb2R1Y2VyKE11UERGIDEuMjcuMik+Pj4+CmVuZG9iagoKMiAwIG9iago8PC9UeXBlL1BhZ2VzL0NvdW50IDEvS2lkc1s0IDAgUl0+PgplbmRvYmoKCjMgMCBvYmoKPDwvRm9udDw8L2hlbHYgNSAwIFI+Pj4+CmVuZG9iagoKNCAwIG9iago8PC9UeXBlL1BhZ2UvTWVkaWFCb3hbMCAwIDYxMiA3OTJdL1JvdGF0ZSAwL1Jlc291cmNlcyAzIDAgUi9QYXJlbnQgMiAwIFIvQ29udGVudHNbNiAwIFIgNyAwIFIgOCAwIFJdPj4KZW5kb2JqCgo1IDAgb2JqCjw8L1R5cGUvRm9udC9TdWJ0eXBlL1R5cGUxL0Jhc2VGb250L0hlbHZldGljYS9FbmNvZGluZy9XaW5BbnNpRW5jb2Rpbmc+PgplbmRvYmoKCjYgMCBvYmoKPDwvTGVuZ3RoIDg0Pj4Kc3RyZWFtCgpxCkJUCjEgMCAwIDEgNzIgNzAyIFRtCi9oZWx2IDE4IFRmIFs8NDI3MjY5NjU2NjIwNjY2ZjcyMjA0MzQxNTM0NTJkMzUzMDMwPl1USgpFVApRCgplbmRzdHJlYW0KZW5kb2JqCgo3IDAgb2JqCjw8L0xlbmd0aCAxMDMvRmlsdGVyL0ZsYXRlRGVjb2RlPj4Kc3RyZWFtCnjaTck7CsJQEEbhflYxO3Aed/5BEAvBxk6YLqQI8QaLpLBx/d5SvubAoQ/dipRlUE5jILkOOr37/mU1ro2nSzMo+hBpJgDOWBG+jP47sTVvGt7CXh4uLtZTxsvrXA+6Fz3pB4xTGZsKZW5kc3RyZWFtCmVuZG9iagoKOCAwIG9iago8PC9MZW5ndGggOTMvRmlsdGVyL0ZsYXRlRGVjb2RlPj4Kc3RyZWFtCnjaFcgxCoAwDEbhPafIDWzS9g+COAgubkI3cZBScdDBxfPb8pbHRy9NiYRdTdiUEZTTQ91V7o+l/snbEDIEiojsD3XR0KNYQDRVZ80FoVkVb37c00JzopV+2poVEAplbmRzdHJlYW0KZW5kb2JqCgo5IDAgb2JqCjw8L1RpdGxlKENBU0UtNTAwIFdpbnRlciByZWFkaW5lc3MgYnJpZWYpPj4KZW5kb2JqCgp4cmVmCjAgMTAKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDQyIDAwMDAwIG4gCjAwMDAwMDAxMjAgMDAwMDAgbiAKMDAwMDAwMDE3MiAwMDAwMCBuIAowMDAwMDAwMjEzIDAwMDAwIG4gCjAwMDAwMDAzMzIgMDAwMDAgbiAKMDAwMDAwMDQyMSAwMDAwMCBuIAowMDAwMDAwNTU0IDAwMDAwIG4gCjAwMDAwMDA3MjYgMDAwMDAgbiAKMDAwMDAwMDg4NyAwMDAwMCBuIAoKdHJhaWxlcgo8PC9TaXplIDEwL0luZm8gOSAwIFIvUm9vdCAxIDAgUi9JRFs8NkRDMjhBQzM5NjM2NDhDMzk0NkQyQzJBMkQwMzExQzM+PDYzQUE3NDFBQTlGQjBENUI4QTU3RjYwQTJBMUI1RTJDPl0+PgpzdGFydHhyZWYKOTQ3CiUlRU9GCg=='))\nPY"
+        }
+      }
+    ]
+  }
+}

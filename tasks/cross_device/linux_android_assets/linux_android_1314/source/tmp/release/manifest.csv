@@ -1,0 +1,5 @@
+release,approval_ref,filename,status
+REL-1314,AP-1314,dispatch_client.py,required
+REL-1314,AP-1314,release_notes.md,required
+REL-1314,AP-LEGACY,release_notes_draft.md,obsolete
+REL-1314,AP-LEGACY,legacy_config.json,obsolete

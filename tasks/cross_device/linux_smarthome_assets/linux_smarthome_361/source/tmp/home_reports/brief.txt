@@ -1,0 +1,1 @@
+Compare the labeled rooms in floor.png with the actual SmartHome room list. Complete the prefilled rooms.xlsx template with Present, Missing, and Extra results, then enter the actual SmartHome room count in its summary row.

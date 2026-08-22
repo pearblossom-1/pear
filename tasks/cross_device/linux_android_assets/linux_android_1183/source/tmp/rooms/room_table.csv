@@ -1,0 +1,4 @@
+room,booking_code,date,status
+Orchid Room,BK-4471,2026-07-08,available
+Orchid Room,BK-4471,2026-07-09,hold
+Oak Room,BK-447I,2026-07-08,available

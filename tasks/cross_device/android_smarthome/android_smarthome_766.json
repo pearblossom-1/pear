@@ -1,0 +1,471 @@
+{
+  "id": "android_smarthome_766",
+  "instruction": "Use `scene_code_manifest.csv` on the first phone to set up `FocusScene`. Before scheduling it in Home, follow the scene conflict policy in Markor on the second phone so the lower-priority plan is handled correctly. Leave a Tasks item titled `Scene conflict result` on the second phone summarizing the scene time and settings and what happened to the conflicting plan.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_766/android/android_0/files/scene_code_manifest.csv",
+                "path": "/storage/emulated/0/Download/home/scene_code_manifest.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/storage/emulated/0/Download/home",
+            "expected_filenames": [
+              "scene_code_manifest.csv"
+            ],
+            "open_filename": "scene_code_manifest.csv",
+            "required_visible_text": [
+              "scene code,playlist,run at,office light brightness,office purifier level",
+              "FocusScene,Focus Mix,20:00,30%,low"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_766/android/android_1/markor/Scene conflict policy.md",
+                "path": "/storage/emulated/0/Documents/Markor/Scene conflict policy.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_markor_note_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor/Scene conflict policy.md",
+            "required_visible_text": [
+              "FocusScene allowed",
+              "cancel lower-priority noisy cleaning",
+              "20:00"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_task_add",
+          "parameters": {
+            "title": "MDCBench Tasks backend sentinel 766",
+            "notes": "Temporary backend health check.",
+            "dueDate": 0,
+            "completed": 0
+          }
+        },
+        {
+          "type": "androidworld_task_record_preflight",
+          "parameters": {
+            "task": {
+              "title": "MDCBench Tasks backend sentinel 766",
+              "notes": "Temporary backend health check.",
+              "dueDate": 0,
+              "completed": 0
+            },
+            "required_visible_text": [
+              "MDCBench Tasks backend sentinel 766",
+              "Temporary backend health check."
+            ]
+          }
+        },
+        {
+          "type": "androidworld_tasks_delete_by_title",
+          "parameters": {
+            "title": "MDCBench Tasks backend sentinel 766"
+          }
+        },
+        {
+          "type": "androidworld_task_backend_preflight",
+          "parameters": {
+            "absent_title": "MDCBench Tasks backend sentinel 766"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_766/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/home/scene_code_manifest.csv"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Scene conflict policy.md'"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_status",
+        "title": "Scene conflict result",
+        "require_exactly_one": true,
+        "completed": false,
+        "notes_relation": {
+          "entities": [
+            [
+              "FocusScene"
+            ],
+            [
+              "20:00",
+              "8:00 PM"
+            ],
+            [
+              "office light"
+            ],
+            [
+              "30",
+              "30%"
+            ],
+            [
+              "office purifier",
+              "purifier"
+            ],
+            [
+              "low"
+            ],
+            [
+              "cleaning plan"
+            ],
+            [
+              "cancelled",
+              "canceled"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "scheduled",
+              "applied",
+              "active"
+            ]
+          ],
+          "nearest_relations": [
+            {
+              "anchor": [
+                "FocusScene"
+              ],
+              "expected": [
+                "scheduled"
+              ],
+              "forbidden": [
+                "not scheduled"
+              ],
+              "max_distance": 10
+            },
+            {
+              "anchor": [
+                "FocusScene"
+              ],
+              "expected": [
+                "20:00"
+              ],
+              "forbidden": [],
+              "max_distance": 12
+            },
+            {
+              "anchor": [
+                "office light"
+              ],
+              "expected": [
+                "30",
+                "30%"
+              ],
+              "forbidden": [
+                "20",
+                "20%",
+                "45",
+                "45%"
+              ],
+              "max_distance": 8
+            },
+            {
+              "anchor": [
+                "office purifier",
+                "purifier"
+              ],
+              "expected": [
+                "low"
+              ],
+              "forbidden": [
+                "medium",
+                "high"
+              ],
+              "max_distance": 8
+            },
+            {
+              "anchor": [
+                "cleaning plan"
+              ],
+              "expected": [
+                "cancelled",
+                "canceled"
+              ],
+              "forbidden": [
+                "active",
+                "remains active",
+                "not cancelled",
+                "not canceled"
+              ],
+              "max_distance": 10
+            }
+          ],
+          "conflict_phrases": [
+            "pending",
+            "not scheduled",
+            "cleaning plan remains active",
+            "not cancelled",
+            "not canceled"
+          ],
+          "allowed_reversal_terms": [
+            "cancelled",
+            "canceled"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "FOUND"
+        }
+      },
+      "name": "Scene conflict result is one incomplete task with the scene settings and conflict outcome"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 0,
+            "match": {
+              "schedule_id": "focus_conflict_cleaning",
+              "run_at": "2026-06-16T20:00:00",
+              "device_id": "living_room_robot_vacuum_1",
+              "command": "start_cleaning",
+              "args": {},
+              "status": "cancelled"
+            }
+          }
+        }
+      },
+      "name": "focus_conflict_cleaning full record is preserved and cancelled"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T20:00:00",
+            "exact_active_workflow_count": 1,
+            "effects": {
+              "office_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 30
+              },
+              "office_air_purifier_1": {
+                "level": "low"
+              }
+            }
+          }
+        }
+      },
+      "name": "the sole active 20:00 FocusScene workflow has canonical effects"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_multi_condition",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "devices": {
+              "office_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 70
+              },
+              "office_air_purifier_1": {
+                "power": "on",
+                "level": "high"
+              }
+            }
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "future scene leaves current office devices at their 19:00 baseline"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the complete schedule set remains exactly one cancelled record"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the complete workflow set contains exactly one active record"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_766",
+    "surfaces": [
+      "files",
+      "markor",
+      "tasks",
+      "home_workflow",
+      "home_schedule",
+      "two_android"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "androidworld_task",
+      "smarthome_schedules",
+      "smarthome_workflows"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "2android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_766",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_766/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_766/oracle_positive.json",
+    "idea_number": 766,
+    "candidate_triage": {
+      "batch_id": "plan5-android-smarthome-369-868-B0020",
+      "decision": "repair",
+      "rationale": "Uses the Files scene manifest and Markor conflict policy as natural sources; Home scoring checks the supported workflow and cancelled conflicting schedule."
+    },
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

@@ -1,0 +1,332 @@
+{
+  "id": "android_only_305",
+  "instruction": "A text message on the first phone asks about `gate_brief_missing.mp3`. Check the Recordings folder on the second phone. If it is missing, leave the production coordinator a Markor note named `recording request status.md`, naming the missing request and explaining that the other gate-brief recording was not used as a substitute. Do not fabricate a recording.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "5550305",
+            "body": "Please confirm gate_brief_missing.mp3 is ready.",
+            "wait_s": 5
+          }
+        },
+        {
+          "type": "androidworld_sms_message_preflight",
+          "parameters": {
+            "message": {
+              "address": "5550305",
+              "box": "inbox",
+              "body": "Please confirm gate_brief_missing.mp3 is ready."
+            },
+            "required_visible_text": [
+              "gate_brief_missing.mp3"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "mkdir -p /sdcard/Recordings && rm -f /sdcard/Recordings/gate_brief_present.mp3 /sdcard/Recordings/gate_brief_missing.mp3 && content delete --uri content://media/external/audio/media --where \"_display_name='gate_brief_present.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='gate_brief_missing.mp3'\" >/dev/null 2>&1 || true"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "retro music"
+          }
+        },
+        {
+          "type": "androidworld_mp3_push",
+          "parameters": {
+            "songs": [
+              "gate_brief_present"
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "mv /sdcard/Music/gate_brief_present.mp3 /sdcard/Recordings/gate_brief_present.mp3"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/Recordings/gate_brief_present.mp3 >/dev/null 2>&1 || true"
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/sdcard/Recordings",
+            "expected_filenames": [
+              "gate_brief_present.mp3"
+            ],
+            "missing_filenames": [
+              "gate_brief_missing.mp3"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_filesystem_snapshot",
+          "parameters": {
+            "snapshot_id": "android_only_305_recordings",
+            "directories": [],
+            "files": [
+              "/sdcard/Recordings/gate_brief_present.mp3",
+              "/sdcard/Recordings/gate_brief_missing.mp3"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/recording request status.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "mkdir -p /sdcard/Recordings && rm -f /sdcard/Recordings/gate_brief_present.mp3 /sdcard/Recordings/gate_brief_missing.mp3 && content delete --uri content://media/external/audio/media --where \"_display_name='gate_brief_present.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='gate_brief_missing.mp3'\" >/dev/null 2>&1 || true"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/recording request status.md'"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Report the missing request without substituting the present recording",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/recording request status.md",
+        "rules": {
+          "entities": [
+            "gate_brief_missing.mp3",
+            "gate_brief_present.mp3"
+          ],
+          "required_phrases": [
+            [
+              "missing",
+              "absent",
+              "not found"
+            ],
+            [
+              "not used as a substitute",
+              "did not use",
+              "was not substituted",
+              "not used instead"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "missing",
+              "absent",
+              "not found"
+            ],
+            [
+              "not used as a substitute",
+              "did not use",
+              "was not substituted",
+              "not used instead"
+            ]
+          ],
+          "conflict_phrases": [
+            "cancelled",
+            "withdrawn"
+          ],
+          "conflict_patterns": [
+            "gate_brief_missing\\.mp3.{0,24}\\b(?:is\\s+)?(?:present|available|exists|ready)\\b",
+            "gate_brief_present\\.mp3(?:(?!\\b(?:not|never)\\s+used\\b).){0,36}\\b(?:was|is)?\\s*used\\s+(?:as\\s+)?(?:a\\s+)?substitute\\b",
+            "(?<!no )(?<!not )\\b(?:created|made|fabricated)\\b.{0,24}\\b(?:replacement|recording)\\b",
+            "(?<!no )\\b(?:replacement|fabricated\\s+recording)\\b.{0,24}\\b(?:was\\s+)?(?:created|made)\\b"
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "gate_brief_missing.mp3"
+              ],
+              "phrases": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "conflicts": [
+                "present",
+                "exists",
+                "ready"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "gate_brief_present.mp3"
+              ],
+              "phrases": [
+                "not used as a substitute",
+                "did not use",
+                "was not substituted",
+                "not used instead"
+              ],
+              "conflicts": [
+                "was used as a substitute",
+                "is used as a substitute"
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "allowed_negative_capability_phrases": [
+            "not used as a substitute",
+            "did not use",
+            "was not substituted",
+            "not used instead"
+          ],
+          "allowed_reversal_terms": [
+            "instead"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "name": "Preserve gate_brief_present bytes and keep gate_brief_missing absent",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_filesystem_snapshot_state",
+        "snapshot_id": "android_only_305_recordings",
+        "preserve_directories": [],
+        "file_mappings": [
+          {
+            "baseline_path": "/sdcard/Recordings/gate_brief_present.mp3",
+            "current_path": "/sdcard/Recordings/gate_brief_present.mp3"
+          },
+          {
+            "baseline_path": "/sdcard/Recordings/gate_brief_missing.mp3",
+            "current_path": "/sdcard/Recordings/gate_brief_missing.mp3"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Recordings contains only the expected present recording",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_count",
+        "path": "/sdcard/Recordings",
+        "recursive": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "1"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "android_only",
+    "device_topology": "2android",
+    "surfaces": [
+      "sms",
+      "files",
+      "markor"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/android_only_assets/android_only_305",
+    "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",
+    "evaluate_note": "Evaluation checks the semantic Markor result, preserves the two named source-file states, and uses one non-scoring total-file guard to reject a fabricated replacement recording.",
+    "source_number": 305,
+    "candidate_triage": {
+      "batch_id": "plan6-android-only-dual-android-B0005",
+      "decision": "direct",
+      "rationale": "Supported missing-recording no-op using stable public recording files and Markor output."
+    },
+    "oracle_ref": "tasks/cross_device/android_only_assets/android_only_305/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_305/episode_config.json",
+    "lite_hardening_note": "Removed unscored Android source-state evaluators and consolidated file-output checks where appropriate.",
+    "lite_evaluator_hardening_note": "Markor evaluator searches user-created notes by required content rather than requiring a hidden filename."
+  }
+}

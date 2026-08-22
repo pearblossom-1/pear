@@ -1,0 +1,45 @@
+{
+  "task_id": "al_playlist_from_csv",
+  "source_card": "135",
+  "device_topology": "1A+1L",
+  "difficulty": "Simple",
+  "motif": "M3",
+  "interaction_mode": "GUI-focused",
+  "instruction": "`/tmp/music/playlist.csv` on Linux lists songs for the drive. Please create a `Work drive` playlist in the Android Retro Music app and add every song listed in the CSV.",
+  "surfaces": "Linux CSV -> Android Retro Music playlist",
+  "setup_note": "Linux 上传歌曲顺序 CSV；Android 准备同名测试音乐文件并清空 playlist。",
+  "evaluate_note": "检查 Retro Music 中 Work drive playlist 包含 CSV 指定的三首歌。",
+  "requires_helper_audit": false,
+  "source_files": [
+    "source/playlist.csv"
+  ],
+  "expected_files": [],
+  "instruction_visible_inputs": [
+    {
+      "path": "/tmp/music/playlist.csv",
+      "source_file": "source/playlist.csv"
+    }
+  ],
+  "instruction_visible_outputs": [],
+  "native_content_outputs": [],
+  "android_state_outputs": [
+    {
+      "device_id": "android_0",
+      "result_type": "retro_music_playlist",
+      "playlist_name": "Work drive",
+      "expected_songs": [
+        "Northbound Signal",
+        "Coffee at Dawn",
+        "Last Exit Home"
+      ]
+    }
+  ],
+  "android_file_outputs": [],
+  "android_text_outputs": [],
+  "browser_state_outputs": [],
+  "thunderbird_draft_outputs": [],
+  "fixture_notes": [
+    "playlist.csv uses natural title/artist fields and matches pushed MP3 titles",
+    "The runtime observes playlist membership, not ordering."
+  ]
+}

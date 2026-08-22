@@ -1,0 +1,18 @@
+{
+  "linux_actions": [
+    {
+      "device_id": "linux_1",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "mkdir -p '/tmp/event' && printf '%s\n' '905-A for Jon Bell is approved under NX90530 and the ordered playlist is ready.' > '/tmp/event/handoff.txt'",
+        "shell": true
+      }
+    }
+  ],
+  "android_setup": {
+    "android_0": [
+      {"type": "androidworld_retro_playlist_add", "parameters": {"playlist_name": "905-A route set", "songs": ["track_905_alpha", "track_905_bravo"]}}
+    ]
+  },
+  "notes": "Creates the requested native ordered playlist and the justified cross-desktop handoff."
+}

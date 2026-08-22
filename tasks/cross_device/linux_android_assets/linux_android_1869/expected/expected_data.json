@@ -1,0 +1,17 @@
+{
+  "case": "CASE-1869",
+  "code": "FB-1869",
+  "route": "RT-69",
+  "site": "Harbor Gate 18",
+  "owner": "Maya Chen",
+  "phone": "+15552001827",
+  "email": "maya.chen@example.test",
+  "role": "North region lead",
+  "time": "2026-07-14 09:30",
+  "lat": "37.749",
+  "lon": "-122.464",
+  "decision": "ready",
+  "included": "rt-69_photo_a.jpg",
+  "missing": "rt-69_photo_missing.jpg",
+  "hold_attachment": "rt-69_hold.jpg"
+}

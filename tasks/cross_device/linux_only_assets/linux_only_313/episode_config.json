@@ -1,0 +1,165 @@
+{
+  "task_id": "linux_only_313",
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/home/user/documents/meeting_minutes_MID-42.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "require_valid_package": true,
+          "min_tables": 1,
+          "include": [
+            "Meeting Brief",
+            "Meeting ID",
+            "MID-42",
+            "Title",
+            "Vendor Onboarding",
+            "Time",
+            "Presenter",
+            "Priya Patel",
+            "Agenda 1",
+            "Confirm vendor access",
+            "Agenda 2",
+            "Review billing setup",
+            "Agenda 3",
+            "Assign launch owners"
+          ],
+          "exclude": [
+            "{{Meeting ID}}",
+            "MID-41",
+            "Q3 Planning"
+          ],
+          "template_structure": {
+            "body_paragraphs": [
+              "Meeting Brief"
+            ],
+            "exact_tables": 1,
+            "format": {
+              "title": "Meeting Brief",
+              "tables": [
+                {
+                  "table_index": 0,
+                  "require_visible_grid": true
+                }
+              ]
+            }
+          },
+          "table_contracts": [
+            {
+              "table_index": 0,
+              "exact_rows": true,
+              "exact_columns": true,
+              "rows": [
+                [
+                  "Field",
+                  "Value"
+                ],
+                [
+                  "Meeting ID",
+                  "MID-42"
+                ],
+                [
+                  "Title",
+                  "Vendor Onboarding"
+                ],
+                [
+                  "Time",
+                  {
+                    "date": "2026-07-05",
+                    "time": "09:30"
+                  }
+                ],
+                [
+                  "Presenter",
+                  "Priya Patel"
+                ],
+                [
+                  "Agenda 1",
+                  "Confirm vendor access"
+                ],
+                [
+                  "Agenda 2",
+                  "Review billing setup"
+                ],
+                [
+                  "Agenda 3",
+                  "Assign launch owners"
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "is_expected_tabs",
+      "result": {
+        "type": "open_tabs_info",
+        "ignore_default_tabs": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "type": "url",
+          "scoped_url_contract": true,
+          "urls": [
+            "file:///home/user/meetings/index.html#MID-42"
+          ],
+          "owned_url_prefixes": [
+            "file:///home/user/meetings/index.html#MID-42"
+          ],
+          "forbidden_urls": []
+        }
+      },
+      "metadata": {
+        "role": "target_anchored_tab_presence"
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/home/user/templates/meeting_minutes_template.docx",
+        "trusted_root": "/home/user/templates",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "29b3736d9c50ddc4cf3e5241fd4e618154f43e1b5d29f36459b538ec1f5cc628"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "source_docx_template_guard"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/home/user/meetings/index.html",
+        "trusted_root": "/home/user/meetings",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "29d42ab9dfbf439a43669d20c214552739ac798cb49381b9cd1e18004141ef0e"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "role": "source_meeting_html_guard"
+      }
+    }
+  ]
+}

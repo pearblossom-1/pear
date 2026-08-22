@@ -1,0 +1,136 @@
+{
+  "id": "linux_android_1307",
+  "instruction": "Use the latest code in the phone's message thread to submit the verification form at `/home/user/form/submit.html` in Chrome. Ignore the older code in the same thread.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /home/user/form && rm -f /home/user/form/submit.html",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1307/source/tmp/form/submit.html",
+                "path": "/home/user/form/submit.html"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "5551201307",
+            "body": "Old code CODE-OLD.",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "5551201307",
+            "body": "Latest form code CODE-1307.",
+            "wait_s": 5.0
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /home/user/form/submit.html; rmdir /home/user/form 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "host_form_submission_state",
+        "form_id": "linux_android_1307",
+        "field_names": [
+          "code"
+        ],
+        "expected_sha256": "0b67a1f5ff4329dba7d056bae1d82abc63f86a8d4156742fdb8a2123766bb8de",
+        "client_path": "/home/user/form/submit.html",
+        "action_placeholder": "__MDCBENCH_FORM_ACTION__"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1307",
+    "surfaces": [
+      "sms",
+      "linux.chrome"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1307",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1307/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1307/oracle_positive.json",
+    "linux_source_paths": [
+      "/home/user/form/submit.html"
+    ],
+    "linux_output_paths": [],
+    "authoritative_after_build": "host_form_state",
+    "human_quality_review": "accepted_current_hash_smoke_passed",
+    "current_hash_smoke_status": "passed_current_hash"
+  }
+}

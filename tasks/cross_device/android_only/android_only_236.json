@@ -1,0 +1,439 @@
+{
+  "id": "android_only_236",
+  "instruction": "`expected_contacts.csv` on the first phone is the audit checklist. Check Contacts on the second phone and leave the roster coordinator a Markor report named `contact_audit.md` covering present, missing, and phone-mismatch entries, including expected and actual final four digits where they differ. Do not edit Contacts.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_only_assets/android_only_236/android_0/files/expected_contacts.csv",
+                "path": "/sdcard/Download/expected_contacts.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/sdcard/Download",
+            "expected_filenames": [
+              "expected_contacts.csv"
+            ],
+            "missing_filenames": [],
+            "open_filename": "expected_contacts.csv",
+            "required_visible_text": [
+              "Dock Liaison",
+              "0236",
+              "Gate Runner",
+              "0237",
+              "Night Medic",
+              "0238"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Dock Liaison",
+            "number": "5550236",
+            "notes": "primary"
+          }
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Gate Runner",
+            "number": "5550999",
+            "notes": "wrong phone"
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Dock Liaison",
+              "number": "5550236",
+              "numbers_exact": [
+                "5550236"
+              ],
+              "emails_exact": [],
+              "notes_exact": "primary",
+              "require_exactly_one": true,
+              "require_unique_name": true
+            },
+            "required_visible_text": [
+              "Dock Liaison",
+              "5550236",
+              "primary"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Gate Runner",
+              "number": "5550999",
+              "numbers_exact": [
+                "5550999"
+              ],
+              "emails_exact": [],
+              "notes_exact": "wrong phone",
+              "require_exactly_one": true,
+              "require_unique_name": true
+            },
+            "required_visible_text": [
+              "Gate Runner",
+              "5550999",
+              "wrong phone"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Documents/Markor/contact_audit.md"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /sdcard/Download/expected_contacts.csv"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Documents/Markor/contact_audit.md"
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Write the contact audit with each status and number role correctly bound",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/contact_audit.md",
+        "rules": {
+          "entities": [
+            "Dock Liaison",
+            "0236",
+            "Gate Runner",
+            "0237",
+            "0999",
+            "Night Medic"
+          ],
+          "required_phrases": [
+            [
+              "present",
+              "found"
+            ],
+            [
+            "mismatch",
+            "mismatches",
+            "does not match",
+            "wrong actual number"
+            ],
+            [
+              "expected"
+            ],
+            [
+              "actual"
+            ],
+            [
+              "missing",
+              "absent",
+              "not found"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "present",
+              "found"
+            ],
+            [
+            "mismatch",
+            "mismatches",
+            "does not match",
+            "wrong actual number"
+            ],
+            [
+              "expected"
+            ],
+            [
+              "actual"
+            ],
+            [
+              "missing",
+              "absent",
+              "not found"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "uncertain",
+            "cancelled",
+            "withdrawn",
+            "all match",
+            "no mismatch"
+          ],
+          "allowed_reversal_terms": [
+            "wrong"
+          ],
+          "allowed_negative_capability_phrases": [
+            "does not match",
+            "not found"
+          ],
+          "conflict_patterns": [
+            "Dock\\s+Liaison.{0,28}\\b(?:missing|absent|not\\s+found)\\b",
+            "Gate\\s+Runner.{0,36}\\b(?:matches|correct)\\b",
+            "(?:actual\\s*[:=-]?\\s*0237|expected\\s*[:=-]?\\s*0999)",
+            "Night\\s+Medic.{0,30}\\b(?:present|found|actual)\\b",
+            "(?<!expected )(?<!expected:)(?<!source )(?<!source:)(?<!ending )\\b0238\\b"
+          ],
+          "preceding_clause_context": {
+            "max_preceding_clauses": 2,
+            "anchors": [
+              [
+                "Dock Liaison"
+              ],
+              [
+                "Gate Runner"
+              ],
+              [
+                "Night Medic"
+              ]
+            ]
+          },
+          "relation_groups": [
+            {
+              "entities": [
+                "Dock Liaison",
+                "0236"
+              ],
+              "phrases": [
+                "present",
+                "found"
+              ],
+              "conflicts": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Gate Runner"
+              ],
+              "phrases": [
+                "mismatch",
+                "mismatches",
+                "does not match",
+                "wrong actual number"
+              ],
+              "conflicts": [
+                "matches",
+                "correct"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Gate Runner",
+                "0237"
+              ],
+              "phrases": [
+                "expected"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Gate Runner",
+                "0999"
+              ],
+              "phrases": [
+                "actual"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "Night Medic"
+              ],
+              "phrases": [
+                "missing",
+                "absent",
+                "not found"
+              ],
+              "conflicts": [
+                "present",
+                "found"
+              ],
+              "allow_multiple_matches": true
+            }
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "name": "Keep the Contacts collection at exactly two records",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_contact_count"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "2"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Preserve every Dock Liaison business field",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_contact",
+        "name": "Dock Liaison",
+        "number": "5550236",
+        "numbers_exact": [
+          "5550236"
+        ],
+        "emails_exact": [],
+        "notes_exact": "primary",
+        "require_exactly_one": true,
+        "require_unique_name": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Preserve every Gate Runner business field",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_contact",
+        "name": "Gate Runner",
+        "number": "5550999",
+        "numbers_exact": [
+          "5550999"
+        ],
+        "emails_exact": [],
+        "notes_exact": "wrong phone",
+        "require_exactly_one": true,
+        "require_unique_name": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "android_only",
+    "device_topology": "2android",
+    "surfaces": [
+      "files",
+      "contacts",
+      "markor"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/android_only_assets/android_only_236",
+    "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",
+    "evaluate_note": "Evaluation checks durable Android outputs with source guards kept non-scoring.",
+    "source_number": 236,
+    "candidate_triage": {
+      "batch_id": "plan6-android-only-dual-android-B0002",
+      "decision": "direct",
+      "rationale": "Supported contact audit with report output and no creation of missing contacts."
+    },
+    "oracle_ref": "tasks/cross_device/android_only_assets/android_only_236/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_236/episode_config.json",
+    "lite_hardening_note": "Removed unscored Android source-state evaluators and consolidated file-output checks where appropriate.",
+    "lite_evaluator_hardening_note": "Markor evaluator searches user-created notes by required content rather than requiring a hidden filename."
+  }
+}

@@ -1,0 +1,282 @@
+{
+  "id": "linux_android_1320",
+  "instruction": "Review the recipe and allergy contact on the phones together with `/tmp/meal/pantry.csv` on the first Linux machine and `/tmp/meal/suppliers.csv` on the second. Write the decision and reason to `/tmp/meal/meal_decision.md` on the second Linux machine; if the recipe is unsafe, clearly block it and leave `/tmp/meal/supplier_order.csv` absent.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/meal/pantry.csv && mkdir -p -- /tmp/meal",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1320/source/tmp/meal/pantry.csv",
+                "path": "/tmp/meal/pantry.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/meal/pantry.csv && grep -F 'rice,yes' /tmp/meal/pantry.csv >/dev/null && grep -F 'sesame oil,no' /tmp/meal/pantry.csv >/dev/null",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/meal/suppliers.csv /tmp/meal/meal_decision.md /tmp/meal/supplier_order.csv && mkdir -p -- /tmp/meal",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1320/source/linux_1/tmp/meal/suppliers.csv",
+                "path": "/tmp/meal/suppliers.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/meal/suppliers.csv && grep -F 'sesame oil,Supplier A' /tmp/meal/suppliers.csv >/dev/null && test -w /tmp/meal && test ! -e /tmp/meal/meal_decision.md && test ! -e /tmp/meal/supplier_order.csv",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "broccoli app"
+          }
+        },
+        {
+          "type": "androidworld_recipes_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_recipe_add",
+          "parameters": {
+            "title": "Sesame Rice Bowl",
+            "ingredients": "rice; sesame oil; cucumber",
+            "directions": "Mix.",
+            "preparationTime": ""
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "broccoli app"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Guest Allergy",
+            "number": "5551201320",
+            "notes": "Allergy: sesame"
+          }
+        },
+        {
+          "type": "open_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/meal/pantry.csv; find /tmp/meal -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/meal/suppliers.csv /tmp/meal/meal_decision.md /tmp/meal/supplier_order.csv; find /tmp/meal -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_recipes_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "cat /tmp/meal/meal_decision.md 2>/dev/null || echo missing",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": ["Sesame Rice Bowl", "Guest Allergy", "sesame oil"],
+          "exclude": ["missing", "placeholder"],
+          "entity_relation": {
+            "entities": ["Sesame Rice Bowl", "Guest Allergy", "sesame oil"],
+            "required_phrases": [
+              ["sesame allergy", "allergy: sesame", "allergy = sesame", "allergic to sesame", "sesame-allergic"]
+            ],
+            "positive_phrases": [
+              ["blocked", "unsafe", "cannot serve", "do not serve"]
+            ],
+            "conflict_phrases": ["not blocked", "safe", "safe to serve", "approved", "approved to serve", "order placed", "supplier order created"],
+            "allowed_negative_capability_phrases": ["do not serve"],
+            "reject_incomplete_semantics": true
+          },
+          "case_sensitive": false
+        }
+      },
+      "metadata": {
+        "path": "/tmp/meal/meal_decision.md"
+      }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "test ! -e /tmp/meal/supplier_order.csv && echo missing || echo present",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "metadata": {
+        "path": "/tmp/meal/supplier_order.csv"
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android",
+    "source_idea": "plan6 candidate 1320",
+    "surfaces": [
+      "broccoli",
+      "contacts",
+      "linux.csv",
+      "linux.markdown"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1320",
+    "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1320/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1320/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/meal/pantry.csv",
+      "/tmp/meal/suppliers.csv"
+    ],
+    "linux_output_paths": ["/tmp/meal/meal_decision.md"],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/meal/pantry.csv"
+      ],
+      "linux_1": [
+        "/tmp/meal/suppliers.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": ["/tmp/meal/meal_decision.md"]
+    },
+    "authoritative_after_build": "generated_artifacts",
+    "batch_id": "plan6-linux-android-1301-1320-B0007",
+    "candidate_triage": {
+      "decision": "direct",
+      "rationale": "Candidate is realistic, source-closed, and supported by existing Linux and Android helpers."
+    },
+    "structured_output_classification": {
+      "/tmp/meal/meal_decision.md": "primary_artifact",
+      "supplier_order_absence": "primary_native_state"
+    },
+    "lite_evaluator_hardening_note": "Scores one named, polarity-aware primary decision document plus the requested no-order branch; the hidden JSON contract was removed."
+  }
+}

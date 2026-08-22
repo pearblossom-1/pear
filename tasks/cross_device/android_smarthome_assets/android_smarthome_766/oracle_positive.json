@@ -1,0 +1,51 @@
+{
+  "android_setup": {
+    "android_0": [],
+    "android_1": [
+      {
+        "type": "androidworld_task_add",
+        "parameters": {
+          "title": "Scene conflict result",
+          "notes": "FocusScene is scheduled for 20:00 with the office light at 30% and the office purifier at low; the conflicting cleaning plan is cancelled.",
+          "completed": 0
+        }
+      }
+    ]
+  },
+  "smarthome_actions": [
+    {
+      "device_id": "home_0",
+      "type": "smarthome.cancel_schedule",
+      "parameters": {
+        "schedule_id": "focus_conflict_cleaning"
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.schedule_workflow",
+      "parameters": {
+        "workflow_id": "focus_scene_safe",
+        "run_at": "2026-06-16T20:00:00",
+        "steps": [
+          {
+            "device_id": "office_dimmable_light_1",
+            "command": "set_brightness",
+            "args": {
+              "brightness_pct": 30
+            }
+          },
+          {
+            "device_id": "office_air_purifier_1",
+            "command": "set_level",
+            "args": {
+              "level": "low"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

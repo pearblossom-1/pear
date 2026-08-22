@@ -1,0 +1,416 @@
+{
+  "meta": {
+    "sh_type": "LinuxSmartHome",
+    "idea_number": 9113,
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 9113,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "+1555021301",
+        "recent_within_mins": 30,
+        "body_relation": {
+          "entities": [
+            "Jordan",
+            "Guest room",
+            [
+              "19:35",
+              "7:35 PM"
+            ],
+            [
+              "24 C",
+              "24 degrees"
+            ],
+            [
+              "35%",
+              "35 percent"
+            ],
+            [
+              "purifier low",
+              "low purifier"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "scheduled",
+              "will be prepared",
+              "will be ready",
+              "prepared at",
+              "preparation time"
+            ]
+          ],
+          "conflict_phrases": [
+            "not ready",
+            "cancelled",
+            "pending",
+            "already ready",
+            "already prepared",
+            "is ready",
+            "is prepared",
+            "was ready",
+            "was prepared",
+            "ready now",
+            "prepared now"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_effects",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "run_at": "2026-06-16T19:35:00",
+            "status": "active",
+            "exact_active_workflow_count": 1,
+            "effects": {
+              "guest_room_air_conditioner_1": {
+                "power": "on",
+                "target_temperature_c": 24.0
+              },
+              "guest_room_dimmable_light_1": {
+                "power": "on",
+                "brightness_pct": 35
+              },
+              "guest_room_air_purifier_1": {
+                "power": "on",
+                "level": "low"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_docx_text",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/visit/record.docx"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [
+            "Visitor record"
+          ],
+          "exclude": [
+            "placeholder"
+          ],
+          "require_valid_package": true,
+          "case_sensitive": false,
+          "template_structure": {
+            "body_paragraphs": [
+              "Visitor record"
+            ],
+            "exact_tables": 1
+          },
+          "table_contracts": [
+            {
+              "table_index": 0,
+              "exact_rows": true,
+              "exact_columns": true,
+              "rows": [
+                [
+                  "Visitor",
+                  {
+                    "alternatives": [
+                      "Jordan"
+                    ]
+                  }
+                ],
+                [
+                  "Room",
+                  {
+                    "alternatives": [
+                      "Guest room"
+                    ]
+                  }
+                ],
+                [
+                  "Workflow time",
+                  {
+                    "alternatives": [
+                      "19:35",
+                      "7:35 PM",
+                      "7:35PM"
+                    ]
+                  }
+                ],
+                [
+                  "Temperature",
+                  {
+                    "alternatives": [
+                      "24 C",
+                      "24°C",
+                      "24 degrees C",
+                      "24 degrees"
+                    ]
+                  }
+                ],
+                [
+                  "Light",
+                  {
+                    "alternatives": [
+                      "35%",
+                      "35 percent"
+                    ]
+                  }
+                ],
+                [
+                  "Air purifier",
+                  {
+                    "alternatives": [
+                      "low"
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      },
+      "metadata": {
+        "path": "/tmp/visit/record.docx"
+      }
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T18:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 23.8,
+        "humidity_pct": 46.8,
+        "brightness_lux": 7.9,
+        "air_quality_pm25": 41.9,
+        "noise_level_db": 27.2,
+        "occupied": true
+      },
+      "guest_room": {
+        "temperature_c": 22.0,
+        "humidity_pct": 45.0,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 62.0,
+        "noise_level_db": 30.0,
+        "occupied": false
+      },
+      "kids_room": {
+        "temperature_c": 21.9,
+        "humidity_pct": 54.1,
+        "brightness_lux": 675.0,
+        "air_quality_pm25": 36.4,
+        "noise_level_db": 29.2,
+        "occupied": true
+      },
+      "living_room": {
+        "temperature_c": 22.1,
+        "humidity_pct": 45.6,
+        "brightness_lux": 620.0,
+        "air_quality_pm25": 42.4,
+        "noise_level_db": 34.6,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "mode": "cool",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "bedroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "bedroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 28.0
+        }
+      },
+      {
+        "device_id": "bedroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "guest_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off",
+          "mode": "cool",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "guest_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "guest_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "guest_room",
+        "state": {
+          "open_pct": 40,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "guest_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "guest_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 70
+        }
+      },
+      {
+        "device_id": "guest_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "guest_room",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "kids_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "kids_room",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "kids_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "kids_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 35
+        }
+      },
+      {
+        "device_id": "kids_room_heater_1",
+        "device_type": "heater",
+        "room_id": "kids_room",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 28.0
+        }
+      },
+      {
+        "device_id": "kids_room_light_1",
+        "device_type": "light",
+        "room_id": "kids_room",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 40,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "living_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 100
+        }
+      },
+      {
+        "device_id": "living_room_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 82
+        }
+      }
+    ],
+    "schedules": [],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

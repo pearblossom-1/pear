@@ -1,0 +1,4 @@
+case,status,code,owner,phone,email,route,include,notes
+CASE-1859,current,FB-1859,Ari Singh,+15552001829,ari.singh@example.test,RT-59,yes,approved source row
+CASE-OLD,archived,OLD-17,Archived Owner,+15550000000,old@example.test,RT-00,no,inactive archive
+CASE-HOLD,hold,HOLD-42,Hold Owner,+15550009999,,RT-59,no,similar-code hold

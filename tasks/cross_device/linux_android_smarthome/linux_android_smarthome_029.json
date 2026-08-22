@@ -1,0 +1,252 @@
+{
+  "id": "linux_android_smarthome_029",
+  "instruction": "Please have the living room warmed for the `Homecoming` event. Use its Calendar time, the current SmartHome temperature, and `/tmp/homecoming/heat.xlsx` to choose the applicable lead time and target, then schedule the heating adjustment. Leave a `Homecoming Heat.md` note in Markor with the current reading and matching temperature band, plus the final scheduled time and target.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/homecoming",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_029/source/tmp/homecoming/heat.xlsx",
+                "path": "/tmp/homecoming/heat.xlsx"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "nohup libreoffice --calc '/tmp/homecoming/heat.xlsx' >'/tmp/homecoming/heat-calc.log' 2>&1 </dev/null &",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Homecoming",
+            "start_ts": 1781635200,
+            "end_ts": 1781636400,
+            "location": "Home",
+            "description": "Use the heating table."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Homecoming",
+            "start_ts": 1781635200,
+            "location": "Home",
+            "description": "Use the heating table.",
+            "search_text": "Homecoming"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Homecoming Heat.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_029/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/homecoming/heat.xlsx /tmp/homecoming/heat-calc.log; rmdir /tmp/homecoming 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Homecoming Heat.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Homecoming Heat.md",
+        "rules": {
+          "entities": [
+            "Homecoming Heat",
+            [
+              "17.8 C",
+              "17.8"
+            ],
+            [
+              "17-19 C",
+              "17 to 19 C"
+            ],
+            [
+              "18:05",
+              "6:05 PM"
+            ],
+            [
+              "22 C",
+              "22 degrees"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "active",
+              "scheduled",
+              "applied"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "cancelled",
+            "not active"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {
+              "run_at": "2026-06-16T18:05:00",
+              "device_id": "living_room_heater_1",
+              "command": "set_target_temperature",
+              "args": {
+                "temperature_c": 22.0
+              },
+              "status": "active"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "Pilot 29 homecoming heat band.",
+    "surfaces": [
+      "calendar",
+      "markor",
+      "linux_xlsx",
+      "home_query",
+      "home_schedule"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_029",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_029/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_029/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/homecoming/heat.xlsx"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/homecoming/heat.xlsx"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "pilot_index": 29,
+    "lite_evaluator_hardening_note": "Result JSON check now accepts key facts without hidden key-name schema; Markor note filename is content-searched."
+  }
+}

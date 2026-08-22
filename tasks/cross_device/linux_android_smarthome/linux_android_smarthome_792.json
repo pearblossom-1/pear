@@ -1,0 +1,210 @@
+{
+  "id": "linux_android_smarthome_792",
+  "instruction": "Use the Hallway daylight preference note on Android, the 120-lux SmartHome reading, and `/tmp/home_ops/room-updates/source/curtain.csv` to choose and apply the curtain setting. Record the reading, preference, and setting you applied in Markor as `Hallway daylight decision.md`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/home_ops/room-updates/source",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_792/source/tmp/home_ops/room-updates/source/curtain.csv",
+                "path": "/tmp/home_ops/room-updates/source/curtain.csv"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_792/android/android_0/Hallway daylight.md",
+                "path": "/storage/emulated/0/Documents/Markor/Hallway daylight.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Hallway daylight decision.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_792/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/home_ops/room-updates/source/curtain.csv; rmdir /tmp/home_ops/room-updates/source 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Hallway daylight decision.md' '/storage/emulated/0/Documents/Markor/Hallway daylight.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Hallway daylight decision.md",
+        "rules": {
+          "entities": [
+            "Hallway",
+            [
+              "120 lux",
+              "120-lux"
+            ],
+            [
+              "moderate daylight",
+              "moderate-daylight"
+            ],
+            [
+              "65 percent",
+              "65%"
+            ],
+            [
+              "curtain",
+              "curtains"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "applied",
+              "set",
+              "opened"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "not applied",
+            "unchanged"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "hallway_curtain_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "open_pct": 65
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "792 hallway brightness maps to a curtain percentage and Markor writeback.",
+    "surfaces": [
+      "android_single",
+      "markor",
+      "home_command"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_792",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_792/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_792/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/home_ops/room-updates/source/curtain.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/home_ops/room-updates/source/curtain.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "pilot_index": 792
+  }
+}

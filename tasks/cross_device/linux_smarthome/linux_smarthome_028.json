@@ -1,0 +1,236 @@
+{
+  "id": "linux_smarthome_028",
+  "instruction": "Apply the quiet-hours rule from `/tmp/home_plan/noise_quiet_hours.md` to the existing plans.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/home_plan/noise_quiet_hours.md && mkdir -p -- /tmp/home_plan",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_028/source/noise_quiet_hours.md",
+                "path": "/tmp/home_plan/noise_quiet_hours.md"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_028/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- /tmp/home_plan/noise_quiet_hours.md; find /tmp/home_plan -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_status",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "schedule_id": "late_vacuum",
+            "run_at": "2026-06-16T22:30:00",
+            "device_id": "living_room_robot_vacuum_1",
+            "command": "start_cleaning",
+            "args": {},
+            "status": "cancelled"
+          }
+        }
+      },
+      "name": "original late_vacuum schedule is cancelled in place"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "one schedule remains after cancellation"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "no replacement workflow is created"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "vacuum is not controlled immediately"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_no_device_change",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "device_id": "living_room_robot_vacuum_1"
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "living-room robot baseline is preserved"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_smarthome",
+    "source_idea": "linux_smarthome_idea_028",
+    "surfaces": [
+      "linux_markdown_source",
+      "home_cancel_schedule"
+    ],
+    "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_028",
+    "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_028/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_028/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/home_plan/noise_quiet_hours.md"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/home_plan/noise_quiet_hours.md"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "device_topology": {
+      "home_device": "home_0",
+      "topology": "linux_smarthome",
+      "linux_device": "linux_0",
+      "linux_devices": [
+        "linux_0"
+      ],
+      "room_ids": [
+        "bedroom",
+        "guest_room",
+        "laundry_room",
+        "living_room",
+        "study"
+      ],
+      "device_type_counts": {
+        "air_conditioner": 2,
+        "air_purifier": 4,
+        "curtain": 3,
+        "dimmable_light": 3,
+        "dryer": 1,
+        "heater": 2,
+        "humidifier": 3,
+        "light": 5,
+        "robot_vacuum": 2,
+        "washer": 1
+      }
+    },
+    "readiness": {
+      "linux_sources_present": 1,
+      "linux_outputs_expected": 0,
+      "initial_schedules": 1,
+      "initial_workflows": 0,
+      "current_time": "2026-06-16T19:00:00"
+    },
+    "native_content_outputs": [
+      {
+        "device_id": "home_0",
+        "surface": "home.state",
+        "goal": "Apply the requested SmartHome state, schedule, workflow, or report outcome.",
+        "result_type": "vm_file"
+      }
+    ],
+    "setup_note": "Uploads /tmp/home_plan/noise_quiet_hours.md and resets home_0 from the task episode config.",
+    "evaluate_note": "Evaluates cancellation of the one quiet-hours schedule; no Linux output is required.",
+    "idea_number": 28
+  }
+}

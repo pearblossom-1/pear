@@ -1,0 +1,37 @@
+record_id,title,status,owner,region,amount,updated_at,notes,priority,channel,due_at,evidence_file,review_window,risk_score
+Delivery,Invoice processing #1,approved,Jordan Lee,North,88,2026-06-01T08:30:00,Monthly expense reconciliation with vendor,normal,email,2026-07-01T08:00:00,evidence/item_001.txt,W2,11
+2,Report generation #2,pending,Elena Ruiz,South,120,2026-06-02T09:30:00,Quarterly performance review summary,high,sms,2026-07-02T09:00:00,evidence/item_002.txt,W3,12
+3,Request approval #3,review,Samir Patel,East,45,2026-06-03T10:30:00,Site inspection report for compliance,low,web,2026-07-03T10:00:00,evidence/item_003.txt,W4,13
+4,Update summary #4,completed,Casey Wu,West,210,2026-06-04T11:30:00,Budget adjustment for Q2 operations,critical,phone,2026-07-04T11:00:00,evidence/item_004.txt,W1,14
+5,Review findings #5,in_progress,Mina Park,Central,95,2026-06-05T12:30:00,Staff shift schedule update,normal,email,2026-07-05T12:00:00,evidence/item_005.txt,W2,15
+6,Check verification #6,on_hold,Blair,North,340,2026-06-06T13:30:00,Inventory count from warehouse audit,high,sms,2026-07-06T13:00:00,evidence/item_006.txt,W3,16
+7,Summary narrative #7,draft,Mateo Silva,South,67,2026-06-07T14:30:00,Compliance check for safety protocols,low,web,2026-07-07T14:00:00,evidence/item_007.txt,W4,17
+8,Log entry #8,approved,Priya Nair,East,150,2026-06-08T15:30:00,Audit trail log for account review,normal,phone,2026-07-08T15:00:00,evidence/item_008.txt,W1,18
+9,Invoice processing #9,pending,Jordan Lee,North,88,2026-06-09T16:30:00,Monthly expense reconciliation with vendor,normal,email,2026-07-09T16:00:00,evidence/item_009.txt,W2,10
+10,Report generation #10,review,Elena Ruiz,South,120,2026-06-10T17:30:00,Quarterly performance review summary,high,sms,2026-07-10T17:00:00,evidence/item_010.txt,W3,11
+11,Request approval #11,completed,Samir Patel,East,45,2026-06-11T18:30:00,Site inspection report for compliance,low,web,2026-07-11T18:00:00,evidence/item_011.txt,W4,12
+12,Update summary #12,in_progress,Casey Wu,West,210,2026-06-12T19:30:00,Budget adjustment for Q2 operations,critical,phone,2026-07-12T19:00:00,evidence/item_012.txt,W1,13
+13,Review findings #13,on_hold,Mina Park,Central,95,2026-06-13T08:30:00,Staff shift schedule update,normal,email,2026-07-13T08:00:00,evidence/item_013.txt,W2,14
+14,Check verification #14,draft,Blair,North,340,2026-06-14T09:30:00,Inventory count from warehouse audit,high,sms,2026-07-14T09:00:00,evidence/item_014.txt,W3,15
+15,Summary narrative #15,approved,Mateo Silva,South,67,2026-06-15T10:30:00,Compliance check for safety protocols,low,web,2026-07-15T10:00:00,evidence/item_015.txt,W4,16
+16,Log entry #16,pending,Priya Nair,East,150,2026-06-16T11:30:00,Audit trail log for account review,normal,phone,2026-07-16T11:00:00,evidence/item_016.txt,W1,17
+17,Invoice processing #17,review,Jordan Lee,North,88,2026-06-17T12:30:00,Monthly expense reconciliation with vendor,normal,email,2026-07-17T12:00:00,evidence/item_017.txt,W2,18
+18,Report generation #18,completed,Elena Ruiz,South,120,2026-06-18T13:30:00,Quarterly performance review summary,high,sms,2026-07-18T13:00:00,evidence/item_018.txt,W3,10
+19,Request approval #19,in_progress,Samir Patel,East,45,2026-06-19T14:30:00,Site inspection report for compliance,low,web,2026-07-19T14:00:00,evidence/item_019.txt,W4,11
+20,Update summary #20,on_hold,Casey Wu,West,210,2026-06-20T15:30:00,Budget adjustment for Q2 operations,critical,phone,2026-07-20T15:00:00,evidence/item_020.txt,W1,12
+21,Review findings #21,draft,Mina Park,Central,95,2026-06-21T16:30:00,Staff shift schedule update,normal,email,2026-07-21T16:00:00,evidence/item_021.txt,W2,13
+22,Check verification #22,approved,Blair,North,340,2026-06-22T17:30:00,Inventory count from warehouse audit,high,sms,2026-07-22T17:00:00,evidence/item_022.txt,W3,14
+23,Summary narrative #23,pending,Mateo Silva,South,67,2026-06-23T18:30:00,Compliance check for safety protocols,low,web,2026-07-23T18:00:00,evidence/item_023.txt,W4,15
+24,Log entry #24,review,Priya Nair,East,150,2026-06-24T19:30:00,Audit trail log for account review,normal,phone,2026-07-24T19:00:00,evidence/item_024.txt,W1,16
+25,Invoice processing #25,completed,Jordan Lee,North,88,2026-06-25T08:30:00,Monthly expense reconciliation with vendor,normal,email,2026-07-25T08:00:00,evidence/item_025.txt,W2,17
+26,Report generation #26,in_progress,Elena Ruiz,South,120,2026-06-26T09:30:00,Quarterly performance review summary,high,sms,2026-07-26T09:00:00,evidence/item_026.txt,W3,18
+27,Request approval #27,on_hold,Samir Patel,East,45,2026-06-27T10:30:00,Site inspection report for compliance,low,web,2026-07-27T10:00:00,evidence/item_027.txt,W4,10
+28,Update summary #28,draft,Casey Wu,West,210,2026-06-28T11:30:00,Budget adjustment for Q2 operations,critical,phone,2026-07-28T11:00:00,evidence/item_028.txt,W1,11
+29,Review findings #29,approved,Mina Park,Central,95,2026-06-01T12:30:00,Staff shift schedule update,normal,email,2026-07-01T12:00:00,evidence/item_029.txt,W2,12
+30,Check verification #30,pending,Blair,North,340,2026-06-02T13:30:00,Inventory count from warehouse audit,high,sms,2026-07-02T13:00:00,evidence/item_030.txt,W3,13
+31,Summary narrative #31,review,Mateo Silva,South,67,2026-06-03T14:30:00,Compliance check for safety protocols,low,web,2026-07-03T14:00:00,evidence/item_031.txt,W4,14
+32,Log entry #32,completed,Priya Nair,East,150,2026-06-04T15:30:00,Audit trail log for account review,normal,phone,2026-07-04T15:00:00,evidence/item_032.txt,W1,15
+33,Invoice processing #33,in_progress,Jordan Lee,North,88,2026-06-05T16:30:00,Monthly expense reconciliation with vendor,normal,email,2026-07-05T16:00:00,evidence/item_033.txt,W2,16
+34,Report generation #34,on_hold,Elena Ruiz,South,120,2026-06-06T17:30:00,Quarterly performance review summary,high,sms,2026-07-06T17:00:00,evidence/item_034.txt,W3,17
+35,Request approval #35,draft,Samir Patel,East,45,2026-06-07T18:30:00,Site inspection report for compliance,low,web,2026-07-07T18:00:00,evidence/item_035.txt,W4,18
+36,Update summary #36,approved,Casey Wu,West,210,2026-06-08T19:30:00,Budget adjustment for Q2 operations,critical,phone,2026-07-08T19:00:00,evidence/item_036.txt,W1,10

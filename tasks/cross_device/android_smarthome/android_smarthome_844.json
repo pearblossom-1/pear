@@ -1,0 +1,371 @@
+{
+  "id": "android_smarthome_844",
+  "instruction": "The first phone has the default entrance-prep rule in Markor. On the second phone, Files has today's route record and Simple Calendar Pro has the guest arrival. Use those sources to determine whether the default prep is overridden, which entrance should be prepared, and when. Update the Home plans accordingly, then add a Calendar event titled `Route prep result` covering the resulting prep window.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "markor"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_844/android/android_0/markor/Default entrance.md",
+                "path": "/storage/emulated/0/Documents/Markor/Default entrance.md"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_markor_note_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor/Default entrance.md",
+            "required_visible_text": [
+              "Default arrival prep",
+              "front living room light",
+              "same-day route code overrides"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_844/android/android_1/files/today_route_code.csv",
+                "path": "/storage/emulated/0/Download/home/today_route_code.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/storage/emulated/0/Download/home",
+            "expected_filenames": [
+              "today_route_code.csv"
+            ],
+            "open_filename": "today_route_code.csv",
+            "required_visible_text": [
+              "SIDE-GATE",
+              "side hallway",
+              "20"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Guest arrival",
+            "start_ts": 1781642400,
+            "end_ts": 1781643600,
+            "location": "Home",
+            "description": "Use today's route record from Files."
+          }
+        },
+        {
+          "type": "androidworld_calendar_event_preflight",
+          "parameters": {
+            "title": "Guest arrival",
+            "start_ts": 1781642400,
+            "location": "Home",
+            "description": "Use today's route record from Files.",
+            "search_text": "Guest"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_844/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Default entrance.md'"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/home/today_route_code.csv"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event",
+        "title": "Route prep result",
+        "start_ts": 1781641200,
+        "end_ts": 1781642400,
+        "location": "Home",
+        "unique_identity_fields": [
+          "title"
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "name": "Route prep result is the unique 20:20 to 20:40 Calendar event"
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event",
+        "title": "Guest arrival",
+        "start_ts": 1781642400,
+        "end_ts": 1781643600,
+        "location": "Home",
+        "description": "Use today's route record from Files.",
+        "unique_identity_fields": [
+          "title"
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the input Guest arrival event remains intact"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_status",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "schedule_id": "front_default_prep",
+            "run_at": "2026-06-16T20:10:00",
+            "device_id": "living_room_light_1",
+            "command": "turn_on",
+            "args": {},
+            "status": "cancelled"
+          }
+        }
+      },
+      "name": "the original front-entry schedule is cancelled without field drift"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {
+              "run_at": "2026-06-16T20:20:00",
+              "device_id": "hallway_light_1",
+              "command": "turn_on",
+              "args": {},
+              "status": "active"
+            }
+          }
+        }
+      },
+      "name": "exactly one active side-hallway prep exists at 20:20"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 2,
+            "exact_active_count": 1,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the final schedule set contains only cancelled default and active route prep"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "route prep creates no workflow"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_count",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "future route prep issues no immediate device command"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_multi_condition",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "devices": {
+              "living_room_light_1": {
+                "power": "off"
+              },
+              "hallway_light_1": {
+                "power": "off"
+              }
+            }
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "front and hallway lights remain off at the current 19:00 state"
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "android_smarthome",
+    "source_idea": "android_smarthome_idea_844",
+    "surfaces": [
+      "markor",
+      "files",
+      "calendar",
+      "home_schedule",
+      "two_android",
+      "route_repair"
+    ],
+    "readiness": "static_reviewed",
+    "native_content_outputs": [
+      "androidworld_calendar_event",
+      "smarthome_schedules"
+    ],
+    "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
+    "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",
+    "device_topology": "2android_smarthome",
+    "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_844",
+    "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_844/episode_config.json",
+    "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_844/oracle_positive.json",
+    "idea_number": 844,
+    "candidate_triage": {
+      "batch_id": "plan5-android-smarthome-369-868-B0024",
+      "decision": "direct",
+      "rationale": "Supported current-route override with default schedule cancelled, selected route scheduled, and android_1 Calendar result."
+    },
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+  }
+}

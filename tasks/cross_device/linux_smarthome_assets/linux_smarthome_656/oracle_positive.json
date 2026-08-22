@@ -1,0 +1,86 @@
+{
+  "linux_actions": [
+    {
+      "device_id": "linux_0",
+      "type": "cli.execute",
+      "parameters": {
+        "command": "python3 - <<'PY'\nimport base64\nimport json\nfrom pathlib import Path\nfiles = json.loads('[{\"path\": \"/tmp/climate/fallback_result.json\", \"content_b64\": \"ewogICJyb29tcyI6IHsKICAgICJvZmZpY2UiOiB7CiAgICAgICJzdGF0dXMiOiAiYXBwbGllZCIsCiAgICAgICJkZXZpY2UiOiAiYWlyIGNvbmRpdGlvbmVyIiwKICAgICAgInRhcmdldF9jIjogMjQKICAgIH0sCiAgICAic3R1ZHkiOiB7CiAgICAgICJzdGF0dXMiOiAiYXBwbGllZCIsCiAgICAgICJkZXZpY2UiOiAiaGVhdGVyIiwKICAgICAgInRhcmdldF9jIjogMjIKICAgIH0sCiAgICAiZ3Vlc3Qgcm9vbSI6IHsKICAgICAgInN0YXR1cyI6ICJ1bmF2YWlsYWJsZSIsCiAgICAgICJyZWFzb24iOiAibm8gY2xpbWF0ZSBkZXZpY2UiCiAgICB9CiAgfQp9Cg==\"}]')\nfor item in files:\n    p = Path(item['path'])\n    p.parent.mkdir(parents=True, exist_ok=True)\n    p.write_bytes(base64.b64decode(item['content_b64']))\nPY"
+      }
+    }
+  ],
+  "smarthome_actions": [
+    {
+      "type": "smarthome.get_home_state",
+      "parameters": {},
+      "device_id": "home_0"
+    },
+    {
+      "type": "smarthome.get_device_capabilities",
+      "parameters": {
+        "device_id": "office_air_conditioner_1"
+      },
+      "device_id": "home_0"
+    },
+    {
+      "type": "smarthome.get_device_capabilities",
+      "parameters": {
+        "device_id": "study_heater_1"
+      },
+      "device_id": "home_0"
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "office_air_conditioner_1",
+        "command": "turn_on",
+        "args": {}
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "office_air_conditioner_1",
+        "command": "set_mode",
+        "args": {
+          "mode": "cool"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "office_air_conditioner_1",
+        "command": "set_target_temperature",
+        "args": {
+          "temperature_c": 24.0
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "study_heater_1",
+        "command": "turn_on",
+        "args": {}
+      }
+    },
+    {
+      "device_id": "home_0",
+      "type": "smarthome.command",
+      "parameters": {
+        "device_id": "study_heater_1",
+        "command": "set_target_temperature",
+        "args": {
+          "temperature_c": 22.0
+        }
+      }
+    },
+    {
+      "type": "done"
+    }
+  ]
+}

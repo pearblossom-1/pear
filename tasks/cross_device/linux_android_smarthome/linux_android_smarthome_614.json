@@ -1,0 +1,336 @@
+{
+  "id": "linux_android_smarthome_614",
+  "instruction": "The first phone has yesterday's continue-cleaning photo; the second phone has today's authenticated Owner stop request and contact. Use `/tmp/home_ops/approval-forms/source/priority.pdf` to resolve the conflict, dock the SmartHome robot, and reply to the Owner with the actual result.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p '/tmp/home_ops/approval-forms/source' && rm -f -- '/tmp/home_ops/approval-forms/source/priority.pdf'",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_614/source/tmp/home_ops/approval-forms/source/priority.pdf",
+                "path": "/tmp/home_ops/approval-forms/source/priority.pdf"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r '/tmp/home_ops/approval-forms/source/priority.pdf'",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple gallery pro"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "mkdir -p '/sdcard/DCIM/Camera' && rm -f '/sdcard/DCIM/Camera/continue_cleaning_old_614.png'"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_614/android/android_0/continue_cleaning_old_614.png",
+                "path": "/sdcard/DCIM/Camera/continue_cleaning_old_614.png"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://'/sdcard/DCIM/Camera/continue_cleaning_old_614.png' >/dev/null 2>&1 || true"
+          }
+        },
+        {
+          "type": "androidworld_gallery_image_text_preflight",
+          "parameters": {
+            "path": "/sdcard/DCIM/Camera/continue_cleaning_old_614.png",
+            "filename": "continue_cleaning_old_614.png",
+            "relative_path": "DCIM/Camera/",
+            "mime_type": "image/png",
+            "required_text": [
+              "Yesterday",
+              "Continue cleaning"
+            ],
+            "min_text_height_ratio": 0.03
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple sms messenger"
+          }
+        },
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_sms_receive",
+          "parameters": {
+            "address": "+1555061401",
+            "body": "Owner today: stop cleaning and return the robot to dock.",
+            "wait_s": 5.0
+          }
+        },
+        {
+          "type": "androidworld_sms_message_preflight",
+          "parameters": {
+            "message": {
+              "address": "+1555061401",
+              "body": "Owner today: stop cleaning and return the robot to dock.",
+              "box": "inbox"
+            },
+            "required_visible_text": [
+              "stop cleaning",
+              "return the robot to dock"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "contacts"
+          }
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Owner",
+            "number": "+1555061401",
+            "notes": "Authorized owner for cleaning changes"
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Owner",
+              "number": "+1555061401",
+              "notes_exact": "Authorized owner for cleaning changes"
+            },
+            "required_visible_text": [
+              "Owner",
+              "Authorized owner for cleaning changes"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_614/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f -- '/tmp/home_ops/approval-forms/source/priority.pdf'; find /tmp/home_ops -type d -empty -delete 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f '/sdcard/DCIM/Camera/continue_cleaning_old_614.png'; rmdir '/sdcard/DCIM/Camera' 2>/dev/null || true"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_sms_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_contacts_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "address": "+1555061401",
+        "recent_within_mins": 30,
+        "box": "sent",
+        "body_relation": {
+          "entities": [
+            [
+              "cleaning robot",
+              "robot",
+              "vacuum"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "docked",
+              "at the charging station",
+              "back at the charging station"
+            ]
+          ],
+          "conflict_phrases": [
+            "not docked",
+            "undocked",
+            "away from the dock",
+            "still cleaning",
+            "will continue cleaning",
+            "continue cleaning now",
+            "keep cleaning",
+            "is cleaning"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true,
+          "allowed_reversal_terms": [
+            "previous continue cleaning request was superseded",
+            "previous continue-cleaning request was superseded",
+            "yesterday's request was replaced",
+            "old continue cleaning instruction no longer applies",
+            "old continue-cleaning instruction no longer applies",
+            "yesterday's cleaning instruction no longer applies"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "living_room_robot_vacuum_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "off",
+            "status": "docked"
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "614 stale Gallery evidence loses to current authenticated Owner SMS for robot vacuum.",
+    "surfaces": [
+      "android_dual",
+      "gallery",
+      "sms",
+      "contacts",
+      "linux_pdf",
+      "linux_json",
+      "home_command"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_614",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_614/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_614/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/home_ops/approval-forms/source/priority.pdf"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/home_ops/approval-forms/source/priority.pdf"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_0": []
+    },
+    "pilot_index": 614,
+    "source_plan": "linux_android2_smarthome_321_420",
+    "human_quality_review": "accepted_current_hash_smoke_passed",
+    "current_hash_smoke_status": "passed_current_hash"
+  }
+}

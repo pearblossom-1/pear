@@ -1,0 +1,3 @@
+Training package handoff
+Package reference: FO-618
+The attendee notification should state that the training package is ready and include this package reference.

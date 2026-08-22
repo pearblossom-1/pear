@@ -1,0 +1,6 @@
+{
+  "task_id": "linux_only_224",
+  "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_224",
+  "oracle_ref": "tasks/cross_device/linux_only_assets/linux_only_224/oracle_positive.json",
+  "episode_config_ref": "tasks/cross_device/linux_only_assets/linux_only_224/episode_config.json"
+}

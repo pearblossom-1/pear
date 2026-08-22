@@ -1,0 +1,254 @@
+{
+  "task_id": "android_only_247",
+  "eval": [
+    {
+      "name": "Record required, current, and result roles for all three reminder items",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Reminder audit.md",
+        "rules": {
+          "entities": [
+            "Dock review",
+            "Gate call",
+            "Crew bus"
+          ],
+          "allowed_negative_capability_phrases": [
+            "not found",
+            "does not match"
+          ],
+          "semantic_record_table": {
+            "item_headers": [
+              "item",
+              "event",
+              "checklist item"
+            ],
+            "records": [
+              {
+                "item": "Dock review",
+                "fields": [
+                  {
+                    "name": "required_minutes",
+                    "labels": [
+                      "required",
+                      "requires",
+                      "needs",
+                      "required minutes"
+                    ],
+                    "values": [
+                      "30",
+                      "30 min",
+                      "30 mins",
+                      "30 minute",
+                      "30 minutes"
+                    ]
+                  },
+                  {
+                    "name": "current_minutes",
+                    "labels": [
+                      "current",
+                      "currently",
+                      "actual",
+                      "current minutes"
+                    ],
+                    "values": [
+                      "30",
+                      "30 min",
+                      "30 mins",
+                      "30 minute",
+                      "30 minutes"
+                    ]
+                  },
+                  {
+                    "name": "result",
+                    "labels": [
+                      "result",
+                      "status",
+                      "outcome"
+                    ],
+                    "values": [
+                      "match",
+                      "matches",
+                      "matched",
+                      "correct"
+                    ],
+                    "allow_unlabeled": true
+                  }
+                ]
+              },
+              {
+                "item": "Gate call",
+                "fields": [
+                  {
+                    "name": "required_minutes",
+                    "labels": [
+                      "required",
+                      "requires",
+                      "needs",
+                      "required minutes"
+                    ],
+                    "values": [
+                      "15",
+                      "15 min",
+                      "15 mins",
+                      "15 minute",
+                      "15 minutes"
+                    ]
+                  },
+                  {
+                    "name": "current_minutes",
+                    "labels": [
+                      "current",
+                      "currently",
+                      "actual",
+                      "current minutes"
+                    ],
+                    "values": [
+                      "5",
+                      "5 min",
+                      "5 mins",
+                      "5 minute",
+                      "5 minutes"
+                    ]
+                  },
+                  {
+                    "name": "result",
+                    "labels": [
+                      "result",
+                      "status",
+                      "outcome"
+                    ],
+                    "values": [
+                      "mismatch",
+                      "mismatches",
+                      "does not match",
+                      "different"
+                    ],
+                    "allow_unlabeled": true
+                  }
+                ]
+              },
+              {
+                "item": "Crew bus",
+                "fields": [
+                  {
+                    "name": "required_minutes",
+                    "labels": [
+                      "required",
+                      "requires",
+                      "needs",
+                      "required minutes"
+                    ],
+                    "values": [
+                      "10",
+                      "10 min",
+                      "10 mins",
+                      "10 minute",
+                      "10 minutes"
+                    ]
+                  },
+                  {
+                    "name": "current_minutes",
+                    "labels": [
+                      "current",
+                      "currently",
+                      "actual",
+                      "current minutes"
+                    ],
+                    "values": [
+                      "missing",
+                      "missing event",
+                      "event missing",
+                      "absent",
+                      "not found"
+                    ]
+                  },
+                  {
+                    "name": "result",
+                    "labels": [
+                      "result",
+                      "status",
+                      "outcome"
+                    ],
+                    "values": [
+                      "missing",
+                      "absent",
+                      "not found"
+                    ],
+                    "allow_unlabeled": false
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      }
+    },
+    {
+      "name": "Preserve the complete two-event Calendar business set",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_calendar_event_set",
+        "events": [
+          {
+            "title": "Dock review",
+            "start_ts": 1784192400,
+            "end_ts": 1784194200,
+            "location": "Dock 8",
+            "description": "reminder minutes: 30"
+          },
+          {
+            "title": "Gate call",
+            "start_ts": 1784196000,
+            "end_ts": 1784196900,
+            "location": "Gate 2",
+            "description": "reminder minutes: 5"
+          }
+        ],
+        "identity_fields": [
+          "title",
+          "start_ts"
+        ],
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Preserve reminder checklist.md byte for byte",
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_filesystem_snapshot_state",
+        "snapshot_id": "android_only_247_checklist",
+        "preserve_directories": [],
+        "file_mappings": [
+          {
+            "baseline_path": "/storage/emulated/0/Documents/Markor/reminder checklist.md",
+            "current_path": "/storage/emulated/0/Documents/Markor/reminder checklist.md"
+          }
+        ]
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ]
+}

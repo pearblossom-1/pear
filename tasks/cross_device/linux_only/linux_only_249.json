@@ -1,0 +1,245 @@
+{
+  "id": "linux_only_249",
+  "instruction": "The Python approval-code validator on the second Linux machine needs fixing. Use `bug_notes.md` on the first machine, update `/tmp/form/app/validator.py` on the second, then run the supplied `/tmp/form/app/validator_tests.py` there and save its console output as `/tmp/form/app/test_output.txt`.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "linux_1",
+      "type": "linux"
+    }
+  ],
+  "variables": {},
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/form && rm -f /tmp/form/bug_notes.md",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_249/source/linux_0/tmp/form/bug_notes.md",
+                "path": "/tmp/form/bug_notes.md"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/form/app && rm -f /tmp/form/app/validator.py",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_249/source/linux_1/tmp/form/app/validator.py",
+                "path": "/tmp/form/app/validator.py"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/form/app && rm -f /tmp/form/app/validator_tests.py",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_only_assets/linux_only_249/source/linux_1/tmp/form/app/validator_tests.py",
+                "path": "/tmp/form/app/validator_tests.py"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/form/app/test_output.txt",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/form/bug_notes.md",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_1",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/form/app/validator.py",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/form/app/validator_tests.py",
+            "shell": true
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/form/app/test_output.txt",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "name": "Validate all 10000 legal approval codes and the strict negative cases",
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nimport importlib.util\nfrom pathlib import Path\ntry:\n    path = Path('/tmp/form/app/validator.py')\n    spec = importlib.util.spec_from_file_location('approval_validator', path)\n    module = importlib.util.module_from_spec(spec)\n    spec.loader.exec_module(module)\n    check = getattr(module, 'is_approval_code', None)\n    good = (f'APP-{value:04d}' for value in range(10000))\n    bad = [None, True, False, 1234, 12.34, b'APP-1234', '', 'APP-', 'APP-00000', 'APP-123', 'APP-12A4',\n           'app-1234', 'App-1234', ' APP-1234', 'APP-1234 ', 'XAPP-1234', 'APP-1234X',\n           'APP-１２３４', 'APP-١٢٣٤', 'APP-１２34', 'APP-0000\\n', 'ＡＰＰ-1234']\n    ok = callable(check) and all(check(value) is True for value in good)\n    ok = ok and all(check(value) is False for value in bad)\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "metadata": {
+        "path": "/tmp/form/app/validator.py"
+      }
+    },
+    {
+      "name": "Rerun the supplied tests and require test_output.txt to equal their stdout",
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nimport subprocess\nfrom pathlib import Path\ndef normalized_lines(value):\n    return [line.strip() for line in value.splitlines() if line.strip()]\ntry:\n    completed = subprocess.run(['python3', 'validator_tests.py'], cwd='/tmp/form/app', capture_output=True, text=True, timeout=30, check=False)\n    stdout_lines = normalized_lines(completed.stdout)\n    saved_lines = normalized_lines(Path('/tmp/form/app/test_output.txt').read_text(encoding='utf-8'))\n    ok = completed.returncode == 0 and stdout_lines == ['12 passed'] and saved_lines == stdout_lines\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "metadata": {
+        "path": "/tmp/form/app/test_output.txt"
+      }
+    },
+    {
+      "name": "Preserve the supplied validator_tests.py fixture byte for byte",
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/form/app/validator_tests.py",
+        "trusted_root": "/tmp/form/app",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "86db3d6f3e22289030e09d2c0da6d1778a18090945383f8f738f2b55e81ebe87"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Preserve bug_notes.md byte for byte",
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/form/bug_notes.md",
+        "trusted_root": "/tmp/form",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "566bda12b6c636c12633dff9c943b9c6e268b2269bfb1d1753863dbf66c698f5"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "linux_only",
+    "device_topology": "2linux",
+    "surfaces": [
+      "python",
+      "tests",
+      "text"
+    ],
+    "readiness": "static_reviewed",
+    "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_249",
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/form/bug_notes.md"
+      ],
+      "linux_1": [
+        "/tmp/form/app/validator.py",
+        "/tmp/form/app/validator_tests.py"
+      ]
+    },
+    "linux_output_paths_by_device": {
+      "linux_1": [
+        "/tmp/form/app/validator.py",
+        "/tmp/form/app/test_output.txt"
+      ]
+    },
+    "setup_note": "Generated setup configures linux_0 and linux_1 from visible Linux sources.",
+    "evaluate_note": "Evaluation directly validates implementation behavior, independently reruns the supplied tests, compares normalized stdout with test_output.txt, and preserves the test fixture and bug notes.",
+    "source_number": 249,
+    "candidate_triage": {
+      "batch_id": "plan6-linux-only-dual-linux-B0003",
+      "decision": "repair",
+      "rationale": "Scoring directly imports the repaired Python validator; the standard-library test output is secondary execution evidence."
+    },
+    "oracle_ref": "tasks/cross_device/linux_only_assets/linux_only_249/oracle_positive.json",
+    "episode_config_ref": "tasks/cross_device/linux_only_assets/linux_only_249/episode_config.json",
+    "lite_evaluator_hardening_note": "Primary evaluation imports and executes validator.py behavior; test_output cannot compensate for an incorrect implementation."
+  }
+}

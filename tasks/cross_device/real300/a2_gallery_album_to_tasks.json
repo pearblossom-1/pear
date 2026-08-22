@@ -1,0 +1,185 @@
+{
+  "id": "a2_gallery_album_to_tasks",
+  "instruction": "The first phone's Simple Gallery Pro has a `Receipts` album with three receipt images. Please add each image filename as a separate review to-do in the Tasks app on the second phone.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple gallery pro"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "mkdir -p '/sdcard/Pictures/Receipts'; for name in receipt_march_01.png receipt_march_15.png receipt_march_28.png; do rm -f \"/sdcard/Pictures/Receipts/$name\"; content delete --uri content://media/external/images/media --where \"_display_name='$name' AND relative_path='Pictures/Receipts/'\" >/dev/null 2>&1 || true; done"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2_gallery_album_to_tasks/source/receipt_march_01.png",
+                "path": "/sdcard/Pictures/Receipts/receipt_march_01.png"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2_gallery_album_to_tasks/source/receipt_march_15.png",
+                "path": "/sdcard/Pictures/Receipts/receipt_march_15.png"
+              },
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real300_assets/a2_gallery_album_to_tasks/source/receipt_march_28.png",
+                "path": "/sdcard/Pictures/Receipts/receipt_march_28.png"
+              }
+            ]
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for f in /sdcard/Pictures/Receipts/*.png; do am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://$f >/dev/null 2>&1 || true; done"
+          }
+        },
+        {
+          "type": "androidworld_gallery_media_details_preflight",
+          "parameters": {
+            "path": "/sdcard/Pictures/Receipts/receipt_march_01.png",
+            "filename": "receipt_march_01.png",
+            "relative_path": "Pictures/Receipts/",
+            "mime_type": "image/png"
+          }
+        },
+        {
+          "type": "androidworld_gallery_media_details_preflight",
+          "parameters": {
+            "path": "/sdcard/Pictures/Receipts/receipt_march_15.png",
+            "filename": "receipt_march_15.png",
+            "relative_path": "Pictures/Receipts/",
+            "mime_type": "image/png"
+          }
+        },
+        {
+          "type": "androidworld_gallery_media_details_preflight",
+          "parameters": {
+            "path": "/sdcard/Pictures/Receipts/receipt_march_28.png",
+            "filename": "receipt_march_28.png",
+            "relative_path": "Pictures/Receipts/",
+            "mime_type": "image/png"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple gallery pro"
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for name in receipt_march_01.png receipt_march_15.png receipt_march_28.png; do rm -f \"/sdcard/Pictures/Receipts/$name\"; content delete --uri content://media/external/images/media --where \"_display_name='$name' AND relative_path='Pictures/Receipts/'\" >/dev/null 2>&1 || true; done; rmdir '/sdcard/Pictures/Receipts' 2>/dev/null || true"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_set",
+        "titles": [
+          "receipt_march_01.png",
+          "receipt_march_15.png",
+          "receipt_march_28.png"
+        ],
+        "completed": false,
+        "allow_unrelated": false
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50,
+    "max_wall_time_s": 300
+  },
+  "metadata": {
+    "category": "real300_cross_device",
+    "source_card": "a2",
+    "difficulty": "Simple",
+    "motif": "M2",
+    "interaction_mode": "Hybrid",
+    "device_topology": "A+A",
+    "surfaces": "android_0 Simple Gallery Pro -> android_1 Tasks app",
+    "setup_note": "android_0 只重置并准备 Receipts album 的三个任务图片及精确 MediaStore 行，并逐张通过 Gallery Properties 预检完整 .png 文件名可见；android_1 使用 benchmark 隔离的 Tasks app reset。",
+    "evaluate_note": "一个 exact task-set evaluator 检查三个且仅三个目标文件名各对应一条未完成待办，拒绝缺失、重复、完成或额外任务。",
+    "readiness": "R1_native_ready",
+    "native_evaluator_status": "native_content",
+    "requires_helper_audit": false,
+    "native_content_outputs": [
+      {
+        "device_id": "android_1",
+        "result_type": "androidworld_task_set",
+        "titles": [
+          "receipt_march_01.png",
+          "receipt_march_15.png",
+          "receipt_march_28.png"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,332 @@
+{
+  "id": "linux_android_smarthome_423",
+  "instruction": "The `Kitchen Filter Service` alarm on my first phone is the maintenance cutoff for the kitchen air purifier. Confirm the room mapping in `/tmp/home_ops/schedule-changes/source/clock_rule.csv` and the shutdown note on the second phone, then schedule the purifier to turn off when the alarm next occurs. Update and complete the existing `Kitchen Filter Service follow-up` task on the second phone. In its note, record the 09:15 scheduled time, the kitchen air purifier shutdown action, and that the shutdown has been scheduled. Do not create a duplicate.",
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    },
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "android_1",
+      "type": "android"
+    },
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "setup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "mkdir -p /tmp/home_ops/schedule-changes/source",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_423/source/tmp/home_ops/schedule-changes/source/clock_rule.csv",
+                "path": "/tmp/home_ops/schedule-changes/source/clock_rule.csv"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/home_ops/schedule-changes/source/clock_rule.csv",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "clock"
+          }
+        },
+        {
+          "type": "androidworld_clock_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_alarm_add",
+          "parameters": {
+            "hour": 9,
+            "minute": 15,
+            "label": "Kitchen Filter Service"
+          }
+        },
+        {
+          "type": "androidworld_clock_alarm_set_preflight",
+          "parameters": {
+            "alarms": [
+              {
+                "hour": 9,
+                "minute": 15,
+                "label": "Kitchen Filter Service"
+              }
+            ],
+            "allow_unrelated": false,
+            "exact_user_visible_set": true,
+            "reject_identity_duplicates": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_423/android/android_1/clock_423.txt",
+                "path": "/storage/emulated/0/Download/clock_423.txt"
+              }
+            ]
+          }
+        },
+        {
+          "type": "androidworld_files_directory_preflight",
+          "parameters": {
+            "directory": "/storage/emulated/0/Download",
+            "expected_filenames": [
+              "clock_423.txt"
+            ],
+            "open_filename": "clock_423.txt",
+            "required_visible_text": [
+              "Turn off the kitchen air purifier",
+              "filter service"
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "tasks"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_task_add",
+          "parameters": {
+            "title": "Kitchen Filter Service follow-up",
+            "notes": "Schedule the kitchen purifier shutdown before filter service, then close this follow-up.",
+            "dueDate": 0,
+            "completed": 0
+          }
+        },
+        {
+          "type": "androidworld_task_record_preflight",
+          "parameters": {
+            "task": {
+              "title": "Kitchen Filter Service follow-up",
+              "notes": "Schedule the kitchen purifier shutdown before filter service, then close this follow-up.",
+              "completed": 0
+            },
+            "required_visible_text": [
+              "Kitchen Filter Service follow-up",
+              "kitchen purifier shutdown"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_task_identity_snapshot",
+          "parameters": {
+            "snapshot_id": "kitchen_filter_service_followup_423",
+            "title": "Kitchen Filter Service follow-up",
+            "notes": "Schedule the kitchen purifier shutdown before filter service, then close this follow-up."
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_423/episode_config.json"
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -f /tmp/home_ops/schedule-changes/source/clock_rule.csv; rmdir /tmp/home_ops/schedule-changes/source 2>/dev/null || true",
+            "shell": true
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_clock_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "android_1",
+      "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/clock_423.txt"
+          }
+        },
+        {
+          "type": "androidworld_tasks_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "home_0",
+      "config": [
+        {
+          "type": "smarthome.reset",
+          "parameters": {}
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task",
+        "title": "Kitchen Filter Service follow-up",
+        "completed": 1,
+        "identity_snapshot": "kitchen_filter_service_followup_423",
+        "require_exactly_one": true,
+        "notes_relation": {
+          "entities": [
+            [
+              "09:15",
+              "9:15 AM"
+            ],
+            "kitchen",
+            [
+              "purifier",
+              "air purifier"
+            ],
+            [
+              "turn off",
+              "off",
+              "shutdown",
+              "power off",
+              "switch off"
+            ]
+          ],
+          "required_phrases": [
+            [
+              "scheduled",
+              "has been scheduled"
+            ]
+          ],
+          "conflict_phrases": [
+            "pending",
+            "not scheduled",
+            "cancelled"
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {
+              "run_at": "2026-06-17T09:15:00",
+              "device_id": "kitchen_air_purifier_1",
+              "command": "turn_off",
+              "args": {},
+              "status": "active"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 50
+  },
+  "metadata": {
+    "category": "linux_android_smarthome",
+    "source_idea": "423 Kitchen air-purifier service shutdown anchored to a maintenance alarm.",
+    "surfaces": [
+      "android_dual",
+      "clock",
+      "android_files",
+      "tasks",
+      "linux_csv",
+      "home_schedule"
+    ],
+    "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_423",
+    "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_423/episode_config.json",
+    "oracle_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_423/oracle_positive.json",
+    "linux_source_paths": [
+      "/tmp/home_ops/schedule-changes/source/clock_rule.csv"
+    ],
+    "linux_output_paths": [],
+    "linux_source_paths_by_device": {
+      "linux_0": [
+        "/tmp/home_ops/schedule-changes/source/clock_rule.csv"
+      ]
+    },
+    "linux_output_paths_by_device": {},
+    "pilot_index": 423
+  }
+}

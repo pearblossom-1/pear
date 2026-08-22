@@ -1,0 +1,164 @@
+{
+  "task_id": "linux_only_298",
+  "eval": [
+    {
+      "name": "Record the current S-84 clip and reviewer mapping while allowing explicit archive history",
+      "device_id": "linux_1",
+      "func": "check_include_exclude",
+      "result": {
+        "type": "vm_command_line",
+        "command": "cat /tmp/media/playback_review.md",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "include": [],
+          "exclude": [],
+          "entity_relation": {
+            "entities": [
+              "S-84",
+              "long_audio_A.wav",
+              "Mara"
+            ],
+            "required_phrases": [
+              [
+                "session",
+                "playback"
+              ],
+              [
+                "clip",
+                "uses",
+                "audio"
+              ],
+              [
+                "reviewer",
+                "assigned"
+              ]
+            ],
+            "positive_phrases": [
+              [
+                "session",
+                "playback"
+              ],
+              [
+                "clip",
+                "uses",
+                "audio"
+              ],
+              [
+                "reviewer",
+                "assigned"
+              ]
+            ],
+            "conflict_phrases": [
+              "withdrawn",
+              "retracted",
+              "cancelled",
+              "canceled",
+              "not assigned",
+              "wrong"
+            ],
+            "conflict_patterns": [
+              "(?im)(?:^|[;\\n]|\\.(?=\\s|$))(?!\\s*(?:(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b|\\bS-71\\b\\s+(?:is|was)\\s+(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b))\\s*[^.;\\n]{0,120}(?:(?:\\b(?:session|playback)\\b[^.;\\n]{0,48}\\bS-71\\b)|(?:\\bS-71\\b[^.;\\n]{0,48}\\b(?:current|active|session|playback)\\b))",
+              "(?im)(?:^|[;\\n]|\\.(?=\\s|$))(?!\\s*(?:(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b|\\bold_session\\.wav\\b\\s+(?:is|was)\\s+(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b))\\s*[^.;\\n]{0,120}(?:(?:\\b(?:clip|audio)\\b[^.;\\n]{0,48}\\bold_session\\.wav\\b)|(?:\\bold_session\\.wav\\b[^.;\\n]{0,48}\\b(?:current|active|clip|audio)\\b))",
+              "(?im)(?:^|[;\\n]|\\.(?=\\s|$))(?!\\s*(?:(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b|\\bIris\\b\\s+(?:is|was)\\s+(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b))\\s*[^.;\\n]{0,120}(?:(?:\\b(?:reviewer|assigned)\\b[^.;\\n]{0,48}\\bIris\\b)|(?:\\bIris\\b[^.;\\n]{0,48}\\b(?:current|active|reviewer|assigned)\\b))"
+            ],
+            "relation_groups": [
+              {
+                "entities": [
+                  "S-84"
+                ],
+                "phrases": [
+                  "session",
+                  "playback"
+                ],
+                "allow_multiple_matches": true
+              },
+              {
+                "entities": [
+                  "long_audio_A.wav"
+                ],
+                "phrases": [
+                  "clip",
+                  "uses",
+                  "audio"
+                ],
+                "allow_multiple_matches": true
+              },
+              {
+                "entities": [
+                  "Mara"
+                ],
+                "phrases": [
+                  "reviewer",
+                  "assigned"
+                ],
+                "allow_multiple_matches": true
+              }
+            ]
+          }
+        }
+      },
+      "metadata": {
+        "path": "/tmp/media/playback_review.md"
+      }
+    },
+    {
+      "name": "Confirm the active clip is a valid one-second mono WAV",
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_command_line",
+        "command": "python3 - <<'PY'\nimport wave\nfrom pathlib import Path\ntry:\n    path = Path('/tmp/media/clips/long_audio_A.wav')\n    with wave.open(str(path), 'rb') as source:\n        ok = path.is_file() and (source.getnchannels(), source.getsampwidth(), source.getframerate(), source.getnframes()) == (1, 2, 16000, 16000)\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "shell": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      },
+      "enable_score_calc": false,
+      "metadata": {
+        "path": "/tmp/media/clips/long_audio_A.wav"
+      }
+    },
+    {
+      "name": "Preserve long_audio_A.wav byte for byte",
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/media/clips/long_audio_A.wav",
+        "trusted_root": "/tmp/media/clips",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "13adab0a810c3e6a0eec4f3fcd896fc208e78f65c7b62af5e8bbc22ec0986032"
+        }
+      },
+      "enable_score_calc": false
+    },
+    {
+      "name": "Preserve current_session.csv byte for byte",
+      "device_id": "linux_0",
+      "func": "exact_match",
+      "result": {
+        "type": "vm_file_sha256",
+        "path": "/tmp/media/current_session.csv",
+        "trusted_root": "/tmp/media",
+        "require_regular_file_no_symlink": true
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "7890954aca632b79990ffe59a2285beef93570ff26060a520ac8f97d2e549be4"
+        }
+      },
+      "enable_score_calc": false
+    }
+  ]
+}

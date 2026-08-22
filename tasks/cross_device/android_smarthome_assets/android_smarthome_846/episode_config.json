@@ -1,0 +1,532 @@
+{
+  "meta": {
+    "sh_type": "SH_android_smarthome",
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1846,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_task_status",
+        "title": "Rollback correction result",
+        "require_exactly_one": true,
+        "completed": false,
+        "notes_relation": {
+          "entities": [
+            [
+              "earlier success message",
+              "success message",
+              "premature success record",
+              "message record"
+            ],
+            [
+              "premature",
+              "too early",
+              "incorrect",
+              "conflicts"
+            ],
+            [
+              "quiet rollback policy",
+              "rollback policy"
+            ],
+            [
+              "living room light",
+              "living-room light"
+            ],
+            [
+              "off",
+              "turned off"
+            ],
+            [
+              "repeat plan",
+              "mistaken plan"
+            ],
+            [
+              "cancelled",
+              "canceled"
+            ],
+            [
+              "correction",
+              "rollback"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "correction applied",
+              "rollback applied",
+              "corrected"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "earlier success message",
+                  "success message",
+                  "premature success record",
+                  "message record"
+                ]
+              ],
+              "phrases": [
+                [
+                  "premature",
+                  "too early",
+                  "incorrect",
+                  "conflicts"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "quiet rollback policy",
+                  "rollback policy"
+                ]
+              ],
+              "phrases": [
+                "quiet"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "living room light",
+                  "living-room light"
+                ],
+                [
+                  "off",
+                  "turned off"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "repeat plan",
+                  "mistaken plan"
+                ],
+                [
+                  "cancelled",
+                  "canceled"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "correction",
+                  "rollback"
+                ]
+              ],
+              "phrases": [
+                [
+                  "applied",
+                  "corrected"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "conflict_phrases": [
+            "pending",
+            "not applied",
+            "light remains on",
+            "light is on",
+            "repeat plan remains active",
+            "plan remains active",
+            "not cancelled",
+            "not canceled",
+            "new success SMS sent"
+          ],
+          "allowed_reversal_terms": [
+            "cancelled",
+            "canceled"
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "FOUND"
+        }
+      },
+      "name": "Rollback correction result is one incomplete task with all correction relations bound"
+    },
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_box_count",
+        "box": "sent",
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the first phone sends no new SMS to any recipient"
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_box_count",
+        "box": "sent",
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the second phone sends no new SMS to any recipient"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "living_room_dimmable_light_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "off",
+            "brightness_pct": 0
+          }
+        }
+      },
+      "name": "living-room dimmable light is rolled back to off and zero brightness"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 0,
+            "match": {
+              "schedule_id": "bad_scene_repeat",
+              "run_at": "2026-06-16T20:30:00",
+              "device_id": "living_room_dimmable_light_1",
+              "command": "set_brightness",
+              "args": {
+                "brightness_pct": 90
+              },
+              "status": "cancelled"
+            }
+          }
+        }
+      },
+      "name": "the sole bad_scene_repeat schedule is fully preserved except for cancellation"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the complete schedule set remains exactly one cancelled record"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_allowed_state_diff",
+      "result": {
+        "type": "smarthome_home_state"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_device_field_changes": {
+              "living_room_dimmable_light_1": {
+                "power": "off",
+                "brightness_pct": 0
+              }
+            },
+            "preserve_workflows": true
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "only the living-room dimmable light final state changes globally"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "living_room_dimmable_light_1",
+                "command": "turn_off",
+                "args": {}
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "direct commands are restricted to semantic turn-off retries"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "rollback creates no workflow"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bathroom": {
+        "temperature_c": 25.2,
+        "humidity_pct": 65.3,
+        "brightness_lux": 89.3,
+        "air_quality_pm25": 34.1,
+        "noise_level_db": 38.5,
+        "occupied": false
+      },
+      "bedroom": {
+        "temperature_c": 23.7,
+        "humidity_pct": 50.0,
+        "brightness_lux": 355.0,
+        "air_quality_pm25": 23.0,
+        "noise_level_db": 29.3,
+        "occupied": false
+      },
+      "guest_room": {
+        "temperature_c": 25.5,
+        "humidity_pct": 55.6,
+        "brightness_lux": 0.0,
+        "air_quality_pm25": 25.0,
+        "noise_level_db": 32.8,
+        "occupied": false
+      },
+      "living_room": {
+        "temperature_c": 24.7,
+        "humidity_pct": 41.8,
+        "brightness_lux": 400.0,
+        "air_quality_pm25": 48.9,
+        "noise_level_db": 40.9,
+        "occupied": true
+      },
+      "study": {
+        "temperature_c": 24.4,
+        "humidity_pct": 41.7,
+        "brightness_lux": 175.0,
+        "air_quality_pm25": 44.7,
+        "noise_level_db": 38.7,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bathroom_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "bathroom_heater_1",
+        "device_type": "heater",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off",
+          "target_temperature_c": 26.0
+        }
+      },
+      {
+        "device_id": "bathroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bathroom",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bathroom_light_1",
+        "device_type": "light",
+        "room_id": "bathroom",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "bedroom_curtain_1",
+        "device_type": "curtain",
+        "room_id": "bedroom",
+        "state": {
+          "open_pct": 60,
+          "status": "partial"
+        }
+      },
+      {
+        "device_id": "bedroom_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "brightness_pct": 35
+        }
+      },
+      {
+        "device_id": "bedroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "guest_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "guest_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "guest_room_heater_1",
+        "device_type": "heater",
+        "room_id": "guest_room",
+        "state": {
+          "power": "on",
+          "target_temperature_c": 25.0
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "mode": "cool",
+          "target_temperature_c": 27.0
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 90
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 65
+        }
+      },
+      {
+        "device_id": "study_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "study",
+        "state": {
+          "power": "on",
+          "brightness_pct": 35
+        }
+      },
+      {
+        "device_id": "study_light_1",
+        "device_type": "light",
+        "room_id": "study",
+        "state": {
+          "power": "off"
+        }
+      }
+    ],
+    "schedules": [
+      {
+        "schedule_id": "bad_scene_repeat",
+        "run_at": "2026-06-16T20:30:00",
+        "device_id": "living_room_dimmable_light_1",
+        "command": "set_brightness",
+        "args": {
+          "brightness_pct": 90
+        },
+        "status": "active"
+      }
+    ],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

@@ -1,0 +1,535 @@
+{
+  "meta": {
+    "sh_type": "SH_android_smarthome",
+    "spec_version": "smarthome-custom-v1",
+    "case": "feasible",
+    "seed": 1807,
+    "builder": "custom"
+  },
+  "eval": [
+    {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "android_entity_relation_note",
+        "path": "/storage/emulated/0/Documents/Markor/Vacuum battery action result.md",
+        "rules": {
+          "entities": [
+            [
+              "battery"
+            ],
+            [
+              "18",
+              "18 percent"
+            ],
+            [
+              "robot",
+              "vacuum"
+            ],
+            [
+              "dock",
+              "docked"
+            ],
+            [
+              "safe pause schedule",
+              "safe_pause_schedule"
+            ],
+            [
+              "active"
+            ]
+          ],
+          "positive_phrases": [
+            [
+              "returned",
+              "sent to",
+              "is docked",
+              "docked"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
+                  "battery"
+                ],
+                [
+                  "18",
+                  "18 percent"
+                ],
+                [
+                  "robot",
+                  "vacuum"
+                ],
+                [
+                  "dock",
+                  "docked"
+                ]
+              ],
+              "phrases": [
+                [
+                  "returned",
+                  "sent to",
+                  "is docked",
+                  "docked"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "safe pause schedule",
+                  "safe_pause_schedule"
+                ],
+                [
+                  "active"
+                ]
+              ],
+              "phrases": [
+                [
+                  "remains",
+                  "remained",
+                  "kept",
+                  "left"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
+          ],
+          "preceding_clause_context": {
+            "max_preceding_clauses": 1,
+            "anchors": [
+              [
+                "battery"
+              ],
+              [
+                "safe pause schedule",
+                "safe_pause_schedule"
+              ]
+            ]
+          },
+          "conflict_phrases": [
+            "pending",
+            "cancelled",
+            "canceled",
+            "inactive",
+            "not active",
+            "not docked",
+            "did not return"
+          ],
+          "required_phrases": [
+            [
+              "remains",
+              "remained",
+              "kept",
+              "left"
+            ]
+          ]
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "pass"
+        }
+      },
+      "name": "result note binds low battery to docking and preserves the active safe pause schedule"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_device_state",
+      "result": {
+        "type": "smarthome_device_state",
+        "device_id": "living_room_robot_vacuum_1"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "power": "off",
+            "status": "docked"
+          }
+        }
+      },
+      "name": "living-room robot is off and docked"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {
+              "schedule_id": "safe_pause_schedule",
+              "run_at": "2026-06-16T21:00:00",
+              "device_id": "living_room_robot_vacuum_1",
+              "command": "pause",
+              "args": {},
+              "status": "active"
+            }
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the sole safe_pause_schedule remains fully unchanged and active"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "the complete schedule set remains exactly one active record"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_command_history_whitelist",
+      "result": {
+        "type": "smarthome_device_history"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "allowed_commands": [
+              {
+                "device_id": "living_room_robot_vacuum_1",
+                "command": "return_to_dock",
+                "args": {}
+              }
+            ]
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "direct commands are restricted to semantic return-to-dock retries"
+    },
+    {
+      "device_id": "home_0",
+      "func": "smarthome.check_workflow_count",
+      "result": {
+        "type": "smarthome_workflows"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 0,
+            "match": {}
+          }
+        }
+      },
+      "enable_score_calc": false,
+      "name": "battery action creates no workflow"
+    }
+  ],
+  "initial_home_config": {
+    "current_time": "2026-06-16T19:00:00",
+    "rooms": {
+      "bedroom": {
+        "temperature_c": 21.2,
+        "humidity_pct": 46.9,
+        "brightness_lux": 339.2,
+        "air_quality_pm25": 18.4,
+        "noise_level_db": 28.1,
+        "occupied": false
+      },
+      "dining_room": {
+        "temperature_c": 21.9,
+        "humidity_pct": 38.2,
+        "brightness_lux": 350.5,
+        "air_quality_pm25": 23.5,
+        "noise_level_db": 43.2,
+        "occupied": true
+      },
+      "kitchen": {
+        "temperature_c": 23.5,
+        "humidity_pct": 53.9,
+        "brightness_lux": 276.3,
+        "air_quality_pm25": 24.1,
+        "noise_level_db": 58.0,
+        "occupied": false
+      },
+      "laundry_room": {
+        "temperature_c": 21.2,
+        "humidity_pct": 50.2,
+        "brightness_lux": 272.1,
+        "air_quality_pm25": 30.6,
+        "noise_level_db": 52.0,
+        "occupied": true
+      },
+      "living_room": {
+        "temperature_c": 20.1,
+        "humidity_pct": 54.2,
+        "brightness_lux": 1050.0,
+        "air_quality_pm25": 25.1,
+        "noise_level_db": 58.0,
+        "occupied": false
+      },
+      "office": {
+        "temperature_c": 23.4,
+        "humidity_pct": 43.2,
+        "brightness_lux": 250.0,
+        "air_quality_pm25": 15.3,
+        "noise_level_db": 39.3,
+        "occupied": true
+      }
+    },
+    "devices": [
+      {
+        "device_id": "bedroom_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "on",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "bedroom_humidifier_1",
+        "device_type": "humidifier",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "bedroom_light_1",
+        "device_type": "light",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "bedroom_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "bedroom",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 55
+        }
+      },
+      {
+        "device_id": "dining_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on",
+          "mode": "heat",
+          "target_temperature_c": 25.0
+        }
+      },
+      {
+        "device_id": "dining_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "dining_room",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "dining_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "dining_room",
+        "state": {
+          "open_pct": 0,
+          "status": "closed"
+        }
+      },
+      {
+        "device_id": "dining_room_light_1",
+        "device_type": "light",
+        "room_id": "dining_room",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "dining_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "dining_room",
+        "state": {
+          "power": "off",
+          "status": "docked",
+          "battery_pct": 61
+        }
+      },
+      {
+        "device_id": "kitchen_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "level": "medium"
+        }
+      },
+      {
+        "device_id": "kitchen_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "kitchen",
+        "state": {
+          "power": "on",
+          "status": "cleaning",
+          "battery_pct": 89
+        }
+      },
+      {
+        "device_id": "laundry_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "laundry_room_dehumidifier_1",
+        "device_type": "dehumidifier",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "on",
+          "level": "low"
+        }
+      },
+      {
+        "device_id": "laundry_room_dryer_1",
+        "device_type": "dryer",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "on",
+          "cycle": "quick",
+          "remaining_min": 20,
+          "status": "running"
+        }
+      },
+      {
+        "device_id": "laundry_room_washer_1",
+        "device_type": "washer",
+        "room_id": "laundry_room",
+        "state": {
+          "power": "off",
+          "cycle": "heavy",
+          "remaining_min": 0,
+          "status": "stopped"
+        }
+      },
+      {
+        "device_id": "living_room_air_conditioner_1",
+        "device_type": "air_conditioner",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "mode": "heat",
+          "target_temperature_c": 24.0
+        }
+      },
+      {
+        "device_id": "living_room_air_purifier_1",
+        "device_type": "air_purifier",
+        "room_id": "living_room",
+        "state": {
+          "power": "off",
+          "level": "high"
+        }
+      },
+      {
+        "device_id": "living_room_curtain_1",
+        "device_type": "curtain",
+        "room_id": "living_room",
+        "state": {
+          "open_pct": 100,
+          "status": "open"
+        }
+      },
+      {
+        "device_id": "living_room_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "brightness_pct": 50
+        }
+      },
+      {
+        "device_id": "living_room_light_1",
+        "device_type": "light",
+        "room_id": "living_room",
+        "state": {
+          "power": "on"
+        }
+      },
+      {
+        "device_id": "living_room_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "living_room",
+        "state": {
+          "power": "on",
+          "status": "cleaning",
+          "battery_pct": 18
+        }
+      },
+      {
+        "device_id": "office_dimmable_light_1",
+        "device_type": "dimmable_light",
+        "room_id": "office",
+        "state": {
+          "power": "on",
+          "brightness_pct": 50
+        }
+      },
+      {
+        "device_id": "office_light_1",
+        "device_type": "light",
+        "room_id": "office",
+        "state": {
+          "power": "off"
+        }
+      },
+      {
+        "device_id": "office_robot_vacuum_1",
+        "device_type": "robot_vacuum",
+        "room_id": "office",
+        "state": {
+          "power": "on",
+          "status": "paused",
+          "battery_pct": 64
+        }
+      }
+    ],
+    "schedules": [
+      {
+        "schedule_id": "safe_pause_schedule",
+        "run_at": "2026-06-16T21:00:00",
+        "device_id": "living_room_robot_vacuum_1",
+        "command": "pause",
+        "args": {},
+        "status": "active"
+      }
+    ],
+    "workflows": [],
+    "infeasible_reports": [],
+    "answer_reports": [],
+    "history": []
+  }
+}

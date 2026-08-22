@@ -1,0 +1,4 @@
+event_code,title,start,location
+EVT-1264,Dock Briefing,2026-08-04T07:00:00,Dock A
+EVT-1265,Yard Check,2026-08-04T08:00:00,Yard B
+EVT-1266,Missing Event,2026-08-04T09:00:00,Office
