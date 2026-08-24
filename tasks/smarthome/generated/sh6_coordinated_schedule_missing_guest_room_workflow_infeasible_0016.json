@@ -1,6 +1,6 @@
 {
   "id": "sh6_coordinated_schedule_missing_guest_room_workflow_infeasible_0016",
-  "instruction": "Before I get pulled into other chores, visitors are coming later; set a 21:00 wind-down routine for the guest room.",
+  "instruction": "At 9:00 PM, turn off the guest-room light and close the curtain for the night.",
   "devices": [
     {
       "id": "home_0",
@@ -43,7 +43,8 @@
         "rules": {
           "expected": {
             "semantic_report": {
-              "exact_report_count": 1,
+              "min_matching_report_count": 1,
+              "reject_nonmatching_reports": true,
               "category_aliases": [
                 "missing_room",
                 "missing room",

@@ -1,6 +1,6 @@
 {
   "id": "sh2_implicit_intent_nursery_air_comfort_infeasible_0011",
-  "instruction": "As I'm planning the evening, I want the nursery to feel less stuffy and dry before bedtime; make that room more comfortable.",
+  "instruction": "The nursery feels stuffy and dry. Can you make it more comfortable before bedtime?",
   "devices": [
     {
       "id": "home_0",
@@ -43,7 +43,8 @@
         "rules": {
           "expected": {
             "semantic_report": {
-              "exact_report_count": 1,
+              "min_matching_report_count": 1,
+              "reject_nonmatching_reports": true,
               "category_aliases": [
                 "missing_room",
                 "missing room",

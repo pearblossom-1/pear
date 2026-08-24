@@ -4,7 +4,7 @@
   "device_topology": "2L",
   "difficulty": "Medium",
   "motif": "M3",
-  "interaction_mode": "GUI-focused",
+  "interaction_mode": "Hybrid",
   "instruction": "`/tmp/code/settings.md` on the first Linux machine lists the VSCode workspace settings keys and values that need updating. Please open `/tmp/code/project/` in VSCode on the second Linux machine and update the workspace settings according to settings.md.",
   "surfaces": "linux_0 rule -> linux_1 VSCode settings",
   "setup_note": "linux_0 上传 settings request；linux_1 上传 VSCode workspace。",

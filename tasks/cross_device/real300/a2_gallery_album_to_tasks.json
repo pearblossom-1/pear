@@ -1,6 +1,6 @@
 {
   "id": "a2_gallery_album_to_tasks",
-  "instruction": "The first phone's Simple Gallery Pro has a `Receipts` album with three receipt images. Please add each image filename as a separate review to-do in the Tasks app on the second phone.",
+  "instruction": "The first phone's Simple Gallery Pro has a `Receipts` album with three receipt images. On the second phone, create one incomplete review task per image, using the exact image filename as the task title.",
   "devices": [
     {
       "id": "android_0",
@@ -19,12 +19,6 @@
           "type": "ensure_app",
           "parameters": {
             "app": "simple gallery pro"
-          }
-        },
-        {
-          "type": "ensure_app",
-          "parameters": {
-            "app": "tasks"
           }
         },
         {
@@ -90,12 +84,6 @@
     {
       "device_id": "android_1",
       "config": [
-        {
-          "type": "ensure_app",
-          "parameters": {
-            "app": "simple gallery pro"
-          }
-        },
         {
           "type": "ensure_app",
           "parameters": {

@@ -36,9 +36,19 @@
             "command": [
               "sh",
               "-c",
-              "mkdir -p /storage/emulated/0/Documents/Markor && cat > '/storage/emulated/0/Documents/Markor/Transform rule.md' <<'EOF'\n# Transform rule\nKeep rows where status is ready.\nOutput columns: item, owner, priority.\nSort by priority ascending.\nWrite status.json with row_count and source: android_markor_transform_rule.\nEOF"
-            ],
-            "check_exit_status": true
+              "mkdir -p /storage/emulated/0/Documents/Markor && rm -f '${rule_note_path}'"
+            ]
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/real100_assets/al2_data_transform_sync/source/Transform rule.md",
+                "path": "${rule_note_path}"
+              }
+            ]
           }
         },
         {
@@ -47,7 +57,7 @@
             "command": [
               "sh",
               "-c",
-              "test -r '/storage/emulated/0/Documents/Markor/Transform rule.md'"
+              "test -r '${rule_note_path}'"
             ],
             "check_exit_status": true
           }
@@ -229,7 +239,7 @@
     "difficulty": "Medium",
     "motif": "M4",
     "surfaces": "Android Markor rule + linux_0 CSV -> linux_1 XLSX + linux_0 status",
-    "setup_note": "Android 写 rule 并校验可读；linux_0 上传 input.csv、校验输入/状态目录；linux_1 清理 result.xlsx 并校验输出目录可写。",
+    "setup_note": "Android directly uploads the authoritative Transform rule asset into Markor and verifies it is readable; linux_0 uploads and checks input.csv; linux_1 prepares and checks the output directory.",
     "evaluate_note": "检查 result.xlsx 和 status.json 一致。",
     "device_topology": "1A+2L",
     "implementation_status": "real_evaluator",

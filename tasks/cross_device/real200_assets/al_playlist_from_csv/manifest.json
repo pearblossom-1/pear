@@ -7,8 +7,8 @@
   "interaction_mode": "GUI-focused",
   "instruction": "`/tmp/music/playlist.csv` on Linux lists songs for the drive. Please create a `Work drive` playlist in the Android Retro Music app and add every song listed in the CSV.",
   "surfaces": "Linux CSV -> Android Retro Music playlist",
-  "setup_note": "Linux 上传歌曲顺序 CSV；Android 准备同名测试音乐文件并清空 playlist。",
-  "evaluate_note": "检查 Retro Music 中 Work drive playlist 包含 CSV 指定的三首歌。",
+  "setup_note": "Linux 上传歌曲 CSV；Android 准备同名测试音乐文件并清空 playlist。",
+  "evaluate_note": "Requires one normalized-exact `Work drive` playlist whose song-title multiset exactly matches the CSV, with no duplicate or extra membership.",
   "requires_helper_audit": false,
   "source_files": [
     "source/playlist.csv"

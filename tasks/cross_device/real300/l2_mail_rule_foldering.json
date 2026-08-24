@@ -48,7 +48,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "set -e\nrm -rf /tmp/mail \"$HOME/.thunderbird/mail.default-release\"\nmkdir -p /tmp/mail \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders\"\ncat > \"$HOME/.thunderbird/profiles.ini\" <<'EOF'\n[Profile0]\nName=local\nIsRelative=1\nPath=mail.default-release\nDefault=1\n\n[General]\nStartWithLastProfile=1\nVersion=2\nEOF\ncat > \"$HOME/.thunderbird/mail.default-release/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server1\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.identity.id1.fullName\", \"Local Agent\");\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.directory-rel\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nuser_pref(\"mail.server.server1.userName\", \"nobody\");\nEOF",
+            "command": "set -e\nrm -rf /tmp/mail \"$HOME/.thunderbird/mail.default-release\"\nmkdir -p /tmp/mail \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders\"\ncat > \"$HOME/.thunderbird/profiles.ini\" <<'EOF'\n[Profile0]\nName=local\nIsRelative=1\nPath=mail.default-release\nDefault=1\n\n[General]\nStartWithLastProfile=1\nVersion=2\nEOF\ncat > \"$HOME/.thunderbird/mail.default-release/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server1\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.accountmanager.localfoldersserver\", \"server1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.identity.id1.fullName\", \"Local Agent\");\nuser_pref(\"mail.provider.suppress_dialog_on_startup\", true);\nuser_pref(\"mail.shell.checkDefaultClient\", false);\nuser_pref(\"mailnews.start_page.enabled\", false);\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.directory-rel\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nuser_pref(\"mail.server.server1.storeContractID\", \"@mozilla.org/msgstore/maildirstore;1\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nuser_pref(\"mail.server.server1.userName\", \"nobody\");\nEOF",
             "shell": true
           }
         },
@@ -66,14 +66,14 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "cp /tmp/mail/inbox_seed.mbox \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Inbox\"; : > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Vendors\"; : > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Field\"; : > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Urgent\"",
+            "command": "python3 -c 'import mailbox, pathlib; root = pathlib.Path.home() / \".thunderbird/mail.default-release/Mail/Local Folders\"; inbox = mailbox.Maildir(root / \"Inbox\", create=True); source = mailbox.mbox(\"/tmp/mail/inbox_seed.mbox\", create=False); [inbox.add(message) for message in source]; inbox.flush(); [(path.rename(root / \"Inbox/cur\" / (path.name + \":2,\"))) for path in (root / \"Inbox/new\").iterdir() if path.is_file()]; [mailbox.Maildir(root / name, create=True).flush() for name in (\"Vendors\", \"Field\", \"Urgent\")]'",
             "shell": true
           }
         },
         {
           "type": "execute",
           "parameters": {
-            "command": "test -s \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Inbox\" && test -f \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Vendors\" && test -f \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Field\" && test -f \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Urgent\" && command -v thunderbird >/dev/null",
+            "command": "set -e; root=\"$HOME/.thunderbird/mail.default-release/Mail/Local Folders\"; for name in Inbox Vendors Field Urgent; do test -d \"$root/$name/cur\" && test -d \"$root/$name/new\" && test -d \"$root/$name/tmp\"; done; test \"$(find \"$root/Inbox/cur\" -maxdepth 1 -type f | wc -l | tr -d ' ')\" -eq 3; command -v thunderbird >/dev/null",
             "shell": true
           }
         }

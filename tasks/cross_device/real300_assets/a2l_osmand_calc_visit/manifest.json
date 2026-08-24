@@ -1,12 +1,17 @@
 {
   "task_id": "a2l_osmand_calc_visit",
   "source_files": [
-    "clinic_favorite.gpx",
-    "visit.xlsx"
+    "source/clinic_favorite.gpx",
+    "source/visit.xlsx"
   ],
   "expected_files": [],
   "device_topology": "A+A+L",
-  "instruction": "The first phone's OsmAnd has a `Clinic` favorite, and the second phone's Simple Calendar Pro has the visit time. Please read the favorite name and coordinates from OsmAnd and the visit start time from Calendar, then complete the existing `/tmp/visit/visit.xlsx` template in Linux LibreOffice Calc.",
+  "instruction": "The first phone's OsmAnd has a `Clinic` favorite, and the second phone's Simple Calendar Pro has the visit appointment. Complete the existing `/tmp/visit/visit.xlsx` template in Linux LibreOffice Calc with one row containing the favorite name, its coordinates, and the appointment date and time, then save the workbook in place.",
   "surfaces": "android_0 OsmAnd + android_1 Simple Calendar Pro -> Linux Calc",
-  "requires_helper_audit": false
+  "requires_helper_audit": false,
+  "fixture_notes": [
+    "The workbook template exposes only Name, Coordinates, and Visit Time headers; it contains no answer row.",
+    "The Calendar event must display 2027-02-16 10:00 in the configured device timezone.",
+    "Linux setup removes a stale LibreOffice lock and verifies the template is readable, writable, and a valid XLSX package."
+  ]
 }

@@ -2,7 +2,7 @@
   "task_id": "al_calendar_schedule_conflict",
   "source_card": "062",
   "device_topology": "1A+1L",
-  "instruction": "Reconcile same-title meeting details in week.csv from the authoritative Android Calendar rule, then record every changed field with old and new values in log.json.",
+  "instruction": "本周会议排期有冲突。按 `/tmp/schedule/rule.txt`，对同名会议以 Android Simple Calendar Pro 为准同步日期、开始/结束时间和地点，非同名会议保持不变，并在 Linux `/tmp/schedule/log.json` 记录每个变更字段的旧值和新值。",
   "surfaces": "Android Simple Calendar Pro + Linux schedule -> Linux corrected CSV + log",
   "source_files": [
     "source/calendar_event.json",
@@ -14,6 +14,6 @@
     "expected/log.json"
   ],
   "evaluator_assumptions": [
-    "week.csv must be corrected from Android Calendar and log.json must record both the time and location old/new values without inventing an Ops sync change"
+    "week.csv must be corrected from Android Calendar while unrelated meetings stay unchanged, and log.json must record every changed Vendor planning field with old and new values"
   ]
 }

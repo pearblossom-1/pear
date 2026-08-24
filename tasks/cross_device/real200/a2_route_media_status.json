@@ -156,11 +156,21 @@
         "type": "android_named_status_note",
         "path": "/storage/emulated/0/Documents/Markor/Route media status.md",
         "rules": {
-          "title": "Route media status",
           "relations": {
             "North gate": "present",
             "Dock lane": "present",
             "Fuel shed": "missing"
+          },
+          "entity_aliases": {
+            "North gate": [
+              "North gate.png"
+            ],
+            "Dock lane": [
+              "Dock lane.png"
+            ],
+            "Fuel shed": [
+              "Fuel shed.png"
+            ]
           }
         }
       },
@@ -211,7 +221,7 @@
     "device_topology": "2A",
     "surfaces": "android_0 OsmAnd + android_1 Simple Gallery Pro / Markor",
     "setup_note": "android_0 写入 OsmAnd favorites；android_1 放置 route photos、触发 MediaStore 扫描，并在暴露任务前校验两张图片可见、Fuel shed 缺失、旧 note 不存在且 Markor 可用。",
-    "evaluate_note": "Half of the score checks the semantic Route media status note; half checks that North gate and Dock lane still match their setup SHA-256 fixtures and Fuel shed is still absent.",
+    "evaluate_note": "Half of the score checks boundary-aware present/missing relations without requiring a duplicate body title; half independently checks that North gate and Dock lane still match their setup SHA-256 fixtures and Fuel shed remains absent.",
     "implementation_status": "real_evaluator",
     "readiness": "R1_native_android_text_content",
     "native_evaluator_status": "native_android_text_content",
@@ -232,7 +242,6 @@
         "device_id": "android_1",
         "path": "/storage/emulated/0/Documents/Markor/Route media status.md",
         "include": [
-          "Route media status",
           "North gate: present",
           "Dock lane: present",
           "Fuel shed: missing"
@@ -254,6 +263,6 @@
         ]
       }
     ],
-    "lite_evaluator_hardening_note": "The status-note parser binds every exact favorite name to a declarative present/missing relation and accepts natural `is there` wording. A second scored guard independently preserves the observed source state: both present photos must retain the exact setup bytes, and Fuel shed must remain absent."
+    "lite_evaluator_hardening_note": "The status-note parser does not require a redundant title line and binds each favorite name—or its exact `.png` alias—to one unambiguous declarative present/missing relation. Questions, uncertainty, negation variants, and contradictions fail. A second scored guard independently preserves both present files at their setup SHA-256 values and requires Fuel shed to remain absent."
   }
 }

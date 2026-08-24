@@ -7,7 +7,7 @@
   "interaction_mode": "GUI-focused",
   "instruction": "Prepare the training deck from the phone event/contacts and linux_1's local template, then use linux_0's notification handoff to draft the referenced ready notice in Thunderbird.",
   "surfaces": "android_0 Simple Calendar Pro + android_1 Android Contacts app + linux_0 handoff + linux_1 local Impress template/output and Thunderbird",
-  "setup_note": "android_0 写 event；android_1 写 attendees；linux_0 上传 handoff；linux_1 上传本地 template 并配置空 Thunderbird Drafts。",
+  "setup_note": "android_0 写 event；android_1 仅写 attendees contacts；linux_0 上传 handoff；linux_1 上传本地 template 并配置空 Thunderbird Drafts。",
   "evaluate_note": "Validates the ODP structure/content plus exact draft recipients, event identification in subject or body, and a positive package-ready body relation containing FO-618.",
   "requires_helper_audit": false,
   "source_files": [

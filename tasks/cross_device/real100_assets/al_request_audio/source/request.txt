@@ -1,5 +1,4 @@
-Packet: field visit 418
 Required voice memo filename: briefing.m4a
-Required audio format: M4A
-Save or export to: Recordings/briefing.m4a
-Please record a short memo on the phone and save or export it as requested above.
+Required format: M4A
+Save/export location: /sdcard/Recordings/briefing.m4a
+Please record a short memo on the phone and save or export it at the location above.

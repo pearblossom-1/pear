@@ -1,6 +1,6 @@
 {
   "id": "sh1_state_inquiry_bathroom_humidity_feasible_0001",
-  "instruction": "I'm checking whether the bathroom will feel steamy after the shower; what is the humidity reading in there right now?",
+  "instruction": "What's the humidity in the bathroom right now?",
   "devices": [
     {
       "id": "home_0",

@@ -157,139 +157,71 @@
       "device_id": "android_0",
       "func": "exact_match",
       "result": {
-        "type": "android_entity_relation_note",
+        "type": "android_change_note_state",
         "path": "/storage/emulated/0/Documents/Markor/Alarm fix.md",
-        "rules": {
-          "entities": [
-            "Depot preparation",
-            "Depot departure",
-            [
-              "07:50",
-              "7:50",
-              "07:50 AM",
-              "7:50 AM",
-              "7:50AM"
-            ],
-            [
-              "08:20",
-              "8:20",
-              "08:20 AM",
-              "8:20 AM",
-              "8:20AM"
-            ]
-          ],
-          "ordered_entities": [
-            "Depot preparation",
-            "Depot departure"
-          ],
-          "positive_phrases": [
-            [
-              "fallback",
-              "early",
-              "keep",
-              "remains enabled",
-              "retained",
-              "first"
-            ]
-          ],
-          "conflict_phrases": [
-            [
-              "replace Depot preparation",
-              "replace the Depot preparation",
-              "Depot preparation was removed",
-              "remove Depot preparation",
-              "Depot preparation was disabled",
-              "Depot preparation is disabled",
-              "Depot preparation no longer",
-              "instead of Depot preparation"
-            ]
-          ],
-          "relation_groups": [
+        "relation": {
+          "records": [
             {
-              "entities": [
-                "Depot preparation",
+              "identity": [
+                "Depot preparation"
+              ],
+              "required": [
                 [
                   "07:50",
                   "7:50",
                   "07:50 AM",
                   "7:50 AM",
                   "7:50AM"
-                ]
-              ],
-              "phrases": [
+                ],
                 [
                   "fallback",
                   "early",
-                  "keep",
-                  "remains enabled",
                   "retained",
+                  "remains enabled",
+                  "kept",
                   "first"
                 ]
+              ],
+              "conflicts": [
+                "removed",
+                "disabled",
+                "replaced",
+                "instead of"
               ]
             },
             {
-              "entities": [
-                "Depot departure",
+              "identity": [
+                "Depot departure"
+              ],
+              "required": [
                 [
                   "08:20",
                   "8:20",
                   "08:20 AM",
                   "8:20 AM",
                   "8:20AM"
-                ]
-              ],
-              "phrases": [
+                ],
                 [
                   "actual",
+                  "departure",
                   "then",
-                  "followed by"
+                  "followed by",
+                  "second"
                 ]
+              ],
+              "conflicts": [
+                "removed",
+                "disabled",
+                "replaced",
+                "replaces",
+                "instead of"
               ]
             }
           ],
-          "relation_groups_preserve_pipe": true,
-          "nearest_relations": [
-            {
-              "anchor": [
-                "Depot preparation"
-              ],
-              "expected": [
-                "07:50"
-              ],
-              "forbidden": [
-                "08:20"
-              ],
-              "max_distance": 8,
-              "same_clause": true
-            },
-            {
-              "anchor": [
-                "Depot departure"
-              ],
-              "expected": [
-                "08:20"
-              ],
-              "forbidden": [
-                "07:50"
-              ],
-              "max_distance": 8,
-              "same_clause": true
-            }
-          ],
-          "reject_unlisted_entity_pattern": "(?<!\\d)(?:[01]?\\d|2[0-3]):[0-5]\\d(?:\\s*[ap]\\.?m\\.?)?(?!\\d)",
-          "allowed_unlisted_entities": [
-            "07:50",
-            "7:50",
-            "07:50 AM",
-            "7:50 AM",
-            "7:50AM",
-            "08:20",
-            "8:20",
-            "08:20 AM",
-            "8:20 AM",
-            "8:20AM"
-          ],
-          "reject_incomplete_semantics": true
+          "ordered": true,
+          "unique_identities": true,
+          "reject_questions": true,
+          "reject_uncertainty": true
         }
       },
       "expected": {
@@ -313,7 +245,7 @@
     "device_topology": "2A",
     "surfaces": "android_0 Simple Calendar Pro + android_1 Clock app -> android_1 Clock app + android_0 Markor",
     "setup_note": "android_0 creates the actual-departure Calendar event and resets the task-owned `Alarm fix` note; android_1 starts with the enabled 07:50 `Depot preparation` fallback alarm.",
-    "evaluate_note": "Requires both enabled alarms plus a coexistence/sequence note: retained fallback Depot preparation=07:50 must precede actual Depot departure=08:20 with each time bound to the right label; replacement, removal, reversal, uncertainty, and unlisted times fail.",
+    "evaluate_note": "Requires both enabled alarms to be positively observable and binds the Markor note as two ordered semantic records: the retained 07:50 preparation fallback followed by the actual 08:20 departure.",
     "implementation_status": "fixture_scaffold",
     "readiness": "R1_native_android_app_text_state",
     "native_evaluator_status": "native_android_app_text_state",
@@ -365,11 +297,11 @@
           "Depot departure",
           "08:20"
         ],
-        "relation_notes": "Accepts prose or structured wording that identifies the retained preparation fallback first and the actual departure second; it does not require old/new or from/to wording."
+        "relation_notes": "Accepts prose, multiline key/value, and table forms when each alarm record has its own label, time, and role and the retained preparation record precedes the actual departure record. Reversed times, reversed order, or removal/replacement claims fail."
       }
     ],
     "browser_state_outputs": [],
     "thunderbird_draft_outputs": [],
-    "lite_evaluator_hardening_note": "The Markor evaluator now models coexistence and sequence rather than replacement: it binds each label to its own normalized time, requires fallback-retention and actual-departure roles in preparation-before-departure order, and rejects removed/replaced/reversed/uncertain variants. Setup verifies the source Calendar app is open and the exact output path is writable and empty."
+    "lite_evaluator_hardening_note": "The additive outcome avoids unsupported absence/count claims: both enabled alarms are checked by reliable positive presence. The note scorer uses ordered semantic record regions instead of replacement semantics, same-clause binding, token-distance limits, or a global time whitelist; harmless Calendar context such as the 09:20 event end is allowed while reversed or removal/replacement claims fail."
   }
 }

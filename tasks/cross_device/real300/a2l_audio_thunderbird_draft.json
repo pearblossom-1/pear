@@ -1,6 +1,6 @@
 {
   "id": "a2l_audio_thunderbird_draft",
-  "instruction": "Audio Recorder on the first phone has the `client-call` recording, and the Markor note `Call handoff` on that phone contains the call reference. The Android Contacts app on the second phone has the client's email. A local export copy of the recording is available on Linux at `/tmp/audio_thunderbird_draft/client-call.wav`. Please create an unsent Thunderbird draft addressed to the client, attach that local recording file, and mention both the recording filename and the call reference in the message. Leave the email in Drafts without sending it.",
+  "instruction": "The first phone's Audio Recorder has `client-call.wav`, and its Markor note `Call handoff` contains the package reference for that recording. The `Client` contact on the second phone has the recipient address. A local export copy is available at `/tmp/audio_thunderbird_draft/client-call.wav` on Linux. In Thunderbird, create an email to the client that mentions both the recording filename and package reference, attach the local export copy, and leave the message as an unsent draft.",
   "devices": [
     {
       "id": "android_0",
@@ -75,7 +75,7 @@
             "command": [
               "sh",
               "-c",
-              "set -e\nmkdir -p /storage/emulated/0/Documents/Markor\ncat > '/storage/emulated/0/Documents/Markor/Call handoff.md' <<'EOF'\n# Call handoff\n\nRecording: client-call.wav\nCall reference: CALL-317\nEOF"
+              "set -e\nmkdir -p /storage/emulated/0/Documents/Markor\ncat > '/storage/emulated/0/Documents/Markor/Call handoff.md' <<'EOF'\n# Call handoff\n\nRecording: client-call.wav\nPackage reference: CALL-317\nEOF"
             ]
           }
         }
@@ -111,14 +111,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "set -e\nrm -rf /tmp/audio_thunderbird_draft \"$HOME/.thunderbird/mail.default-release\"\nmkdir -p /tmp/audio_thunderbird_draft \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders\"\ncat > \"$HOME/.thunderbird/profiles.ini\" <<'EOF'\n[Profile0]\nName=local\nIsRelative=1\nPath=mail.default-release\nDefault=1\n\n[General]\nStartWithLastProfile=1\nVersion=2\nEOF\ncat > \"$HOME/.thunderbird/mail.default-release/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server1\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nEOF\n: > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Drafts\"\n: > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Drafts.msf\"",
-            "shell": true
-          }
-        },
-        {
-          "type": "execute",
-          "parameters": {
-            "command": "cat >> \"$HOME/.thunderbird/mail.default-release/prefs.js\" <<'EOF'\nuser_pref(\"mail.identity.id1.fullName\", \"Local Agent\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nEOF",
+            "command": "set -e\nrm -rf /tmp/audio_thunderbird_draft \"$HOME/.thunderbird/mail.default-release\"\nprofile=\"$HOME/.thunderbird/mail.default-release\"\nmkdir -p /tmp/audio_thunderbird_draft \"$profile/Mail/Local Folders\" \"$profile/Mail/localhost\"\ncat > \"$HOME/.thunderbird/profiles.ini\" <<'EOF'\n[Profile0]\nName=local\nIsRelative=1\nPath=mail.default-release\nDefault=1\n\n[General]\nStartWithLastProfile=1\nVersion=2\nEOF\ncat > \"$profile/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server2\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.accountmanager.localfoldersserver\", \"server1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.identity.id1.fullName\", \"Local Agent\");\nuser_pref(\"mail.identity.id1.draft_folder\", \"mailbox://nobody@Local%20Folders/Drafts\");\nuser_pref(\"mail.identity.id1.fcc_folder\", \"mailbox://nobody@Local%20Folders/Sent\");\nuser_pref(\"mail.identity.id1.smtpServer\", \"smtp1\");\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.directory-rel\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nuser_pref(\"mail.server.server1.userName\", \"nobody\");\nuser_pref(\"mail.server.server2.check_new_mail\", false);\nuser_pref(\"mail.server.server2.directory\", \"[ProfD]Mail/localhost\");\nuser_pref(\"mail.server.server2.directory-rel\", \"[ProfD]Mail/localhost\");\nuser_pref(\"mail.server.server2.download_on_biff\", false);\nuser_pref(\"mail.server.server2.hostname\", \"localhost\");\nuser_pref(\"mail.server.server2.login_at_startup\", false);\nuser_pref(\"mail.server.server2.name\", \"Local Agent\");\nuser_pref(\"mail.server.server2.port\", 110);\nuser_pref(\"mail.server.server2.socketType\", 0);\nuser_pref(\"mail.server.server2.type\", \"pop3\");\nuser_pref(\"mail.server.server2.userName\", \"agent\");\nuser_pref(\"mail.smtp.defaultserver\", \"smtp1\");\nuser_pref(\"mail.smtpserver.smtp1.hostname\", \"localhost\");\nuser_pref(\"mail.smtpserver.smtp1.port\", 25);\nuser_pref(\"mail.smtpserver.smtp1.try_ssl\", 0);\nuser_pref(\"mail.smtpserver.smtp1.username\", \"agent\");\nuser_pref(\"mail.smtpservers\", \"smtp1\");\nuser_pref(\"mail.provider.suppress_dialog_on_startup\", true);\nuser_pref(\"mailnews.start_page.enabled\", false);\nEOF\n: > \"$profile/Mail/Local Folders/Inbox\"\n: > \"$profile/Mail/Local Folders/Drafts\"\n: > \"$profile/Mail/Local Folders/Sent\"",
             "shell": true
           }
         },

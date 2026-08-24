@@ -103,6 +103,11 @@
         "type": "rule",
         "rules": {
           "payload_key": "orders",
+          "accepted_payload_shapes": [
+            "array",
+            "payload_array",
+            "payload_mapping"
+          ],
           "canonical_id": "order_id",
           "id_keys": [
             "order_id",
@@ -159,7 +164,7 @@
     "motif": "M2",
     "surfaces": "linux_0 CSV -> linux_1 JSON",
     "setup_note": "linux_0 上传并校验 orders.csv 可读；linux_1 清理旧 orders.json 并校验 /tmp/orders 可写。",
-    "evaluate_note": "Compares the complete logical CSV record multiset while accepting ordinary list and ID-keyed object JSON layouts.",
+    "evaluate_note": "Compares the complete logical CSV record multiset while accepting a top-level array, an orders array, or an orders ID-keyed object, with no unrelated wrapper fields.",
     "device_topology": "2L",
     "implementation_status": "real_evaluator",
     "readiness": "R1_native_real_fixture",
@@ -167,6 +172,6 @@
       "linux_1 orders.json preserves linux_0 orders.csv records"
     ],
     "asset_source": "tasks/cross_device/real100_assets/l2_csv_to_json/source",
-    "lite_evaluator_hardening_note": "The record evaluator preserves raw record count and multiplicity, rejects duplicate JSON keys/IDs and extra fields, and accepts equivalent list or ID-keyed object layouts without a competing fixed-schema write."
+    "lite_evaluator_hardening_note": "The record evaluator preserves raw record count and multiplicity, rejects duplicate JSON keys/IDs and extra fields, and accepts the three disclosed ordinary layouts: a top-level array, an orders array, or an orders ID-keyed object."
   }
 }

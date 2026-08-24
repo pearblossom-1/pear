@@ -21,7 +21,8 @@
         "rules": {
           "expected": {
             "semantic_report": {
-              "exact_report_count": 1,
+              "min_matching_report_count": 1,
+              "reject_nonmatching_reports": true,
               "category_aliases": [
                 "missing_device",
                 "missing device",

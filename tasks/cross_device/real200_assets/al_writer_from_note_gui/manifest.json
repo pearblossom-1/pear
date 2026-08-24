@@ -8,7 +8,7 @@
   "instruction": "The Android Markor note `Memo draft` is a short notice. Please use LibreOffice Writer on Linux to create `/tmp/memo/memo.odt` with the title and body.",
   "surfaces": "Android Markor -> Linux LibreOffice Writer",
   "setup_note": "Android 写入 Memo draft note；Linux 清理 memo.odt。",
-  "evaluate_note": "Requires a real ODT package with the Writer office:text body, manifest, styles/meta parts, multiple paragraphs, and the complete note content.",
+  "evaluate_note": "Requires a structurally valid Writer ODT with the title and complete source message as independent visible paragraphs, rejecting cancelled, obsolete, or superseded variants while allowing harmless run formatting.",
   "requires_helper_audit": false,
   "source_files": [],
   "expected_files": [],

@@ -2,14 +2,14 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>Asset Intake</title>
+  <title>Asset Record Intake</title>
 </head>
 <body>
-  <h1>Asset Intake</h1>
-  <p>Record the asset details visible in the requested Camera photo.</p>
+  <h1>Asset Record Intake</h1>
+  <p>Record the asset details shown in the requested phone photo.</p>
   <form id="form" method="post" action="__MDCBENCH_FORM_ACTION__">
     <label>Asset ID <input name="asset_id" required pattern="AT-[0-9]{4}"></label>
-    <label>Shelf / location <input name="location" required></label>
+    <label>Location <input name="location" required></label>
     <label>Photo filename <input name="photo_filename" required></label>
     <button type="submit">Submit</button>
   </form>

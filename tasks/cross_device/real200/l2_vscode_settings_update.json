@@ -168,7 +168,7 @@
     "source_card": "117",
     "difficulty": "Medium",
     "motif": "M3",
-    "interaction_mode": "GUI-focused",
+    "interaction_mode": "Hybrid",
     "device_topology": "2L",
     "surfaces": "linux_0 rule -> linux_1 VSCode settings",
     "setup_note": "linux_0 上传 settings request；linux_1 上传 VSCode workspace。",
@@ -255,6 +255,6 @@
     "android_text_outputs": [],
     "browser_state_outputs": [],
     "thunderbird_draft_outputs": [],
-    "lite_evaluator_hardening_note": "Task semantics and file evaluator remain unchanged. Setup validates the readable request, writable project, valid starting JSON, and VSCode availability. The evaluator checks only the resulting settings.json values and is not presented as proof of a VSCode-GUI-only editing path."
+    "lite_evaluator_hardening_note": "Setup and cleanup remove each task-owned /tmp/code root rather than leaving stale directories behind. Interaction mode is Hybrid because the instruction names VSCode while the outcome-focused evaluator validates the native workspace settings file without claiming GUI-only provenance."
   }
 }

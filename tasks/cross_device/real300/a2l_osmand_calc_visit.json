@@ -1,6 +1,6 @@
 {
   "id": "a2l_osmand_calc_visit",
-  "instruction": "The first phone's OsmAnd has a `Clinic` favorite, and the second phone's Simple Calendar Pro has the visit time. Please read the favorite name and coordinates from OsmAnd and the visit start time from Calendar, then complete the existing `/tmp/visit/visit.xlsx` template in Linux LibreOffice Calc.",
+  "instruction": "The first phone's OsmAnd has a `Clinic` favorite, and the second phone's Simple Calendar Pro has the visit appointment. Complete the existing `/tmp/visit/visit.xlsx` template in Linux LibreOffice Calc with one row containing the favorite name, its coordinates, and the appointment date and time, then save the workbook in place.",
   "devices": [
     {
       "id": "android_0",
@@ -85,7 +85,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "mkdir -p /tmp/visit",
+            "command": "set -e\nmkdir -p /tmp/visit\nrm -f /tmp/visit/visit.xlsx '/tmp/visit/.~lock.visit.xlsx#'\ntest -w /tmp/visit",
             "shell": true
           }
         },
@@ -98,6 +98,13 @@
                 "path": "/tmp/visit/visit.xlsx"
               }
             ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "set -e\nrm -f '/tmp/visit/.~lock.visit.xlsx#'\ntest -f /tmp/visit/visit.xlsx\ntest -r /tmp/visit/visit.xlsx\ntest -w /tmp/visit/visit.xlsx\npython3 - <<'PY'\nfrom zipfile import ZipFile\npath = '/tmp/visit/visit.xlsx'\nwith ZipFile(path) as workbook:\n    assert workbook.testzip() is None\n    sheet = workbook.read('xl/worksheets/sheet1.xml').decode('utf-8')\n    assert all(header in sheet for header in ('Name', 'Coordinates', 'Visit Time'))\nPY",
+            "shell": true
           }
         }
       ]
@@ -149,15 +156,12 @@
         "type": "rule",
         "rules": {
           "logical_table": {
-            "headers": ["Name", "Coordinates", "Visit Time"],
-            "rows": [["Clinic", "47.151, 9.532", "2027-02-16 10:00"]],
-            "coordinate_columns": {
-              "Coordinates": {
-                "latitude": 47.151,
-                "longitude": 9.532,
-                "tolerance": 0.00001
-              }
+            "headers": ["Name", "Address", "Visit Time"],
+            "header_aliases": {
+              "Address": ["Coordinates", "Address / Coordinates"],
+              "Visit Time": ["Date and time", "Visit date and time"]
             },
+            "rows": [["Clinic", "47.151, 9.532", "2027-02-16 10:00"]],
             "value_aliases": {
               "Visit Time": {
                 "2027-02-16 10:00": [
@@ -187,8 +191,8 @@
     "interaction_mode": "Hybrid",
     "device_topology": "A+A+L",
     "surfaces": "android_0 OsmAnd + android_1 Simple Calendar Pro -> Linux Calc",
-    "setup_note": "android_0 预置并在 OsmAnd GUI 中预检 Clinic favorite；android_1 写 2027-02-16 10:00 Calendar event；Linux 预置含 Name/Coordinates/Visit Time 表头的可编辑 XLSX template。",
-    "evaluate_note": "在整个 workbook 中查找唯一、可见的逻辑输出表；要求保留三个 template 表头并恰好填写一行 Clinic。坐标按 lat/lon 角色和 0.00001 容差解析，Visit Time 接受列出的等价日期时间格式。",
+    "setup_note": "android_0 预置可见 Clinic favorite；android_1 写 2027-02-16 10:00 Calendar event；Linux 清理旧输出与 lock，上传无答案行的三列 XLSX 模板，并验证其可读、可写和 OOXML 完整性。",
+    "evaluate_note": "在整个 workbook 中查找唯一、可见的逻辑输出表；允许标题行、sheet 名和位置差异，但要求恰好一行 Clinic/坐标/Calendar 时间且无重复、草稿或额外数据区。",
     "readiness": "R1_native_ready",
     "native_evaluator_status": "native_content",
     "requires_helper_audit": false,

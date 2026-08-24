@@ -115,7 +115,6 @@
         "type": "android_named_status_note",
         "path": "${photo_status_note}",
         "rules": {
-          "title": "Photo status",
           "source": "Simple SMS Messenger",
           "relations": {
             "site_panel.jpg": "missing"
@@ -154,8 +153,8 @@
     "difficulty": "Complex",
     "motif": "M7",
     "surfaces": "android_0 Simple SMS Messenger -> android_1 Android Files app 的 Download 文件夹/Markor",
-    "setup_note": "android_0 注入并校验 photo request SMS；android_1 准备 Markor/Download，校验目标照片和旧状态 note 均不存在。",
-    "evaluate_note": "Checks an actual Photo status title line, an exact filename-bound unambiguous missing relation and SMS source in the android_1 Markor note, then independently confirms the target file remains absent.",
+    "setup_note": "android_0 注入并校验 photo request SMS；android_1 准备 Markor/Download，并校验目标照片和旧状态 note 均不存在。",
+    "evaluate_note": "Checks an exact filename-bound unambiguous missing relation and the Simple SMS Messenger source in the android_1 Markor note, then independently confirms the target file remains absent. The note filename supplies its Photo status identity; the body does not have to repeat that title.",
     "device_topology": "2A",
     "implementation_status": "real_evaluator",
     "readiness": "R1_native_real_fixture",
@@ -163,6 +162,6 @@
       "android_1_markor_status_reports_photo_requested_by_android_0_sms"
     ],
     "asset_source": "tasks/cross_device/real100_assets/a2_missing_media_status/source",
-    "lite_evaluator_hardening_note": "The scored note parser requires an actual title line, uses extension-aware filename boundaries, and binds the exact requested filename to one unambiguous affirmative missing relation. Questions, uncertainty, and contradictions fail. At least one clear source assertion must identify Simple SMS Messenger; repeated consistent assertions or later descriptive mentions are allowed, while any conflicting source assertion fails. The target path is independently required to remain absent."
+    "lite_evaluator_hardening_note": "The scored note parser uses extension-aware filename boundaries and binds the exact requested filename to one unambiguous affirmative missing relation without imposing an undisclosed body-title line. Questions, uncertainty, contracted/no-longer/never contradictions, and duplicate or mixed sources fail. One unique source declaration may naturally use Source punctuation, Source is, Requested via, or from; the exact target path is separately required to remain absent."
   }
 }

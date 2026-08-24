@@ -56,12 +56,6 @@
         {
           "type": "ensure_app",
           "parameters": {
-            "app": "simple calendar pro"
-          }
-        },
-        {
-          "type": "ensure_app",
-          "parameters": {
             "app": "contacts"
           }
         },
@@ -348,7 +342,7 @@
     "interaction_mode": "GUI-focused",
     "device_topology": "2A+2L",
     "surfaces": "android_0 Simple Calendar Pro + android_1 Android Contacts app + linux_0 notification handoff + linux_1 local Impress template/output and Thunderbird",
-    "setup_note": "android_0 supplies the event; android_1 supplies attendees; linux_0 supplies and verifies the FO-618 handoff; linux_1 receives the local template, a clean output directory, and an empty usable Thunderbird Drafts profile.",
+    "setup_note": "android_0 supplies the event; android_1 supplies attendees through Contacts only; linux_0 supplies and verifies the FO-618 handoff; linux_1 receives the local template, a clean output directory, and an empty usable Thunderbird Drafts profile.",
     "evaluate_note": "Structurally validates the completed local-template ODP. The exact Drafts store must contain the intended recipient set, identify Field onboarding in subject or body, and state a positive package-ready relation with FO-618 in the body.",
     "implementation_status": "fixture_scaffold",
     "readiness": "R1_native_content_thunderbird_state",

@@ -1,13 +1,17 @@
 {
   "task_id": "a2_gallery_album_to_tasks",
   "source_files": [
-    "receipt_march_01.png",
-    "receipt_march_15.png",
-    "receipt_march_28.png"
+    "source/receipt_march_01.png",
+    "source/receipt_march_15.png",
+    "source/receipt_march_28.png"
   ],
   "expected_files": [],
   "device_topology": "A+A",
-  "instruction": "The first phone's Simple Gallery Pro has a `Receipts` album with three receipt images. Please add each image filename as a separate review to-do in the Tasks app on the second phone.",
+  "instruction": "The first phone's Simple Gallery Pro has a `Receipts` album with three receipt images. On the second phone, create one incomplete review task per image, using the exact image filename as the task title.",
   "surfaces": "android_0 Simple Gallery Pro -> android_1 Tasks app",
-  "requires_helper_audit": false
+  "requires_helper_audit": false,
+  "fixture_notes": [
+    "Only Simple Gallery Pro is required on the source phone and only Tasks is required on the target phone.",
+    "Scoring requires exactly the three visible filenames as distinct incomplete task titles."
+  ]
 }

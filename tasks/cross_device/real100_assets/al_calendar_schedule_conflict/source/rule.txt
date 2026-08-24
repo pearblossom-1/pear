@@ -1,8 +1,5 @@
 Schedule reconciliation rule
 Source of truth: Simple Calendar Pro
-
-For meetings with the same title, synchronize the date, start time, end time, and location from Simple Calendar Pro into week.csv.
-
-Do not modify CSV meetings that do not have a matching authoritative Calendar event.
-
-In log.json, record every field that changed for each corrected meeting, including both the old and new values.
+For meetings with matching titles, synchronize date, start, end, and location from the Android calendar.
+Leave non-matching meetings unchanged.
+In log.json, record every changed field with its old and new value.

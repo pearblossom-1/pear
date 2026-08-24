@@ -7,14 +7,12 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The existing Reminder alarm at 07:30 on the phone is the early fallback
-for travel readiness. Keep that alarm enabled.
+Reconciliation reference: SHIFT-612
+
+The phone already has an enabled Reminder alarm at 07:30. It is the early fallback for travel readiness and should remain enabled.
+Use the spreadsheet on the second Linux machine as the authority for the actual departure alarm for the next shift.
 
 Use the Morning row for 2026-06-12 in the roster on the second Linux
 machine as the authoritative source for the actual departure alarm.
 
-Reconciliation reference: SHIFT-612
-
-After adding the actual departure alarm, record the fallback alarm,
-the actual departure alarm, and this reconciliation reference in the
-reconciliation log.
+Keep the fallback, add the actual departure alarm, and complete the reconciliation log using the reference above.

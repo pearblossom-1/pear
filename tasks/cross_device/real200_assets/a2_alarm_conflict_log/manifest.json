@@ -8,7 +8,7 @@
   "instruction": "The Clock app on the second phone already has an enabled `Depot preparation` alarm at 07:50 as an early fallback, and it should stay. The first phone's Simple Calendar Pro event gives the actual departure time. Add an enabled `Depot departure` alarm at that calendar time on the second phone. Then write an `Alarm fix` note in Markor on the first phone that summarizes the two-alarm sequence from the preparation fallback to the actual departure, including both alarm labels and times.",
   "surfaces": "android_0 Simple Calendar Pro + android_1 Clock app -> android_1 Clock app + android_0 Markor",
   "setup_note": "android_0 creates the actual-departure Calendar event and resets the task-owned `Alarm fix` note; android_1 starts with the enabled 07:50 `Depot preparation` fallback alarm.",
-  "evaluate_note": "Requires both enabled alarm roles to be positively observable and one Markor note relation that connects the 07:50 preparation alarm to the 08:20 actual-departure alarm using natural structured or prose forms.",
+  "evaluate_note": "Requires both enabled alarms to be positively observable and binds the Markor note as two ordered semantic records: the retained 07:50 preparation fallback followed by the actual 08:20 departure.",
   "requires_helper_audit": false,
   "source_files": [],
   "expected_files": [
@@ -53,7 +53,7 @@
         "Depot departure",
         "08:20"
       ],
-      "relation_notes": "Accepts one entity-bound relation from the preparation alarm label/time to the actual-departure alarm label/time in natural structured, table, arrow, or from/to wording; duplicate or reversed relations fail."
+      "relation_notes": "Accepts prose, multiline key/value, and table forms when each alarm record has its own label, time, and role and the retained preparation record precedes the actual departure record. Reversed times, reversed order, or removal/replacement claims fail."
     }
   ],
   "browser_state_outputs": [],

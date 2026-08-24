@@ -7,13 +7,13 @@
   ],
   "expected_files": [],
   "device_topology": "A+L+L",
-  "instruction": "The Thunderbird email file `/tmp/shift/shift_email.eml` on the first Linux machine identifies which existing Android Clock alarm is the early fallback that must remain enabled and also provides the reconciliation reference. The `2026-06-12` Morning row in `/tmp/shift/roster.xlsx` on the second Linux machine is authoritative for the actual departure alarm. Read both sources, keep the fallback alarm enabled, add the actual departure alarm from the roster as an enabled alarm, and complete the existing `/tmp/shift/log.json` template on the second Linux machine with the fallback alarm label and time, the actual alarm label and time, and the reconciliation reference.",
+  "instruction": "The standalone email `/tmp/shift/shift_email.eml` on the first Linux machine explains the enabled fallback alarm in Android Clock and provides the reconciliation reference. The 2026-06-12 Morning row in `/tmp/shift/roster.xlsx` on the second Linux machine is authoritative for the actual departure alarm. Keep the fallback enabled, add the enabled alarm specified by that roster row, and complete `/tmp/shift/log.json` on the second Linux machine with the fallback alarm, actual alarm, and email reference.",
   "surfaces": "Thunderbird + Calc + Android Clock app",
   "requires_helper_audit": false,
   "fixture_notes": [
-    "The email identifies Reminder 07:30 as the retained fallback, provides the unique reconciliation reference, and deliberately omits the authoritative actual-departure label and time.",
+    "The email identifies Reminder 07:30 as an early fallback that must remain and is the only source of reference SHIFT-612, while deliberately omitting the authoritative actual-departure label and time.",
     "The Calc Morning row is the only source of the actual Pickup 08:20 alarm values.",
-    "The blank log_template.json defines fallback_alarm, actual_alarm, and reference without leaking any values.",
-    "Scoring uses positive presence for both requested alarms and structured coexistence fields rather than old/new replacement semantics."
+    "A blank public template discloses fallback_alarm, actual_alarm, and reference as the required output schema without exposing answer values.",
+    "Scoring uses positive presence for both requested alarms and one closed structured log; it does not infer absence or uniqueness from unsupported Clock-provider state."
   ]
 }

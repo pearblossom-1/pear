@@ -5,10 +5,10 @@
   "difficulty": "Simple",
   "motif": "M2",
   "interaction_mode": "Hybrid",
-  "instruction": "The first phone just took a field photo, and Audio Recorder on the second phone has a field voice recording. Please create `/tmp/media/manifest.json` on Linux with the filename, file type, and size of both media files as shown in each file's Details view. Use `photo` and `audio` objects, each with `filename`, `type`, and `size`; common labels such as `PNG`, `M4A`, or a MIME type are fine, and keep the displayed size unit.",
-  "surfaces": "android_0 Camera / android_1 Audio Recorder -> Linux manifest",
-  "setup_note": "android_0 扫描 photo 并预检 Gallery Details；android_1 将 audio 放入公共 Recordings、媒体扫描后通过 Audio Recorder Import 预检；Linux 清理 manifest.json。",
-  "evaluate_note": "Semantic validation accepts common PNG/M4A/MIME labels and exact-byte or realistically rounded B/KB/KiB/MB/MiB size displays while rejecting wrong files, types, or sizes.",
+  "instruction": "The first phone just took a field photo, and the second phone has a field voice recording in Android Files' Recordings folder. Please create `/tmp/media/manifest.json` on Linux with the filename, file type, and size of both media files as shown in each file's Details view. Use `photo` and `audio` objects, each with `filename`, `type`, and `size`; use the apps' displayed labels (common alternatives such as `PNG`, `M4A`, or a MIME type are also fine), and keep the displayed size unit.",
+  "surfaces": "android_0 Simple Gallery Pro details + android_1 Android Files details -> linux_0 JSON manifest",
+  "setup_note": "android_0 places and media-scans the photo for Simple Gallery Pro; android_1 places and media-scans the recording in Android Files' Recordings folder; linux_0 clears manifest.json.",
+  "evaluate_note": "Validates both filenames, accepts common PNG/M4A/MPEG-4 labels plus Android Files' observed MP3 audio category label, and requires the public size field with a displayed B/KB/KiB/MB/MiB unit at realistic decimal or binary UI precision.",
   "requires_helper_audit": false,
   "source_files": [
     "source/field_voice_168.m4a",
@@ -29,7 +29,10 @@
         "photo": {
           "filename": "incident_scene_168.png",
           "accepted_types": [
-            "image/png"
+            "image/png",
+            "PNG",
+            "PNG image",
+            "Portable Network Graphics"
           ],
           "target_bytes": 5113544,
           "accepted_size_fields": [
@@ -48,7 +51,12 @@
           "accepted_types": [
             "audio/m4a",
             "audio/mp4",
-            "audio/x-m4a"
+            "audio/x-m4a",
+            "M4A",
+            "MPEG-4 audio",
+            "MPEG-4",
+            "MP4 audio",
+            "MP3 audio"
           ],
           "target_bytes": 25633,
           "accepted_size_fields": [
@@ -82,7 +90,7 @@
   "browser_state_outputs": [],
   "thunderbird_draft_outputs": [],
   "fixture_notes": [
-    "Android Camera photo and public Recordings audio inputs are structurally valid, non-placeholder media; the audio is scanned and imported through Audio Recorder.",
-    "manifest.json requires the public unit-bearing size field, accepts B/KB/KiB/MB/MiB with display-precision rounding, and checks normalized visible container/type labels separately from codecs."
+    "The Simple Gallery Pro photo and Android Files recording inputs are structurally valid, non-placeholder media; the Files surface replaces an Audio Recorder setup whose welcome flow and private database left an uploaded file invisible.",
+    "manifest.json requires the public unit-bearing size field, accepts decimal or binary B/KB/KiB/MB/MiB display-precision rounding, and checks normalized visible container/type labels separately from codecs."
   ]
 }

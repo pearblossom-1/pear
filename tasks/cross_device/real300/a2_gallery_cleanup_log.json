@@ -43,12 +43,6 @@
           }
         },
         {
-          "type": "ensure_app",
-          "parameters": {
-            "app": "android files"
-          }
-        },
-        {
           "type": "adb_shell",
           "parameters": {
             "command": "rm -rf '/sdcard/Pictures/Cleanup Review'; content delete --uri content://media/external/images/media --where \"relative_path='Pictures/Cleanup Review/'\" >/dev/null 2>&1 || true; mkdir -p '/sdcard/Pictures/Cleanup Review'"

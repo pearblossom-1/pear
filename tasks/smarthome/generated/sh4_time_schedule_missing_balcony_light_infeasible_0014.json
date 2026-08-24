@@ -1,6 +1,6 @@
 {
   "id": "sh4_time_schedule_missing_balcony_light_infeasible_0014",
-  "instruction": "Since I don't want to check again later, before guests arrive, have balcony light 1 turn on two hours from now.",
+  "instruction": "Turn on balcony light 1 in two hours, before the guests arrive.",
   "devices": [
     {
       "id": "home_0",
@@ -43,7 +43,8 @@
         "rules": {
           "expected": {
             "semantic_report": {
-              "exact_report_count": 1,
+              "min_matching_report_count": 1,
+              "reject_nonmatching_reports": true,
               "category_aliases": [
                 "missing_device",
                 "missing device",

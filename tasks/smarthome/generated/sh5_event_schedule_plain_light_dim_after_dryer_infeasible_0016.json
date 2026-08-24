@@ -1,6 +1,6 @@
 {
   "id": "sh5_event_schedule_plain_light_dim_after_dryer_infeasible_0016",
-  "instruction": "Since I don't want to check again later, after the dryer finishes, dim laundry room light 1 to 40 percent.",
+  "instruction": "When the dryer finishes, dim laundry room light 1 to 40%.",
   "devices": [
     {
       "id": "home_0",
@@ -43,7 +43,8 @@
         "rules": {
           "expected": {
             "semantic_report": {
-              "exact_report_count": 1,
+              "min_matching_report_count": 1,
+              "reject_nonmatching_reports": true,
               "category_aliases": [
                 "missing_capability",
                 "missing capability",

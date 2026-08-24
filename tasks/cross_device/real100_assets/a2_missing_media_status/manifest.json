@@ -11,6 +11,6 @@
     "expected/Photo status.md"
   ],
   "evaluator_assumptions": [
-    "android_1 Markor Photo status note must report the requested missing file from android_0 SMS"
+    "android_1 Markor Photo status note must report the requested missing file and identify Simple SMS Messenger as its source; the body need not repeat the filename-derived note title"
   ]
 }

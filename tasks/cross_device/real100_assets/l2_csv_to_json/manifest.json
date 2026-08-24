@@ -11,6 +11,6 @@
     "expected/orders.json"
   ],
   "evaluator_assumptions": [
-    "orders.json must preserve every CSV row; common list- and object-based representations are accepted"
+    "orders.json must preserve every CSV row; a top-level array, an orders array, and an orders ID-keyed object are accepted without unrelated wrapper fields"
   ]
 }

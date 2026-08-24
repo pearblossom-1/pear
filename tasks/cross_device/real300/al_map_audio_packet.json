@@ -1,6 +1,6 @@
 {
   "id": "al_map_audio_packet",
-  "instruction": "Android OsmAnd has three site favorites for today: `North gate`, `Pump shed`, and `Service yard`. Record a 2-5 second Audio Recorder memo for each one, then use Android Files to export them to `Recordings` as `north_gate_memo.m4a`, `pump_shed_memo.m4a`, and `service_yard_memo.m4a`. Then create `/tmp/sites/packet.odt` in Linux LibreOffice Writer with one line per site relating its name, coordinates, and memo filename, and export `/tmp/sites/packet.pdf` as the field record.",
+  "instruction": "Android OsmAnd has three site favorites for today's field round: `North gate`, `Pump shed`, and `Service yard`. Make a distinct 2-5 second memo for each site in Audio Recorder. Name them `north_gate_memo`, `pump_shed_memo`, and `service_yard_memo`; use Audio Recorder's `Save as...` action to copy each memo to Downloads, then use Android Files to move all three into the public `Recordings` folder as `north_gate_memo.m4a`, `pump_shed_memo.m4a`, and `service_yard_memo.m4a`. Create `/tmp/sites/packet.odt` in Linux LibreOffice Writer with one line per site relating its name, coordinates, and memo filename, and export `/tmp/sites/packet.pdf` as the field record.",
   "devices": [
     {
       "id": "android_0",
@@ -119,7 +119,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "mkdir -p /tmp/sites",
+            "command": "set -e\nmkdir -p /tmp/sites\nrm -f /tmp/sites/packet.odt /tmp/sites/packet.pdf '/tmp/sites/.~lock.packet.odt#'\ntest -w /tmp/sites\ntest ! -e /tmp/sites/packet.odt\ntest ! -e /tmp/sites/packet.pdf",
             "shell": true
           }
         }
@@ -331,9 +331,9 @@
     "motif": "M4",
     "interaction_mode": "Hybrid",
     "device_topology": "A+L",
-    "surfaces": "OsmAnd + Audio Recorder + Writer/PDF",
-    "setup_note": "Android 将 Audio Recorder 设为 M4A，定向清理三个应用记录、内部副本、公共 Recordings 输出和 MediaStore 行，并在 OsmAnd GUI 中预检三个 favorite 及坐标；Linux 准备 packet 输出目录。",
-    "evaluate_note": "分别验证三段录音可解码且时长为 2-5 秒；验证 ODT 为真实 Writer 文档并把每个 site、坐标和 memo 文件名关联在同一可见行；验证导出的 PDF 包含同一现场记录。",
+    "surfaces": "OsmAnd + Audio Recorder + Android Files + Writer/PDF",
+    "setup_note": "Android 预置三个 OsmAnd favorites，并仅定向清理 Audio Recorder 私有目录、Downloads 和公共 Recordings 中的三个任务文件；Linux 清除旧 packet 输出与 LibreOffice lock 后验证目录可写。",
+    "evaluate_note": "分别验证公共 Recordings 中三段互异录音可解码且时长为 2-5 秒；验证 ODT 为真实 Writer 文档并把每个 site、坐标和 memo 文件名关联在同一可见行；验证导出的 PDF 包含同一现场记录。",
     "readiness": "R1_native_ready",
     "native_evaluator_status": "native_content",
     "requires_helper_audit": false,

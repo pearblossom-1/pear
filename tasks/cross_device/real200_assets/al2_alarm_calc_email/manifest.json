@@ -5,10 +5,10 @@
   "difficulty": "Medium",
   "motif": "M5",
   "interaction_mode": "GUI-focused",
-  "instruction": "The Android Clock app has a `Delivery` alarm. Please open `/tmp/delivery/schedule.xlsx` in LibreOffice Calc on the first Linux machine, find the Delivery row and fill in the alarm time, then create a notification draft in Thunderbird on the second Linux machine.",
+  "instruction": "The Android Clock app has a `Delivery` alarm. Please open `/tmp/delivery/schedule.xlsx` in LibreOffice Calc on the first Linux machine, find the Delivery row and fill in the alarm time, then create a notification draft in Thunderbird on the second Linux machine using the notification recipient shown in that Delivery row.",
   "surfaces": "Android Clock app + linux_0 Calc + linux_1 Thunderbird",
-  "setup_note": "Android 创建 Delivery alarm；linux_0 准备 schedule.xlsx；linux_1 准备 Thunderbird draft。",
-  "evaluate_note": "检查 Calc 单元格和 Thunderbird draft 内容。",
+  "setup_note": "Android provides the Delivery alarm; linux_0 provides schedule.xlsx with the notification recipient cue in the Delivery row; linux_1 provides a clean Thunderbird profile for the draft.",
+  "evaluate_note": "Checks the source-preserving Calc update and one exact-profile Thunderbird Drafts message whose Delivery label and 08:45 time form a positive, non-negated relation.",
   "requires_helper_audit": false,
   "source_files": [
     "source/visible/deb4d71f_schedule.xlsx"

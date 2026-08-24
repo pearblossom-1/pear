@@ -1,6 +1,6 @@
 {
   "id": "al2_mail_calc_alarm_sync",
-  "instruction": "The Thunderbird email file `/tmp/shift/shift_email.eml` on the first Linux machine identifies which existing Android Clock alarm is the early fallback that must remain enabled and also provides the reconciliation reference. The `2026-06-12` Morning row in `/tmp/shift/roster.xlsx` on the second Linux machine is authoritative for the actual departure alarm. Read both sources, keep the fallback alarm enabled, add the actual departure alarm from the roster as an enabled alarm, and complete the existing `/tmp/shift/log.json` template on the second Linux machine with the fallback alarm label and time, the actual alarm label and time, and the reconciliation reference.",
+  "instruction": "The standalone email `/tmp/shift/shift_email.eml` on the first Linux machine explains the enabled fallback alarm in Android Clock and provides the reconciliation reference. The 2026-06-12 Morning row in `/tmp/shift/roster.xlsx` on the second Linux machine is authoritative for the actual departure alarm. Keep the fallback enabled, add the enabled alarm specified by that roster row, and complete `/tmp/shift/log.json` on the second Linux machine with the fallback alarm, actual alarm, and email reference.",
   "devices": [
     {
       "id": "android_0",
@@ -201,24 +201,6 @@
               "time": "08:20"
             },
             "reference": "SHIFT-612"
-          },
-          "value_aliases": {
-            "fallback_alarm.time": {
-              "07:30": [
-                "7:30",
-                "07:30 AM",
-                "7:30 AM",
-                "7:30AM"
-              ]
-            },
-            "actual_alarm.time": {
-              "08:20": [
-                "8:20",
-                "08:20 AM",
-                "8:20 AM",
-                "8:20AM"
-              ]
-            }
           }
         }
       }
@@ -236,8 +218,8 @@
     "interaction_mode": "Hybrid",
     "device_topology": "A+L+L",
     "surfaces": "Thunderbird + Calc + Android Clock app",
-    "setup_note": "linux_0 receives the complete MIME email containing the fallback identity and unique reconciliation reference; linux_1 receives the authoritative roster plus a blank structured log template; Android starts with the enabled fallback alarm.",
-    "evaluate_note": "Requires both enabled alarms and the exact structured fallback_alarm/actual_alarm/reference paths. Labels and reference are outer-whitespace/case normalized without punctuation removal; only enumerated equivalent 12/24-hour time forms pass.",
+    "setup_note": "linux_0 receives the standalone email explaining the existing Reminder 07:30 fallback and SHIFT-612 reference; linux_1 receives the authoritative roster and a blank public log template; Android starts with that enabled fallback alarm.",
+    "evaluate_note": "Requires both the enabled Reminder 07:30 fallback and enabled Pickup 08:20 actual-departure alarm to be positively observable, plus the closed fallback_alarm/actual_alarm/reference contract in log.json.",
     "implementation_status": "real_evaluator",
     "readiness": "R1_native_ready",
     "native_evaluator_status": "native_content",
@@ -265,9 +247,9 @@
     "fixture_notes": [
       "The email identifies Reminder 07:30 as the retained fallback and is the only visible source of the reconciliation reference, while deliberately omitting the authoritative actual-departure label and time.",
       "The Calc Morning row is the only source of the actual Pickup 08:20 alarm values.",
-      "The pre-created log.json supplies only blank schema fields, so no hidden structure must be invented and no source value is leaked.",
-      "Scoring uses positive presence for both requested alarms and structured role fields; it does not model coexistence as old/new replacement."
+      "The email is the only source of reference SHIFT-612, and the visible blank template discloses the output schema without exposing answer values.",
+      "Scoring uses positive presence for both requested alarms and one closed structured log; it does not infer absence or uniqueness from unsupported Clock-provider state."
     ],
-    "lite_evaluator_hardening_note": "Linux0 is now causally necessary through its unique reconciliation-reference source. Linux1 starts with an explicit blank schema. The JSON evaluator requires the two role-bound label/time objects and punctuation-preserving reference, accepts only documented time aliases, rejects duplicate JSON keys, missing/extra schema fields, reversed role values, and old/new paraphrase structures. Clock scoring remains two independent positive enabled-state checks."
+    "lite_evaluator_hardening_note": "Uses only outcomes supported by the current Clock interface: positive observation of the setup-owned enabled fallback and the added enabled actual-departure alarm. The visible template defines a closed JSON object whose fallback, actual alarm, and reference values must all match their separate sources. Fresh current-hash smoke remains Core-owned."
   }
 }

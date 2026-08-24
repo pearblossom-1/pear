@@ -8,7 +8,7 @@
   "instruction": "Linux Thunderbird has an email titled `Tasks for today` with a task-list CSV attachment. In the Android Tasks app, add one incomplete task using the `title` from every CSV row.",
   "surfaces": "Linux Thunderbird -> Android Tasks app",
   "setup_note": "Linux Thunderbird Inbox 注入带 CSV 附件的邮件；Android 清空 Tasks app。",
-  "evaluate_note": "Requires the exact multiset of eight incomplete attachment titles, with no duplicates or extras in isolated benchmark-owned Tasks state.",
+  "evaluate_note": "Requires exactly one incomplete Android task for each of the eight attachment titles, with no duplicate or extra tasks in the isolated Tasks app state.",
   "requires_helper_audit": false,
   "source_files": [
     "source/message.eml",

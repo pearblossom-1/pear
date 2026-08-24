@@ -8,7 +8,7 @@
   "instruction": "The latest Simple SMS Messenger message on the first phone contains a web form OTP, and the Android Contacts app on the second phone has the client details. Please open `/home/user/web/client.html` in Linux Chrome, fill in the client details and OTP, and submit it.",
   "surfaces": "android_0 Simple SMS Messenger + android_1 Android Contacts app + Linux Chrome form",
   "setup_note": "android_0 注入 OTP；android_1 写入 contact；Linux 准备 web form。",
-  "evaluate_note": "Queries task-scoped, signed in-memory submission state; a success-looking URL or forged receipt file cannot create a passing submission.",
+  "evaluate_note": "Reads run-scoped submission state directly from an evaluator-host service outside the Linux guest; guest process replacement, direct navigation, stale listeners, and forged files cannot create a pass.",
   "requires_helper_audit": false,
   "source_files": [
     "source/visible/5f3aa9f8_client.html"

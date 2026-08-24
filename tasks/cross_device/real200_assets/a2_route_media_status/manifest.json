@@ -8,7 +8,7 @@
   "instruction": "The first phone's OsmAnd favorites list contains today's route, and each favorite name should correspond to a route photo with the same name in Simple Gallery Pro on the second phone. Please check the Gallery photo for each favorite name and create a `Route media status` note in Markor on the second phone marking each route point as present or missing.",
   "surfaces": "android_0 OsmAnd + android_1 Simple Gallery Pro / Markor",
   "setup_note": "android_0 写入 OsmAnd favorites；android_1 放置部分 route photos 并清理 status note。",
-  "evaluate_note": "检查 android_1 Markor status note 的语义状态，并独立校验两张源图 SHA-256 未变且 Fuel shed 仍缺失。",
+  "evaluate_note": "Checks boundary-aware present/missing relations without requiring a duplicate body title, and independently verifies the two present source-image hashes while Fuel shed remains absent.",
   "requires_helper_audit": false,
   "source_files": [
     "source/site_photo.png",
@@ -37,7 +37,6 @@
       "device_id": "android_1",
       "path": "/storage/emulated/0/Documents/Markor/Route media status.md",
       "include": [
-        "Route media status",
         "North gate: present",
         "Dock lane: present",
         "Fuel shed: missing"
@@ -48,8 +47,8 @@
   "thunderbird_draft_outputs": [],
   "fixture_notes": [
     "The two uploaded route images are valid, meaningful photographs.",
-    "The evaluator accepts natural punctuation and case variants while preserving each point's status relation.",
-    "The source-state guard requires the two present files to retain the exact setup asset bytes and requires Fuel shed to remain absent."
+    "The evaluator accepts natural punctuation, case variants, and the exact `.png` filename aliases while preserving each point's status relation.",
+    "The source-state guard requires both present files to retain their exact setup bytes and requires Fuel shed to remain absent."
   ],
   "cross_device_checks": [
     "real200_card_110_parsed_from_v3_expansion"

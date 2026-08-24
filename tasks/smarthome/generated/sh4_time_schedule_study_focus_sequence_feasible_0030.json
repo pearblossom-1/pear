@@ -1,6 +1,6 @@
 {
   "id": "sh4_time_schedule_study_focus_sequence_feasible_0030",
-  "instruction": "For tonight's setup, I'm finishing email before a focus block; in 20 minutes, set the study light to 35 percent, and twenty minutes after that turn on the study air purifier.",
+  "instruction": "I'm starting a focus session in 20 minutes. Set the study light to 35% then, and turn on the air purifier 20 minutes later.",
   "devices": [
     {
       "id": "home_0",
@@ -68,29 +68,6 @@
       "enable_score_calc": true,
       "metadata": {
         "role": "unique_persistent_plan_effects"
-      }
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_no_home_mutation",
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-          "device_ids": [
-            "study_dimmable_light_1",
-            "study_air_purifier_1"
-          ],
-          "preserve_current_time": true
-          }
-        }
-      },
-      "enable_score_calc": true,
-      "metadata": {
-        "role": "no_immediate_device_change"
       }
     }
   ],

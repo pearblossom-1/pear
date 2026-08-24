@@ -1,6 +1,6 @@
 {
   "id": "al_request_audio",
-  "instruction": "`/tmp/brief/request.txt` on Linux gives the required filename and audio format for a voice memo. Please use Android Audio Recorder to record a short audio clip and save it as requested.",
+  "instruction": "`/tmp/brief/request.txt` on Linux gives the filename, format, and public save location for a voice memo. Please use Android Audio Recorder to record a short audio clip and save or export it as requested. You may use Android Files to place the finished recording in the requested public folder.",
   "devices": [
     {
       "id": "android_0",
@@ -12,7 +12,7 @@
     }
   ],
   "variables": {
-    "memo_path": "/sdcard/Recordings/briefing.m4a"
+    "memo_path": "/storage/emulated/0/Recordings/briefing.m4a"
   },
   "setup": [
     {
@@ -31,23 +31,23 @@
           }
         },
         {
-          "type": "androidworld_audio_recorder_delete_by_name",
+          "type": "androidworld_media_isolate",
           "parameters": {
-            "filename": "briefing.m4a",
-            "name": "briefing",
-            "source_path": "/sdcard/Recordings/briefing.m4a",
-            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/briefing.m4a",
-            "format": "m4a"
+            "kind": "audio_recorder",
+            "namespace": "real100_al_request_audio"
+          }
+        },
+        {
+          "type": "androidworld_media_isolate",
+          "parameters": {
+            "kind": "shared_recordings",
+            "namespace": "real100_al_request_audio_exports"
           }
         },
         {
           "type": "adb_shell",
           "parameters": {
-            "command": [
-              "sh",
-              "-c",
-              "am force-stop com.dimowner.audiorecorder && su 0 sh -c 'prefs=/data/user/0/com.dimowner.audiorecorder/shared_prefs/com.dimowner.audiorecorder.data.PrefsImpl.xml; test -f \"$prefs\" && sed \"s#<string name=\\\"setting_recording_format\\\">[^<]*</string>#<string name=\\\"setting_recording_format\\\">m4a</string>#\" \"$prefs\" > \"$prefs.mdcbench\" && grep -Fq \"<string name=\\\"setting_recording_format\\\">m4a</string>\" \"$prefs.mdcbench\" && cat \"$prefs.mdcbench\" > \"$prefs\" && rm -f \"$prefs.mdcbench\"' && mkdir -p /sdcard/Recordings && test -w /sdcard/Recordings && test ! -e '${memo_path}'"
-            ],
+            "command": "content delete --uri content://media/external/audio/media --where \"_display_name='briefing.m4a' AND relative_path='Recordings/'\" >/dev/null 2>&1 || true; mkdir -p /sdcard/Recordings; rm -f '${memo_path}'",
             "check_exit_status": true
           }
         }
@@ -89,13 +89,24 @@
       "device_id": "android_0",
       "config": [
         {
-          "type": "androidworld_audio_recorder_delete_by_name",
+          "type": "adb_shell",
           "parameters": {
-            "filename": "briefing.m4a",
-            "name": "briefing",
-            "source_path": "/sdcard/Recordings/briefing.m4a",
-            "destination_path": "/storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/briefing.m4a",
-            "format": "m4a"
+            "command": "content delete --uri content://media/external/audio/media --where \"_display_name='briefing.m4a' AND relative_path='Recordings/'\" >/dev/null 2>&1 || true; rm -f '${memo_path}'; rmdir /sdcard/Recordings 2>/dev/null || true",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "androidworld_media_restore",
+          "parameters": {
+            "kind": "shared_recordings",
+            "namespace": "real100_al_request_audio_exports"
+          }
+        },
+        {
+          "type": "androidworld_media_restore",
+          "parameters": {
+            "kind": "audio_recorder",
+            "namespace": "real100_al_request_audio"
           }
         }
       ]
@@ -150,7 +161,8 @@
     "readiness": "R1_native_real_fixture",
     "device_topology": "1A+1L",
     "android_surfaces": [
-      "Audio Recorder"
+      "Audio Recorder",
+      "Android Files"
     ],
     "linux_surfaces": [
       "text"
@@ -163,10 +175,16 @@
     "asset_source": "tasks/cross_device/real100_assets/al_request_audio/source",
     "difficulty": "Simple",
     "motif": "M3",
-    "surfaces": "Linux text -> Android Audio Recorder file",
-    "setup_note": "Linux 上传并校验 request.txt；Android 将 Audio Recorder 设为 M4A，并定向清理应用索引、内部副本以及公共 Recordings 中的目标文件和 MediaStore 记录。",
-    "evaluate_note": "Pulls the named recording and uses ffprobe to require a real M4A/MP4-family container with a decodable AAC/ALAC audio stream, packets, and positive duration.",
+    "surfaces": "Linux text -> Android Audio Recorder recording -> public Android Recordings file",
+    "setup_note": "Linux uploads request.txt; Android isolates and later restores both existing Audio Recorder media and the public Recordings tree, then prepares only the requested output path.",
+    "evaluate_note": "Pulls /sdcard/Recordings/briefing.m4a and uses ffprobe to require a real M4A/MP4-family container with a decodable AAC/ALAC audio stream, packets, and positive duration.",
     "template_source": "tasks/cross_device/real20/briefing_voice_memo_001.json",
-    "lite_evaluator_hardening_note": "The visible request specifies the filename, M4A format, and public Recordings export path. Setup resets the exact app record, internal copy, public file, and MediaStore row before confirming the public destination is writable. Evaluation requires a decodable AAC/ALAC M4A-family recording of at least 0.25 seconds at that public path."
+    "capabilities": [
+      "audio recording",
+      "cross-device request following",
+      "file naming and public export",
+      "media handling"
+    ],
+    "lite_evaluator_hardening_note": "The evaluator rejects non-audio text or fake archives renamed .m4a and requires a decodable positive-duration recording at the disclosed public Recordings path. The oracle synthesizes and uploads a valid AAC/M4A artifact. Existing Audio Recorder media and the public Recordings tree are isolated and restored rather than broadly deleted."
   }
 }

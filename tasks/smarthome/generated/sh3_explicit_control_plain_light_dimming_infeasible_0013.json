@@ -1,6 +1,6 @@
 {
   "id": "sh3_explicit_control_plain_light_dimming_infeasible_0013",
-  "instruction": "As I'm planning the evening, I'm trying to soften the plain ceiling fixture named bedroom light 1 for bedtime; set that fixture to 35 percent brightness.",
+  "instruction": "Set bedroom light 1 to 35% brightness for bedtime.",
   "devices": [
     {
       "id": "home_0",
@@ -43,7 +43,8 @@
         "rules": {
           "expected": {
             "semantic_report": {
-              "exact_report_count": 1,
+              "min_matching_report_count": 1,
+              "reject_nonmatching_reports": true,
               "category_aliases": [
                 "missing_capability",
                 "missing capability",

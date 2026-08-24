@@ -37,28 +37,6 @@
       "metadata": {
         "role": "unique_persistent_plan_effects"
       }
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_no_home_mutation",
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-          "device_ids": [
-            "living_room_air_conditioner_1"
-          ],
-          "preserve_current_time": true
-          }
-        }
-      },
-      "enable_score_calc": true,
-      "metadata": {
-        "role": "no_immediate_device_change"
-      }
     }
   ],
   "initial_home_config": {

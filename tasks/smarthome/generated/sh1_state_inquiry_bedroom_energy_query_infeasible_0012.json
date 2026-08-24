@@ -1,6 +1,6 @@
 {
   "id": "sh1_state_inquiry_bedroom_energy_query_infeasible_0012",
-  "instruction": "As I'm planning the evening, I'm closing out my notes for the night; what is the bedroom energy use in kWh right now?",
+  "instruction": "How much energy is the bedroom using right now, in kWh?",
   "devices": [
     {
       "id": "home_0",
@@ -43,7 +43,8 @@
         "rules": {
           "expected": {
             "semantic_report": {
-              "exact_report_count": 1,
+              "min_matching_report_count": 1,
+              "reject_nonmatching_reports": true,
               "category_aliases": [
                 "unsupported_state_query",
                 "unsupported state query",

@@ -1,8 +1,8 @@
 {
   "task_id": "l2_mail_rule_foldering",
   "source_files": [
-    "inbox_seed.mbox",
-    "rules.json"
+    "source/inbox_seed.mbox",
+    "source/rules.json"
   ],
   "expected_files": [],
   "device_topology": "L+L",

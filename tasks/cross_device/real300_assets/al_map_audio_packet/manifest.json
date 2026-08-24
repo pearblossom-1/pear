@@ -1,11 +1,16 @@
 {
   "task_id": "al_map_audio_packet",
   "source_files": [
-    "site_favorites.gpx"
+    "source/site_favorites.gpx"
   ],
   "expected_files": [],
   "device_topology": "A+L",
-  "instruction": "Android OsmAnd has three site favorites for today: `North gate`, `Pump shed`, and `Service yard`. Record a 2-5 second Audio Recorder memo for each one, then use Android Files to export them to `Recordings` as `north_gate_memo.m4a`, `pump_shed_memo.m4a`, and `service_yard_memo.m4a`. Then create `/tmp/sites/packet.odt` in Linux LibreOffice Writer with one line per site relating its name, coordinates, and memo filename, and export `/tmp/sites/packet.pdf` as the field record.",
-  "surfaces": "OsmAnd + Audio Recorder + Writer/PDF",
-  "requires_helper_audit": false
+  "instruction": "Android OsmAnd has three site favorites for today's field round: `North gate`, `Pump shed`, and `Service yard`. Make a distinct 2-5 second memo for each site in Audio Recorder. Name them `north_gate_memo`, `pump_shed_memo`, and `service_yard_memo`; use Audio Recorder's `Save as...` action to copy each memo to Downloads, then use Android Files to move all three into the public `Recordings` folder as `north_gate_memo.m4a`, `pump_shed_memo.m4a`, and `service_yard_memo.m4a`. Create `/tmp/sites/packet.odt` in Linux LibreOffice Writer with one line per site relating its name, coordinates, and memo filename, and export `/tmp/sites/packet.pdf` as the field record.",
+  "surfaces": "OsmAnd + Audio Recorder + Android Files + Writer/PDF",
+  "requires_helper_audit": false,
+  "fixture_notes": [
+    "The final audio artifacts belong in the public Recordings folder; setup never creates those scored files.",
+    "Each recording must be a distinct decodable 2-5 second M4A-compatible audio file, but no spoken content is prescribed.",
+    "The Linux setup removes only task-owned ODT, PDF, and LibreOffice lock remnants."
+  ]
 }

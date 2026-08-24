@@ -1,6 +1,6 @@
 {
   "id": "al_calendar_schedule_conflict",
-  "instruction": "This week's meeting schedule has conflicts: Android Simple Calendar Pro and Linux `/tmp/schedule/week.csv` disagree on details for meetings with the same names. `/tmp/schedule/rule.txt` explains which source is authoritative and which fields should be synchronized. Please correct the CSV accordingly and write `/tmp/schedule/log.json` documenting the fields that changed, including their old and new values.",
+  "instruction": "This week's meeting schedule has conflicts: Android Simple Calendar Pro and Linux `/tmp/schedule/week.csv` disagree on details for meetings with the same names. Follow `/tmp/schedule/rule.txt`: synchronize each matching meeting's date, start, end, and location from Android, leave non-matching meetings unchanged, then write `/tmp/schedule/log.json` with every field that changed and its old and new values.",
   "devices": [
     {
       "id": "android_0",
@@ -111,12 +111,8 @@
         "type": "rule",
         "rules": {
           "format": "json",
-          "relation_mode": "field_change_set",
           "require_affirmative": true,
           "entity": "Vendor planning",
-          "forbidden_change_entities": [
-            "Ops sync"
-          ],
           "old": {
             "start": "09:00",
             "end": "10:00",
@@ -126,36 +122,7 @@
             "start": "15:00",
             "end": "16:00",
             "location": "Room 8"
-          },
-          "field_groups": [
-            {
-              "name": "time",
-              "aliases": [
-                "start",
-                "end"
-              ],
-              "old": [
-                "09:00",
-                "10:00"
-              ],
-              "new": [
-                "15:00",
-                "16:00"
-              ],
-              "value_pattern": "(?<![0-9])\\d{1,2}:\\d{2}(?![0-9])"
-            },
-            {
-              "name": "location",
-              "aliases": [],
-              "old": [
-                "Room 2"
-              ],
-              "new": [
-                "Room 8"
-              ],
-              "value_pattern": "\\broom\\s+\\d+\\b"
-            }
-          ]
+          }
         }
       }
     },
@@ -209,7 +176,7 @@
     "motif": "M6",
     "surfaces": "Android Simple Calendar Pro + Linux schedule -> Linux corrected CSV + log",
     "setup_note": "Android 写入 source-of-truth Calendar；Linux 上传完整 reconciliation rule 与不一致 CSV，清理 log，并校验输入可读、CSV/目录可写。",
-    "evaluate_note": "Checks the exact corrected logical CSV and requires the complete Vendor planning time and location change set in log.json, accepting nested maps, change lists, or flattened old/new fields plus harmless metadata.",
+    "evaluate_note": "Checks the exact corrected logical CSV and requires exactly one Vendor planning old-to-new change set covering start, end, and location in the log, accepting ordinary structured, table, arrow, from/to, moved, changed, and replaced wording. An unrelated meeting may be identified as unchanged without being mistaken for a second change.",
     "device_topology": "1A+1L",
     "implementation_status": "real_evaluator",
     "readiness": "R1_native_real_fixture",
@@ -217,6 +184,6 @@
       "linux_schedule_csv_and_log_follow_android_calendar_source_of_truth"
     ],
     "asset_source": "tasks/cross_device/real100_assets/al_calendar_schedule_conflict/source",
-    "lite_evaluator_hardening_note": "The field-change-set mode binds Vendor planning to both required changes: 09:00-10:00 -> 15:00-16:00 and Room 2 -> Room 8. It accepts the three visible JSON organizations in the repair spec and harmless source/note/update metadata, while rejecting reversed values, missing fields, unexpected room/time values, or an Ops sync change record."
+    "lite_evaluator_hardening_note": "The scored log check parses independent relation objects/clauses and requires exactly one entity-bound Vendor planning change with old and new start, end, and location values. Equivalent structured, table, arrow, from/to, moved, changed, and replaced wording passes; duplicates, extra changes, mixed markers, target-bound negation or unchanged claims, and later old-instead/reversed/reverted/withdrawn/retracted final states fail. A sibling such as Ops sync may be listed as unchanged context."
   }
 }

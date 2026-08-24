@@ -92,6 +92,13 @@
         "field_names": [
           "download_code"
         ],
+        "field_rules": {
+          "download_code": {
+            "match_mode": "trimmed_exact",
+            "canonical_value": "4829",
+            "case_sensitive": true
+          }
+        },
         "expected_sha256": "491c2eda03dde0c93f578d73934d7096345a1a08432c96210aa7a0b9c533c98e",
         "client_path": "/home/user/download/portal.html",
         "action_placeholder": "__MDCBENCH_FORM_ACTION__",
@@ -165,6 +172,6 @@
         }
       }
     ],
-    "lite_evaluator_hardening_note": "The host verifier now requires both a valid current-run submission and the successful download GET; the guest PDF must match the host source SHA, parse with pdftotext, and contain the statement anchors."
+    "lite_evaluator_hardening_note": "The run-scoped host verifier binds download_code to exact trimmed value 4829 and requires both a valid current-run submission and the successful download GET; the guest PDF must match the host source SHA, parse with pdftotext, and contain the statement anchors."
   }
 }

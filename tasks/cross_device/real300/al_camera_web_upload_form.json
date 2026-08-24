@@ -1,6 +1,6 @@
 {
   "id": "al_camera_web_upload_form",
-  "instruction": "The Android Camera folder contains `asset_tag_photo.jpg`. Inspect the asset label and the shelf/location shown in that photo. Then open `/home/user/upload/form.html` in Linux Chrome, enter the asset id, the shelf/location, and the photo filename shown on the phone, and submit the form.",
+  "instruction": "The Android Camera album contains `asset_tag_photo.jpg`. Inspect the image and its visible file details to identify the asset id, shelf location, and exact photo filename. Enter those three values in `/home/user/upload/form.html` in Linux Chrome and submit the asset record.",
   "devices": [
     {
       "id": "android_0",
@@ -19,12 +19,6 @@
           "type": "adb_shell",
           "parameters": {
             "command": "rm -f /sdcard/DCIM/Camera/asset_tag_photo.jpg; content delete --uri content://media/external/images/media --where \"_display_name='asset_tag_photo.jpg' AND relative_path='DCIM/Camera/'\" >/dev/null 2>&1 || true"
-          }
-        },
-        {
-          "type": "ensure_app",
-          "parameters": {
-            "app": "camera"
           }
         },
         {
@@ -123,7 +117,7 @@
           "asset_id": {
             "match_mode": "trimmed_exact",
             "canonical_value": "AT-4172",
-            "case_sensitive": false
+            "case_sensitive": true
           },
           "location": {
             "required_tokens": ["north", "shelf"],
@@ -155,9 +149,9 @@
     "motif": "M3",
     "interaction_mode": "GUI",
     "device_topology": "A+L",
-    "surfaces": "Android Camera folder / Simple Gallery Pro + Linux Chrome intake form",
-    "setup_note": "Android 清理 Camera 输出、写入照片，并通过 Gallery Properties 预检完整文件名与 GUI 可见性；Linux 准备由 harness 注入 run-scoped action 的本地文本表单。",
-    "evaluate_note": "读取 evaluator-host 持有的本轮提交状态；要求表单恰好提交 asset_id、location、photo_filename 三个文本字段。Asset ID 与文件名做保留标点的大小写无关精确匹配，location 接受肯定的 north+shelf 自然表达；不再要求跨设备上传 JPEG 字节。",
+    "surfaces": "Android Simple Gallery Pro Camera album + Linux Chrome asset form",
+    "setup_note": "Android 定向重建 Camera album 中可见的 asset_tag_photo.jpg 并触发 media scan；Linux 准备不含答案的三字段 local form。",
+    "evaluate_note": "读取 evaluator-host 持有的本轮提交状态；只有本轮表单同时提交图片中可见的 asset id、shelf location 和 Gallery 可见 filename 才通过，直接跳转或 guest 伪造状态无效。",
     "readiness": "R1_native_ready",
     "native_evaluator_status": "mixed_native_content",
     "requires_helper_audit": false,
@@ -165,7 +159,7 @@
       {
         "device_id": "linux_0",
         "func": "exact_match",
-        "path": "evaluator-host run-scoped multipart submission state",
+        "path": "evaluator-host run-scoped form submission state",
         "result_type": "host_form_submission_state"
       }
     ]
