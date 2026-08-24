@@ -23,17 +23,26 @@
             ],
             [
               "old fallback",
-              "old evening"
+              "old evening",
+              "previous plan",
+              "previous workflow",
+              "old plan",
+              "earlier plan"
             ],
             [
               "evening workflow",
-              "replacement workflow"
+              "replacement workflow",
+              "replacement",
+              "replacement plan",
+              "updated plan",
+              "new plan"
             ]
           ],
           "required_phrases": [
             [
               "applied",
-              "active"
+              "active",
+              "scheduled"
             ],
             [
               "cancelled",

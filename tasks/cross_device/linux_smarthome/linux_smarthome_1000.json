@@ -1,6 +1,6 @@
 {
   "id": "linux_smarthome_1000",
-  "instruction": "`/tmp/capability/policy.html` on the first Linux machine defines writable and read-only fields, and `/tmp/capability/board.xlsx` on the second Linux machine has four requests. Query Home, perform only the supported changes, complete the board's Decision and After columns, and save it at the same path.",
+  "instruction": "`/home/user/capability/policy.html` on the first Linux machine defines writable and read-only fields, and `/tmp/capability/board.xlsx` on the second Linux machine has four requests. Query Home, perform only the supported changes, complete the board's Capability, Policy, Evidence, Decision, and After columns for every request, and save it at the same path.",
   "devices": [
     {
       "id": "linux_0",
@@ -22,7 +22,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "rm -f -- /tmp/capability/policy.html && mkdir -p -- /tmp/capability",
+            "command": "rm -f -- /home/user/capability/policy.html && mkdir -p -- /home/user/capability",
             "shell": true
           }
         },
@@ -32,7 +32,7 @@
             "files": [
               {
                 "local_path": "${repo_root}/tasks/cross_device/linux_smarthome_assets/linux_smarthome_1000/source/tmp/capability/policy.html",
-                "path": "/tmp/capability/policy.html"
+                "path": "/home/user/capability/policy.html"
               }
             ]
           }
@@ -81,7 +81,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "rm -f -- /tmp/capability/policy.html; find /tmp/capability -type d -empty -delete 2>/dev/null || true",
+            "command": "rm -f -- /home/user/capability/policy.html; find /home/user/capability -type d -empty -delete 2>/dev/null || true",
             "shell": true
           }
         }
@@ -310,17 +310,22 @@
     "category": "linux_smarthome",
     "source_idea": "linux_smarthome_idea_1000",
     "surfaces": [
-      "2linux",
-      "linux_xlsx_source",
-      "home_capability_board",
-      "linux_xlsx_output",
-      "linux_html_source"
+      "linux.html",
+      "linux.xlsx",
+      "smarthome.capability",
+      "smarthome.home_state"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "smarthome_reasoning",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_1000",
     "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_1000/episode_config.json",
     "oracle_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_1000/oracle_positive.json",
     "linux_source_paths": [
-      "/tmp/capability/policy.html",
+      "/home/user/capability/policy.html",
       "/tmp/capability/board.xlsx"
     ],
     "linux_output_paths": [
@@ -328,7 +333,7 @@
     ],
     "linux_source_paths_by_device": {
       "linux_0": [
-        "/tmp/capability/policy.html"
+        "/home/user/capability/policy.html"
       ],
       "linux_1": [
         "/tmp/capability/board.xlsx"
@@ -381,7 +386,7 @@
         "result_type": "vm_file"
       }
     ],
-    "setup_note": "Uploads /tmp/capability/policy.html, /tmp/capability/board.xlsx and resets home_0 from the task episode config.",
+    "setup_note": "Uploads /home/user/capability/policy.html, /tmp/capability/board.xlsx and resets home_0 from the task episode config.",
     "evaluate_note": "Evaluates the preserved capability board with semantic explanatory fields and exact Decision tokens, and permits only the office-curtain and living-AC state changes with no new plans.",
     "idea_number": 1000,
     "candidate_triage": {

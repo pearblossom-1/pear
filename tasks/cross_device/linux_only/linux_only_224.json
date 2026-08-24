@@ -148,7 +148,21 @@
             "allow_auxiliary_sheets": [
               "Notes"
             ],
-            "allow_column_reordering": true
+            "allow_column_reordering": true,
+            "value_aliases": {
+              "address": {
+                "": [
+                  "N/A",
+                  "NA"
+                ]
+              },
+              "contact": {
+                "": [
+                  "N/A",
+                  "NA"
+                ]
+              }
+            }
           }
         }
       },
@@ -203,6 +217,12 @@
     "surfaces": [
       "csv",
       "xlsx"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_224",

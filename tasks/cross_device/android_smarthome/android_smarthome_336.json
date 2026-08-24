@@ -98,7 +98,7 @@
       "func": "exact_match",
       "result": {
         "type": "adb_shell",
-        "command": "test -f '/storage/emulated/0/Documents/Markor/Home air audit.md' || { echo missing; exit 0; }\nok=1\ngrep -Eiq '(^|[^0-9])1([^0-9]|$).*kitchen.*92.*purifier:[[:space:]]*off.*plan:[[:space:]]*none.*status:[[:space:]]*none' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\ngrep -Eiq '(^|[^0-9])2([^0-9]|$).*study.*71.*purifier:[[:space:]]*(on|running).*plan:[[:space:]]*20:00.*high.*status:[[:space:]]*active' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\ngrep -Eiq '(^|[^0-9])3([^0-9]|$).*bedroom.*58.*purifier:[[:space:]]*(on|running).*plan:[[:space:]]*none.*status:[[:space:]]*none' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\ngrep -Eiq '^recommendation:[[:space:]]*.+' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\nif grep -Eiq 'purifier:[[:space:]]*(not|never)|plan:[[:space:]]*(no[[:space:]]+plan|not)|status:[[:space:]]*(not|inactive|cancel)' '/storage/emulated/0/Documents/Markor/Home air audit.md'; then ok=0; fi\nif [ \"$ok\" -eq 1 ]; then echo present; else echo missing; fi"
+        "command": "test -f '/storage/emulated/0/Documents/Markor/Home air audit.md' || { echo missing; exit 0; }\nok=1\ngrep -Eiq '(^|[^0-9])1([^0-9]|$).*kitchen.*92.*purifier:[[:space:]]*off.*plan:[[:space:]]*none.*status:[[:space:]]*none' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\ngrep -Eiq '(^|[^0-9])2([^0-9]|$).*study.*71.*purifier:[[:space:]]*(on|running).*plan:[[:space:]]*20:00.*high.*status:[[:space:]]*active' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\ngrep -Eiq '(^|[^0-9])3([^0-9]|$).*bedroom.*58.*purifier:[[:space:]]*(on|running).*plan:[[:space:]]*none.*status:[[:space:]]*none' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\nrow1=$(grep -Ein '(^|[^0-9])1([^0-9]|$).*kitchen.*92.*purifier:[[:space:]]*off.*plan:[[:space:]]*none.*status:[[:space:]]*none' '/storage/emulated/0/Documents/Markor/Home air audit.md' | head -n 1 | cut -d: -f1)\nrow2=$(grep -Ein '(^|[^0-9])2([^0-9]|$).*study.*71.*purifier:[[:space:]]*(on|running).*plan:[[:space:]]*20:00.*high.*status:[[:space:]]*active' '/storage/emulated/0/Documents/Markor/Home air audit.md' | head -n 1 | cut -d: -f1)\nrow3=$(grep -Ein '(^|[^0-9])3([^0-9]|$).*bedroom.*58.*purifier:[[:space:]]*(on|running).*plan:[[:space:]]*none.*status:[[:space:]]*none' '/storage/emulated/0/Documents/Markor/Home air audit.md' | head -n 1 | cut -d: -f1)\nif [ -z \"$row1\" ] || [ -z \"$row2\" ] || [ -z \"$row3\" ] || [ \"$row1\" -ge \"$row2\" ] || [ \"$row2\" -ge \"$row3\" ]; then ok=0; fi\ngrep -Eiq '^[[:space:]]*((recommendation|follow[- ]?up|next[[:space:]]+step)[[:space:]]*:[[:space:]]*[^[:space:]].*|(i[[:space:]]+recommend|consider|the[[:space:]]+household[[:space:]]+should|please[[:space:]]+review|review|monitor|check|discuss)[[:space:]]+[^[:space:]].*)$' '/storage/emulated/0/Documents/Markor/Home air audit.md' || ok=0\nif grep -Eiq 'purifier:[[:space:]]*(not|never)|plan:[[:space:]]*(no[[:space:]]+plan|not)|status:[[:space:]]*(not|inactive|cancel)' '/storage/emulated/0/Documents/Markor/Home air audit.md'; then ok=0; fi\nif [ \"$ok\" -eq 1 ]; then echo present; else echo missing; fi"
       },
       "expected": {
         "type": "rule",
@@ -234,7 +234,14 @@
     "source_idea": "android_smarthome_idea_336",
     "surfaces": [
       "markor",
-      "home_state"
+      "home_state",
+      "home_schedule"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "smarthome_reasoning",
+      "temporal_or_workflow_planning"
     ],
     "readiness": "static_reviewed",
     "native_content_outputs": [

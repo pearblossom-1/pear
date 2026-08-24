@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1078",
-  "instruction": "Before submitting `/tmp/form/request_form.html` in Linux Chrome, check whether the latest Simple SMS Messenger message actually provides the required form code for the approved case. Use `/tmp/form/request_table.csv` and `/tmp/form/handoff_policy.md` as the source records. If the required form code is unavailable, leave the form unsubmitted and add a Markor handoff note at `/storage/emulated/0/Documents/Markor/1078-A_blocked.md` explaining the approved case, approval code, owner, and blocked status.",
+  "instruction": "Before submitting `/tmp/form/request_form.html` in Linux Chrome, check whether the latest Simple SMS Messenger message actually provides the required form code for the approved case. Use `/tmp/form/request_table.csv` and `/tmp/form/handoff_policy.md` as the source records. If the required form code is unavailable, leave the form unsubmitted and add a Markor handoff note at `/storage/emulated/0/Documents/Markor/1078-A_blocked.md` explaining the approved case, approval code, owner, and that the request is blocked because the required SMS form code is unavailable.",
   "devices": [
     {
       "id": "android_0",
@@ -220,10 +220,18 @@
     "triage_reason": "Implemented as a positive blocked-state task because the candidate contains missing, conflicting, denied, or otherwise non-actionable source evidence.",
     "device_topology": "android_0+linux_0",
     "surfaces": [
-      "android.android_file",
-      "android.sms",
       "linux.csv",
-      "linux.html"
+      "linux.html",
+      "linux.text",
+      "markor",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1078",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1078/episode_config.json",

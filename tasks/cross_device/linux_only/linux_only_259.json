@@ -197,6 +197,12 @@
       "tests",
       "text"
     ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
+    ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_259",
     "linux_source_paths_by_device": {

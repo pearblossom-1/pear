@@ -527,9 +527,15 @@
       "tasks",
       "home_state",
       "home_command",
-      "home_schedule",
-      "two_android",
-      "rollback_repair"
+      "home_schedule"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "negative_or_conflict_handling",
+      "temporal_or_workflow_planning"
     ],
     "readiness": "static_reviewed",
     "native_content_outputs": [

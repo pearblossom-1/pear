@@ -164,15 +164,17 @@
           "entity_relation": {
             "entities": [
               [
-                "CASE-500",
-                "CASE-5OO"
+              "CASE-500",
+              "CASE-5OO",
+              "CASE-5O0"
               ],
               "Winter readiness"
             ],
             "required_phrases": [
               [
-                "CASE-500",
-                "CASE-5OO"
+              "CASE-500",
+              "CASE-5OO",
+              "CASE-5O0"
               ],
               "Winter readiness"
             ],
@@ -205,7 +207,8 @@
           "min_total_match": 0.3,
           "min_salient_match": 0.48,
           "min_edge_match": 0.38,
-          "color_tolerance": 58
+          "color_tolerance": 58,
+          "max_source_occlusion_fraction": 0.42
         }
       },
       "metadata": {
@@ -289,6 +292,13 @@
       "csv",
       "image",
       "pdf"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "media_handling",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_305",

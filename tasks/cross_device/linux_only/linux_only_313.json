@@ -1,6 +1,6 @@
 {
   "id": "linux_only_313",
-  "instruction": "Complete `meeting_minutes_MID-42.docx` on the first Linux machine from the published meeting at `/home/user/meetings/index.html` on the second. Leave the selected anchored page open in Chrome, preserve the Writer template's title and single table, and replace all fields with the meeting details and agenda.",
+  "instruction": "Complete `/home/user/documents/meeting_minutes_MID-42.docx` on the first Linux machine using the Writer template at `/home/user/templates/meeting_minutes_template.docx` and the published meeting at `/home/user/meetings/index.html` on the second Linux machine. Leave the selected anchored page open in Chrome, preserve the template's `Meeting Brief` title and single table, and replace all fields with the selected meeting details and agenda.",
   "devices": [
     {
       "id": "linux_0",
@@ -253,13 +253,19 @@
     "max_wall_time_s": 300
   },
   "metadata": {
-    "category": "generated_cross_device",
+    "category": "linux_only",
     "implementation_status": "final",
     "readiness": "static_reviewed",
     "device_topology": "2linux",
     "surfaces": [
       "linux.html_browser",
       "linux.odt_docx"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "review_summary": "The published anchored meeting page and Writer template support one valid grid-table DOCX; exact anchored URL state and the completed document directly verify the requested outcomes without a duplicate tab title check.",
     "topology_view": "linux_only"

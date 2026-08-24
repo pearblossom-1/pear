@@ -138,7 +138,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "pkill -f 'mdcbench-linux-android-1324-lo-profile' 2>/dev/null || true; rm -rf -- /tmp/mdcbench-linux-android-1324-lo-profile; rm -f -- /tmp/agenda/template.odt /tmp/agenda/appointment_agenda.odt /tmp/agenda/writer.log '/tmp/agenda/.~lock.appointment_agenda.odt#' '/tmp/agenda/.~lock.template.odt#'; find /tmp/agenda -type d -empty -delete 2>/dev/null || true",
+            "command": "pkill -x soffice.bin 2>/dev/null || true; rm -rf -- /tmp/mdcbench-linux-android-1324-lo-profile; rm -f -- /tmp/agenda/template.odt /tmp/agenda/appointment_agenda.odt /tmp/agenda/writer.log '/tmp/agenda/.~lock.appointment_agenda.odt#' '/tmp/agenda/.~lock.template.odt#'; find /tmp/agenda -type d -empty -delete 2>/dev/null || true",
             "shell": true
           }
         }
@@ -255,8 +255,15 @@
     "surfaces": [
       "calendar",
       "contacts",
-      "sms",
-      "linux.odt"
+      "linux.odt",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1324",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1324/episode_config.json",

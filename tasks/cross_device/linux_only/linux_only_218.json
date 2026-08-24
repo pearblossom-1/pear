@@ -1,6 +1,6 @@
 {
   "id": "linux_only_218",
-  "instruction": "The training coordinator needs a clean exception handoff before issuing completion certificates. Reconcile `/tmp/training/attendance.csv` on the first Linux machine with `/tmp/training/certificates.csv` on the second. On the second machine, create `/tmp/training/certificate_gaps.xlsx` with one row per attendance exception, keeping each attendee, required session, and a plain-language certificate disposition together. Also create `/tmp/training/email_notes.md` with one concise section or table record per attendee that repeats the required session and explains why a certificate is needed or why the available certificate is not valid for it.",
+  "instruction": "The training coordinator needs a clean exception handoff before issuing completion certificates. Reconcile `/tmp/training/attendance.csv` on the first Linux machine with `/tmp/training/certificates.csv` on the second. On the second machine, create `/tmp/training/certificate_gaps.xlsx` with one row per attendance exception, keeping each attendee, required session, and a plain-language certificate disposition together. Also create `/tmp/training/email_notes.md` with one concise section or table record per attendee that repeats the required session and explains why a certificate is needed or why the available certificate is not valid for it. If an available certificate belongs to a different session, identify that existing certificate session in the disposition and note.",
   "devices": [
     {
       "id": "linux_0",
@@ -169,6 +169,10 @@
                       "certificate is needed",
                       "needs a certificate",
                       "need a certificate",
+                      "certificate missing",
+                      "certificate is missing",
+                      "missing certificate",
+                      "certificate absent",
                       "required certificate missing",
                       "required certificate is missing",
                       "no certificate",
@@ -246,7 +250,7 @@
       "func": "exact_match",
       "result": {
         "type": "vm_command_line",
-        "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport re\n\ndef norm(value):\n    return re.sub(r'[^a-z0-9]+', ' ', str(value or '').casefold()).strip()\n\ndef uncertain(value):\n    marker = r'\\b(?:maybe|perhaps|possibly|might|uncertain|unknown|unconfirmed)\\b'\n    outcome = r'\\b(?:needs?|needed|required|missing|invalid|wrong|mismatch|does not cover|doesn t cover|not valid)\\b'\n    for raw_clause in re.split(r'[\\n\\r]+|(?<=[.!?;])\\s+', str(value or '')):\n        clause = norm(raw_clause)\n        if not clause or not re.search(outcome, clause):\n            continue\n        if '?' in raw_clause or re.search(marker, clause):\n            return True\n    return False\n\ndef alma_ok(value):\n    text = norm(value)\n    positive = re.search(r'\\b(?:needs? (?:a )?certificate|(?:valid )?certificate(?: for s 31)? (?:is )?needed|required certificate (?:is )?missing|no (?:matching |valid )?certificate)\\b', text)\n    conflict = re.search(r'\\bvalid certificate(?: for)? s 31\\b(?! (?:is )?needed\\b)|\\b(?:does not|doesn t) need (?:a )?certificate\\b', text)\n    return bool(re.search(r'\\bs 31\\b', text) and positive and not conflict and not uncertain(value))\n\ndef dev_ok(value):\n    text = norm(value)\n    mismatch = re.search(r'\\b(?:invalid|wrong session|mismatch|does not cover|doesn t cover|not valid for)\\b', text)\n    s20_valid_for_s28 = re.search(r'\\bs 20\\b(?: s)?(?: certificate)? (?:is |remains |considered )?valid (?:for )?s 28\\b', text)\n    existing_valid_s28 = re.search(r'\\bvalid certificate(?: for)? s 28\\b(?! (?:is )?needed\\b)', text)\n    return bool(re.search(r'\\bs 28\\b', text) and re.search(r'\\bs 20\\b', text) and mismatch and not s20_valid_for_s28 and not existing_valid_s28 and not uncertain(value))\n\ntry:\n    raw = Path('/tmp/training/email_notes.md').read_text(encoding='utf-8').casefold()\n    hits = [(match.start(), match.group(0)) for match in re.finditer(r'\\b(?:alma reid|dev ban)\\b', raw)]\n    segments = []\n    for index, (start, name) in enumerate(hits):\n        if index and hits[index - 1][1] == name:\n            continue\n        end = len(raw)\n        for next_start, next_name in hits[index + 1:]:\n            if next_name != name:\n                end = next_start\n                break\n        segments.append((name, raw[start:end]))\n    alma_records = [segment for name, segment in segments if name == 'alma reid']\n    dev_records = [segment for name, segment in segments if name == 'dev ban']\n    ok = any(alma_ok(record) for record in alma_records) and any(dev_ok(record) for record in dev_records)\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
+        "command": "python3 - <<'PY'\nfrom pathlib import Path\nimport re\n\ndef norm(value):\n    return re.sub(r'[^a-z0-9]+', ' ', str(value or '').casefold()).strip()\n\ndef uncertain(value):\n    marker = r'\\b(?:maybe|perhaps|possibly|might|uncertain|unknown|unconfirmed)\\b'\n    outcome = r'\\b(?:needs?|needed|required|missing|invalid|wrong|mismatch|does not cover|doesn t cover|not valid)\\b'\n    for raw_clause in re.split(r'[\\n\\r]+|(?<=[.!?;])\\s+', str(value or '')):\n        clause = norm(raw_clause)\n        if not clause or not re.search(outcome, clause):\n            continue\n        if '?' in raw_clause or re.search(marker, clause):\n            return True\n    return False\n\ndef alma_ok(value):\n    text = norm(value)\n    positive = re.search(r'\\b(?:needs? (?:a )?certificate|(?:valid )?certificate(?: for s 31)? (?:is )?needed|(?:required )?certificate (?:is )?(?:missing|absent)|missing certificate|no (?:matching |valid )?certificate)\\b', text)\n    conflict = re.search(r'\\bvalid certificate(?: for)? s 31\\b(?! (?:is )?needed\\b)|\\b(?:does not|doesn t) need (?:a )?certificate\\b', text)\n    return bool(re.search(r'\\bs 31\\b', text) and positive and not conflict and not uncertain(value))\n\ndef dev_ok(value):\n    text = norm(value)\n    mismatch = re.search(r'\\b(?:invalid|wrong session|mismatch|does not cover|doesn t cover|not valid for)\\b', text)\n    s20_valid_for_s28 = re.search(r'\\bs 20\\b(?: s)?(?: certificate)? (?:is |remains |considered )?valid (?:for )?s 28\\b', text)\n    existing_valid_s28 = re.search(r'\\bvalid certificate(?: for)? s 28\\b(?! (?:is )?needed\\b)', text)\n    return bool(re.search(r'\\bs 28\\b', text) and re.search(r'\\bs 20\\b', text) and mismatch and not s20_valid_for_s28 and not existing_valid_s28 and not uncertain(value))\n\ntry:\n    raw = Path('/tmp/training/email_notes.md').read_text(encoding='utf-8').casefold()\n    hits = [(match.start(), match.group(0)) for match in re.finditer(r'\\b(?:alma reid|dev ban)\\b', raw)]\n    segments = []\n    for index, (start, name) in enumerate(hits):\n        if index and hits[index - 1][1] == name:\n            continue\n        end = len(raw)\n        for next_start, next_name in hits[index + 1:]:\n            if next_name != name:\n                end = next_start\n                break\n        segments.append((name, raw[start:end]))\n    alma_records = [segment for name, segment in segments if name == 'alma reid']\n    dev_records = [segment for name, segment in segments if name == 'dev ban']\n    ok = any(alma_ok(record) for record in alma_records) and any(dev_ok(record) for record in dev_records)\nexcept Exception:\n    ok = False\nprint('present' if ok else 'missing')\nPY",
         "shell": true
       },
       "expected": {
@@ -310,8 +314,14 @@
     "device_topology": "2linux",
     "surfaces": [
       "csv",
-      "xlsx",
-      "markdown"
+      "markdown",
+      "xlsx"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_218",

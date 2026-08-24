@@ -152,7 +152,6 @@
         "path": "/storage/emulated/0/Documents/Markor/Homecoming Heat.md",
         "rules": {
           "entities": [
-            "Homecoming Heat",
             [
               "17.8 C",
               "17.8"
@@ -174,7 +173,8 @@
             [
               "active",
               "scheduled",
-              "applied"
+              "planned",
+              "set for"
             ]
           ],
           "conflict_phrases": [
@@ -228,10 +228,18 @@
     "source_idea": "Pilot 29 homecoming heat band.",
     "surfaces": [
       "calendar",
-      "markor",
-      "linux_xlsx",
       "home_query",
-      "home_schedule"
+      "home_schedule",
+      "linux_xlsx",
+      "markor"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_029",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_029/episode_config.json",
@@ -246,7 +254,6 @@
       ]
     },
     "linux_output_paths_by_device": {},
-    "pilot_index": 29,
-    "lite_evaluator_hardening_note": "Result JSON check now accepts key facts without hidden key-name schema; Markor note filename is content-searched."
+    "pilot_index": 29
   }
 }

@@ -5,13 +5,14 @@
       "func": "check_include_exclude",
       "result": {
         "type": "vm_command_line",
-        "command": "PDF='/tmp/release/packet.pdf'\n[ -s \"$PDF\" ] && [ \"$(head -c 5 \"$PDF\" 2>/dev/null)\" = '%PDF-' ] || { echo invalid; exit 0; }\ncommand -v pdftotext >/dev/null 2>&1 || { echo missing; exit 0; }\nTMP=$(mktemp)\npdftotext \"$PDF\" \"$TMP\" 2>/dev/null || { rm -f \"$TMP\"; echo invalid; exit 0; }\ncat \"$TMP\"\nrm -f \"$TMP\"",
+        "command": "PDF='/tmp/release/packet.pdf'\nTEMPLATE='/tmp/release/release_packet.pdf'\n[ -s \"$PDF\" ] && [ -s \"$TEMPLATE\" ] && [ \"$(head -c 5 \"$PDF\" 2>/dev/null)\" = '%PDF-' ] || { echo invalid; exit 0; }\ncommand -v pdftotext >/dev/null 2>&1 && command -v pdfinfo >/dev/null 2>&1 || { echo missing; exit 0; }\nOUT_INFO=$(pdfinfo \"$PDF\" 2>/dev/null) || { echo invalid; exit 0; }\nTEMPLATE_INFO=$(pdfinfo \"$TEMPLATE\" 2>/dev/null) || { echo invalid; exit 0; }\ninfo_value() { printf '%s\\n' \"$1\" | awk -F: -v key=\"$2\" '$1 == key {sub(/^[[:space:]]+/, \"\", $2); print $2; exit}'; }\nfor KEY in Pages 'Page size' 'Page rot'; do [ \"$(info_value \"$OUT_INFO\" \"$KEY\")\" = \"$(info_value \"$TEMPLATE_INFO\" \"$KEY\")\" ] || { echo template_mismatch; exit 0; }; done\nTMP=$(mktemp)\npdftotext \"$PDF\" \"$TMP\" 2>/dev/null && test -s \"$TMP\" || { rm -f \"$TMP\"; echo invalid; exit 0; }\nprintf '%s\\n' template_fidelity_ok\ncat \"$TMP\"\nrm -f \"$TMP\"",
         "shell": true
       },
       "expected": {
         "type": "rule",
         "rules": {
           "include": [
+            "template_fidelity_ok",
             "Release Readiness Packet",
             "CASE-1863",
             "FB-1863",
@@ -23,6 +24,8 @@
           "exclude": [
             "missing",
             "PLACEHOLDER",
+            "[[",
+            "]]",
             "[[CASE]]",
             "[[APPROVAL]]",
             "[[OWNER]]",
@@ -32,7 +35,9 @@
             "[[STATUS]]",
             "CASE-OLD",
             "HOLD-42",
-            "rt-63_hold.jpg"
+            "rt-63_hold.jpg",
+            "template_mismatch",
+            "invalid"
           ],
           "paragraph_relations_require_affirmative": true,
           "paragraph_relations": [

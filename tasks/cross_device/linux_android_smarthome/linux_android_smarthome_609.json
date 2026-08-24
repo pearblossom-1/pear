@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_609",
-  "instruction": "The Owner has changed the Guest arrival time. Verify the update against the saved contact and `/tmp/home_ops/plan-revisions/source/priority.pdf`, then replace the old Calendar event on the first phone with the authorized time. Retire the old preparation workflow, schedule its replacement for the newly derived preparation time, and reply to the Owner with the old and new timing.",
+  "instruction": "The Owner has changed the Guest arrival time. Verify the update against the saved contact and `/tmp/home_ops/plan-revisions/source/priority.pdf`, then replace the old Calendar event on the first phone with the authorized arrival time. Retire the old preparation workflow and schedule its replacement for the newly derived preparation time. Reply to the Owner with both the old and new arrival times and their corresponding preparation times.",
   "devices": [
     {
       "id": "linux_0",
@@ -264,93 +264,84 @@
               "7:40PM"
             ]
           ],
-          "required_phrases": [
-            [
-              "replaced",
-              "superseded",
-              "updated",
-              "applied"
-            ]
-          ],
-          "relation_groups": [
-            {
-              "entities": [
-                [
+          "semantic_record_table": {
+            "item_headers": [
+              "timing",
+              "version",
+              "plan"
+            ],
+            "records": [
+              {
+                "item": [
                   "old",
                   "previous",
                   "prior"
                 ],
-                [
-                  "18:40",
-                  "6:40 PM",
-                  "6:40PM"
-                ],
-                [
-                  "19:00",
-                  "7:00 PM",
-                  "7:00PM"
+                "fields": [
+                  {
+                    "name": "preparation",
+                    "labels": [
+                      "prep",
+                      "preparation",
+                      "preparation time"
+                    ],
+                    "values": [
+                      "18:40",
+                      "6:40 PM",
+                      "6:40PM"
+                    ]
+                  },
+                  {
+                    "name": "arrival",
+                    "labels": [
+                      "arrival",
+                      "arrival time"
+                    ],
+                    "values": [
+                      "19:00",
+                      "7:00 PM",
+                      "7:00PM"
+                    ]
+                  }
                 ]
-              ]
-            },
-            {
-              "entities": [
-                [
+              },
+              {
+                "item": [
                   "new",
                   "revised",
                   "replacement",
                   "updated"
                 ],
-                [
-                  "19:20",
-                  "7:20 PM",
-                  "7:20PM"
-                ],
-                [
-                  "19:40",
-                  "7:40 PM",
-                  "7:40PM"
+                "fields": [
+                  {
+                    "name": "preparation",
+                    "labels": [
+                      "prep",
+                      "preparation",
+                      "preparation time"
+                    ],
+                    "values": [
+                      "19:20",
+                      "7:20 PM",
+                      "7:20PM"
+                    ]
+                  },
+                  {
+                    "name": "arrival",
+                    "labels": [
+                      "arrival",
+                      "arrival time"
+                    ],
+                    "values": [
+                      "19:40",
+                      "7:40 PM",
+                      "7:40PM"
+                    ]
+                  }
                 ]
-              ]
-            }
-          ],
-          "nearest_relations": [
-            {
-              "anchor": [
-                "19:20"
-              ],
-              "expected": [
-                "new",
-                "revised",
-                "replacement",
-                "updated"
-              ],
-              "forbidden": [
-                "cancelled",
-                "pending",
-                "failed"
-              ],
-              "max_distance": 10,
-              "same_clause": true
-            },
-            {
-              "anchor": [
-                "19:40"
-              ],
-              "expected": [
-                "new",
-                "revised",
-                "replacement",
-                "updated"
-              ],
-              "forbidden": [
-                "cancelled",
-                "pending",
-                "failed"
-              ],
-              "max_distance": 10,
-              "same_clause": true
-            }
-          ],
+              }
+            ]
+          },
           "conflict_phrases": [
             "not replaced",
             "pending",
@@ -433,11 +424,19 @@
     "surfaces": [
       "android_dual",
       "calendar",
-      "sms",
       "contacts",
-      "linux_pdf",
       "home_cancel_workflow",
-      "home_workflow"
+      "home_workflow",
+      "linux_pdf",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "smarthome_reasoning",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_609",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_609/episode_config.json",

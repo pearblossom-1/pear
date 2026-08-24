@@ -396,7 +396,7 @@
             "not in the manifest"
           ],
           "conflict_patterns": [
-            "missing_song\\.mp3.{0,24}\\b(?:is\\s+)?(?:present|available|exists|copied|exported)\\b",
+            "missing_song\\.mp3[^.;\\n]{0,24}\\b(?:is\\s+)?(?:present|available|exists|copied|exported)\\b",
             "unlisted\\.mp3.{0,24}(?<!not )(?<!never )\\b(?:copied|exported)\\b",
             "(?<!not )(?<!never )\\b(?:copied|exported)\\b.{0,24}unlisted\\.mp3"
           ],
@@ -467,6 +467,13 @@
     "surfaces": [
       "files",
       "markor"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "media_handling",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/android_only_assets/android_only_285",

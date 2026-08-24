@@ -112,8 +112,15 @@
     "category": "linux_smarthome",
     "source_idea": "linux_smarthome_idea_098",
     "surfaces": [
-      "linux_source",
-      "home_command"
+      "linux.csv",
+      "smarthome.device_state",
+      "smarthome.home_state"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "smarthome_reasoning",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_098",
     "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_098/episode_config.json",

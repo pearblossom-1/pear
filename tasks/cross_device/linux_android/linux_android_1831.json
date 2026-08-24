@@ -31,6 +31,12 @@
           "parameters": {
             "app": "osmand"
           }
+        },
+        {
+          "type": "wait",
+          "parameters": {
+            "seconds": 3
+          }
         }
       ]
     },
@@ -127,7 +133,15 @@
     "triage_reason": "Repaired by keeping OsmAnd initialization empty at setup and making the Linux site row the visible source for the new favorite.",
     "device_topology": "android_0+linux_0",
     "surfaces": [
-      "android.osmand"
+      "linux.csv",
+      "osmand"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1831",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1831/episode_config.json",

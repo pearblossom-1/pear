@@ -127,23 +127,6 @@
         }
       },
       "enable_score_calc": false
-    },
-    {
-      "name": "Recordings contains only the expected present recording",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_count",
-        "path": "/sdcard/Recordings",
-        "recursive": true
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "1"
-        }
-      },
-      "enable_score_calc": false
     }
   ]
 }

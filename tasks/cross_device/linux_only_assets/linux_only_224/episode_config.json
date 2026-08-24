@@ -48,7 +48,21 @@
             "allow_auxiliary_sheets": [
               "Notes"
             ],
-            "allow_column_reordering": true
+            "allow_column_reordering": true,
+            "value_aliases": {
+              "address": {
+                "": [
+                  "N/A",
+                  "NA"
+                ]
+              },
+              "contact": {
+                "": [
+                  "N/A",
+                  "NA"
+                ]
+              }
+            }
           }
         }
       },

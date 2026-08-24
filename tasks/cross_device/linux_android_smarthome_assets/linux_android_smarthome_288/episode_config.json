@@ -23,11 +23,17 @@
             ],
             [
               "old fallback",
-              "old guest-room workflow"
+              "old guest-room workflow",
+              "previous plan",
+              "previous routine",
+              "old routine"
             ],
             [
               "new workflow",
-              "guest-room workflow"
+              "guest-room workflow",
+              "replacement",
+              "replacement plan",
+              "updated routine"
             ],
             [
               "light on",

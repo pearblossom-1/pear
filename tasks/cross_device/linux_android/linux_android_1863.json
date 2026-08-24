@@ -142,7 +142,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "pkill -f 'mdcbench-linux-android-1863-draw-profile' 2>/dev/null || true\nrm -rf /tmp/mdcbench-linux-android-1863-draw-profile\nmkdir -p /tmp/release\nrm -f /tmp/release/release_packet.pdf /tmp/release/packet.pdf /tmp/release/draw.log",
+            "command": "pkill -x soffice.bin 2>/dev/null || true\nrm -rf /tmp/mdcbench-linux-android-1863-draw-profile\nmkdir -p /tmp/release\nrm -f /tmp/release/release_packet.pdf /tmp/release/packet.pdf /tmp/release/draw.log",
             "shell": true
           }
         },
@@ -160,7 +160,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "set -e\ntemplate=/tmp/release/release_packet.pdf\ntest -r \"$template\"\ntest -w /tmp/release\ntest ! -e /tmp/release/packet.pdf\ntest \"$(head -c 5 \"$template\")\" = '%PDF-'\ncommand -v pdftotext >/dev/null\ntext=$(mktemp)\npdftotext \"$template\" \"$text\"\nfor marker in 'Release Readiness Packet' '[[CASE]]' '[[APPROVAL]]' '[[OWNER]]' '[[ROUTE]]' '[[SITE]]' '[[TIME]]' '[[STATUS]]' 'Source: Markor' 'SMS' 'readiness.csv'; do grep -F \"$marker\" \"$text\" >/dev/null; done\nrm -f \"$text\"\ncommand -v libreoffice >/dev/null\nnohup libreoffice --draw --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-linux-android-1863-draw-profile' \"$template\" >/tmp/release/draw.log 2>&1 &\nsleep 4\npgrep -f 'mdcbench-linux-android-1863-draw-profile' >/dev/null",
+            "command": "set -e\ntemplate=/tmp/release/release_packet.pdf\ntest -r \"$template\"\ntest -w /tmp/release\ntest ! -e /tmp/release/packet.pdf\ntest \"$(head -c 5 \"$template\")\" = '%PDF-'\ncommand -v pdftotext >/dev/null\ncommand -v pdfinfo >/dev/null\ntext=$(mktemp)\npdftotext \"$template\" \"$text\"\nfor marker in 'Release Readiness Packet' '[[CASE]]' '[[APPROVAL]]' '[[OWNER]]' '[[ROUTE]]' '[[SITE]]' '[[TIME]]' '[[STATUS]]' 'Source: Markor' 'SMS' 'readiness.csv'; do grep -F \"$marker\" \"$text\" >/dev/null; done\nrm -f \"$text\"\ncommand -v libreoffice >/dev/null\nnohup libreoffice --draw --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-linux-android-1863-draw-profile' \"$template\" >/tmp/release/draw.log 2>&1 &\nsleep 4\npgrep -f 'mdcbench-linux-android-1863-draw-profile' >/dev/null",
             "shell": true
           }
         }
@@ -206,7 +206,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "pkill -f 'mdcbench-linux-android-1863-draw-profile' 2>/dev/null || true; rm -rf /tmp/mdcbench-linux-android-1863-draw-profile; rm -f -- /tmp/release/release_packet.pdf /tmp/release/packet.pdf /tmp/release/draw.log; find /tmp/release -type d -empty -delete 2>/dev/null || true",
+            "command": "pkill -x soffice.bin 2>/dev/null || true; rm -rf /tmp/mdcbench-linux-android-1863-draw-profile; rm -f -- /tmp/release/release_packet.pdf /tmp/release/packet.pdf /tmp/release/draw.log; find /tmp/release -type d -empty -delete 2>/dev/null || true",
             "shell": true
           }
         }
@@ -219,16 +219,18 @@
       "func": "check_include_exclude",
       "result": {
         "type": "vm_command_line",
-        "command": "PDF='/tmp/release/packet.pdf'\n[ -s \"$PDF\" ] && [ \"$(head -c 5 \"$PDF\" 2>/dev/null)\" = '%PDF-' ] || { echo invalid; exit 0; }\ncommand -v pdftotext >/dev/null 2>&1 || { echo missing; exit 0; }\nTMP=$(mktemp)\npdftotext \"$PDF\" \"$TMP\" 2>/dev/null || { rm -f \"$TMP\"; echo invalid; exit 0; }\ncat \"$TMP\"\nrm -f \"$TMP\"",
+        "command": "PDF='/tmp/release/packet.pdf'\nTEMPLATE='/tmp/release/release_packet.pdf'\n[ -s \"$PDF\" ] && [ -s \"$TEMPLATE\" ] && [ \"$(head -c 5 \"$PDF\" 2>/dev/null)\" = '%PDF-' ] || { echo invalid; exit 0; }\ncommand -v pdftotext >/dev/null 2>&1 && command -v pdfinfo >/dev/null 2>&1 || { echo missing; exit 0; }\nOUT_INFO=$(pdfinfo \"$PDF\" 2>/dev/null) || { echo invalid; exit 0; }\nTEMPLATE_INFO=$(pdfinfo \"$TEMPLATE\" 2>/dev/null) || { echo invalid; exit 0; }\ninfo_value() { printf '%s\\n' \"$1\" | awk -F: -v key=\"$2\" '$1 == key {sub(/^[[:space:]]+/, \"\", $2); print $2; exit}'; }\nfor KEY in Pages 'Page size' 'Page rot'; do [ \"$(info_value \"$OUT_INFO\" \"$KEY\")\" = \"$(info_value \"$TEMPLATE_INFO\" \"$KEY\")\" ] || { echo template_mismatch; exit 0; }; done\nTMP=$(mktemp)\npdftotext \"$PDF\" \"$TMP\" 2>/dev/null && test -s \"$TMP\" || { rm -f \"$TMP\"; echo invalid; exit 0; }\nprintf '%s\\n' template_fidelity_ok\ncat \"$TMP\"\nrm -f \"$TMP\"",
         "shell": true
       },
       "expected": {
         "type": "rule",
         "rules": {
-          "include": ["Release Readiness Packet", "CASE-1863", "FB-1863", "Maya Chen", "RT-63", "Harbor Gate 12", "ready"],
+          "include": ["template_fidelity_ok", "Release Readiness Packet", "CASE-1863", "FB-1863", "Maya Chen", "RT-63", "Harbor Gate 12", "ready"],
           "exclude": [
             "missing",
             "PLACEHOLDER",
+            "[[",
+            "]]",
             "[[CASE]]",
             "[[APPROVAL]]",
             "[[OWNER]]",
@@ -238,7 +240,9 @@
             "[[STATUS]]",
             "CASE-OLD",
             "HOLD-42",
-            "rt-63_hold.jpg"
+            "rt-63_hold.jpg",
+            "template_mismatch",
+            "invalid"
           ],
           "paragraph_relations_require_affirmative": true,
           "paragraph_relations": [
@@ -266,9 +270,17 @@
     "triage_reason": "Repaired as a compact PDF capstone with visible Markor, SMS, and readiness-table sources.",
     "device_topology": "android_0+android_1+linux_0+linux_1",
     "surfaces": [
-      "android.markor",
-      "android.sms",
-      "linux.pdf"
+      "linux.csv",
+      "linux.pdf",
+      "markor",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1863",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1863/episode_config.json",

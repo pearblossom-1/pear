@@ -1,6 +1,6 @@
 {
   "id": "android_only_264",
-  "instruction": "The Safety walk event in Calendar on the first phone is the time source. Please use the lead time in `alarm_policy.json` on the second phone to create the corresponding Clock alarm on the second phone.",
+  "instruction": "The Safety walk event in Calendar on the first phone provides the time of day for the reminder. On the second phone, use the lead time and label prefix in `alarm_policy.json` to create exactly one enabled, one-time Clock alarm at the corresponding time of day.",
   "devices": [
     {
       "id": "android_0",
@@ -171,6 +171,11 @@
       "calendar",
       "files",
       "clock"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "structured_data_handling"
     ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/android_only_assets/android_only_264",

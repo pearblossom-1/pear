@@ -1,6 +1,6 @@
 {
   "id": "linux_only_283",
-  "instruction": "The parser maintainer needs a triage-ready summary before the next test rerun. Use `/tmp/code/test_output.txt` on the first Linux machine and `/tmp/code/maintainer.csv` on the second to create an unsent RFC 5322 email draft at `/tmp/code/test_failure_summary.eml` on the second machine. Address only the responsible maintainer, with no Cc or Bcc recipients, use a clear failure-summary subject, and summarize only the failed tests, including the module and test name; do not send it.",
+  "instruction": "The parser maintainer needs a triage-ready summary before the next test rerun. Use `/tmp/code/test_output.txt` on the first Linux machine and `/tmp/code/maintainer.csv` on the second to create an unsent plain-text RFC 5322 email draft at `/tmp/code/test_failure_summary.eml` on the second machine. Address only the responsible maintainer, with no Cc or Bcc recipients, use a clear failure-summary subject, and summarize only the failed tests, including the module and test name; do not send it.",
   "devices": [
     {
       "id": "linux_0",
@@ -130,8 +130,14 @@
     "device_topology": "2linux",
     "surfaces": [
       "csv",
-      "json",
-      "email"
+      "email",
+      "text"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_283",

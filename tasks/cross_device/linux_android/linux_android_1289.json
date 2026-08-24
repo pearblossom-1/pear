@@ -144,18 +144,16 @@
         "type": "android_entity_relation_note",
         "path": "/storage/emulated/0/Documents/Markor/Blue Harbor Set gap.md",
         "rules": {
-          "entities": ["Blue Harbor Set", "Blue Harbor Extended"],
-          "required_phrases": [["missing", "unavailable", "not available"]],
-          "positive_phrases": ["blocked", "was not created", "playlist was not created", "playlist not created", "do not create", "remains uncreated", "creation is blocked"],
-          "conflict_phrases": ["not missing", "an exact match was found", "the exact match was found", "exact required track was found", "is the exact required track", "is an exact match", "playlist was created", "playlist created", "created using", "ready"],
-          "allowed_negative_capability_phrases": ["not available", "was not created", "playlist not created", "do not create", "not an exact match", "not the exact required track"],
+          "entities": ["Blue Harbor Extended", "Blue Harbor"],
+          "required_phrases": [["missing", "unavailable", "not available", "absent"]],
+          "conflict_phrases": ["not missing", "Blue Harbor Extended is available", "Blue Harbor Extended was found", "exact match found", "Blue Harbor is the exact required track", "Near match: Blue Harbor Extended", "Blue Harbor Extended is the near match", "Similar track: Blue Harbor Extended", "Closest available track: Blue Harbor Extended"],
+          "allowed_negative_capability_phrases": ["not available", "not an exact match", "not the exact required track"],
           "nearest_relations": [
             {
               "anchor": ["near match", "near-match", "similar track", "similar title", "closest available track", "available near match", "available"],
               "expected": ["Blue Harbor"],
-              "forbidden": ["Blue Harbor Extended"],
-              "max_distance": 12,
-              "same_clause": true
+              "forbidden": [],
+              "max_distance": 12
             }
           ],
           "reject_incomplete_semantics": true
@@ -190,9 +188,17 @@
     "category": "linux_android",
     "source_idea": "plan6 candidate 1289",
     "surfaces": [
-      "retro_music",
+      "linux.csv",
       "markor",
-      "linux.csv"
+      "retro_music"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "media_handling",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1289",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1289/episode_config.json",

@@ -1,3 +1,3 @@
-ingredient,supplier
-sesame oil,Supplier A
-cucumber,Supplier B
+requested_ingredient,supplier,offered_substitute
+cooking oil,Supplier A,sesame oil
+cucumber,Supplier B,cucumber

@@ -265,9 +265,16 @@
     "category": "linux_only",
     "device_topology": "2linux",
     "surfaces": [
-      "csv",
       "audio",
+      "csv",
       "markdown"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "media_handling",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_298",

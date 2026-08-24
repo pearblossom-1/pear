@@ -25,23 +25,27 @@
             [
               "19:45",
               "7:45 PM"
-            ],
-            [
-              "prepared",
-              "ready"
             ]
           ],
           "required_phrases": [
             [
-              "prepared",
-              "ready",
-              "scheduled"
+              "scheduled",
+              "has been scheduled",
+              "will be ready",
+              "will be prepared",
+              "scheduled to be ready",
+              "scheduled to be prepared",
+              "preparation is set for"
             ]
           ],
           "conflict_phrases": [
             "not prepared",
             "pending",
-            "cancelled"
+            "cancelled",
+            "room is ready now",
+            "already ready",
+            "already prepared",
+            "prepared now"
           ],
           "reject_questions": true,
           "reject_uncertainty": true,

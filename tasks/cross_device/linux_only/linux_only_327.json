@@ -174,14 +174,20 @@
     "max_wall_time_s": 300
   },
   "metadata": {
-    "category": "generated_cross_device",
+    "category": "linux_only",
     "implementation_status": "final",
     "readiness": "static_reviewed",
     "device_topology": "2linux",
     "surfaces": [
+      "linux.pdf",
       "linux.xlsx",
-      "linux.zip_archive",
-      "linux.pdf"
+      "linux.zip_archive"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "media_handling",
+      "structured_data_handling"
     ],
     "review_summary": "The visible source and output paths are explicit. Exact source-member bytes and a source-preserving nine-cell workbook update cover every manifest row and reject extra, stale, or altered package members.",
     "topology_view": "linux_only"

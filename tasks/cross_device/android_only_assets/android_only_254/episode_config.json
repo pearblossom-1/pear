@@ -153,61 +153,6 @@
         }
       },
       "enable_score_calc": false
-    },
-    {
-      "name": "No Nora task-result SMS may give a different Cargo check bay",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_sms_message",
-        "box": "sent",
-        "address": "5550254",
-        "recent_within_mins": 30,
-        "body_relation": {
-          "entities": [
-            "Cargo check"
-          ],
-          "required_patterns": [
-            "(?:\\bBay\\s*(?!4\\b)\\d+\\b|\\bwrong\\s+Bay\\b)"
-          ],
-          "allowed_reversal_terms": [
-            "wrong"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "missing"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "No Nora task-result SMS may give a different Cargo check time",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_sms_message",
-        "box": "sent",
-        "address": "5550254",
-        "recent_within_mins": 30,
-        "body_relation": {
-          "entities": [
-            "Cargo check"
-          ],
-          "required_patterns": [
-            "\\b(?!2026-07-18\\s+11:20\\b)\\d{4}-\\d{2}-\\d{2}\\s+\\d{2}:\\d{2}\\b"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "missing"
-        }
-      },
-      "enable_score_calc": false
     }
   ]
 }

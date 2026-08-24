@@ -20,9 +20,6 @@
               "living-room"
             ],
             [
-              "highest"
-            ],
-            [
               "PM2.5",
               "PM 2.5",
               "air quality"
@@ -39,20 +36,30 @@
               "off"
             ],
             [
-              "recommendation"
-            ],
-            [
               "turn on",
               "turn it on",
-              "start"
+              "turn the purifier on",
+              "turn purifier on",
+              "turning it on",
+              "turning the purifier on",
+              "should be turned on",
+              "should turn it on",
+              "start",
+              "starting the purifier"
             ]
           ],
           "positive_phrases": [
             [
-              "recommendation",
               "turn on",
               "turn it on",
-              "start"
+              "turn the purifier on",
+              "turn purifier on",
+              "turning it on",
+              "turning the purifier on",
+              "should be turned on",
+              "should turn it on",
+              "start",
+              "starting the purifier"
             ]
           ],
           "conflict_phrases": [
@@ -62,26 +69,13 @@
             "purifier running",
             "do not turn on",
             "not to turn on",
-            "avoid turning on"
+            "avoid turning on",
+            "should not be turned on",
+            "keep it off",
+            "leave it off",
+            "should remain off"
           ],
           "relation_groups": [
-            {
-              "entities": [
-                [
-                  "living room",
-                  "living-room"
-                ],
-                [
-                  "highest"
-                ],
-                [
-                  "PM2.5",
-                  "PM 2.5",
-                  "air quality"
-                ]
-              ],
-              "allow_multiple_matches": true
-            },
             {
               "entities": [
                 [
@@ -121,19 +115,28 @@
                 [
                   "living room",
                   "living-room"
-                ],
-                [
-                  "recommendation"
-                ],
-                [
-                  "purifier",
-                  "air purifier"
-                ],
-                [
-                  "turn on",
-                  "turn it on",
-                  "start"
                 ]
+              ],
+              "phrases": [
+                "turn on",
+                "turn it on",
+                "turn the purifier on",
+                "turn purifier on",
+                "turning it on",
+                "turning the purifier on",
+                "should be turned on",
+                "should turn it on",
+                "start",
+                "starting the purifier"
+              ],
+              "conflicts": [
+                "do not turn on",
+                "not to turn on",
+                "avoid turning on",
+                "should not be turned on",
+                "keep it off",
+                "leave it off",
+                "should remain off"
               ],
               "allow_multiple_matches": true
             }
@@ -168,7 +171,7 @@
           "expected": "pass"
         }
       },
-      "name": "Home Environment Report binds living-room highest PM2.5 86, purifier off, and turn-on recommendation"
+      "name": "Home Environment Report binds living-room PM2.5 86, purifier off, and turn-on recommendation"
     },
     {
       "device_id": "home_0",

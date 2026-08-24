@@ -235,8 +235,18 @@
     "triage_reason": "Repaired candidate to stable evaluator-visible document/file/app state while preserving the source decision and output intent.",
     "device_topology": "android_0+linux_0+linux_1",
     "surfaces": [
-      "android.android_file",
-      "linux.csv"
+      "files",
+      "linux.csv",
+      "linux.json",
+      "linux.text",
+      "markor"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_947",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_947/episode_config.json",

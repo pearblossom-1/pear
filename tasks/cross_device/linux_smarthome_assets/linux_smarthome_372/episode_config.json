@@ -36,8 +36,26 @@
               "living room robot vacuum",
               "docked"
             ],
-            "required_patterns": [
-              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:laundry\\s+room\\s+)?dryer\\b|\\b(?:laundry\\s+room\\s+)?dryer\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b"
+            "nearest_relations": [
+              {
+                "anchor": [
+                  "current noise source",
+                  "noise source",
+                  "current source",
+                  "current noise",
+                  "source"
+                ],
+                "expected": [
+                  "laundry room dryer",
+                  "dryer"
+                ],
+                "forbidden": [
+                  "washer",
+                  "living room robot vacuum",
+                  "robot vacuum"
+                ],
+                "max_distance": 8
+              }
             ],
             "conflict_patterns": [
               "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:laundry\\s+room\\s+)?washer\\b|\\b(?:laundry\\s+room\\s+)?washer\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b",
@@ -54,6 +72,7 @@
               "robot vacuum is not the source",
               "living room robot vacuum is not the source"
             ],
+            "relation_groups_preserve_pipe": true,
             "relation_groups": [
               {
                 "entities": [
@@ -113,8 +132,26 @@
                 "current source"
               ]
             ],
-            "required_patterns": [
-              "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:laundry\\s+room\\s+)?dryer\\b|\\b(?:laundry\\s+room\\s+)?dryer\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b"
+            "nearest_relations": [
+              {
+                "anchor": [
+                  "current noise source",
+                  "noise source",
+                  "current source",
+                  "current noise",
+                  "source"
+                ],
+                "expected": [
+                  "laundry room dryer",
+                  "dryer"
+                ],
+                "forbidden": [
+                  "washer",
+                  "living room robot vacuum",
+                  "robot vacuum"
+                ],
+                "max_distance": 8
+              }
             ],
             "conflict_patterns": [
               "\\b(?:current\\s+)?(?:noise\\s+)?source\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:laundry\\s+room\\s+)?washer\\b|\\b(?:laundry\\s+room\\s+)?washer\\b\\s*(?:is|=|:|—|-)\\s*(?:the\\s+)?(?:current\\s+)?(?:noise\\s+)?source\\b",

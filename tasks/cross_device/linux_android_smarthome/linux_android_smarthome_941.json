@@ -321,11 +321,19 @@
     "source_idea": "Property-operations reconciliation of an obsolete room-preparation request against the latest booking status.",
     "surfaces": [
       "dual_linux",
+      "home_command_history",
+      "home_state",
       "linux_booking_update",
       "linux_xlsx",
-      "markor",
-      "home_state",
-      "home_command_history"
+      "markor"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "smarthome_reasoning",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_941",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_941/episode_config.json",

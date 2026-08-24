@@ -44,7 +44,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "set -e\nbook=/tmp/meetings/attendees.xlsx\ntest -r \"$book\"\nunzip -t \"$book\" >/dev/null\nsheet=\"$(unzip -p \"$book\" xl/worksheets/sheet1.xml)\"\nprintf '%s' \"$sheet\" | grep -F '<c r=\"D4\" t=\"inlineStr\"><is><t>archived</t>' >/dev/null\ntest \"$(printf '%s' \"$sheet\" | grep -oF '<t>MTG-Q3-OPS</t>' | wc -l)\" -eq 2\ncommand -v libreoffice >/dev/null\nnohup libreoffice --calc --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-linux-android-1185-calc-profile' \"$book\" >/tmp/meetings/calc.log 2>&1 &\nsleep 4\npgrep -f 'mdcbench-linux-android-1185-calc-profile' >/dev/null",
+            "command": "set -e\nbook=/tmp/meetings/attendees.xlsx\ntest -r \"$book\"\nunzip -t \"$book\" >/dev/null\nsheet=\"$(unzip -p \"$book\" xl/worksheets/sheet1.xml)\"\nprintf '%s' \"$sheet\" | grep -F '<c r=\"D4\" t=\"inlineStr\"><is><t>archived</t>' >/dev/null\nprintf '%s' \"$sheet\" | grep -F '<c r=\"E1\" t=\"inlineStr\"><is><t>phone</t>' >/dev/null\nprintf '%s' \"$sheet\" | grep -F '<c r=\"E4\" t=\"inlineStr\"><is><t>5551201195</t>' >/dev/null\ntest \"$(printf '%s' \"$sheet\" | grep -oF '<t>MTG-Q3-OPS</t>' | wc -l)\" -eq 2\ncommand -v libreoffice >/dev/null\nnohup libreoffice --calc --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-linux-android-1185-calc-profile' \"$book\" >/tmp/meetings/calc.log 2>&1 &\nsleep 4\npgrep -f 'mdcbench-linux-android-1185-calc-profile' >/dev/null",
             "shell": true
           }
         }
@@ -110,6 +110,14 @@
           }
         },
         {
+          "type": "androidworld_contact_add",
+          "parameters": {
+            "name": "Avery Stone",
+            "number": "5551201195",
+            "notes": "Northwind Finance archived attendee"
+          }
+        },
+        {
           "type": "open_app",
           "parameters": {
             "app": "contacts"
@@ -172,7 +180,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "pkill -f 'mdcbench-linux-android-1185-calc-profile' 2>/dev/null || true; rm -rf -- /tmp/mdcbench-linux-android-1185-calc-profile; rm -f -- /tmp/meetings/attendees.xlsx /tmp/meetings/calc.log; find /tmp/meetings -type d -empty -delete 2>/dev/null || true",
+            "command": "pkill -x soffice.bin 2>/dev/null || true; rm -rf -- /tmp/mdcbench-linux-android-1185-calc-profile; rm -f -- /tmp/meetings/attendees.xlsx /tmp/meetings/calc.log; find /tmp/meetings -type d -empty -delete 2>/dev/null || true",
             "shell": true
           }
         }
@@ -255,6 +263,23 @@
           "expected": "present"
         }
       }
+    },
+    {
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_message",
+        "box": "sent",
+        "address": "5551201195",
+        "any_body": true,
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
     }
   ],
   "limits": {
@@ -264,11 +289,19 @@
     "category": "linux_android",
     "source_idea": "plan6 candidate 1185",
     "surfaces": [
-      "contacts",
       "calendar",
-      "sms",
+      "contacts",
+      "linux.text",
       "linux.xlsx",
-      "linux.markdown"
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1185",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1185/episode_config.json",
@@ -294,6 +327,6 @@
     "structured_output_classification": {
       "native_sms_reminders": "primary_native_state"
     },
-    "lite_evaluator_hardening_note": "Scores two independent affirmative native SMS outcomes from clean sent state while the workbook and generic policy preserve Calendar as the authoritative meeting source."
+    "lite_evaluator_hardening_note": "Scores two independent affirmative native SMS outcomes plus zero messages to the archived workbook phone from clean sent state; Calendar remains the authoritative meeting source."
   }
 }

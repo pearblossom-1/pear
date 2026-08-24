@@ -384,11 +384,18 @@
     "category": "linux_android_smarthome",
     "source_idea": "Capability gap 185 authorization exists but device capability is missing.",
     "surfaces": [
-      "sms",
       "contacts",
-      "linux_pdf",
+      "guard",
       "home_infeasible",
-      "guard"
+      "linux_pdf",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "smarthome_reasoning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_185",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_185/episode_config.json",

@@ -204,10 +204,18 @@
     "triage_reason": "Repaired as a Thunderbird draft from Calendar, Contacts, and Linux attendee roles with no sent-mail side effect.",
     "device_topology": "android_0+android_1+linux_0",
     "surfaces": [
-      "android.calendar",
-      "android.contacts",
-      "android.files",
+      "calendar",
+      "contacts",
+      "linux.csv",
       "linux.thunderbird"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1853",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1853/episode_config.json",

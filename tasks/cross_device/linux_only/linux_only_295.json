@@ -343,10 +343,15 @@
     "category": "linux_only",
     "device_topology": "2linux",
     "surfaces": [
+      "csv",
       "json",
       "python",
-      "zip",
-      "csv"
+      "zip"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "structured_data_handling"
     ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_295",

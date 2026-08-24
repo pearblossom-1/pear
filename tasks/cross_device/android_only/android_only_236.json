@@ -250,8 +250,7 @@
             "Dock\\s+Liaison.{0,28}\\b(?:missing|absent|not\\s+found)\\b",
             "Gate\\s+Runner.{0,36}\\b(?:matches|correct)\\b",
             "(?:actual\\s*[:=-]?\\s*0237|expected\\s*[:=-]?\\s*0999)",
-            "Night\\s+Medic.{0,30}\\b(?:present|found|actual)\\b",
-            "(?<!expected )(?<!expected:)(?<!source )(?<!source:)(?<!ending )\\b0238\\b"
+            "Night\\s+Medic.{0,30}\\b(?:present|found|actual)\\b"
           ],
           "preceding_clause_context": {
             "max_preceding_clauses": 2,
@@ -420,6 +419,12 @@
       "files",
       "contacts",
       "markor"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/android_only_assets/android_only_236",

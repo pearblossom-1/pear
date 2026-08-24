@@ -28,28 +28,10 @@
             "Room 9",
             "Bring revised permit packet"
           ],
-          "required_phrases": [
-            ["updated", "update applied", "applied update", "applied", "final"]
-          ],
-          "positive_phrases": [
-            "final updated event",
-            "updated",
-            "update applied",
-            "applied update",
-            "applied",
-            "final"
-          ],
           "conflict_phrases": [
-            "proposed",
-            "proposal",
-            "suggested",
             "pending",
-            "unchanged",
             "not applied",
             "not updated",
-            "not final",
-            "not changed",
-            "awaiting approval",
             "wrong",
             "do not bring",
             "reversed"

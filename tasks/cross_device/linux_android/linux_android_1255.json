@@ -169,8 +169,9 @@
         "rules": {
           "entities": ["Ava Lane", "dispatch", "north", "MSG-1255"],
           "positive_phrases": ["selected", "confirmed", "dispatch"],
-          "forbidden_entities": ["Ava Lane South", "MSG-0000", "south"],
-          "conflict_phrases": ["wrong", "not selected", "do not send"]
+          "forbidden_entities": ["MSG-0000"],
+          "allowed_negative_capability_phrases": ["not selected"],
+          "conflict_phrases": ["wrong"]
         }
       },
       "expected": {
@@ -189,9 +190,16 @@
     "source_idea": "plan6 candidate 1255",
     "surfaces": [
       "contacts",
-      "sms",
+      "linux.csv",
       "markor",
-      "linux.csv"
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1255",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1255/episode_config.json",

@@ -200,10 +200,18 @@
     "category": "linux_smarthome",
     "source_idea": "linux_smarthome_idea_361",
     "surfaces": [
-      "linux.png",
-      "linux.txt",
+      "linux.image",
+      "linux.text",
       "linux.xlsx",
+      "smarthome.command_history",
       "smarthome.home_state"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "media_handling",
+      "smarthome_reasoning",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_361",
     "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_361/episode_config.json",

@@ -135,8 +135,7 @@
               "new",
               "replacement",
               "correction",
-              "revised",
-              "replaced by"
+              "revised"
             ],
             [
               "24 C",
@@ -148,62 +147,103 @@
               "8:00PM"
             ]
           ],
-          "nearest_relations": [
-            {
-              "anchor": [
-                "old",
-                "previous",
-                "prior"
-              ],
-              "expected": [
-                "25 C",
-                "25C"
-              ],
-              "forbidden": [
-                "24 C",
-                "24C"
-              ],
-              "max_distance": 6,
-              "same_clause": true
-            },
-            {
-              "anchor": [
-                "25 C",
-                "25C"
-              ],
-              "expected": [
-                "cancelled",
-                "retired",
-                "replaced",
-                "superseded",
-                "no longer active"
-              ],
-              "forbidden": [
-                "active",
-                "applied",
-                "pending"
-              ],
-              "max_distance": 10,
-              "same_clause": true
-            },
-            {
-              "anchor": [
-                "24 C",
-                "24C"
-              ],
-              "expected": [
-                "active",
-                "applied",
-                "scheduled"
-              ],
-              "forbidden": [
-                "cancelled",
-                "retired",
-                "pending"
-              ],
-              "max_distance": 10,
-              "same_clause": true
-            }
+          "semantic_record_table": {
+            "item_headers": [
+              "record",
+              "plan"
+            ],
+            "records": [
+              {
+                "item": [
+                  "old",
+                  "previous",
+                  "prior"
+                ],
+                "fields": [
+                  {
+                    "name": "temperature",
+                    "labels": [
+                      "temperature",
+                      "temp",
+                      "setting"
+                    ],
+                    "values": [
+                      "25 C",
+                      "25C"
+                    ],
+                    "allow_unlabeled": true
+                  },
+                  {
+                    "name": "status",
+                    "labels": [
+                      "status",
+                      "state"
+                    ],
+                    "values": [
+                      "cancelled",
+                      "retired",
+                      "replaced",
+                      "superseded",
+                      "no longer active"
+                    ],
+                    "allow_unlabeled": true
+                  }
+                ]
+              },
+              {
+                "item": [
+                  "new",
+                  "replacement",
+                  "correction",
+                  "revised"
+                ],
+                "fields": [
+                  {
+                    "name": "temperature",
+                    "labels": [
+                      "temperature",
+                      "temp",
+                      "setting"
+                    ],
+                    "values": [
+                      "24 C",
+                      "24C"
+                    ],
+                    "allow_unlabeled": true
+                  },
+                  {
+                    "name": "time",
+                    "labels": [
+                      "time",
+                      "scheduled time",
+                      "run time"
+                    ],
+                    "values": [
+                      "20:00",
+                      "8:00 PM",
+                      "8:00PM"
+                    ],
+                    "allow_unlabeled": true
+                  },
+                  {
+                    "name": "status",
+                    "labels": [
+                      "status",
+                      "state"
+                    ],
+                    "values": [
+                      "active",
+                      "scheduled",
+                      "applied"
+                    ],
+                    "allow_unlabeled": true
+                  }
+                ]
+              }
+            ]
+          },
+          "conflict_phrases": [
+            "pending"
           ],
           "reject_questions": true,
           "reject_uncertainty": true,
@@ -273,10 +313,18 @@
     "category": "linux_android_smarthome",
     "source_idea": "Pilot 77 same-time AC schedule merge.",
     "surfaces": [
-      "markor",
-      "linux_pdf",
       "home_cancel_schedule",
-      "home_schedule"
+      "home_schedule",
+      "linux_pdf",
+      "markor"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "smarthome_reasoning",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_077",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_077/episode_config.json",

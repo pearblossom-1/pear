@@ -231,8 +231,19 @@
     "source_idea": "plan6 candidate 1313",
     "surfaces": [
       "files",
-      "sms",
-      "linux.zip"
+      "linux.csv",
+      "linux.pdf",
+      "linux.text",
+      "linux.zip",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "media_handling",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1313",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1313/episode_config.json",

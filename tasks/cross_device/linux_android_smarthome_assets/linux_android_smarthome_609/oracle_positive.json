@@ -22,7 +22,7 @@
         "type": "androidworld_sms_send",
         "parameters": {
           "address": "+1555060901",
-          "body": "The old 18:40 preparation for the 19:00 arrival was replaced by the new 19:20 preparation for the revised 19:40 arrival."
+          "body": "Old: preparation 18:40, arrival 19:00. New: preparation 19:20, arrival 19:40."
         }
       }
     ]

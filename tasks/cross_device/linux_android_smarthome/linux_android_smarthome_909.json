@@ -305,13 +305,21 @@
     "source_idea": "Immediate air incident with stable device-state evaluation.",
     "surfaces": [
       "dual_linux",
+      "guard",
+      "home_command",
       "linux0_policy",
       "linux1_register",
-      "sms",
       "linux_xlsx",
-      "home_command",
-      "guard",
-      "smarthome.home_state"
+      "smarthome.home_state",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "smarthome_reasoning",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_909",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_909/episode_config.json",

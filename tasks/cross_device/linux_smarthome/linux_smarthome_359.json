@@ -252,10 +252,18 @@
     "surfaces": [
       "linux.json",
       "linux.xlsx",
-      "smarthome.device_state",
+      "smarthome.command_history",
       "smarthome.home_state",
       "smarthome.schedule",
       "smarthome.workflow"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_359",
     "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_359/episode_config.json",

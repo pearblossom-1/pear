@@ -124,7 +124,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "pkill -f 'mdcbench-linux-android-1866-writer-profile' 2>/dev/null || true\nrm -rf /tmp/mdcbench-linux-android-1866-writer-profile\nmkdir -p /tmp/agenda /tmp/attendees\nrm -f /tmp/agenda/agenda_template.odt /tmp/attendees/packet.odt /tmp/agenda/writer.log",
+            "command": "pkill -x soffice.bin 2>/dev/null || true\nrm -rf /tmp/mdcbench-linux-android-1866-writer-profile\nmkdir -p /tmp/agenda /tmp/attendees\nrm -f /tmp/agenda/agenda_template.odt /tmp/attendees/packet.odt /tmp/agenda/writer.log",
             "shell": true
           }
         },
@@ -186,7 +186,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "pkill -f 'mdcbench-linux-android-1866-writer-profile' 2>/dev/null || true; rm -rf /tmp/mdcbench-linux-android-1866-writer-profile; rm -f -- /tmp/agenda/agenda_template.odt /tmp/agenda/writer.log /tmp/attendees/packet.odt; find /tmp/agenda /tmp/attendees -type d -empty -delete 2>/dev/null || true",
+            "command": "pkill -x soffice.bin 2>/dev/null || true; rm -rf /tmp/mdcbench-linux-android-1866-writer-profile; rm -f -- /tmp/agenda/agenda_template.odt /tmp/agenda/writer.log /tmp/attendees/packet.odt; find /tmp/agenda /tmp/attendees -type d -empty -delete 2>/dev/null || true",
             "shell": true
           }
         }
@@ -258,9 +258,18 @@
     "triage_reason": "Candidate is feasible with supported Linux and Android setup/evaluation interfaces.",
     "device_topology": "android_0+android_1+linux_0+linux_1",
     "surfaces": [
-      "android.calendar",
-      "android.contacts",
+      "calendar",
+      "contacts",
+      "linux.csv",
       "linux.odt"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1866",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1866/episode_config.json",

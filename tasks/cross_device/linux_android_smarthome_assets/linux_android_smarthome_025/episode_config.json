@@ -16,33 +16,40 @@
         "path": "/storage/emulated/0/Documents/Markor/Dinner Restore.md",
         "rules": {
           "entities": [
-            "Dinner restore",
             [
               "21:10",
               "9:10 PM"
             ],
             [
               "light 20%",
-              "light 20 percent"
+              "light 20 percent",
+              "light: 20%",
+              "light: 20 percent"
             ],
             [
               "curtain closed",
-              "close curtain"
+              "close curtain",
+              "curtain: closed"
             ],
             [
               "purifier off",
-              "air purifier off"
+              "air purifier off",
+              "purifier: off",
+              "air purifier: off"
             ],
             [
               "heater 20 C",
-              "heater 20 degrees"
+              "heater 20 degrees",
+              "heater: 20 C",
+              "heater: 20 degrees"
             ]
           ],
           "required_phrases": [
             [
               "active",
               "scheduled",
-              "applied"
+              "planned",
+              "set for"
             ]
           ],
           "conflict_phrases": [

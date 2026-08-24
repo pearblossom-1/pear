@@ -86,23 +86,6 @@
         {
           "type": "ensure_app",
           "parameters": {
-            "app": "files"
-          }
-        },
-        {
-          "type": "upload_file",
-          "parameters": {
-            "files": [
-              {
-                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_897/android/android_0/bedroom-comfort.txt",
-                "path": "/storage/emulated/0/Download/bedroom-comfort.txt"
-              }
-            ]
-          }
-        },
-        {
-          "type": "ensure_app",
-          "parameters": {
             "app": "tasks"
           }
         },
@@ -183,12 +166,6 @@
     {
       "device_id": "android_0",
       "config": [
-        {
-          "type": "adb_shell",
-          "parameters": {
-            "command": "rm -f /storage/emulated/0/Download/bedroom-comfort.txt"
-          }
-        },
         {
           "type": "androidworld_tasks_clear",
           "parameters": {}
@@ -391,13 +368,20 @@
     "source_idea": "Stable fallback for AC humidity task.",
     "surfaces": [
       "dual_linux",
+      "home_command",
       "linux0_policy",
       "linux1_register",
-      "android_files",
-      "tasks",
       "linux_pdf",
       "linux_xlsx",
-      "home_command"
+      "tasks"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_897",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_897/episode_config.json",

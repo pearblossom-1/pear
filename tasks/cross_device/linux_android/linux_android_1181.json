@@ -201,9 +201,16 @@
     "category": "linux_android",
     "source_idea": "plan6 candidate 1181",
     "surfaces": [
-      "sms",
       "contacts",
-      "linux.csv"
+      "linux.csv",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1181",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1181/episode_config.json",

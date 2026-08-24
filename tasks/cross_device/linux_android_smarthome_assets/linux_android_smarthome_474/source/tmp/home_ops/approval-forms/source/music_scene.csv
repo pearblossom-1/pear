@@ -1,5 +1,5 @@
-room,track_count,lead_minutes,light_pct,curtain_pct
-living_room,1,10,25,75
-living_room,2,20,35,50
-living_room,3,30,45,25
-bedroom,2,15,30,40
+playlist,room,lead_minutes,light_pct,curtain_pct
+Workout Mix,living_room,20,35,50
+Workout Mix,bedroom,15,30,40
+Quiet Piano,living_room,10,25,75
+Sleep Sounds,living_room,30,45,25

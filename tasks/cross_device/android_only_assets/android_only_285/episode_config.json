@@ -254,7 +254,7 @@
             "not in the manifest"
           ],
           "conflict_patterns": [
-            "missing_song\\.mp3.{0,24}\\b(?:is\\s+)?(?:present|available|exists|copied|exported)\\b",
+            "missing_song\\.mp3[^.;\\n]{0,24}\\b(?:is\\s+)?(?:present|available|exists|copied|exported)\\b",
             "unlisted\\.mp3.{0,24}(?<!not )(?<!never )\\b(?:copied|exported)\\b",
             "(?<!not )(?<!never )\\b(?:copied|exported)\\b.{0,24}unlisted\\.mp3"
           ],

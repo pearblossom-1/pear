@@ -1,1 +1,0 @@
-Bedroom request: reduce heat and humidity using the approved Linux fallback.

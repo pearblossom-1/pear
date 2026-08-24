@@ -296,10 +296,18 @@
     "category": "linux_android_smarthome",
     "source_idea": "Unauthorized cancellation request must leave an active away routine unchanged.",
     "surfaces": [
-      "sms",
       "contacts",
+      "home_workflow",
       "linux_text",
-      "home_workflow"
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "smarthome_reasoning",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_287",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_287/episode_config.json",

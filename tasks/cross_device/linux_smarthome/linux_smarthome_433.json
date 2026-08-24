@@ -194,7 +194,7 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_command_history_contract",
+      "func": "smarthome.check_command_history_whitelist",
       "result": {
         "type": "smarthome_device_history"
       },
@@ -202,18 +202,13 @@
         "type": "rule",
         "rules": {
           "expected": {
-            "devices": {
-              "nursery_robot_vacuum_1": {
-                "allowed_sequences": [
-                  [
-                    {
-                      "command": "pause",
-                      "args": {}
-                    }
-                  ]
-                ]
+            "allowed_commands": [
+              {
+                "device_id": "nursery_robot_vacuum_1",
+                "command": "pause",
+                "args": {}
               }
-            }
+            ]
           }
         }
       },
@@ -261,12 +256,21 @@
     "category": "linux_smarthome",
     "source_idea": "linux_smarthome_idea_433",
     "surfaces": [
-      "linux.png",
+      "linux.image",
       "linux.xlsx",
+      "smarthome.command_history",
       "smarthome.device_state",
       "smarthome.home_state",
-      "smarthome.schedule",
-      "smarthome.workflow"
+      "smarthome.schedule"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "media_handling",
+      "negative_or_conflict_handling",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_433",
     "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_433/episode_config.json",
@@ -331,7 +335,7 @@
       }
     ],
     "setup_note": "Uploads /tmp/cleaning/no-clean.png, /tmp/cleaning/robot-plan.xlsx and resets home_0 from the task episode config.",
-    "evaluate_note": "Evaluates the cleaning-audit workbook, exactly one direct nursery-robot pause command, cancellation of the conflicting schedule, and preservation of the one-schedule/zero-workflow plan inventory.",
+    "evaluate_note": "Evaluates the cleaning-audit workbook, allows only direct nursery-robot pause commands while tolerating a retry, verifies cancellation of the conflicting schedule, and preserves the one-schedule/zero-workflow plan inventory.",
     "idea_number": 433,
     "coverage_group": "image_source_detail",
     "lite_hardening_note": "Round-2 blind-agent follow-up accepts bounded natural conflict descriptions, rejects explicit negation and extra workbook content, and guards the global command, schedule, and workflow inventory."

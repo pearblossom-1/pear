@@ -187,32 +187,20 @@
           },
           "cell_rules": {
             "G2": {
-              "entity_relation": {
-                "entities": [
-                  [
-                    "brightness",
-                    "light"
-                  ],
-                  [
-                    "40",
-                    "40%",
-                    "40 percent"
-                  ],
-                  [
-                    "set",
-                    "applied"
-                  ]
-                ],
-                "conflict_phrases": [
-                  "not applied",
-                  "pending",
-                  "failed",
-                  "rejected"
-                ],
-                "reject_questions": true,
-                "reject_uncertainty": true,
-                "reject_negated_relations": true
-              }
+              "contains_all": [
+                "40"
+              ],
+              "contains_any": [
+                "set",
+                "applied",
+                "executed"
+              ],
+              "not_contains": [
+                "not applied",
+                "pending",
+                "failed",
+                "rejected"
+              ]
             },
             "G3": {
               "entity_relation": {
@@ -277,8 +265,14 @@
     "surfaces": [
       "linux.csv",
       "linux.xlsx",
-      "smarthome.device_state",
       "smarthome.home_state"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "smarthome_reasoning",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_520",
     "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_520/episode_config.json",

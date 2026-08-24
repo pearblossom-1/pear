@@ -45,8 +45,8 @@
             ],
             "open_filename": "scene_code_manifest.csv",
             "required_visible_text": [
-              "scene code,playlist,run at,office light brightness,office purifier level",
-              "FocusScene,Focus Mix,20:00,30%,low"
+              "scene code,run at,office light brightness,office purifier level",
+              "FocusScene,20:00,30%,low"
             ]
           }
         }
@@ -444,9 +444,16 @@
       "files",
       "markor",
       "tasks",
-      "home_workflow",
       "home_schedule",
-      "two_android"
+      "home_workflow"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "negative_or_conflict_handling",
+      "temporal_or_workflow_planning"
     ],
     "readiness": "static_reviewed",
     "native_content_outputs": [

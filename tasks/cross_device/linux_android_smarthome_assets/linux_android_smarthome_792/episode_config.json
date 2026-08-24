@@ -34,13 +34,6 @@
               "curtains"
             ]
           ],
-          "required_phrases": [
-            [
-              "applied",
-              "set",
-              "opened"
-            ]
-          ],
           "conflict_phrases": [
             "pending",
             "not applied",

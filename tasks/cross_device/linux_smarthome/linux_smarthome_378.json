@@ -133,11 +133,14 @@
     "source_idea": "linux_smarthome_idea_378",
     "surfaces": [
       "browser_tab",
-      "linux.browser",
       "linux.html",
-      "smarthome.capability",
-      "smarthome.device_state",
       "smarthome.home_state"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "smarthome_reasoning",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_378",
     "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_378/episode_config.json",

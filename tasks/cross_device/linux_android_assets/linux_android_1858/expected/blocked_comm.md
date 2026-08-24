@@ -1,7 +1,3 @@
-Conflicting recipients create blocked communication report
-CASE-1858
-FB-1858
-Leo Martin
-RT-58
-blocked
-status: complete
+CASE-1858 / FB-1858 / Leo Martin.
++15552001828 conflicts with +15552009928.
+Communication blocked.

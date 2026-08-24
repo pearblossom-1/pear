@@ -319,6 +319,11 @@
       "sms",
       "home_command"
     ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "smarthome_reasoning"
+    ],
     "readiness": "static_reviewed",
     "native_content_outputs": [
       "androidworld_sms_message",

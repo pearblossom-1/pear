@@ -34,8 +34,9 @@
         "rules": {
           "entities": ["Ava Lane", "dispatch", "north", "MSG-1255"],
           "positive_phrases": ["selected", "confirmed", "dispatch"],
-          "forbidden_entities": ["Ava Lane South", "MSG-0000", "south"],
-          "conflict_phrases": ["wrong", "not selected", "do not send"]
+          "forbidden_entities": ["MSG-0000"],
+          "allowed_negative_capability_phrases": ["not selected"],
+          "conflict_phrases": ["wrong"]
         }
       },
       "expected": {"type": "rule", "rules": {"expected": "pass"}}

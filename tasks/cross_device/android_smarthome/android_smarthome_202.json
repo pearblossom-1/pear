@@ -145,8 +145,7 @@
       "func": "smarthome.advance_time",
       "parameters": {
         "minutes": 30
-      },
-      "name": "evaluator advances from 19:00 to the 19:30 trigger"
+      }
     },
     {
       "device_id": "home_0",
@@ -194,6 +193,12 @@
     "surfaces": [
       "sms",
       "home_workflow"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "smarthome_reasoning",
+      "temporal_or_workflow_planning"
     ],
     "readiness": "static_reviewed",
     "native_content_outputs": [

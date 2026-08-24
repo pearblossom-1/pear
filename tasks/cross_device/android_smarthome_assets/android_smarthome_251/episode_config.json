@@ -36,13 +36,43 @@
               "close"
             ]
           ],
-          "positive_phrases": [
+          "ordered_entities": [
             [
-              "complete",
-              "completed",
-              "applied",
-              "set"
+              "light"
+            ],
+            [
+              "20",
+              "20%"
+            ],
+            [
+              "curtain"
+            ],
+            [
+              "closed",
+              "close"
             ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                "light",
+                [
+                  "20",
+                  "20%"
+                ]
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "curtain",
+                [
+                  "closed",
+                  "close"
+                ]
+              ],
+              "allow_multiple_matches": true
+            }
           ],
           "conflict_phrases": [
             "pending",

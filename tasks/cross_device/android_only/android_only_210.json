@@ -218,6 +218,10 @@
       "tasks",
       "calendar"
     ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer"
+    ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/android_only_assets/android_only_210",
     "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",

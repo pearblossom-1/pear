@@ -381,12 +381,18 @@
     "category": "android_smarthome",
     "source_idea": "android_smarthome_idea_357",
     "surfaces": [
-      "osmand",
       "tasks",
+      "osmand",
       "contacts",
       "markor",
       "sms",
       "home_workflow"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "smarthome_reasoning",
+      "temporal_or_workflow_planning"
     ],
     "readiness": "static_reviewed",
     "native_content_outputs": [

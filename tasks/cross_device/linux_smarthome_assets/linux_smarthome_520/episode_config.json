@@ -85,32 +85,20 @@
           },
           "cell_rules": {
             "G2": {
-              "entity_relation": {
-                "entities": [
-                  [
-                    "brightness",
-                    "light"
-                  ],
-                  [
-                    "40",
-                    "40%",
-                    "40 percent"
-                  ],
-                  [
-                    "set",
-                    "applied"
-                  ]
-                ],
-                "conflict_phrases": [
-                  "not applied",
-                  "pending",
-                  "failed",
-                  "rejected"
-                ],
-                "reject_questions": true,
-                "reject_uncertainty": true,
-                "reject_negated_relations": true
-              }
+              "contains_all": [
+                "40"
+              ],
+              "contains_any": [
+                "set",
+                "applied",
+                "executed"
+              ],
+              "not_contains": [
+                "not applied",
+                "pending",
+                "failed",
+                "rejected"
+              ]
             },
             "G3": {
               "entity_relation": {

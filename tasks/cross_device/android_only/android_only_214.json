@@ -161,10 +161,6 @@
         "rules": {
           "entities": [
             "Depot Gate",
-            "47.6100",
-            "-122.3300",
-            "47.6205",
-            "-122.3493",
             [
               "Calendar",
               "calendar event"
@@ -174,10 +170,37 @@
             "corrected",
             "updated",
             "changed",
-            "Old"
+            "old",
+            "previous",
+            "current",
+            "new"
           ],
-          "required_patterns": [
-            "(?s)(?:(?:\\b(?:old|from)\\b\\s*[:=-]?\\s*47\\.6100\\s*,\\s*-122\\.3300.{0,180}\\b(?:new|to)\\b\\s*[:=-]?\\s*47\\.6205\\s*,\\s*-122\\.3493)|(?:\\|\\s*Depot\\s+Gate\\s*\\|\\s*47\\.6100\\s*,\\s*-122\\.3300\\s*\\|\\s*47\\.6205\\s*,\\s*-122\\.3493\\s*\\|\\s*Calendar\\s*\\|))"
+          "numeric_coordinate_relations": [
+            {
+              "anchor": [
+                "old",
+                "previous",
+                "from"
+              ],
+              "latitude": 47.61,
+              "longitude": -122.33,
+              "tolerance": 0.000005,
+              "max_anchor_gap_chars": 180,
+              "include_historical": true
+            },
+            {
+              "anchor": [
+                "new",
+                "current",
+                "corrected",
+                "updated",
+                "to"
+              ],
+              "latitude": 47.6205,
+              "longitude": -122.3493,
+              "tolerance": 0.000005,
+              "max_anchor_gap_chars": 180
+            }
           ],
           "conflict_phrases": [
             "unchanged",
@@ -187,9 +210,6 @@
             "proposed",
             "suggested",
             "uncertain"
-          ],
-          "conflict_patterns": [
-            "(?s)(?:\\b(?:new|from)\\b\\s*[:=-]?\\s*47\\.6205\\s*,\\s*-122\\.3493.{0,180}\\b(?:old|to)\\b\\s*[:=-]?\\s*47\\.6100\\s*,\\s*-122\\.3300)"
           ]
         }
       },
@@ -241,6 +261,10 @@
       "calendar",
       "osmand",
       "markor"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer"
     ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/android_only_assets/android_only_214",

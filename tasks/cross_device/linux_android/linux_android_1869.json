@@ -256,9 +256,17 @@
     "triage_reason": "Repaired as a Thunderbird escalation draft using support SMS, lead contact, and Linux knowledge-base evidence.",
     "device_topology": "android_0+android_1+linux_0+linux_1",
     "surfaces": [
-      "android.contacts",
-      "android.sms",
-      "linux.thunderbird"
+      "contacts",
+      "linux.thunderbird",
+      "linux.xlsx",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1869",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1869/episode_config.json",

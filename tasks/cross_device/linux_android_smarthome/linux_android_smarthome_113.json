@@ -371,12 +371,20 @@
     "category": "linux_android_smarthome",
     "source_idea": "Pilot 113 visitor prep with dual output consistency.",
     "surfaces": [
-      "contacts",
       "calendar",
-      "sms",
-      "linux_xlsx",
+      "contacts",
+      "home_workflow",
       "linux_docx",
-      "home_workflow"
+      "linux_xlsx",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/episode_config.json",

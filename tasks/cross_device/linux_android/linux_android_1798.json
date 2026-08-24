@@ -286,8 +286,16 @@
     "triage_reason": "Repaired candidate to use stable source-visible files or durable office/text anchors while preserving the planned workflow.",
     "device_topology": "android_0+linux_0+linux_1",
     "surfaces": [
-      "android.playlist",
-      "linux.csv"
+      "linux.csv",
+      "retro_music"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "media_handling",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1798",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1798/episode_config.json",

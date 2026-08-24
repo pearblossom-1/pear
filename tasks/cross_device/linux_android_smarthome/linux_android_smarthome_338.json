@@ -304,10 +304,17 @@
     "source_idea": "Dual Android coordination variant 338.",
     "surfaces": [
       "android_dual",
-      "recipe",
-      "tasks",
+      "home_command",
       "linux_text",
-      "home_command"
+      "recipe",
+      "tasks"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "smarthome_reasoning",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338/episode_config.json",

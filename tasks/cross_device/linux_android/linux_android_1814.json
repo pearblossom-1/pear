@@ -210,9 +210,15 @@
     "triage_reason": "Candidate is feasible with supported Linux and Android setup/evaluation interfaces.",
     "device_topology": "android_0+android_1+linux_0",
     "surfaces": [
-      "android.approval_sms",
-      "android.approver_contact",
-      "linux.docx"
+      "contacts",
+      "linux.docx",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1814",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1814/episode_config.json",

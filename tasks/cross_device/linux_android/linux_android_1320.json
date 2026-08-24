@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1320",
-  "instruction": "Review the recipe and allergy contact on the phones together with `/tmp/meal/pantry.csv` on the first Linux machine and `/tmp/meal/suppliers.csv` on the second. Write the decision and reason to `/tmp/meal/meal_decision.md` on the second Linux machine; if the recipe is unsafe, clearly block it and leave `/tmp/meal/supplier_order.csv` absent.",
+  "instruction": "Review the recipe on the first phone and the guest allergy contact on the second phone. Use `/tmp/meal/pantry.csv` on the first Linux machine to check which required ingredients are currently available, and `/tmp/meal/suppliers.csv` on the second Linux machine to check the offered substitute for any unavailable ingredient. Write the final decision and reason to `/tmp/meal/meal_decision.md` on the second Linux machine. If the available substitute conflicts with the guest allergy, clearly block the recipe and leave `/tmp/meal/supplier_order.csv` absent.",
   "devices": [
     {
       "id": "linux_0",
@@ -44,7 +44,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "test -r /tmp/meal/pantry.csv && grep -F 'rice,yes' /tmp/meal/pantry.csv >/dev/null && grep -F 'sesame oil,no' /tmp/meal/pantry.csv >/dev/null",
+            "command": "test -r /tmp/meal/pantry.csv && grep -F 'rice,yes' /tmp/meal/pantry.csv >/dev/null && grep -F 'cooking oil,no' /tmp/meal/pantry.csv >/dev/null && grep -F 'cucumber,yes' /tmp/meal/pantry.csv >/dev/null",
             "shell": true
           }
         }
@@ -74,7 +74,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "test -r /tmp/meal/suppliers.csv && grep -F 'sesame oil,Supplier A' /tmp/meal/suppliers.csv >/dev/null && test -w /tmp/meal && test ! -e /tmp/meal/meal_decision.md && test ! -e /tmp/meal/supplier_order.csv",
+            "command": "test -r /tmp/meal/suppliers.csv && grep -F 'cooking oil,Supplier A,sesame oil' /tmp/meal/suppliers.csv >/dev/null && grep -F 'cucumber,Supplier B,cucumber' /tmp/meal/suppliers.csv >/dev/null && test -w /tmp/meal && test ! -e /tmp/meal/meal_decision.md && test ! -e /tmp/meal/supplier_order.csv",
             "shell": true
           }
         }
@@ -96,10 +96,22 @@
         {
           "type": "androidworld_recipe_add",
           "parameters": {
-            "title": "Sesame Rice Bowl",
-            "ingredients": "rice; sesame oil; cucumber",
-            "directions": "Mix.",
+            "title": "Harbor Rice Bowl",
+            "ingredients": "rice; cooking oil; cucumber",
+            "directions": "Mix and serve.",
             "preparationTime": ""
+          }
+        },
+        {
+          "type": "androidworld_broccoli_recipe_preflight",
+          "parameters": {
+            "recipe": {
+              "title": "Harbor Rice Bowl",
+              "ingredients": "rice; cooking oil; cucumber",
+              "directions": "Mix and serve.",
+              "preparationTime": ""
+            },
+            "required_visible_text": ["Harbor Rice Bowl", "cooking oil"]
           }
         },
         {
@@ -129,6 +141,17 @@
             "name": "Guest Allergy",
             "number": "5551201320",
             "notes": "Allergy: sesame"
+          }
+        },
+        {
+          "type": "androidworld_contact_preflight",
+          "parameters": {
+            "contact": {
+              "name": "Guest Allergy",
+              "number": "5551201320",
+              "notes_exact": "Allergy: sesame"
+            },
+            "required_visible_text": ["Guest Allergy", "Allergy: sesame"]
           }
         },
         {
@@ -196,18 +219,25 @@
       "expected": {
         "type": "rule",
         "rules": {
-          "include": ["Sesame Rice Bowl", "Guest Allergy", "sesame oil"],
+          "include": ["Harbor Rice Bowl", "cooking oil", "sesame oil"],
           "exclude": ["missing", "placeholder"],
           "entity_relation": {
-            "entities": ["Sesame Rice Bowl", "Guest Allergy", "sesame oil"],
+            "entities": [
+              "Harbor Rice Bowl",
+              "cooking oil",
+              "sesame oil",
+              ["Guest Allergy", "guest allergy", "guest's sesame allergy", "guest is allergic to sesame", "allergic to sesame", "allergy: sesame"]
+            ],
             "required_phrases": [
-              ["sesame allergy", "allergy: sesame", "allergy = sesame", "allergic to sesame", "sesame-allergic"]
+              ["not on hand", "unavailable", "missing ingredient", "out of stock"],
+              ["offered substitute", "available substitute", "substitute is sesame oil", "sesame oil substitute", "Supplier A offers sesame oil", "cooking oil -> sesame oil"],
+              ["sesame allergy", "allergy: sesame", "allergy = sesame", "allergic to sesame", "sesame-allergic", "guest allergy: sesame"]
             ],
             "positive_phrases": [
               ["blocked", "unsafe", "cannot serve", "do not serve"]
             ],
-            "conflict_phrases": ["not blocked", "safe", "safe to serve", "approved", "approved to serve", "order placed", "supplier order created"],
-            "allowed_negative_capability_phrases": ["do not serve"],
+            "conflict_phrases": ["not blocked", "is safe", "safe to serve", "approved to serve", "cooking oil is on hand", "substitute is olive oil", "olive oil substitute", "peanut allergy", "order sesame oil", "order placed", "supplier order created"],
+            "allowed_negative_capability_phrases": ["not on hand", "do not serve"],
             "reject_incomplete_semantics": true
           },
           "case_sensitive": false
@@ -246,7 +276,14 @@
       "broccoli",
       "contacts",
       "linux.csv",
-      "linux.markdown"
+      "linux.text"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1320",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1320/episode_config.json",

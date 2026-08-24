@@ -39,23 +39,13 @@
                 "numbers differ",
                 "different phone values",
                 "sender number and current-row number are different"
-              ],
-              [
-                "no reply was sent",
-                "do not send to either number",
-                "no confirmation was sent",
-                "both numbers were left uncontacted",
-                "neither number should be contacted",
-                "neither number was contacted"
               ]
             ],
             "positive_phrases": [
               "blocked",
               "communication blocked",
               "reply blocked",
-              "cannot reply",
-              "must not reply",
-              "do not reply"
+              "cannot reply"
             ],
             "conflict_phrases": [
               "not blocked",
@@ -67,16 +57,6 @@
               "a reply was sent",
               "confirmation was sent",
               "sent a reply"
-            ],
-            "allowed_negative_capability_phrases": [
-              "no reply was sent",
-              "do not send to either number",
-              "no confirmation was sent",
-              "both numbers were left uncontacted",
-              "neither number should be contacted",
-              "neither number was contacted",
-              "must not reply",
-              "do not reply"
             ]
           }
         }

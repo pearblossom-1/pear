@@ -16,7 +16,6 @@
         "path": "/storage/emulated/0/Documents/Markor/Homecoming Heat.md",
         "rules": {
           "entities": [
-            "Homecoming Heat",
             [
               "17.8 C",
               "17.8"
@@ -38,7 +37,8 @@
             [
               "active",
               "scheduled",
-              "applied"
+              "planned",
+              "set for"
             ]
           ],
           "conflict_phrases": [

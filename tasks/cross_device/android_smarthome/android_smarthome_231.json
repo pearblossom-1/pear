@@ -213,6 +213,12 @@
       "markor",
       "infeasible_report"
     ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "smarthome_reasoning",
+      "negative_or_conflict_handling"
+    ],
     "readiness": "static_reviewed",
     "native_content_outputs": [
       "smarthome_infeasible_reports"

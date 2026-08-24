@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_026",
-  "instruction": "Simple Calendar Pro has tonight's sleep rule. Check the live bedroom conditions, schedule the prescribed bedtime prep if the rule triggers, and write a Markor note titled `Sleep Decision` recording the decision, scheduled time, temperature, and light setting (or why no change was needed).",
+  "instruction": "Simple Calendar Pro has the sleep rule for the scheduled Sleep event. Check the live bedroom conditions, schedule the prescribed bedtime prep if the rule triggers, and write a Markor note titled `Sleep Decision` recording the decision, scheduled time, temperature, and light setting (or why no change was needed).",
   "devices": [
     {
       "id": "android_0",
@@ -369,9 +369,15 @@
     "source_idea": "android_smarthome_idea_26",
     "surfaces": [
       "calendar",
+      "markor",
       "home_state",
-      "home_workflow",
-      "markor"
+      "home_workflow"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "smarthome_reasoning",
+      "temporal_or_workflow_planning"
     ],
     "readiness": "static_reviewed",
     "native_content_outputs": [

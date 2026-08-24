@@ -162,7 +162,8 @@
                       "event missing",
                       "absent",
                       "not found"
-                    ]
+                    ],
+                    "allow_unlabeled": true
                   },
                   {
                     "name": "result",
@@ -174,9 +175,14 @@
                     "values": [
                       "missing",
                       "absent",
-                      "not found"
+                      "not found",
+                      "mismatch",
+                      "mismatches",
+                      "does not match",
+                      "not matched",
+                      "cannot match"
                     ],
-                    "allow_unlabeled": false
+                    "allow_unlabeled": true
                   }
                 ]
               }

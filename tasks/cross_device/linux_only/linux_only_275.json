@@ -60,7 +60,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "mkdir -p /tmp/portal/local_pages && rm -f /tmp/portal/local_pages/a.html",
+            "command": "rm -rf /tmp/portal/local_pages && mkdir -p /tmp/portal/local_pages",
             "shell": true
           }
         },
@@ -129,14 +129,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "rm -f /tmp/portal/local_pages/a.html",
-            "shell": true
-          }
-        },
-        {
-          "type": "execute",
-          "parameters": {
-            "command": "rm -f /tmp/portal/local_pages/b.html",
+            "command": "rm -rf /tmp/portal/local_pages",
             "shell": true
           }
         },
@@ -238,9 +231,15 @@
     "category": "linux_only",
     "device_topology": "2linux",
     "surfaces": [
-      "json",
+      "csv",
       "html",
-      "csv"
+      "json"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/linux_only_assets/linux_only_275",

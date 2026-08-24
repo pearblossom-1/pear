@@ -135,33 +135,40 @@
         "path": "/storage/emulated/0/Documents/Markor/Dinner Restore.md",
         "rules": {
           "entities": [
-            "Dinner restore",
             [
               "21:10",
               "9:10 PM"
             ],
             [
               "light 20%",
-              "light 20 percent"
+              "light 20 percent",
+              "light: 20%",
+              "light: 20 percent"
             ],
             [
               "curtain closed",
-              "close curtain"
+              "close curtain",
+              "curtain: closed"
             ],
             [
               "purifier off",
-              "air purifier off"
+              "air purifier off",
+              "purifier: off",
+              "air purifier: off"
             ],
             [
               "heater 20 C",
-              "heater 20 degrees"
+              "heater 20 degrees",
+              "heater: 20 C",
+              "heater: 20 degrees"
             ]
           ],
           "required_phrases": [
             [
               "active",
               "scheduled",
-              "applied"
+              "planned",
+              "set for"
             ]
           ],
           "conflict_phrases": [
@@ -222,9 +229,16 @@
     "source_idea": "Pilot 25 guest restore workflow.",
     "surfaces": [
       "calendar",
-      "markor",
+      "home_workflow",
       "linux_docx",
-      "home_workflow"
+      "markor"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "smarthome_reasoning",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_025",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_025/episode_config.json",

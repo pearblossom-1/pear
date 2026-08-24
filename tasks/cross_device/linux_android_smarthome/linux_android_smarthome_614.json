@@ -306,12 +306,19 @@
     "source_idea": "614 stale Gallery evidence loses to current authenticated Owner SMS for robot vacuum.",
     "surfaces": [
       "android_dual",
-      "gallery",
-      "sms",
       "contacts",
+      "gallery",
+      "home_command",
       "linux_pdf",
-      "linux_json",
-      "home_command"
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "media_handling",
+      "negative_or_conflict_handling",
+      "smarthome_reasoning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_614",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_614/episode_config.json",

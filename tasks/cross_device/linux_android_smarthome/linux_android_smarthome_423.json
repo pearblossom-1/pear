@@ -308,11 +308,19 @@
     "source_idea": "423 Kitchen air-purifier service shutdown anchored to a maintenance alarm.",
     "surfaces": [
       "android_dual",
-      "clock",
       "android_files",
-      "tasks",
+      "clock",
+      "home_schedule",
       "linux_csv",
-      "home_schedule"
+      "tasks"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_423",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_423/episode_config.json",

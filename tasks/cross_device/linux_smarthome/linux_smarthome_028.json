@@ -171,8 +171,16 @@
     "category": "linux_smarthome",
     "source_idea": "linux_smarthome_idea_028",
     "surfaces": [
-      "linux_markdown_source",
-      "home_cancel_schedule"
+      "linux.text",
+      "smarthome.command_history",
+      "smarthome.home_state",
+      "smarthome.schedule"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "smarthome_reasoning",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_028",
     "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_028/episode_config.json",

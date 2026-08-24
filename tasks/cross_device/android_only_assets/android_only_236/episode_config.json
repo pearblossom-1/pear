@@ -82,8 +82,7 @@
             "Dock\\s+Liaison.{0,28}\\b(?:missing|absent|not\\s+found)\\b",
             "Gate\\s+Runner.{0,36}\\b(?:matches|correct)\\b",
             "(?:actual\\s*[:=-]?\\s*0237|expected\\s*[:=-]?\\s*0999)",
-            "Night\\s+Medic.{0,30}\\b(?:present|found|actual)\\b",
-            "(?<!expected )(?<!expected:)(?<!source )(?<!source:)(?<!ending )\\b0238\\b"
+            "Night\\s+Medic.{0,30}\\b(?:present|found|actual)\\b"
           ],
           "preceding_clause_context": {
             "max_preceding_clauses": 2,

@@ -167,7 +167,7 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_command_history_contract",
+      "func": "smarthome.check_command_history_whitelist",
       "result": {
         "type": "smarthome_device_history"
       },
@@ -175,18 +175,13 @@
         "type": "rule",
         "rules": {
           "expected": {
-            "devices": {
-              "bedroom_robot_vacuum_1": {
-                "allowed_sequences": [
-                  [
-                    {
-                      "command": "pause",
-                      "args": {}
-                    }
-                  ]
-                ]
+            "allowed_commands": [
+              {
+                "device_id": "bedroom_robot_vacuum_1",
+                "command": "pause",
+                "args": {}
               }
-            }
+            ]
           }
         }
       },
@@ -235,13 +230,22 @@
     "source_idea": "linux_smarthome_idea_454",
     "surfaces": [
       "browser_tab",
-      "linux.browser",
       "linux.html",
-      "linux.png",
+      "linux.image",
+      "smarthome.command_history",
       "smarthome.device_state",
       "smarthome.home_state",
       "smarthome.schedule",
       "smarthome.workflow"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "media_handling",
+      "negative_or_conflict_handling",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_454",
     "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_454/episode_config.json",

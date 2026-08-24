@@ -179,23 +179,13 @@
                 "numbers differ",
                 "different phone values",
                 "sender number and current-row number are different"
-              ],
-              [
-                "no reply was sent",
-                "do not send to either number",
-                "no confirmation was sent",
-                "both numbers were left uncontacted",
-                "neither number should be contacted",
-                "neither number was contacted"
               ]
             ],
             "positive_phrases": [
               "blocked",
               "communication blocked",
               "reply blocked",
-              "cannot reply",
-              "must not reply",
-              "do not reply"
+              "cannot reply"
             ],
             "conflict_phrases": [
               "not blocked",
@@ -207,16 +197,6 @@
               "a reply was sent",
               "confirmation was sent",
               "sent a reply"
-            ],
-            "allowed_negative_capability_phrases": [
-              "no reply was sent",
-              "do not send to either number",
-              "no confirmation was sent",
-              "both numbers were left uncontacted",
-              "neither number should be contacted",
-              "neither number was contacted",
-              "must not reply",
-              "do not reply"
             ]
           }
         }
@@ -271,8 +251,16 @@
     "triage_reason": "Blocked communication task: visible requester and recipient phone values conflict, so the scored output is a blocked report and no SMS reply.",
     "device_topology": "android_0+linux_0+linux_1",
     "surfaces": [
-      "android.sms",
-      "linux.text"
+      "linux.csv",
+      "linux.text",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1858",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1858/episode_config.json",

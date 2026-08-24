@@ -241,11 +241,17 @@
     "category": "linux_smarthome",
     "source_idea": "linux_smarthome_idea_981",
     "surfaces": [
-      "2linux",
-      "linux_xlsx_source",
-      "home_policy_board",
-      "linux_xlsx_output",
-      "linux_docx_source"
+      "linux.docx",
+      "linux.xlsx",
+      "smarthome.command_history",
+      "smarthome.home_state"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "smarthome_reasoning",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_981",
     "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_981/episode_config.json",

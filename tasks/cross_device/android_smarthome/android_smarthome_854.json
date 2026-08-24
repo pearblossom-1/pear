@@ -432,12 +432,20 @@
     "category": "android_smarthome",
     "source_idea": "android_smarthome_idea_854",
     "surfaces": [
-      "retro",
+      "retro_music",
       "files",
       "tasks",
       "home_schedule",
-      "home_workflow",
-      "no_op"
+      "home_workflow"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "negative_or_conflict_handling",
+      "media_handling",
+      "temporal_or_workflow_planning"
     ],
     "readiness": "static_reviewed",
     "native_content_outputs": [

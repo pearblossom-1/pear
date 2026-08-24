@@ -81,7 +81,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "nohup libreoffice --calc --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-877-calc-profile' /tmp/kitchen-air-incident/register/work_register.xlsx >/tmp/kitchen-air-incident/register/calc-preflight.log 2>&1 </dev/null & sleep 4; pgrep -f 'mdcbench-877-calc-profile' >/dev/null",
+            "command": "nohup libreoffice --calc --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-877-calc-profile' /tmp/kitchen-air-incident/register/work_register.xlsx >/tmp/kitchen-air-incident/register/calc-preflight.log 2>&1 </dev/null & sleep 4; pgrep -x soffice.bin >/dev/null",
             "shell": true
           }
         }
@@ -155,7 +155,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "pkill -f 'mdcbench-877-calc-profile' 2>/dev/null || true; rm -f /tmp/kitchen-air-incident/register/work_register.xlsx /tmp/kitchen-air-incident/register/calc-preflight.log /tmp/kitchen-air-incident/result/work_register_done.xlsx; find /tmp/mdcbench-877-calc-profile -mindepth 1 -delete 2>/dev/null || true; rmdir /tmp/mdcbench-877-calc-profile /tmp/kitchen-air-incident/register /tmp/kitchen-air-incident/result 2>/dev/null || true",
+            "command": "pkill -x soffice.bin 2>/dev/null || true; rm -f /tmp/kitchen-air-incident/register/work_register.xlsx /tmp/kitchen-air-incident/register/calc-preflight.log /tmp/kitchen-air-incident/result/work_register_done.xlsx; find /tmp/mdcbench-877-calc-profile -mindepth 1 -delete 2>/dev/null || true; rmdir /tmp/mdcbench-877-calc-profile /tmp/kitchen-air-incident/register /tmp/kitchen-air-incident/result 2>/dev/null || true",
             "shell": true
           }
         }
@@ -312,13 +312,21 @@
     "source_idea": "Immediate air incident with stable device-state evaluation.",
     "surfaces": [
       "dual_linux",
+      "guard",
+      "home_command",
       "linux0_policy",
       "linux1_register",
-      "sms",
       "linux_xlsx",
-      "home_command",
-      "guard",
-      "smarthome.home_state"
+      "smarthome.home_state",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "smarthome_reasoning",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_877",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_877/episode_config.json",

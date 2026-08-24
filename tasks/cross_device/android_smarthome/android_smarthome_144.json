@@ -335,8 +335,14 @@
     "surfaces": [
       "markor",
       "contacts",
-      "home_workflow",
-      "sms"
+      "sms",
+      "home_workflow"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "smarthome_reasoning",
+      "temporal_or_workflow_planning"
     ],
     "readiness": "static_reviewed",
     "native_content_outputs": [

@@ -210,8 +210,16 @@
     "category": "linux_android",
     "source_idea": "plan6 candidate 1357",
     "surfaces": [
-      "markor",
-      "linux.csv"
+      "files",
+      "linux.csv",
+      "markor"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1357",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1357/episode_config.json",

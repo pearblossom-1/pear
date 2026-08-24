@@ -283,23 +283,6 @@
         }
       },
       "enable_score_calc": false
-    },
-    {
-      "name": "Recordings contains only the expected present recording",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_count",
-        "path": "/sdcard/Recordings",
-        "recursive": true
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "1"
-        }
-      },
-      "enable_score_calc": false
     }
   ],
   "limits": {
@@ -314,10 +297,16 @@
       "files",
       "markor"
     ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "media_handling",
+      "negative_or_conflict_handling"
+    ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/android_only_assets/android_only_305",
     "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",
-    "evaluate_note": "Evaluation checks the semantic Markor result, preserves the two named source-file states, and uses one non-scoring total-file guard to reject a fabricated replacement recording.",
+    "evaluate_note": "Evaluation checks the semantic Markor result and preserves the two named source-file states without constraining unrelated files in the shared Recordings folder.",
     "source_number": 305,
     "candidate_triage": {
       "batch_id": "plan6-android-only-dual-android-B0005",

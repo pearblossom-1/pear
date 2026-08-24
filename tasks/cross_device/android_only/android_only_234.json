@@ -285,82 +285,6 @@
         }
       },
       "enable_score_calc": false
-    },
-    {
-      "name": "Site recursive .png business-image count remains 2",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_count",
-        "path": "/sdcard/Pictures/Site",
-        "recursive": true,
-        "suffix": ".png",
-        "case_insensitive_suffix": true
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "2"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "Site recursive .jpg business-image count remains 0",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_count",
-        "path": "/sdcard/Pictures/Site",
-        "recursive": true,
-        "suffix": ".jpg",
-        "case_insensitive_suffix": true
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "0"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "Site recursive .jpeg business-image count remains 0",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_count",
-        "path": "/sdcard/Pictures/Site",
-        "recursive": true,
-        "suffix": ".jpeg",
-        "case_insensitive_suffix": true
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "0"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "Site recursive .webp business-image count remains 0",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_count",
-        "path": "/sdcard/Pictures/Site",
-        "recursive": true,
-        "suffix": ".webp",
-        "case_insensitive_suffix": true
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "0"
-        }
-      },
-      "enable_score_calc": false
     }
   ],
   "limits": {
@@ -374,10 +298,16 @@
       "markor",
       "files"
     ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "media_handling",
+      "negative_or_conflict_handling"
+    ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/android_only_assets/android_only_234",
     "setup_note": "Generated setup configures android_0 and android_1 from visible Android sources.",
-    "evaluate_note": "Evaluation checks the durable Markor report and keeps a non-scoring exact folder inventory with decodable image constraints.",
+    "evaluate_note": "Evaluation checks the durable Markor report and preserves the three task-specific photo states without constraining unrelated files in the shared Site folder.",
     "source_number": 234,
     "candidate_triage": {
       "batch_id": "plan6-android-only-dual-android-B0002",

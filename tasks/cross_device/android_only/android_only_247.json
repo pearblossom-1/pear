@@ -317,13 +317,14 @@
                     "actual",
                     "current minutes"
                   ],
-                  "values": [
-                    "missing",
-                    "missing event",
-                    "event missing",
-                    "absent",
-                    "not found"
-                  ]
+                    "values": [
+                      "missing",
+                      "missing event",
+                      "event missing",
+                      "absent",
+                      "not found"
+                    ],
+                    "allow_unlabeled": true
                 },
                 {
                   "name": "result",
@@ -332,12 +333,17 @@
                     "status",
                     "outcome"
                   ],
-                  "values": [
-                    "missing",
-                    "absent",
-                    "not found"
-                  ],
-                  "allow_unlabeled": false
+                    "values": [
+                      "missing",
+                      "absent",
+                      "not found",
+                      "mismatch",
+                      "mismatches",
+                      "does not match",
+                      "not matched",
+                      "cannot match"
+                    ],
+                    "allow_unlabeled": true
                 }
               ]
             }
@@ -421,8 +427,13 @@
     "device_topology": "2android",
     "surfaces": [
       "markor",
-      "calendar",
-      "markor_note"
+      "calendar"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "readiness": "static_reviewed",
     "asset_dir": "tasks/cross_device/android_only_assets/android_only_247",

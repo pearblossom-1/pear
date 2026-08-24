@@ -108,6 +108,40 @@
           "parameters": {}
         },
         {
+          "type": "androidworld_task_add",
+          "parameters": {
+            "title": "MDCBench Tasks backend sentinel 1217",
+            "notes": "Backend read/write sentinel",
+            "completed": false
+          }
+        },
+        {
+          "type": "androidworld_task_record_preflight",
+          "parameters": {
+            "task": {
+              "title": "MDCBench Tasks backend sentinel 1217",
+              "notes": "Backend read/write sentinel",
+              "completed": false
+            },
+            "required_visible_text": [
+              "MDCBench Tasks backend sentinel 1217",
+              "Backend read/write sentinel"
+            ]
+          }
+        },
+        {
+          "type": "androidworld_tasks_delete_by_title",
+          "parameters": {
+            "title": "MDCBench Tasks backend sentinel 1217"
+          }
+        },
+        {
+          "type": "androidworld_task_backend_preflight",
+          "parameters": {
+            "absent_title": "MDCBench Tasks backend sentinel 1217"
+          }
+        },
+        {
           "type": "adb_shell",
           "parameters": {
             "command": "rows=\"$(content query --uri content://com.android.contacts/data --projection display_name:mimetype:data1 2>/dev/null)\"; printf '%s\\n' \"$rows\" | grep -F 'display_name=Casey Harper' | grep -F 'data1=5551201217' >/dev/null && printf '%s\\n' \"$rows\" | grep -F 'display_name=Casey Harper' | grep -F 'role observer' >/dev/null && ! printf '%s\\n' \"$rows\" | grep -F 'display_name=Casey Hart' >/dev/null",
@@ -194,9 +228,16 @@
     "source_idea": "plan6 candidate 1217",
     "surfaces": [
       "contacts",
-      "tasks",
       "linux.pdf",
-      "linux.markdown"
+      "linux.text",
+      "tasks"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1217",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1217/episode_config.json",

@@ -127,7 +127,7 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_command_history_contract",
+      "func": "smarthome.check_command_history_whitelist",
       "result": {
         "type": "smarthome_device_history"
       },
@@ -135,18 +135,13 @@
         "type": "rule",
         "rules": {
           "expected": {
-            "devices": {
-              "nursery_robot_vacuum_1": {
-                "allowed_sequences": [
-                  [
-                    {
-                      "command": "pause",
-                      "args": {}
-                    }
-                  ]
-                ]
+            "allowed_commands": [
+              {
+                "device_id": "nursery_robot_vacuum_1",
+                "command": "pause",
+                "args": {}
               }
-            }
+            ]
           }
         }
       },

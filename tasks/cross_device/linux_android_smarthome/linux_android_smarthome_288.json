@@ -186,11 +186,17 @@
             ],
             [
               "old fallback",
-              "old guest-room workflow"
+              "old guest-room workflow",
+              "previous plan",
+              "previous routine",
+              "old routine"
             ],
             [
               "new workflow",
-              "guest-room workflow"
+              "guest-room workflow",
+              "replacement",
+              "replacement plan",
+              "updated routine"
             ],
             [
               "light on",
@@ -282,12 +288,21 @@
     "source_idea": "Capability gap 288 multi-source conflict.",
     "surfaces": [
       "calendar",
-      "sms",
       "contacts",
-      "markor",
-      "linux_xlsx",
       "home_cancel_workflow",
-      "home_workflow"
+      "home_workflow",
+      "linux_xlsx",
+      "markor",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_288",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_288/episode_config.json",

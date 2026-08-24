@@ -345,9 +345,14 @@
       "markor",
       "files",
       "calendar",
-      "home_schedule",
-      "two_android",
-      "route_repair"
+      "home_schedule"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "readiness": "static_reviewed",
     "native_content_outputs": [

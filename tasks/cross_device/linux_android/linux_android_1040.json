@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1040",
-  "instruction": "Please set up the approved route-review session. Match `/sdcard/Download/1040-A_source.md` on the first phone to the current event in `/tmp/music/event_schedule.csv` using `/tmp/music/handoff_policy.md`; the second phone's `/sdcard/Download/1040-A_android_1_context.md` gives the track order. On the first phone, create the approved Simple Calendar Pro event and the Retro Music playlist `1040-A route set` in that order. Save the route-handoff decision to `/tmp/music/decision.json` on Linux using the schema shown in the policy.",
+  "instruction": "Please set up the approved route-review session. Match `/sdcard/Download/1040-A_source.md` on the first phone to the current event in `/tmp/music/event_schedule.csv` using `/tmp/music/handoff_policy.md`; the second phone's `/sdcard/Download/1040-A_android_1_context.md` gives the track order. On the first phone, create the approved Simple Calendar Pro event and the Retro Music playlist `1040-A route set`. Save the route-handoff decision to `/tmp/music/decision.json` on Linux using the schema shown in the policy.",
   "devices": [
     {
       "id": "android_0",
@@ -301,9 +301,21 @@
     "triage_reason": "Repaired candidate to stable evaluator-visible document/file/app state while preserving the source decision and output intent.",
     "device_topology": "android_0+android_1+linux_0",
     "surfaces": [
-      "android.calendar",
-      "android.retro_music",
-      "linux.csv"
+      "calendar",
+      "files",
+      "linux.csv",
+      "linux.json",
+      "linux.text",
+      "retro_music"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "media_handling",
+      "negative_or_conflict_handling",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1040",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1040/episode_config.json",

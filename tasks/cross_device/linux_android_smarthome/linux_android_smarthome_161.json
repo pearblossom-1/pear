@@ -205,9 +205,19 @@
             "21",
             "23",
             "cooling",
-            "warmed to",
-            "has warmed",
-            "reached 22"
+            "room has reached 22",
+            "room warmed to 22",
+            "actual room temperature is 22"
+          ],
+          "allowed_conflict_phrases": [
+            "has not reached 22",
+            "has not yet reached 22",
+            "has not warmed to 22"
+          ],
+          "allowed_negative_capability_phrases": [
+            "has not reached 22",
+            "has not yet reached 22",
+            "has not warmed to 22"
           ],
           "required_phrases": [
             [
@@ -257,10 +267,17 @@
     "category": "linux_android_smarthome",
     "source_idea": "Capability gap 161 authorized guest-room temperature request.",
     "surfaces": [
-      "sms",
       "contacts",
+      "home_command",
       "linux_xlsx",
-      "home_command"
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "smarthome_reasoning",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_161",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_161/episode_config.json",

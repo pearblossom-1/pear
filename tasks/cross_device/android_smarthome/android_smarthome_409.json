@@ -181,7 +181,11 @@
               ],
               "phrases": [
                 "executed",
-                "applied"
+                "applied",
+                "completed",
+                "done",
+                "success",
+                "successful"
               ],
               "conflicts": [
                 "unsupported",
@@ -229,9 +233,19 @@
               "basic light"
             ],
             "brightness",
-            "unsupported"
+            [
+              "unsupported",
+              "not supported",
+              "cannot execute",
+              "cannot be applied",
+              "unable to apply"
+            ]
           ],
           "allowed_negative_capability_phrases": [
+            "not supported",
+            "cannot execute",
+            "cannot be applied",
+            "unable to apply",
             "no brightness command",
             "no brightness capability",
             "no dimming capability",
@@ -244,6 +258,9 @@
             "has no brightness control",
             "cannot dim",
             "cannot be dimmed"
+          ],
+          "allowed_conflict_phrases": [
+            "cannot be applied"
           ],
           "allowed_false_assignment_phrases": [
             "no brightness command",
@@ -272,11 +289,16 @@
             {
               "entities": [
                 "Status",
-                "unsupported"
+                [
+                  "unsupported",
+                  "not supported",
+                  "cannot execute",
+                  "cannot be applied",
+                  "unable to apply"
+                ]
               ],
               "conflicts": [
-                "executed",
-                "applied"
+                "executed"
               ],
               "allow_multiple_matches": true
             },
@@ -406,8 +428,14 @@
       "files",
       "markor",
       "home_state",
-      "home_command",
-      "partial_batch"
+      "home_command"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "negative_or_conflict_handling"
     ],
     "readiness": "static_reviewed",
     "native_content_outputs": [

@@ -149,28 +149,10 @@
             "Room 9",
             "Bring revised permit packet"
           ],
-          "required_phrases": [
-            ["updated", "update applied", "applied update", "applied", "final"]
-          ],
-          "positive_phrases": [
-            "final updated event",
-            "updated",
-            "update applied",
-            "applied update",
-            "applied",
-            "final"
-          ],
           "conflict_phrases": [
-            "proposed",
-            "proposal",
-            "suggested",
             "pending",
-            "unchanged",
             "not applied",
             "not updated",
-            "not final",
-            "not changed",
-            "awaiting approval",
             "wrong",
             "do not bring",
             "reversed"
@@ -193,8 +175,16 @@
     "source_idea": "plan6 candidate 1368",
     "surfaces": [
       "calendar",
-      "markor",
-      "linux.csv"
+      "linux.csv",
+      "markor"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1368",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1368/episode_config.json",

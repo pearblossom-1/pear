@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_407",
-  "instruction": "Simple Gallery Pro has an entry inspection photo, and the Files app's `gallery_manifest.csv` lists the checks to complete. Inspect the photo, query the corresponding live Home state, and record the requested visual observations, brightness reading, and light state in a Markor note named `Entry inspection audit`. Do not control any devices.",
+  "instruction": "Simple Gallery Pro has an entry inspection photo, and the Files app's `gallery_manifest.csv` lists the checks to complete. Inspect the photo, query the corresponding live Home state, and create a Markor note named `Entry inspection audit`. In the note, identify the manifest photo and room, then record the requested door and shoe observations together with the live brightness reading and light state. Do not control any devices.",
   "devices": [
     {
       "id": "android_0",
@@ -555,8 +555,14 @@
       "gallery",
       "files",
       "markor",
-      "visual_inspection",
       "home_state"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "media_handling"
     ],
     "readiness": "static_reviewed",
     "native_content_outputs": [

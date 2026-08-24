@@ -550,8 +550,13 @@
       "files",
       "tasks",
       "home_state",
-      "home_command",
-      "drift_repair"
+      "home_command"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "smarthome_reasoning",
+      "structured_data_handling"
     ],
     "readiness": "static_reviewed",
     "native_content_outputs": [

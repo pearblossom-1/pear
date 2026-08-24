@@ -68,8 +68,7 @@
       "func": "smarthome.advance_time",
       "parameters": {
         "minutes": 30
-      },
-      "name": "evaluator advances from 19:00 to the 19:30 trigger"
+      }
     },
     {
       "device_id": "home_0",

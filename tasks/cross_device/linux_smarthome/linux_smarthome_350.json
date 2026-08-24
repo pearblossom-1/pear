@@ -149,10 +149,16 @@
     "category": "linux_smarthome",
     "source_idea": "linux_smarthome_idea_350",
     "surfaces": [
+      "linux.docx",
       "linux.json",
-      "linux.odt_docx",
-      "smarthome.home_state",
-      "smarthome.command_history"
+      "smarthome.command_history",
+      "smarthome.home_state"
+    ],
+    "capability_tags": [
+      "information_transfer",
+      "linux_interaction",
+      "smarthome_reasoning",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_350",
     "episode_config_ref": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_350/episode_config.json",

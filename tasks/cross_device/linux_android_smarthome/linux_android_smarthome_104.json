@@ -246,10 +246,19 @@
     "source_idea": "Pilot 104 guest preference image.",
     "surfaces": [
       "calendar",
-      "sms",
+      "home_workflow",
       "linux_image",
       "linux_xlsx",
-      "home_workflow"
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "media_handling",
+      "smarthome_reasoning",
+      "structured_data_handling",
+      "temporal_or_workflow_planning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_104",
     "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_104/episode_config.json",

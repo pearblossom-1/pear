@@ -21,10 +21,10 @@
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Calendar patch CAL-1368.md' <<'EOF'\nFinal event: CAL-1368 Permit Review\n09:00 in Room 9\nUpdated description: Bring revised permit packet\nEOF"
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Calendar patch CAL-1368.md' <<'EOF'\nCAL-1368 Permit Review\n09:00 in Room 9\nDescription: Original description; Bring revised permit packet.\nEOF"
         }
       }
     ]
   },
-  "notes": "Positive oracle writes the unique final Calendar event and one affirmative Markor summary."
+  "notes": "Positive oracle writes the unique final Calendar event and a complete Markor summary without hidden applied/final wording."
 }

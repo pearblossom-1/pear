@@ -4,7 +4,7 @@
       "device_id": "linux_1",
       "type": "cli.execute",
       "parameters": {
-        "command": "mkdir -p '/tmp/meal' && echo U2VzYW1lIFJpY2UgQm93bCBpcyBibG9ja2VkIGJlY2F1c2UgR3Vlc3QgQWxsZXJneSBoYXMgYSBzZXNhbWUgYWxsZXJneSBhbmQgdGhlIHJlY2lwZSB1c2VzIHNlc2FtZSBvaWwuIERvIG5vdCBwbGFjZSBhIHN1cHBsaWVyIG9yZGVyLgo= | base64 -d > '/tmp/meal/meal_decision.md'",
+        "command": "mkdir -p '/tmp/meal' && printf '%s\\n' 'Harbor Rice Bowl is blocked.' 'The recipe needs cooking oil, but it is not on hand.' 'The offered substitute is sesame oil, which conflicts with the guest allergy: sesame.' > '/tmp/meal/meal_decision.md'",
         "shell": true
       }
     }

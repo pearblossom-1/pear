@@ -209,9 +209,18 @@
     "triage_reason": "Implemented as a positive blocked-state task because the candidate contains missing, conflicting, denied, or otherwise non-actionable source evidence.",
     "device_topology": "android_0+android_1+linux_0",
     "surfaces": [
-      "android.android_file",
-      "android.contacts",
-      "linux.csv"
+      "contacts",
+      "linux.csv",
+      "linux.text",
+      "markor",
+      "sms"
+    ],
+    "capability_tags": [
+      "android_app_interaction",
+      "information_transfer",
+      "linux_interaction",
+      "negative_or_conflict_handling",
+      "structured_data_handling"
     ],
     "asset_dir": "tasks/cross_device/linux_android_assets/linux_android_1080",
     "episode_config_ref": "tasks/cross_device/linux_android_assets/linux_android_1080/episode_config.json",
