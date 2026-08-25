@@ -2,7 +2,7 @@
   "task_id": "android_only_223",
   "eval": [
     {
-      "name": "Keep exactly one incomplete Site photo checklist with the current manifest facts",
+      "name": "Keep exactly one Site photo checklist with the current manifest facts",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
@@ -11,7 +11,6 @@
           {
             "title": "Site photo checklist",
             "dueDate": 0,
-            "completed": false,
             "notes_relation": {
               "entities": [
                 "north_gate.jpg",

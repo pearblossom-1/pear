@@ -1,6 +1,6 @@
 {
   "id": "android_only_274",
-  "instruction": "`sort_manifest.csv` on the first phone defines keep, review, and skip rules. Sort the available files from Download/incoming on the second phone into Keep and Review. Leave `Sort summary.md` in Markor for the intake coordinator, listing every manifest filename and whether it was moved, left in incoming, or missing.",
+  "instruction": "Open `sort_manifest.csv` in Downloads on the first phone. On the second phone, use Files to sort the files in `Downloads/incoming` according to the manifest: move keep items to `Downloads/Keep`, move review items to `Downloads/Review`, and leave skip items in `Downloads/incoming`. Then create a Markor note on the second phone and save it as `Sort summary.md`, listing every manifest filename and whether it was moved, left in incoming, or missing.",
   "devices": [
     {
       "id": "android_0",

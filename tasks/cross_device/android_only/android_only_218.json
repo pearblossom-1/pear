@@ -1,6 +1,6 @@
 {
   "id": "android_only_218",
-  "instruction": "Both phones have a Site briefing event. Use the request code in the stale event on the second phone to identify its current counterpart on the first phone, then correct the second phone's event to match it.",
+  "instruction": "The `Site briefing` event on the second phone is out of date. Use its request code to find the matching current `Site briefing` event in Calendar on the first phone, then update the second phone's event to match it.",
   "devices": [
     {
       "id": "android_0",

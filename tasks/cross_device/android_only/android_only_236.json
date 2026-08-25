@@ -1,6 +1,6 @@
 {
   "id": "android_only_236",
-  "instruction": "`expected_contacts.csv` on the first phone is the audit checklist. Check Contacts on the second phone and leave the roster coordinator a Markor report named `contact_audit.md` covering present, missing, and phone-mismatch entries, including expected and actual final four digits where they differ. Do not edit Contacts.",
+  "instruction": "Open `expected_contacts.csv` in Downloads on the first phone. Compare it with Contacts on the second phone, then create a Markor note on the second phone and save it as `contact_audit.md`. For each person in the checklist, say whether the contact is present, missing, or has the wrong phone number. For a number mismatch, include the expected and actual final four digits. Do not edit Contacts.",
   "devices": [
     {
       "id": "android_0",
@@ -179,7 +179,6 @@
         "rules": {
           "entities": [
             "Dock Liaison",
-            "0236",
             "Gate Runner",
             "0237",
             "0999",
@@ -190,11 +189,14 @@
               "present",
               "found"
             ],
-            [
+          [
             "mismatch",
             "mismatches",
             "does not match",
-            "wrong actual number"
+            "wrong actual number",
+            "wrong number",
+            "incorrect number",
+            "number mismatch"
             ],
             [
               "expected"
@@ -213,11 +215,14 @@
               "present",
               "found"
             ],
-            [
+          [
             "mismatch",
             "mismatches",
             "does not match",
-            "wrong actual number"
+            "wrong actual number",
+            "wrong number",
+            "incorrect number",
+            "number mismatch"
             ],
             [
               "expected"
@@ -233,23 +238,24 @@
           ],
           "conflict_phrases": [
             "pending",
-            "uncertain",
-            "cancelled",
-            "withdrawn",
-            "all match",
-            "no mismatch"
+          "uncertain",
+          "cancelled",
+          "withdrawn",
+          "all match"
           ],
           "allowed_reversal_terms": [
             "wrong"
           ],
           "allowed_negative_capability_phrases": [
             "does not match",
-            "not found"
+            "not found",
+            "no mismatch"
           ],
           "conflict_patterns": [
-            "Dock\\s+Liaison.{0,28}\\b(?:missing|absent|not\\s+found)\\b",
-            "Gate\\s+Runner.{0,36}\\b(?:matches|correct)\\b",
-            "(?:actual\\s*[:=-]?\\s*0237|expected\\s*[:=-]?\\s*0999)",
+          "Dock\\s+Liaison.{0,28}\\b(?:missing|absent|not\\s+found)\\b",
+          "Gate\\s+Runner.{0,36}\\b(?:matches|correct)\\b",
+          "Gate\\s+Runner[^.;\\n]{0,48}\\b(?:has\\s+)?no\\s+mismatch\\b",
+          "(?:actual\\s*[:=-]?\\s*0237|expected\\s*[:=-]?\\s*0999)",
             "Night\\s+Medic.{0,30}\\b(?:present|found|actual)\\b"
           ],
           "preceding_clause_context": {
@@ -269,8 +275,7 @@
           "relation_groups": [
             {
               "entities": [
-                "Dock Liaison",
-                "0236"
+                "Dock Liaison"
               ],
               "phrases": [
                 "present",
@@ -288,14 +293,18 @@
                 "Gate Runner"
               ],
               "phrases": [
-                "mismatch",
-                "mismatches",
-                "does not match",
-                "wrong actual number"
-              ],
-              "conflicts": [
-                "matches",
-                "correct"
+              "mismatch",
+              "mismatches",
+              "does not match",
+              "wrong actual number",
+              "wrong number",
+              "incorrect number",
+              "number mismatch"
+            ],
+            "conflicts": [
+              "matches",
+              "correct",
+              "no mismatch"
               ],
               "allow_multiple_matches": true
             },
@@ -439,6 +448,6 @@
     "oracle_ref": "tasks/cross_device/android_only_assets/android_only_236/oracle_positive.json",
     "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_236/episode_config.json",
     "lite_hardening_note": "Removed unscored Android source-state evaluators and consolidated file-output checks where appropriate.",
-    "lite_evaluator_hardening_note": "Markor evaluator searches user-created notes by required content rather than requiring a hidden filename."
+    "lite_evaluator_hardening_note": "Markor evaluator checks the publicly requested note filename and semantic content rather than requiring exact prose."
   }
 }

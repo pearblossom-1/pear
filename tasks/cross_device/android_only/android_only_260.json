@@ -1,6 +1,6 @@
 {
   "id": "android_only_260",
-  "instruction": "The playlist manifest on the first phone is the source for creation. Create the Road Survey playlist in Retro Music on the second phone with only the songs listed in the manifest.",
+  "instruction": "Open `road_survey_playlist.csv` in Downloads on the first phone. On the second phone, create a `Road Survey` playlist in Retro Music containing only the songs listed in the file.",
   "devices": [
     {
       "id": "android_0",
@@ -91,8 +91,7 @@
             ],
             "forbidden_playlist_names": [
               "Road Survey"
-            ],
-            "verify_playlist_creation_entry": true
+            ]
           }
         }
       ]

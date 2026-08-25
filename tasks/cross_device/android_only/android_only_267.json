@@ -1,6 +1,6 @@
 {
   "id": "android_only_267",
-  "instruction": "The first phone's `audio_manifest.csv` is the recording checklist. Check the Recordings folder on the second phone, then text Status Contact from that phone with the checklist name, the number of listed recordings present, and any missing filename.",
+  "instruction": "Open `audio_manifest.csv` in Downloads on the first phone. On the second phone, use Files to check the Recordings folder, then text `Status Contact` from that phone with the manifest filename, how many listed recordings are present, and any missing filename.",
   "devices": [
     {
       "id": "android_0",
@@ -177,7 +177,6 @@
       ]
     },
     {
-      "name": "Send one recording-checklist status SMS to Status Contact",
       "device_id": "android_1",
       "config": [
         {

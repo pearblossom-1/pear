@@ -1,6 +1,6 @@
 {
   "id": "android_only_210",
-  "instruction": "The first phone's Tasks app has Client delivery. Please use it to correct the time, location, and description of the same-named Calendar event on the second phone.",
+  "instruction": "On the first phone, open the `Client delivery` task in Tasks. Use its details to update the `Client delivery` event in Calendar on the second phone so the time, location, and description match.",
   "devices": [
     {
       "id": "android_0",

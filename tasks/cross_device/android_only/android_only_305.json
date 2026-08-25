@@ -1,6 +1,6 @@
 {
   "id": "android_only_305",
-  "instruction": "A text message on the first phone asks about `gate_brief_missing.mp3`. Check the Recordings folder on the second phone. If it is missing, leave the production coordinator a Markor note named `recording request status.md`, naming the missing request and explaining that the other gate-brief recording was not used as a substitute. Do not fabricate a recording.",
+  "instruction": "Read the message on the first phone about `gate_brief_missing.mp3`. On the second phone, use Files to check the Recordings folder. If the requested file is missing, create a Markor note and save it as `recording request status.md`, saying that the requested recording is missing and that `gate_brief_present.mp3` was not used instead. Do not create a replacement recording.",
   "devices": [
     {
       "id": "android_0",
@@ -316,6 +316,6 @@
     "oracle_ref": "tasks/cross_device/android_only_assets/android_only_305/oracle_positive.json",
     "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_305/episode_config.json",
     "lite_hardening_note": "Removed unscored Android source-state evaluators and consolidated file-output checks where appropriate.",
-    "lite_evaluator_hardening_note": "Markor evaluator searches user-created notes by required content rather than requiring a hidden filename."
+    "lite_evaluator_hardening_note": "Markor evaluator checks the publicly requested note filename and semantic content rather than requiring exact prose."
   }
 }

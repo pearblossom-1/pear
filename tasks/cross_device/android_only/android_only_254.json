@@ -1,6 +1,6 @@
 {
   "id": "android_only_254",
-  "instruction": "The Nora Logistics contact on the first phone has the recipient number, dock note, and preferred date/time style. Use it together with the Cargo check event in Calendar on the second phone to send Nora a confirmation SMS from the second phone.",
+  "instruction": "On the first phone, open the `Nora Logistics` contact to get the recipient number, dock note, and preferred date/time format. On the second phone, open the `Cargo check` event in Calendar and send Nora a confirmation text from that phone using those details.",
   "devices": [
     {
       "id": "android_0",

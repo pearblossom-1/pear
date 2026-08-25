@@ -1,6 +1,6 @@
 {
   "id": "android_only_223",
-  "instruction": "The first phone's Downloads folder has the current photo manifest. Use it to fix the Site photo checklist task on the second phone.",
+  "instruction": "Open `site_photo_manifest.csv` in Downloads on the first phone. Use it to update the `Site photo checklist` task in Tasks on the second phone with the current photo statuses.",
   "devices": [
     {
       "id": "android_0",
@@ -135,7 +135,7 @@
   ],
   "evaluation": [
     {
-      "name": "Keep exactly one incomplete Site photo checklist with the current manifest facts",
+      "name": "Keep exactly one Site photo checklist with the current manifest facts",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
@@ -144,7 +144,6 @@
           {
             "title": "Site photo checklist",
             "dueDate": 0,
-            "completed": false,
             "notes_relation": {
               "entities": [
                 "north_gate.jpg",

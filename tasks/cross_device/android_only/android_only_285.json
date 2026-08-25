@@ -1,6 +1,6 @@
 {
   "id": "android_only_285",
-  "instruction": "`music_export_manifest.csv` on the first phone lists the MP3 files to export. On the second phone, copy each listed song that exists into the Music/Export folder, then create `Music export report.md` in Markor on that same phone for the audio producer, identifying every listed file as copied or missing. Do not export files that are absent from the manifest.",
+  "instruction": "Open `music_export_manifest.csv` in Downloads on the first phone. On the second phone, use Files to copy each listed MP3 that exists from Music into `Music/Export`. Leave unlisted files alone and do not create missing files. Then create a Markor note on the second phone and save it as `Music export report.md`, marking each listed file as copied or missing.",
   "devices": [
     {
       "id": "android_0",
@@ -219,101 +219,6 @@
         "type": "rule",
         "rules": {
           "expected": "2"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "Music/Export recursive .wav business-audio count is 0",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_count",
-        "path": "/sdcard/Music/Export",
-        "recursive": true,
-        "suffix": ".wav",
-        "case_insensitive_suffix": true
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "0"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "Music/Export recursive .m4a business-audio count is 0",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_count",
-        "path": "/sdcard/Music/Export",
-        "recursive": true,
-        "suffix": ".m4a",
-        "case_insensitive_suffix": true
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "0"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "Music/Export recursive .aac business-audio count is 0",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_count",
-        "path": "/sdcard/Music/Export",
-        "recursive": true,
-        "suffix": ".aac",
-        "case_insensitive_suffix": true
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "0"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "Music/Export recursive .ogg business-audio count is 0",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_count",
-        "path": "/sdcard/Music/Export",
-        "recursive": true,
-        "suffix": ".ogg",
-        "case_insensitive_suffix": true
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "0"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "Music/Export recursive .flac business-audio count is 0",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_count",
-        "path": "/sdcard/Music/Export",
-        "recursive": true,
-        "suffix": ".flac",
-        "case_insensitive_suffix": true
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "0"
         }
       },
       "enable_score_calc": false

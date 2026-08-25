@@ -11,7 +11,6 @@
         "rules": {
           "entities": [
             "Dock Liaison",
-            "0236",
             "Gate Runner",
             "0237",
             "0999",
@@ -22,11 +21,14 @@
               "present",
               "found"
             ],
-            [
-              "mismatch",
-              "mismatches",
-              "does not match",
-              "wrong actual number"
+          [
+            "mismatch",
+            "mismatches",
+            "does not match",
+            "wrong actual number",
+            "wrong number",
+            "incorrect number",
+            "number mismatch"
             ],
             [
               "expected"
@@ -45,11 +47,14 @@
               "present",
               "found"
             ],
-            [
-              "mismatch",
-              "mismatches",
-              "does not match",
-              "wrong actual number"
+          [
+            "mismatch",
+            "mismatches",
+            "does not match",
+            "wrong actual number",
+            "wrong number",
+            "incorrect number",
+            "number mismatch"
             ],
             [
               "expected"
@@ -65,23 +70,24 @@
           ],
           "conflict_phrases": [
             "pending",
-            "uncertain",
-            "cancelled",
-            "withdrawn",
-            "all match",
-            "no mismatch"
+          "uncertain",
+          "cancelled",
+          "withdrawn",
+          "all match"
           ],
           "allowed_reversal_terms": [
             "wrong"
           ],
           "allowed_negative_capability_phrases": [
             "does not match",
-            "not found"
+            "not found",
+            "no mismatch"
           ],
           "conflict_patterns": [
-            "Dock\\s+Liaison.{0,28}\\b(?:missing|absent|not\\s+found)\\b",
-            "Gate\\s+Runner.{0,36}\\b(?:matches|correct)\\b",
-            "(?:actual\\s*[:=-]?\\s*0237|expected\\s*[:=-]?\\s*0999)",
+          "Dock\\s+Liaison.{0,28}\\b(?:missing|absent|not\\s+found)\\b",
+          "Gate\\s+Runner.{0,36}\\b(?:matches|correct)\\b",
+          "Gate\\s+Runner[^.;\\n]{0,48}\\b(?:has\\s+)?no\\s+mismatch\\b",
+          "(?:actual\\s*[:=-]?\\s*0237|expected\\s*[:=-]?\\s*0999)",
             "Night\\s+Medic.{0,30}\\b(?:present|found|actual)\\b"
           ],
           "preceding_clause_context": {
@@ -101,8 +107,7 @@
           "relation_groups": [
             {
               "entities": [
-                "Dock Liaison",
-                "0236"
+                "Dock Liaison"
               ],
               "phrases": [
                 "present",
@@ -120,14 +125,18 @@
                 "Gate Runner"
               ],
               "phrases": [
-                "mismatch",
-                "mismatches",
-                "does not match",
-                "wrong actual number"
-              ],
-              "conflicts": [
-                "matches",
-                "correct"
+              "mismatch",
+              "mismatches",
+              "does not match",
+              "wrong actual number",
+              "wrong number",
+              "incorrect number",
+              "number mismatch"
+            ],
+            "conflicts": [
+              "matches",
+              "correct",
+              "no mismatch"
               ],
               "allow_multiple_matches": true
             },

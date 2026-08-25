@@ -1,6 +1,6 @@
 {
   "id": "android_only_270",
-  "instruction": "The Site Manager contact on the first phone has the responsible person's number. Combine it with the Dock West favorite in OsmAnd on the second phone and leave `Dock West handoff.md` in Markor with the contact name, number, favorite name, and coordinates.",
+  "instruction": "On the first phone, open the `Site Manager` contact. On the second phone, open the `Dock West` favorite in OsmAnd, then create a Markor note and save it as `Dock West handoff.md` with the contact name and number plus the favorite name and coordinates.",
   "devices": [
     {
       "id": "android_0",
@@ -275,6 +275,6 @@
     "oracle_ref": "tasks/cross_device/android_only_assets/android_only_270/oracle_positive.json",
     "episode_config_ref": "tasks/cross_device/android_only_assets/android_only_270/episode_config.json",
     "lite_hardening_note": "Smoke repair: fixed adb_shell grep negative-coordinate option parsing.",
-    "lite_evaluator_hardening_note": "Markor evaluator searches user-created notes by required content rather than requiring a hidden filename."
+    "lite_evaluator_hardening_note": "Markor evaluator checks the publicly requested note filename and semantic content rather than requiring exact prose."
   }
 }

@@ -1,6 +1,6 @@
 {
   "id": "android_only_247",
-  "instruction": "The reminder checklist note on the first phone is the audit source. Check the reminder minutes in Calendar event descriptions on the second phone and create a `Reminder audit` note in Markor for the scheduling team. For every checklist item, record the required minutes, the current minutes or that the event is missing, and whether it matches. Do not change Calendar.",
+  "instruction": "Open the `reminder checklist` note in Markor on the first phone. On the second phone, check the reminder-minute values recorded in the descriptions of the matching Calendar events. Then create a Markor note called `Reminder audit` on the second phone. For each checklist item, record the required minutes, the current minutes or that the event is missing, and whether it matches. Do not change Calendar.",
   "devices": [
     {
       "id": "android_0",
