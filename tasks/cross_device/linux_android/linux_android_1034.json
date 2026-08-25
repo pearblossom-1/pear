@@ -67,6 +67,18 @@
           }
         },
         {
+          "type": "androidworld_osmand_favorites_preflight",
+          "parameters": {
+            "favorites": [
+              {
+                "name": "Reference Depot",
+                "latitude": "37.7000",
+                "longitude": "-122.3000"
+              }
+            ]
+          }
+        },
+        {
           "type": "ensure_app",
           "parameters": {
             "app": "markor"
