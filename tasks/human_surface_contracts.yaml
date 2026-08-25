@@ -1,0 +1,814 @@
+schema_version: human_surface_contracts.v1
+updated: '2026-08-24'
+scope: core200_and_human_validation1000
+
+confidence_levels:
+  VERIFIED_RUNTIME: observed_in_current_screen_driven_session
+  VERIFIED_EXISTING_REPORT: supported_by_existing_real_ui_report
+  CODE_INFERRED: inferred_from_runtime_or_storage_code_not_ui_proof
+  NOT_VERIFIED: not_established_by_current_real_ui_evidence
+
+device_addressing:
+  one_android:
+    preferred: the phone
+    internal_device: android_0
+  two_android:
+    preferred:
+      android_0: the first phone
+      android_1: the second phone
+  one_linux:
+    preferred: the Linux machine
+    internal_device: linux_0
+  two_linux:
+    preferred:
+      linux_0: the first Linux machine
+      linux_1: the second Linux machine
+  rules:
+    - same_absolute_path_on_two_android_devices_is_not_the_same_file
+    - same_absolute_path_on_two_linux_devices_is_not_the_same_file
+    - multi_device_absolute_paths_must_be_device_scoped
+    - localhost_and_file_urls_are_local_to_the_browser_vm
+
+transfer_semantics:
+  cognitive_fact_transfer:
+    allowed: true
+    description: read_visible_facts_on_one_device_and_manually_enter_them_on_another
+  matrix:
+    android_to_android:
+      text_facts: true
+      copied_text_manually: true
+      file_binary_transfer: 'NO'
+      verified_user_facing_channel: null
+      confidence: VERIFIED_EXISTING_REPORT
+    android_to_linux:
+      text_facts: true
+      copied_text_manually: true
+      file_binary_transfer: 'NO'
+      verified_user_facing_channel: null
+      notes:
+        - setup_provided_linux_local_counterpart_is_not_participant_transfer
+      confidence: VERIFIED_EXISTING_REPORT
+    linux_to_android:
+      text_facts: true
+      copied_text_manually: true
+      file_binary_transfer: 'NO'
+      verified_user_facing_channel: null
+      confidence: VERIFIED_EXISTING_REPORT
+    linux_to_linux:
+      text_facts: true
+      copied_text_manually: true
+      file_binary_transfer: CONDITIONAL
+      verified_user_facing_channel: temporary_http_server_and_visible_download
+      evidence:
+        - docs/linux_surface_real_ui_audit/test_matrix.md#B08
+        - docs/linux_surface_real_ui_audit/test_matrix.md#G01
+      confidence: VERIFIED_EXISTING_REPORT
+
+path_roots:
+  android.public_storage:
+    instruction_path_policy: user_visible_if_device_scoped
+    preferred_style: visible_directory_and_filename
+  android.android_data:
+    instruction_path_policy: backend_only
+  android.private_data:
+    instruction_path_policy: backend_only
+  linux.tmp:
+    instruction_path_policy: user_visible_if_device_scoped
+    limitations:
+      - snap_chromium_cannot_access_host_tmp_local_files
+    confidence: VERIFIED_EXISTING_REPORT
+  linux.home_user:
+    instruction_path_policy: user_visible_if_device_scoped
+    confidence: VERIFIED_EXISTING_REPORT
+  linux.home_oai:
+    instruction_path_policy: not_default_until_task_specific_runtime_verification
+    evidence:
+      - docs/android_surface_real_ui_audit/human_validation1000_real_operation_report.md#H02
+    confidence: VERIFIED_EXISTING_REPORT
+
+surfaces:
+  android.files:
+    device_family: android
+    user_facing_object: file_or_folder
+    backend_locator_examples:
+      - /storage/emulated/0/Download/<filename>
+      - /data/media/0/Download/<filename>
+    instruction_path_policy: user_visible_if_device_scoped
+    preferred_reference:
+      source: '"<filename>" in <visible folder> on <phone>'
+      output: 'save or move "<filename>" to <visible folder> on <phone>'
+    extension_behavior:
+      visible_in_list: true
+      user_enters_extension: depends_on_creator_app
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A10
+      - docs/android_surface_real_ui_audit/human_validation1000_real_operation_report.md#H01
+    limitations:
+      - physical_upload_may_need_indexing_before_files_ui_visibility
+      - media_type_label_may_not_equal_real_codec
+      - pdf_docx_xlsx_zip_default_viewers_not_verified
+
+  android.markor:
+    device_family: android
+    user_facing_object: note
+    backend_locator_examples:
+      - /storage/emulated/0/Documents/Markor/<name>.md
+    instruction_path_policy: backend_only
+    preferred_reference:
+      source: 'the "<title>" note in Markor on <phone>'
+      output: 'create a note called "<title>" in Markor on <phone>'
+    extension_behavior:
+      visible_in_list: true
+      visible_in_editor_title: false
+      user_enters_extension: not_verified
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - runs/linux_surface_real_ui_audit/B08_a2l2_vscode_android0_markor_attempt2/screenshots/step_003.png
+      - runs/linux_surface_real_ui_audit/B08_a2l2_vscode_android0_markor_attempt2/screenshots/step_006.png
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A15
+    limitations:
+      - uploaded_note_may_require_visible_refresh
+      - same_named_nested_markor_folder_can_cause_wrong_output_path
+
+  android.osmand_favorite:
+    device_family: android
+    user_facing_object: favorite
+    backend_locator_examples:
+      - /storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx
+      - /data/data/net.osmand/files/favourites_bak.gpx
+    instruction_path_policy: backend_only
+    preferred_reference:
+      source: 'the "<name>" favorite in OsmAnd on <phone>'
+      output: 'create or update the "<name>" favorite in OsmAnd on <phone>'
+    extension_behavior: null
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A01
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A07
+    limitations:
+      - first_rendered_frame_may_ignore_menu_tap
+      - route_and_turn_by_turn_not_supported
+      - duplicate_name_append_risk_in_current_runtime
+
+  android.gallery:
+    device_family: android
+    user_facing_object: album_and_media_item
+    backend_locator_examples:
+      - /storage/emulated/0/Pictures/<album>/<filename>.jpg
+      - MediaStore:<display_name+relative_path>
+    instruction_path_policy: backend_only_for_album_tasks
+    preferred_reference:
+      source: 'the "<album>" album in Simple Gallery Pro'
+      output: 'rename or move the photo shown as "<filename>"'
+    extension_behavior:
+      visible_in_viewer_title: true
+      user_enters_extension_on_rename: not_verified
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A03
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A13
+    limitations:
+      - seeded_media_requires_media_store_visibility
+      - rename_dialog_present_but_extension_input_not_verified
+      - trash_vs_immediate_delete_not_verified
+
+  android.camera:
+    device_family: android
+    user_facing_object: newly_captured_photo_or_video
+    backend_locator_examples:
+      - /storage/emulated/0/Pictures/<generated-image-name>
+      - /storage/emulated/0/Movies/<generated-video-name>
+    instruction_path_policy: backend_only_for_capture
+    preferred_reference:
+      source: 'the latest capture in Camera on <phone>'
+      output: 'take a new photo or video with Camera on <phone>'
+    extension_behavior:
+      camera_generated_filename: true
+      exact_filename_control_in_camera: false
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A06
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A17
+    limitations:
+      - exact_filename_requires_gallery_or_files_rename
+      - output_directory_is_image_version_dependent
+      - camera_write_appops_must_allow_persistence
+
+  android.audio_recorder:
+    device_family: android
+    user_facing_object: recording
+    backend_locator_examples:
+      - /storage/emulated/0/Android/data/com.dimowner.audiorecorder/files/Music/records/<filename>
+      - /storage/emulated/0/Recordings/<filename>
+    instruction_path_policy: public_recordings_only_if_device_scoped
+    preferred_reference:
+      source: 'the "<name>" recording in Audio Recorder on <phone>'
+      output: 'record a <format> memo named "<name>" and export it to Recordings as "<filename>"'
+    extension_behavior:
+      recorder_name_is_stem: true
+      files_displays_extension: true
+      default_recording_name: not_verified
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/human_validation1000_real_operation_report.md#H01
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A13
+    limitations:
+      - onboarding_may_be_visible
+      - save_as_may_reuse_last_files_directory
+      - public_exact_path_may_require_files_move
+      - private_tombstones_and_placeholders_are_not_visible_recordings
+
+  android.contacts:
+    device_family: android
+    user_facing_object: contact_card
+    backend_locator_examples:
+      - ContactsProvider:raw_contact_id
+    instruction_path_policy: never
+    preferred_reference:
+      source: '"<name>" in Contacts on <phone>'
+      output: 'create or update the contact named "<name>" on <phone>'
+    extension_behavior: null
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/human_validation1000_real_operation_report.md#H02
+      - docs/android_surface_real_ui_audit/human_validation1000_real_operation_report.md#H03
+    limitations:
+      - phone_number_display_punctuation_may_change
+      - edit_existing_must_not_create_duplicate
+
+  android.calendar:
+    device_family: android
+    user_facing_object: calendar_event
+    backend_locator_examples:
+      - SimpleCalendarPro:events.db:<event_id>
+    instruction_path_policy: never
+    preferred_reference:
+      source: 'the "<title>" event in Simple Calendar Pro on <phone>'
+      output: 'create or update the "<title>" event on <phone>'
+    extension_behavior: null
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A03
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A09
+    limitations:
+      - wall_clock_time_must_match_device_timezone
+      - recurrence_and_reminder_ui_wording_not_verified
+      - twelve_or_twenty_four_hour_display_depends_on_device_setting
+
+  android.tasks:
+    device_family: android
+    user_facing_object: task
+    backend_locator_examples:
+      - TasksDatabase:<row_id>
+    instruction_path_policy: never
+    preferred_reference:
+      source: 'the "<title>" task in Tasks on <phone>'
+      output: 'create or update an incomplete task for <visible goal>'
+    extension_behavior: null
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/human_validation1000_real_operation_report.md#H04
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A08
+    limitations:
+      - hidden_exact_title_or_notes_contract_is_invalid
+      - hide_until_and_importance_ui_labels_not_verified
+      - edit_existing_must_preserve_identity_and_avoid_duplicate
+
+  android.sms:
+    device_family: android
+    user_facing_object: message_in_conversation
+    backend_locator_examples:
+      - SmsProvider:<box+thread_id+message_id>
+    instruction_path_policy: never
+    preferred_reference:
+      source: 'the latest message from <sender> in Simple SMS Messenger'
+      output: 'reply to <contact> with <visible facts>'
+    extension_behavior: null
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/human_validation1000_real_operation_report.md#H03
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A05
+    limitations:
+      - raw_and_formatted_phone_number_may_differ
+      - sent_message_must_have_native_thread_to_be_visible
+      - multiline_compose_details_not_independently_verified
+
+  android.clock_alarm:
+    device_family: android
+    user_facing_object: alarm_card
+    backend_locator_examples:
+      - ClockProvider:<alarm_id>
+    instruction_path_policy: never
+    preferred_reference:
+      source: 'the <time> alarm labeled "<label>" on <phone>'
+      output: 'add an enabled <time> alarm labeled "<label>" on <phone>'
+    extension_behavior: null
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A14
+    limitations:
+      - recurrence_must_not_be_inferred_when_not_visible
+      - time_display_format_depends_on_device_setting
+
+  android.clock_timer:
+    device_family: android
+    user_facing_object: running_timer
+    backend_locator_examples:
+      - ClockTimerState:<duration>
+    instruction_path_policy: never
+    preferred_reference:
+      source: 'the <duration> timer on <phone>'
+      output: 'start a <duration> timer on <phone>'
+    extension_behavior: null
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A09
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A22
+    limitations:
+      - timer_label_not_supported
+      - running_state_is_transient
+      - duplicate_durations_are_ambiguous
+
+  android.retro_music:
+    device_family: android
+    user_facing_object: song_playlist_or_queue
+    backend_locator_examples:
+      - /storage/emulated/0/Music/<filename>.mp3
+      - RetroMusic:playlist.db
+    instruction_path_policy: backend_only_for_playlist_tasks
+    preferred_reference:
+      source: 'the "<name>" playlist in Retro Music on <phone>'
+      output: 'create a playlist named "<name>" with <visible songs>'
+    extension_behavior:
+      song_title_may_differ_from_filename: true
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A02
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A11
+    limitations:
+      - playing_queue_is_transient_and_not_a_playlist
+      - short_audio_may_be_filtered
+      - obsolete_injected_queue_schema_can_crash_app
+
+  android.broccoli:
+    device_family: android
+    user_facing_object: recipe
+    backend_locator_examples:
+      - BroccoliDatabase:recipes:<recipeId>
+    instruction_path_policy: never
+    preferred_reference:
+      source: 'the "<title>" recipe in Broccoli on <phone>'
+      output: 'create or update the "<title>" recipe in Broccoli'
+    extension_behavior: null
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A05
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A08
+    limitations:
+      - ingredient_serialization_is_not_user_wording
+      - update_tasks_must_not_duplicate_recipe
+
+  android.simple_draw:
+    device_family: android
+    user_facing_object: drawing_canvas_and_saved_bitmap
+    backend_locator_examples:
+      - /storage/emulated/0/Pictures/<filename>.png
+    instruction_path_policy: user_visible_if_device_scoped_for_final_file
+    preferred_reference:
+      source: 'the visible drawing brief in <source app>'
+      output: 'draw <visible brief> and save it as "<filename>" in Pictures'
+    extension_behavior:
+      selected_format_visible: true
+      auto_append_extension: not_verified
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A02
+    limitations:
+      - no_native_semantic_drawing_evaluator
+      - editable_project_source_not_verified
+
+  android.chrome:
+    device_family: android
+    user_facing_object: rendered_local_page
+    backend_locator_examples:
+      - /storage/emulated/0/Download/<page>.html
+      - ChromeProfile:history
+    instruction_path_policy: public_page_if_device_scoped_profile_backend_only
+    preferred_reference:
+      source: 'open "<filename>.html" from Downloads in Chrome on <phone>'
+      output: null
+    extension_behavior:
+      html_filename_visible_in_files: true
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/android_surface_real_ui_audit/real_operation_report.md#A12
+    limitations:
+      - page_must_be_indexed_in_files
+      - arbitrary_file_output_from_file_url_not_supported
+      - localhost_access_not_verified
+
+  linux.file_manager:
+    device_family: linux
+    user_facing_object: file_or_folder
+    backend_locator_examples:
+      - /tmp/<path>
+      - /home/user/<path>
+    instruction_path_policy: user_visible_if_device_scoped
+    preferred_reference:
+      source: '"<path>" on <Linux machine>'
+      output: 'move, rename, or open "<path>" on <Linux machine>'
+    extension_behavior:
+      visible_in_list: true
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#C03
+      - docs/linux_surface_real_ui_audit/test_matrix.md#F01
+    limitations:
+      - default_browser_association_can_fail_for_tmp
+
+  linux.text_editor:
+    device_family: linux
+    user_facing_object: plain_text_file
+    backend_locator_examples:
+      - /tmp/<file>.md
+      - /home/user/<file>.json
+    instruction_path_policy: user_visible_if_device_scoped
+    preferred_reference:
+      source: 'open "<path>" in Text Editor on <Linux machine>'
+      output: 'edit or append to "<path>" on <Linux machine>'
+    extension_behavior:
+      visible_in_filename: true
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#F04
+    limitations:
+      - text_source_fallback_does_not_replace_required_browser_rendering
+
+  linux.terminal:
+    device_family: linux
+    user_facing_object: command_and_visible_output
+    backend_locator_examples:
+      - process:<pid>
+      - shell:<cwd>
+    instruction_path_policy: user_visible_if_device_scoped
+    preferred_reference:
+      source: 'run the visible local command in Terminal on <Linux machine>'
+      output: 'save the command output to "<path>" on <Linux machine>'
+    extension_behavior: null
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#D02
+      - docs/linux_surface_real_ui_audit/test_matrix.md#F01
+    limitations:
+      - exact_default_shell_not_recorded
+      - terminal_should_not_be_forced_for_normal_office_work
+
+  linux.chromium:
+    device_family: linux
+    user_facing_object: page_tab_form_or_download
+    backend_locator_examples:
+      - ChromiumProfile:History
+      - ChromiumProfile:Bookmarks
+    instruction_path_policy: visible_url_or_device_scoped_path
+    preferred_reference:
+      source: 'open "<page path or URL>" in Chrome on <Linux machine>'
+      output: 'submit the visible form or leave the named page open'
+    extension_behavior:
+      html_filename_visible: true
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#B01
+      - docs/linux_surface_real_ui_audit/findings.md#BR-001
+    limitations:
+      - snap_chromium_cannot_access_host_tmp_file_urls
+      - insecure_http_download_may_require_visible_override
+      - stale_download_history_can_rename_new_files
+
+  linux.vscode:
+    device_family: linux
+    user_facing_object: file_folder_workspace_or_project
+    backend_locator_examples:
+      - /tmp/<project>
+      - /home/user/<project>
+    instruction_path_policy: user_visible_if_device_scoped
+    preferred_reference:
+      source: 'open "<project path>" in VS Code on <Linux machine>'
+      output: 'edit "<file>" in that VS Code project and save it'
+    extension_behavior:
+      visible_in_explorer: true
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#D01
+      - docs/linux_surface_real_ui_audit/test_matrix.md#B08
+    limitations:
+      - workspace_trust_may_appear
+      - unrelated_libreoffice_window_can_steal_focus
+
+  linux.writer:
+    device_family: linux
+    user_facing_object: writer_document
+    backend_locator_examples:
+      - /tmp/<document>.odt
+      - /home/user/<document>.docx
+    instruction_path_policy: user_visible_if_device_scoped
+    preferred_reference:
+      source: 'the Writer template at "<path>" on <Linux machine>'
+      output: 'create or save the Writer document as "<path>"'
+    extension_behavior:
+      visible_in_filename: true
+      auto_append_extension: not_verified
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#W01
+      - docs/linux_surface_real_ui_audit/test_matrix.md#W03
+    limitations:
+      - stale_document_recovery_prompt
+      - format_confirmation_and_read_only_flows_not_verified
+
+  linux.calc:
+    device_family: linux
+    user_facing_object: spreadsheet_or_csv_table
+    backend_locator_examples:
+      - /tmp/<file>.csv
+      - /tmp/<file>.xlsx
+      - /tmp/<file>.ods
+    instruction_path_policy: user_visible_if_device_scoped
+    preferred_reference:
+      source: 'open "<path>" in LibreOffice Calc on <Linux machine>'
+      output: 'save the completed sheet as "<path>"'
+    extension_behavior:
+      visible_in_filename: true
+      csv_import_dialog: true
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#C01
+      - docs/linux_surface_real_ui_audit/test_matrix.md#C03
+      - docs/linux_surface_real_ui_audit/test_matrix.md#C04
+    limitations:
+      - stale_document_recovery_prompt
+      - xlsx_vs_ods_format_prompt_wording_not_verified
+      - workbook_lock_read_only_flow_not_verified
+
+  linux.impress:
+    device_family: linux
+    user_facing_object: presentation_deck
+    backend_locator_examples:
+      - /tmp/<deck>.odp
+      - /tmp/<deck>.pptx
+      - /tmp/<deck>.pdf
+    instruction_path_policy: user_visible_if_device_scoped
+    preferred_reference:
+      source: 'the Impress template at "<path>" on <Linux machine>'
+      output: 'create the deck at "<path>" and export "<pdf path>"'
+    extension_behavior:
+      visible_in_filename: true
+      format_confirmation: not_verified
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#I01
+      - docs/linux_surface_real_ui_audit/test_matrix.md#I02
+    limitations:
+      - normal_gui_save_may_normalize_internal_xml
+      - stale_document_recovery_prompt
+
+  linux.thunderbird_inbox:
+    device_family: linux
+    user_facing_object: email_message_in_folder
+    backend_locator_examples:
+      - ~/.thunderbird/<profile>/Mail/Local Folders/Inbox
+    instruction_path_policy: never
+    preferred_reference:
+      source: 'the message with subject "<subject>" in Thunderbird Inbox on <Linux machine>'
+      output: 'move that message to the "<folder>" folder'
+      attachment: 'the attachment named "<filename>" on that message'
+    supported_operations:
+      - locate_by_subject_sender_and_folder
+      - move_to_named_folder
+      - open_attachment
+      - save_attachment_through_visible_control
+    extension_behavior: null
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#M04
+      - docs/linux_surface_real_ui_audit/test_matrix.md#M07
+    limitations:
+      - attachment_default_save_directory_not_verified
+
+  linux.thunderbird_draft:
+    device_family: linux
+    user_facing_object: draft_email
+    backend_locator_examples:
+      - ~/.thunderbird/<profile>/Mail/Local Folders/Drafts
+    instruction_path_policy: never
+    preferred_reference:
+      source: 'the draft with subject "<subject>" in Thunderbird Drafts'
+      output: 'leave an unsent draft to <recipient> with subject "<subject>"'
+    supported_operations:
+      - compose
+      - save
+      - close_and_reopen_from_drafts
+      - persist_attachment
+    remote_send_supported: false
+    extension_behavior: null
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#M05
+      - docs/linux_surface_real_ui_audit/findings.md#TB-001
+    limitations:
+      - seeded_mbox_must_have_valid_mbox_envelope_separator
+      - current_contract_does_not_require_remote_send
+      - attachment_default_save_directory_not_verified
+
+  linux.thunderbird_eml:
+    device_family: linux
+    user_facing_object: standalone_email_file
+    backend_locator_examples:
+      - /tmp/<message>.eml
+    instruction_path_policy: user_visible_if_device_scoped
+    preferred_reference:
+      source: 'open "<message>.eml" in Thunderbird on <Linux machine>'
+      output: 'create an unsent standalone email file at "<path>.eml"'
+    extension_behavior:
+      visible_in_filename: true
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#F03
+    limitations:
+      - minimal_x_unsent_message_may_open_blank_compose_body
+      - complete_crlf_rfc_headers_rendered_reliably
+
+  linux.vlc:
+    device_family: linux
+    user_facing_object: current_media_playback
+    backend_locator_examples:
+      - VLCProcess:current_input
+    instruction_path_policy: filename_or_device_scoped_media_path
+    preferred_reference:
+      source: 'the media currently playing in VLC on <Linux machine>'
+      output: 'play "<filename>" in VLC and leave it playing'
+    extension_behavior:
+      filename_visible_in_window_title: true
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#V01
+      - docs/linux_surface_real_ui_audit/test_matrix.md#V02
+    limitations:
+      - short_non_looping_media_is_timing_dependent
+      - no_future_schedule_contract
+      - no_durable_playlist_content_contract
+
+  linux.gimp:
+    device_family: linux
+    user_facing_object: bitmap_image_and_layers
+    backend_locator_examples:
+      - /home/user/<image>.png
+      - /tmp/<image>.jpg
+    instruction_path_policy: user_visible_if_device_scoped
+    preferred_reference:
+      source: 'open "<image>" in GIMP on <Linux machine>'
+      output: 'export the final bitmap as "<path>"'
+    extension_behavior:
+      export_format_from_extension: true
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#G01
+      - docs/linux_surface_real_ui_audit/test_matrix.md#G02
+    limitations:
+      - save_is_for_project_export_is_for_bitmap
+      - editable_xcf_contract_not_verified
+      - subjective_visual_quality_requires_human_review
+
+  linux.image_viewer:
+    device_family: linux
+    user_facing_object: rendered_bitmap
+    backend_locator_examples:
+      - /tmp/<image>.png
+    instruction_path_policy: user_visible_if_device_scoped
+    preferred_reference:
+      source: 'open "<filename>" in Image Viewer on <Linux machine>'
+      output: null
+    extension_behavior:
+      filename_visible: true
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#G02
+    limitations:
+      - viewer_does_not_create_output
+
+  linux.pdf_viewer:
+    device_family: linux
+    user_facing_object: rendered_pdf_document
+    backend_locator_examples:
+      - /tmp/<document>.pdf
+    instruction_path_policy: user_visible_if_device_scoped
+    preferred_reference:
+      source: 'open "<document>.pdf" in Document Viewer on <Linux machine>'
+      output: 'export and reopen "<document>.pdf"'
+    extension_behavior:
+      visible_in_filename: true
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#P01
+      - docs/linux_surface_real_ui_audit/test_matrix.md#I01
+    limitations:
+      - scanned_pdf_may_not_have_selectable_text
+
+  linux.zip_archive:
+    device_family: linux
+    user_facing_object: archive_and_member_list
+    backend_locator_examples:
+      - /tmp/<archive>.zip
+    instruction_path_policy: user_visible_if_device_scoped
+    preferred_reference:
+      source: 'open "<archive>.zip" in Archive Manager on <Linux machine>'
+      output: 'create "<archive>.zip" from the selected local files'
+    extension_behavior:
+      visible_in_filename: true
+    runtime_verified: true
+    confidence: VERIFIED_EXISTING_REPORT
+    evidence:
+      - docs/linux_surface_real_ui_audit/test_matrix.md#F01
+    limitations:
+      - exact_gui_extract_flow_not_verified
+      - archive_metadata_timestamps_are_not_default_user_contract
+
+task_examples_needing_review:
+  - task_id: linux_android_1034
+    findings:
+      - two_linux_source_paths_are_not_device_scoped
+      - markor_backend_path_is_exposed
+      - missing_coordinate_outcome_is_revealed_before_source_reading
+      - blocked_filename_reveals_outcome
+    confidence: CODE_INFERRED
+    runtime_observation:
+      state: setup_completed_without_participant_result
+      confidence: VERIFIED_RUNTIME
+  - task_id: linux_android_1078
+    findings:
+      - markor_backend_path_is_exposed
+      - snap_chromium_cannot_open_the_tmp_html_source
+    confidence: VERIFIED_EXISTING_REPORT
+  - task_id: linux_android_1215
+    findings:
+      - markor_backend_path_is_exposed
+    confidence: CODE_INFERRED
+  - task_id: linux_android_1289
+    findings:
+      - markor_backend_path_is_exposed
+    confidence: CODE_INFERRED
+  - task_id: linux_android_1851
+    findings:
+      - markor_backend_path_is_exposed
+    confidence: CODE_INFERRED
+  - task_id: linux_android_1365
+    findings:
+      - markor_backend_path_is_exposed
+    confidence: CODE_INFERRED
+  - task_id: linux_android_1274
+    findings:
+      - markor_backend_path_is_exposed
+    confidence: CODE_INFERRED
+  - task_id: linux_android_997
+    findings:
+      - markor_backend_path_is_exposed
+    confidence: CODE_INFERRED
+  - task_id: linux_android_1080
+    findings:
+      - markor_backend_path_is_exposed
+    confidence: CODE_INFERRED
+  - task_id: linux_android_1037
+    findings:
+      - markor_backend_path_is_exposed
+    confidence: CODE_INFERRED
