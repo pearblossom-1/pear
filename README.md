@@ -12,3 +12,9 @@ This repository contains the current Core200 task bundle and the existing per-ta
 ## Review-note status
 
 The `core_tasks_001_010/` through `core_tasks_191_200/` Markdown files are existing review notes. They predate part of the current task update: 57 notes currently quote an instruction that differs from the authoritative task JSON. Treat the JSON and its attachments as authoritative until those notes are reviewed again.
+
+## Updating MDCBench projects
+
+See [`MDCBENCH_PROJECT_UPDATE_GUIDE.md`](MDCBENCH_PROJECT_UPDATE_GUIDE.md) for
+the non-destructive multi-device task sync procedure and the optional Core200
+entity-relation evaluator compatibility patch.

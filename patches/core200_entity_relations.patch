@@ -1,0 +1,223 @@
+diff --git a/mdcbench/evaluation/entity_relations.py b/mdcbench/evaluation/entity_relations.py
+index bbb62c155..ae463c2a1 100644
+--- a/mdcbench/evaluation/entity_relations.py
++++ b/mdcbench/evaluation/entity_relations.py
+@@ -152,6 +152,18 @@ def score_entity_relation(text: Any, rules: dict[str, Any]) -> bool:
+     ):
+         return False
+ 
++    ordered_entities = rules.get("ordered_entities")
++    if ordered_entities is not None and not _matches_ordered_entities(
++        normalized, ordered_entities
++    ):
++        return False
++
++    semantic_record_table = rules.get("semantic_record_table")
++    if semantic_record_table is not None and not _matches_semantic_record_table(
++        raw, semantic_record_table
++    ):
++        return False
++
+     # Structured line contracts keep list notes phrasing tolerant while still
+     # rejecting extra business rows. Headings and source citations stay free-form
+     # because the contract regex selects only the rows that carry list semantics.
+@@ -190,6 +202,30 @@ def score_entity_relation(text: Any, rules: dict[str, Any]) -> bool:
+     if any(_matches_alternative(conflict_text, item) for item in rules.get("conflict_phrases", [])):
+         return False
+ 
++    required_patterns = rules.get("required_patterns", [])
++    if not isinstance(required_patterns, list) or len(required_patterns) > 100:
++        return False
++    for pattern in required_patterns:
++        if not isinstance(pattern, str) or not pattern or len(pattern) > 4096:
++            return False
++        try:
++            if not re.search(pattern, raw, flags=re.IGNORECASE):
++                return False
++        except re.error:
++            return False
++
++    conflict_patterns = rules.get("conflict_patterns", [])
++    if not isinstance(conflict_patterns, list) or len(conflict_patterns) > 100:
++        return False
++    for pattern in conflict_patterns:
++        if not isinstance(pattern, str) or not pattern or len(pattern) > 4096:
++            return False
++        try:
++            if re.search(pattern, raw, flags=re.IGNORECASE):
++                return False
++        except re.error:
++            return False
++
+     if "nearest_relations" in rules:
+         nearest_relations = _parse_nearest_relations(rules.get("nearest_relations"))
+         if nearest_relations is None or not _matches_nearest_relations(
+@@ -1111,6 +1147,168 @@ def _ordered_relation_components_match(
+     )
+ 
+ 
++def _matches_ordered_entities(text: str, ordered_entities: Any) -> bool:
++    """Require one visible occurrence of each entity in the declared order."""
++
++    if (
++        not isinstance(ordered_entities, list)
++        or not ordered_entities
++        or len(ordered_entities) > 50
++    ):
++        return False
++    cursor = 0
++    for entity in ordered_entities:
++        if not _semantic_alternatives_valid(entity):
++            return False
++        candidates = [
++            span for span in _alternative_spans(text, entity) if span[0] >= cursor
++        ]
++        if not candidates:
++            return False
++        cursor = min(candidates, key=lambda span: (span[0], span[1]))[1]
++    return True
++
++
++def _matches_semantic_record_table(text: str, contract: Any) -> bool:
++    """Bind each visible record to its own declared field values.
++
++    The contract accepts prose, lists, and simple tables. Record anchors delimit
++    semantic sections, while labels bind fields whose values could otherwise be
++    swapped without changing the document's token inventory.
++    """
++
++    if not isinstance(contract, dict):
++        return False
++    item_headers = contract.get("item_headers")
++    records = contract.get("records")
++    if (
++        not isinstance(item_headers, list)
++        or not item_headers
++        or not _semantic_alternatives_valid(item_headers)
++        or not isinstance(records, list)
++        or not 1 <= len(records) <= 20
++    ):
++        return False
++
++    parsed: list[tuple[Any, list[dict[str, Any]]]] = []
++    all_field_values: list[Any] = []
++    for record in records:
++        if not isinstance(record, dict) or not _semantic_alternatives_valid(
++            record.get("item")
++        ):
++            return False
++        fields = record.get("fields")
++        if not isinstance(fields, list) or not 1 <= len(fields) <= 20:
++            return False
++        parsed_fields: list[dict[str, Any]] = []
++        seen_names: set[str] = set()
++        for field in fields:
++            if not isinstance(field, dict):
++                return False
++            name = str(field.get("name", "")).strip()
++            labels = field.get("labels")
++            values = field.get("values")
++            allow_unlabeled = field.get("allow_unlabeled", False)
++            if (
++                not name
++                or name in seen_names
++                or not isinstance(allow_unlabeled, bool)
++                or not _semantic_alternatives_valid(values)
++                or (
++                    not allow_unlabeled
++                    and not _semantic_alternatives_valid(labels)
++                )
++                or (
++                    allow_unlabeled
++                    and labels is not None
++                    and not _semantic_alternatives_valid(labels)
++                )
++            ):
++                return False
++            seen_names.add(name)
++            parsed_field = {
++                "name": name,
++                "labels": labels if labels is not None else [],
++                "values": values,
++                "allow_unlabeled": allow_unlabeled,
++            }
++            parsed_fields.append(parsed_field)
++            all_field_values.append(values)
++        parsed.append((record.get("item"), parsed_fields))
++
++    normalized = _normalize_association(text)
++    anchors: list[tuple[int, int, int]] = []
++    for index, (item, _) in enumerate(parsed):
++        spans = _alternative_spans(normalized, item)
++        if not spans:
++            return False
++        first = min(spans, key=lambda span: (span[0], span[1]))
++        anchors.append((first[0], first[1], index))
++    anchors.sort()
++    if len({start for start, _, _ in anchors}) != len(anchors):
++        return False
++
++    for position, (start, _, record_index) in enumerate(anchors):
++        end = anchors[position + 1][0] if position + 1 < len(anchors) else len(normalized)
++        section = normalized[start:end]
++        for field in parsed[record_index][1]:
++            expected_spans = _alternative_spans(section, field["values"])
++            if not expected_spans:
++                return False
++            label_spans = _alternative_spans(section, field["labels"])
++            if not label_spans:
++                if field["allow_unlabeled"]:
++                    continue
++                return False
++
++            competing_values = [
++                values
++                for values in all_field_values
++                if not set(_alternatives(values)).intersection(
++                    _alternatives(field["values"])
++                )
++            ]
++            competing_spans = sorted(
++                {
++                    span
++                    for values in competing_values
++                    for span in _alternative_spans(section, values)
++                }
++            )
++            if not any(
++                _semantic_label_binds_expected(
++                    section,
++                    label_span,
++                    expected_spans,
++                    competing_spans,
++                )
++                for label_span in label_spans
++            ):
++                return False
++    return True
++
++
++def _semantic_alternatives_valid(value: Any) -> bool:
++    values = value if isinstance(value, list) else [value]
++    return (
++        1 <= len(values) <= 100
++        and all(isinstance(item, str) and bool(_normalize(item)) for item in values)
++    )
++
++
++def _semantic_label_binds_expected(
++    text: str,
++    label_span: tuple[int, int],
++    expected_spans: list[tuple[int, int]],
++    competing_spans: list[tuple[int, int]],
++) -> bool:
++    expected_distance = _nearest_span_distance(text, label_span, expected_spans)
++    competing_distance = _nearest_span_distance(text, label_span, competing_spans)
++    return expected_distance is not None and (
++        competing_distance is None or expected_distance < competing_distance
++    )
++
++
+ def _structured_phrase_pattern(value: str) -> re.Pattern[str]:
+     """Match declared relation vocabulary across natural CJK/ASCII joins.
+ 
