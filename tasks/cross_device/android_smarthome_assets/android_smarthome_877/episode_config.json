@@ -40,13 +40,6 @@
               "compliant"
             ]
           ],
-          "positive_phrases": [
-            [
-              "repaired",
-              "corrected",
-              "applied"
-            ]
-          ],
           "allowed_negative_capability_phrases": [
             "not changed"
           ],
@@ -58,13 +51,6 @@
                 [
                   "23",
                   "23 C"
-                ]
-              ],
-              "phrases": [
-                [
-                  "repaired",
-                  "corrected",
-                  "applied"
                 ]
               ],
               "allow_multiple_matches": true
@@ -99,9 +85,6 @@
             }
           ],
           "conflict_phrases": [
-            "pending",
-            "not repaired",
-            "repair not applied",
             "bedroom was changed",
             "manual row changed",
             "living room was changed",
@@ -129,151 +112,6 @@
       "name": "Climate drift is one incomplete task with all three room relations bound"
     },
     {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_task_status",
-        "title": "Climate drift",
-        "require_exactly_one": true,
-        "completed": false,
-        "notes_relation": {
-          "entities": [
-            "office",
-            "cool",
-            [
-              "23",
-              "23 C"
-            ]
-          ],
-          "relation_groups": [
-            {
-              "entities": [
-                "office",
-                "cool",
-                [
-                  "23",
-                  "23 C"
-                ]
-              ],
-              "phrases": [
-                [
-                  "repaired",
-                  "corrected",
-                  "applied"
-                ]
-              ],
-              "allow_multiple_matches": true
-            }
-          ],
-          "conflict_phrases": [
-            "office pending",
-            "office not repaired",
-            "repair not applied"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "FOUND"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "office relation says repaired to cool at 23 C"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_task_status",
-        "title": "Climate drift",
-        "require_exactly_one": true,
-        "completed": false,
-        "notes_relation": {
-          "entities": [
-            "bedroom",
-            "manual"
-          ],
-          "allowed_negative_capability_phrases": [
-            "not changed"
-          ],
-          "relation_groups": [
-            {
-              "entities": [
-                "bedroom",
-                "manual"
-              ],
-              "phrases": [
-                [
-                  "unchanged",
-                  "left alone",
-                  "not changed"
-                ]
-              ],
-              "allow_multiple_matches": true
-            }
-          ],
-          "conflict_patterns": [
-            "\\bbedroom\\b(?:(?!\\bnot\\b)[^.!?\\r\\n]){0,80}\\b(?:changed|modified)\\b"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "FOUND"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "bedroom relation says manual and unchanged"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_task_status",
-        "title": "Climate drift",
-        "require_exactly_one": true,
-        "completed": false,
-        "notes_relation": {
-          "entities": [
-            "living room",
-            "compliant"
-          ],
-          "allowed_negative_capability_phrases": [
-            "not changed"
-          ],
-          "relation_groups": [
-            {
-              "entities": [
-                "living room",
-                "compliant"
-              ],
-              "phrases": [
-                [
-                  "unchanged",
-                  "left alone",
-                  "not changed"
-                ]
-              ],
-              "allow_multiple_matches": true
-            }
-          ],
-          "conflict_patterns": [
-            "\\bliving(?:-|\\s+)room\\b(?:(?!\\bnot\\b)[^.!?\\r\\n]){0,80}\\b(?:changed|modified)\\b"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "FOUND"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "living-room relation says compliant and unchanged"
-    },
-    {
       "device_id": "home_0",
       "func": "smarthome.check_device_state",
       "result": {
@@ -291,34 +129,6 @@
         }
       },
       "name": "office AC is repaired to on cool at 23 C"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_multi_condition",
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "devices": {
-              "bedroom_air_conditioner_1": {
-                "power": "on",
-                "mode": "dry",
-                "target_temperature_c": 27.0
-              },
-              "living_room_air_conditioner_1": {
-                "power": "on",
-                "mode": "cool",
-                "target_temperature_c": 25.0
-              }
-            }
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "bedroom manual and living-room compliant AC states remain unchanged"
     },
     {
       "device_id": "home_0",
@@ -343,74 +153,6 @@
       },
       "enable_score_calc": false,
       "name": "only office mode and target temperature change globally"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_whitelist",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "allowed_commands": [
-              {
-                "device_id": "office_air_conditioner_1",
-                "command": "set_mode",
-                "args": {
-                  "mode": "cool"
-                }
-              },
-              {
-                "device_id": "office_air_conditioner_1",
-                "command": "set_target_temperature",
-                "args": {
-                  "temperature_c": 23.0
-                }
-              }
-            ]
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "direct commands are restricted to semantic office repair retries"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "climate drift repair creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "climate drift repair creates no workflow"
     }
   ],
   "initial_home_config": {

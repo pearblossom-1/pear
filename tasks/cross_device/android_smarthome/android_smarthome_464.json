@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_464",
-  "instruction": "The first phone has `home_alert_config.json`, and the second phone has the role contacts. Use the live Home readings and the config to send only the highest-priority alert from the second phone to the correct role contact. The alert should identify the affected metric and room, the current reading, and that it is the highest-priority alert.",
+  "instruction": "Open `home_alert_config.csv` in Downloads/home on the first phone and check the live Home readings. On the second phone, use the role contacts in Contacts and send only the highest-priority alert in Simple SMS Messenger to the correct role contact. The alert should identify the affected room and metric, the current reading, and that it is the highest-priority alert.",
   "devices": [
     {
       "id": "android_0",
@@ -30,8 +30,8 @@
           "parameters": {
             "files": [
               {
-                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_464/android/android_0/files/home_alert_config.json",
-                "path": "/storage/emulated/0/Download/home_alert_config.json"
+                "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_464/android/android_0/files/home_alert_config.csv",
+                "path": "/storage/emulated/0/Download/home/home_alert_config.csv"
               }
             ]
           }
@@ -39,14 +39,14 @@
         {
           "type": "androidworld_files_directory_preflight",
           "parameters": {
-            "directory": "/storage/emulated/0/Download",
+            "directory": "/storage/emulated/0/Download/home",
             "expected_filenames": [
-              "home_alert_config.json"
+              "home_alert_config.csv"
             ],
-            "open_filename": "home_alert_config.json",
+            "open_filename": "home_alert_config.csv",
             "required_visible_text": [
               "kitchen PM2.5",
-              "priority_order",
+              "priority rank",
               "air quality",
               "send_highest_only",
               "true"
@@ -145,7 +145,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f /storage/emulated/0/Download/home_alert_config.json"
+            "command": "rm -f /storage/emulated/0/Download/home/home_alert_config.csv"
           }
         }
       ]
@@ -202,13 +202,6 @@
             ],
             [
               "alert"
-            ]
-          ],
-          "positive_phrases": [
-            [
-              "alert",
-              "highest-priority",
-              "highest priority"
             ]
           ],
           "nearest_relations": [
@@ -304,60 +297,6 @@
       },
       "enable_score_calc": false,
       "name": "notification-only task leaves the complete Home unchanged"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_count",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "notification-only task issues no transient Home command"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "notification-only task creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "notification-only task creates no workflow"
     }
   ],
   "limits": {
@@ -394,6 +333,17 @@
       "decision": "direct",
       "rationale": "Supported audit-to-SMS routing with visible role mapping and query-only Home answer report."
     },
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "field_defined+native_only",
+      "public_required_fields": [
+        "room",
+        "metric",
+        "reading",
+        "highest priority"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

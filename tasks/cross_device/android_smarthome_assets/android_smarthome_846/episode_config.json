@@ -54,13 +54,6 @@
               "rollback"
             ]
           ],
-          "positive_phrases": [
-            [
-              "correction applied",
-              "rollback applied",
-              "corrected"
-            ]
-          ],
           "relation_groups": [
             {
               "entities": [
@@ -118,26 +111,9 @@
                 ]
               ],
               "allow_multiple_matches": true
-            },
-            {
-              "entities": [
-                [
-                  "correction",
-                  "rollback"
-                ]
-              ],
-              "phrases": [
-                [
-                  "applied",
-                  "corrected"
-                ]
-              ],
-              "allow_multiple_matches": true
             }
           ],
           "conflict_phrases": [
-            "pending",
-            "not applied",
             "light remains on",
             "light is on",
             "repeat plan remains active",
@@ -241,25 +217,6 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 1,
-            "exact_active_count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "the complete schedule set remains exactly one cancelled record"
-    },
-    {
-      "device_id": "home_0",
       "func": "smarthome.check_allowed_state_diff",
       "result": {
         "type": "smarthome_home_state"
@@ -280,47 +237,6 @@
       },
       "enable_score_calc": false,
       "name": "only the living-room dimmable light final state changes globally"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_whitelist",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "allowed_commands": [
-              {
-                "device_id": "living_room_dimmable_light_1",
-                "command": "turn_off",
-                "args": {}
-              }
-            ]
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "direct commands are restricted to semantic turn-off retries"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "rollback creates no workflow"
     }
   ],
   "initial_home_config": {

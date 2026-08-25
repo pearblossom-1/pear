@@ -1,0 +1,4 @@
+metric,alert category,priority rank,delivery rule
+kitchen PM2.5,air quality,1,send_highest_only=true
+laundry humidity,humidity,2,
+entry temperature,temperature,3,

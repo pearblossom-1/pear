@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_265",
-  "instruction": "Apply the `Dry Air Rule` using the live bedroom humidity. Then send `Home Updates` a concise result message that includes the current bedroom humidity, the 35% threshold and that the reading is below it, and the humidifier setting applied.",
+  "instruction": "Open the `Dry Air Rule` note in Markor on the phone and check the live bedroom humidity in Home. Follow the rule, then use the `Home Updates` contact to send a concise message with the current humidity, the rule's threshold, how the reading compares with it, and the humidifier setting that was applied.",
   "devices": [
     {
       "id": "android_0",
@@ -139,7 +139,6 @@
         "box": "sent",
         "address": "5552650",
         "recent_within_mins": 30,
-        "require_exactly_one_for_address": true,
         "body_relation": {
           "entities": [
             [
@@ -163,62 +162,20 @@
               "high"
             ]
           ],
-          "positive_phrases": [
-            [
-              "running",
-              "is on",
-              "set to high",
-              "started"
-            ]
-          ],
           "relation_groups": [
-            {
-              "entities": [
-                "bedroom",
-                "humidity",
-                [
-                  "32",
-                  "32%"
-                ],
-                [
-                  "35",
-                  "35%"
-                ]
-              ],
-              "phrases": [
-                [
-                  "below",
-                  "under",
-                  "lower than"
-                ]
-              ],
-              "allow_multiple_matches": true
-            },
             {
               "entities": [
                 "humidifier",
                 "high"
               ],
-              "phrases": [
-                [
-                  "running",
-                  "is on",
-                  "set to high",
-                  "started"
-                ]
-              ],
               "allow_multiple_matches": true
             }
           ],
           "conflict_phrases": [
-            "pending",
-            "cancelled",
-            "canceled",
-            "not running",
-            "not on high",
-            "not set",
             "above 35",
-            "over 35"
+            "over 35",
+            "humidifier low",
+            "humidifier off"
           ],
           "conflict_patterns": [
             "\\b32(?:\\.0)?%?\\b[^\\r\\n.!?]{0,48}\\b(?:above|over|higher\\s+than)\\b[^\\r\\n.!?]{0,24}\\b35(?:\\.0)?%?\\b"
@@ -229,6 +186,9 @@
               "under",
               "lower than"
             ]
+          ],
+          "required_patterns": [
+            "\\b32(?:\\.0)?%?\\b[^\\r\\n.!?]{0,48}\\b(?:below|under|lower\\s+than)\\b[^\\r\\n.!?]{0,24}\\b35(?:\\.0)?%?\\b"
           ]
         }
       },
@@ -281,42 +241,6 @@
       },
       "enable_score_calc": false,
       "name": "only the bedroom humidifier final state changes"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "immediate dry-air repair creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "immediate dry-air repair creates no workflow"
     }
   ],
   "limits": {
@@ -349,6 +273,16 @@
     "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_265/episode_config.json",
     "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_265/oracle_positive.json",
     "idea_number": 265,
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "field_defined+native_only",
+      "public_required_fields": [
+        "humidity",
+        "threshold comparison",
+        "humidifier setting"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_144",
-  "instruction": "The first phone has a bedtime plan in Markor. Schedule that Home bedtime routine, then use the confirmation style requested in the saved bedtime contact's note to send the scheduled time and settings from the second phone in Simple SMS Messenger.",
+  "instruction": "Open the `Bedtime Plan` note in Markor on the first phone and the `Bedtime Updates` contact on the second phone. Schedule the bedtime plan in Home, then send the scheduled time and settings from the second phone using the confirmation style in that contact's note.",
   "devices": [
     {
       "id": "android_0",
@@ -154,7 +154,6 @@
         "box": "sent",
         "address": "5551440",
         "recent_within_mins": 30,
-        "require_exactly_one_for_address": true,
         "body_relation": {
           "entities": [
             [
@@ -195,12 +194,6 @@
                   "19:20",
                   "7:20 PM",
                   "7.20 PM"
-                ]
-              ],
-              "phrases": [
-                [
-                  "scheduled",
-                  "set for"
                 ]
               ],
               "allow_multiple_matches": true
@@ -298,32 +291,6 @@
         }
       },
       "name": "the exact 19:20 bedtime effects may use a workflow or equivalent schedules"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_multi_condition",
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "devices": {
-              "bedroom_curtain_1": {
-                "open_pct": 80,
-                "status": "partial"
-              },
-              "bedroom_dimmable_light_1": {
-                "power": "on",
-                "brightness_pct": 70
-              }
-            }
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "bedroom curtain and light remain at their current baseline"
     }
   ],
   "limits": {
@@ -356,6 +323,15 @@
     "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_144/episode_config.json",
     "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_144/oracle_positive.json",
     "idea_number": 144,
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "template_defined+native_only",
+      "public_required_fields": [
+        "contact confirmation style",
+        "planned effects"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

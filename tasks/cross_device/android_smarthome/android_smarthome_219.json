@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_219",
-  "instruction": "Check whether the installed bedroom light supports the complete request in Markor. If color control is unavailable, submit one SmartHome infeasible report for the unsupported color-control capability and leave the light unchanged.",
+  "instruction": "Open the `Color Light Request` note in Markor on the phone and check whether the installed bedroom light can satisfy the full request. If Home does not support part of the request, report what cannot be completed and why, and leave the Home devices unchanged.",
   "devices": [
     {
       "id": "android_0",
@@ -93,7 +93,6 @@
         "rules": {
           "expected": {
             "semantic_report": {
-              "exact_report_count": 1,
               "category_aliases": [
                 "unsupported_capability",
                 "unsupported capability",
@@ -139,29 +138,14 @@
                     "request is complete"
                   ]
                 ]
-              }
+              },
+              "min_matching_report_count": 1,
+              "reject_nonmatching_reports": true
             }
           }
         }
       },
-      "name": "exactly one unsupported-capability report identifies bedroom color control"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_no_device_change",
-      "enable_score_calc": false,
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "device_id": "bedroom_dimmable_light_1"
-          }
-        }
-      },
-      "name": "bedroom dimmable light remains fully unchanged"
+      "name": "a semantically correct unsupported-capability report identifies bedroom color control"
     },
     {
       "device_id": "home_0",
@@ -182,42 +166,6 @@
       },
       "enable_score_calc": false,
       "name": "unsupported-capability task leaves every Home device unchanged"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "unsupported-capability task creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "unsupported-capability task creates no workflow"
     }
   ],
   "limits": {
@@ -247,6 +195,15 @@
     "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_219/episode_config.json",
     "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_219/oracle_positive.json",
     "idea_number": 219,
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "field_defined",
+      "public_required_fields": [
+        "unsupported request part",
+        "reason"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

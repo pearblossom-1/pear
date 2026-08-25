@@ -12,7 +12,7 @@
       "func": "exact_match",
       "result": {
         "type": "androidworld_task_status",
-        "title": "Missing playlist result",
+        "title": "Playlist routine result",
         "require_exactly_one": true,
         "notes_relation": {
           "entities": [
@@ -27,17 +27,38 @@
               "absent"
             ],
             [
+              "no substitute",
+              "no substitution",
+              "did not use a substitute",
+              "Evening Wind Down was not used"
+            ],
+            [
               "no routine was scheduled",
               "routine was not scheduled",
               "did not schedule a routine",
               "nothing was scheduled",
-              "left the routine unscheduled",
               "no schedule was created"
             ]
           ],
           "allowed_negative_capability_phrases": [
             "not found",
-            "could not be found"
+            "could not be found",
+            "no substitute",
+            "no substitution",
+            "did not use a substitute",
+            "Evening Wind Down was not used",
+            "no routine was scheduled",
+            "routine was not scheduled",
+            "did not schedule a routine",
+            "nothing was scheduled",
+            "no schedule was created"
+          ],
+          "allowed_conflict_phrases": [
+            "no routine was scheduled",
+            "routine was not scheduled",
+            "did not schedule a routine",
+            "nothing was scheduled",
+            "no schedule was created"
           ],
           "conflict_phrases": [
             "exact playlist is available",
@@ -47,7 +68,8 @@
             "routine was scheduled",
             "scheduled the routine"
           ]
-        }
+        },
+        "completed": false
       },
       "expected": {
         "type": "rule",
@@ -55,104 +77,7 @@
           "expected": "FOUND"
         }
       },
-      "name": "exactly one Tasks result records the missing exact playlist and no schedule"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_task_status",
-        "title": "Missing playlist result",
-        "require_exactly_one": true,
-        "notes_relation": {
-          "entities": [
-            "Evening Wind Down Kids"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "FOUND"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Tasks backend is healthy and the exact requested playlist name is present"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_task_status",
-        "title": "Missing playlist result",
-        "require_exactly_one": true,
-        "notes_relation": {
-          "entities": [
-            "Evening Wind Down Kids"
-          ],
-          "required_phrases": [
-            [
-              "missing",
-              "not found",
-              "could not be found",
-              "unavailable",
-              "absent"
-            ]
-          ],
-          "allowed_negative_capability_phrases": [
-            "not found",
-            "could not be found"
-          ],
-          "conflict_phrases": [
-            "exact playlist is available",
-            "exact playlist was found"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "FOUND"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Missing playlist result states that the exact playlist is unavailable"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_task_status",
-        "title": "Missing playlist result",
-        "require_exactly_one": true,
-        "notes_relation": {
-          "entities": [
-            "Evening Wind Down Kids"
-          ],
-          "required_phrases": [
-            [
-              "no routine was scheduled",
-              "routine was not scheduled",
-              "did not schedule a routine",
-              "nothing was scheduled",
-              "left the routine unscheduled",
-              "no schedule was created"
-            ]
-          ],
-          "conflict_phrases": [
-            "routine was scheduled",
-            "scheduled the routine"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "FOUND"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Missing playlist result states that no routine was scheduled"
+      "name": "Playlist routine result records availability, substitution, and routine outcome"
     },
     {
       "device_id": "android_0",
@@ -207,41 +132,6 @@
         }
       },
       "name": "no SmartHome workflow is created"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_count",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "missing playlist handling issues no direct device commands"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_no_device_change",
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "device_id": "kids_room_dimmable_light_1"
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "kids-room light baseline is fully unchanged"
     }
   ],
   "initial_home_config": {

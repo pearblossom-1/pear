@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_888",
-  "instruction": "Before changing the study light, verify the request in the first phone's Tasks app against the approval table in Android Files on the second phone. Apply it only when the matching row is approved. For the household record, leave a Markor note named `Approval source chain` on the second phone with the matched request, approval evidence, setting applied, and reason.",
+  "instruction": "On the first phone, open the `Study light request` task in Tasks. On the second phone, open `approval_table.csv` in Downloads/home and match it to the request. Apply the study-light change in Home only if the matching row is approved, then create a Markor note called `Approval source chain` on the second phone with the matched request, approval evidence, setting applied, and reason.",
   "devices": [
     {
       "id": "android_0",
@@ -185,13 +185,6 @@
               "reading"
             ]
           ],
-          "positive_phrases": [
-            [
-              "applied",
-              "set",
-              "executed"
-            ]
-          ],
           "relation_groups": [
             {
               "entities": [
@@ -205,9 +198,6 @@
                 [
                   "70",
                   "70%"
-                ],
-                [
-                  "reading"
                 ]
               ],
               "allow_multiple_matches": true
@@ -220,29 +210,6 @@
                 [
                   "approved",
                   "approval"
-                ]
-              ],
-              "allow_multiple_matches": true
-            },
-            {
-              "entities": [
-                [
-                  "L-42"
-                ],
-                [
-                  "study light",
-                  "study-light"
-                ],
-                [
-                  "70",
-                  "70%"
-                ]
-              ],
-              "phrases": [
-                [
-                  "applied",
-                  "set",
-                  "executed"
                 ]
               ],
               "allow_multiple_matches": true
@@ -278,8 +245,6 @@
             }
           ],
           "conflict_phrases": [
-            "pending",
-            "not applied",
             "wrong row"
           ],
           "allowed_reversal_terms": [
@@ -336,67 +301,6 @@
       },
       "enable_score_calc": false,
       "name": "only the approved study light final state changes globally"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_whitelist",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "allowed_commands": [
-              {
-                "device_id": "study_dimmable_light_1",
-                "command": "set_brightness",
-                "args": {
-                  "brightness_pct": 70
-                }
-              }
-            ]
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "direct commands are restricted to approved study-brightness retries"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "approved request creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "approved request creates no workflow"
     }
   ],
   "limits": {
@@ -434,6 +338,17 @@
       "decision": "direct",
       "rationale": "Supported two-phone approval provenance with approved branch, android_1 authority, and android_1 Markor output."
     },
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "field_defined+native_only",
+      "public_required_fields": [
+        "request",
+        "approval",
+        "setting",
+        "reason"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

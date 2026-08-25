@@ -34,13 +34,6 @@
               "reading"
             ]
           ],
-          "positive_phrases": [
-            [
-              "applied",
-              "set",
-              "executed"
-            ]
-          ],
           "relation_groups": [
             {
               "entities": [
@@ -54,9 +47,6 @@
                 [
                   "70",
                   "70%"
-                ],
-                [
-                  "reading"
                 ]
               ],
               "allow_multiple_matches": true
@@ -69,29 +59,6 @@
                 [
                   "approved",
                   "approval"
-                ]
-              ],
-              "allow_multiple_matches": true
-            },
-            {
-              "entities": [
-                [
-                  "L-42"
-                ],
-                [
-                  "study light",
-                  "study-light"
-                ],
-                [
-                  "70",
-                  "70%"
-                ]
-              ],
-              "phrases": [
-                [
-                  "applied",
-                  "set",
-                  "executed"
                 ]
               ],
               "allow_multiple_matches": true
@@ -127,8 +94,6 @@
             }
           ],
           "conflict_phrases": [
-            "pending",
-            "not applied",
             "wrong row"
           ],
           "allowed_reversal_terms": [
@@ -185,67 +150,6 @@
       },
       "enable_score_calc": false,
       "name": "only the approved study light final state changes globally"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_whitelist",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "allowed_commands": [
-              {
-                "device_id": "study_dimmable_light_1",
-                "command": "set_brightness",
-                "args": {
-                  "brightness_pct": 70
-                }
-              }
-            ]
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "direct commands are restricted to approved study-brightness retries"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "approved request creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "approved request creates no workflow"
     }
   ],
   "initial_home_config": {

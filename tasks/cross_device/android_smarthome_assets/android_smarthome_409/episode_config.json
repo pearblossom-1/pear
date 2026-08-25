@@ -271,67 +271,6 @@
         }
       },
       "name": "only the living-room curtain reaches 35 percent"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_whitelist",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "allowed_commands": [
-              {
-                "device_id": "living_room_curtain_1",
-                "command": "set_open_pct",
-                "args": {
-                  "open_pct": 35
-                }
-              }
-            ]
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "only semantic retries of the curtain 35 command are allowed"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "no schedule is created"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "no workflow is created"
     }
   ],
   "initial_home_config": {

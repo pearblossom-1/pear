@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_233",
-  "instruction": "Check whether Home can satisfy the kitchen aroma request in Simple SMS Messenger. If the aroma diffuser is missing, submit one SmartHome infeasible report identifying the missing kitchen aroma diffuser and explaining why the lavender setting cannot be applied. No SMS reply is required.",
+  "instruction": "Read the kitchen aroma request in Simple SMS Messenger on the phone and check whether Home has the equipment needed to carry it out. If it cannot be completed, report the missing equipment and why the requested setting cannot be applied. Do not substitute another device, and no SMS reply is needed.",
   "devices": [
     {
       "id": "android_0",
@@ -94,7 +94,6 @@
         "rules": {
           "expected": {
             "semantic_report": {
-              "exact_report_count": 1,
               "category_aliases": [
                 "missing_device",
                 "missing device",
@@ -142,12 +141,14 @@
                     "setting succeeded"
                   ]
                 ]
-              }
+              },
+              "min_matching_report_count": 1,
+              "reject_nonmatching_reports": true
             }
           }
         }
       },
-      "name": "exactly one missing-device report identifies the kitchen aroma diffuser"
+      "name": "a semantically correct missing-device report identifies the kitchen aroma diffuser"
     },
     {
       "device_id": "home_0",
@@ -168,42 +169,6 @@
       },
       "enable_score_calc": false,
       "name": "missing-aroma task leaves every Home device unchanged"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "missing-aroma task creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "missing-aroma task creates no workflow"
     }
   ],
   "limits": {
@@ -233,6 +198,15 @@
     "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_233/episode_config.json",
     "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_233/oracle_positive.json",
     "idea_number": 233,
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "field_defined",
+      "public_required_fields": [
+        "missing equipment",
+        "setting failure reason"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

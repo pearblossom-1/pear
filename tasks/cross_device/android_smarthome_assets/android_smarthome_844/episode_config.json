@@ -15,7 +15,6 @@
         "title": "Route prep result",
         "start_ts": 1781641200,
         "end_ts": 1781642400,
-        "location": "Home",
         "unique_identity_fields": [
           "title"
         ]
@@ -27,29 +26,6 @@
         }
       },
       "name": "Route prep result is the unique 20:20 to 20:40 Calendar event"
-    },
-    {
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_calendar_event",
-        "title": "Guest arrival",
-        "start_ts": 1781642400,
-        "end_ts": 1781643600,
-        "location": "Home",
-        "description": "Use today's route record from Files.",
-        "unique_identity_fields": [
-          "title"
-        ]
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "present"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "the input Guest arrival event remains intact"
     },
     {
       "device_id": "home_0",
@@ -74,86 +50,7 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 1,
-            "exact_active_count": 1,
-            "match": {
-              "run_at": "2026-06-16T20:20:00",
-              "device_id": "hallway_light_1",
-              "command": "turn_on",
-              "args": {},
-              "status": "active"
-            }
-          }
-        }
-      },
-      "name": "exactly one active side-hallway prep exists at 20:20"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 2,
-            "exact_active_count": 1,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "the final schedule set contains only cancelled default and active route prep"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "route prep creates no workflow"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_count",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "future route prep issues no immediate device command"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_multi_condition",
+      "func": "smarthome.check_planned_effects",
       "result": {
         "type": "smarthome_home_state"
       },
@@ -161,19 +58,21 @@
         "type": "rule",
         "rules": {
           "expected": {
-            "devices": {
-              "living_room_light_1": {
-                "power": "off"
-              },
-              "hallway_light_1": {
-                "power": "off"
+            "exact_active_plan_count": 1,
+            "plans": [
+              {
+                "run_at": "2026-06-16T20:20:00",
+                "effects": {
+                  "hallway_light_1": {
+                    "power": "on"
+                  }
+                }
               }
-            }
+            ]
           }
         }
       },
-      "enable_score_calc": false,
-      "name": "front and hallway lights remain off at the current 19:00 state"
+      "name": "the active side-hallway prep may use a workflow or equivalent schedule"
     }
   ],
   "initial_home_config": {

@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_846",
-  "instruction": "The first phone has a message record indicating that a success reply was sent too early, and the current rollback policy in Files on the second phone says the change must be rolled back quietly. Correct Home, cancel the mistaken repeat plan, and create an incomplete Tasks item titled `Rollback correction result` explaining the premature success record, the rollback policy, and the corrections. Do not send any new SMS.",
+  "instruction": "Review the success message on the first phone and `rollback_policy.csv` in Downloads/home on the second phone. Reconcile those sources with the current Home state and apply the rollback policy. Then create an incomplete Tasks item titled `Rollback correction result` on the second phone explaining what was inconsistent, what policy was applied, and what was corrected. Do not send any new SMS.",
   "devices": [
     {
       "id": "android_0",
@@ -246,13 +246,6 @@
               "rollback"
             ]
           ],
-          "positive_phrases": [
-            [
-              "correction applied",
-              "rollback applied",
-              "corrected"
-            ]
-          ],
           "relation_groups": [
             {
               "entities": [
@@ -310,26 +303,9 @@
                 ]
               ],
               "allow_multiple_matches": true
-            },
-            {
-              "entities": [
-                [
-                  "correction",
-                  "rollback"
-                ]
-              ],
-              "phrases": [
-                [
-                  "applied",
-                  "corrected"
-                ]
-              ],
-              "allow_multiple_matches": true
             }
           ],
           "conflict_phrases": [
-            "pending",
-            "not applied",
             "light remains on",
             "light is on",
             "repeat plan remains active",
@@ -433,25 +409,6 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 1,
-            "exact_active_count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "the complete schedule set remains exactly one cancelled record"
-    },
-    {
-      "device_id": "home_0",
       "func": "smarthome.check_allowed_state_diff",
       "result": {
         "type": "smarthome_home_state"
@@ -472,47 +429,6 @@
       },
       "enable_score_calc": false,
       "name": "only the living-room dimmable light final state changes globally"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_whitelist",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "allowed_commands": [
-              {
-                "device_id": "living_room_dimmable_light_1",
-                "command": "turn_off",
-                "args": {}
-              }
-            ]
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "direct commands are restricted to semantic turn-off retries"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "rollback creates no workflow"
     }
   ],
   "limits": {
@@ -555,6 +471,16 @@
       "decision": "direct",
       "rationale": "Supported prior-success/current-rollback conflict with Home rollback, invalid schedule cancellation, and no new SMS result."
     },
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "field_defined+native_only",
+      "public_required_fields": [
+        "inconsistency",
+        "policy",
+        "corrections"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

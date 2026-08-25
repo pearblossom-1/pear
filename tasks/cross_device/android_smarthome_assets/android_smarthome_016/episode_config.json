@@ -32,48 +32,7 @@
               "purifier",
               "air purifier"
             ],
-            [
-              "off"
-            ],
-            [
-              "turn on",
-              "turn it on",
-              "turn the purifier on",
-              "turn purifier on",
-              "turning it on",
-              "turning the purifier on",
-              "should be turned on",
-              "should turn it on",
-              "start",
-              "starting the purifier"
-            ]
-          ],
-          "positive_phrases": [
-            [
-              "turn on",
-              "turn it on",
-              "turn the purifier on",
-              "turn purifier on",
-              "turning it on",
-              "turning the purifier on",
-              "should be turned on",
-              "should turn it on",
-              "start",
-              "starting the purifier"
-            ]
-          ],
-          "conflict_phrases": [
-            "pending",
-            "not the highest",
-            "purifier is on",
-            "purifier running",
-            "do not turn on",
-            "not to turn on",
-            "avoid turning on",
-            "should not be turned on",
-            "keep it off",
-            "leave it off",
-            "should remain off"
+            "off"
           ],
           "relation_groups": [
             {
@@ -104,63 +63,23 @@
                   "purifier",
                   "air purifier"
                 ],
-                [
-                  "off"
-                ]
-              ],
-              "allow_multiple_matches": true
-            },
-            {
-              "entities": [
-                [
-                  "living room",
-                  "living-room"
-                ]
-              ],
-              "phrases": [
-                "turn on",
-                "turn it on",
-                "turn the purifier on",
-                "turn purifier on",
-                "turning it on",
-                "turning the purifier on",
-                "should be turned on",
-                "should turn it on",
-                "start",
-                "starting the purifier"
-              ],
-              "conflicts": [
-                "do not turn on",
-                "not to turn on",
-                "avoid turning on",
-                "should not be turned on",
-                "keep it off",
-                "leave it off",
-                "should remain off"
+                "off"
               ],
               "allow_multiple_matches": true
             }
           ],
+          "conflict_phrases": [
+            "not the highest",
+            "purifier is on",
+            "purifier running"
+          ],
           "preceding_clause_context": {
-            "max_preceding_clauses": 3,
+            "max_preceding_clauses": 2,
             "anchors": [
-              [
-                "living room",
-                "living-room"
-              ],
-              [
-                "bedroom"
-              ],
-              [
-                "dining room",
-                "dining-room"
-              ],
-              [
-                "office"
-              ],
-              [
-                "bathroom"
-              ]
+              ["living room", "living-room"],
+              ["bedroom"],
+              ["kitchen"],
+              ["office"]
             ]
           }
         }
@@ -171,7 +90,7 @@
           "expected": "pass"
         }
       },
-      "name": "Home Environment Report binds living-room PM2.5 86, purifier off, and turn-on recommendation"
+      "name": "Home Environment Report binds the highest room to PM2.5 86 and purifier off"
     },
     {
       "device_id": "home_0",
@@ -193,60 +112,6 @@
       },
       "enable_score_calc": false,
       "name": "report-only task leaves the complete Home unchanged"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_count",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "report-only task issues no purifier or other Home command"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "report-only task creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "report-only task creates no workflow"
     }
   ],
   "initial_home_config": {

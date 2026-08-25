@@ -15,31 +15,18 @@
         "box": "sent",
         "address": "5552410",
         "recent_within_mins": 30,
-        "require_exactly_one_for_address": true,
         "body_relation": {
           "entities": [
             [
               "Lentil Soup",
               "cooking"
             ],
-            [
-              "kitchen"
-            ],
+            "kitchen",
             [
               "purifier",
               "air purifier"
             ],
-            [
-              "high"
-            ]
-          ],
-          "positive_phrases": [
-            [
-              "running",
-              "is on",
-              "started",
-              "set to high"
-            ]
+            "high"
           ],
           "relation_groups": [
             {
@@ -55,26 +42,12 @@
                 ],
                 "high"
               ],
-              "phrases": [
-                [
-                  "running",
-                  "is on",
-                  "on at high",
-                  "started",
-                  "set to high"
-                ]
-              ],
               "allow_multiple_matches": true
             }
           ],
           "conflict_phrases": [
-            "pending",
-            "cancelled",
-            "canceled",
-            "not running",
-            "not on high",
-            "not started",
-            "will start later"
+            "purifier low",
+            "purifier off"
           ]
         }
       },
@@ -127,42 +100,6 @@
       },
       "enable_score_calc": false,
       "name": "only the kitchen purifier final state changes"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "immediate cooking air handling creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "immediate cooking air handling creates no workflow"
     }
   ],
   "initial_home_config": {

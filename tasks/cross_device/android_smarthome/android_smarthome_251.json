@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_251",
-  "instruction": "On this phone, a request in Simple SMS Messenger and the matching note in Android Contacts specify a bedroom setup, its reply destination, and the requested confirmation style. Make the Home changes, then reply in Simple SMS Messenger using that style with the completed light and curtain settings.",
+  "instruction": "Read the bedroom setup request in Simple SMS Messenger on the phone and the matching `Bedroom Updates` contact note in Contacts. Make the requested Home changes, then reply in Simple SMS Messenger using the confirmation style from the contact note.",
   "devices": [
     {
       "id": "android_0",
@@ -130,7 +130,6 @@
         "box": "sent",
         "address": "5552510",
         "recent_within_mins": 30,
-        "require_exactly_one_for_address": true,
         "body_relation": {
           "entities": [
             [
@@ -244,39 +243,30 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
+      "func": "smarthome.check_allowed_state_diff",
       "result": {
-        "type": "smarthome_schedules"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "count": 0,
-            "match": {}
+            "allowed_device_field_changes": {
+              "bedroom_dimmable_light_1": {
+                "brightness_pct": 20
+              },
+              "bedroom_curtain_1": {
+                "open_pct": 0,
+                "status": "closed"
+              }
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
           }
         }
       },
       "enable_score_calc": false,
-      "name": "immediate bedroom setup creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "immediate bedroom setup creates no workflow"
+      "name": "only the requested bedroom light and curtain fields change"
     }
   ],
   "limits": {
@@ -307,6 +297,16 @@
     "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_251/episode_config.json",
     "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_251/oracle_positive.json",
     "idea_number": 251,
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "template_defined+native_only",
+      "public_required_fields": [
+        "contact confirmation style",
+        "light",
+        "curtain"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

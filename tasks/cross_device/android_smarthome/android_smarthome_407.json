@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_407",
-  "instruction": "Simple Gallery Pro has an entry inspection photo, and the Files app's `gallery_manifest.csv` lists the checks to complete. Inspect the photo, query the corresponding live Home state, and create a Markor note named `Entry inspection audit`. In the note, identify the manifest photo and room, then record the requested door and shoe observations together with the live brightness reading and light state. Do not control any devices.",
+  "instruction": "Open the entry inspection photo in Simple Gallery Pro on the phone and `gallery_manifest.csv` in Downloads/home. Use the manifest to inspect the requested visual details, check the corresponding live Home state, and create a Markor note called `Entry inspection audit` with the photo, room, requested door and shoe observations, brightness reading, and light state. Do not control any Home devices.",
   "devices": [
     {
       "id": "android_0",
@@ -77,7 +77,7 @@
             "files": [
               {
                 "local_path": "${repo_root}/tasks/cross_device/android_smarthome_assets/android_smarthome_407/android/android_0/files/gallery_manifest.csv",
-                "path": "/storage/emulated/0/Download/gallery_manifest.csv"
+                "path": "/storage/emulated/0/Download/home/gallery_manifest.csv"
               }
             ]
           }
@@ -85,7 +85,7 @@
         {
           "type": "androidworld_files_directory_preflight",
           "parameters": {
-            "directory": "/storage/emulated/0/Download",
+            "directory": "/storage/emulated/0/Download/home",
             "expected_filenames": [
               "gallery_manifest.csv"
             ],
@@ -123,7 +123,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f /storage/emulated/0/Download/gallery_manifest.csv"
+            "command": "rm -f /storage/emulated/0/Download/home/gallery_manifest.csv"
           }
         },
         {
@@ -261,288 +261,25 @@
       "name": "audit note binds the photo, room, visual facts, and live Home readings"
     },
     {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Entry inspection audit.md",
-        "rules": {
-          "entities": [
-            "photo",
-            "entry_photo_407.png"
-          ],
-          "relation_groups": [
-            {
-              "entities": [
-                "photo",
-                "entry_photo_407.png"
-              ],
-              "allow_multiple_matches": true
-            }
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "pass"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Entry audit photo name equals entry_photo_407.png"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Entry inspection audit.md",
-        "rules": {
-          "entities": [
-            "room",
-            "entry"
-          ],
-          "relation_groups": [
-            {
-              "entities": [
-                "room",
-                "entry"
-              ],
-              "allow_multiple_matches": true
-            }
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "pass"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Entry audit room equals entry"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Entry inspection audit.md",
-        "rules": {
-          "entities": [
-            "door",
-            "closed"
-          ],
-          "conflict_phrases": [
-            "door open"
-          ],
-          "conflict_patterns": [
-            "\\b(?:entry\\s+)?door\\b\\s*(?:status\\s*[:=]\\s*)?(?:is\\s+)?open\\b"
-          ],
-          "relation_groups": [
-            {
-              "entities": [
-                "door"
-              ],
-              "phrases": [
-                "closed"
-              ],
-              "conflicts": [
-                "open"
-              ],
-              "allow_multiple_matches": true
-            }
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "pass"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Entry audit door status is closed"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Entry inspection audit.md",
-        "rules": {
-          "entities": [
-            "shoes",
-            [
-              "present",
-              "visible"
-            ]
-          ],
-          "conflict_phrases": [
-            "no shoes",
-            "shoes absent"
-          ],
-          "conflict_patterns": [
-            "\\b(?:no\\s+shoes|shoes\\b\\s*(?:status\\s*[:=]\\s*)?(?:(?:are\\s+)?(?:absent|missing)|(?:are\\s+)?not\\s+present))\\b"
-          ],
-          "relation_groups": [
-            {
-              "entities": [
-                "shoes"
-              ],
-              "phrases": [
-                "present",
-                "visible"
-              ],
-              "conflicts": [
-                "absent",
-                "none",
-                "no shoes"
-              ],
-              "allow_multiple_matches": true
-            }
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "pass"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Entry audit records shoes as present or visible"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Entry inspection audit.md",
-        "rules": {
-          "entities": [
-            "brightness",
-            [
-              "82 lux",
-              "82.0 lux"
-            ]
-          ],
-          "numeric_unit_relations": [
-            {
-              "anchor": "brightness",
-              "value": 82,
-              "units": [
-                "lux"
-              ],
-              "tolerance": 0
-            }
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "pass"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Entry audit brightness is exactly 82 lux with unit"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Entry inspection audit.md",
-        "rules": {
-          "entities": [
-            "light",
-            "off"
-          ],
-          "conflict_phrases": [
-            "light on"
-          ],
-          "conflict_patterns": [
-            "\\blight\\b\\s*(?:state\\s*[:=]\\s*)?(?:is\\s+)?on\\b"
-          ],
-          "relation_groups": [
-            {
-              "entities": [
-                "light"
-              ],
-              "phrases": [
-                "off"
-              ],
-              "conflicts": [
-                "light on"
-              ],
-              "allow_multiple_matches": true
-            }
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "pass"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Entry audit light state is off"
-    },
-    {
       "device_id": "home_0",
-      "func": "smarthome.check_command_history_count",
-      "enable_score_calc": false,
+      "func": "smarthome.check_no_home_mutation",
       "result": {
-        "type": "smarthome_device_history"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "name": "inspection issues no direct Home command"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_current_time": true,
+            "preserve_rooms": true
           }
         }
       },
       "enable_score_calc": false,
-      "name": "inspection creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "inspection creates no workflow"
+      "name": "inspection leaves Home devices and plans unchanged"
     }
   ],
   "limits": {
@@ -569,7 +306,7 @@
       "android_entity_relation_note"
     ],
     "setup_note": "Setup provides the inspection photo, the check manifest, a GUI text editor, and the task-specific SmartHome state.",
-    "evaluate_note": "Evaluation checks the visual and live-state findings in the Markor audit and proves that no Home command was issued.",
+    "evaluate_note": "Plan8 scores the public photo and live-state audit fields and complete Home preservation without requiring a particular action path.",
     "device_topology": "android_smarthome",
     "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_407",
     "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_407/episode_config.json",
@@ -580,6 +317,19 @@
       "decision": "direct",
       "rationale": "The real inspection photo now supplies two directly visible observations, while the manifest and native Home state supply the remaining audit facts."
     },
-    "lite_hardening_note": "Removed unscored Android source-state evaluators; retained output and SmartHome outcome checks."
+    "lite_hardening_note": "Removed unscored Android source-state evaluators; retained output and SmartHome outcome checks.",
+    "plan8_record_contract": {
+      "output_contract_type": "field_defined",
+      "public_required_fields": [
+        "photo",
+        "room",
+        "door",
+        "shoes",
+        "brightness",
+        "light state"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

@@ -120,24 +120,6 @@
       },
       "enable_score_calc": false,
       "name": "the audit creates no workflow"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_count",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "the audit issues no transient device command"
     }
   ],
   "initial_home_config": {

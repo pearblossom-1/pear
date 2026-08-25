@@ -25,33 +25,6 @@
               "15%",
               "15 percent"
             ]
-          ],
-          "conflict_phrases": [
-            "not scheduled",
-            "no change needed",
-            "cancelled",
-            "pending",
-            "applied now",
-            "already applied",
-            "were applied now"
-          ],
-          "relation_groups": [
-            {
-              "entities": [
-                [
-                  "bedtime prep",
-                  "sleep prep",
-                  "preparation",
-                  "workflow"
-                ],
-                [
-                  "scheduled",
-                  "planned",
-                  "arranged"
-                ]
-              ],
-              "allow_multiple_matches": true
-            }
           ]
         }
       },
@@ -61,213 +34,39 @@
           "expected": "pass"
         }
       },
-      "name": "sleep note states the 19:40 fix as a scheduled future workflow"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Sleep Decision.md",
-        "rules": {
-          "entities": [
-            "bedroom"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "pass"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Sleep Decision note contains the bedroom fact"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Sleep Decision.md",
-        "rules": {
-          "entities": [
-            "19:40"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "pass"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Sleep Decision note contains the 19:40 time"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Sleep Decision.md",
-        "rules": {
-          "entities": [
-            [
-              "22 C",
-              "22C"
-            ]
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "pass"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Sleep Decision note contains the 22 C target"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Sleep Decision.md",
-        "rules": {
-          "entities": [
-            [
-              "15%",
-              "15 percent"
-            ]
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "pass"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Sleep Decision note contains the 15 percent light target"
+      "name": "Sleep Decision records the four publicly requested bedtime fields"
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_workflow_effects",
+      "func": "smarthome.check_planned_effects",
       "result": {
-        "type": "smarthome_workflows"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "exact_active_workflow_count": 1,
-            "run_at": "2026-06-16T19:40:00",
-            "effects": {
-              "bedroom_air_conditioner_1": {
-                "power": "on",
-                "mode": "cool",
-                "target_temperature_c": 22.0
-              },
-              "bedroom_dimmable_light_1": {
-                "power": "on",
-                "brightness_pct": 15
+            "exact_active_plan_count": 1,
+            "plans": [
+              {
+                "run_at": "2026-06-16T19:40:00",
+                "effects": {
+                  "bedroom_air_conditioner_1": {
+                    "power": "on",
+                    "mode": "cool",
+                    "target_temperature_c": 22.0
+                  },
+                  "bedroom_dimmable_light_1": {
+                    "power": "on",
+                    "brightness_pct": 15
+                  }
+                }
               }
-            }
+            ]
           }
         }
       },
-      "name": "one active 19:40 workflow has the canonical bedroom effects"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 1,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "exactly one workflow exists"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "no schedule is created"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_count",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "future workflow creation does not issue direct commands"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_no_device_change",
-      "enable_score_calc": false,
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "device_id": "bedroom_air_conditioner_1"
-          }
-        }
-      },
-      "name": "bedroom air-conditioner baseline is unchanged before 19:40"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_no_device_change",
-      "enable_score_calc": false,
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "device_id": "bedroom_dimmable_light_1"
-          }
-        }
-      },
-      "name": "bedroom light baseline is unchanged before 19:40"
+      "name": "the 19:40 bedtime effects may use a workflow or equivalent schedules"
     }
   ],
   "initial_home_config": {

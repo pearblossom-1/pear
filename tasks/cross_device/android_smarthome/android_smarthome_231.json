@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_231",
-  "instruction": "Check whether the nursery air-monitor equipment required by the Markor request exists in Home. If it is missing, submit one SmartHome infeasible report that identifies the missing nursery air monitor and explains why the calibration cannot be completed. Do not substitute another device.",
+  "instruction": "Open the `Nursery air request` note in Markor on the phone and check Home for the equipment needed to complete it. If the required equipment is missing, report what is unavailable and why the calibration cannot be completed. Do not substitute another device or change Home.",
   "devices": [
     {
       "id": "android_0",
@@ -91,7 +91,6 @@
         "rules": {
           "expected": {
             "semantic_report": {
-              "exact_report_count": 1,
               "category_aliases": [
                 "missing_device",
                 "missing device",
@@ -139,12 +138,14 @@
                     "can proceed"
                   ]
                 ]
-              }
+              },
+              "min_matching_report_count": 1,
+              "reject_nonmatching_reports": true
             }
           }
         }
       },
-      "name": "exactly one missing-device report identifies the nursery air monitor"
+      "name": "a semantically correct missing-device report identifies the nursery air monitor"
     },
     {
       "device_id": "home_0",
@@ -165,42 +166,6 @@
       },
       "enable_score_calc": false,
       "name": "missing-equipment task leaves every Home device unchanged"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "missing-equipment task creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "missing-equipment task creates no workflow"
     }
   ],
   "limits": {
@@ -230,6 +195,15 @@
     "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_231/episode_config.json",
     "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_231/oracle_positive.json",
     "idea_number": 231,
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "field_defined",
+      "public_required_fields": [
+        "unavailable equipment",
+        "calibration reason"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

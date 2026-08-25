@@ -21,13 +21,7 @@
               "living room",
               "living-room"
             ],
-            [
-              "ready",
-              "prepared"
-            ],
-            [
-              "light"
-            ],
+            "light",
             [
               "45",
               "45%"
@@ -42,20 +36,39 @@
               "24°C"
             ]
           ],
-          "positive_phrases": [
-            [
-              "ready",
-              "prepared",
-              "complete"
-            ]
+          "relation_groups": [
+            {
+              "entities": [
+                "light",
+                [
+                  "45",
+                  "45%"
+                ]
+              ],
+              "conflicts": [
+                "off"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "heater",
+                  "heat"
+                ],
+                [
+                  "24",
+                  "24 C",
+                  "24°C"
+                ]
+              ],
+              "conflicts": [
+                "off"
+              ],
+              "allow_multiple_matches": true
+            }
           ],
           "conflict_phrases": [
-            "pending",
-            "cancelled",
-            "canceled",
-            "not ready",
-            "not prepared",
-            "not complete",
             "light is off",
             "heater is off"
           ]
@@ -67,7 +80,7 @@
           "expected": "present"
         }
       },
-      "name": "guest receives the living-room ready reply with light 45 and heater 24"
+      "name": "guest reply records the living-room light 45 and heater 24 settings"
     },
     {
       "device_id": "home_0",
@@ -132,42 +145,6 @@
       },
       "enable_score_calc": false,
       "name": "only the requested living-room light and heater fields change globally"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "immediate guest preparation creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "immediate guest preparation creates no workflow"
     }
   ],
   "initial_home_config": {

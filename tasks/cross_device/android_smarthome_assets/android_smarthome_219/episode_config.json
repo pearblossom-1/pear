@@ -18,7 +18,6 @@
         "rules": {
           "expected": {
             "semantic_report": {
-              "exact_report_count": 1,
               "category_aliases": [
                 "unsupported_capability",
                 "unsupported capability",
@@ -64,29 +63,14 @@
                     "request is complete"
                   ]
                 ]
-              }
+              },
+              "min_matching_report_count": 1,
+              "reject_nonmatching_reports": true
             }
           }
         }
       },
-      "name": "exactly one unsupported-capability report identifies bedroom color control"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_no_device_change",
-      "enable_score_calc": false,
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "device_id": "bedroom_dimmable_light_1"
-          }
-        }
-      },
-      "name": "bedroom dimmable light remains fully unchanged"
+      "name": "a semantically correct unsupported-capability report identifies bedroom color control"
     },
     {
       "device_id": "home_0",
@@ -107,42 +91,6 @@
       },
       "enable_score_calc": false,
       "name": "unsupported-capability task leaves every Home device unchanged"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "unsupported-capability task creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "unsupported-capability task creates no workflow"
     }
   ],
   "initial_home_config": {

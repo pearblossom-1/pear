@@ -46,26 +46,7 @@
               "canceled"
             ]
           ],
-          "positive_phrases": [
-            [
-              "scheduled",
-              "applied",
-              "active"
-            ]
-          ],
           "nearest_relations": [
-            {
-              "anchor": [
-                "FocusScene"
-              ],
-              "expected": [
-                "scheduled"
-              ],
-              "forbidden": [
-                "not scheduled"
-              ],
-              "max_distance": 10
-            },
             {
               "anchor": [
                 "FocusScene"
@@ -125,7 +106,6 @@
           ],
           "conflict_phrases": [
             "pending",
-            "not scheduled",
             "cleaning plan remains active",
             "not cancelled",
             "not canceled"
@@ -171,33 +151,7 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_workflow_effects",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "run_at": "2026-06-16T20:00:00",
-            "exact_active_workflow_count": 1,
-            "effects": {
-              "office_dimmable_light_1": {
-                "power": "on",
-                "brightness_pct": 30
-              },
-              "office_air_purifier_1": {
-                "level": "low"
-              }
-            }
-          }
-        }
-      },
-      "name": "the sole active 20:00 FocusScene workflow has canonical effects"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_multi_condition",
+      "func": "smarthome.check_planned_effects",
       "result": {
         "type": "smarthome_home_state"
       },
@@ -205,59 +159,25 @@
         "type": "rule",
         "rules": {
           "expected": {
-            "devices": {
-              "office_dimmable_light_1": {
-                "power": "on",
-                "brightness_pct": 70
-              },
-              "office_air_purifier_1": {
-                "power": "on",
-                "level": "high"
+            "exact_active_plan_count": 1,
+            "plans": [
+              {
+                "run_at": "2026-06-16T20:00:00",
+                "effects": {
+                  "office_dimmable_light_1": {
+                    "power": "on",
+                    "brightness_pct": 30
+                  },
+                  "office_air_purifier_1": {
+                    "level": "low"
+                  }
+                }
               }
-            }
+            ]
           }
         }
       },
-      "enable_score_calc": false,
-      "name": "future scene leaves current office devices at their 19:00 baseline"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 1,
-            "exact_active_count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "the complete schedule set remains exactly one cancelled record"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 1,
-            "exact_active_count": 1,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "the complete workflow set contains exactly one active record"
+      "name": "the active 20:00 FocusScene may use a workflow or equivalent schedules"
     }
   ],
   "initial_home_config": {

@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_807",
-  "instruction": "The battery policy in the Android Files app says the robot should return to dock now, and Markor says the safe pause schedule is unrelated and should be left alone. Please handle the robot and write `Vacuum battery action result` in Markor.",
+  "instruction": "Open `vacuum_battery_policy.txt` in Downloads/home on the phone and read the `Vacuum schedule note` in Markor. Check the live robot-vacuum state in Home, apply the two policies to the current situation, and create a Markor note called `Vacuum battery action result` with the battery condition, robot action, and what happened to the existing schedule.",
   "devices": [
     {
       "id": "android_0",
@@ -205,17 +205,7 @@
                   "safe pause schedule",
                   "safe_pause_schedule"
                 ],
-                [
-                  "active"
-                ]
-              ],
-              "phrases": [
-                [
-                  "remains",
-                  "remained",
-                  "kept",
-                  "left"
-                ]
+                "active"
               ],
               "allow_multiple_matches": true
             }
@@ -240,14 +230,6 @@
             "not active",
             "not docked",
             "did not return"
-          ],
-          "required_phrases": [
-            [
-              "remains",
-              "remained",
-              "kept",
-              "left"
-            ]
           ]
         }
       },
@@ -257,7 +239,7 @@
           "expected": "pass"
         }
       },
-      "name": "result note binds low battery to docking and preserves the active safe pause schedule"
+      "name": "result note binds battery 18 to docking and records safe_pause_schedule active"
     },
     {
       "device_id": "home_0",
@@ -279,89 +261,27 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
+      "func": "smarthome.check_allowed_state_diff",
       "result": {
-        "type": "smarthome_schedules"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "count": 1,
-            "exact_active_count": 1,
-            "match": {
-              "schedule_id": "safe_pause_schedule",
-              "run_at": "2026-06-16T21:00:00",
-              "device_id": "living_room_robot_vacuum_1",
-              "command": "pause",
-              "args": {},
-              "status": "active"
-            }
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "the sole safe_pause_schedule remains fully unchanged and active"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 1,
-            "exact_active_count": 1,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "the complete schedule set remains exactly one active record"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_whitelist",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "allowed_commands": [
-              {
-                "device_id": "living_room_robot_vacuum_1",
-                "command": "return_to_dock",
-                "args": {}
+            "allowed_device_field_changes": {
+              "living_room_robot_vacuum_1": {
+                "power": "off",
+                "status": "docked"
               }
-            ]
+            },
+            "preserve_schedules": true,
+            "preserve_workflows": true
           }
         }
       },
       "enable_score_calc": false,
-      "name": "direct commands are restricted to semantic return-to-dock retries"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "battery action creates no workflow"
+      "name": "only the robot docking state changes while plans remain intact"
     }
   ],
   "limits": {
@@ -401,6 +321,16 @@
       "decision": "direct",
       "rationale": "Supported low-battery dock action with unrelated safe pause schedule preserved."
     },
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "field_defined+native_only",
+      "public_required_fields": [
+        "battery",
+        "robot action",
+        "schedule outcome"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

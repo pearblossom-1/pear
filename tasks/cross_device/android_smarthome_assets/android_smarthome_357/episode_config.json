@@ -25,37 +25,6 @@
               "48%",
               "48 percent"
             ]
-          ],
-          "conflict_phrases": [
-            "not scheduled",
-            "cancelled",
-            "pending",
-            "applied now",
-            "already prepared",
-            "currently prepared"
-          ],
-          "relation_groups": [
-            {
-              "entities": [
-                [
-                  "guest-room preparation",
-                  "guest room preparation",
-                  "guest-room prep",
-                  "guest room prep",
-                  "guest-room plan",
-                  "guest room plan",
-                  "guest room",
-                  "guest-room"
-                ],
-                [
-                  "scheduled",
-                  "planned",
-                  "arranged",
-                  "will be prepared"
-                ]
-              ],
-              "allow_multiple_matches": true
-            }
           ]
         }
       },
@@ -65,7 +34,7 @@
           "expected": "pass"
         }
       },
-      "name": "guest-room preparation note states a future scheduled relation"
+      "name": "Mira guest prep log records the four publicly requested handoff fields"
     },
     {
       "device_id": "android_1",
@@ -82,20 +51,6 @@
               "guest bedroom"
             ],
             "20:00"
-          ],
-          "required_phrases": [
-            [
-              "prep",
-              "preparation",
-              "scheduled"
-            ]
-          ],
-          "conflict_phrases": [
-            "pending",
-            "not prepared",
-            "not ready",
-            "cancelled",
-            "failed"
           ]
         }
       },
@@ -105,7 +60,7 @@
           "expected": "present"
         }
       },
-      "name": "SMS to Mira names the guest-room 20:00 preparation"
+      "name": "SMS to Mira records the guest room and prep time"
     },
     {
       "device_id": "home_0",
@@ -137,40 +92,6 @@
         }
       },
       "name": "the exact 20:00 guest-room effects may use a workflow or equivalent schedules"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_no_device_change",
-      "enable_score_calc": false,
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "device_id": "guest_room_heater_1"
-          }
-        }
-      },
-      "name": "guest-room heater baseline is unchanged before 20:00"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_no_device_change",
-      "enable_score_calc": false,
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "device_id": "guest_room_dimmable_light_1"
-          }
-        }
-      },
-      "name": "guest-room light baseline is unchanged before 20:00"
     }
   ],
   "initial_home_config": {

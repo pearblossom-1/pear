@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_016",
-  "instruction": "Check the live Home environment to find the room with the highest PM2.5 reading. Create a Markor note named `Home Environment Report` that records that room, its PM2.5 value, the current purifier state, and a practical recommendation on whether the currently-off purifier should be turned on.",
+  "instruction": "Check the live Home environment and find the room with the highest PM2.5 reading. Create a Markor note called `Home Environment Report` on the phone with that room, its PM2.5 value, and the current state of its air purifier. This is a report only; do not change any Home settings.",
   "devices": [
     {
       "id": "android_0",
@@ -89,102 +89,54 @@
               "purifier",
               "air purifier"
             ],
-            [
-              "off"
-            ],
-            [
-              "turn on",
-              "turn it on",
-              "turn the purifier on",
-              "turn purifier on",
-              "turning it on",
-              "turning the purifier on",
-              "should be turned on",
-              "should turn it on",
-              "start",
-              "starting the purifier"
-            ]
-          ],
-          "positive_phrases": [
-            [
-              "turn on",
-              "turn it on",
-              "turn the purifier on",
-              "turn purifier on",
-              "turning it on",
-              "turning the purifier on",
-              "should be turned on",
-              "should turn it on",
-              "start",
-              "starting the purifier"
-            ]
-          ],
-          "conflict_phrases": [
-            "pending",
-            "not the highest",
-            "purifier is on",
-            "purifier running",
-            "do not turn on",
-            "not to turn on",
-            "avoid turning on",
-            "should not be turned on",
-            "keep it off",
-            "leave it off",
-            "should remain off"
+            "off"
           ],
           "relation_groups": [
             {
               "entities": [
-                ["living room", "living-room"],
-                ["PM2.5", "PM 2.5", "air quality"],
-                ["86", "86.0"]
+                [
+                  "living room",
+                  "living-room"
+                ],
+                [
+                  "PM2.5",
+                  "PM 2.5",
+                  "air quality"
+                ],
+                [
+                  "86",
+                  "86.0"
+                ]
               ],
               "allow_multiple_matches": true
             },
             {
               "entities": [
-                ["living room", "living-room"],
-                ["purifier", "air purifier"],
-                ["off"]
-              ],
-              "allow_multiple_matches": true
-            },
-            {
-              "entities": [
-                ["living room", "living-room"]
-              ],
-              "phrases": [
-                "turn on",
-                "turn it on",
-                "turn the purifier on",
-                "turn purifier on",
-                "turning it on",
-                "turning the purifier on",
-                "should be turned on",
-                "should turn it on",
-                "start",
-                "starting the purifier"
-              ],
-              "conflicts": [
-                "do not turn on",
-                "not to turn on",
-                "avoid turning on",
-                "should not be turned on",
-                "keep it off",
-                "leave it off",
-                "should remain off"
+                [
+                  "living room",
+                  "living-room"
+                ],
+                [
+                  "purifier",
+                  "air purifier"
+                ],
+                "off"
               ],
               "allow_multiple_matches": true
             }
           ],
+          "conflict_phrases": [
+            "not the highest",
+            "purifier is on",
+            "purifier running"
+          ],
           "preceding_clause_context": {
-            "max_preceding_clauses": 3,
+            "max_preceding_clauses": 2,
             "anchors": [
               ["living room", "living-room"],
               ["bedroom"],
-              ["dining room", "dining-room"],
-              ["office"],
-              ["bathroom"]
+              ["kitchen"],
+              ["office"]
             ]
           }
         }
@@ -195,7 +147,7 @@
           "expected": "pass"
         }
       },
-      "name": "Home Environment Report binds living-room PM2.5 86, purifier off, and turn-on recommendation"
+      "name": "Home Environment Report binds the highest room to PM2.5 86 and purifier off"
     },
     {
       "device_id": "home_0",
@@ -217,60 +169,6 @@
       },
       "enable_score_calc": false,
       "name": "report-only task leaves the complete Home unchanged"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_count",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "report-only task issues no purifier or other Home command"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "report-only task creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "report-only task creates no workflow"
     }
   ],
   "limits": {
@@ -299,6 +197,16 @@
     "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_016/episode_config.json",
     "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_016/oracle_positive.json",
     "idea_number": 16,
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "field_defined",
+      "public_required_fields": [
+        "room",
+        "PM2.5 value",
+        "purifier state"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

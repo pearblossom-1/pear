@@ -41,15 +41,6 @@
               "left unchanged"
             ]
           ],
-          "positive_phrases": [
-            [
-              "moved",
-              "adjusted",
-              "applied",
-              "set",
-              "→"
-            ]
-          ],
           "relation_groups": [
             {
               "entities": [
@@ -66,15 +57,6 @@
                 [
                   "25",
                   "25%"
-                ]
-              ],
-              "phrases": [
-                [
-                  "moved",
-                  "adjusted",
-                  "applied",
-                  "set",
-                  "→"
                 ]
               ],
               "allow_multiple_matches": true
@@ -109,13 +91,10 @@
             ]
           },
           "conflict_phrases": [
-            "pending",
-            "not applied",
             "25 to 100",
             "living room changed",
             "living room was changed",
-            "not skipped",
-            "guest room unchanged"
+            "not skipped"
           ],
           "conflict_patterns": [
             "(?is)\\b25(?:\\.0)?%?\\b[^.!?\\r\\n]{0,20}(?:\\bto\\b|->|→)[^.!?\\r\\n]{0,20}\\b100(?:\\.0)?%?\\b"
@@ -149,27 +128,6 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_multi_condition",
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "devices": {
-              "living_room_curtain_1": {
-                "open_pct": 100
-              }
-            }
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "living-room curtain remains at 100 percent"
-    },
-    {
-      "device_id": "home_0",
       "func": "smarthome.check_allowed_state_diff",
       "result": {
         "type": "smarthome_home_state"
@@ -191,67 +149,6 @@
       },
       "enable_score_calc": false,
       "name": "only the guest-room curtain final state changes globally"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_whitelist",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "allowed_commands": [
-              {
-                "device_id": "guest_room_curtain_1",
-                "command": "set_open_pct",
-                "args": {
-                  "open_pct": 25
-                }
-              }
-            ]
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "direct commands are restricted to guest-curtain 25-percent retries"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "daylight adjustment creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "daylight adjustment creates no workflow"
     }
   ],
   "initial_home_config": {

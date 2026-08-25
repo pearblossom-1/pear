@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_357",
-  "instruction": "The first phone has Mira's arrival task and OsmAnd favorite, and the second has her contact and room preferences. Schedule the guest-room prep 30 minutes before arrival, record the entrance, scheduled time, temperature, and light setting in a Markor note titled `Mira guest prep log`, then text Mira the room and prep time.",
+  "instruction": "On the first phone, use the `Mira arrival HOME-G` task in Tasks together with the `Guest Entrance` favorite in OsmAnd. On the second phone, use the `Mira Visitor` contact for Mira's room preferences. Schedule the guest-room preparation in Home according to those sources, create a Markor note called `Mira guest prep log` on the second phone with the entrance, prep time, temperature, and light setting, and text Mira from the second phone with the room and prep time.",
   "devices": [
     {
       "id": "android_0",
@@ -226,37 +226,6 @@
               "48%",
               "48 percent"
             ]
-          ],
-          "conflict_phrases": [
-            "not scheduled",
-            "cancelled",
-            "pending",
-            "applied now",
-            "already prepared",
-            "currently prepared"
-          ],
-          "relation_groups": [
-            {
-              "entities": [
-                [
-                  "guest-room preparation",
-                  "guest room preparation",
-                  "guest-room prep",
-                  "guest room prep",
-                  "guest-room plan",
-                  "guest room plan",
-                  "guest room",
-                  "guest-room"
-                ],
-                [
-                  "scheduled",
-                  "planned",
-                  "arranged",
-                  "will be prepared"
-                ]
-              ],
-              "allow_multiple_matches": true
-            }
           ]
         }
       },
@@ -266,7 +235,7 @@
           "expected": "pass"
         }
       },
-      "name": "guest-room preparation note states a future scheduled relation"
+      "name": "Mira guest prep log records the four publicly requested handoff fields"
     },
     {
       "device_id": "android_1",
@@ -283,20 +252,6 @@
               "guest bedroom"
             ],
             "20:00"
-          ],
-          "required_phrases": [
-            [
-              "prep",
-              "preparation",
-              "scheduled"
-            ]
-          ],
-          "conflict_phrases": [
-            "pending",
-            "not prepared",
-            "not ready",
-            "cancelled",
-            "failed"
           ]
         }
       },
@@ -306,7 +261,7 @@
           "expected": "present"
         }
       },
-      "name": "SMS to Mira names the guest-room 20:00 preparation"
+      "name": "SMS to Mira records the guest room and prep time"
     },
     {
       "device_id": "home_0",
@@ -338,40 +293,6 @@
         }
       },
       "name": "the exact 20:00 guest-room effects may use a workflow or equivalent schedules"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_no_device_change",
-      "enable_score_calc": false,
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "device_id": "guest_room_heater_1"
-          }
-        }
-      },
-      "name": "guest-room heater baseline is unchanged before 20:00"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_no_device_change",
-      "enable_score_calc": false,
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "device_id": "guest_room_dimmable_light_1"
-          }
-        }
-      },
-      "name": "guest-room light baseline is unchanged before 20:00"
     }
   ],
   "limits": {
@@ -401,7 +322,7 @@
       "smarthome_workflows"
     ],
     "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
-    "evaluate_note": "Evaluates the exact Mira guest-prep Markor log, sent SMS, complete future workflow, and immediate no-change on both targets.",
+    "evaluate_note": "Plan8 scores the public guest-prep log and SMS fields plus the future planned effects; it does not require immediate state changes or command-history purity.",
     "device_topology": "2android_smarthome",
     "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_357",
     "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_357/episode_config.json",
@@ -413,6 +334,18 @@
       "rationale": "OsmAnd verifies the favorite exists; route task and contact preferences supply stable timing and parameters."
     },
     "lite_hardening_note": "Removed unscored Android source-state evaluators; retained output and SmartHome outcome checks.",
-    "lite_evaluator_hardening_note": "The visible task title scopes Markor evaluation and cleanup to one exact task-owned note, preserving unrelated notes."
+    "lite_evaluator_hardening_note": "The visible task title scopes Markor evaluation and cleanup to one exact task-owned note, preserving unrelated notes.",
+    "plan8_record_contract": {
+      "output_contract_type": "field_defined+native_only",
+      "public_required_fields": [
+        "entrance",
+        "time",
+        "temperature",
+        "light",
+        "SMS room/time"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

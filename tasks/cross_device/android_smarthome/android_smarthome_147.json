@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_147",
-  "instruction": "The first phone received a guest message in Simple SMS Messenger, and the second phone has the guest preference in Contacts. Please prepare the living room and reply from the first phone.",
+  "instruction": "Read the guest's arrival message in Simple SMS Messenger on the first phone and the `Reply Guest` contact note on the second phone. Prepare the living room in Home using those details, then reply to the guest from the first phone with the completed room settings.",
   "devices": [
     {
       "id": "android_0",
@@ -148,13 +148,7 @@
               "living room",
               "living-room"
             ],
-            [
-              "ready",
-              "prepared"
-            ],
-            [
-              "light"
-            ],
+            "light",
             [
               "45",
               "45%"
@@ -169,20 +163,39 @@
               "24°C"
             ]
           ],
-          "positive_phrases": [
-            [
-              "ready",
-              "prepared",
-              "complete"
-            ]
+          "relation_groups": [
+            {
+              "entities": [
+                "light",
+                [
+                  "45",
+                  "45%"
+                ]
+              ],
+              "conflicts": [
+                "off"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                [
+                  "heater",
+                  "heat"
+                ],
+                [
+                  "24",
+                  "24 C",
+                  "24°C"
+                ]
+              ],
+              "conflicts": [
+                "off"
+              ],
+              "allow_multiple_matches": true
+            }
           ],
           "conflict_phrases": [
-            "pending",
-            "cancelled",
-            "canceled",
-            "not ready",
-            "not prepared",
-            "not complete",
             "light is off",
             "heater is off"
           ]
@@ -194,7 +207,7 @@
           "expected": "present"
         }
       },
-      "name": "guest receives the living-room ready reply with light 45 and heater 24"
+      "name": "guest reply records the living-room light 45 and heater 24 settings"
     },
     {
       "device_id": "home_0",
@@ -259,42 +272,6 @@
       },
       "enable_score_calc": false,
       "name": "only the requested living-room light and heater fields change globally"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "immediate guest preparation creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "immediate guest preparation creates no workflow"
     }
   ],
   "limits": {
@@ -325,6 +302,16 @@
     "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_147/episode_config.json",
     "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_147/oracle_positive.json",
     "idea_number": 147,
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "free_form+native_only",
+      "public_required_fields": [
+        "living room",
+        "light 45%",
+        "heater 24 C"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

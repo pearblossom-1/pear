@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_854",
-  "instruction": "`playlist_manifest.csv` in the Android Files app requires an exact Retro Music playlist. Check the requested name, do not substitute the available near-match, and create a Tasks item titled `Missing playlist result` that records the requested playlist and the fact that the exact playlist is missing and no routine was scheduled.",
+  "instruction": "Open `playlist_manifest.csv` in Downloads/home on the phone and check the exact requested playlist in Retro Music. Follow the manifest's no-substitution rule, then create an incomplete Tasks item titled `Playlist routine result` summarizing whether the exact playlist was available, whether a substitute was used, and whether any Home routine was scheduled.",
   "devices": [
     {
       "id": "android_0",
@@ -193,7 +193,7 @@
       "func": "exact_match",
       "result": {
         "type": "androidworld_task_status",
-        "title": "Missing playlist result",
+        "title": "Playlist routine result",
         "require_exactly_one": true,
         "notes_relation": {
           "entities": [
@@ -208,17 +208,38 @@
               "absent"
             ],
             [
+              "no substitute",
+              "no substitution",
+              "did not use a substitute",
+              "Evening Wind Down was not used"
+            ],
+            [
               "no routine was scheduled",
               "routine was not scheduled",
               "did not schedule a routine",
               "nothing was scheduled",
-              "left the routine unscheduled",
               "no schedule was created"
             ]
           ],
           "allowed_negative_capability_phrases": [
             "not found",
-            "could not be found"
+            "could not be found",
+            "no substitute",
+            "no substitution",
+            "did not use a substitute",
+            "Evening Wind Down was not used",
+            "no routine was scheduled",
+            "routine was not scheduled",
+            "did not schedule a routine",
+            "nothing was scheduled",
+            "no schedule was created"
+          ],
+          "allowed_conflict_phrases": [
+            "no routine was scheduled",
+            "routine was not scheduled",
+            "did not schedule a routine",
+            "nothing was scheduled",
+            "no schedule was created"
           ],
           "conflict_phrases": [
             "exact playlist is available",
@@ -228,7 +249,8 @@
             "routine was scheduled",
             "scheduled the routine"
           ]
-        }
+        },
+        "completed": false
       },
       "expected": {
         "type": "rule",
@@ -236,104 +258,7 @@
           "expected": "FOUND"
         }
       },
-      "name": "exactly one Tasks result records the missing exact playlist and no schedule"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_task_status",
-        "title": "Missing playlist result",
-        "require_exactly_one": true,
-        "notes_relation": {
-          "entities": [
-            "Evening Wind Down Kids"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "FOUND"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Tasks backend is healthy and the exact requested playlist name is present"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_task_status",
-        "title": "Missing playlist result",
-        "require_exactly_one": true,
-        "notes_relation": {
-          "entities": [
-            "Evening Wind Down Kids"
-          ],
-          "required_phrases": [
-            [
-              "missing",
-              "not found",
-              "could not be found",
-              "unavailable",
-              "absent"
-            ]
-          ],
-          "allowed_negative_capability_phrases": [
-            "not found",
-            "could not be found"
-          ],
-          "conflict_phrases": [
-            "exact playlist is available",
-            "exact playlist was found"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "FOUND"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Missing playlist result states that the exact playlist is unavailable"
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_task_status",
-        "title": "Missing playlist result",
-        "require_exactly_one": true,
-        "notes_relation": {
-          "entities": [
-            "Evening Wind Down Kids"
-          ],
-          "required_phrases": [
-            [
-              "no routine was scheduled",
-              "routine was not scheduled",
-              "did not schedule a routine",
-              "nothing was scheduled",
-              "left the routine unscheduled",
-              "no schedule was created"
-            ]
-          ],
-          "conflict_phrases": [
-            "routine was scheduled",
-            "scheduled the routine"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "FOUND"
-        }
-      },
-      "enable_score_calc": false,
-      "name": "Missing playlist result states that no routine was scheduled"
+      "name": "Playlist routine result records availability, substitution, and routine outcome"
     },
     {
       "device_id": "android_0",
@@ -388,41 +313,6 @@
         }
       },
       "name": "no SmartHome workflow is created"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_count",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "missing playlist handling issues no direct device commands"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_no_device_change",
-      "result": {
-        "type": "smarthome_home_state"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "device_id": "kids_room_dimmable_light_1"
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "kids-room light baseline is fully unchanged"
     }
   ],
   "limits": {
@@ -452,7 +342,7 @@
       "androidworld_task"
     ],
     "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
-    "evaluate_note": "Evaluation checks the visible Tasks record, requires zero Home schedules and workflows, and guards the kids-room light against change.",
+    "evaluate_note": "Plan8 scores the three public Tasks fields, the unchanged near-match playlist, and zero Home schedules and workflows.",
     "device_topology": "android_smarthome",
     "asset_dir": "tasks/cross_device/android_smarthome_assets/android_smarthome_854",
     "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_854/episode_config.json",
@@ -463,6 +353,16 @@
       "decision": "direct",
       "rationale": "Supported exact-missing-playlist no-op with a visible Retro decoy, a human-facing Tasks result, and no Home control."
     },
-    "lite_hardening_note": "Retained the human-facing Tasks result, added scored native absence checks for schedules and workflows, kept the no-change guard, and removed the redundant internal answer report."
+    "lite_hardening_note": "Retained the human-facing Tasks result and native playlist state, kept scored schedule/workflow absence, and removed duplicate text subchecks and unrelated state guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "field_defined+native_only",
+      "public_required_fields": [
+        "exact availability",
+        "substitution",
+        "routine scheduling"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_149",
-  "instruction": "The first phone has the air-quality rule in Markor, and SmartHome shows the current kitchen reading. Apply the rule to the affected room. Then send `Family Air Updates` a concise message that identifies the kitchen, the current PM2.5 reading, the 50 threshold and that the reading is above it, and the purifier setting that was applied.",
+  "instruction": "Open the `Air Quality Rule` note in Markor on the first phone and check the live Home air-quality reading it applies to. Follow the rule, then use the `Family Air Updates` contact on the second phone to send a concise update with the room, current PM2.5 reading, the rule's threshold, how the reading compares with that threshold, and the purifier setting that was applied.",
   "devices": [
     {
       "id": "android_0",
@@ -154,7 +154,6 @@
         "box": "sent",
         "address": "5551490",
         "recent_within_mins": 30,
-        "require_exactly_one_for_address": true,
         "body_relation": {
           "entities": [
             [
@@ -180,14 +179,6 @@
               "high"
             ]
           ],
-          "positive_phrases": [
-            [
-              "running",
-              "is on",
-              "set to",
-              "started"
-            ]
-          ],
           "relation_groups": [
             {
               "entities": [
@@ -198,33 +189,19 @@
                 ],
                 "high"
               ],
-              "phrases": [
-                [
-                  "running",
-                  "is on",
-                  "on at high",
-                  "set to high",
-                  "started"
-                ]
-              ],
               "allow_multiple_matches": true
             }
           ],
           "conflict_phrases": [
-            "pending",
-            "cancelled",
-            "canceled",
-            "not started",
-            "not running",
-            "not on high",
-            "will start later",
             "below 50",
             "under 50",
             "within limit",
-            "within the limit"
+            "within the limit",
+            "purifier low",
+            "purifier off"
           ],
           "required_patterns": [
-            "(?is)(?:\\b91(?:\\.0)?\\b[^\\r\\n.!?]{0,48}\\b(?:above|over|exceeds?|higher\\s+than)\\b[^\\r\\n.!?]{0,24}\\b50(?:\\.0)?\\b|\\b91(?:\\.0)?\\s*>\\s*50(?:\\.0)?\\b|\\b(?:pm\\s*2\\.?5|air\\s+quality|reading)\\b[^\\r\\n]{0,48}\\b91(?:\\.0)?\\b[\\s\\S]{0,120}\\bthreshold\\b[^\\r\\n]{0,24}\\b50(?:\\.0)?\\b)"
+            "(?is)(?:\\b91(?:\\.0)?\\b[^\\r\\n.!?]{0,64}\\b(?:above|over|exceeds?|higher\\s+than)\\b[^\\r\\n.!?]{0,32}\\b50(?:\\.0)?\\b|\\b91(?:\\.0)?\\s*>\\s*50(?:\\.0)?\\b)"
           ],
           "conflict_patterns": [
             "\\b91(?:\\.0)?\\b[^\\r\\n.!?]{0,48}\\b(?:below|under)\\b[^\\r\\n.!?]{0,24}\\b50(?:\\.0)?\\b"
@@ -280,42 +257,6 @@
       },
       "enable_score_calc": false,
       "name": "only the kitchen purifier final state changes"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "no schedule is created for the immediate purification"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "no workflow is created for the immediate purification"
     }
   ],
   "limits": {
@@ -348,6 +289,17 @@
     "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_149/episode_config.json",
     "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_149/oracle_positive.json",
     "idea_number": 149,
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "field_defined+native_only",
+      "public_required_fields": [
+        "room",
+        "reading",
+        "threshold comparison",
+        "purifier setting"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

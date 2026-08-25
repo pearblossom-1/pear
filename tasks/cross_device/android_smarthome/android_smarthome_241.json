@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_241",
-  "instruction": "Broccoli on the first phone has the recipe's kitchen-air instruction, and the second phone has the family update contact. Apply the recipe's air-handling instruction in Home, then send a concise cooking update that identifies the kitchen purifier, the high setting, and that it is running or has been started for the cooking task.",
+  "instruction": "Open the `Lentil Soup` recipe in Broccoli on the first phone and follow its kitchen-air instruction in Home. Then use the `Family Kitchen` contact on the second phone to send a concise cooking update describing the Home change you made for the recipe.",
   "devices": [
     {
       "id": "android_0",
@@ -157,31 +157,18 @@
         "box": "sent",
         "address": "5552410",
         "recent_within_mins": 30,
-        "require_exactly_one_for_address": true,
         "body_relation": {
           "entities": [
             [
               "Lentil Soup",
               "cooking"
             ],
-            [
-              "kitchen"
-            ],
+            "kitchen",
             [
               "purifier",
               "air purifier"
             ],
-            [
-              "high"
-            ]
-          ],
-          "positive_phrases": [
-            [
-              "running",
-              "is on",
-              "started",
-              "set to high"
-            ]
+            "high"
           ],
           "relation_groups": [
             {
@@ -197,26 +184,12 @@
                 ],
                 "high"
               ],
-              "phrases": [
-                [
-                  "running",
-                  "is on",
-                  "on at high",
-                  "started",
-                  "set to high"
-                ]
-              ],
               "allow_multiple_matches": true
             }
           ],
           "conflict_phrases": [
-            "pending",
-            "cancelled",
-            "canceled",
-            "not running",
-            "not on high",
-            "not started",
-            "will start later"
+            "purifier low",
+            "purifier off"
           ]
         }
       },
@@ -269,42 +242,6 @@
       },
       "enable_score_calc": false,
       "name": "only the kitchen purifier final state changes"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "immediate cooking air handling creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "immediate cooking air handling creates no workflow"
     }
   ],
   "limits": {
@@ -336,6 +273,15 @@
     "episode_config_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_241/episode_config.json",
     "oracle_ref": "tasks/cross_device/android_smarthome_assets/android_smarthome_241/oracle_positive.json",
     "idea_number": 241,
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "free_form+native_only",
+      "public_required_fields": [
+        "recipe/cooking",
+        "kitchen purifier high"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

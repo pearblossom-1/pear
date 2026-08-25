@@ -4,8 +4,8 @@
       {
         "type": "androidworld_task_add",
         "parameters": {
-          "title": "Missing playlist result",
-          "notes": "Evening Wind Down Kids was unavailable, so I left the routine unscheduled."
+          "title": "Playlist routine result",
+          "notes": "Evening Wind Down Kids is missing; no substitution was used; no routine was scheduled."
         }
       }
     ]

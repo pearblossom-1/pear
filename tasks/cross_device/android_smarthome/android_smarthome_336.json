@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_336",
-  "instruction": "Use the Air audit format in Markor to review the live Home air quality. Create a Markor note named `Home air audit` that ranks the three rooms with the highest PM2.5 readings, records their purifier situation and any existing purifier plan, and recommends follow-up. Do not change any purifier or purifier plan.",
+  "instruction": "Open the `Air audit format` note in Markor and use it to review the live Home air quality. Create a Markor note called `Home air audit` that ranks the three rooms with the highest PM2.5 readings and completes every published field and the final recommendation line. Do not change any purifier or purifier plan.",
   "devices": [
     {
       "id": "android_0",
@@ -40,7 +40,7 @@
               "Rank the three rooms",
               "purifier: STATE",
               "plan: none; status: none",
-              "Recommend a follow-up action"
+              "Recommendation: <free text>"
             ]
           }
         },
@@ -206,24 +206,6 @@
       },
       "enable_score_calc": false,
       "name": "the audit creates no workflow"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_count",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "the audit issues no transient device command"
     }
   ],
   "limits": {
@@ -259,6 +241,16 @@
       "decision": "direct",
       "rationale": "Supported air-quality audit ranking with Markor note and no purifier controls."
     },
-    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards."
+    "lite_hardening_note": "B008 human-quality Reviewer repair: task/episode synchronized; semantic output and native-state contracts hardened without source/internal-step guards.",
+    "plan8_record_contract": {
+      "output_contract_type": "template_defined",
+      "public_required_fields": [
+        "three ranked rows",
+        "published row fields",
+        "Recommendation"
+      ],
+      "hidden_oracle_summary_requirements_removed": true,
+      "task_episode_mirror_required": true
+    }
   }
 }

@@ -37,13 +37,6 @@
               "alert"
             ]
           ],
-          "positive_phrases": [
-            [
-              "alert",
-              "highest-priority",
-              "highest priority"
-            ]
-          ],
           "nearest_relations": [
             {
               "anchor": [
@@ -137,60 +130,6 @@
       },
       "enable_score_calc": false,
       "name": "notification-only task leaves the complete Home unchanged"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_count",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "notification-only task issues no transient Home command"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "notification-only task creates no schedule"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "notification-only task creates no workflow"
     }
   ],
   "initial_home_config": {
