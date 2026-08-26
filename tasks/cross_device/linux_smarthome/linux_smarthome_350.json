@@ -1,6 +1,6 @@
 {
   "id": "linux_smarthome_350",
-  "instruction": "Can you review `/tmp/maintenance/request.docx` and check whether the maintenance start can actually be scheduled from what's available? Save the decision to `/tmp/maintenance/result.json`.",
+  "instruction": "Review `/tmp/maintenance/request.docx` and check whether the maintenance start can actually be scheduled from the available information. Save the decision to `/tmp/maintenance/result.json` using the field names documented in the request. If the maintenance start cannot be established, do not change Home or create a Home plan.",
   "devices": [
     {
       "id": "linux_0",
@@ -73,32 +73,19 @@
   "evaluation": [
     {
       "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
+      "func": "smarthome.check_no_home_mutation",
       "result": {
-        "type": "smarthome_schedules"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      }
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
           }
         }
       }
@@ -157,6 +144,7 @@
     "capability_tags": [
       "information_transfer",
       "linux_interaction",
+      "negative_or_conflict_handling",
       "smarthome_reasoning",
       "structured_data_handling"
     ],

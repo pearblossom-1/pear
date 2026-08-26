@@ -1,6 +1,6 @@
 {
   "id": "android_only_270",
-  "instruction": "On the first phone, open the `Site Manager` contact. On the second phone, open the `Dock West` favorite in OsmAnd, then create a Markor note and save it as `Dock West handoff.md` with the contact name and number plus the favorite name and coordinates.",
+  "instruction": "On the first phone, open the `Ethan Miller` contact. On the second phone, open the `Dock West` favorite in OsmAnd, then create a Markor note and save it as `Dock West handoff.md` with the contact name and number plus the favorite name and coordinates.",
   "devices": [
     {
       "id": "android_0",
@@ -29,24 +29,24 @@
         {
           "type": "androidworld_contact_add",
           "parameters": {
-            "name": "Site Manager",
-            "number": "5550270",
-            "notes": "Manager for Dock West handoff."
+            "name": "Ethan Miller",
+            "number": "5556834",
+            "notes": "Site manager for the Dock West handoff."
           }
         },
         {
           "type": "androidworld_contact_preflight",
           "parameters": {
             "contact": {
-              "name": "Site Manager",
-              "number": "5550270",
-              "notes_exact": "Manager for Dock West handoff.",
+              "name": "Ethan Miller",
+              "number": "5556834",
+              "notes_exact": "Site manager for the Dock West handoff.",
               "require_exactly_one": true
             },
             "required_visible_text": [
-              "Site Manager",
-              "5550270",
-              "Manager for Dock West handoff."
+              "Ethan Miller",
+              "5556834",
+              "Site manager for the Dock West handoff."
             ]
           }
         }
@@ -97,7 +97,13 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/Dock West handoff.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Dock West handoff.md' '/storage/emulated/0/Documents/Markor/Markor/Dock West handoff.md'"
+          }
+        },
+        {
+          "type": "androidworld_markor_root_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor"
           }
         }
       ]
@@ -125,7 +131,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/Dock West handoff.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Dock West handoff.md' '/storage/emulated/0/Documents/Markor/Markor/Dock West handoff.md'"
           }
         }
       ]
@@ -133,7 +139,7 @@
   ],
   "evaluation": [
     {
-      "name": "Bind Site Manager to the number and Dock West to its numeric coordinates",
+      "name": "Bind Ethan Miller to the number and Dock West to its numeric coordinates",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
@@ -141,8 +147,8 @@
         "path": "/storage/emulated/0/Documents/Markor/Dock West handoff.md",
         "rules": {
           "entities": [
-            "Site Manager",
-            "5550270",
+            "Ethan Miller",
+            "5556834",
             "Dock West"
           ],
           "allowed_negative_capability_phrases": [
@@ -152,10 +158,10 @@
           "nearest_relations": [
             {
               "anchor": [
-                "Site Manager"
+                "Ethan Miller"
               ],
               "expected": [
-                "5550270"
+                "5556834"
               ],
               "forbidden": [],
               "max_distance": 12
@@ -171,7 +177,7 @@
             }
           ],
           "conflict_patterns": [
-            "\\bSite\\s+Manager\\b[^.;\\n]{0,48}\\b(?!5550270\\b)\\d{7}\\b"
+            "\\bSite\\s+Manager\\b[^.;\\n]{0,48}\\b(?!5556834\\b)\\d{7}\\b"
           ]
         }
       },
@@ -183,18 +189,18 @@
       }
     },
     {
-      "name": "Preserve every Site Manager contact business field",
+      "name": "Preserve every Ethan Miller contact business field",
       "device_id": "android_0",
       "func": "exact_match",
       "result": {
         "type": "androidworld_contact",
-        "name": "Site Manager",
-        "number": "5550270",
+        "name": "Ethan Miller",
+        "number": "5556834",
         "numbers_exact": [
-          "5550270"
+          "5556834"
         ],
         "emails_exact": [],
-        "notes_exact": "Manager for Dock West handoff.",
+        "notes_exact": "Site manager for the Dock West handoff.",
         "require_exactly_one": true,
         "require_unique_name": true
       },
@@ -207,7 +213,7 @@
       "enable_score_calc": false
     },
     {
-      "name": "Keep the first phone's Contacts collection to exactly Site Manager",
+      "name": "Keep the first phone's Contacts collection to exactly Ethan Miller",
       "device_id": "android_0",
       "func": "exact_match",
       "result": {

@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_422",
-  "instruction": "I need the study quiet before the client call. Use the `Client Call` alarm on the first phone as the start time, confirm its room in `/tmp/home_ops/room-updates/source/clock_rule.csv`, and use the pause note on the second phone to schedule the study robot vacuum to pause at the alarm's next occurrence. Update and complete the existing `Client Call follow-up` task. In its note, record the 08:10 scheduled time, the study robot vacuum pause, and that the pause has been scheduled. Do not create another task.",
+  "instruction": "I need the study quiet before the client call. Use the `Client Call` alarm on the first phone as the start time, confirm its room in `/tmp/home_ops/room-updates/source/clock_rule.csv`, and open `client_call_pause.txt` in Downloads on the second phone to schedule the study robot vacuum to pause at the alarm's next occurrence. Update and complete the existing `Client Call follow-up` task. In its note, record the 08:10 scheduled time, the study robot vacuum pause, and that the pause has been scheduled. Do not create another task.",
   "devices": [
     {
       "id": "linux_0",
@@ -102,8 +102,8 @@
           "parameters": {
             "files": [
               {
-                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_422/android/android_1/clock_422.txt",
-                "path": "/storage/emulated/0/Download/clock_422.txt"
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_422/android/android_1/client_call_pause.txt",
+                "path": "/storage/emulated/0/Download/client_call_pause.txt"
               }
             ]
           }
@@ -113,9 +113,9 @@
           "parameters": {
             "directory": "/storage/emulated/0/Download",
             "expected_filenames": [
-              "clock_422.txt"
+              "client_call_pause.txt"
             ],
-            "open_filename": "clock_422.txt",
+            "open_filename": "client_call_pause.txt",
             "required_visible_text": [
               "Pause the study robot vacuum",
               "Client Call alarm"
@@ -205,7 +205,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f /storage/emulated/0/Download/clock_422.txt"
+            "command": "rm -f /storage/emulated/0/Download/client_call_pause.txt"
           }
         },
         {
@@ -277,25 +277,30 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
+      "func": "smarthome.check_planned_effects",
       "result": {
-        "type": "smarthome_schedules"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "count": 1,
-            "exact_active_count": 1,
-            "match": {
-              "run_at": "2026-06-17T08:10:00",
-              "device_id": "study_robot_vacuum_1",
-              "command": "pause",
-              "args": {},
-              "status": "active"
-            }
+            "plans": [
+              {
+                "run_at": "2026-06-17T08:10:00",
+                "effects": {
+                  "study_robot_vacuum_1": {
+                    "power": "on",
+                    "status": "paused"
+                  }
+                }
+              }
+            ]
           }
         }
+      },
+      "metadata": {
+        "role": "requested_business_effects"
       }
     }
   ],

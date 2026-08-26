@@ -75,6 +75,22 @@
       "name": "a semantically correct missing-device report identifies the kitchen aroma diffuser"
     },
     {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_box_count",
+        "box": "sent",
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "name": "the phone sends no SMS reply"
+    },
+    {
       "device_id": "home_0",
       "func": "smarthome.check_no_home_mutation",
       "result": {
@@ -91,7 +107,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "missing-aroma task leaves every Home device unchanged"
     }
   ],

@@ -223,13 +223,12 @@
             ]
           },
           "conflict_phrases": [
-            "pending",
-            "cancelled",
-            "canceled",
-            "inactive",
-            "not active",
             "not docked",
             "did not return"
+          ],
+          "allowed_reversal_terms": [
+            "not cancelled",
+            "not canceled"
           ]
         }
       },
@@ -261,6 +260,31 @@
     },
     {
       "device_id": "home_0",
+      "func": "smarthome.check_schedule_count",
+      "result": {
+        "type": "smarthome_schedules"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": {
+            "count": 1,
+            "exact_active_count": 1,
+            "match": {
+              "schedule_id": "safe_pause_schedule",
+              "run_at": "2026-06-16T21:00:00",
+              "device_id": "living_room_robot_vacuum_1",
+              "command": "pause",
+              "args": {},
+              "status": "active"
+            }
+          }
+        }
+      },
+      "name": "safe_pause_schedule remains the sole active schedule with its full record preserved"
+    },
+    {
+      "device_id": "home_0",
       "func": "smarthome.check_allowed_state_diff",
       "result": {
         "type": "smarthome_home_state"
@@ -275,13 +299,11 @@
                 "status": "docked"
               }
             },
-            "preserve_schedules": true,
             "preserve_workflows": true
           }
         }
       },
-      "enable_score_calc": false,
-      "name": "only the robot docking state changes while plans remain intact"
+      "name": "only the robot docking fields change while workflows remain intact"
     }
   ],
   "limits": {
@@ -307,7 +329,8 @@
     "readiness": "static_reviewed",
     "native_content_outputs": [
       "adb_shell",
-      "smarthome_device_state"
+      "smarthome_device_state",
+      "smarthome_schedules"
     ],
     "setup_note": "Android app state and SmartHome reset are generated from the task spec and task asset directory.",
     "evaluate_note": "Evaluation checks only requested native Android outputs and SmartHome outcome or explicit keep-state constraints; current-hash real smoke remains Core-owned.",

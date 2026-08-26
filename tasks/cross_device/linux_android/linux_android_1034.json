@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1034",
-  "instruction": "The field team needs a route decision for the current approved request. Reconcile `/sdcard/Download/1034-A_source.md` with `/tmp/sites/missing_coordinate.csv` and `/tmp/sites/handoff_policy.md`. Because the selected site has no coordinates, preserve OsmAnd and its existing reference favorite. Leave a blocked note at `/storage/emulated/0/Documents/Markor/1034-A_blocked.md` and a dispatcher handoff at `/tmp/sites/1034-A_handoff.txt` on the second Linux desktop; both should identify the case and approval code, owner, site, and missing-coordinate reason.",
+  "instruction": "The field team needs a route decision for the current approved request. Open `1034-A_source.md` in Downloads on the first phone and compare it with `/tmp/sites/site_registry.csv` and `/tmp/sites/handoff_policy.md` on the first Linux machine. Follow the policy using the selected site record. On the second phone, leave the existing OsmAnd favorites unchanged unless that record authorizes a new favorite, and create a Markor note called `1034-A route status`. On the second Linux machine, write `/tmp/sites/1034-A_handoff.txt`. Both handoffs should identify the case, approval code, owner, selected site, route decision, and reason.",
   "devices": [
     {
       "id": "android_0",
@@ -67,18 +67,6 @@
           }
         },
         {
-          "type": "androidworld_osmand_favorites_preflight",
-          "parameters": {
-            "favorites": [
-              {
-                "name": "Reference Depot",
-                "latitude": "37.7000",
-                "longitude": "-122.3000"
-              }
-            ]
-          }
-        },
-        {
           "type": "ensure_app",
           "parameters": {
             "app": "markor"
@@ -87,7 +75,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/1034-A_blocked.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/1034-A route status.md'"
           }
         }
       ]
@@ -98,7 +86,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "mkdir -p /tmp/sites && rm -f /tmp/sites/missing_coordinate.csv /tmp/sites/handoff_policy.md",
+            "command": "mkdir -p /tmp/sites && rm -f /tmp/sites/site_registry.csv /tmp/sites/handoff_policy.md",
             "shell": true
           }
         },
@@ -107,8 +95,8 @@
           "parameters": {
             "files": [
               {
-                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1034/source/missing_coordinate.csv",
-                "path": "/tmp/sites/missing_coordinate.csv"
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1034/source/site_registry.csv",
+                "path": "/tmp/sites/site_registry.csv"
               },
               {
                 "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1034/source/handoff_policy.md",
@@ -150,7 +138,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx' '/storage/emulated/0/Android/data/net.osmand/files/favourites_bak.gpx' '/storage/emulated/0/Documents/Markor/1034-A_blocked.md'"
+            "command": "rm -f '/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx' '/storage/emulated/0/Android/data/net.osmand/files/favourites_bak.gpx' '/storage/emulated/0/Documents/Markor/1034-A route status.md'"
           }
         }
       ]
@@ -161,7 +149,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "rm -f /tmp/sites/missing_coordinate.csv /tmp/sites/handoff_policy.md; rmdir /tmp/sites 2>/dev/null || true",
+            "command": "rm -f /tmp/sites/site_registry.csv /tmp/sites/handoff_policy.md; rmdir /tmp/sites 2>/dev/null || true",
             "shell": true
           }
         }
@@ -207,7 +195,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/1034-A_blocked.md",
+        "path": "/storage/emulated/0/Documents/Markor/1034-A route status.md",
         "rules": {
           "entities": [
             "1034-A",
@@ -342,7 +330,7 @@
     "oracle_ref": "tasks/cross_device/linux_android_assets/linux_android_1034/oracle_positive.json",
     "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_1034/scripted_solution.json",
     "linux_source_paths": [
-      "/tmp/sites/missing_coordinate.csv",
+      "/tmp/sites/site_registry.csv",
       "/tmp/sites/handoff_policy.md"
     ],
     "linux_output_paths": [

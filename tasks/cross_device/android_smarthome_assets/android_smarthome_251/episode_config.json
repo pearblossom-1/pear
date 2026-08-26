@@ -13,7 +13,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5552510",
+        "address": "5556284",
         "recent_within_mins": 30,
         "body_relation": {
           "entities": [
@@ -74,11 +74,6 @@
             }
           ],
           "conflict_phrases": [
-            "pending",
-            "cancelled",
-            "canceled",
-            "not applied",
-            "not complete",
             "not closed"
           ]
         }
@@ -150,7 +145,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "only the requested bedroom light and curtain fields change"
     }
   ],

@@ -1,6 +1,6 @@
 {
   "id": "linux_smarthome_370",
-  "instruction": "Grade the SmartHome air quality using the thresholds in `/tmp/air/thresholds.pdf` and save the worst readings to `/tmp/air/worst.json`.",
+  "instruction": "Grade the SmartHome air quality using the thresholds in `/tmp/air/thresholds.pdf`. Save the worst room, its PM2.5 reading, and its grade to `/tmp/air/worst.json` using the fields `room`, `pm25`, and `grade`. This is an audit; do not change Home.",
   "devices": [
     {
       "id": "linux_0",
@@ -127,7 +127,6 @@
     {
       "device_id": "home_0",
       "func": "smarthome.check_no_home_mutation",
-      "enable_score_calc": false,
       "result": {
         "type": "smarthome_home_state"
       },

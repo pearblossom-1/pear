@@ -40,7 +40,7 @@
               [
                 "Stop 08",
                 "9 South Yard",
-                "Inactive Rex",
+                "Rex Morgan",
                 "blocked_contact"
               ]
             ],
@@ -101,7 +101,7 @@
       "expected": {
         "type": "rule",
         "rules": {
-          "expected": "99404bd6f05fc01f1ef44eedeb9fdea6e15b83dfd46fa33f245d590403cf2338"
+          "expected": "39bf6e54918f7e23eb80bec8da32286ce0e1b10af1ce5e3b202f13731ae4b96a"
         }
       },
       "enable_score_calc": false

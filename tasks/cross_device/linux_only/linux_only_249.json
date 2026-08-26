@@ -1,6 +1,6 @@
 {
   "id": "linux_only_249",
-  "instruction": "The Python approval-code validator on the second Linux machine needs fixing. Use `bug_notes.md` on the first machine, update `/tmp/form/app/validator.py` on the second, then run the supplied `/tmp/form/app/validator_tests.py` there and save its console output as `/tmp/form/app/test_output.txt`.",
+  "instruction": "The Python approval-code validator on the second Linux machine needs fixing. Use `/tmp/form/bug_notes.md` on the first Linux machine, update `/tmp/form/app/validator.py` on the second Linux machine, then run the supplied `/tmp/form/app/validator_tests.py` there and save its console output as `/tmp/form/app/test_output.txt`.",
   "devices": [
     {
       "id": "linux_0",
@@ -32,6 +32,13 @@
                 "path": "/tmp/form/bug_notes.md"
               }
             ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/form/bug_notes.md",
+            "shell": true
           }
         }
       ]
@@ -73,6 +80,13 @@
                 "path": "/tmp/form/app/validator_tests.py"
               }
             ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -w /tmp/form/app/validator.py && test -r /tmp/form/app/validator_tests.py && test -w /tmp/form/app",
+            "shell": true
           }
         },
         {

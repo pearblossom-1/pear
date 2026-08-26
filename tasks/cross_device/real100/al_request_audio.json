@@ -185,6 +185,6 @@
       "file naming and public export",
       "media handling"
     ],
-    "lite_evaluator_hardening_note": "The evaluator rejects non-audio text or fake archives renamed .m4a and requires a decodable positive-duration recording at the disclosed public Recordings path. The oracle synthesizes and uploads a valid AAC/M4A artifact. Existing Audio Recorder media and the public Recordings tree are isolated and restored rather than broadly deleted."
+    "lite_evaluator_hardening_note": "The evaluator rejects non-audio text or fake archives renamed .m4a and requires a decodable positive-duration recording at the disclosed public Recordings location. The oracle synthesizes and uploads a valid AAC/M4A artifact. Existing Audio Recorder media and the public Recordings tree are isolated and restored rather than broadly deleted."
   }
 }

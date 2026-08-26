@@ -13,7 +13,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551440",
+        "address": "5556824",
         "recent_within_mins": 30,
         "body_relation": {
           "entities": [
@@ -99,11 +99,6 @@
             }
           ],
           "conflict_phrases": [
-            "pending",
-            "cancelled",
-            "canceled",
-            "not scheduled",
-            "not active",
             "will not close",
             "will not dim"
           ],

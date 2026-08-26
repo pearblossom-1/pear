@@ -183,10 +183,15 @@
                 ]
               ],
               "conflicts": [
-                "removed",
-                "disabled",
-                "replaced",
-                "instead of"
+                "was removed",
+                "is removed",
+                "has been removed",
+                "was disabled",
+                "is disabled",
+                "has been disabled",
+                "is no longer enabled",
+                "was replaced",
+                "is replaced"
               ]
             },
             {
@@ -210,11 +215,16 @@
                 ]
               ],
               "conflicts": [
-                "removed",
-                "disabled",
-                "replaced",
-                "replaces",
-                "instead of"
+                "was removed",
+                "is removed",
+                "has been removed",
+                "was disabled",
+                "is disabled",
+                "has been disabled",
+                "is no longer enabled",
+                "replaced the 07:50 preparation fallback",
+                "replaced Depot preparation",
+                "replaces Depot preparation"
               ]
             }
           ],
@@ -297,11 +307,11 @@
           "Depot departure",
           "08:20"
         ],
-        "relation_notes": "Accepts prose, multiline key/value, and table forms when each alarm record has its own label, time, and role and the retained preparation record precedes the actual departure record. Reversed times, reversed order, or removal/replacement claims fail."
+        "relation_notes": "Accepts prose, multiline key/value, and table forms when each alarm record has its own label, time, and role and the retained preparation record precedes the actual departure record. Reversed times, reversed order, or entity-bound removal/disable/replacement claims fail; comparative wording such as `instead of replacing` is allowed."
       }
     ],
     "browser_state_outputs": [],
     "thunderbird_draft_outputs": [],
-    "lite_evaluator_hardening_note": "The additive outcome avoids unsupported absence/count claims: both enabled alarms are checked by reliable positive presence. The note scorer uses ordered semantic record regions instead of replacement semantics, same-clause binding, token-distance limits, or a global time whitelist; harmless Calendar context such as the 09:20 event end is allowed while reversed or removal/replacement claims fail."
+    "lite_evaluator_hardening_note": "The additive outcome avoids unsupported absence/count claims: both enabled alarms are checked by reliable positive presence. The note scorer uses ordered semantic record regions instead of replacement semantics, same-clause binding, token-distance limits, or a global time whitelist; harmless comparative wording is allowed while reversed or entity-bound removal/disable/replacement claims fail."
   }
 }

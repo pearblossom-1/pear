@@ -148,7 +148,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "only the approved study light final state changes globally"
     }
   ],

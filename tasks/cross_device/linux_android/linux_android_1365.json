@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1365",
-  "instruction": "Before sending the review text, make sure the contact has the exact reviewer role required by `/tmp/review/reviewer_roles.csv`. If Contacts only has the similar role, do not send anything. On the second phone, leave `/storage/emulated/0/Documents/Markor/Reviewer blocked REV-1365.md` explaining which role was required, which role was available, and why the review is blocked.",
+  "instruction": "Before sending the review text, make sure the contact has the exact reviewer role required by `/tmp/review/reviewer_roles.csv`. If Contacts only has the similar role, do not send anything. On the second phone, create a Markor note called `Reviewer status REV-1365` with the required role, available role, and why the review cannot proceed.",
   "devices": [
     {
       "id": "linux_0",
@@ -62,8 +62,8 @@
         {
           "type": "androidworld_contact_add",
           "parameters": {
-            "name": "Rina Role",
-            "number": "5551201365",
+            "name": "Rina Patel",
+            "number": "5558254",
             "notes": "role safety_observer email rina@example.test"
           }
         },
@@ -97,7 +97,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/Reviewer blocked REV-1365.md'; test ! -e '/storage/emulated/0/Documents/Markor/Reviewer blocked REV-1365.md'",
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Reviewer status REV-1365.md'; test ! -e '/storage/emulated/0/Documents/Markor/Reviewer status REV-1365.md'",
             "check_exit_status": true
           }
         },
@@ -144,7 +144,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/Reviewer blocked REV-1365.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Reviewer status REV-1365.md'"
           }
         },
         {
@@ -160,7 +160,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Reviewer blocked REV-1365.md",
+        "path": "/storage/emulated/0/Documents/Markor/Reviewer status REV-1365.md",
         "rules": {
           "entities": ["REV-1365", "safety_reviewer", "safety_observer"],
           "required_phrases": [
@@ -187,7 +187,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201365",
+        "address": "5558254",
         "any_body": true,
         "exact_count": 0
       },

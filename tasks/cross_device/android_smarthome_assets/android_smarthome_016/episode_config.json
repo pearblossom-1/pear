@@ -76,10 +76,19 @@
           "preceding_clause_context": {
             "max_preceding_clauses": 2,
             "anchors": [
-              ["living room", "living-room"],
-              ["bedroom"],
-              ["kitchen"],
-              ["office"]
+              [
+                "living room",
+                "living-room"
+              ],
+              [
+                "bedroom"
+              ],
+              [
+                "kitchen"
+              ],
+              [
+                "office"
+              ]
             ]
           }
         }
@@ -110,7 +119,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "report-only task leaves the complete Home unchanged"
     }
   ],

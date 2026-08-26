@@ -14,7 +14,7 @@
             "favorite_lon": -122.3493
           }
         ],
-        "coordinate_tolerance": 5e-05
+        "coordinate_tolerance": 0.00005
       },
       "expected": {
         "type": "rule",
@@ -45,7 +45,11 @@
             "old",
             "previous",
             "current",
-            "new"
+            "new",
+            [
+              "→",
+              "->"
+            ]
           ],
           "numeric_coordinate_relations": [
             {
@@ -56,7 +60,7 @@
               ],
               "latitude": 47.61,
               "longitude": -122.33,
-              "tolerance": 5e-06,
+              "tolerance": 0.000005,
               "max_anchor_gap_chars": 180,
               "include_historical": true
             },
@@ -70,7 +74,7 @@
               ],
               "latitude": 47.6205,
               "longitude": -122.3493,
-              "tolerance": 5e-06,
+              "tolerance": 0.000005,
               "max_anchor_gap_chars": 180
             }
           ],
@@ -82,6 +86,10 @@
             "proposed",
             "suggested",
             "uncertain"
+          ],
+          "numeric_coordinate_transition_symbols": [
+            "→",
+            "->"
           ]
         }
       },

@@ -26,48 +26,33 @@
               "heating"
             ],
             [
-              "22",
-              "22.0",
-              "twenty-two",
-              "twenty two"
+              "22 C",
+              "22C",
+              "22 degrees",
+              "22"
             ]
-          ],
-          "conflict_phrases": [
-            "off",
-            "failed",
-            "could not",
-            "cannot",
-            "not set",
-            "unavailable",
-            "21",
-            "23",
-            "cooling",
-            "room has reached 22",
-            "room warmed to 22",
-            "actual room temperature is 22"
-          ],
-          "allowed_conflict_phrases": [
-            "has not reached 22",
-            "has not yet reached 22",
-            "has not warmed to 22"
-          ],
-          "allowed_negative_capability_phrases": [
-            "has not reached 22",
-            "has not yet reached 22",
-            "has not warmed to 22"
           ],
           "required_phrases": [
             [
+              "heater is on",
+              "heater's on",
               "is on",
               "turned on",
-              "set to",
-              "now set",
-              "target is",
-              "target temperature",
-              "heating at",
-              "target for"
+              "switched on"
+            ],
+            [
+              "target of 22",
+              "target is 22",
+              "target: 22",
+              "target 22",
+              "22 C target",
+              "22C target",
+              "set to 22"
             ]
-          ]
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
         },
         "recent_within_mins": 30,
         "box": "sent"

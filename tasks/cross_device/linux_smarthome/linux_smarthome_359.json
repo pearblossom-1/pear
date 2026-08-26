@@ -175,7 +175,6 @@
     {
       "device_id": "home_0",
       "func": "smarthome.check_no_device_change",
-      "enable_score_calc": false,
       "result": {
         "type": "smarthome_home_state"
       },
@@ -191,7 +190,6 @@
     {
       "device_id": "home_0",
       "func": "smarthome.check_no_device_change",
-      "enable_score_calc": false,
       "result": {
         "type": "smarthome_home_state"
       },

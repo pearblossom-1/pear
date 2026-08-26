@@ -5,7 +5,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/1080-A_blocked.md",
+        "path": "/storage/emulated/0/Documents/Markor/1080-A contact status.md",
         "rules": {
           "entities": [
             "1080-A",

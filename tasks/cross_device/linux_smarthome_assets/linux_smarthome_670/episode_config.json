@@ -87,8 +87,7 @@
             "status": "active"
           }
         }
-      },
-      "enable_score_calc": false
+      }
     },
     {
       "device_id": "home_0",
@@ -115,8 +114,7 @@
             "status": "active"
           }
         }
-      },
-      "enable_score_calc": false
+      }
     },
     {
       "device_id": "home_0",

@@ -32,7 +32,7 @@
         {
           "type": "androidworld_sms_receive",
           "parameters": {
-            "address": "5550846",
+            "address": "5557614",
             "body": "Success reply sent: scene bright boost completed.",
             "wait_s": 5.0
           }
@@ -42,7 +42,7 @@
           "parameters": {
             "message": {
               "box": "inbox",
-              "address": "5550846",
+              "address": "5557614",
               "body": "Success reply sent: scene bright boost completed.",
               "require_exactly_one_for_address": true
             },
@@ -240,11 +240,7 @@
             [
               "cancelled",
               "canceled"
-            ],
-            [
-              "correction",
-              "rollback"
-            ]
+          ]
           ],
           "relation_groups": [
             {
@@ -342,7 +338,6 @@
           "expected": "exact"
         }
       },
-      "enable_score_calc": false,
       "name": "the first phone sends no new SMS to any recipient"
     },
     {
@@ -359,7 +354,6 @@
           "expected": "exact"
         }
       },
-      "enable_score_calc": false,
       "name": "the second phone sends no new SMS to any recipient"
     },
     {
@@ -427,7 +421,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "only the living-room dimmable light final state changes globally"
     }
   ],

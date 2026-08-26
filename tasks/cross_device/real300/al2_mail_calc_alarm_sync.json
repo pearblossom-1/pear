@@ -70,7 +70,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "test -r /tmp/shift/shift_email.eml && command -v thunderbird >/dev/null && grep -Fq 'Reminder alarm at 07:30' /tmp/shift/shift_email.eml && test \"$(grep -Ec '^Reconciliation reference: [A-Z]+-[0-9]+$' /tmp/shift/shift_email.eml)\" -eq 1 && grep -Fq 'Message-ID: <shift-reconciliation-612@example.com>' /tmp/shift/shift_email.eml && grep -Fq 'Content-Type: text/plain; charset=UTF-8' /tmp/shift/shift_email.eml",
+            "command": "test -r /tmp/shift/shift_email.eml && command -v thunderbird >/dev/null && grep -Fq 'Reminder alarm at 07:30' /tmp/shift/shift_email.eml && test \"$(tr -d '\\r' < /tmp/shift/shift_email.eml | grep -Ec '^Reconciliation reference: [A-Z]+-[0-9]+$')\" -eq 1 && grep -Fq 'Message-ID: <shift-reconciliation-612@example.com>' /tmp/shift/shift_email.eml && grep -Fq 'Content-Type: text/plain; charset=UTF-8' /tmp/shift/shift_email.eml",
             "shell": true
           }
         }

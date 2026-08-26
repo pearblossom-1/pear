@@ -5,7 +5,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/handoff_note.md",
+        "path": "/storage/emulated/0/Documents/Markor/Current handoff.md",
         "rules": {
           "entities": [
             "CASE-1851",

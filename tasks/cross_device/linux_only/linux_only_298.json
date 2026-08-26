@@ -1,6 +1,6 @@
 {
   "id": "linux_only_298",
-  "instruction": "Prepare a playback handoff on the second Linux machine. Use the active session from `current_session.csv` on the first machine and confirm that its referenced clip exists on the second Linux machine, then write `/tmp/media/playback_review.md` with that session, its clip filename, and its assigned reviewer.",
+  "instruction": "Prepare a playback handoff on the second Linux machine. Use the active session from `/tmp/media/current_session.csv` on the first Linux machine and confirm that its referenced clip exists in `/tmp/media/clips/` on the second Linux machine. Then write `/tmp/media/playback_review.md` on the second Linux machine with the active session ID, clip filename, and assigned reviewer.",
   "devices": [
     {
       "id": "linux_0",
@@ -117,36 +117,6 @@
               "long_audio_A.wav",
               "Mara"
             ],
-            "required_phrases": [
-              [
-                "session",
-                "playback"
-              ],
-              [
-                "clip",
-                "uses",
-                "audio"
-              ],
-              [
-                "reviewer",
-                "assigned"
-              ]
-            ],
-            "positive_phrases": [
-              [
-                "session",
-                "playback"
-              ],
-              [
-                "clip",
-                "uses",
-                "audio"
-              ],
-              [
-                "reviewer",
-                "assigned"
-              ]
-            ],
             "conflict_phrases": [
               "withdrawn",
               "retracted",
@@ -156,43 +126,45 @@
               "wrong"
             ],
             "conflict_patterns": [
-              "(?im)(?:^|[;\\n]|\\.(?=\\s|$))(?!\\s*(?:(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b|\\bS-71\\b\\s+(?:is|was)\\s+(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b))\\s*[^.;\\n]{0,120}(?:(?:\\b(?:session|playback)\\b[^.;\\n]{0,48}\\bS-71\\b)|(?:\\bS-71\\b[^.;\\n]{0,48}\\b(?:current|active|session|playback)\\b))",
-              "(?im)(?:^|[;\\n]|\\.(?=\\s|$))(?!\\s*(?:(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b|\\bold_session\\.wav\\b\\s+(?:is|was)\\s+(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b))\\s*[^.;\\n]{0,120}(?:(?:\\b(?:clip|audio)\\b[^.;\\n]{0,48}\\bold_session\\.wav\\b)|(?:\\bold_session\\.wav\\b[^.;\\n]{0,48}\\b(?:current|active|clip|audio)\\b))",
-              "(?im)(?:^|[;\\n]|\\.(?=\\s|$))(?!\\s*(?:(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b|\\bIris\\b\\s+(?:is|was)\\s+(?:the\\s+)?(?:archived|old|previous|prior|historical)\\b))\\s*[^.;\\n]{0,120}(?:(?:\\b(?:reviewer|assigned)\\b[^.;\\n]{0,48}\\bIris\\b)|(?:\\bIris\\b[^.;\\n]{0,48}\\b(?:current|active|reviewer|assigned)\\b))"
+              "(?i)(?:\\b(?:current|active)\\b[^.;\\n]{0,80}\\b(?:S-71|old_session\\.wav|Iris)\\b|\\b(?:S-71|old_session\\.wav|Iris)\\b[^.;\\n]{0,80}\\b(?:current|active)\\b)"
             ],
-            "relation_groups": [
-              {
-                "entities": [
-                  "S-84"
-                ],
-                "phrases": [
-                  "session",
-                  "playback"
-                ],
-                "allow_multiple_matches": true
-              },
-              {
-                "entities": [
-                  "long_audio_A.wav"
-                ],
-                "phrases": [
-                  "clip",
-                  "uses",
-                  "audio"
-                ],
-                "allow_multiple_matches": true
-              },
-              {
-                "entities": [
-                  "Mara"
-                ],
-                "phrases": [
-                  "reviewer",
-                  "assigned"
-                ],
-                "allow_multiple_matches": true
-              }
-            ]
+            "semantic_record_table": {
+              "item_headers": [
+                "session",
+                "playback"
+              ],
+              "records": [
+                {
+                  "item": [
+                    "S-84"
+                  ],
+                  "fields": [
+                    {
+                      "name": "clip",
+                      "labels": [
+                        "clip",
+                        "audio"
+                      ],
+                      "values": [
+                        "long_audio_A.wav"
+                      ],
+                      "allow_unlabeled": true
+                    },
+                    {
+                      "name": "reviewer",
+                      "labels": [
+                        "reviewer",
+                        "assigned reviewer"
+                      ],
+                      "values": [
+                        "Mara"
+                      ],
+                      "allow_unlabeled": true
+                    }
+                  ]
+                }
+              ]
+            }
           }
         }
       },

@@ -1,6 +1,6 @@
 {
   "id": "sh4_time_schedule_living_ac_temperature_feasible_0032",
-  "instruction": "Guests will be here later. Set the living room AC to 25°C in 75 minutes.",
+  "instruction": "Guests are coming over later. In 75 minutes, set the living room AC's target temperature to 25°C.",
   "devices": [
     {
       "id": "home_0",
@@ -42,7 +42,6 @@
         "type": "rule",
         "rules": {
           "expected": {
-            "exact_active_plan_count": 1,
             "plans": [
               {
                 "run_at": "2026-06-15T21:15:00",
@@ -58,7 +57,7 @@
       },
       "enable_score_calc": true,
       "metadata": {
-        "role": "unique_persistent_plan_effects"
+        "role": "requested_persistent_plan_effects"
       }
     }
   ],

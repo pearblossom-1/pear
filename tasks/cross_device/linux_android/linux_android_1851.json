@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1851",
-  "instruction": "Please prepare the phone handoff for the current approved case. Reconcile `/tmp/thunderbird_message_and_cont/source.csv` on Linux with the matching Contacts entry and the visible Markor context note, then write `/storage/emulated/0/Documents/Markor/handoff_note.md`. Keep the case and approval code, owner and contact details, route, site, time, role, and readiness decision together in the note.",
+  "instruction": "Please prepare the phone handoff for the current approved case. Reconcile `/tmp/thunderbird_message_and_cont/source.csv` on Linux with the matching Contacts entry and the visible Markor context note, then create a Markor note called `Current handoff`. Keep the case and approval code, owner and contact details, route, site, time, role, and readiness decision together in the note.",
   "devices": [
     {
       "id": "android_0",
@@ -43,7 +43,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f /storage/emulated/0/Documents/Markor/handoff_note.md"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Current handoff.md'"
           }
         },
         {
@@ -60,7 +60,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "test -r /storage/emulated/0/Documents/Markor/contact_handoff_context.md && grep -F 'Current source: CASE-1851' /storage/emulated/0/Documents/Markor/contact_handoff_context.md >/dev/null && grep -F 'Role: North region lead' /storage/emulated/0/Documents/Markor/contact_handoff_context.md >/dev/null && test ! -e /storage/emulated/0/Documents/Markor/handoff_note.md",
+            "command": "test -r /storage/emulated/0/Documents/Markor/contact_handoff_context.md && grep -F 'Current source: CASE-1851' /storage/emulated/0/Documents/Markor/contact_handoff_context.md >/dev/null && grep -F 'Role: North region lead' /storage/emulated/0/Documents/Markor/contact_handoff_context.md >/dev/null && test ! -e '/storage/emulated/0/Documents/Markor/Current handoff.md'",
             "check_exit_status": true
           }
         },
@@ -126,7 +126,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f /storage/emulated/0/Documents/Markor/handoff_note.md"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Current handoff.md'"
           }
         }
       ]
@@ -150,7 +150,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/handoff_note.md",
+        "path": "/storage/emulated/0/Documents/Markor/Current handoff.md",
         "rules": {
           "entities": ["CASE-1851", "FB-1851", "Maya Chen", "+15552001827", "maya.chen@example.test", "RT-51", "Harbor Gate 17", ["2026-07-16 09:30", "July 16, 2026 at 9:30 AM", "7/16/2026 9:30 AM"], "North region lead"],
           "positive_phrases": ["ready", "approved", "ready for handoff"],
@@ -206,7 +206,7 @@
       {
         "device_id": "android_0",
         "kind": "markor",
-        "path": "/storage/emulated/0/Documents/Markor/handoff_note.md",
+        "path": "/storage/emulated/0/Documents/Markor/Current handoff.md",
         "public": "Markor note"
       }
     ],
@@ -232,7 +232,7 @@
     "requires_helper_audit": false,
     "topology_view": "linux_android",
     "structured_output_classification": {
-      "/storage/emulated/0/Documents/Markor/handoff_note.md": "primary_artifact"
+      "/storage/emulated/0/Documents/Markor/Current handoff.md": "primary_artifact"
     },
     "lite_evaluator_hardening_note": "Scores the named current-row handoff note with complete entity-bound, polarity-aware semantics; source guards were removed."
   }

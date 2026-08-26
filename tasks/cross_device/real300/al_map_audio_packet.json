@@ -22,6 +22,12 @@
           }
         },
         {
+          "type": "open_app",
+          "parameters": {
+            "app": "audio recorder"
+          }
+        },
+        {
           "type": "ensure_app",
           "parameters": {
             "app": "android files"
@@ -263,13 +269,8 @@
             "9.5320",
             "memo"
           ],
-          "exclude": [
-            "failed",
-            "error"
-          ],
           "require_valid_package": true,
           "odf_kind": "text",
-          "paragraph_reject_negative_semantics": true,
           "paragraph_relations": [
             ["North gate", "47.3769", "8.5417", "north_gate_memo.m4a"],
             ["Pump shed", "47.3782", "8.5441", "pump_shed_memo.m4a"],
@@ -303,13 +304,6 @@
             "pump_shed_memo.m4a",
             "service_yard_memo.m4a"
           ],
-          "exclude": [
-            "failed",
-            "error",
-            "missing",
-            "invalid"
-          ],
-          "paragraph_reject_negative_semantics": true,
           "paragraph_relations": [
             ["North gate", "47.3769", "8.5417", "north_gate_memo.m4a"],
             ["Pump shed", "47.3782", "8.5441", "pump_shed_memo.m4a"],

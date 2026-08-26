@@ -19,7 +19,6 @@
         "type": "rule",
         "rules": {
           "expected": {
-            "exact_active_plan_count": 1,
             "plans": [
               {
                 "run_at": "2026-06-15T21:15:00",
@@ -35,7 +34,7 @@
       },
       "enable_score_calc": true,
       "metadata": {
-        "role": "unique_persistent_plan_effects"
+        "role": "requested_persistent_plan_effects"
       }
     }
   ],

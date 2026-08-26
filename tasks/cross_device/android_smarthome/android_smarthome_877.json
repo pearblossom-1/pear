@@ -278,7 +278,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "only office mode and target temperature change globally"
     }
   ],

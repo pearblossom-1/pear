@@ -4,7 +4,7 @@
       "device_id": "linux_1",
       "type": "cli.execute",
       "parameters": {
-        "command": "mkdir -p '/tmp/blocked' && printf '%s\\n' 'CASE-1858 / FB-1858 / Leo Martin.' '+15552001828 conflicts with +15552009928.' 'Communication blocked.' > '/tmp/blocked/blocked_comm.md'",
+        "command": "mkdir -p '/tmp/communication' && printf '%s\\n' 'CASE-1858 / FB-1858 / Leo Martin.' '+15552001828 conflicts with +15552009928.' 'Communication blocked.' > '/tmp/communication/communication_status.md'",
         "shell": true
       }
     }

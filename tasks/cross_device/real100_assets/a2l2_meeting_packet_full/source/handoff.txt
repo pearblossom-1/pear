@@ -1,3 +1,1 @@
-Meeting confirmation handoff
-Reference code: RP-219
-Use this reference code in every attendee confirmation message.
+Confirmation reference: RP-219

@@ -1,6 +1,6 @@
 {
   "id": "linux_only_300",
-  "instruction": "The case-review handoff needs one visual sheet of approved evidence cards. Use `/tmp/sheet/evidence_manifest.csv` on the first Linux machine to select from `/tmp/sheet/photos/` on the second, then create a real 1200×800 PNG contact sheet at `/tmp/sheet/contact_sheet.png` containing every approved card and no rejected card. Label the approved entries clearly and write `/tmp/sheet/contact_index.csv` alongside it with one included/excluded disposition for every manifest row.",
+  "instruction": "The case-review handoff needs one visual sheet of approved evidence cards. Use `/tmp/sheet/evidence_manifest.csv` on the first Linux machine to select from `/tmp/sheet/photos/` on the second Linux machine, then create a real 1200×800 PNG contact sheet at `/tmp/sheet/contact_sheet.png` on the second Linux machine containing every approved card and no rejected card. Label each approved card with its case code. In `/tmp/sheet/contact_index.csv` on the second Linux machine, include the source filename, case code, and one included/excluded disposition for every manifest row.",
   "devices": [
     {
       "id": "linux_0",

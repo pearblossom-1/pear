@@ -147,7 +147,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "only the guest-room curtain final state changes globally"
     }
   ],

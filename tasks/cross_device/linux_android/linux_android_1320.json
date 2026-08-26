@@ -138,8 +138,8 @@
         {
           "type": "androidworld_contact_add",
           "parameters": {
-            "name": "Guest Allergy",
-            "number": "5551201320",
+            "name": "Emily Carter",
+            "number": "5554817",
             "notes": "Allergy: sesame"
           }
         },
@@ -147,11 +147,11 @@
           "type": "androidworld_contact_preflight",
           "parameters": {
             "contact": {
-              "name": "Guest Allergy",
-              "number": "5551201320",
+              "name": "Emily Carter",
+              "number": "5554817",
               "notes_exact": "Allergy: sesame"
             },
-            "required_visible_text": ["Guest Allergy", "Allergy: sesame"]
+            "required_visible_text": ["Emily Carter", "Allergy: sesame"]
           }
         },
         {
@@ -226,7 +226,7 @@
               "Harbor Rice Bowl",
               "cooking oil",
               "sesame oil",
-              ["Guest Allergy", "guest allergy", "guest's sesame allergy", "guest is allergic to sesame", "allergic to sesame", "allergy: sesame"]
+              ["Emily Carter", "guest allergy", "guest's sesame allergy", "guest is allergic to sesame", "allergic to sesame", "allergy: sesame"]
             ],
             "required_phrases": [
               ["not on hand", "unavailable", "missing ingredient", "out of stock"],

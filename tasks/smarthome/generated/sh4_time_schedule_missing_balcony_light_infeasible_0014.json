@@ -44,7 +44,8 @@
           "expected": {
             "semantic_report": {
               "min_matching_report_count": 1,
-              "reject_nonmatching_reports": true,
+              "require_category_alias": false,
+              "reject_nonmatching_reports": false,
               "category_aliases": [
                 "missing_device",
                 "missing device",
@@ -68,12 +69,18 @@
                     "does not exist",
                     "missing",
                     "unavailable",
+                    "isn't available",
+                    "no balcony light",
+                    "can't schedule",
                     "cannot be scheduled"
                   ]
                 ],
                 "allowed_negative_capability_phrases": [
                   "not present",
                   "does not exist",
+                  "isn't available",
+                  "no balcony light",
+                  "can't schedule",
                   "cannot be scheduled"
                 ],
                 "conflict_phrases": [

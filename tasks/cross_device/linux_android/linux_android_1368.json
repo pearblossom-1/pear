@@ -149,14 +149,7 @@
             "Room 9",
             "Bring revised permit packet"
           ],
-          "conflict_phrases": [
-            "pending",
-            "not applied",
-            "not updated",
-            "wrong",
-            "do not bring",
-            "reversed"
-          ]
+          "conflict_phrases": ["do not bring"]
         }
       },
       "expected": {

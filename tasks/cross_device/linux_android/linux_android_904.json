@@ -1,6 +1,6 @@
 {
   "id": "linux_android_904",
-  "instruction": "The approved audio transcript case is ready to hand off. Verify `/sdcard/Download/904-A_source.md` on the first phone against `/tmp/audio/transcripts.csv` and `/tmp/audio/handoff_policy.md` on the first Linux desktop. Following that policy, prepare `/tmp/audio/handoff.docx` on the first Linux desktop, add the coordinator as `Mira Patel 904` in Contacts on the second phone, and leave the receiving team a short handoff at `/tmp/audio/handoff.txt` on the second Linux desktop.",
+  "instruction": "The approved audio transcript case is ready to hand off. Open `904-A_source.md` in Downloads on the first phone and verify it against `/tmp/audio/transcripts.csv` and `/tmp/audio/handoff_policy.md` on the first Linux desktop. Following that policy, prepare `/tmp/audio/handoff.docx` on the first Linux desktop, add the coordinator as `Mira Patel` in Contacts on the second phone, and leave the receiving team a short handoff at `/tmp/audio/handoff.txt` on the second Linux desktop.",
   "devices": [
     {
       "id": "android_0",
@@ -181,7 +181,7 @@
       "func": "exact_match",
       "result": {
         "type": "androidworld_contact",
-        "name": "Mira Patel 904",
+        "name": "Mira Patel",
         "number": "+1555011881",
         "require_unique_name": true
       },
@@ -299,7 +299,7 @@
       {
         "kind": "contact",
         "device_id": "android_1",
-        "name": "Mira Patel 904",
+        "name": "Mira Patel",
         "number": "+1555011881",
         "notes": "904-A; NX90423; verified"
       }

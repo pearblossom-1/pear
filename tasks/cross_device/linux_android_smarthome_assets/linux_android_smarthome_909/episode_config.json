@@ -9,29 +9,6 @@
   },
   "eval": [
     {
-      "device_id": "linux_0",
-      "func": "check_include_exclude",
-      "result": {
-        "type": "vm_command_line",
-        "command": "cat /tmp/kitchen-air-incident/policy/policy.txt 2>/dev/null || true"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "include": [
-            "PM2.5 reading at or above 75 is critical",
-            "turn the kitchen purifier on at high",
-            "Do not change devices in other rooms"
-          ],
-          "exclude": []
-        }
-      },
-      "metadata": {
-        "path": "/tmp/kitchen-air-incident/policy/policy.txt"
-      },
-      "enable_score_calc": false
-    },
-    {
       "device_id": "android_0",
       "func": "exact_match",
       "result": {

@@ -6,7 +6,7 @@
   ],
   "expected_files": [],
   "device_topology": "A+L",
-  "instruction": "The Android Camera album contains `asset_tag_photo.jpg`. Inspect the image and its visible file details to identify the asset id, shelf location, and exact photo filename. Enter those three values in `/home/user/upload/form.html` in Linux Chrome and submit the asset record.",
+  "instruction": "The first phone's Simple Gallery Pro `Camera` album contains `asset_tag_photo.jpg`. Inspect the image and its visible file details to identify the asset id, shelf location, and exact photo filename. Enter those three values in `/home/user/upload/form.html` in Linux Chrome and submit the asset record.",
   "surfaces": "Android Simple Gallery Pro Camera album + Linux Chrome asset form",
   "requires_helper_audit": false,
   "fixture_notes": [

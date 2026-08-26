@@ -328,6 +328,25 @@
           "expected": "present"
         }
       }
+    },
+    {
+      "device_id": "linux_1",
+      "func": "exact_match",
+      "enable_score_calc": true,
+      "result": {
+        "type": "thunderbird_folder_state",
+        "profile_root": "~/.thunderbird/mail.default-release",
+        "inbox_messages": [],
+        "folder_messages": {
+          "Sent": []
+        }
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      }
     }
   ],
   "limits": {
@@ -343,7 +362,7 @@
     "device_topology": "2A+2L",
     "surfaces": "android_0 Simple Calendar Pro + android_1 Android Contacts app + linux_0 notification handoff + linux_1 local Impress template/output and Thunderbird",
     "setup_note": "android_0 supplies the event; android_1 supplies attendees through Contacts only; linux_0 supplies and verifies the FO-618 handoff; linux_1 receives the local template, a clean output directory, and an empty usable Thunderbird Drafts profile.",
-    "evaluate_note": "Structurally validates the completed local-template ODP. The exact Drafts store must contain the intended recipient set, identify Field onboarding in subject or body, and state a positive package-ready relation with FO-618 in the body.",
+    "evaluate_note": "Structurally validates the completed local-template ODP and the intended package-ready draft. The task-owned Thunderbird Sent folder must remain empty, closing the explicit do-not-send requirement by final state.",
     "implementation_status": "fixture_scaffold",
     "readiness": "R1_native_content_thunderbird_state",
     "native_evaluator_status": "native_content_thunderbird_state",
@@ -355,6 +374,7 @@
     "fixture_notes": [
       "The output path is user-visible and task-specific; the template is local to linux_1.",
       "Linux_0 remains necessary because only its handoff contains FO-618.",
+      "The task-owned Thunderbird Sent folder is scored as empty; no send trajectory or compose-action history is required.",
       "Cleanup removes only the task output and task-created Thunderbird profile."
     ],
     "instruction_visible_inputs": [
@@ -409,6 +429,6 @@
         ]
       }
     ],
-    "lite_evaluator_hardening_note": "The ODP template is local to linux_1 and the FO-618 notification requirement exists only on linux_0. Draft scoring remains scoped to the exact profile and exact recipient set; `message_contains` permits Field onboarding in subject or body, while the body relation separately requires a declarative non-uncertain ready/prepared/complete/available/finalized package claim bound to FO-618. No attachment is required."
+    "lite_evaluator_hardening_note": "The ODP template is local to linux_1 and the FO-618 notification requirement exists only on linux_0. Draft scoring remains scoped to the task-owned profile and exact recipient set; `message_contains` permits Field onboarding in subject or body, while the body relation separately requires a declarative non-uncertain ready/prepared/complete/available/finalized package claim bound to FO-618. The Sent folder must remain empty because the instruction explicitly says not to send; no trajectory history or attachment is required."
   }
 }

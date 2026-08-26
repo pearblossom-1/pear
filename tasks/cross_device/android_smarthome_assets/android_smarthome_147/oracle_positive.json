@@ -4,8 +4,8 @@
       {
         "type": "androidworld_sms_send",
         "parameters": {
-          "address": "5551470",
-          "body": "The living room is ready: the light is on at 45% and the heater is on at 24 C."
+          "address": "5557318",
+          "body": "For your 20:15 arrival, the living room is set to 45% light and 24 C heat."
         }
       }
     ],

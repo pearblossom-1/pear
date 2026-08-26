@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_147",
-  "instruction": "Read the guest's arrival message in Simple SMS Messenger on the first phone and the `Reply Guest` contact note on the second phone. Prepare the living room in Home using those details, then reply to the guest from the first phone with the completed room settings.",
+  "instruction": "Read Alex Morgan's arrival message in Simple SMS Messenger on the first phone and his room preferences in Contacts on the second phone. Prepare the living room in Home using those preferences, then reply to Alex from the first phone with the arrival time and the completed room settings.",
   "devices": [
     {
       "id": "android_0",
@@ -32,7 +32,7 @@
         {
           "type": "androidworld_sms_receive",
           "parameters": {
-            "address": "5551470",
+            "address": "5557318",
             "body": "I will arrive around 20:15.",
             "wait_s": 5.0
           }
@@ -42,7 +42,7 @@
           "parameters": {
             "message": {
               "box": "inbox",
-              "address": "5551470",
+              "address": "5557318",
               "body": "I will arrive around 20:15.",
               "require_exactly_one_for_address": true
             },
@@ -69,8 +69,8 @@
         {
           "type": "androidworld_contact_add",
           "parameters": {
-            "name": "Reply Guest",
-            "number": "5551470",
+            "name": "Alex Morgan",
+            "number": "5557318",
             "notes": "Prefers soft light at 45% and heater at 24 C."
           }
         },
@@ -78,13 +78,13 @@
           "type": "androidworld_contact_preflight",
           "parameters": {
             "contact": {
-              "name": "Reply Guest",
-              "number": "5551470",
+              "name": "Alex Morgan",
+              "number": "5557318",
               "notes": "Prefers soft light at 45% and heater at 24 C."
             },
             "required_visible_text": [
-              "Reply Guest",
-              "5551470",
+              "Alex Morgan",
+              "5557318",
               "soft light at 45%",
               "heater at 24 C"
             ]
@@ -140,10 +140,15 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551470",
+        "address": "5557318",
         "recent_within_mins": 30,
         "body_relation": {
           "entities": [
+            [
+              "20:15",
+              "8:15 PM",
+              "8.15 PM"
+            ],
             [
               "living room",
               "living-room"
@@ -207,7 +212,7 @@
           "expected": "present"
         }
       },
-      "name": "guest reply records the living-room light 45 and heater 24 settings"
+      "name": "Alex reply records the 20:15 arrival and living-room light 45 and heater 24 settings"
     },
     {
       "device_id": "home_0",
@@ -270,7 +275,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "only the requested living-room light and heater fields change globally"
     }
   ],
@@ -306,6 +310,7 @@
     "plan8_record_contract": {
       "output_contract_type": "free_form+native_only",
       "public_required_fields": [
+        "arrival time 20:15",
         "living room",
         "light 45%",
         "heater 24 C"

@@ -29,6 +29,10 @@
           ],
           "required_phrases": [
             [
+              "applied",
+              "complete"
+            ],
+            [
               "cancelled",
               "retired"
             ]

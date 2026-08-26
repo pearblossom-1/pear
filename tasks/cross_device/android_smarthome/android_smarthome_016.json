@@ -167,7 +167,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "report-only task leaves the complete Home unchanged"
     }
   ],

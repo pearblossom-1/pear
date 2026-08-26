@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_897",
-  "instruction": "Please carry out the approved bedroom comfort fallback requested in the existing Android task. The settings are in `/tmp/bedroom-comfort-fallback/policy/mode_policy.pdf` on one Linux machine, and `/tmp/bedroom-comfort-fallback/register/comfort_order.xlsx` on the other is the record to complete. Apply those settings in SmartHome, update and complete the existing Android task with a short note stating the AC setting, dehumidifier setting, and that the fallback was applied, then save the completed register as `/tmp/bedroom-comfort-fallback/result/comfort_order_done.xlsx`, preserving the workbook and setting its status to `Applied`.",
+  "instruction": "Please carry out the approved bedroom comfort fallback requested in the existing Android task. Read `/tmp/bedroom-comfort-fallback/policy/mode_policy.pdf` on the first Linux machine and use `/tmp/bedroom-comfort-fallback/register/comfort_order.xlsx` on the second Linux machine as the record to complete. Apply the approved settings in SmartHome, then update and complete the existing Android task with a short note stating the AC setting, dehumidifier setting, and that the fallback was applied. Save the completed register on the second Linux machine as `/tmp/bedroom-comfort-fallback/result/comfort_order_done.xlsx`, preserving the workbook and setting its status to `Applied`.",
   "devices": [
     {
       "id": "linux_0",
@@ -86,6 +86,23 @@
         {
           "type": "ensure_app",
           "parameters": {
+            "app": "files"
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_897/android/android_0/bedroom-comfort.txt",
+                "path": "/storage/emulated/0/Download/bedroom-comfort.txt"
+              }
+            ]
+          }
+        },
+        {
+          "type": "ensure_app",
+          "parameters": {
             "app": "tasks"
           }
         },
@@ -166,6 +183,12 @@
     {
       "device_id": "android_0",
       "config": [
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "rm -f /storage/emulated/0/Download/bedroom-comfort.txt"
+          }
+        },
         {
           "type": "androidworld_tasks_clear",
           "parameters": {}
@@ -367,6 +390,7 @@
     "category": "linux_android_smarthome",
     "source_idea": "Stable fallback for AC humidity task.",
     "surfaces": [
+      "android_files",
       "dual_linux",
       "home_command",
       "linux0_policy",

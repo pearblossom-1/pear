@@ -23,26 +23,17 @@
             ],
             [
               "old fallback",
-              "old evening",
-              "previous plan",
-              "previous workflow",
-              "old plan",
-              "earlier plan"
+              "old evening"
             ],
             [
               "evening workflow",
-              "replacement workflow",
-              "replacement",
-              "replacement plan",
-              "updated plan",
-              "new plan"
+              "replacement workflow"
             ]
           ],
           "required_phrases": [
             [
               "applied",
-              "active",
-              "scheduled"
+              "active"
             ],
             [
               "cancelled",
@@ -88,27 +79,32 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_workflow_effects",
+      "func": "smarthome.check_planned_effects",
       "result": {
-        "type": "smarthome_workflows"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "run_at": "2026-06-16T21:00:00",
-            "status": "active",
-            "exact_active_workflow_count": 1,
-            "effects": {
-              "living_room_light_1": {
-                "power": "off"
-              },
-              "living_room_curtain_1": {
-                "open_pct": 0
+            "plans": [
+              {
+                "run_at": "2026-06-16T21:00:00",
+                "effects": {
+                  "living_room_light_1": {
+                    "power": "off"
+                  },
+                  "living_room_curtain_1": {
+                    "open_pct": 0
+                  }
+                }
               }
-            }
+            ]
           }
         }
+      },
+      "metadata": {
+        "role": "requested_business_effects"
       }
     }
   ],

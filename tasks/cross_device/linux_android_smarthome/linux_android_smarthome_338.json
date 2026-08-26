@@ -199,27 +199,6 @@
       "device_id": "android_0",
       "func": "exact_match",
       "result": {
-        "type": "androidworld_recipe_set",
-        "recipes": [
-          {
-            "title": "Evening Guest Snack",
-            "ingredients": "tea; crackers; lemon",
-            "directions": "Prepare while the room is set up.",
-            "preparationTime": "20 minutes"
-          }
-        ]
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "exact"
-        }
-      }
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
         "type": "androidworld_recipe",
         "title": "Evening Guest Snack",
         "ingredients": "tea; crackers; lemon",
@@ -234,8 +213,7 @@
         "rules": {
           "expected": "present"
         }
-      },
-      "enable_score_calc": false
+      }
     },
     {
       "device_id": "android_1",
@@ -255,16 +233,9 @@
           ],
           "required_phrases": [
             [
-              "applied",
-              "complete",
-              "done",
-              "set"
+              "set",
+              "applied"
             ]
-          ],
-          "conflict_phrases": [
-            "pending",
-            "not applied",
-            "not set"
           ],
           "reject_questions": true,
           "reject_uncertainty": true,

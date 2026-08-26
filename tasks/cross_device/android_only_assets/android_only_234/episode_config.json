@@ -103,7 +103,23 @@
       }
     },
     {
-      "name": "Preserve both source image bytes and keep old_notice absent",
+      "name": "Keep old_notice.png absent as required by the no-replacement instruction",
+      "device_id": "android_1",
+      "func": "exact_match",
+      "result": {
+        "type": "android_file_state",
+        "path": "/sdcard/Pictures/Site/old_notice.png"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "missing"
+        }
+      },
+      "enable_score_calc": true
+    },
+    {
+      "name": "Preserve both existing source image bytes",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
@@ -118,10 +134,6 @@
           {
             "baseline_path": "/sdcard/Pictures/Site/meter_panel.png",
             "current_path": "/sdcard/Pictures/Site/meter_panel.png"
-          },
-          {
-            "baseline_path": "/sdcard/Pictures/Site/old_notice.png",
-            "current_path": "/sdcard/Pictures/Site/old_notice.png"
           }
         ]
       },

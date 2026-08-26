@@ -23,32 +23,7 @@
               "purifier",
               "air purifier"
             ],
-            "high",
-            [
-              "applied",
-              "set",
-              "recorded",
-              "complete",
-              "completed"
-            ]
-          ],
-          "required_phrases": [
-            [
-              "applied",
-              "set",
-              "recorded",
-              "complete",
-              "completed"
-            ]
-          ],
-          "conflict_phrases": [
-            "not applied",
-            "pending",
-            "cancelled",
-            "bathroom dehumidifier was also changed",
-            "also changed the bathroom dehumidifier",
-            "bathroom dehumidifier changed too",
-            "other rooms changed"
+            "high"
           ],
           "reject_questions": true,
           "reject_uncertainty": true,

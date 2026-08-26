@@ -1,6 +1,6 @@
 {
   "id": "linux_only_305",
-  "instruction": "Create `/tmp/banner/banner_CASE-500.png` on the second Linux machine using `source.png` there and `banner_spec.csv` on the first machine. The banner must use the specified dimensions and visibly show the case code and label. Then create `/tmp/banner/brief.pdf` referencing the banner filename, case code, and label.",
+  "instruction": "Create `/tmp/banner/banner_CASE-500.png` on the second Linux machine using `/tmp/banner/source.png` there as the main visual and `/tmp/banner/banner_spec.csv` on the first Linux machine. The banner must use the specified dimensions, keep the source image materially visible, and visibly show the case code and label. Then create `/tmp/banner/brief.pdf` on the second Linux machine referencing the banner filename, case code, and label.",
   "devices": [
     {
       "id": "linux_0",

@@ -10,12 +10,13 @@
         "path": "/storage/emulated/0/Documents/Markor/recording request status.md",
         "rules": {
           "entities": [
-            "gate_brief_missing.mp3",
-            "gate_brief_present.mp3"
+            "gate_brief_west.mp3",
+            "gate_brief_east.mp3"
           ],
           "required_phrases": [
             [
               "missing",
+              "unavailable",
               "absent",
               "not found"
             ],
@@ -23,12 +24,14 @@
               "not used as a substitute",
               "did not use",
               "was not substituted",
-              "not used instead"
+              "not used instead",
+              "left unused"
             ]
           ],
           "positive_phrases": [
             [
               "missing",
+              "unavailable",
               "absent",
               "not found"
             ],
@@ -36,26 +39,22 @@
               "not used as a substitute",
               "did not use",
               "was not substituted",
-              "not used instead"
+              "not used instead",
+              "left unused"
             ]
           ],
-          "conflict_phrases": [
-            "cancelled",
-            "withdrawn"
-          ],
           "conflict_patterns": [
-            "gate_brief_missing\\.mp3.{0,24}\\b(?:is\\s+)?(?:present|available|exists|ready)\\b",
-            "gate_brief_present\\.mp3(?:(?!\\b(?:not|never)\\s+used\\b).){0,36}\\b(?:was|is)?\\s*used\\s+(?:as\\s+)?(?:a\\s+)?substitute\\b",
-            "(?<!no )(?<!not )\\b(?:created|made|fabricated)\\b.{0,24}\\b(?:replacement|recording)\\b",
-            "(?<!no )\\b(?:replacement|fabricated\\s+recording)\\b.{0,24}\\b(?:was\\s+)?(?:created|made)\\b"
+            "gate_brief_west\\.mp3.{0,32}\\b(?:is\\s+)?(?:present|available|exists|ready)\\b",
+            "gate_brief_east\\.mp3(?:(?!\\b(?:not|never)\\s+used\\b).){0,44}\\b(?:was|is)?\\s*used\\s+(?:as\\s+)?(?:a\\s+)?substitute\\b"
           ],
           "relation_groups": [
             {
               "entities": [
-                "gate_brief_missing.mp3"
+                "gate_brief_west.mp3"
               ],
               "phrases": [
                 "missing",
+                "unavailable",
                 "absent",
                 "not found"
               ],
@@ -68,13 +67,14 @@
             },
             {
               "entities": [
-                "gate_brief_present.mp3"
+                "gate_brief_east.mp3"
               ],
               "phrases": [
                 "not used as a substitute",
                 "did not use",
                 "was not substituted",
-                "not used instead"
+                "not used instead",
+                "left unused"
               ],
               "conflicts": [
                 "was used as a substitute",
@@ -87,7 +87,8 @@
             "not used as a substitute",
             "did not use",
             "was not substituted",
-            "not used instead"
+            "not used instead",
+            "left unused"
           ],
           "allowed_reversal_terms": [
             "instead"
@@ -102,7 +103,7 @@
       }
     },
     {
-      "name": "Preserve gate_brief_present bytes and keep gate_brief_missing absent",
+      "name": "Keep gate_brief_west absent and gate_brief_east present",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
@@ -111,12 +112,12 @@
         "preserve_directories": [],
         "file_mappings": [
           {
-            "baseline_path": "/sdcard/Recordings/gate_brief_present.mp3",
-            "current_path": "/sdcard/Recordings/gate_brief_present.mp3"
+            "baseline_path": "/sdcard/Recordings/gate_brief_east.mp3",
+            "current_path": "/sdcard/Recordings/gate_brief_east.mp3"
           },
           {
-            "baseline_path": "/sdcard/Recordings/gate_brief_missing.mp3",
-            "current_path": "/sdcard/Recordings/gate_brief_missing.mp3"
+            "baseline_path": "/sdcard/Recordings/gate_brief_west.mp3",
+            "current_path": "/sdcard/Recordings/gate_brief_west.mp3"
           }
         ]
       },
@@ -126,7 +127,7 @@
           "expected": "exact"
         }
       },
-      "enable_score_calc": false
+      "enable_score_calc": true
     }
   ]
 }

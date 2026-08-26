@@ -273,7 +273,7 @@
     {
       "scope": "global",
       "func": "normalized_text_exact_match",
-      "enable_score_calc": false,
+      "enable_score_calc": true,
       "result": {
         "device_id": "linux_0",
         "type": "vm_file_text",
@@ -321,7 +321,7 @@
     "device_topology": "A+A+L+L",
     "surfaces": "Markor + Retro Music + VSCode + Chrome validator",
     "setup_note": "android_0 opens the visible checklist; android_1 verifies the visible Launch audio playlist and its three unique MediaStore tracks; linux_0 validates the writable broken source project; linux_1 validates an empty writable deployment root.",
-    "evaluate_note": "Three equally weighted checks require randomized exact-list behavior in the linux_0 source, the same behavior in the linux_1 deployment, and the final visible Chrome DOM with approved textarea values plus three actual true booleans. A separate normalized-text equality guard enforces the copy.",
+    "evaluate_note": "Four scoring checks require randomized exact-list behavior in the linux_0 source, the same behavior in the linux_1 deployment, normalized-text equality between the corrected source and copied deployment, and the final visible Chrome DOM with approved textarea values plus three actual true booleans.",
     "implementation_status": "real_evaluator",
     "readiness": "R1_native_ready",
     "native_evaluator_status": "mixed_native_content",

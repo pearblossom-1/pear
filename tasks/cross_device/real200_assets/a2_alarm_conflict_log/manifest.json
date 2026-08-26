@@ -53,7 +53,7 @@
         "Depot departure",
         "08:20"
       ],
-      "relation_notes": "Accepts prose, multiline key/value, and table forms when each alarm record has its own label, time, and role and the retained preparation record precedes the actual departure record. Reversed times, reversed order, or removal/replacement claims fail."
+      "relation_notes": "Accepts prose, multiline key/value, and table forms when each alarm record has its own label, time, and role and the retained preparation record precedes the actual departure record. Reversed times, reversed order, or entity-bound removal/disable/replacement claims fail; comparative wording such as `instead of replacing` is allowed."
     }
   ],
   "browser_state_outputs": [],

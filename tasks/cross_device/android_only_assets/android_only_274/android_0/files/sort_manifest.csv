@@ -1,5 +1,5 @@
 filename,action
-keep_alpha.txt,keep
-review_beta.txt,review
-skip_notes.txt,skip
-missing_gamma.txt,review
+agenda.txt,keep
+parking.txt,review
+supplies.txt,skip
+visitors.txt,review

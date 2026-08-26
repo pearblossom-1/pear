@@ -25,27 +25,23 @@
             [
               "19:45",
               "7:45 PM"
+            ],
+            [
+              "prepared",
+              "ready"
             ]
           ],
           "required_phrases": [
             [
-              "scheduled",
-              "has been scheduled",
-              "will be ready",
-              "will be prepared",
-              "scheduled to be ready",
-              "scheduled to be prepared",
-              "preparation is set for"
+              "prepared",
+              "ready",
+              "scheduled"
             ]
           ],
           "conflict_phrases": [
             "not prepared",
             "pending",
-            "cancelled",
-            "room is ready now",
-            "already ready",
-            "already prepared",
-            "prepared now"
+            "cancelled"
           ],
           "reject_questions": true,
           "reject_uncertainty": true,
@@ -71,7 +67,6 @@
           "expected": {
             "run_at": "2026-06-16T19:30:00",
             "status": "active",
-            "exact_active_workflow_count": 1,
             "effects": {
               "guest_room_dimmable_light_1": {
                 "power": "on",

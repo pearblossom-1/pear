@@ -5,7 +5,7 @@
       {
         "type": "adb_shell",
         "parameters": {
-            "command": "mkdir -p /storage/emulated/0/Documents/Markor\ncat > '/storage/emulated/0/Documents/Markor/Climate correction result.md' <<'EOF'\nOld: 25 C, cancelled\nReplacement: 24 C, active\nTime: 20:00\nEOF"
+          "command": "mkdir -p /storage/emulated/0/Documents/Markor\ncat > '/storage/emulated/0/Documents/Markor/Climate correction result.md' <<'EOF'\nThe old 25 C schedule was cancelled and replaced by an active 24 C schedule at 20:00.\nEOF"
         }
       }
     ]

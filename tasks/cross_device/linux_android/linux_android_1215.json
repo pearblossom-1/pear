@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1215",
-  "instruction": "Check `/tmp/portal/request.html` for the requester's required ID. If it is missing, write a clear blocked note at `/storage/emulated/0/Documents/Markor/Portal Request Blocked.md` on the first phone and send the requester a concise blocked-status text from the second phone.",
+  "instruction": "Check `/tmp/portal/request.html` for the requester's required ID. If it is missing, create a clear Markor note called `Portal Request Status` on the first phone and send the requester a concise blocked-status text from the second phone.",
   "devices": [
     {
       "id": "linux_0",
@@ -51,7 +51,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/Portal Request Blocked.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Portal Request Status.md'"
           }
         }
       ]
@@ -91,7 +91,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/Portal Request Blocked.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Portal Request Status.md'"
           }
         }
       ]
@@ -112,7 +112,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Portal Request Blocked.md",
+        "path": "/storage/emulated/0/Documents/Markor/Portal Request Status.md",
         "rules": {
           "entities": [["required ID", "required id"]],
           "required_phrases": [["missing", "not present", "absent"]],
@@ -133,7 +133,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201215",
+        "address": "5558134",
         "body_relation": {
           "entities": [
             [

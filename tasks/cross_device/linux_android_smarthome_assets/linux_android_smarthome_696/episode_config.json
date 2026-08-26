@@ -53,29 +53,34 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_workflow_effects",
+      "func": "smarthome.check_planned_effects",
       "result": {
-        "type": "smarthome_workflows"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "run_at": "2026-06-16T18:05:00",
-            "status": "active",
-            "effects": {
-              "kitchen_air_purifier_1": {
-                "power": "on",
-                "level": "high"
-              },
-              "dining_room_dimmable_light_1": {
-                "power": "on",
-                "brightness_pct": 50
+            "plans": [
+              {
+                "run_at": "2026-06-16T18:05:00",
+                "effects": {
+                  "kitchen_air_purifier_1": {
+                    "power": "on",
+                    "level": "high"
+                  },
+                  "dining_room_dimmable_light_1": {
+                    "power": "on",
+                    "brightness_pct": 50
+                  }
+                }
               }
-            },
-            "exact_active_workflow_count": 1
+            ]
           }
         }
+      },
+      "metadata": {
+        "role": "requested_business_effects"
       }
     }
   ],

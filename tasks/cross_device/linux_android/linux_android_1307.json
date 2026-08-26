@@ -51,7 +51,7 @@
         {
           "type": "androidworld_sms_receive",
           "parameters": {
-            "address": "5551201307",
+            "address": "5558453",
             "body": "Old code CODE-OLD.",
             "wait_s": 5.0
           }
@@ -59,7 +59,7 @@
         {
           "type": "androidworld_sms_receive",
           "parameters": {
-            "address": "5551201307",
+            "address": "5558453",
             "body": "Latest form code CODE-1307.",
             "wait_s": 5.0
           }

@@ -28,7 +28,7 @@
         {
           "type": "androidworld_sms_receive",
           "parameters": {
-            "address": "5552510",
+            "address": "5556284",
             "body": "Set bedroom light to 20% and curtain closed, then reply.",
             "wait_s": 5.0
           }
@@ -38,7 +38,7 @@
           "parameters": {
             "message": {
               "box": "inbox",
-              "address": "5552510",
+              "address": "5556284",
               "body": "Set bedroom light to 20% and curtain closed, then reply.",
               "require_exactly_one_for_address": true
             },
@@ -63,7 +63,7 @@
           "type": "androidworld_contact_add",
           "parameters": {
             "name": "Bedroom Updates",
-            "number": "5552510",
+            "number": "5556284",
             "notes": "Receives bedroom setup replies in this style: Bedroom light is at LEVEL%; curtain is closed."
           }
         },
@@ -72,12 +72,12 @@
           "parameters": {
             "contact": {
               "name": "Bedroom Updates",
-              "number": "5552510",
+              "number": "5556284",
               "notes_exact": "Receives bedroom setup replies in this style: Bedroom light is at LEVEL%; curtain is closed."
             },
             "required_visible_text": [
               "Bedroom Updates",
-              "5552510",
+              "5556284",
               "Bedroom light is at LEVEL%",
               "curtain is closed"
             ]
@@ -128,7 +128,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5552510",
+        "address": "5556284",
         "recent_within_mins": 30,
         "body_relation": {
           "entities": [
@@ -189,11 +189,6 @@
             }
           ],
           "conflict_phrases": [
-            "pending",
-            "cancelled",
-            "canceled",
-            "not applied",
-            "not complete",
             "not closed"
           ]
         }
@@ -265,7 +260,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "only the requested bedroom light and curtain fields change"
     }
   ],

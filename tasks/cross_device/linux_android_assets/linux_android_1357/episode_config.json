@@ -6,9 +6,12 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Blocked route SITE-1357.md",
+        "path": "/storage/emulated/0/Documents/Markor/SITE-1357 route status.md",
         "rules": {
-          "entities": ["SITE-1357", "South Annex"],
+          "entities": [
+            "SITE-1357",
+            "South Annex"
+          ],
           "required_phrases": [
             [
               "route blocked",
@@ -50,7 +53,9 @@
             "cannot be made",
             "route cannot be made"
           ],
-          "forbidden_entities": ["SITE-1357B"],
+          "forbidden_entities": [
+            "SITE-1357B"
+          ],
           "conflict_phrases": [
             "coordinates available",
             "coordinates are available",

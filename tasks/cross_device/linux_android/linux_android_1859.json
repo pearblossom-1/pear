@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1859",
-  "instruction": "Create `/tmp/inspection/packet.odt` on the second Linux desktop using the local `/tmp/inspection/packet_template.odt`, the current row in `/tmp/sites/site_registry.csv` on the first Linux desktop, the first phone's sole OsmAnd favorite and matching field photo, and the second phone's inspection context. Complete every labeled template field, include the favorite coordinates and inspection window, describe the visible field condition from the photo in the observation field, and mark the current inspection ready while preserving the template's field layout.",
+  "instruction": "Create `/tmp/inspection/packet.odt` on the second Linux desktop using the local `/tmp/inspection/packet_template.odt`, the current row in `/tmp/sites/site_registry.csv` on the first Linux desktop, the sole favorite in OsmAnd and matching field photo in Simple Gallery Pro on the first phone, and `inspection_context.txt` in Downloads on the second phone. Complete every labeled template field, include the favorite coordinates and inspection window, describe the visible field condition from the photo in the observation field, and mark the current inspection ready while preserving the template's field layout.",
   "devices": [
     {
       "id": "android_0",
@@ -193,7 +193,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "pkill -f 'mdcbench-linux-android-1859-writer-profile' 2>/dev/null || true\nrm -rf /tmp/mdcbench-linux-android-1859-writer-profile /tmp/inspection\nmkdir -p /tmp/inspection",
+            "command": "if test -s /tmp/inspection/writer.pid; then writer_pid=\"$(cat /tmp/inspection/writer.pid)\"; case \"$writer_pid\" in *[!0-9]*|'') ;; *) kill \"$writer_pid\" 2>/dev/null || true ;; esac; fi\nrm -rf /tmp/mdcbench-linux-android-1859-writer-profile /tmp/inspection\nmkdir -p /tmp/inspection",
             "shell": true
           }
         },
@@ -211,7 +211,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "set -e\ntemplate=/tmp/inspection/packet_template.odt\ntest -r \"$template\"\ntest -w /tmp/inspection\ntest ! -e /tmp/inspection/packet.odt\nunzip -t \"$template\" >/dev/null\nfor member in content.xml styles.xml meta.xml; do unzip -Z1 \"$template\" | grep -Fx \"$member\" >/dev/null; done\ncontent=\"$(unzip -p \"$template\" content.xml)\"\nfor marker in 'Field Inspection Packet' '[[CASE]]' '[[APPROVAL]]' '[[OWNER]]' '[[ROUTE]]' '[[SITE]]' '[[COORDINATES]]' '[[INSPECTION_WINDOW]]' '[[DECISION]]' '[[PHOTO_OBSERVATION]]'; do printf '%s' \"$content\" | grep -F \"$marker\" >/dev/null; done\ncommand -v libreoffice >/dev/null\nnohup libreoffice --writer --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-linux-android-1859-writer-profile' \"$template\" >/tmp/inspection/writer.log 2>&1 &\nsleep 4\npgrep -f 'mdcbench-linux-android-1859-writer-profile' >/dev/null",
+            "command": "set -e\ntemplate=/tmp/inspection/packet_template.odt\ntest -r \"$template\"\ntest -w /tmp/inspection\ntest ! -e /tmp/inspection/packet.odt\nunzip -t \"$template\" >/dev/null\nfor member in content.xml styles.xml meta.xml; do unzip -Z1 \"$template\" | grep -Fx \"$member\" >/dev/null; done\ncontent=\"$(unzip -p \"$template\" content.xml)\"\nfor marker in 'Field Inspection Packet' '[[CASE]]' '[[APPROVAL]]' '[[OWNER]]' '[[ROUTE]]' '[[SITE]]' '[[COORDINATES]]' '[[INSPECTION_WINDOW]]' '[[DECISION]]' '[[PHOTO_OBSERVATION]]'; do printf '%s' \"$content\" | grep -F \"$marker\" >/dev/null; done\ncommand -v libreoffice >/dev/null\nnohup libreoffice --writer --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-linux-android-1859-writer-profile' \"$template\" >/tmp/inspection/writer.log 2>&1 &\nwriter_pid=$!\nprintf '%s\\n' \"$writer_pid\" > /tmp/inspection/writer.pid\nsleep 4\nkill -0 \"$writer_pid\"",
             "shell": true
           }
         }
@@ -265,7 +265,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "pkill -f 'mdcbench-linux-android-1859-writer-profile' 2>/dev/null || true; rm -rf /tmp/mdcbench-linux-android-1859-writer-profile; rm -f /tmp/inspection/packet_template.odt /tmp/inspection/packet.odt '/tmp/inspection/.~lock.packet.odt#' '/tmp/inspection/.~lock.packet_template.odt#' /tmp/inspection/writer.log; rmdir /tmp/inspection 2>/dev/null || true",
+            "command": "if test -s /tmp/inspection/writer.pid; then writer_pid=\"$(cat /tmp/inspection/writer.pid)\"; case \"$writer_pid\" in *[!0-9]*|'') ;; *) kill \"$writer_pid\" 2>/dev/null || true ;; esac; fi; rm -rf /tmp/mdcbench-linux-android-1859-writer-profile; rm -f /tmp/inspection/packet_template.odt /tmp/inspection/packet.odt '/tmp/inspection/.~lock.packet.odt#' '/tmp/inspection/.~lock.packet_template.odt#' /tmp/inspection/writer.log /tmp/inspection/writer.pid; rmdir /tmp/inspection 2>/dev/null || true",
             "shell": true
           }
         }

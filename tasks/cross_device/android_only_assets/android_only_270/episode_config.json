@@ -2,7 +2,7 @@
   "task_id": "android_only_270",
   "eval": [
     {
-      "name": "Bind Site Manager to the number and Dock West to its numeric coordinates",
+      "name": "Bind Ethan Miller to the number and Dock West to its numeric coordinates",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
@@ -10,8 +10,8 @@
         "path": "/storage/emulated/0/Documents/Markor/Dock West handoff.md",
         "rules": {
           "entities": [
-            "Site Manager",
-            "5550270",
+            "Ethan Miller",
+            "5556834",
             "Dock West"
           ],
           "allowed_negative_capability_phrases": [
@@ -21,10 +21,10 @@
           "nearest_relations": [
             {
               "anchor": [
-                "Site Manager"
+                "Ethan Miller"
               ],
               "expected": [
-                "5550270"
+                "5556834"
               ],
               "forbidden": [],
               "max_distance": 12
@@ -40,7 +40,7 @@
             }
           ],
           "conflict_patterns": [
-            "\\bSite\\s+Manager\\b[^.;\\n]{0,48}\\b(?!5550270\\b)\\d{7}\\b"
+            "\\bSite\\s+Manager\\b[^.;\\n]{0,48}\\b(?!5556834\\b)\\d{7}\\b"
           ]
         }
       },
@@ -52,18 +52,18 @@
       }
     },
     {
-      "name": "Preserve every Site Manager contact business field",
+      "name": "Preserve every Ethan Miller contact business field",
       "device_id": "android_0",
       "func": "exact_match",
       "result": {
         "type": "androidworld_contact",
-        "name": "Site Manager",
-        "number": "5550270",
+        "name": "Ethan Miller",
+        "number": "5556834",
         "numbers_exact": [
-          "5550270"
+          "5556834"
         ],
         "emails_exact": [],
-        "notes_exact": "Manager for Dock West handoff.",
+        "notes_exact": "Site manager for the Dock West handoff.",
         "require_exactly_one": true,
         "require_unique_name": true
       },
@@ -76,7 +76,7 @@
       "enable_score_calc": false
     },
     {
-      "name": "Keep the first phone's Contacts collection to exactly Site Manager",
+      "name": "Keep the first phone's Contacts collection to exactly Ethan Miller",
       "device_id": "android_0",
       "func": "exact_match",
       "result": {

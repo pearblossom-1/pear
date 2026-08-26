@@ -48,10 +48,6 @@
             [
               "cancelled",
               "canceled"
-            ],
-            [
-              "correction",
-              "rollback"
             ]
           ],
           "relation_groups": [
@@ -150,7 +146,6 @@
           "expected": "exact"
         }
       },
-      "enable_score_calc": false,
       "name": "the first phone sends no new SMS to any recipient"
     },
     {
@@ -167,7 +162,6 @@
           "expected": "exact"
         }
       },
-      "enable_score_calc": false,
       "name": "the second phone sends no new SMS to any recipient"
     },
     {
@@ -235,7 +229,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "only the living-room dimmable light final state changes globally"
     }
   ],

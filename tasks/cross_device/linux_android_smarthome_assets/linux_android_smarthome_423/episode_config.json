@@ -61,25 +61,29 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
+      "func": "smarthome.check_planned_effects",
       "result": {
-        "type": "smarthome_schedules"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "count": 1,
-            "exact_active_count": 1,
-            "match": {
-              "run_at": "2026-06-17T09:15:00",
-              "device_id": "kitchen_air_purifier_1",
-              "command": "turn_off",
-              "args": {},
-              "status": "active"
-            }
+            "plans": [
+              {
+                "run_at": "2026-06-17T09:15:00",
+                "effects": {
+                  "kitchen_air_purifier_1": {
+                    "power": "off"
+                  }
+                }
+              }
+            ]
           }
         }
+      },
+      "metadata": {
+        "role": "requested_business_effects"
       }
     }
   ],

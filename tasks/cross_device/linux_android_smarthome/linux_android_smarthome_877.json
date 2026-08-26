@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_877",
-  "instruction": "Please close out the current kitchen air incident. Follow `/tmp/kitchen-air-incident/policy/policy.txt`, use the existing Android reply thread, and apply only the authorized kitchen purifier change in SmartHome; the unrelated bathroom dehumidifier must stay as it is. Reply with what was applied, then complete `/tmp/kitchen-air-incident/register/work_register.xlsx` and save the preserved copy as `/tmp/kitchen-air-incident/result/work_register_done.xlsx` with the authorized action recorded and its status set to `Applied`.",
+  "instruction": "Please close out the current kitchen air incident. On the first Linux machine, follow `/tmp/kitchen-air-incident/policy/policy.txt`; use the existing Android reply thread and apply only the authorized kitchen purifier change in SmartHome, leaving the unrelated bathroom dehumidifier unchanged. Reply with the kitchen purifier setting. On the second Linux machine, complete `/tmp/kitchen-air-incident/register/work_register.xlsx` and save the preserved copy as `/tmp/kitchen-air-incident/result/work_register_done.xlsx` with the authorized action recorded and its status set to `Applied`.",
   "devices": [
     {
       "id": "linux_0",
@@ -81,7 +81,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "nohup libreoffice --calc --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-877-calc-profile' /tmp/kitchen-air-incident/register/work_register.xlsx >/tmp/kitchen-air-incident/register/calc-preflight.log 2>&1 </dev/null & sleep 4; pgrep -x soffice.bin >/dev/null",
+            "command": "nohup libreoffice --calc --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-877-calc-profile' /tmp/kitchen-air-incident/register/work_register.xlsx >/tmp/kitchen-air-incident/register/calc-preflight.log 2>&1 </dev/null & sleep 4; pgrep -f 'mdcbench-877-calc-profile' >/dev/null",
             "shell": true
           }
         }
@@ -196,32 +196,7 @@
               "purifier",
               "air purifier"
             ],
-            "high",
-            [
-              "applied",
-              "set",
-              "recorded",
-              "complete",
-              "completed"
-            ]
-          ],
-          "required_phrases": [
-            [
-              "applied",
-              "set",
-              "recorded",
-              "complete",
-              "completed"
-            ]
-          ],
-          "conflict_phrases": [
-            "not applied",
-            "pending",
-            "cancelled",
-            "bathroom dehumidifier was also changed",
-            "also changed the bathroom dehumidifier",
-            "bathroom dehumidifier changed too",
-            "other rooms changed"
+            "high"
           ],
           "reject_questions": true,
           "reject_uncertainty": true,

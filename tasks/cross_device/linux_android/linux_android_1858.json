@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1858",
-  "instruction": "Cross-check the latest Simple SMS Messenger request against the current row in `/tmp/contacts/recipient_table.csv`. If their phone values conflict, write the case, approval code, owner, both phone values, and the blocked reason to `/tmp/blocked/blocked_comm.md` on the second Linux desktop. Do not send a reply or confirmation to either phone value.",
+  "instruction": "Cross-check the latest Simple SMS Messenger request against the current row in `/tmp/contacts/recipient_table.csv` on the first Linux desktop. If their phone values conflict, write `/tmp/communication/communication_status.md` on the second Linux desktop with the case, approval code, owner, both phone values, and why no reply can be sent. Do not send a reply or confirmation to either phone value.",
   "devices": [
     {
       "id": "android_0",
@@ -97,7 +97,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "set -e\nmkdir -p /tmp/blocked\nrm -f /tmp/blocked/blocked_comm.md\ntest -w /tmp/blocked\ntest ! -e /tmp/blocked/blocked_comm.md",
+            "command": "set -e\nmkdir -p /tmp/communication\nrm -f /tmp/communication/communication_status.md\ntest -w /tmp/communication\ntest ! -e /tmp/communication/communication_status.md",
             "shell": true
           }
         }
@@ -132,7 +132,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "rm -f -- /tmp/blocked/blocked_comm.md; find /tmp/blocked -type d -empty -delete 2>/dev/null || true",
+            "command": "rm -f -- /tmp/communication/communication_status.md; find /tmp/communication -type d -empty -delete 2>/dev/null || true",
             "shell": true
           }
         }
@@ -145,7 +145,7 @@
       "func": "check_include_exclude",
       "result": {
         "type": "vm_command_line",
-        "command": "cat /tmp/blocked/blocked_comm.md 2>/dev/null || echo missing",
+        "command": "cat /tmp/communication/communication_status.md 2>/dev/null || echo missing",
         "shell": true
       },
       "expected": {
@@ -270,12 +270,12 @@
       "/tmp/contacts/recipient_table.csv"
     ],
     "linux_output_paths": [
-      "/tmp/blocked/blocked_comm.md"
+      "/tmp/communication/communication_status.md"
     ],
     "linux_output_paths_by_device": {
       "linux_0": [],
       "linux_1": [
-        "/tmp/blocked/blocked_comm.md"
+        "/tmp/communication/communication_status.md"
       ]
     },
     "android_output_plan": [],
@@ -300,7 +300,7 @@
     "native_evaluator_status": "native_content",
     "requires_helper_audit": false,
     "structured_output_classification": {
-      "/tmp/blocked/blocked_comm.md": "primary_artifact",
+      "/tmp/communication/communication_status.md": "primary_artifact",
       "native_sms_non_reply": "primary_native_state"
     },
     "human_quality_hardening": "Uses a real cross-source phone conflict, relation-aware report scoring, and native sent-box absence instead of source guards or self-report fields.",

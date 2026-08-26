@@ -10,36 +10,39 @@
         "path": "/storage/emulated/0/Documents/Markor/contact_audit.md",
         "rules": {
           "entities": [
-            "Dock Liaison",
-            "Gate Runner",
-            "0237",
-            "0999",
-            "Night Medic"
+            "James Carter",
+            "Jessica Reed",
+            "Daniel Kim"
           ],
           "required_phrases": [
             [
               "present",
               "found"
             ],
-          [
-            "mismatch",
-            "mismatches",
-            "does not match",
-            "wrong actual number",
-            "wrong number",
-            "incorrect number",
-            "number mismatch"
+            [
+              "expected",
+              "checklist says",
+              "listed as",
+              "should be",
+              "file shows",
+              "manifest says",
+              "instead of"
             ],
             [
-              "expected"
-            ],
-            [
-              "actual"
+              "actual",
+              "Contacts shows",
+              "currently has",
+              "found in Contacts",
+              "contact has",
+              "number ends in",
+              "wrong number"
             ],
             [
               "missing",
               "absent",
-              "not found"
+              "not found",
+              "couldn't find",
+              "could not find"
             ]
           ],
           "positive_phrases": [
@@ -47,67 +50,68 @@
               "present",
               "found"
             ],
-          [
-            "mismatch",
-            "mismatches",
-            "does not match",
-            "wrong actual number",
-            "wrong number",
-            "incorrect number",
-            "number mismatch"
+            [
+              "expected",
+              "checklist says",
+              "listed as",
+              "should be",
+              "file shows",
+              "manifest says",
+              "instead of"
             ],
             [
-              "expected"
-            ],
-            [
-              "actual"
+              "actual",
+              "Contacts shows",
+              "currently has",
+              "found in Contacts",
+              "contact has",
+              "number ends in",
+              "wrong number"
             ],
             [
               "missing",
               "absent",
-              "not found"
+              "not found",
+              "couldn't find",
+              "could not find"
             ]
           ],
-          "conflict_phrases": [
-            "pending",
-          "uncertain",
-          "cancelled",
-          "withdrawn",
-          "all match"
-          ],
           "allowed_reversal_terms": [
-            "wrong"
+            "wrong",
+            "instead of"
           ],
           "allowed_negative_capability_phrases": [
             "does not match",
             "not found",
-            "no mismatch"
+            "couldn't find",
+            "could not find"
           ],
           "conflict_patterns": [
-          "Dock\\s+Liaison.{0,28}\\b(?:missing|absent|not\\s+found)\\b",
-          "Gate\\s+Runner.{0,36}\\b(?:matches|correct)\\b",
-          "Gate\\s+Runner[^.;\\n]{0,48}\\b(?:has\\s+)?no\\s+mismatch\\b",
-          "(?:actual\\s*[:=-]?\\s*0237|expected\\s*[:=-]?\\s*0999)",
-            "Night\\s+Medic.{0,30}\\b(?:present|found|actual)\\b"
+            "James\\s+Carter[^.;\\n]{0,40}\\b(?:missing|absent|not\\s+found)\\b",
+            "Jessica\\s+Reed[^.;\\n]{0,56}\\b(?:matches|correct|no\\s+mismatch)\\b",
+            "Jessica\\s+Reed(?:(?!Daniel\\s+Kim).){0,160}\\b(?:expected|checklist\\s+says|listed\\s+as|should\\s+be|file\\s+shows|manifest\\s+says)\\b(?:(?!\\b(?:actual|Contacts\\s+shows|currently\\s+has|found\\s+in\\s+Contacts|contact\\s+has|number\\s+ends\\s+in)\\b).){0,48}\\b1189\\b",
+            "Jessica\\s+Reed(?:(?!Daniel\\s+Kim).){0,160}\\b(?:actual|Contacts\\s+shows|currently\\s+has|found\\s+in\\s+Contacts|contact\\s+has|number\\s+ends\\s+in)\\b(?:(?!\\b(?:expected|checklist\\s+says|listed\\s+as|should\\s+be|file\\s+shows|manifest\\s+says)\\b).){0,48}\\b7316\\b",
+            "Jessica\\s+Reed[^.;\\n]{0,120}\\b7316\\b[^.;\\n]{0,24}\\binstead\\s+of\\b[^.;\\n]{0,24}\\b1189\\b",
+            "Daniel\\s+Kim[^.;\\n]{0,40}\\b(?:present|available|(?<!not\\s)found)\\b"
           ],
           "preceding_clause_context": {
             "max_preceding_clauses": 2,
             "anchors": [
               [
-                "Dock Liaison"
+                "James Carter"
               ],
               [
-                "Gate Runner"
+                "Jessica Reed"
               ],
               [
-                "Night Medic"
+                "Daniel Kim"
               ]
             ]
           },
           "relation_groups": [
             {
               "entities": [
-                "Dock Liaison"
+                "James Carter"
               ],
               "phrases": [
                 "present",
@@ -122,52 +126,79 @@
             },
             {
               "entities": [
-                "Gate Runner"
+                "Jessica Reed"
               ],
               "phrases": [
-              "mismatch",
-              "mismatches",
-              "does not match",
-              "wrong actual number",
-              "wrong number",
-              "incorrect number",
-              "number mismatch"
-            ],
-            "conflicts": [
-              "matches",
-              "correct",
-              "no mismatch"
+                "mismatch",
+                "mismatches",
+                "does not match",
+                "wrong number",
+                "incorrect number",
+                "number mismatch",
+                "number is different",
+                "expected",
+                "checklist says",
+                "listed as",
+                "should be",
+                "file shows",
+                "manifest says",
+                "instead of",
+                "actual",
+                "Contacts shows",
+                "currently has",
+                "found in Contacts",
+                "contact has",
+                "number ends in"
+              ],
+              "conflicts": [
+                "matches",
+                "correct",
+                "no mismatch"
               ],
               "allow_multiple_matches": true
             },
             {
               "entities": [
-                "Gate Runner",
-                "0237"
+                "Jessica Reed",
+                "7316"
               ],
               "phrases": [
-                "expected"
+                "expected",
+                "checklist says",
+                "listed as",
+                "should be",
+                "file shows",
+                "manifest says",
+                "instead of"
               ],
               "allow_multiple_matches": true
             },
             {
               "entities": [
-                "Gate Runner",
-                "0999"
+                "Jessica Reed",
+                "1189"
               ],
               "phrases": [
-                "actual"
+                "actual",
+                "Contacts shows",
+                "currently has",
+                "found in Contacts",
+                "contact has",
+                "number ends in",
+                "wrong number"
               ],
               "allow_multiple_matches": true
             },
             {
               "entities": [
-                "Night Medic"
+                "Daniel Kim"
               ],
               "phrases": [
                 "missing",
                 "absent",
-                "not found"
+                "not found",
+                "couldn't find",
+                "could not find"
               ],
               "conflicts": [
                 "present",
@@ -198,21 +229,21 @@
           "expected": "2"
         }
       },
-      "enable_score_calc": false
+      "enable_score_calc": true
     },
     {
-      "name": "Preserve every Dock Liaison business field",
+      "name": "Preserve every James Carter business field",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
         "type": "androidworld_contact",
-        "name": "Dock Liaison",
-        "number": "5550236",
+        "name": "James Carter",
+        "number": "5554821",
         "numbers_exact": [
-          "5550236"
+          "5554821"
         ],
         "emails_exact": [],
-        "notes_exact": "primary",
+        "notes_exact": "Primary contact.",
         "require_exactly_one": true,
         "require_unique_name": true
       },
@@ -222,21 +253,21 @@
           "expected": "present"
         }
       },
-      "enable_score_calc": false
+      "enable_score_calc": true
     },
     {
-      "name": "Preserve every Gate Runner business field",
+      "name": "Preserve every Jessica Reed business field",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
         "type": "androidworld_contact",
-        "name": "Gate Runner",
-        "number": "5550999",
+        "name": "Jessica Reed",
+        "number": "5551189",
         "numbers_exact": [
-          "5550999"
+          "5551189"
         ],
         "emails_exact": [],
-        "notes_exact": "wrong phone",
+        "notes_exact": "Alternate contact.",
         "require_exactly_one": true,
         "require_unique_name": true
       },
@@ -246,7 +277,7 @@
           "expected": "present"
         }
       },
-      "enable_score_calc": false
+      "enable_score_calc": true
     }
   ]
 }

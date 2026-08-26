@@ -7,7 +7,7 @@
         "type": "androidworld_sms_send",
         "parameters": {
           "address": "+1555000457",
-          "body": "The East Accessible Entrance room will be ready at 19:30 for the 19:45 arrival."
+          "body": "East Accessible Entrance is prepared at 19:30 for the 19:45 arrival."
         }
       }
     ]

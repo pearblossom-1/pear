@@ -5,12 +5,12 @@
   ],
   "expected_files": [],
   "device_topology": "A+A+L",
-  "instruction": "The first phone's Audio Recorder has `client-call.wav`, and its Markor note `Call handoff` contains the package reference for that recording. The `Client` contact on the second phone has the recipient address. A local export copy is available at `/tmp/audio_thunderbird_draft/client-call.wav` on Linux. In Thunderbird, create an email to the client that mentions both the recording filename and package reference, attach the local export copy, and leave the message as an unsent draft.",
-  "surfaces": "android_0 Audio Recorder + Markor + android_1 Contacts -> Linux local export + Thunderbird",
+  "instruction": "The first phone's Markor note `Call handoff` identifies the call recording and contains its package reference. The client contact on the second phone supplies the recipient address. A local export copy of that recording is available at `/tmp/audio_thunderbird_draft/client-call.wav` on Linux. In Thunderbird, create an email to the client that mentions both the recording filename and package reference, attach the local export copy, and leave the message as an unsent draft.",
+  "surfaces": "android_0 Markor + android_1 Contacts -> Linux local export + Thunderbird",
   "requires_helper_audit": false,
   "fixture_notes": [
-    "The Android recording and Linux local export copy contain identical source bytes; the task does not require an unsupported Android-to-Linux binary transfer.",
+    "The task uses the Linux local export directly and does not introduce an unsupported Android-to-Linux binary transfer or a redundant Audio Recorder source.",
     "CALL-317 is visible only in the first phone's Call handoff note, while the recipient is visible only in the second phone's Client contact.",
-    "The final outcome is one matching unsent Thunderbird draft with the exact attachment bytes."
+    "The final outcome requires a matching draft with the exact attachment bytes and no matching target message in Sent; unrelated mail and duplicate matching retry drafts are allowed."
   ]
 }

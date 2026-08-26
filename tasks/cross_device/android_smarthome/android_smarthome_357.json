@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_357",
-  "instruction": "On the first phone, use the `Mira arrival HOME-G` task in Tasks together with the `Guest Entrance` favorite in OsmAnd. On the second phone, use the `Mira Visitor` contact for Mira's room preferences. Schedule the guest-room preparation in Home according to those sources, create a Markor note called `Mira guest prep log` on the second phone with the entrance, prep time, temperature, and light setting, and text Mira from the second phone with the room and prep time.",
+  "instruction": "On the first phone, open the `Mira arrival HOME-G` task in Tasks and use its route code to find the matching entrance favorite in OsmAnd. On the second phone, open the `Mira Patel` contact for her guest-room preferences. Schedule the guest-room preparation in Home according to those sources, create a Markor note called `Mira guest prep log` on the second phone with the selected entrance, prep time, temperature, and light setting, and text Mira from the second phone with the room and prep time.",
   "devices": [
     {
       "id": "android_0",
@@ -81,9 +81,14 @@
           "parameters": {
             "favorites": [
               {
-                "name": "Guest Entrance",
-                "latitude": "47.621100",
-                "longitude": "-122.350100"
+                "name": "Guest Entrance [HOME-G]",
+                "lat": "47.621100",
+                "lon": "-122.350100"
+              },
+              {
+                "name": "North Entrance [HOME-N]",
+                "lat": "47.622200",
+                "lon": "-122.349000"
               }
             ]
           }
@@ -106,8 +111,8 @@
         {
           "type": "androidworld_contact_add",
           "parameters": {
-            "name": "Mira Visitor",
-            "number": "5550357",
+            "name": "Mira Patel",
+            "number": "5556842",
             "notes": "Prefers guest room 23 C and light 48%."
           }
         },
@@ -115,12 +120,13 @@
           "type": "androidworld_contact_preflight",
           "parameters": {
             "contact": {
-              "name": "Mira Visitor",
-              "number": "5550357",
+              "name": "Mira Patel",
+              "number": "5556842",
               "notes_exact": "Prefers guest room 23 C and light 48%."
             },
             "required_visible_text": [
-              "Mira Visitor",
+              "Mira Patel",
+              "5556842",
               "23 C",
               "48%"
             ]
@@ -243,7 +249,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5550357",
+        "address": "5556842",
         "body_relation": {
           "entities": [
             [

@@ -278,7 +278,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "inspection leaves Home devices and plans unchanged"
     }
   ],

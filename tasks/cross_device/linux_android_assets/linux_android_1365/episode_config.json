@@ -6,7 +6,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Reviewer blocked REV-1365.md",
+        "path": "/storage/emulated/0/Documents/Markor/Reviewer status REV-1365.md",
         "rules": {
           "entities": [
             "REV-1365",
@@ -76,7 +76,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201365",
+        "address": "5558254",
         "any_body": true,
         "exact_count": 0
       },

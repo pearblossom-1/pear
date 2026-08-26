@@ -1,6 +1,6 @@
 {
   "id": "android_smarthome_233",
-  "instruction": "Read the kitchen aroma request in Simple SMS Messenger on the phone and check whether Home has the equipment needed to carry it out. If it cannot be completed, report the missing equipment and why the requested setting cannot be applied. Do not substitute another device, and no SMS reply is needed.",
+  "instruction": "Read the kitchen aroma request in Simple SMS Messenger on the phone and check whether Home has the equipment needed to carry it out. If it cannot be completed, report the missing equipment and why the requested setting cannot be applied. Do not substitute another device. Do not send an SMS reply.",
   "devices": [
     {
       "id": "android_0",
@@ -28,7 +28,7 @@
         {
           "type": "androidworld_sms_receive",
           "parameters": {
-            "address": "5552330",
+            "address": "5554926",
             "body": "Set kitchen aroma diffuser to lavender.",
             "wait_s": 5.0
           }
@@ -38,7 +38,7 @@
           "parameters": {
             "message": {
               "box": "inbox",
-              "address": "5552330",
+              "address": "5554926",
               "body": "Set kitchen aroma diffuser to lavender.",
               "require_exactly_one_for_address": true
             },
@@ -151,6 +151,22 @@
       "name": "a semantically correct missing-device report identifies the kitchen aroma diffuser"
     },
     {
+      "device_id": "android_0",
+      "func": "exact_match",
+      "result": {
+        "type": "androidworld_sms_box_count",
+        "box": "sent",
+        "exact_count": 0
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "exact"
+        }
+      },
+      "name": "the phone sends no SMS reply"
+    },
+    {
       "device_id": "home_0",
       "func": "smarthome.check_no_home_mutation",
       "result": {
@@ -167,7 +183,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "missing-aroma task leaves every Home device unchanged"
     }
   ],

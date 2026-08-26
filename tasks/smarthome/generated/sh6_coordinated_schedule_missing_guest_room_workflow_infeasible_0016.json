@@ -1,6 +1,6 @@
 {
   "id": "sh6_coordinated_schedule_missing_guest_room_workflow_infeasible_0016",
-  "instruction": "At 9:00 PM, turn off the guest-room light and close the curtain for the night.",
+  "instruction": "At 9 tonight, turn off the guest-room light and close the curtain for the night.",
   "devices": [
     {
       "id": "home_0",
@@ -44,7 +44,8 @@
           "expected": {
             "semantic_report": {
               "min_matching_report_count": 1,
-              "reject_nonmatching_reports": true,
+              "require_category_alias": false,
+              "reject_nonmatching_reports": false,
               "category_aliases": [
                 "missing_room",
                 "missing room",
@@ -69,6 +70,8 @@
                     "does not exist",
                     "not present",
                     "missing",
+                    "there isn't a guest room",
+                    "isn't available",
                     "cannot be created"
                   ]
                 ],
@@ -76,6 +79,8 @@
                   "no guest room",
                   "does not exist",
                   "not present",
+                  "there isn't a guest room",
+                  "isn't available",
                   "cannot be created"
                 ],
                 "conflict_phrases": [

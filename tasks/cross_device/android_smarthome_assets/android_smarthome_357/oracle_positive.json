@@ -11,7 +11,7 @@
       {
         "type": "androidworld_sms_send",
         "parameters": {
-          "address": "5550357",
+          "address": "5556842",
           "body": "guest room prep is scheduled for 20:00"
         }
       }

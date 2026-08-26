@@ -6,7 +6,7 @@
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && echo UkVWLTEzNjUgaXMgYmxvY2tlZCBiZWNhdXNlIHNhZmV0eV9yZXZpZXdlciBpcyByZXF1aXJlZCBidXQgb25seSBzYWZldHlfb2JzZXJ2ZXIgaXMgYXZhaWxhYmxlLCBzbyBubyBleGFjdCBtYXRjaCB3YXMgZm91bmQuCg== | base64 -d > '/storage/emulated/0/Documents/Markor/Reviewer blocked REV-1365.md'"
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && echo UkVWLTEzNjUgaXMgYmxvY2tlZCBiZWNhdXNlIHNhZmV0eV9yZXZpZXdlciBpcyByZXF1aXJlZCBidXQgb25seSBzYWZldHlfb2JzZXJ2ZXIgaXMgYXZhaWxhYmxlLCBzbyBubyBleGFjdCBtYXRjaCB3YXMgZm91bmQuCg== | base64 -d > '/storage/emulated/0/Documents/Markor/Reviewer status REV-1365.md'"
         }
       }
     ]

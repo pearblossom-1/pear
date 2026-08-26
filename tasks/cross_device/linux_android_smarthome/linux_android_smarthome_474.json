@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_474",
-  "instruction": "Use the current Retro Music playlist on the first phone and the room and start time in the second phone's Calendar. Match the playlist name and Calendar room to the corresponding row in `/tmp/home_ops/approval-forms/source/music_scene.csv`, then schedule one active SmartHome preparation workflow at that row's lead time before the session using its light and curtain settings.",
+  "instruction": "Use the current playlist on the first phone, the room and start time in the second phone's Calendar, and `/tmp/home_ops/approval-forms/source/music_scene.csv` to select the matching SmartHome preparation rule and schedule one preparation workflow at the rule's lead time before the session.",
   "devices": [
     {
       "id": "linux_0",
@@ -44,7 +44,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "test -r '/tmp/home_ops/approval-forms/source/music_scene.csv' && grep -Fq 'playlist,room,lead_minutes,light_pct,curtain_pct' '/tmp/home_ops/approval-forms/source/music_scene.csv' && grep -Fq 'Workout Mix,living_room,20,35,50' '/tmp/home_ops/approval-forms/source/music_scene.csv'",
+            "command": "test -r '/tmp/home_ops/approval-forms/source/music_scene.csv'",
             "shell": true
           }
         }

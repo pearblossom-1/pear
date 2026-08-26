@@ -83,7 +83,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "set -e\nrm -f /tmp/attend/attendee_roles.csv\nrm -rf \"$HOME/.thunderbird/mail.default-release\"\nmkdir -p /tmp/attend \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders\"\ncat > \"$HOME/.thunderbird/profiles.ini\" <<'EOF'\n[Profile0]\nName=local\nIsRelative=1\nPath=mail.default-release\nDefault=1\n\n[General]\nStartWithLastProfile=1\nVersion=2\nEOF\ncat > \"$HOME/.thunderbird/mail.default-release/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server1\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.identity.id1.fullName\", \"Local Agent\");\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.directory-rel\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nEOF\n: > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Inbox\"\n: > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Drafts\"\n: > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Sent\"",
+            "command": "set -e\nmkdir -p /tmp/attend\nif test -s /tmp/attend/thunderbird.pid; then thunderbird_pid=\"$(cat /tmp/attend/thunderbird.pid)\"; case \"$thunderbird_pid\" in *[!0-9]*|'') ;; *) kill \"$thunderbird_pid\" 2>/dev/null || true ;; esac; fi\nrm -f /tmp/attend/attendee_roles.csv /tmp/attend/thunderbird.pid\nrm -rf \"$HOME/.thunderbird/mail.default-release\"\nmkdir -p \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders\"\ncat > \"$HOME/.thunderbird/profiles.ini\" <<'EOF'\n[Profile0]\nName=local\nIsRelative=1\nPath=mail.default-release\nDefault=1\n\n[General]\nStartWithLastProfile=1\nVersion=2\nEOF\ncat > \"$HOME/.thunderbird/mail.default-release/prefs.js\" <<'EOF'\nuser_pref(\"mail.account.account1.identities\", \"id1\");\nuser_pref(\"mail.account.account1.server\", \"server1\");\nuser_pref(\"mail.accountmanager.accounts\", \"account1\");\nuser_pref(\"mail.accountmanager.defaultaccount\", \"account1\");\nuser_pref(\"mail.identity.id1.email\", \"agent@example.test\");\nuser_pref(\"mail.identity.id1.fullName\", \"Local Agent\");\nuser_pref(\"mail.server.server1.directory\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.directory-rel\", \"[ProfD]Mail/Local Folders\");\nuser_pref(\"mail.server.server1.hostname\", \"Local Folders\");\nuser_pref(\"mail.server.server1.name\", \"Local Folders\");\nuser_pref(\"mail.server.server1.type\", \"none\");\nEOF\n: > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Inbox\"\n: > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Drafts\"\n: > \"$HOME/.thunderbird/mail.default-release/Mail/Local Folders/Sent\"",
             "shell": true
           }
         },
@@ -101,7 +101,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "set -e\ntest -r /tmp/attend/attendee_roles.csv\ngrep -F 'CASE-1853,FB-1853,Support owner,current' /tmp/attend/attendee_roles.csv >/dev/null\nprofile=\"$HOME/.thunderbird/mail.default-release\"\ntest -s \"$profile/prefs.js\"\ntest ! -s \"$profile/Mail/Local Folders/Inbox\"\ntest ! -s \"$profile/Mail/Local Folders/Drafts\"\ntest ! -s \"$profile/Mail/Local Folders/Sent\"\ncommand -v thunderbird >/dev/null\nnohup thunderbird --no-remote --profile \"$profile\" >/tmp/attend/thunderbird.log 2>&1 &\nsleep 3\npgrep -f 'thunderbird.*mail.default-release' >/dev/null",
+            "command": "set -e\ntest -r /tmp/attend/attendee_roles.csv\ngrep -F 'CASE-1853,FB-1853,Support owner,current' /tmp/attend/attendee_roles.csv >/dev/null\nprofile=\"$HOME/.thunderbird/mail.default-release\"\ntest -s \"$profile/prefs.js\"\ntest ! -s \"$profile/Mail/Local Folders/Inbox\"\ntest ! -s \"$profile/Mail/Local Folders/Drafts\"\ntest ! -s \"$profile/Mail/Local Folders/Sent\"\ncommand -v thunderbird >/dev/null\nnohup thunderbird --no-remote --profile \"$profile\" >/tmp/attend/thunderbird.log 2>&1 &\nthunderbird_pid=$!\nprintf '%s\\n' \"$thunderbird_pid\" > /tmp/attend/thunderbird.pid\nsleep 3\nkill -0 \"$thunderbird_pid\"",
             "shell": true
           }
         }
@@ -133,7 +133,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "pkill -f 'thunderbird.*mail.default-release' 2>/dev/null || true; rm -f /tmp/attend/attendee_roles.csv /tmp/attend/thunderbird.log; find /tmp/attend -type d -empty -delete 2>/dev/null || true; rm -rf \"$HOME/.thunderbird/mail.default-release\"; rm -f \"$HOME/.thunderbird/profiles.ini\"",
+            "command": "if test -s /tmp/attend/thunderbird.pid; then thunderbird_pid=\"$(cat /tmp/attend/thunderbird.pid)\"; case \"$thunderbird_pid\" in *[!0-9]*|'') ;; *) kill \"$thunderbird_pid\" 2>/dev/null || true ;; esac; fi; rm -f /tmp/attend/attendee_roles.csv /tmp/attend/thunderbird.log /tmp/attend/thunderbird.pid; find /tmp/attend -type d -empty -delete 2>/dev/null || true; rm -rf \"$HOME/.thunderbird/mail.default-release\"; rm -f \"$HOME/.thunderbird/profiles.ini\"",
             "shell": true
           }
         }
@@ -158,7 +158,8 @@
             "Harbor Gate 2",
             ["2026-07-18 09:50", "July 18, 2026 at 9:50 AM", "7/18/2026 9:50 AM", "9:50 AM on July 18, 2026", "07/18/2026 09:50"]
           ],
-          "conflict_phrases": ["Harbor Gate 3", "09:05", "FB-1858", "wrong time", "wrong location", "do not send"],
+          "conflict_phrases": ["Harbor Gate 3", "09:05", "FB-1858", "wrong time", "wrong location"],
+          "allowed_reversal_terms": ["do not send"],
           "reject_incomplete_semantics": true
         },
         "allow_extra_recipients": false,

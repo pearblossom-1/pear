@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1270",
-  "instruction": "Compare the Broccoli recipe with `/tmp/pantry/pantry_plan.csv` and write `/tmp/pantry/recipe_check.xlsx` on the second Linux machine. Create one complete visible table with columns `ingredient`, `recipe_amount`, `pantry_amount`, and `status`; include every relevant ingredient exactly once.",
+  "instruction": "Compare the Broccoli recipe with `/tmp/pantry/pantry_plan.csv` on the first Linux machine and write `/tmp/pantry/recipe_check.xlsx` on the second Linux machine. Create one complete visible table with columns `ingredient`, `recipe_amount`, `pantry_amount`, and `status`. Include every ingredient that appears in either the recipe or the pantry plan exactly once.",
   "devices": [
     {
       "id": "linux_0",

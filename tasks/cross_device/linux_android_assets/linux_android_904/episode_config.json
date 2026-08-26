@@ -5,7 +5,7 @@
       "func": "exact_match",
       "result": {
         "type": "androidworld_contact",
-        "name": "Mira Patel 904",
+        "name": "Mira Patel",
         "number": "+1555011881",
         "require_unique_name": true
       },
@@ -41,9 +41,21 @@
           "require_valid_package": true,
           "case_sensitive": false,
           "entity_relation": {
-            "entities": ["904-A", "NX90423", "Mira Patel", "transcripts.csv"],
-            "positive_phrases": ["ready", "approved"],
-            "conflict_phrases": ["not ready", "do not hand off", "blocked"]
+            "entities": [
+              "904-A",
+              "NX90423",
+              "Mira Patel",
+              "transcripts.csv"
+            ],
+            "positive_phrases": [
+              "ready",
+              "approved"
+            ],
+            "conflict_phrases": [
+              "not ready",
+              "do not hand off",
+              "blocked"
+            ]
           }
         }
       }
@@ -72,9 +84,21 @@
           ],
           "case_sensitive": false,
           "entity_relation": {
-            "entities": ["904-A", "NX90423", "Mira Patel", "transcripts.csv"],
-            "positive_phrases": ["ready", "approved"],
-            "conflict_phrases": ["not ready", "do not hand off", "blocked"]
+            "entities": [
+              "904-A",
+              "NX90423",
+              "Mira Patel",
+              "transcripts.csv"
+            ],
+            "positive_phrases": [
+              "ready",
+              "approved"
+            ],
+            "conflict_phrases": [
+              "not ready",
+              "do not hand off",
+              "blocked"
+            ]
           }
         }
       }

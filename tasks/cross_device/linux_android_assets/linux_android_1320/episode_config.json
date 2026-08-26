@@ -26,18 +26,64 @@
               "Harbor Rice Bowl",
               "cooking oil",
               "sesame oil",
-              ["Guest Allergy", "guest allergy", "guest's sesame allergy", "guest is allergic to sesame", "allergic to sesame", "allergy: sesame"]
+              [
+                "Emily Carter",
+                "guest allergy",
+                "guest's sesame allergy",
+                "guest is allergic to sesame",
+                "allergic to sesame",
+                "allergy: sesame"
+              ]
             ],
             "required_phrases": [
-              ["not on hand", "unavailable", "missing ingredient", "out of stock"],
-              ["offered substitute", "available substitute", "substitute is sesame oil", "sesame oil substitute", "Supplier A offers sesame oil", "cooking oil -> sesame oil"],
-              ["sesame allergy", "allergy: sesame", "allergy = sesame", "allergic to sesame", "sesame-allergic", "guest allergy: sesame"]
+              [
+                "not on hand",
+                "unavailable",
+                "missing ingredient",
+                "out of stock"
+              ],
+              [
+                "offered substitute",
+                "available substitute",
+                "substitute is sesame oil",
+                "sesame oil substitute",
+                "Supplier A offers sesame oil",
+                "cooking oil -> sesame oil"
+              ],
+              [
+                "sesame allergy",
+                "allergy: sesame",
+                "allergy = sesame",
+                "allergic to sesame",
+                "sesame-allergic",
+                "guest allergy: sesame"
+              ]
             ],
             "positive_phrases": [
-              ["blocked", "unsafe", "cannot serve", "do not serve"]
+              [
+                "blocked",
+                "unsafe",
+                "cannot serve",
+                "do not serve"
+              ]
             ],
-            "conflict_phrases": ["not blocked", "is safe", "safe to serve", "approved to serve", "cooking oil is on hand", "substitute is olive oil", "olive oil substitute", "peanut allergy", "order sesame oil", "order placed", "supplier order created"],
-            "allowed_negative_capability_phrases": ["not on hand", "do not serve"],
+            "conflict_phrases": [
+              "not blocked",
+              "is safe",
+              "safe to serve",
+              "approved to serve",
+              "cooking oil is on hand",
+              "substitute is olive oil",
+              "olive oil substitute",
+              "peanut allergy",
+              "order sesame oil",
+              "order placed",
+              "supplier order created"
+            ],
+            "allowed_negative_capability_phrases": [
+              "not on hand",
+              "do not serve"
+            ],
             "reject_incomplete_semantics": true
           },
           "case_sensitive": false

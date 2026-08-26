@@ -5,7 +5,7 @@
   "difficulty": "Simple",
   "motif": "M2",
   "interaction_mode": "Hybrid",
-  "instruction": "The first phone just took a field photo, and the second phone has a field voice recording in Android Files' Recordings folder. Please create `/tmp/media/manifest.json` on Linux with the filename, file type, and size of both media files as shown in each file's Details view. Use `photo` and `audio` objects, each with `filename`, `type`, and `size`; use the apps' displayed labels (common alternatives such as `PNG`, `M4A`, or a MIME type are also fine), and keep the displayed size unit.",
+  "instruction": "The first phone has a field photo in Simple Gallery Pro, and the second phone has a field voice recording in Android Files' Recordings folder. Open each file's Details view and create `/tmp/media/manifest.json` on Linux with the filename, file type, and displayed size of both media files. Use `photo` and `audio` objects, each with `filename`, `type`, and `size`; use the apps' displayed labels, and keep the displayed size unit.",
   "surfaces": "android_0 Simple Gallery Pro details + android_1 Android Files details -> linux_0 JSON manifest",
   "setup_note": "android_0 places and media-scans the photo for Simple Gallery Pro; android_1 places and media-scans the recording in Android Files' Recordings folder; linux_0 clears manifest.json.",
   "evaluate_note": "Validates both filenames, accepts common PNG/M4A/MPEG-4 labels plus Android Files' observed MP3 audio category label, and requires the public size field with a displayed B/KB/KiB/MB/MiB unit at realistic decimal or binary UI precision.",

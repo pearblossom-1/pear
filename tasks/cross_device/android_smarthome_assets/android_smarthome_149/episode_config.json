@@ -13,7 +13,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551490",
+        "address": "5556047",
         "recent_within_mins": 30,
         "body_relation": {
           "entities": [
@@ -53,16 +53,8 @@
               "allow_multiple_matches": true
             }
           ],
-          "conflict_phrases": [
-            "below 50",
-            "under 50",
-            "within limit",
-            "within the limit",
-            "purifier low",
-            "purifier off"
-          ],
           "required_patterns": [
-            "(?is)(?:\\b91(?:\\.0)?\\b[^\\r\\n.!?]{0,64}\\b(?:above|over|exceeds?|higher\\s+than)\\b[^\\r\\n.!?]{0,32}\\b50(?:\\.0)?\\b|\\b91(?:\\.0)?\\s*>\\s*50(?:\\.0)?\\b)"
+            "(?is)(?:\\b91(?:\\.0)?\\b[^\\r\\n.!?]{0,64}\\b(?:above|over|exceeds?|higher\\s+than)\\b[^\\r\\n.!?]{0,32}\\b50(?:\\.0)?\\b|\\b91(?:\\.0)?\\b\\s*\\(?\\s*>\\s*50(?:\\.0)?\\b\\s*\\)?)"
           ],
           "conflict_patterns": [
             "\\b91(?:\\.0)?\\b[^\\r\\n.!?]{0,48}\\b(?:below|under)\\b[^\\r\\n.!?]{0,24}\\b50(?:\\.0)?\\b"
@@ -116,7 +108,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "only the kitchen purifier final state changes"
     }
   ],

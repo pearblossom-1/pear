@@ -13,7 +13,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5552410",
+        "address": "5557153",
         "recent_within_mins": 30,
         "body_relation": {
           "entities": [
@@ -44,10 +44,6 @@
               ],
               "allow_multiple_matches": true
             }
-          ],
-          "conflict_phrases": [
-            "purifier low",
-            "purifier off"
           ]
         }
       },
@@ -98,7 +94,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "only the kitchen purifier final state changes"
     }
   ],

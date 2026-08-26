@@ -1,6 +1,6 @@
 {
   "id": "android_only_305",
-  "instruction": "Read the message on the first phone about `gate_brief_missing.mp3`. On the second phone, use Files to check the Recordings folder. If the requested file is missing, create a Markor note and save it as `recording request status.md`, saying that the requested recording is missing and that `gate_brief_present.mp3` was not used instead. Do not create a replacement recording.",
+  "instruction": "Read the recording request in Simple SMS Messenger on the first phone. On the second phone, use Files to check the Recordings folder for the exact requested filename. If it is not there, create a Markor note called `recording request status` that names the requested recording and states that it is unavailable. If another similarly named gate-brief recording is present, do not use it as a substitute and mention that in the note. Do not create a replacement recording.",
   "devices": [
     {
       "id": "android_0",
@@ -30,7 +30,7 @@
           "type": "androidworld_sms_receive",
           "parameters": {
             "address": "5550305",
-            "body": "Please confirm gate_brief_missing.mp3 is ready.",
+            "body": "Please confirm gate_brief_west.mp3 is ready.",
             "wait_s": 5
           }
         },
@@ -40,10 +40,10 @@
             "message": {
               "address": "5550305",
               "box": "inbox",
-              "body": "Please confirm gate_brief_missing.mp3 is ready."
+              "body": "Please confirm gate_brief_west.mp3 is ready."
             },
             "required_visible_text": [
-              "gate_brief_missing.mp3"
+              "gate_brief_west.mp3"
             ]
           }
         }
@@ -61,7 +61,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "mkdir -p /sdcard/Recordings && rm -f /sdcard/Recordings/gate_brief_present.mp3 /sdcard/Recordings/gate_brief_missing.mp3 && content delete --uri content://media/external/audio/media --where \"_display_name='gate_brief_present.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='gate_brief_missing.mp3'\" >/dev/null 2>&1 || true"
+            "command": "mkdir -p /sdcard/Recordings && rm -f /sdcard/Recordings/gate_brief_east.mp3 /sdcard/Recordings/gate_brief_west.mp3 && content delete --uri content://media/external/audio/media --where \"_display_name='gate_brief_east.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='gate_brief_west.mp3'\" >/dev/null 2>&1 || true"
           }
         },
         {
@@ -74,20 +74,20 @@
           "type": "androidworld_mp3_push",
           "parameters": {
             "songs": [
-              "gate_brief_present"
+              "gate_brief_east"
             ]
           }
         },
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "mv /sdcard/Music/gate_brief_present.mp3 /sdcard/Recordings/gate_brief_present.mp3"
+            "command": "mv /sdcard/Music/gate_brief_east.mp3 /sdcard/Recordings/gate_brief_east.mp3"
           }
         },
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/Recordings/gate_brief_present.mp3 >/dev/null 2>&1 || true"
+            "command": "am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file:///sdcard/Recordings/gate_brief_east.mp3 >/dev/null 2>&1 || true"
           }
         },
         {
@@ -95,10 +95,10 @@
           "parameters": {
             "directory": "/sdcard/Recordings",
             "expected_filenames": [
-              "gate_brief_present.mp3"
+              "gate_brief_east.mp3"
             ],
             "missing_filenames": [
-              "gate_brief_missing.mp3"
+              "gate_brief_west.mp3"
             ]
           }
         },
@@ -108,8 +108,8 @@
             "snapshot_id": "android_only_305_recordings",
             "directories": [],
             "files": [
-              "/sdcard/Recordings/gate_brief_present.mp3",
-              "/sdcard/Recordings/gate_brief_missing.mp3"
+              "/sdcard/Recordings/gate_brief_east.mp3",
+              "/sdcard/Recordings/gate_brief_west.mp3"
             ]
           }
         },
@@ -122,7 +122,13 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/recording request status.md'"
+            "command": "mkdir -p /storage/emulated/0/Documents/Markor && rm -f '/storage/emulated/0/Documents/Markor/recording request status.md' '/storage/emulated/0/Documents/Markor/Markor/recording request status.md'"
+          }
+        },
+        {
+          "type": "androidworld_markor_root_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor"
           }
         }
       ]
@@ -144,13 +150,13 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "mkdir -p /sdcard/Recordings && rm -f /sdcard/Recordings/gate_brief_present.mp3 /sdcard/Recordings/gate_brief_missing.mp3 && content delete --uri content://media/external/audio/media --where \"_display_name='gate_brief_present.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='gate_brief_missing.mp3'\" >/dev/null 2>&1 || true"
+            "command": "mkdir -p /sdcard/Recordings && rm -f /sdcard/Recordings/gate_brief_east.mp3 /sdcard/Recordings/gate_brief_west.mp3 && content delete --uri content://media/external/audio/media --where \"_display_name='gate_brief_east.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='gate_brief_west.mp3'\" >/dev/null 2>&1 || true"
           }
         },
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/recording request status.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/recording request status.md' '/storage/emulated/0/Documents/Markor/Markor/recording request status.md'"
           }
         }
       ]
@@ -166,12 +172,13 @@
         "path": "/storage/emulated/0/Documents/Markor/recording request status.md",
         "rules": {
           "entities": [
-            "gate_brief_missing.mp3",
-            "gate_brief_present.mp3"
+            "gate_brief_west.mp3",
+            "gate_brief_east.mp3"
           ],
           "required_phrases": [
             [
               "missing",
+              "unavailable",
               "absent",
               "not found"
             ],
@@ -179,12 +186,14 @@
               "not used as a substitute",
               "did not use",
               "was not substituted",
-              "not used instead"
+              "not used instead",
+              "left unused"
             ]
           ],
           "positive_phrases": [
             [
               "missing",
+              "unavailable",
               "absent",
               "not found"
             ],
@@ -192,26 +201,22 @@
               "not used as a substitute",
               "did not use",
               "was not substituted",
-              "not used instead"
+              "not used instead",
+              "left unused"
             ]
           ],
-          "conflict_phrases": [
-            "cancelled",
-            "withdrawn"
-          ],
           "conflict_patterns": [
-            "gate_brief_missing\\.mp3.{0,24}\\b(?:is\\s+)?(?:present|available|exists|ready)\\b",
-            "gate_brief_present\\.mp3(?:(?!\\b(?:not|never)\\s+used\\b).){0,36}\\b(?:was|is)?\\s*used\\s+(?:as\\s+)?(?:a\\s+)?substitute\\b",
-            "(?<!no )(?<!not )\\b(?:created|made|fabricated)\\b.{0,24}\\b(?:replacement|recording)\\b",
-            "(?<!no )\\b(?:replacement|fabricated\\s+recording)\\b.{0,24}\\b(?:was\\s+)?(?:created|made)\\b"
+            "gate_brief_west\\.mp3.{0,32}\\b(?:is\\s+)?(?:present|available|exists|ready)\\b",
+            "gate_brief_east\\.mp3(?:(?!\\b(?:not|never)\\s+used\\b).){0,44}\\b(?:was|is)?\\s*used\\s+(?:as\\s+)?(?:a\\s+)?substitute\\b"
           ],
           "relation_groups": [
             {
               "entities": [
-                "gate_brief_missing.mp3"
+                "gate_brief_west.mp3"
               ],
               "phrases": [
                 "missing",
+                "unavailable",
                 "absent",
                 "not found"
               ],
@@ -224,13 +229,14 @@
             },
             {
               "entities": [
-                "gate_brief_present.mp3"
+                "gate_brief_east.mp3"
               ],
               "phrases": [
                 "not used as a substitute",
                 "did not use",
                 "was not substituted",
-                "not used instead"
+                "not used instead",
+                "left unused"
               ],
               "conflicts": [
                 "was used as a substitute",
@@ -243,7 +249,8 @@
             "not used as a substitute",
             "did not use",
             "was not substituted",
-            "not used instead"
+            "not used instead",
+            "left unused"
           ],
           "allowed_reversal_terms": [
             "instead"
@@ -258,7 +265,7 @@
       }
     },
     {
-      "name": "Preserve gate_brief_present bytes and keep gate_brief_missing absent",
+      "name": "Keep gate_brief_west absent and gate_brief_east present",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
@@ -267,12 +274,12 @@
         "preserve_directories": [],
         "file_mappings": [
           {
-            "baseline_path": "/sdcard/Recordings/gate_brief_present.mp3",
-            "current_path": "/sdcard/Recordings/gate_brief_present.mp3"
+            "baseline_path": "/sdcard/Recordings/gate_brief_east.mp3",
+            "current_path": "/sdcard/Recordings/gate_brief_east.mp3"
           },
           {
-            "baseline_path": "/sdcard/Recordings/gate_brief_missing.mp3",
-            "current_path": "/sdcard/Recordings/gate_brief_missing.mp3"
+            "baseline_path": "/sdcard/Recordings/gate_brief_west.mp3",
+            "current_path": "/sdcard/Recordings/gate_brief_west.mp3"
           }
         ]
       },
@@ -282,7 +289,7 @@
           "expected": "exact"
         }
       },
-      "enable_score_calc": false
+      "enable_score_calc": true
     }
   ],
   "limits": {

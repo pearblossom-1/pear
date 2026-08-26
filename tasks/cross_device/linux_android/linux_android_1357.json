@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1357",
-  "instruction": "Use the request in `/storage/emulated/0/Download/site_request_1357.txt` on the first phone to select the matching row from `/tmp/site/site_rows.csv`. If that exact site lacks coordinates, write `Blocked route SITE-1357.md` in Markor on the second phone with the selected site code, display name, and reason the route is blocked.",
+  "instruction": "Open `site_request_1357.txt` in Downloads on the first phone and use it to select the matching row from `/tmp/site/site_rows.csv`. If that exact site lacks coordinates, create a Markor note called `SITE-1357 route status` on the second phone with the selected site code, display name, and reason the route is blocked.",
   "devices": [
     {
       "id": "linux_0",
@@ -73,7 +73,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/Blocked route SITE-1357.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/SITE-1357 route status.md'"
           }
         }
       ]
@@ -109,7 +109,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/Blocked route SITE-1357.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/SITE-1357 route status.md'"
           }
         }
       ]
@@ -121,7 +121,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Blocked route SITE-1357.md",
+        "path": "/storage/emulated/0/Documents/Markor/SITE-1357 route status.md",
         "rules": {
           "entities": [
             "SITE-1357",

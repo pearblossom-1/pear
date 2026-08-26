@@ -111,7 +111,6 @@
     {
       "device_id": "home_0",
       "func": "smarthome.check_multi_condition",
-      "enable_score_calc": false,
       "result": {
         "type": "smarthome_home_state"
       },
@@ -167,27 +166,7 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "study_air_plan_2000 full active record is preserved"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 1,
-            "exact_active_count": 1,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "the complete schedule set remains exactly one record"
     },
     {
       "device_id": "home_0",
@@ -204,7 +183,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "the audit creates no workflow"
     }
   ],

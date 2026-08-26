@@ -4,7 +4,7 @@
       "device_id": "linux_0",
       "type": "cli.execute",
       "parameters": {
-        "command": "python3 - <<'PY'\nimport base64\nimport json\nfrom pathlib import Path\nfiles = json.loads('[{\"path\": \"/tmp/meeting/brief_transform_audit.csv\", \"content_b64\": \"YnJpZWZfY29kZSxjYWxlbmRhcl90aXRsZSxhdHRlbmRlZV9waG9uZSxkZWNpc2lvbgpPUFMtUExBTk5JTkctMTI0MSxPcHMgUGxhbm5pbmcgU3luYyw1NTUxMjAxMjQxLG5vdGlmaWVkCk9QUy1QTEFOTklORy0xMjQxLE9wcyBQbGFubmluZyBTeW5jLDU1NTEyMDEyNDIsbm90aWZpZWQKT1BTLVBMQU5OSU5HLTEyNDEsT3BzIFBsYW5uaW5nIFN5bmMsNTU1MTIwMTI5OSxza2lwcGVkCg==\"}]')\nfor item in files:\n    p = Path(item['path'])\n    p.parent.mkdir(parents=True, exist_ok=True)\n    p.write_bytes(base64.b64decode(item['content_b64']))\nPY"
+        "command": "python3 - <<'PY'\nimport base64\nimport json\nfrom pathlib import Path\nfiles = json.loads('[{\"path\": \"/tmp/meeting/brief_transform_audit.csv\", \"content_b64\": \"YnJpZWZfY29kZSxjYWxlbmRhcl90aXRsZSxhdHRlbmRlZV9waG9uZSxkZWNpc2lvbgpPUFMtUExBTk5JTkctMTI0MSxPcHMgUGxhbm5pbmcgU3luYyw1NTU3MzA0LG5vdGlmaWVkCk9QUy1QTEFOTklORy0xMjQxLE9wcyBQbGFubmluZyBTeW5jLDU1NTg2MTksbm90aWZpZWQKT1BTLVBMQU5OSU5HLTEyNDEsT3BzIFBsYW5uaW5nIFN5bmMsNTU1NDkyNyxza2lwcGVkCg==\"}]')\nfor item in files:\n    p = Path(item['path'])\n    p.parent.mkdir(parents=True, exist_ok=True)\n    p.write_bytes(base64.b64decode(item['content_b64']))\nPY"
       }
     }
   ],
@@ -23,14 +23,14 @@
       {
         "type": "androidworld_sms_send",
         "parameters": {
-          "address": "5551201241",
+          "address": "5557304",
           "body": "Ops Planning Sync 2026-07-28 08:30 Pier 3 Room B"
         }
       },
       {
         "type": "androidworld_sms_send",
         "parameters": {
-          "address": "5551201242",
+          "address": "5558619",
           "body": "Ops Planning Sync 2026-07-28 08:30 Pier 3 Room B"
         }
       }

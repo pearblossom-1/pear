@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1078",
-  "instruction": "Before submitting `/tmp/form/request_form.html` in Linux Chrome, check whether the latest Simple SMS Messenger message actually provides the required form code for the approved case. Use `/tmp/form/request_table.csv` and `/tmp/form/handoff_policy.md` as the source records. If the required form code is unavailable, leave the form unsubmitted and add a Markor handoff note at `/storage/emulated/0/Documents/Markor/1078-A_blocked.md` explaining the approved case, approval code, owner, and that the request is blocked because the required SMS form code is unavailable.",
+  "instruction": "Before submitting `/home/user/form/request_form.html` in Chrome on the Linux machine, check whether the latest message in Simple SMS Messenger provides the required form code for the current approved case. Use `/tmp/form/request_table.csv` and `/tmp/form/handoff_policy.md` on the Linux machine as the source records. Follow the policy. If the request cannot be submitted, leave the form unsubmitted and create a Markor note called `1078-A form status` on the phone with the case, approval code, owner, decision, and reason.",
   "devices": [
     {
       "id": "android_0",
@@ -38,7 +38,7 @@
           "type": "androidworld_sms_receive",
           "parameters": {
             "address": "+1555011887",
-            "body": "Blocked request 1078-A: required code unavailable. Owner Owen Park.",
+            "body": "Current request 1078-A for Owen Park. Approval NX07877.",
             "wait_s": 1.0
           }
         },
@@ -51,7 +51,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/1078-A_blocked.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/1078-A form status.md'"
           }
         }
       ]
@@ -62,7 +62,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "mkdir -p '/tmp/form' && rm -f '/tmp/form/request_table.csv' '/tmp/form/request_form.html' '/tmp/form/handoff_policy.md'",
+            "command": "mkdir -p '/tmp/form' '/home/user/form' && rm -f '/tmp/form/request_table.csv' '/tmp/form/handoff_policy.md' '/home/user/form/request_form.html'",
             "shell": true
           }
         },
@@ -76,7 +76,7 @@
               },
               {
                 "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1078/source/request_form.html",
-                "path": "/tmp/form/request_form.html"
+                "path": "/home/user/form/request_form.html"
               },
               {
                 "local_path": "${repo_root}/tasks/cross_device/linux_android_assets/linux_android_1078/source/handoff_policy.md",
@@ -99,7 +99,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/1078-A_blocked.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/1078-A form status.md'"
           }
         }
       ]
@@ -110,7 +110,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "rm -f '/tmp/form/request_table.csv' '/tmp/form/request_form.html' '/tmp/form/handoff_policy.md'; rmdir '/tmp/form' 2>/dev/null || true",
+            "command": "rm -f '/tmp/form/request_table.csv' '/tmp/form/handoff_policy.md' '/home/user/form/request_form.html'; rmdir '/tmp/form' '/home/user/form' 2>/dev/null || true",
             "shell": true
           }
         }
@@ -123,7 +123,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/1078-A_blocked.md",
+        "path": "/storage/emulated/0/Documents/Markor/1078-A form status.md",
         "rules": {
           "entities": ["1078-A", "NX07877", "Owen Park"],
           "positive_phrases": ["blocked"],
@@ -195,7 +195,7 @@
         "field_names": ["case_id", "sms_code"],
         "expected_sha256": "841134df5a4787b55912020f3653842b7cd36fb45c176117b58aa89338b259fa",
         "expected_state": "not_submitted",
-        "client_path": "/tmp/form/request_form.html",
+        "client_path": "/home/user/form/request_form.html",
         "action_placeholder": "__MDCBENCH_FORM_ACTION__"
       },
       "expected": {
@@ -239,7 +239,7 @@
     "scripted_solution_ref": "tasks/cross_device/linux_android_assets/linux_android_1078/scripted_solution.json",
     "linux_source_paths": [
       "/tmp/form/request_table.csv",
-      "/tmp/form/request_form.html",
+      "/home/user/form/request_form.html",
       "/tmp/form/handoff_policy.md"
     ],
     "linux_output_paths": [],
@@ -247,7 +247,7 @@
       {
         "kind": "android_file",
         "device_id": "android_0",
-        "path": "/storage/emulated/0/Documents/Markor/1078-A_blocked.md",
+        "path": "/storage/emulated/0/Documents/Markor/1078-A form status.md",
         "required": [
           "1078-A",
           "NX07877",

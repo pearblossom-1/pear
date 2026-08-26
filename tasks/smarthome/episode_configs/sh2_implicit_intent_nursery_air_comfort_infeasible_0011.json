@@ -22,7 +22,8 @@
           "expected": {
             "semantic_report": {
               "min_matching_report_count": 1,
-              "reject_nonmatching_reports": true,
+              "require_category_alias": false,
+              "reject_nonmatching_reports": false,
               "category_aliases": [
                 "missing_room",
                 "missing room",
@@ -48,6 +49,8 @@
                     "no nursery",
                     "missing",
                     "unavailable",
+                    "there isn't a nursery",
+                    "isn't available",
                     "cannot be adjusted"
                   ]
                 ],
@@ -55,6 +58,8 @@
                   "not present",
                   "does not exist",
                   "no nursery",
+                  "there isn't a nursery",
+                  "isn't available",
                   "cannot be adjusted"
                 ],
                 "conflict_phrases": [

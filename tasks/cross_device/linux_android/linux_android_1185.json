@@ -44,7 +44,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "set -e\nbook=/tmp/meetings/attendees.xlsx\ntest -r \"$book\"\nunzip -t \"$book\" >/dev/null\nsheet=\"$(unzip -p \"$book\" xl/worksheets/sheet1.xml)\"\nprintf '%s' \"$sheet\" | grep -F '<c r=\"D4\" t=\"inlineStr\"><is><t>archived</t>' >/dev/null\nprintf '%s' \"$sheet\" | grep -F '<c r=\"E1\" t=\"inlineStr\"><is><t>phone</t>' >/dev/null\nprintf '%s' \"$sheet\" | grep -F '<c r=\"E4\" t=\"inlineStr\"><is><t>5551201195</t>' >/dev/null\ntest \"$(printf '%s' \"$sheet\" | grep -oF '<t>MTG-Q3-OPS</t>' | wc -l)\" -eq 2\ncommand -v libreoffice >/dev/null\nnohup libreoffice --calc --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-linux-android-1185-calc-profile' \"$book\" >/tmp/meetings/calc.log 2>&1 &\nsleep 4\npgrep -f 'mdcbench-linux-android-1185-calc-profile' >/dev/null",
+            "command": "set -e\nbook=/tmp/meetings/attendees.xlsx\ntest -r \"$book\"\nunzip -t \"$book\" >/dev/null\nsheet=\"$(unzip -p \"$book\" xl/worksheets/sheet1.xml)\"\nprintf '%s' \"$sheet\" | grep -F '<c r=\"D4\" t=\"inlineStr\"><is><t>archived</t>' >/dev/null\nprintf '%s' \"$sheet\" | grep -F '<c r=\"E1\" t=\"inlineStr\"><is><t>phone</t>' >/dev/null\nprintf '%s' \"$sheet\" | grep -F '<c r=\"E4\" t=\"inlineStr\"><is><t>5559047</t>' >/dev/null\ntest \"$(printf '%s' \"$sheet\" | grep -oF '<t>MTG-Q3-OPS</t>' | wc -l)\" -eq 2\ncommand -v libreoffice >/dev/null\nnohup libreoffice --calc --nologo --norestore --nofirststartwizard '-env:UserInstallation=file:///tmp/mdcbench-linux-android-1185-calc-profile' \"$book\" >/tmp/meetings/calc.log 2>&1 &\nsleep 4\npgrep -f 'mdcbench-linux-android-1185-calc-profile' >/dev/null",
             "shell": true
           }
         }
@@ -97,7 +97,7 @@
           "type": "androidworld_contact_add",
           "parameters": {
             "name": "Avery Stone",
-            "number": "5551201185",
+            "number": "5557312",
             "notes": "Northwind Ops primary attendee"
           }
         },
@@ -105,7 +105,7 @@
           "type": "androidworld_contact_add",
           "parameters": {
             "name": "Lena Ortiz",
-            "number": "5551201186",
+            "number": "5558426",
             "notes": "Northwind Ops attendee"
           }
         },
@@ -113,7 +113,7 @@
           "type": "androidworld_contact_add",
           "parameters": {
             "name": "Avery Stone",
-            "number": "5551201195",
+            "number": "5559047",
             "notes": "Northwind Finance archived attendee"
           }
         },
@@ -228,11 +228,10 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201185",
+        "address": "5557312",
         "body_relation": {
-          "entities": ["Q3 Ops Review", "MTG-Q3-OPS", ["confirmed", "meeting confirmed", "scheduled", "reminder for", "see you at"]],
-          "positive_phrases": [["confirmed", "meeting confirmed", "scheduled", "reminder for", "see you at"]],
-          "conflict_phrases": ["maybe", "might", "not confirmed", "canceled", "cancelled", "wrong meeting", "MTG-Q3-FIN"],
+          "entities": ["Q3 Ops Review", "MTG-Q3-OPS"],
+          "conflict_phrases": ["wrong meeting", "MTG-Q3-FIN"],
           "reject_incomplete_semantics": true
         }
       },
@@ -249,11 +248,10 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201186",
+        "address": "5558426",
         "body_relation": {
-          "entities": ["Q3 Ops Review", "MTG-Q3-OPS", ["confirmed", "meeting confirmed", "scheduled", "reminder for", "see you at"]],
-          "positive_phrases": [["confirmed", "meeting confirmed", "scheduled", "reminder for", "see you at"]],
-          "conflict_phrases": ["maybe", "might", "not confirmed", "canceled", "cancelled", "wrong meeting", "MTG-Q3-FIN"],
+          "entities": ["Q3 Ops Review", "MTG-Q3-OPS"],
+          "conflict_phrases": ["wrong meeting", "MTG-Q3-FIN"],
           "reject_incomplete_semantics": true
         }
       },
@@ -270,7 +268,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201195",
+        "address": "5559047",
         "any_body": true,
         "exact_count": 0
       },

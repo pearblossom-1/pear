@@ -1,6 +1,6 @@
 {
   "id": "linux_smarthome_373",
-  "instruction": "Use `/tmp/climate/rooms.csv` as the checklist, query the live SmartHome capabilities, and fill the preformatted Heat Capable and Cool Capable columns in `/tmp/climate/capability.xlsx`.",
+  "instruction": "Use `/tmp/climate/rooms.csv` as the checklist, query the live SmartHome capabilities, and fill the preformatted Heat Capable and Cool Capable columns in `/tmp/climate/capability.xlsx`. Do not change Home while completing the capability audit.",
   "devices": [
     {
       "id": "linux_0",
@@ -113,7 +113,6 @@
     {
       "device_id": "home_0",
       "func": "smarthome.check_no_home_mutation",
-      "enable_score_calc": false,
       "result": {
         "type": "smarthome_home_state"
       },
@@ -164,6 +163,7 @@
     "capability_tags": [
       "information_transfer",
       "linux_interaction",
+      "negative_or_conflict_handling",
       "smarthome_reasoning",
       "structured_data_handling"
     ],

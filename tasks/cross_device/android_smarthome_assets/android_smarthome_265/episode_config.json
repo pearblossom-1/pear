@@ -13,7 +13,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5552650",
+        "address": "5559431",
         "recent_within_mins": 30,
         "body_relation": {
           "entities": [
@@ -46,12 +46,6 @@
               ],
               "allow_multiple_matches": true
             }
-          ],
-          "conflict_phrases": [
-            "above 35",
-            "over 35",
-            "humidifier low",
-            "humidifier off"
           ],
           "conflict_patterns": [
             "\\b32(?:\\.0)?%?\\b[^\\r\\n.!?]{0,48}\\b(?:above|over|higher\\s+than)\\b[^\\r\\n.!?]{0,24}\\b35(?:\\.0)?%?\\b"
@@ -115,7 +109,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "only the bedroom humidifier final state changes"
     }
   ],

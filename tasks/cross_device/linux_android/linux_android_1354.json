@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1354",
-  "instruction": "Take the Markor note and apply `/tmp/summary/summary_template.md`. In `/tmp/summary/summary.md` on the second Linux machine, preserve the template sections and fill in the current Owner, Date, and active Actions from the note. Keep the template footer, and do not include archived content.",
+  "instruction": "Use the `Ops Summary 1354` note in Markor on the phone and apply `/tmp/summary/summary_template.md` on the first Linux machine. In `/tmp/summary/summary.md` on the second Linux machine, preserve the template sections and fill in the current Owner, Date, and active Actions from the note. Keep the template footer, and do not include archived content.",
   "devices": [
     {
       "id": "linux_0",

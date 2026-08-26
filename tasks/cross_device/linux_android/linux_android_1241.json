@@ -74,7 +74,7 @@
         {
           "type": "execute",
           "parameters": {
-            "command": "test -r /tmp/meeting/attendees.csv && test \"$(wc -l < /tmp/meeting/attendees.csv)\" -eq 4 && grep -F 'Mina,5551201241,lead,attend' /tmp/meeting/attendees.csv >/dev/null && grep -F 'Noor,5551201242,site,attend' /tmp/meeting/attendees.csv >/dev/null && grep -F 'Omar,5551201299,archive,archived' /tmp/meeting/attendees.csv >/dev/null",
+            "command": "test -r /tmp/meeting/attendees.csv && test \"$(wc -l < /tmp/meeting/attendees.csv)\" -eq 4 && grep -F 'Mina,5557304,lead,attend' /tmp/meeting/attendees.csv >/dev/null && grep -F 'Noor,5558619,site,attend' /tmp/meeting/attendees.csv >/dev/null && grep -F 'Omar,5554927,archive,archived' /tmp/meeting/attendees.csv >/dev/null",
             "shell": true
           }
         }
@@ -181,7 +181,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201241",
+        "address": "5557304",
         "body_contains": [
           "Ops Planning Sync",
           "8:30",
@@ -202,7 +202,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201242",
+        "address": "5558619",
         "body_contains": [
           "Ops Planning Sync",
           "8:30",
@@ -223,7 +223,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201299",
+        "address": "5554927",
         "any_body": true,
         "exact_count": 0
       },
@@ -265,19 +265,19 @@
             {
               "brief_code": "OPS-PLANNING-1241",
               "calendar_title": "Ops Planning Sync",
-              "attendee_phone": "5551201241",
+              "attendee_phone": "5557304",
               "decision": "notified"
             },
             {
               "brief_code": "OPS-PLANNING-1241",
               "calendar_title": "Ops Planning Sync",
-              "attendee_phone": "5551201242",
+              "attendee_phone": "5558619",
               "decision": "notified"
             },
             {
               "brief_code": "OPS-PLANNING-1241",
               "calendar_title": "Ops Planning Sync",
-              "attendee_phone": "5551201299",
+              "attendee_phone": "5554927",
               "decision": "skipped"
             }
           ]

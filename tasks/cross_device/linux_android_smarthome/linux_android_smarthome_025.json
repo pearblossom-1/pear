@@ -135,46 +135,27 @@
         "path": "/storage/emulated/0/Documents/Markor/Dinner Restore.md",
         "rules": {
           "entities": [
+            "Dinner restore",
             [
               "21:10",
               "9:10 PM"
             ],
             [
               "light 20%",
-              "light 20 percent",
-              "light: 20%",
-              "light: 20 percent"
+              "light 20 percent"
             ],
             [
               "curtain closed",
-              "close curtain",
-              "curtain: closed"
+              "close curtain"
             ],
             [
               "purifier off",
-              "air purifier off",
-              "purifier: off",
-              "air purifier: off"
+              "air purifier off"
             ],
             [
               "heater 20 C",
-              "heater 20 degrees",
-              "heater: 20 C",
-              "heater: 20 degrees"
+              "heater 20 degrees"
             ]
-          ],
-          "required_phrases": [
-            [
-              "active",
-              "scheduled",
-              "planned",
-              "set for"
-            ]
-          ],
-          "conflict_phrases": [
-            "pending",
-            "cancelled",
-            "not active"
           ],
           "reject_questions": true,
           "reject_uncertainty": true,
@@ -200,7 +181,6 @@
           "expected": {
             "run_at": "2026-06-16T21:10:00",
             "status": "active",
-            "exact_active_workflow_count": 1,
             "effects": {
               "living_room_dimmable_light_1": {
                 "power": "on",

@@ -51,7 +51,7 @@
         {
           "type": "androidworld_sms_receive",
           "parameters": {
-            "address": "5551201234",
+            "address": "5559285",
             "body": "2026-07-21T09:00:00 truck running late.",
             "wait_s": 5.0
           }
@@ -59,7 +59,7 @@
         {
           "type": "androidworld_sms_receive",
           "parameters": {
-            "address": "5551201234",
+            "address": "5559285",
             "body": "2026-07-21T10:45:00 truck arrived and unloading.",
             "wait_s": 5.0
           }
@@ -67,7 +67,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rows=\"$(content query --uri content://sms/inbox --projection address:body --where \"address='5551201234'\" --sort 'date DESC,_id DESC' 2>/dev/null)\"; test \"$(printf '%s\n' \"$rows\" | grep -c '^Row:')\" -eq 2 && latest=\"$(printf '%s\n' \"$rows\" | sed -n '1p')\" && printf '%s\n' \"$latest\" | grep -F 'address=5551201234' >/dev/null && printf '%s\n' \"$latest\" | grep -F 'body=2026-07-21T10:45:00 truck arrived and unloading.' >/dev/null",
+            "command": "rows=\"$(content query --uri content://sms/inbox --projection address:body --where \"address='5559285'\" --sort 'date DESC,_id DESC' 2>/dev/null)\"; test \"$(printf '%s\n' \"$rows\" | grep -c '^Row:')\" -eq 2 && latest=\"$(printf '%s\n' \"$rows\" | sed -n '1p')\" && printf '%s\n' \"$latest\" | grep -F 'address=5559285' >/dev/null && printf '%s\n' \"$latest\" | grep -F 'body=2026-07-21T10:45:00 truck arrived and unloading.' >/dev/null",
             "check_exit_status": true
           }
         },

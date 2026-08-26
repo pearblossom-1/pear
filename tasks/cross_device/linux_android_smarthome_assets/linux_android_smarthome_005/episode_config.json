@@ -16,6 +16,7 @@
         "path": "/storage/emulated/0/Documents/Markor/Quiet Hours Audit.md",
         "rules": {
           "entities": [
+            "Quiet hours",
             [
               "late washer",
               "late_washer"
@@ -25,57 +26,83 @@
               "bedroom_lights_out"
             ]
           ],
-          "semantic_record_table": {
-            "item_headers": [
-              "workflow",
-              "plan"
+          "required_phrases": [
+            [
+              "cancelled",
+              "retired"
             ],
-            "records": [
-              {
-                "item": [
+            [
+              "active",
+              "kept"
+            ]
+          ],
+          "relation_groups": [
+            {
+              "entities": [
+                [
                   "late washer",
                   "late_washer"
-                ],
-                "fields": [
-                  {
-                    "name": "status",
-                    "labels": [
-                      "status",
-                      "state",
-                      "decision"
-                    ],
-                    "values": [
-                      "cancelled",
-                      "retired"
-                    ],
-                    "allow_unlabeled": true
-                  }
                 ]
-              },
-              {
-                "item": [
+              ],
+              "phrases": [
+                [
+                  "cancelled",
+                  "retired"
+                ]
+              ]
+            },
+            {
+              "entities": [
+                [
                   "bedroom lights-out",
                   "bedroom_lights_out"
-                ],
-                "fields": [
-                  {
-                    "name": "status",
-                    "labels": [
-                      "status",
-                      "state",
-                      "decision"
-                    ],
-                    "values": [
-                      "active",
-                      "kept",
-                      "remains active"
-                    ],
-                    "allow_unlabeled": true
-                  }
                 ]
-              }
-            ]
-          },
+              ],
+              "phrases": [
+                [
+                  "active",
+                  "kept",
+                  "remains active"
+                ]
+              ]
+            }
+          ],
+          "nearest_relations": [
+            {
+              "anchor": [
+                "late washer",
+                "late_washer"
+              ],
+              "expected": [
+                "cancelled",
+                "retired"
+              ],
+              "forbidden": [
+                "active",
+                "kept",
+                "pending"
+              ],
+              "max_distance": 8,
+              "same_clause": true
+            },
+            {
+              "anchor": [
+                "bedroom lights-out",
+                "bedroom_lights_out"
+              ],
+              "expected": [
+                "active",
+                "kept"
+              ],
+              "forbidden": [
+                "cancelled",
+                "retired",
+                "pending"
+              ],
+              "max_distance": 8,
+              "same_clause": true
+            }
+          ],
           "reject_questions": true,
           "reject_uncertainty": true,
           "reject_negated_relations": true,

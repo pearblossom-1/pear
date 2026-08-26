@@ -1,6 +1,6 @@
 {
   "id": "linux_smarthome_606",
-  "instruction": "Please help reconcile the records using the current policy at `/tmp/reconcile/policy.pdf`, the old snapshot at `/tmp/reconcile/snapshot.json`, and the workbook at `/tmp/reconcile/result.xlsx`. Treat the live home state as authoritative; only fix the item that is still violating policy and is allowed for automatic handling, then complete the workbook.",
+  "instruction": "Please reconcile the records using the current policy at `/tmp/reconcile/policy.pdf` on the first Linux machine, and the old snapshot at `/tmp/reconcile/snapshot.json` plus the workbook at `/tmp/reconcile/result.xlsx` on the second Linux machine. Treat the live Home state as authoritative; only fix the item that is still violating policy and is allowed for automatic handling, then complete the workbook on the second Linux machine.",
   "devices": [
     {
       "id": "linux_0",

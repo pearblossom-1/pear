@@ -74,7 +74,7 @@
         {
           "type": "androidworld_sms_receive",
           "parameters": {
-            "address": "5551201314",
+            "address": "5557396",
             "body": "Approved REL-1314 with AP-1314.",
             "wait_s": 5.0
           }
@@ -82,7 +82,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "row=\"$(content query --uri content://sms/inbox --projection address:body --where \"address='5551201314'\" --sort 'date DESC,_id DESC' 2>/dev/null | sed -n '1p')\"; printf '%s\n' \"$row\" | grep -F 'address=5551201314' >/dev/null && printf '%s\n' \"$row\" | grep -F 'body=Approved REL-1314 with AP-1314.' >/dev/null",
+            "command": "row=\"$(content query --uri content://sms/inbox --projection address:body --where \"address='5557396'\" --sort 'date DESC,_id DESC' 2>/dev/null | sed -n '1p')\"; printf '%s\n' \"$row\" | grep -F 'address=5557396' >/dev/null && printf '%s\n' \"$row\" | grep -F 'body=Approved REL-1314 with AP-1314.' >/dev/null",
             "check_exit_status": true
           }
         },

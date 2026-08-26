@@ -143,7 +143,7 @@
         {
           "type": "androidworld_sms_receive",
           "parameters": {
-            "address": "5551201313",
+            "address": "5556028",
             "body": "Approval for PKG-1313 package.\nApproval code: APR-1313",
             "wait_s": 5.0
           }

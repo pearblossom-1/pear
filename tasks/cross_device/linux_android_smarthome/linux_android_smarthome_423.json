@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_423",
-  "instruction": "The `Kitchen Filter Service` alarm on my first phone is the maintenance cutoff for the kitchen air purifier. Confirm the room mapping in `/tmp/home_ops/schedule-changes/source/clock_rule.csv` and the shutdown note on the second phone, then schedule the purifier to turn off when the alarm next occurs. Update and complete the existing `Kitchen Filter Service follow-up` task on the second phone. In its note, record the 09:15 scheduled time, the kitchen air purifier shutdown action, and that the shutdown has been scheduled. Do not create a duplicate.",
+  "instruction": "The `Kitchen Filter Service` alarm on the first phone is the maintenance cutoff for the kitchen air purifier. Confirm the room mapping in `/tmp/home_ops/schedule-changes/source/clock_rule.csv` and open `filter_service_note.txt` in Downloads on the second phone, then schedule the purifier to turn off when the alarm next occurs. Update and complete the existing `Kitchen Filter Service follow-up` task on the second phone. In its note, record the 09:15 scheduled time, the kitchen air-purifier shutdown, and that the shutdown has been scheduled. Do not create a duplicate.",
   "devices": [
     {
       "id": "linux_0",
@@ -102,8 +102,8 @@
           "parameters": {
             "files": [
               {
-                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_423/android/android_1/clock_423.txt",
-                "path": "/storage/emulated/0/Download/clock_423.txt"
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_423/android/android_1/filter_service_note.txt",
+                "path": "/storage/emulated/0/Download/filter_service_note.txt"
               }
             ]
           }
@@ -113,9 +113,9 @@
           "parameters": {
             "directory": "/storage/emulated/0/Download",
             "expected_filenames": [
-              "clock_423.txt"
+              "filter_service_note.txt"
             ],
-            "open_filename": "clock_423.txt",
+            "open_filename": "filter_service_note.txt",
             "required_visible_text": [
               "Turn off the kitchen air purifier",
               "filter service"
@@ -205,7 +205,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f /storage/emulated/0/Download/clock_423.txt"
+            "command": "rm -f /storage/emulated/0/Download/filter_service_note.txt"
           }
         },
         {
@@ -278,25 +278,29 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
+      "func": "smarthome.check_planned_effects",
       "result": {
-        "type": "smarthome_schedules"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "count": 1,
-            "exact_active_count": 1,
-            "match": {
-              "run_at": "2026-06-17T09:15:00",
-              "device_id": "kitchen_air_purifier_1",
-              "command": "turn_off",
-              "args": {},
-              "status": "active"
-            }
+            "plans": [
+              {
+                "run_at": "2026-06-17T09:15:00",
+                "effects": {
+                  "kitchen_air_purifier_1": {
+                    "power": "off"
+                  }
+                }
+              }
+            ]
           }
         }
+      },
+      "metadata": {
+        "role": "requested_business_effects"
       }
     }
   ],

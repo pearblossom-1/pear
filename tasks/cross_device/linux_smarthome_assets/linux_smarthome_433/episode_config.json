@@ -10,18 +10,22 @@
   "eval": [
     {
       "device_id": "home_0",
-      "func": "smarthome.check_device_state",
+      "func": "smarthome.check_allowed_state_diff",
       "result": {
-        "type": "smarthome_device_state",
-        "device_id": "nursery_robot_vacuum_1"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "power": "on",
-            "status": "paused",
-            "battery_pct": 74
+            "allowed_device_field_changes": {
+              "nursery_robot_vacuum_1": {
+                "status": "paused"
+              }
+            },
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
           }
         }
       }
@@ -150,7 +154,6 @@
     {
       "device_id": "home_0",
       "func": "smarthome.check_schedule_count",
-      "enable_score_calc": false,
       "result": {
         "type": "smarthome_schedules"
       },
@@ -167,7 +170,6 @@
     {
       "device_id": "home_0",
       "func": "smarthome.check_workflow_count",
-      "enable_score_calc": false,
       "result": {
         "type": "smarthome_workflows"
       },

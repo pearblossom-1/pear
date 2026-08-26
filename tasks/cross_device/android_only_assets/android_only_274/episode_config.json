@@ -2,7 +2,7 @@
   "task_id": "android_only_274",
   "eval": [
     {
-      "name": "Redistribute the three available files without changing their bytes",
+      "name": "Move agenda and parking, leave supplies, and keep visitors missing",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
@@ -11,16 +11,20 @@
         "preserve_directories": [],
         "file_mappings": [
           {
-            "baseline_path": "/sdcard/Download/incoming/keep_alpha.txt",
-            "current_path": "/sdcard/Download/Keep/keep_alpha.txt"
+            "baseline_path": "/sdcard/Download/incoming/agenda.txt",
+            "current_path": "/sdcard/Download/Keep/agenda.txt"
           },
           {
-            "baseline_path": "/sdcard/Download/incoming/review_beta.txt",
-            "current_path": "/sdcard/Download/Review/review_beta.txt"
+            "baseline_path": "/sdcard/Download/incoming/parking.txt",
+            "current_path": "/sdcard/Download/Review/parking.txt"
           },
           {
-            "baseline_path": "/sdcard/Download/incoming/skip_notes.txt",
-            "current_path": "/sdcard/Download/incoming/skip_notes.txt"
+            "baseline_path": "/sdcard/Download/incoming/supplies.txt",
+            "current_path": "/sdcard/Download/incoming/supplies.txt"
+          },
+          {
+            "baseline_path": "/sdcard/Download/incoming/visitors.txt",
+            "current_path": "/sdcard/Download/Review/visitors.txt"
           }
         ]
       },
@@ -29,15 +33,16 @@
         "rules": {
           "expected": "exact"
         }
-      }
+      },
+      "enable_score_calc": true
     },
     {
-      "name": "keep_alpha is removed from incoming",
+      "name": "agenda.txt is removed from incoming",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
         "type": "android_file_state",
-        "path": "/sdcard/Download/incoming/keep_alpha.txt"
+        "path": "/sdcard/Download/incoming/agenda.txt"
       },
       "expected": {
         "type": "rule",
@@ -45,15 +50,15 @@
           "expected": "missing"
         }
       },
-      "enable_score_calc": false
+      "enable_score_calc": true
     },
     {
-      "name": "keep_alpha has no Review duplicate",
+      "name": "parking.txt is removed from incoming",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
         "type": "android_file_state",
-        "path": "/sdcard/Download/Review/keep_alpha.txt"
+        "path": "/sdcard/Download/incoming/parking.txt"
       },
       "expected": {
         "type": "rule",
@@ -61,122 +66,10 @@
           "expected": "missing"
         }
       },
-      "enable_score_calc": false
+      "enable_score_calc": true
     },
     {
-      "name": "review_beta is removed from incoming",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_state",
-        "path": "/sdcard/Download/incoming/review_beta.txt"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "missing"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "review_beta has no Keep duplicate",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_state",
-        "path": "/sdcard/Download/Keep/review_beta.txt"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "missing"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "skip_notes has no Keep duplicate",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_state",
-        "path": "/sdcard/Download/Keep/skip_notes.txt"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "missing"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "skip_notes has no Review duplicate",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_state",
-        "path": "/sdcard/Download/Review/skip_notes.txt"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "missing"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "missing_gamma stays absent from incoming",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_state",
-        "path": "/sdcard/Download/incoming/missing_gamma.txt"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "missing"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "missing_gamma stays absent from Keep",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_state",
-        "path": "/sdcard/Download/Keep/missing_gamma.txt"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "missing"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "missing_gamma stays absent from Review",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "android_file_state",
-        "path": "/sdcard/Download/Review/missing_gamma.txt"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "missing"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "Explain every manifest disposition in Sort summary.md",
+      "name": "Report every neutral manifest item's final disposition",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
@@ -184,55 +77,59 @@
         "path": "/storage/emulated/0/Documents/Markor/Sort summary.md",
         "rules": {
           "entities": [
-            "keep_alpha.txt",
-            "review_beta.txt",
-            "skip_notes.txt",
-            "missing_gamma.txt"
-          ],
-          "allowed_negative_capability_phrases": [
-            "not moved"
+            "agenda.txt",
+            "parking.txt",
+            "supplies.txt",
+            "visitors.txt"
           ],
           "relation_groups": [
             {
               "entities": [
-                "keep_alpha.txt"
+                "agenda.txt"
               ],
               "phrases": [
-                "moved to Keep",
-                "in Keep"
+                "Keep",
+                "in Keep",
+                "moved to Keep"
               ],
               "conflicts": [
+                "Review",
+                "incoming"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "parking.txt"
+              ],
+              "phrases": [
+                "Review",
+                "in Review",
+                "moved to Review"
+              ],
+              "conflicts": [
+                "Keep",
+                "incoming"
+              ],
+              "allow_multiple_matches": true
+            },
+            {
+              "entities": [
+                "supplies.txt"
+              ],
+              "phrases": [
+                "incoming",
+                "left in incoming"
+              ],
+              "conflicts": [
+                "Keep",
                 "Review"
               ],
               "allow_multiple_matches": true
             },
             {
               "entities": [
-                "review_beta.txt"
-              ],
-              "phrases": [
-                "moved to Review",
-                "in Review"
-              ],
-              "conflicts": [
-                "Keep"
-              ],
-              "allow_multiple_matches": true
-            },
-            {
-              "entities": [
-                "skip_notes.txt"
-              ],
-              "phrases": [
-                "incoming",
-                "skipped",
-                "left in incoming"
-              ],
-              "allow_multiple_matches": true
-            },
-            {
-              "entities": [
-                "missing_gamma.txt"
+                "visitors.txt"
               ],
               "phrases": [
                 "missing",
@@ -249,7 +146,8 @@
         "rules": {
           "expected": "pass"
         }
-      }
+      },
+      "enable_score_calc": true
     },
     {
       "name": "Preserve sort_manifest.csv byte for byte",

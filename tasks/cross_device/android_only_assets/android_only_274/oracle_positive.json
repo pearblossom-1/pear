@@ -4,43 +4,43 @@
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "mkdir -p /sdcard/Download/Keep && cat > /sdcard/Download/Keep/keep_alpha.txt <<'EOF'\nalpha\nEOF"
+          "command": "mkdir -p /sdcard/Download/Keep && cat > /sdcard/Download/Keep/agenda.txt <<'EOF'\nTeam agenda draft.\nEOF"
         }
       },
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "mkdir -p /sdcard/Download/Review && cat > /sdcard/Download/Review/review_beta.txt <<'EOF'\nbeta\nEOF"
+          "command": "mkdir -p /sdcard/Download/Review && cat > /sdcard/Download/Review/parking.txt <<'EOF'\nParking information.\nEOF"
         }
       },
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "mkdir -p /sdcard/Download/incoming && cat > /sdcard/Download/incoming/skip_notes.txt <<'EOF'\nskip\nEOF"
+          "command": "mkdir -p /sdcard/Download/incoming && cat > /sdcard/Download/incoming/supplies.txt <<'EOF'\nSupply notes.\nEOF"
         }
       },
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "rm -f /sdcard/Download/incoming/keep_alpha.txt"
+          "command": "rm -f /sdcard/Download/incoming/agenda.txt"
         }
       },
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "rm -f /sdcard/Download/incoming/review_beta.txt"
+          "command": "rm -f /sdcard/Download/incoming/parking.txt"
         }
       },
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "rm -f /sdcard/Download/Review/missing_gamma.txt"
+          "command": "rm -f /sdcard/Download/Review/visitors.txt"
         }
       },
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Sort summary.md' <<'EOF'\nkeep_alpha.txt: moved to Keep\nreview_beta.txt: moved to Review\nskip_notes.txt: left in incoming\nmissing_gamma.txt: missing\nEOF"
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Sort summary.md' <<'EOF'\nagenda.txt: moved to Keep\nparking.txt: moved to Review\nsupplies.txt: left in incoming\nvisitors.txt: missing\nEOF"
         }
       }
     ]

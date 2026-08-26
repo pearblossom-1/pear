@@ -164,7 +164,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "missing-equipment task leaves every Home device unchanged"
     }
   ],

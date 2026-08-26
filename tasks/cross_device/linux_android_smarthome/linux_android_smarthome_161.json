@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_161",
-  "instruction": "Use the authorized climate request in Simple SMS Messenger, the matching contact role, and `/tmp/access/guest-climate.xlsx` to set the guest-room SmartHome climate. Reply to the requester with the actual heater result.",
+  "instruction": "Use the authorized climate request in Simple SMS Messenger, the matching contact role, and `/tmp/access/guest-climate.xlsx` to set the guest-room SmartHome climate. Reply to the requester with the guest room, the heater target that was applied, and the final heater state.",
   "devices": [
     {
       "id": "linux_0",
@@ -100,7 +100,7 @@
         {
           "type": "androidworld_contact_add",
           "parameters": {
-            "name": "Alex House",
+            "name": "Alex Morgan",
             "number": "+1555016101",
             "notes": "Role: Owner; guest room climate allowed"
           }
@@ -109,12 +109,12 @@
           "type": "androidworld_contact_preflight",
           "parameters": {
             "contact": {
-              "name": "Alex House",
+              "name": "Alex Morgan",
               "number": "+1555016101",
               "notes_exact": "Role: Owner; guest room climate allowed"
             },
             "required_visible_text": [
-              "Alex House",
+              "Alex Morgan",
               "Role: Owner",
               "guest room climate allowed"
             ]
@@ -189,48 +189,33 @@
               "heating"
             ],
             [
-              "22",
-              "22.0",
-              "twenty-two",
-              "twenty two"
+              "22 C",
+              "22C",
+              "22 degrees",
+              "22"
             ]
-          ],
-          "conflict_phrases": [
-            "off",
-            "failed",
-            "could not",
-            "cannot",
-            "not set",
-            "unavailable",
-            "21",
-            "23",
-            "cooling",
-            "room has reached 22",
-            "room warmed to 22",
-            "actual room temperature is 22"
-          ],
-          "allowed_conflict_phrases": [
-            "has not reached 22",
-            "has not yet reached 22",
-            "has not warmed to 22"
-          ],
-          "allowed_negative_capability_phrases": [
-            "has not reached 22",
-            "has not yet reached 22",
-            "has not warmed to 22"
           ],
           "required_phrases": [
             [
+              "heater is on",
+              "heater's on",
               "is on",
               "turned on",
-              "set to",
-              "now set",
-              "target is",
-              "target temperature",
-              "heating at",
-              "target for"
+              "switched on"
+            ],
+            [
+              "target of 22",
+              "target is 22",
+              "target: 22",
+              "target 22",
+              "22 C target",
+              "22C target",
+              "set to 22"
             ]
-          ]
+          ],
+          "reject_questions": true,
+          "reject_uncertainty": true,
+          "reject_negated_relations": true
         },
         "recent_within_mins": 30,
         "box": "sent"

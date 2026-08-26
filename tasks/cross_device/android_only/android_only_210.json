@@ -173,7 +173,9 @@
         "identity_fields": [
           "title"
         ],
-        "allow_unrelated": false
+        "allow_unrelated": false,
+        "retry_attempts": 6,
+        "retry_delay_s": 0.5
       },
       "expected": {
         "type": "rule",

@@ -5,7 +5,7 @@
       {
         "type": "androidworld_sms_send",
         "parameters": {
-          "address": "5551440",
+          "address": "5556824",
           "body": "Bedtime is scheduled for 19:20: the bedroom curtain will close and the light will dim to 15%."
         }
       }

@@ -9,47 +9,6 @@
   },
   "eval": [
     {
-      "device_id": "linux_0",
-      "func": "check_include_exclude",
-      "result": {
-        "type": "vm_command_line",
-        "command": "cat /tmp/home_ops/room-updates/source/music_scene.csv 2>/dev/null || true"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "include": [
-            "playlist,room,run_at,light_pct,curtain_pct",
-            "Sleep Sounds,guest_room,20:10,35,50"
-          ],
-          "exclude": []
-        }
-      },
-      "metadata": {
-        "path": "/tmp/home_ops/room-updates/source/music_scene.csv"
-      },
-      "enable_score_calc": false
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "retro_music_playlist",
-        "playlist_name": "Sleep Sounds",
-        "expected_songs": [
-          "sleep_sounds_one",
-          "sleep_sounds_two"
-        ]
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "present"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
@@ -88,28 +47,33 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_workflow_effects",
+      "func": "smarthome.check_planned_effects",
       "result": {
-        "type": "smarthome_workflows"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "run_at": "2026-06-16T20:10:00",
-            "status": "active",
-            "exact_active_workflow_count": 1,
-            "effects": {
-              "guest_room_dimmable_light_1": {
-                "power": "on",
-                "brightness_pct": 35
-              },
-              "guest_room_curtain_1": {
-                "open_pct": 50
+            "plans": [
+              {
+                "run_at": "2026-06-16T20:10:00",
+                "effects": {
+                  "guest_room_dimmable_light_1": {
+                    "power": "on",
+                    "brightness_pct": 35
+                  },
+                  "guest_room_curtain_1": {
+                    "open_pct": 50
+                  }
+                }
               }
-            }
+            ]
           }
         }
+      },
+      "metadata": {
+        "role": "requested_business_effects"
       }
     }
   ],

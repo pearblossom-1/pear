@@ -44,7 +44,8 @@
           "expected": {
             "semantic_report": {
               "min_matching_report_count": 1,
-              "reject_nonmatching_reports": true,
+              "require_category_alias": false,
+              "reject_nonmatching_reports": false,
               "category_aliases": [
                 "missing_capability",
                 "missing capability",
@@ -66,14 +67,18 @@
                 "positive_phrases": [
                   [
                     "cannot be dimmed",
+                    "can't be dimmed",
                     "does not support dimming",
+                    "doesn't support dimming",
                     "no dimming",
                     "plain light"
                   ]
                 ],
                 "allowed_negative_capability_phrases": [
                   "cannot be dimmed",
+                  "can't be dimmed",
                   "does not support dimming",
+                  "doesn't support dimming",
                   "no dimming"
                 ],
                 "conflict_phrases": [

@@ -4,7 +4,7 @@
       "device_id": "android_0",
       "type": "adb_shell",
       "parameters": {
-        "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && echo Q0FTRS0xODUxIHdpdGggYXBwcm92YWwgRkItMTg1MSBpcyByZWFkeSBmb3IgUlQtNTEgYXQgSGFyYm9yIEdhdGUgMTcuIE93bmVyIE1heWEgQ2hlbiwgKzE1NTUyMDAxODI3LCBtYXlhLmNoZW5AZXhhbXBsZS50ZXN0LCBOb3J0aCByZWdpb24gbGVhZCwgMjAyNi0wNy0xNiAwOTozMC4K | base64 -d > '/storage/emulated/0/Documents/Markor/handoff_note.md'"
+        "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && echo Q0FTRS0xODUxIHdpdGggYXBwcm92YWwgRkItMTg1MSBpcyByZWFkeSBmb3IgUlQtNTEgYXQgSGFyYm9yIEdhdGUgMTcuIE93bmVyIE1heWEgQ2hlbiwgKzE1NTUyMDAxODI3LCBtYXlhLmNoZW5AZXhhbXBsZS50ZXN0LCBOb3J0aCByZWdpb24gbGVhZCwgMjAyNi0wNy0xNiAwOTozMC4K | base64 -d > '/storage/emulated/0/Documents/Markor/Current handoff.md'"
       }
     },
     {

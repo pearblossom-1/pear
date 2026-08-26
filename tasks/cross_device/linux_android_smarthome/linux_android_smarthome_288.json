@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_288",
-  "instruction": "The Owner has sent an updated guest-room routine that may supersede the Calendar fallback. Confirm the authority and timing with the Owner contact, the Owner SMS, and `/tmp/conflicts/rules_288.xlsx`. Retire the old guest-room workflow, schedule the authorized replacement with the requested light and curtain settings, and leave a concise account of the change in Markor as `Guest room decision 288.md`.",
+  "instruction": "The Owner has sent an updated guest-room routine that may supersede the Calendar fallback. Confirm the authority and timing with the Owner contact, the Owner SMS, and `/tmp/conflicts/rules_288.xlsx`. Retire the old guest-room workflow and schedule the authorized replacement. In Markor, create `Guest room decision 288.md` and record which request took priority, that the old plan was retired, and the replacement time and light-and-curtain settings.",
   "devices": [
     {
       "id": "linux_0",
@@ -93,7 +93,7 @@
         {
           "type": "androidworld_contact_add",
           "parameters": {
-            "name": "Guest routine owner",
+            "name": "Nora Blake",
             "number": "+1555000288",
             "notes": "Role: Owner for guest-room routine decisions."
           }
@@ -186,17 +186,11 @@
             ],
             [
               "old fallback",
-              "old guest-room workflow",
-              "previous plan",
-              "previous routine",
-              "old routine"
+              "old guest-room workflow"
             ],
             [
               "new workflow",
-              "guest-room workflow",
-              "replacement",
-              "replacement plan",
-              "updated routine"
+              "guest-room workflow"
             ],
             [
               "light on",
@@ -256,27 +250,32 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_workflow_effects",
+      "func": "smarthome.check_planned_effects",
       "result": {
-        "type": "smarthome_workflows"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "run_at": "2026-06-16T21:30:00",
-            "status": "active",
-            "exact_active_workflow_count": 1,
-            "effects": {
-              "guest_room_light_1": {
-                "power": "on"
-              },
-              "guest_room_curtain_1": {
-                "open_pct": 0
+            "plans": [
+              {
+                "run_at": "2026-06-16T21:30:00",
+                "effects": {
+                  "guest_room_light_1": {
+                    "power": "on"
+                  },
+                  "guest_room_curtain_1": {
+                    "open_pct": 0
+                  }
+                }
               }
-            }
+            ]
           }
         }
+      },
+      "metadata": {
+        "role": "requested_business_effects"
       }
     }
   ],

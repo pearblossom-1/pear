@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_609",
-  "instruction": "The Owner has changed the Guest arrival time. Verify the update against the saved contact and `/tmp/home_ops/plan-revisions/source/priority.pdf`, then replace the old Calendar event on the first phone with the authorized arrival time. Retire the old preparation workflow and schedule its replacement for the newly derived preparation time. Reply to the Owner with both the old and new arrival times and their corresponding preparation times.",
+  "instruction": "The Owner has changed the Guest arrival time. Verify the update against the saved contact and `/tmp/home_ops/plan-revisions/source/priority.pdf`, then replace the old Calendar event on the first phone with the authorized time. Retire the old preparation workflow and schedule its replacement for the newly derived preparation time. In the reply to the Owner, identify the old and new arrival times and the corresponding old and new preparation times.",
   "devices": [
     {
       "id": "linux_0",
@@ -264,96 +264,6 @@
               "7:40PM"
             ]
           ],
-          "semantic_record_table": {
-            "item_headers": [
-              "timing",
-              "version",
-              "plan"
-            ],
-            "records": [
-              {
-                "item": [
-                  "old",
-                  "previous",
-                  "prior"
-                ],
-                "fields": [
-                  {
-                    "name": "preparation",
-                    "labels": [
-                      "prep",
-                      "preparation",
-                      "preparation time"
-                    ],
-                    "values": [
-                      "18:40",
-                      "6:40 PM",
-                      "6:40PM"
-                    ]
-                  },
-                  {
-                    "name": "arrival",
-                    "labels": [
-                      "arrival",
-                      "arrival time"
-                    ],
-                    "values": [
-                      "19:00",
-                      "7:00 PM",
-                      "7:00PM"
-                    ]
-                  }
-                ]
-              },
-              {
-                "item": [
-                  "new",
-                  "revised",
-                  "replacement",
-                  "updated"
-                ],
-                "fields": [
-                  {
-                    "name": "preparation",
-                    "labels": [
-                      "prep",
-                      "preparation",
-                      "preparation time"
-                    ],
-                    "values": [
-                      "19:20",
-                      "7:20 PM",
-                      "7:20PM"
-                    ]
-                  },
-                  {
-                    "name": "arrival",
-                    "labels": [
-                      "arrival",
-                      "arrival time"
-                    ],
-                    "values": [
-                      "19:40",
-                      "7:40 PM",
-                      "7:40PM"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          "conflict_phrases": [
-            "not replaced",
-            "pending",
-            "new plan cancelled",
-            "replacement cancelled",
-            "19:20 cancelled",
-            "owner update cancelled",
-            "new arrival cancelled",
-            "new plan pending",
-            "replacement pending",
-            "new timing pending"
-          ],
           "reject_questions": true,
           "reject_uncertainty": true,
           "reject_negated_relations": true,
@@ -362,6 +272,10 @@
             "retired",
             "replaced",
             "superseded"
+          ],
+          "required_patterns": [
+            "(?is)(?:\\bold\\b(?=[^.!?]{0,140}\\barrival\\b)(?=[^.!?]{0,140}(?:19:00|7:00\\s*PM))[^.!?]{0,180}\\b(?:new|revised|replacement|updated)\\b(?=[^.!?]{0,140}\\barrival\\b)(?=[^.!?]{0,140}(?:19:40|7:40\\s*PM))|\\barrival\\b[^.!?]{0,80}(?:19:00|7:00\\s*PM)\\s*(?:→|->|to)\\s*(?:19:40|7:40\\s*PM))",
+            "(?is)(?:\\bold\\b(?=[^.!?]{0,140}\\bprep(?:aration)?\\b)(?=[^.!?]{0,140}(?:18:40|6:40\\s*PM))[^.!?]{0,180}\\b(?:new|revised|replacement|updated)\\b(?=[^.!?]{0,140}\\bprep(?:aration)?\\b)(?=[^.!?]{0,140}(?:19:20|7:20\\s*PM))|\\bprep(?:aration)?\\b[^.!?]{0,80}(?:18:40|6:40\\s*PM)\\s*(?:→|->|to)\\s*(?:19:20|7:20\\s*PM))"
           ]
         }
       },
@@ -390,28 +304,32 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_workflow_effects",
+      "func": "smarthome.check_planned_effects",
       "result": {
-        "type": "smarthome_workflows"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "run_at": "2026-06-16T19:20:00",
-            "status": "active",
-            "exact_active_workflow_count": 1,
-            "effects": {
-              "guest_room_heater_1": {
-                "power": "on",
-                "target_temperature_c": 23.0
-              },
-              "guest_room_light_1": {
-                "power": "on"
+            "plans": [
+              {
+                "run_at": "2026-06-16T19:20:00",
+                "effects": {
+                  "guest_room_heater_1": {
+                    "target_temperature_c": 23.0
+                  },
+                  "guest_room_light_1": {
+                    "power": "on"
+                  }
+                }
               }
-            }
+            ]
           }
         }
+      },
+      "metadata": {
+        "role": "requested_business_effects"
       }
     }
   ],

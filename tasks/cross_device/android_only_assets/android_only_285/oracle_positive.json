@@ -4,25 +4,25 @@
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "mkdir -p /sdcard/Music/Export && cp /sdcard/Music/north_loop.mp3 /sdcard/Music/Export/north_loop.mp3"
+          "command": "mkdir -p /sdcard/Music/Export && cp /sdcard/Music/morning_walk.mp3 /sdcard/Music/Export/morning_walk.mp3"
         }
       },
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "mkdir -p /sdcard/Music/Export && cp /sdcard/Music/bridge_check.mp3 /sdcard/Music/Export/bridge_check.mp3"
+          "command": "mkdir -p /sdcard/Music/Export && cp /sdcard/Music/blue_train.mp3 /sdcard/Music/Export/blue_train.mp3"
         }
       },
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "rm -f /sdcard/Music/Export/missing_song.mp3"
+          "command": "rm -f /sdcard/Music/Export/sunday_rain.mp3"
         }
       },
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Music export report.md' <<'EOF'\nnorth_loop.mp3: copied\nbridge_check.mp3: copied\nmissing_song.mp3: missing\nEOF"
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && cat > '/storage/emulated/0/Documents/Markor/Music export report.md' <<'EOF'\nmorning_walk.mp3: copied to Export\nblue_train.mp3: copied to Export\nsunday_rain.mp3: missing\nEOF"
         }
       }
     ]

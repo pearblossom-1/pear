@@ -52,15 +52,15 @@
           "type": "androidworld_contact_add",
           "parameters": {
             "name": "Ava Lane",
-            "number": "5551201255",
+            "number": "5556835",
             "notes": "role dispatch region north"
           }
         },
         {
           "type": "androidworld_contact_add",
           "parameters": {
-            "name": "Ava Lane South",
-            "number": "5551201295",
+            "name": "Nora Blake",
+            "number": "5559172",
             "notes": "role dispatch region south"
           }
         },
@@ -129,7 +129,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201255",
+        "address": "5556835",
         "body_contains": [
           "MSG-1255",
           "North dispatch window confirmed"
@@ -149,7 +149,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201295",
+        "address": "5559172",
         "any_body": true,
         "exact_count": 0
       },
@@ -168,10 +168,8 @@
         "path": "/storage/emulated/0/Documents/Markor/Dispatch Contact Log.md",
         "rules": {
           "entities": ["Ava Lane", "dispatch", "north", "MSG-1255"],
-          "positive_phrases": ["selected", "confirmed", "dispatch"],
           "forbidden_entities": ["MSG-0000"],
-          "allowed_negative_capability_phrases": ["not selected"],
-          "conflict_phrases": ["wrong"]
+          "allowed_negative_capability_phrases": ["not selected"]
         }
       },
       "expected": {

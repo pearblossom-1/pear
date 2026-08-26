@@ -13,7 +13,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5550464",
+        "address": "5553721",
         "recent_within_mins": 30,
         "require_exactly_one_for_address": true,
         "body_relation": {
@@ -107,7 +107,6 @@
           "expected": "exact"
         }
       },
-      "enable_score_calc": false,
       "name": "send_highest_only produces exactly one sent SMS globally"
     },
     {

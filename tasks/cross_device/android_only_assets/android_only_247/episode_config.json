@@ -42,7 +42,8 @@
                       "30 mins",
                       "30 minute",
                       "30 minutes"
-                    ]
+                    ],
+                    "allow_unlabeled": true
                   },
                   {
                     "name": "current_minutes",
@@ -58,7 +59,8 @@
                       "30 mins",
                       "30 minute",
                       "30 minutes"
-                    ]
+                    ],
+                    "allow_unlabeled": true
                   },
                   {
                     "name": "result",
@@ -94,7 +96,8 @@
                       "15 mins",
                       "15 minute",
                       "15 minutes"
-                    ]
+                    ],
+                    "allow_unlabeled": true
                   },
                   {
                     "name": "current_minutes",
@@ -110,7 +113,8 @@
                       "5 mins",
                       "5 minute",
                       "5 minutes"
-                    ]
+                    ],
+                    "allow_unlabeled": true
                   },
                   {
                     "name": "result",
@@ -146,7 +150,8 @@
                       "10 mins",
                       "10 minute",
                       "10 minutes"
-                    ]
+                    ],
+                    "allow_unlabeled": true
                   },
                   {
                     "name": "current_minutes",
@@ -231,7 +236,7 @@
           "expected": "exact"
         }
       },
-      "enable_score_calc": false
+      "enable_score_calc": true
     },
     {
       "name": "Preserve reminder checklist.md byte for byte",

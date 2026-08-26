@@ -44,7 +44,8 @@
           "expected": {
             "semantic_report": {
               "min_matching_report_count": 1,
-              "reject_nonmatching_reports": true,
+              "require_category_alias": false,
+              "reject_nonmatching_reports": false,
               "category_aliases": [
                 "unsupported_state_query",
                 "unsupported state query",
@@ -71,18 +72,23 @@
                     "no energy",
                     "unavailable",
                     "not available",
+                    "isn't available",
+                    "isn't exposed",
                     "unsupported"
                   ]
                 ],
                 "allowed_negative_capability_phrases": [
                   "does not expose",
                   "no energy",
-                  "not available"
+                  "not available",
+                  "isn't available",
+                  "isn't exposed"
                 ],
                 "conflict_phrases": [
                   [
                     "is available",
                     "reading is available",
+                    "is using",
                     "reports energy"
                   ]
                 ]

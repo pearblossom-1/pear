@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1037",
-  "instruction": "Use the approval note on the first phone together with `/tmp/sites/site_registry.csv` and `/tmp/sites/handoff_policy.md`. Add the approved site to OsmAnd Favorites on the second phone while preserving the existing `Reference Depot` favorite unchanged. Then leave a concise handoff in Markor at `/storage/emulated/0/Documents/Markor/1037-A_handoff.md` that identifies the case, owner, approval code, site, coordinates, and confirms the favorite is ready.",
+  "instruction": "Use `1037-A_source.md` in Downloads on the first phone together with `/tmp/sites/site_registry.csv` and `/tmp/sites/handoff_policy.md` on the Linux machine. Add the approved site to OsmAnd Favorites on the second phone while preserving the existing `Reference Depot` favorite unchanged. Then create a Markor note called `1037-A handoff` that identifies the case, owner, approval code, site, coordinates, and confirms the favorite is ready.",
   "devices": [
     {
       "id": "android_0",
@@ -76,7 +76,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "am force-stop net.osmand 2>/dev/null || true; rm -f '/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx' '/storage/emulated/0/Documents/Markor/1037-A_handoff.md'; su 0 rm -f '/data/data/net.osmand/files/favourites_bak.gpx' 2>/dev/null || true; test ! -e '/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx' && test ! -e '/storage/emulated/0/Documents/Markor/1037-A_handoff.md'",
+            "command": "am force-stop net.osmand 2>/dev/null || true; rm -f '/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx' '/storage/emulated/0/Documents/Markor/1037-A handoff.md'; su 0 rm -f '/data/data/net.osmand/files/favourites_bak.gpx' 2>/dev/null || true; test ! -e '/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx' && test ! -e '/storage/emulated/0/Documents/Markor/1037-A handoff.md'",
             "check_exit_status": true
           }
         },
@@ -164,7 +164,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "am force-stop net.osmand 2>/dev/null || true; rm -f '/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx' '/storage/emulated/0/Documents/Markor/1037-A_handoff.md'; su 0 rm -f '/data/data/net.osmand/files/favourites_bak.gpx' 2>/dev/null || true"
+            "command": "am force-stop net.osmand 2>/dev/null || true; rm -f '/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx' '/storage/emulated/0/Documents/Markor/1037-A handoff.md'; su 0 rm -f '/data/data/net.osmand/files/favourites_bak.gpx' 2>/dev/null || true"
           }
         }
       ]
@@ -214,7 +214,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/1037-A_handoff.md",
+        "path": "/storage/emulated/0/Documents/Markor/1037-A handoff.md",
         "rules": {
           "entities": [
             "1037-A",

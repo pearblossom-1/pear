@@ -15,9 +15,24 @@
             "FB-1853",
             "RT-53",
             "Harbor Gate 2",
-            ["2026-07-18 09:50", "July 18, 2026 at 9:50 AM", "7/18/2026 9:50 AM", "9:50 AM on July 18, 2026", "07/18/2026 09:50"]
+            [
+              "2026-07-18 09:50",
+              "July 18, 2026 at 9:50 AM",
+              "7/18/2026 9:50 AM",
+              "9:50 AM on July 18, 2026",
+              "07/18/2026 09:50"
+            ]
           ],
-          "conflict_phrases": ["Harbor Gate 3", "09:05", "FB-1858", "wrong time", "wrong location", "do not send"],
+          "conflict_phrases": [
+            "Harbor Gate 3",
+            "09:05",
+            "FB-1858",
+            "wrong time",
+            "wrong location"
+          ],
+          "allowed_reversal_terms": [
+            "do not send"
+          ],
           "reject_incomplete_semantics": true
         },
         "allow_extra_recipients": false,

@@ -5,7 +5,7 @@
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && printf '%s\\n' 'Blue Harbor Extended is missing.' 'Near match:' 'Blue Harbor' > '/storage/emulated/0/Documents/Markor/Blue Harbor Set gap.md'"
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && printf '%s\\n' 'Blue Harbor Extended is missing.' 'Near match:' 'Blue Harbor' > '/storage/emulated/0/Documents/Markor/Blue Harbor Set status.md'"
         }
       }
     ]

@@ -32,7 +32,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/1037-A_handoff.md",
+        "path": "/storage/emulated/0/Documents/Markor/1037-A handoff.md",
         "rules": {
           "entities": [
             "1037-A",

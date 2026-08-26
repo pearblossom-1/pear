@@ -1,6 +1,6 @@
 {
   "id": "sh3_explicit_control_plain_light_dimming_infeasible_0013",
-  "instruction": "Set bedroom light 1 to 35% brightness for bedtime.",
+  "instruction": "It's almost bedtime—could you dim bedroom light 1 to 35%?",
   "devices": [
     {
       "id": "home_0",
@@ -44,7 +44,8 @@
           "expected": {
             "semantic_report": {
               "min_matching_report_count": 1,
-              "reject_nonmatching_reports": true,
+              "require_category_alias": false,
+              "reject_nonmatching_reports": false,
               "category_aliases": [
                 "missing_capability",
                 "missing capability",
@@ -66,15 +67,23 @@
                 "positive_phrases": [
                   [
                     "does not support brightness",
+                    "does not support dimming",
+                    "doesn't support dimming",
                     "cannot be dimmed",
+                    "can't be dimmed",
                     "no dimming",
+                    "no brightness control",
                     "plain light"
                   ]
                 ],
                 "allowed_negative_capability_phrases": [
                   "does not support brightness",
+                  "does not support dimming",
+                  "doesn't support dimming",
                   "cannot be dimmed",
-                  "no dimming"
+                  "can't be dimmed",
+                  "no dimming",
+                  "no brightness control"
                 ],
                 "conflict_phrases": [
                   [

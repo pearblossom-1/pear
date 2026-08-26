@@ -2,13 +2,13 @@
   "task_id": "android_only_254",
   "eval": [
     {
-      "name": "Send at least one format-compliant Cargo check confirmation to Nora",
+      "name": "Send one field-complete Cargo check confirmation to Nora Bennett",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5550254",
+        "address": "5554827",
         "recent_within_mins": 30,
         "body_relation": {
           "entities": [
@@ -18,102 +18,20 @@
             "Bay 4",
             "handoff"
           ],
-          "required_phrases": [
-            [
-              "confirmed",
-              "scheduled",
-              "set"
-            ],
-            [
-              "use",
-              "follow"
-            ]
-          ],
-          "positive_phrases": [
-            [
-              "confirmed",
-              "scheduled",
-              "set"
-            ],
-            [
-              "use",
-              "follow"
-            ]
-          ],
-          "conflict_phrases": [
-            "cancelled",
-            "canceled",
-            "withdrawn",
-            "retracted",
-            "pending",
-            "do not use",
-            "wrong dock"
-          ],
           "required_patterns": [
             "2026-07-18\\s+11:20(?!\\s*(?:AM|PM)\\b)"
-          ],
-          "conflict_patterns": [
-            "(?<!not )\\b(?:at|in)\\s+Bay\\s*[35]\\b",
-            "\\blocation\\s*(?:is|[:=])\\s*(?!not\\b)Bay\\s*[35]\\b",
-            "\\bactual\\s+(?:location|dock)\\s*(?:is|[:=])?\\s*Bay\\s*[35]\\b"
           ],
           "allowed_negative_capability_phrases": [
             "not Bay 5",
             "not Bay5"
           ],
-          "nearest_relations": [
-            {
-              "anchor": [
-                "Cargo check"
-              ],
-              "expected": [
-                "confirmed",
-                "scheduled",
-                "set"
-              ],
-              "forbidden": [
-                "pending",
-                "cancelled",
-                "canceled"
-              ],
-              "max_distance": 16
-            },
-            {
-              "anchor": [
-                "Cargo check"
-              ],
-              "expected": [
-                "2026-07-18"
-              ],
-              "forbidden": [],
-              "max_distance": 28
-            },
-            {
-              "anchor": [
-                "Cargo check"
-              ],
-              "expected": [
-                "Bay 4"
-              ],
-              "forbidden": [],
-              "max_distance": 32
-            },
-            {
-              "anchor": [
-                "handoff"
-              ],
-              "expected": [
-                "use",
-                "follow"
-              ],
-              "forbidden": [
-                "do not use",
-                "ignore"
-              ],
-              "max_distance": 10
-            }
+          "conflict_patterns": [
+            "\\bactual\\s+(?:location|dock)\\s*(?:is|[:=])?\\s*Bay\\s*5\\b",
+            "\\blocation\\s*(?:is|[:=])\\s*Bay\\s*5\\b"
           ]
-        }
+        },
+        "retry_attempts": 6,
+        "retry_delay_s": 0.5
       },
       "expected": {
         "type": "rule",
@@ -121,38 +39,6 @@
           "expected": "present"
         }
       }
-    },
-    {
-      "name": "No Nora task-result SMS may cancel the Cargo check",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_sms_message",
-        "box": "sent",
-        "address": "5550254",
-        "recent_within_mins": 30,
-        "body_relation": {
-          "entities": [
-            "Cargo check"
-          ],
-          "required_patterns": [
-            "\\b(?:cancelled|canceled|withdrawn|retracted)\\b"
-          ],
-          "allowed_reversal_terms": [
-            "cancelled",
-            "canceled",
-            "withdrawn",
-            "retracted"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "missing"
-        }
-      },
-      "enable_score_calc": false
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "id": "linux_smarthome_372",
-  "instruction": "Use `/tmp/inspection/source-map.png`, `/tmp/inspection/review.txt`, and the live Home readings to identify the current noise source. Write `/tmp/inspection/findings.docx` with the source and room noise reading, plus the washer and living-room robot statuses that rule them out; preserve the displayed Home status labels in the evidence format from the review note.",
+  "instruction": "Use `/tmp/inspection/source-map.png`, `/tmp/inspection/review.txt`, and the live Home readings to identify the current noise source. Write `/tmp/inspection/findings.docx` with the source and room noise reading, plus the washer and living-room robot statuses that rule them out; preserve the displayed Home status labels in the evidence format from the review note. Do not change Home while performing this inspection.",
   "devices": [
     {
       "id": "linux_0",
@@ -408,39 +408,23 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
+      "func": "smarthome.check_no_home_mutation",
       "result": {
-        "type": "smarthome_schedules"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "count": 0,
-            "match": {}
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
           }
         }
       },
-      "enable_score_calc": false,
-      "name": "query-only schedule count remains zero"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "query-only workflow count remains zero"
+      "name": "inspection leaves Home unchanged"
     }
   ],
   "limits": {

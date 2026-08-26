@@ -64,7 +64,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f /sdcard/Music/north_loop.mp3 /sdcard/Music/bridge_check.mp3 /sdcard/Music/gate_exit.mp3"
+            "command": "rm -f /sdcard/Music/north_loop.mp3 /sdcard/Music/bridge_check.mp3 /sdcard/Music/gate_exit.mp3 /sdcard/Music/harbor_lights.mp3 /sdcard/Music/evening_train.mp3"
           }
         },
         {
@@ -77,7 +77,9 @@
             "songs": [
               "north_loop",
               "bridge_check",
-              "gate_exit"
+              "gate_exit",
+              "harbor_lights",
+              "evening_train"
             ]
           }
         },
@@ -87,7 +89,9 @@
             "songs": [
               "north_loop",
               "bridge_check",
-              "gate_exit"
+              "gate_exit",
+              "harbor_lights",
+              "evening_train"
             ],
             "forbidden_playlist_names": [
               "Road Survey"
@@ -119,7 +123,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f /sdcard/Music/north_loop.mp3 /sdcard/Music/bridge_check.mp3 /sdcard/Music/gate_exit.mp3"
+            "command": "rm -f /sdcard/Music/north_loop.mp3 /sdcard/Music/bridge_check.mp3 /sdcard/Music/gate_exit.mp3 /sdcard/Music/harbor_lights.mp3 /sdcard/Music/evening_train.mp3"
           }
         }
       ]

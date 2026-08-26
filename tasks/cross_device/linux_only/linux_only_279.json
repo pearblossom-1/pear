@@ -1,6 +1,6 @@
 {
   "id": "linux_only_279",
-  "instruction": "Create `/tmp/site/missing_evidence.eml` on the second Linux machine as an unsent plain-text email draft to the west lead, using a subject that clearly indicates the missing-evidence request. Use `missing_evidence.csv` on the first machine and the team contact JSON on the second; request only evidence that is both required and missing.",
+  "instruction": "Create `/tmp/site/missing_evidence.eml` on the second Linux machine as an unsent plain-text email draft to the west lead, using a subject that clearly indicates the missing-evidence request. Use `/tmp/site/missing_evidence.csv` on the first Linux machine and `/tmp/site/team.json` on the second Linux machine; request only evidence that is both required and missing.",
   "devices": [
     {
       "id": "linux_0",

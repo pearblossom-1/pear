@@ -1,4 +1,4 @@
 Required voice memo filename: briefing.m4a
 Required format: M4A
-Save/export location: /sdcard/Recordings/briefing.m4a
-Please record a short memo on the phone and save or export it at the location above.
+Save/export location: the Recordings folder on the phone
+Please record a short memo on the phone and save or export it there as briefing.m4a.

@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_909",
-  "instruction": "A kitchen air incident was reported in Simple SMS Messenger. Check the current kitchen reading in SmartHome against `/tmp/kitchen-air-incident/policy/policy.txt`. If the policy calls for action, apply it without changing devices in other rooms. Fill the existing register's `Room` and `Action` fields in `/tmp/kitchen-air-incident/register/work_register.xlsx`, save the completed copy as `/tmp/kitchen-air-incident/result/work_register_done.xlsx`, and reply in the existing message thread with the affected room, purifier setting applied, and that the action was completed.",
+  "instruction": "A kitchen air incident was reported in Simple SMS Messenger. On the first Linux machine, check the current kitchen reading in SmartHome against `/tmp/kitchen-air-incident/policy/policy.txt`. If the policy calls for action, apply it without changing devices in other rooms. On the second Linux machine, fill the existing register's `Room` and `Action` fields in `/tmp/kitchen-air-incident/register/work_register.xlsx` and save the completed copy as `/tmp/kitchen-air-incident/result/work_register_done.xlsx`. Reply in the existing message thread with the affected room, purifier setting applied, and that the action was completed.",
   "devices": [
     {
       "id": "linux_0",
@@ -160,29 +160,6 @@
     }
   ],
   "evaluation": [
-    {
-      "device_id": "linux_0",
-      "func": "check_include_exclude",
-      "result": {
-        "type": "vm_command_line",
-        "command": "cat /tmp/kitchen-air-incident/policy/policy.txt 2>/dev/null || true"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "include": [
-            "PM2.5 reading at or above 75 is critical",
-            "turn the kitchen purifier on at high",
-            "Do not change devices in other rooms"
-          ],
-          "exclude": []
-        }
-      },
-      "metadata": {
-        "path": "/tmp/kitchen-air-incident/policy/policy.txt"
-      },
-      "enable_score_calc": false
-    },
     {
       "device_id": "android_0",
       "func": "exact_match",

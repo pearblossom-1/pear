@@ -93,8 +93,8 @@
           "type": "androidworld_contact_add",
           "parameters": {
             "name": "Casey Harper",
-            "number": "5551201217",
-            "notes": "near-name decoy; role observer"
+            "number": "5556749",
+            "notes": "Role: observer"
           }
         },
         {
@@ -144,7 +144,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rows=\"$(content query --uri content://com.android.contacts/data --projection display_name:mimetype:data1 2>/dev/null)\"; printf '%s\\n' \"$rows\" | grep -F 'display_name=Casey Harper' | grep -F 'data1=5551201217' >/dev/null && printf '%s\\n' \"$rows\" | grep -F 'display_name=Casey Harper' | grep -F 'role observer' >/dev/null && ! printf '%s\\n' \"$rows\" | grep -F 'display_name=Casey Hart' >/dev/null",
+            "command": "rows=\"$(content query --uri content://com.android.contacts/data --projection display_name:mimetype:data1 2>/dev/null)\"; printf '%s\\n' \"$rows\" | grep -F 'display_name=Casey Harper' | grep -F 'data1=5556749' >/dev/null && printf '%s\\n' \"$rows\" | grep -F 'display_name=Casey Harper' | grep -F 'Role: observer' >/dev/null && ! printf '%s\\n' \"$rows\" | grep -F 'display_name=Casey Hart' >/dev/null",
             "check_exit_status": true
           }
         },

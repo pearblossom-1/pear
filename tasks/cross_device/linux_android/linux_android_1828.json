@@ -127,9 +127,7 @@
             "enabled": true
           }
         ],
-        "allow_unrelated": false,
-        "exact_user_visible_set": true,
-        "reject_identity_duplicates": true
+        "allow_unrelated": true
       },
       "expected": {
         "type": "rule",

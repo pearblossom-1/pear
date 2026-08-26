@@ -4,8 +4,8 @@
       {
         "type": "androidworld_sms_send",
         "parameters": {
-          "address": "5550254",
-          "body": "Cargo check is confirmed for 2026-07-18 11:20 at Bay 4; use the saved handoff."
+          "address": "5554827",
+          "body": "Cargo check — 2026-07-18 11:20, Bay 4 handoff."
         }
       }
     ]

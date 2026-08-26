@@ -33,6 +33,13 @@
               }
             ]
           }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/config/spec.json",
+            "shell": true
+          }
         }
       ]
     },
@@ -73,6 +80,13 @@
                 "path": "/tmp/config/project/tests.py"
               }
             ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -w /tmp/config/project/merge_config.py && test -r /tmp/config/project/tests.py && test -w /tmp/config/project",
+            "shell": true
           }
         },
         {

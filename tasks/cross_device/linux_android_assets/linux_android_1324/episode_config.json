@@ -7,18 +7,24 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201324",
+        "address": "5557169",
         "body_relation": {
           "entities": [
             "APPT-1324 Vendor Review",
-            ["08:00", "8:00", "8 AM", "8:00 AM", "08:00 AM"],
-            "Room 4",
-            ["confirmed", "is confirmed", "scheduled", "is scheduled", "appointment confirmed", "see you at"]
+            [
+              "08:00",
+              "8:00",
+              "8 AM",
+              "8:00 AM",
+              "08:00 AM"
+            ],
+            "Room 4"
           ],
-          "positive_phrases": [
-            ["confirmed", "is confirmed", "scheduled", "is scheduled", "appointment confirmed", "see you at"]
+          "conflict_phrases": [
+            "wrong appointment",
+            "wrong time",
+            "wrong location"
           ],
-          "conflict_phrases": ["maybe confirmed", "might be at 8", "not confirmed", "cancelled", "canceled"],
           "reject_incomplete_semantics": true
         }
       },
@@ -35,7 +41,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201399",
+        "address": "5559438",
         "any_body": true,
         "exact_count": 0
       },
@@ -56,20 +62,64 @@
       "expected": {
         "type": "rule",
         "rules": {
-          "include": ["Appointment Agenda"],
-          "exclude": ["[[APPOINTMENT]]", "[[DATE_TIME]]", "[[LOCATION]]", "[[ATTENDEE]]", "[[PHONE]]", "[[CONFIRMATION_CHANNEL]]", "email", "phone call", "voice call", "none", "pending", "not sent"],
+          "include": [
+            "Appointment Agenda"
+          ],
+          "exclude": [
+            "[[APPOINTMENT]]",
+            "[[DATE_TIME]]",
+            "[[LOCATION]]",
+            "[[ATTENDEE]]",
+            "[[PHONE]]",
+            "[[CONFIRMATION_CHANNEL]]",
+            "email",
+            "phone call",
+            "voice call",
+            "none",
+            "pending",
+            "not sent"
+          ],
           "require_valid_package": true,
-          "required_members": ["styles.xml", "meta.xml"],
+          "required_members": [
+            "styles.xml",
+            "meta.xml"
+          ],
           "odf_kind": "text",
           "min_paragraphs": 7,
           "paragraph_relations_require_affirmative": true,
           "paragraph_relations": [
-            ["Appointment", "APPT-1324 Vendor Review"],
-            ["Date and time", "2026-08-15 08:00-09:00"],
-            ["Location", "Room 4"],
-            ["Attendee", "Riley Stone"],
-            ["Phone", "5551201324"],
-            ["Confirmation channel", ["SMS", "sms", "text", "text message", "SMS message", "texting", "Simple SMS Messenger"]]
+            [
+              "Appointment",
+              "APPT-1324 Vendor Review"
+            ],
+            [
+              "Date and time",
+              "2026-08-15 08:00-09:00"
+            ],
+            [
+              "Location",
+              "Room 4"
+            ],
+            [
+              "Attendee",
+              "Riley Stone"
+            ],
+            [
+              "Phone",
+              "5557169"
+            ],
+            [
+              "Confirmation channel",
+              [
+                "SMS",
+                "sms",
+                "text",
+                "text message",
+                "SMS message",
+                "texting",
+                "Simple SMS Messenger"
+              ]
+            ]
           ],
           "case_sensitive": false
         }

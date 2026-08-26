@@ -93,7 +93,13 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/Depot Gate coordinate repair.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Depot Gate coordinate repair.md' '/storage/emulated/0/Documents/Markor/Markor/Depot Gate coordinate repair.md'"
+          }
+        },
+        {
+          "type": "androidworld_markor_root_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor"
           }
         }
       ]
@@ -121,7 +127,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/Depot Gate coordinate repair.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Depot Gate coordinate repair.md' '/storage/emulated/0/Documents/Markor/Markor/Depot Gate coordinate repair.md'"
           }
         }
       ]
@@ -141,7 +147,7 @@
             "favorite_lon": -122.3493
           }
         ],
-        "coordinate_tolerance": 5e-05
+        "coordinate_tolerance": 0.00005
       },
       "expected": {
         "type": "rule",
@@ -172,7 +178,11 @@
             "old",
             "previous",
             "current",
-            "new"
+            "new",
+            [
+              "→",
+              "->"
+            ]
           ],
           "numeric_coordinate_relations": [
             {
@@ -209,6 +219,10 @@
             "proposed",
             "suggested",
             "uncertain"
+          ],
+          "numeric_coordinate_transition_symbols": [
+            "→",
+            "->"
           ]
         }
       },

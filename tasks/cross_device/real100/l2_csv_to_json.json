@@ -172,6 +172,6 @@
       "linux_1 orders.json preserves linux_0 orders.csv records"
     ],
     "asset_source": "tasks/cross_device/real100_assets/l2_csv_to_json/source",
-    "lite_evaluator_hardening_note": "The record evaluator preserves raw record count and multiplicity, rejects duplicate JSON keys/IDs and extra fields, and accepts the three disclosed ordinary layouts: a top-level array, an orders array, or an orders ID-keyed object."
+    "lite_evaluator_hardening_note": "The record evaluator preserves raw record count and multiplicity, rejects duplicate JSON keys/IDs and extra fields, and accepts the three ordinary layouts: a top-level array, an orders array, or an orders ID-keyed object. Numeric quantities and equivalent numeric strings canonicalize to the same logical CSV value."
   }
 }

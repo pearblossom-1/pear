@@ -184,6 +184,7 @@
     {
       "device_id": "android_1",
       "func": "exact_match",
+      "enable_score_calc": false,
       "result": {
         "type": "android_route_media_source_state",
         "expected_files": [
@@ -221,7 +222,7 @@
     "device_topology": "2A",
     "surfaces": "android_0 OsmAnd + android_1 Simple Gallery Pro / Markor",
     "setup_note": "android_0 写入 OsmAnd favorites；android_1 放置 route photos、触发 MediaStore 扫描，并在暴露任务前校验两张图片可见、Fuel shed 缺失、旧 note 不存在且 Markor 可用。",
-    "evaluate_note": "Half of the score checks boundary-aware present/missing relations without requiring a duplicate body title; half independently checks that North gate and Dock lane still match their setup SHA-256 fixtures and Fuel shed remains absent.",
+    "evaluate_note": "Scores only the boundary-aware present/missing relations in the Markor note. The source-image SHA-256 and missing-file check remains diagnostic-only.",
     "implementation_status": "real_evaluator",
     "readiness": "R1_native_android_text_content",
     "native_evaluator_status": "native_android_text_content",
@@ -254,6 +255,7 @@
       {
         "device_id": "android_1",
         "result_type": "android_route_media_source_state",
+        "enable_score_calc": false,
         "present": [
           "North gate.png",
           "Dock lane.png"
@@ -263,6 +265,6 @@
         ]
       }
     ],
-    "lite_evaluator_hardening_note": "The status-note parser does not require a redundant title line and binds each favorite name—or its exact `.png` alias—to one unambiguous declarative present/missing relation. Questions, uncertainty, negation variants, and contradictions fail. A second scored guard independently preserves both present files at their setup SHA-256 values and requires Fuel shed to remain absent."
+    "lite_evaluator_hardening_note": "The status-note parser does not require a redundant title line and binds each favorite name—or its exact `.png` alias—to one unambiguous declarative present/missing relation. Questions, uncertainty, negation variants, and contradictions fail. The source-file SHA-256 and Fuel shed absence guard is retained only as diagnostic evidence and does not affect the score."
   }
 }

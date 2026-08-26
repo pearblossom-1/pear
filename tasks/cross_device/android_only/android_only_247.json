@@ -127,7 +127,13 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/Reminder audit.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Reminder audit.md' '/storage/emulated/0/Documents/Markor/Markor/Reminder audit.md'"
+          }
+        },
+        {
+          "type": "androidworld_markor_root_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor"
           }
         }
       ]
@@ -155,7 +161,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/Reminder audit.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Reminder audit.md' '/storage/emulated/0/Documents/Markor/Markor/Reminder audit.md'"
           }
         }
       ]
@@ -186,137 +192,142 @@
               "checklist item"
             ],
             "records": [
-            {
-              "item": "Dock review",
-              "fields": [
-                {
-                  "name": "required_minutes",
-                  "labels": [
-                    "required",
-                    "requires",
-                    "needs",
-                    "required minutes"
-                  ],
-                  "values": [
-                    "30",
-                    "30 min",
-                    "30 mins",
-                    "30 minute",
-                    "30 minutes"
-                  ]
-                },
-                {
-                  "name": "current_minutes",
-                  "labels": [
-                    "current",
-                    "currently",
-                    "actual",
-                    "current minutes"
-                  ],
-                  "values": [
-                    "30",
-                    "30 min",
-                    "30 mins",
-                    "30 minute",
-                    "30 minutes"
-                  ]
-                },
-                {
-                  "name": "result",
-                  "labels": [
-                    "result",
-                    "status",
-                    "outcome"
-                  ],
-                  "values": [
-                    "match",
-                    "matches",
-                    "matched",
-                    "correct"
-                  ],
-                  "allow_unlabeled": true
-                }
-              ]
-            },
-            {
-              "item": "Gate call",
-              "fields": [
-                {
-                  "name": "required_minutes",
-                  "labels": [
-                    "required",
-                    "requires",
-                    "needs",
-                    "required minutes"
-                  ],
-                  "values": [
-                    "15",
-                    "15 min",
-                    "15 mins",
-                    "15 minute",
-                    "15 minutes"
-                  ]
-                },
-                {
-                  "name": "current_minutes",
-                  "labels": [
-                    "current",
-                    "currently",
-                    "actual",
-                    "current minutes"
-                  ],
-                  "values": [
-                    "5",
-                    "5 min",
-                    "5 mins",
-                    "5 minute",
-                    "5 minutes"
-                  ]
-                },
-                {
-                  "name": "result",
-                  "labels": [
-                    "result",
-                    "status",
-                    "outcome"
-                  ],
-                  "values": [
-                    "mismatch",
-                    "mismatches",
-                    "does not match",
-                    "different"
-                  ],
-                  "allow_unlabeled": true
-                }
-              ]
-            },
-            {
-              "item": "Crew bus",
-              "fields": [
-                {
-                  "name": "required_minutes",
-                  "labels": [
-                    "required",
-                    "requires",
-                    "needs",
-                    "required minutes"
-                  ],
-                  "values": [
-                    "10",
-                    "10 min",
-                    "10 mins",
-                    "10 minute",
-                    "10 minutes"
-                  ]
-                },
-                {
-                  "name": "current_minutes",
-                  "labels": [
-                    "current",
-                    "currently",
-                    "actual",
-                    "current minutes"
-                  ],
+              {
+                "item": "Dock review",
+                "fields": [
+                  {
+                    "name": "required_minutes",
+                    "labels": [
+                      "required",
+                      "requires",
+                      "needs",
+                      "required minutes"
+                    ],
+                    "values": [
+                      "30",
+                      "30 min",
+                      "30 mins",
+                      "30 minute",
+                      "30 minutes"
+                    ],
+                    "allow_unlabeled": true
+                  },
+                  {
+                    "name": "current_minutes",
+                    "labels": [
+                      "current",
+                      "currently",
+                      "actual",
+                      "current minutes"
+                    ],
+                    "values": [
+                      "30",
+                      "30 min",
+                      "30 mins",
+                      "30 minute",
+                      "30 minutes"
+                    ],
+                    "allow_unlabeled": true
+                  },
+                  {
+                    "name": "result",
+                    "labels": [
+                      "result",
+                      "status",
+                      "outcome"
+                    ],
+                    "values": [
+                      "match",
+                      "matches",
+                      "matched",
+                      "correct"
+                    ],
+                    "allow_unlabeled": true
+                  }
+                ]
+              },
+              {
+                "item": "Gate call",
+                "fields": [
+                  {
+                    "name": "required_minutes",
+                    "labels": [
+                      "required",
+                      "requires",
+                      "needs",
+                      "required minutes"
+                    ],
+                    "values": [
+                      "15",
+                      "15 min",
+                      "15 mins",
+                      "15 minute",
+                      "15 minutes"
+                    ],
+                    "allow_unlabeled": true
+                  },
+                  {
+                    "name": "current_minutes",
+                    "labels": [
+                      "current",
+                      "currently",
+                      "actual",
+                      "current minutes"
+                    ],
+                    "values": [
+                      "5",
+                      "5 min",
+                      "5 mins",
+                      "5 minute",
+                      "5 minutes"
+                    ],
+                    "allow_unlabeled": true
+                  },
+                  {
+                    "name": "result",
+                    "labels": [
+                      "result",
+                      "status",
+                      "outcome"
+                    ],
+                    "values": [
+                      "mismatch",
+                      "mismatches",
+                      "does not match",
+                      "different"
+                    ],
+                    "allow_unlabeled": true
+                  }
+                ]
+              },
+              {
+                "item": "Crew bus",
+                "fields": [
+                  {
+                    "name": "required_minutes",
+                    "labels": [
+                      "required",
+                      "requires",
+                      "needs",
+                      "required minutes"
+                    ],
+                    "values": [
+                      "10",
+                      "10 min",
+                      "10 mins",
+                      "10 minute",
+                      "10 minutes"
+                    ],
+                    "allow_unlabeled": true
+                  },
+                  {
+                    "name": "current_minutes",
+                    "labels": [
+                      "current",
+                      "currently",
+                      "actual",
+                      "current minutes"
+                    ],
                     "values": [
                       "missing",
                       "missing event",
@@ -325,14 +336,14 @@
                       "not found"
                     ],
                     "allow_unlabeled": true
-                },
-                {
-                  "name": "result",
-                  "labels": [
-                    "result",
-                    "status",
-                    "outcome"
-                  ],
+                  },
+                  {
+                    "name": "result",
+                    "labels": [
+                      "result",
+                      "status",
+                      "outcome"
+                    ],
                     "values": [
                       "missing",
                       "absent",
@@ -344,9 +355,9 @@
                       "cannot match"
                     ],
                     "allow_unlabeled": true
-                }
-              ]
-            }
+                  }
+                ]
+              }
             ]
           }
         }
@@ -392,7 +403,7 @@
           "expected": "exact"
         }
       },
-      "enable_score_calc": false
+      "enable_score_calc": true
     },
     {
       "name": "Preserve reminder checklist.md byte for byte",

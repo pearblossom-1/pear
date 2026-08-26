@@ -5,7 +5,7 @@
       {
         "type": "androidworld_sms_send",
         "parameters": {
-          "address": "5551201255",
+          "address": "5556835",
           "body": "MSG-1255 North dispatch window confirmed"
         }
       },

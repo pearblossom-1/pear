@@ -1,6 +1,6 @@
 {
   "id": "linux_smarthome_361",
-  "instruction": "Compare the floor-plan rooms in `/tmp/home_reports/floor.png` with the live SmartHome room list, follow `/tmp/home_reports/brief.txt`, and complete `/tmp/home_reports/rooms.xlsx`. For each room, choose the comparison result and add brief evidence as described in the workbook's Completion Guide; record the actual SmartHome room count in the final row.",
+  "instruction": "Compare the floor-plan rooms in `/tmp/home_reports/floor.png` with the live SmartHome room list, follow `/tmp/home_reports/brief.txt`, and complete `/tmp/home_reports/rooms.xlsx`. For each room, choose the comparison result and add brief evidence as described in the workbook's Completion Guide; record the actual SmartHome room count in the final row. Do not change Home while performing this audit.",
   "devices": [
     {
       "id": "linux_0",
@@ -158,39 +158,23 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
+      "func": "smarthome.check_no_home_mutation",
       "result": {
-        "type": "smarthome_schedules"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "count": 0,
-            "match": {}
+            "all_devices": true,
+            "preserve_schedules": true,
+            "preserve_workflows": true,
+            "preserve_answer_reports": true,
+            "preserve_infeasible_reports": true
           }
         }
       },
-      "enable_score_calc": false,
-      "name": "audit does not create schedules"
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      },
-      "enable_score_calc": false,
-      "name": "audit does not create workflows"
+      "name": "audit leaves Home unchanged"
     }
   ],
   "limits": {
@@ -210,6 +194,7 @@
       "information_transfer",
       "linux_interaction",
       "media_handling",
+      "negative_or_conflict_handling",
       "smarthome_reasoning",
       "structured_data_handling"
     ],

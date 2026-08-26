@@ -4,7 +4,7 @@
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "mkdir -p /storage/emulated/0/Documents/Markor && cat > '/storage/emulated/0/Documents/Markor/Dock West handoff.md' <<'EOF'\nSite Manager 5550270 owns the Dock West handoff at 47.6712, -122.3022.\nEOF"
+          "command": "mkdir -p /storage/emulated/0/Documents/Markor && cat > '/storage/emulated/0/Documents/Markor/Dock West handoff.md' <<'EOF'\nEthan Miller 5556834 owns the Dock West handoff at 47.6712, -122.3022.\nEOF"
         }
       }
     ]

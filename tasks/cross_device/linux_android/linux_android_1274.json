@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1274",
-  "instruction": "Check `/tmp/outreach/request.csv` against the contact on the first phone, verifying both name and phone number. If the name matches but the number does not, explain the mismatch in `/storage/emulated/0/Documents/Markor/Outreach Blocked 1274.md` on the second phone and do not send a text to either number.",
+  "instruction": "Check `/tmp/outreach/request.csv` on the Linux machine against the exact-name contact on the first phone, comparing both the name and phone number. If the name matches but the numbers differ, do not send a text to either number. On the second phone, create a Markor note called `Outreach status` with the contact name, the phone number from the request, the phone number in Contacts, and why the outreach was not sent.",
   "devices": [
     {
       "id": "linux_0",
@@ -56,16 +56,16 @@
           "type": "androidworld_contact_add",
           "parameters": {
             "name": "Rae Lin",
-            "number": "5550001274",
-            "notes": "Same name wrong phone."
+            "number": "5554189",
+            "notes": "Outreach contact"
           }
         },
         {
           "type": "androidworld_contact_add",
           "parameters": {
             "name": "Ray Lin",
-            "number": "5551201274",
-            "notes": "Near-name wrong contact."
+            "number": "5557264",
+            "notes": "Site contact"
           }
         }
       ]
@@ -89,7 +89,7 @@
         },
         {
           "type": "adb_shell",
-          "parameters": {"command": "rm -f '/storage/emulated/0/Documents/Markor/Outreach Blocked 1274.md'"}
+          "parameters": {"command": "rm -f '/storage/emulated/0/Documents/Markor/Outreach status.md'"}
         }
       ]
     }
@@ -122,7 +122,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/Outreach Blocked 1274.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/Outreach status.md'"
           }
         },
         {
@@ -138,11 +138,12 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Outreach Blocked 1274.md",
+        "path": "/storage/emulated/0/Documents/Markor/Outreach status.md",
         "rules": {
-          "entities": ["Rae Lin", "5551201274", "5550001274"],
-          "required_phrases": [["mismatch", "does not match", "different", "conflicts"]],
-          "positive_phrases": ["blocked", "do not send", "must not send"],
+          "entities": ["Rae Lin", "5557264", "5554189"],
+          "required_phrases": [["mismatch", "does not match", "different", "differ", "numbers differ", "conflicts"]],
+          "positive_phrases": ["blocked", "do not send", "must not send", "no text was sent", "no message was sent", "outreach was not sent"],
+          "allowed_negative_capability_phrases": ["no text was sent", "no message was sent", "outreach was not sent"],
           "forbidden_entities": ["Ray Lin"],
           "conflict_phrases": ["not blocked", "numbers match", "phones match", "safe to send", "message sent"]
         }
@@ -160,7 +161,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201274",
+        "address": "5557264",
         "any_body": true,
         "recent_within_mins": 0
       },
@@ -177,7 +178,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5550001274",
+        "address": "5554189",
         "any_body": true,
         "recent_within_mins": 0
       },
@@ -230,6 +231,6 @@
       "rationale": "Hard-negative candidate implemented as blocked artifacts plus targeted no-sent-SMS absence checks."
     },
     "lite_evaluator_hardening_note": "Uses an exact-path polarity-aware mismatch note plus native no-message outcomes; hidden audit output is removed.",
-    "structured_output_classification": {"Markor blocked note": "primary_artifact", "native sent-box absence": "primary_native_state"}
+    "structured_output_classification": {"Markor outreach-status note": "primary_artifact", "native sent-box absence": "primary_native_state"}
   }
 }

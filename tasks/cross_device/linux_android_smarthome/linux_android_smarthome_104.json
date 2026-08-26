@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_104",
-  "instruction": "Prepare the Living room for Sam's visit. Derive the visit time and reply number from Calendar, the requested settings from /tmp/guest/card.png, and the mapping and lead-time rule from /tmp/guest/standards.xlsx. Schedule one active SmartHome workflow for the preparation and send Sam a concise confirmation with the preparation time and settings.",
+  "instruction": "Prepare the Living room for Sam's visit. Derive the visit time and reply number from Calendar, the requested settings from `/tmp/guest/card.png`, and the mapping and lead-time rule from `/tmp/guest/standards.xlsx`. Schedule one active SmartHome workflow for the preparation. Send Sam a concise confirmation that includes the Living room, the preparation time, and the requested settings.",
   "devices": [
     {
       "id": "linux_0",
@@ -171,28 +171,6 @@
               "purifier high",
               "high purifier"
             ]
-          ],
-          "required_phrases": [
-            [
-              "scheduled",
-              "will be prepared",
-              "will be ready",
-              "prepared at",
-              "preparation time"
-            ]
-          ],
-          "conflict_phrases": [
-            "not ready",
-            "cancelled",
-            "pending",
-            "already ready",
-            "already prepared",
-            "is ready",
-            "is prepared",
-            "was ready",
-            "was prepared",
-            "ready now",
-            "prepared now"
           ],
           "reject_questions": true,
           "reject_uncertainty": true,

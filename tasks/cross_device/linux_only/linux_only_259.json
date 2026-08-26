@@ -33,6 +33,13 @@
               }
             ]
           }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/img/spec.csv",
+            "shell": true
+          }
         }
       ]
     },
@@ -73,6 +80,13 @@
                 "path": "/tmp/img/project/tests.py"
               }
             ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -w /tmp/img/project/index_images.py && test -r /tmp/img/project/tests.py && test -w /tmp/img/project",
+            "shell": true
           }
         },
         {

@@ -5,7 +5,7 @@
       {
         "type": "adb_shell",
         "parameters": {
-          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && echo UmVxdWVzdCA1NTUxMjAxMjE1IGlzIGJsb2NrZWQgYmVjYXVzZSB0aGUgcmVxdWlyZWQgSUQgaXMgbWlzc2luZy4K | base64 -d > '/storage/emulated/0/Documents/Markor/Portal Request Blocked.md'"
+          "command": "mkdir -p '/storage/emulated/0/Documents/Markor' && echo UmVxdWVzdCA1NTUxMjAxMjE1IGlzIGJsb2NrZWQgYmVjYXVzZSB0aGUgcmVxdWlyZWQgSUQgaXMgbWlzc2luZy4K | base64 -d > '/storage/emulated/0/Documents/Markor/Portal Request Status.md'"
         }
       }
     ],
@@ -13,8 +13,8 @@
       {
         "type": "androidworld_sms_send",
         "parameters": {
-          "address": "5551201215",
-          "body": "Request 5551201215 is blocked because the required ID is missing."
+          "address": "5558134",
+          "body": "Request 5558134 is blocked because the required ID is missing."
         }
       }
     ]

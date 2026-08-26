@@ -6,7 +6,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Portal Request Blocked.md",
+        "path": "/storage/emulated/0/Documents/Markor/Portal Request Status.md",
         "rules": {
           "entities": [
             [
@@ -48,7 +48,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201215",
+        "address": "5558134",
         "body_relation": {
           "entities": [
             [

@@ -13,10 +13,15 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551470",
+        "address": "5557318",
         "recent_within_mins": 30,
         "body_relation": {
           "entities": [
+            [
+              "20:15",
+              "8:15 PM",
+              "8.15 PM"
+            ],
             [
               "living room",
               "living-room"
@@ -80,7 +85,7 @@
           "expected": "present"
         }
       },
-      "name": "guest reply records the living-room light 45 and heater 24 settings"
+      "name": "Alex reply records the 20:15 arrival and living-room light 45 and heater 24 settings"
     },
     {
       "device_id": "home_0",
@@ -143,7 +148,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "only the requested living-room light and heater fields change globally"
     }
   ],

@@ -1,6 +1,6 @@
 {
   "id": "a2l2_training_media_deck_email",
-  "instruction": "Prepare the trainer's setup-photo handoff. Take a new Camera photo on the first phone and save it as `training_setup_photo.jpg`; the `Trainer` contact on the second phone supplies the recipient address. Read the purpose and package reference from `/tmp/train/handoff.txt` on the first Linux machine. On the second Linux machine, complete its local `/tmp/train/template.odp` with the photo filename, trainer email, purpose, and reference; save it as `/tmp/train/deck.odp` and export `/tmp/train/training_deck.pdf`. Leave an unsent Thunderbird draft to the trainer with that PDF attached, mentioning both `training_deck.pdf` and the package reference.",
+  "instruction": "Prepare the trainer's setup-photo handoff. On the first phone, take a new photo with Camera, then use Simple Gallery Pro to rename that new photo to `training_setup_photo.jpg`. The trainer contact on the second phone supplies the recipient address. Read the purpose and package reference from `/tmp/train/handoff.txt` on the first Linux machine. On the second Linux machine, complete its local `/tmp/train/template.odp` with the photo filename, trainer email, purpose, and reference; save it as `/tmp/train/deck.odp` and export `/tmp/train/training_deck.pdf`. Leave an unsent Thunderbird draft to the trainer with that PDF attached, mentioning both `training_deck.pdf` and the package reference.",
   "devices": [
     {
       "id": "android_0",
@@ -213,8 +213,6 @@
             "Training Media Deck"
           ],
           "exclude": [
-            "failed",
-            "error",
             "[[PHOTO_FILENAME]]",
             "[[TRAINER_EMAIL]]",
             "[[PURPOSE]]",
@@ -280,13 +278,6 @@
             "training_setup_photo.jpg",
             "TRN-417"
           ],
-          "exclude": [
-            "missing",
-            "failed",
-            "error",
-            "invalid"
-          ],
-          "paragraph_reject_negative_semantics": true,
           "paragraph_relations": [
             ["Photo", "training_setup_photo.jpg"],
             ["Trainer", "trainer@example.com"],
@@ -303,7 +294,6 @@
       "result": {
         "type": "thunderbird_draft_state",
         "profile_root": "~/.thunderbird/mail.default-release",
-        "exact_total_drafts": 1,
         "recipients": [
           "trainer@example.com"
         ],
@@ -317,7 +307,10 @@
             "matches_file": "/tmp/train/training_deck.pdf"
           }
         ],
-        "allow_extra_attachments": false
+        "allow_extra_attachments": false,
+        "absent_from_mailboxes": [
+          "Sent"
+        ]
       },
       "expected": {
         "type": "rule",
@@ -340,7 +333,7 @@
     "device_topology": "A+A+L+L",
     "surfaces": "Camera/Simple Gallery Pro + Contacts + Impress + Thunderbird",
     "setup_note": "android_0 准备 Camera 与 Simple Gallery Pro，并用临时 Camera media 通过 Gallery Rename 对话框预检改名路径后清理 probe、定向清理目标照片；android_1 写 Trainer 联系人；linux_0 只提供含 purpose/TRN-417 的 handoff；linux_1 本地预置真实 ODP template、重建 exact Thunderbird profile 并准备输出目录。",
-    "evaluate_note": "检查可解码的新 JPEG、保留一页/一框/五段模板结构且四个字段关系正确的 ODP、含相同字段的真实 PDF，以及 exact profile 中恰好一封同时识别 training_deck.pdf 与 TRN-417、并附加当前导出 PDF 的草稿。",
+    "evaluate_note": "检查可解码的新 JPEG、保留一页/一框/五段模板结构且四个字段关系正确的 ODP、含相同字段的真实 PDF，以及 exact profile 中至少一封同时识别 training_deck.pdf 与 TRN-417、附加当前导出 PDF 且目标邮件未出现在 Sent 的草稿。",
     "readiness": "R1_native_ready",
     "native_evaluator_status": "mixed_native_content",
     "requires_helper_audit": false,

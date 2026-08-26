@@ -6,41 +6,49 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/Blue Harbor Set gap.md",
+        "path": "/storage/emulated/0/Documents/Markor/Blue Harbor Set status.md",
         "rules": {
           "entities": [
             "Blue Harbor Extended",
             "Blue Harbor"
-          ],
-          "required_phrases": [
-            [
-              "missing",
-              "unavailable",
-              "not available",
-              "absent"
-            ]
-          ],
-          "conflict_phrases": [
-            "not missing",
-            "Blue Harbor Extended is available",
-            "Blue Harbor Extended was found",
-            "exact match found",
-            "Blue Harbor is the exact required track",
-            "Near match: Blue Harbor Extended",
-            "Blue Harbor Extended is the near match",
-            "Similar track: Blue Harbor Extended",
-            "Closest available track: Blue Harbor Extended"
           ],
           "allowed_negative_capability_phrases": [
             "not available",
             "not an exact match",
             "not the exact required track"
           ],
+          "relation_groups": [
+            {
+              "entities": [
+                "Blue Harbor Extended"
+              ],
+              "phrases": [
+                [
+                  "missing",
+                  "unavailable",
+                  "not available",
+                  "absent"
+                ]
+              ]
+            }
+          ],
           "nearest_relations": [
             {
-              "anchor": ["near match", "near-match", "similar track", "similar title", "closest available track", "available near match", "available"],
-              "expected": ["Blue Harbor"],
-              "forbidden": [],
+              "anchor": [
+                "near match",
+                "near-match",
+                "similar track",
+                "similar title",
+                "closest available track",
+                "available near match",
+                "available"
+              ],
+              "expected": [
+                "Blue Harbor"
+              ],
+              "forbidden": [
+                "Blue Harbor Extended"
+              ],
               "max_distance": 12
             }
           ],

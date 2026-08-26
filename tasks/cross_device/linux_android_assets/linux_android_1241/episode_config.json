@@ -11,7 +11,12 @@
         "end_ts": 1785229200,
         "location": "Pier 3 Room B"
       },
-      "expected": {"type": "rule", "rules": {"expected": "present"}}
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
     },
     {
       "device_id": "android_0",
@@ -19,11 +24,20 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201241",
-        "body_contains": ["Ops Planning Sync", "8:30", "Pier 3 Room B"],
+        "address": "5557304",
+        "body_contains": [
+          "Ops Planning Sync",
+          "8:30",
+          "Pier 3 Room B"
+        ],
         "require_positive_relation": true
       },
-      "expected": {"type": "rule", "rules": {"expected": "present"}}
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
     },
     {
       "device_id": "android_0",
@@ -31,11 +45,20 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201242",
-        "body_contains": ["Ops Planning Sync", "8:30", "Pier 3 Room B"],
+        "address": "5558619",
+        "body_contains": [
+          "Ops Planning Sync",
+          "8:30",
+          "Pier 3 Room B"
+        ],
         "require_positive_relation": true
       },
-      "expected": {"type": "rule", "rules": {"expected": "present"}}
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
     },
     {
       "device_id": "android_0",
@@ -43,16 +66,24 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201299",
+        "address": "5554927",
         "any_body": true,
         "exact_count": 0
       },
-      "expected": {"type": "rule", "rules": {"expected": "present"}}
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "expected": "present"
+        }
+      }
     },
     {
       "device_id": "linux_0",
       "func": "check_csv_semantic_records",
-      "result": {"type": "vm_file", "path": "/tmp/meeting/brief_transform_audit.csv"},
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/meeting/brief_transform_audit.csv"
+      },
       "expected": {
         "type": "rule",
         "rules": {
@@ -64,20 +95,45 @@
           },
           "value_aliases": {
             "decision": {
-              "notified": ["sent", "messaged", "contacted"],
-              "skipped": ["not notified", "not sent", "excluded"]
+              "notified": [
+                "sent",
+                "messaged",
+                "contacted"
+              ],
+              "skipped": [
+                "not notified",
+                "not sent",
+                "excluded"
+              ]
             }
           },
           "column_order_sensitive": true,
           "order_sensitive": false,
           "rows": [
-            {"brief_code": "OPS-PLANNING-1241", "calendar_title": "Ops Planning Sync", "attendee_phone": "5551201241", "decision": "notified"},
-            {"brief_code": "OPS-PLANNING-1241", "calendar_title": "Ops Planning Sync", "attendee_phone": "5551201242", "decision": "notified"},
-            {"brief_code": "OPS-PLANNING-1241", "calendar_title": "Ops Planning Sync", "attendee_phone": "5551201299", "decision": "skipped"}
+            {
+              "brief_code": "OPS-PLANNING-1241",
+              "calendar_title": "Ops Planning Sync",
+              "attendee_phone": "5557304",
+              "decision": "notified"
+            },
+            {
+              "brief_code": "OPS-PLANNING-1241",
+              "calendar_title": "Ops Planning Sync",
+              "attendee_phone": "5558619",
+              "decision": "notified"
+            },
+            {
+              "brief_code": "OPS-PLANNING-1241",
+              "calendar_title": "Ops Planning Sync",
+              "attendee_phone": "5554927",
+              "decision": "skipped"
+            }
           ]
         }
       },
-      "metadata": {"path": "/tmp/meeting/brief_transform_audit.csv"}
+      "metadata": {
+        "path": "/tmp/meeting/brief_transform_audit.csv"
+      }
     }
   ]
 }

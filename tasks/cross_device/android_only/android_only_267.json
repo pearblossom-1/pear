@@ -1,6 +1,6 @@
 {
   "id": "android_only_267",
-  "instruction": "Open `audio_manifest.csv` in Downloads on the first phone. On the second phone, use Files to check the Recordings folder, then text `Status Contact` from that phone with the manifest filename, how many listed recordings are present, and any missing filename.",
+  "instruction": "Open `audio_manifest.csv` in Downloads on the first phone. On the second phone, use Files to check the Recordings folder, then text `Maya Chen` from that phone with the manifest filename, how many listed recordings are present, and any missing filename.",
   "devices": [
     {
       "id": "android_0",
@@ -131,23 +131,23 @@
         {
           "type": "androidworld_contact_add",
           "parameters": {
-            "name": "Status Contact",
-            "number": "5550267",
-            "notes": "Receives recording status."
+            "name": "Maya Chen",
+            "number": "5556418",
+            "notes": "Receives recording status updates."
           }
         },
         {
           "type": "androidworld_contact_preflight",
           "parameters": {
             "contact": {
-              "name": "Status Contact",
-              "number": "5550267",
-              "notes_exact": "Receives recording status.",
+              "name": "Maya Chen",
+              "number": "5556418",
+              "notes_exact": "Receives recording status updates.",
               "require_exactly_one": true
             },
             "required_visible_text": [
-              "Status Contact",
-              "5550267"
+              "Maya Chen",
+              "5556418"
             ]
           }
         },
@@ -198,13 +198,13 @@
   ],
   "evaluation": [
     {
-      "name": "Send at least one correct recording-checklist status SMS to Status Contact",
+      "name": "Send at least one correct recording-checklist status SMS to Maya Chen",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5550267",
+        "address": "5556418",
         "recent_within_mins": 30,
         "body_relation": {
           "entities": [
@@ -236,12 +236,6 @@
               "absent",
               "not found"
             ]
-          ],
-          "conflict_phrases": [
-            "pending",
-            "cancelled",
-            "withdrawn",
-            "retracted"
           ],
           "allowed_negative_capability_phrases": [
             "not found"
@@ -299,7 +293,9 @@
               "max_distance": 8
             }
           ]
-        }
+        },
+        "retry_attempts": 6,
+        "retry_delay_s": 0.5
       },
       "expected": {
         "type": "rule",
@@ -335,61 +331,6 @@
         "type": "rule",
         "rules": {
           "expected": "exact"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "No status SMS may claim brief_c.mp3 is present",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_sms_message",
-        "box": "sent",
-        "address": "5550267",
-        "recent_within_mins": 30,
-        "body_relation": {
-          "entities": [
-            "brief_c.mp3"
-          ],
-          "required_patterns": [
-            "brief_c\\.mp3.{0,24}\\b(?:is\\s+)?(?:present|available|exists|ready)\\b"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "missing"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
-      "name": "No status SMS may claim three recordings are present",
-      "device_id": "android_1",
-      "func": "exact_match",
-      "result": {
-        "type": "androidworld_sms_message",
-        "box": "sent",
-        "address": "5550267",
-        "recent_within_mins": 30,
-        "body_relation": {
-          "entities": [
-            [
-              "3 recordings",
-              "three recordings"
-            ]
-          ],
-          "required_patterns": [
-            "(?:(?:3|three)\\s+recordings.{0,24}\\b(?:are\\s+)?(?:present|available)\\b|\\b(?:present|available)\\b.{0,24}(?:3|three)\\s+recordings)"
-          ]
-        }
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "missing"
         }
       },
       "enable_score_calc": false

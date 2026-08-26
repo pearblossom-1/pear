@@ -5,10 +5,10 @@
   "difficulty": "Medium",
   "motif": "M5",
   "interaction_mode": "GUI-focused",
-  "instruction": "The Android Clock app has a `Delivery` alarm. Please open `/tmp/delivery/schedule.xlsx` in LibreOffice Calc on the first Linux machine, find the Delivery row and fill in the alarm time, then create a notification draft in Thunderbird on the second Linux machine using the notification recipient shown in that Delivery row.",
+  "instruction": "The Android Clock app has a `Delivery` alarm. Open `/tmp/delivery/schedule.xlsx` in LibreOffice Calc on the first Linux machine, find the Delivery row, and fill in the alarm time. Then create a notification draft in Thunderbird on the second Linux machine using the notification recipient shown in that Delivery row. The draft should identify `Delivery` and state its alarm time.",
   "surfaces": "Android Clock app + linux_0 Calc + linux_1 Thunderbird",
   "setup_note": "Android provides the Delivery alarm; linux_0 provides schedule.xlsx with the notification recipient cue in the Delivery row; linux_1 provides a clean Thunderbird profile for the draft.",
-  "evaluate_note": "Checks the source-preserving Calc update and one exact-profile Thunderbird Drafts message whose Delivery label and 08:45 time form a positive, non-negated relation.",
+  "evaluate_note": "Checks the source-preserving Calc update and requires at least one matching task-profile draft whose Delivery label and 08:45 time form a local positive relation. Unrelated drafts and unrelated times do not affect scoring.",
   "requires_helper_audit": false,
   "source_files": [
     "source/visible/deb4d71f_schedule.xlsx"
@@ -65,6 +65,6 @@
     "/tmp/delivery/schedule.xlsx has in-place workbook cell evaluator rules",
     "android_0 creates Delivery alarm at 08:45",
     "schedule.xlsx includes delivery-team@example.test as the draft recipient cue",
-    "Thunderbird draft must contain the recipient, alarm label, and alarm time"
+    "Thunderbird requires at least one matching draft with the strict recipient plus the locally bound Delivery label and alarm time; the Sent-folder guard remains diagnostic."
   ]
 }

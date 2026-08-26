@@ -135,7 +135,8 @@
               "new",
               "replacement",
               "correction",
-              "revised"
+              "revised",
+              "replaced by"
             ],
             [
               "24 C",
@@ -147,103 +148,62 @@
               "8:00PM"
             ]
           ],
-          "semantic_record_table": {
-            "item_headers": [
-              "record",
-              "plan"
-            ],
-            "records": [
-              {
-                "item": [
-                  "old",
-                  "previous",
-                  "prior"
-                ],
-                "fields": [
-                  {
-                    "name": "temperature",
-                    "labels": [
-                      "temperature",
-                      "temp",
-                      "setting"
-                    ],
-                    "values": [
-                      "25 C",
-                      "25C"
-                    ],
-                    "allow_unlabeled": true
-                  },
-                  {
-                    "name": "status",
-                    "labels": [
-                      "status",
-                      "state"
-                    ],
-                    "values": [
-                      "cancelled",
-                      "retired",
-                      "replaced",
-                      "superseded",
-                      "no longer active"
-                    ],
-                    "allow_unlabeled": true
-                  }
-                ]
-              },
-              {
-                "item": [
-                  "new",
-                  "replacement",
-                  "correction",
-                  "revised"
-                ],
-                "fields": [
-                  {
-                    "name": "temperature",
-                    "labels": [
-                      "temperature",
-                      "temp",
-                      "setting"
-                    ],
-                    "values": [
-                      "24 C",
-                      "24C"
-                    ],
-                    "allow_unlabeled": true
-                  },
-                  {
-                    "name": "time",
-                    "labels": [
-                      "time",
-                      "scheduled time",
-                      "run time"
-                    ],
-                    "values": [
-                      "20:00",
-                      "8:00 PM",
-                      "8:00PM"
-                    ],
-                    "allow_unlabeled": true
-                  },
-                  {
-                    "name": "status",
-                    "labels": [
-                      "status",
-                      "state"
-                    ],
-                    "values": [
-                      "active",
-                      "scheduled",
-                      "applied"
-                    ],
-                    "allow_unlabeled": true
-                  }
-                ]
-              }
-            ]
-          },
-          "conflict_phrases": [
-            "pending"
+          "nearest_relations": [
+            {
+              "anchor": [
+                "old",
+                "previous",
+                "prior"
+              ],
+              "expected": [
+                "25 C",
+                "25C"
+              ],
+              "forbidden": [
+                "24 C",
+                "24C"
+              ],
+              "max_distance": 6,
+              "same_clause": true
+            },
+            {
+              "anchor": [
+                "25 C",
+                "25C"
+              ],
+              "expected": [
+                "cancelled",
+                "retired",
+                "replaced",
+                "superseded",
+                "no longer active"
+              ],
+              "forbidden": [
+                "active",
+                "applied",
+                "pending"
+              ],
+              "max_distance": 10,
+              "same_clause": true
+            },
+            {
+              "anchor": [
+                "24 C",
+                "24C"
+              ],
+              "expected": [
+                "active",
+                "applied",
+                "scheduled"
+              ],
+              "forbidden": [
+                "cancelled",
+                "retired",
+                "pending"
+              ],
+              "max_distance": 10,
+              "same_clause": true
+            }
           ],
           "reject_questions": true,
           "reject_uncertainty": true,
@@ -282,27 +242,29 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
+      "func": "smarthome.check_planned_effects",
       "result": {
-        "type": "smarthome_schedules"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "count": 1,
-            "exact_active_count": 1,
-            "match": {
-              "run_at": "2026-06-16T20:00:00",
-              "device_id": "living_room_air_conditioner_1",
-              "command": "set_target_temperature",
-              "args": {
-                "temperature_c": 24.0
-              },
-              "status": "active"
-            }
+            "plans": [
+              {
+                "run_at": "2026-06-16T20:00:00",
+                "effects": {
+                  "living_room_air_conditioner_1": {
+                    "target_temperature_c": 24.0
+                  }
+                }
+              }
+            ]
           }
         }
+      },
+      "metadata": {
+        "role": "requested_business_effects"
       }
     }
   ],

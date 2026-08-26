@@ -1,6 +1,6 @@
 {
   "id": "linux_smarthome_348",
-  "instruction": "There's a conflict between `/tmp/climate/heating.json` and `/tmp/climate/cooling.json` — use `/tmp/climate/priority.docx` to resolve it, apply the winner, and save the result to `/tmp/climate/conflict.json`.",
+  "instruction": "There's a conflict between `/tmp/climate/heating.json` and `/tmp/climate/cooling.json`. Use `/tmp/climate/priority.docx` to resolve it, apply the winning climate request in Home, and save `/tmp/climate/conflict.json` using the decision fields defined in the policy document.",
   "devices": [
     {
       "id": "linux_0",

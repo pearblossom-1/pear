@@ -1,6 +1,6 @@
 {
   "id": "linux_only_295",
-  "instruction": "I need a patch bundle created. Use `patch_manifest.json` on the first Linux machine, including its archive-path and bundle-manifest rules, to package the selected source and test output from the second into `/tmp/patch/patch_bundle.zip`, and write `/tmp/patch/bundle_manifest.csv`.",
+  "instruction": "I need a patch bundle created on the second Linux machine. Use `/tmp/patch/patch_manifest.json` on the first Linux machine, including its archive-path and bundle-manifest rules, to select the required source and test output from `/tmp/patch/project/` on the second Linux machine. Create `/tmp/patch/patch_bundle.zip` and `/tmp/patch/bundle_manifest.csv` on the second Linux machine.",
   "devices": [
     {
       "id": "linux_0",

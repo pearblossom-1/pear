@@ -6,12 +6,12 @@
   ],
   "expected_files": [],
   "device_topology": "A+A+L+L",
-  "instruction": "Prepare the trainer's setup-photo handoff. Take a new Camera photo on the first phone and save it as `training_setup_photo.jpg`; the `Trainer` contact on the second phone supplies the recipient address. Read the purpose and package reference from `/tmp/train/handoff.txt` on the first Linux machine. On the second Linux machine, complete its local `/tmp/train/template.odp` with the photo filename, trainer email, purpose, and reference; save it as `/tmp/train/deck.odp` and export `/tmp/train/training_deck.pdf`. Leave an unsent Thunderbird draft to the trainer with that PDF attached, mentioning both `training_deck.pdf` and the package reference.",
+  "instruction": "Prepare the trainer's setup-photo handoff. On the first phone, take a new photo with Camera, then use Simple Gallery Pro to rename that new photo to `training_setup_photo.jpg`. The trainer contact on the second phone supplies the recipient address. Read the purpose and package reference from `/tmp/train/handoff.txt` on the first Linux machine. On the second Linux machine, complete its local `/tmp/train/template.odp` with the photo filename, trainer email, purpose, and reference; save it as `/tmp/train/deck.odp` and export `/tmp/train/training_deck.pdf`. Leave an unsent Thunderbird draft to the trainer with that PDF attached, mentioning both `training_deck.pdf` and the package reference.",
   "surfaces": "Camera/Simple Gallery Pro + Contacts + Linux handoff text + Impress + Thunderbird",
   "requires_helper_audit": false,
   "fixture_notes": [
     "The ODP template is local to linux_1; linux_0 provides only handoff.txt, so no unsupported Linux-to-Linux binary transfer is required.",
     "Purpose and TRN-417 are visible only in handoff.txt, while the recipient is visible only in the second phone's Trainer contact.",
-    "The final Thunderbird outcome remains an unsent draft with the current exported PDF attached."
+    "The final Thunderbird outcome requires a matching draft with the current exported PDF attached and no matching target message in Sent; unrelated mail and duplicate matching retry drafts are allowed."
   ]
 }

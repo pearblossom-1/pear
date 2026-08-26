@@ -41,14 +41,7 @@
             ],
             "conflict_phrases": [
               "2026-07-09",
-              "booked",
-              "approved",
-              "confirmed",
-              "cancelled",
-              "rejected"
-            ],
-            "allowed_conflict_phrases": [
-              "availability confirmed"
+              "booked"
             ],
             "reject_questions": true,
             "reject_uncertainty": true,

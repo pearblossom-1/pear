@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_113",
-  "instruction": "Jordan is visiting, so please prepare the Guest room using the saved contact preferences, Calendar timing, current SmartHome state, and `/tmp/visit/standard.xlsx`. Schedule the preparation workflow and send Jordan a concise confirmation of the room, time, and settings. Also create `/tmp/visit/record.docx` titled `Visitor record` with a readable two-column summary labeled `Visitor`, `Room`, `Workflow time`, `Temperature`, `Light`, and `Air purifier`.",
+  "instruction": "Jordan Lee is visiting, so please prepare the Guest room using the saved contact preferences, Calendar timing, current SmartHome state, and `/tmp/visit/standard.xlsx`. Schedule the preparation workflow and send Jordan a concise confirmation with the Guest room, preparation time, temperature, light level, and air-purifier setting. Also create `/tmp/visit/record.docx` titled `Visitor record` with a readable two-column summary labeled `Visitor`, `Room`, `Workflow time`, `Temperature`, `Light`, and `Air purifier`.",
   "devices": [
     {
       "id": "linux_0",
@@ -62,7 +62,7 @@
         {
           "type": "androidworld_contact_add",
           "parameters": {
-            "name": "Jordan Visitor",
+            "name": "Jordan Lee",
             "number": "+1555021301",
             "notes": "Preference: cool, soft, clean"
           }
@@ -71,12 +71,12 @@
           "type": "androidworld_contact_preflight",
           "parameters": {
             "contact": {
-              "name": "Jordan Visitor",
+              "name": "Jordan Lee",
               "number": "+1555021301",
               "notes_exact": "Preference: cool, soft, clean"
             },
             "required_visible_text": [
-              "Jordan Visitor",
+              "Jordan Lee",
               "Preference: cool, soft, clean"
             ]
           }
@@ -205,28 +205,6 @@
               "low purifier"
             ]
           ],
-          "required_phrases": [
-            [
-              "scheduled",
-              "will be prepared",
-              "will be ready",
-              "prepared at",
-              "preparation time"
-            ]
-          ],
-          "conflict_phrases": [
-            "not ready",
-            "cancelled",
-            "pending",
-            "already ready",
-            "already prepared",
-            "is ready",
-            "is prepared",
-            "was ready",
-            "was prepared",
-            "ready now",
-            "prepared now"
-          ],
           "reject_questions": true,
           "reject_uncertainty": true,
           "reject_negated_relations": true
@@ -251,7 +229,6 @@
           "expected": {
             "run_at": "2026-06-16T19:35:00",
             "status": "active",
-            "exact_active_workflow_count": 1,
             "effects": {
               "guest_room_air_conditioner_1": {
                 "power": "on",

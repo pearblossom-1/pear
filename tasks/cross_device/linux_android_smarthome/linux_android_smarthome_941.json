@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_941",
-  "instruction": "The pending guest-room setup may have been superseded, so please close it out against the latest booking status. Reconcile the property phone's `Guest arrival setup request` note with `/tmp/guest-stay-reconcile/booking/latest.txt` on the booking-status Linux workstation. Complete the front-desk register at `/tmp/guest-stay-reconcile/register/request_register.xlsx` and save the finished copy as `/tmp/guest-stay-reconcile/result/request_register_done.xlsx`. Check the live SmartHome state, change the room only if the latest booking still authorizes it, and record the outcome in the original Markor note.",
+  "instruction": "The pending guest-room setup may have been superseded, so please close it out against the latest booking status. Reconcile the property phone's `Guest arrival setup request` note with `/tmp/guest-stay-reconcile/booking/latest.txt` on the first Linux machine. On the second Linux machine, complete `/tmp/guest-stay-reconcile/register/request_register.xlsx` and save the finished copy as `/tmp/guest-stay-reconcile/result/request_register_done.xlsx`. Check the live SmartHome state, change the room only if the latest booking still authorizes it, and record the outcome in the original Markor note.",
   "devices": [
     {
       "id": "linux_0",
@@ -267,22 +267,6 @@
             "preserve_rooms": true,
             "preserve_answer_reports": true,
             "preserve_infeasible_reports": true
-          }
-        }
-      }
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_count",
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
           }
         }
       }

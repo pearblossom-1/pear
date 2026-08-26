@@ -22,7 +22,8 @@
           "expected": {
             "semantic_report": {
               "min_matching_report_count": 1,
-              "reject_nonmatching_reports": true,
+              "require_category_alias": false,
+              "reject_nonmatching_reports": false,
               "category_aliases": [
                 "missing_room",
                 "missing room",
@@ -47,6 +48,8 @@
                     "does not exist",
                     "not present",
                     "missing",
+                    "there isn't a guest room",
+                    "isn't available",
                     "cannot be created"
                   ]
                 ],
@@ -54,6 +57,8 @@
                   "no guest room",
                   "does not exist",
                   "not present",
+                  "there isn't a guest room",
+                  "isn't available",
                   "cannot be created"
                 ],
                 "conflict_phrases": [

@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_614",
-  "instruction": "The first phone has yesterday's continue-cleaning photo; the second phone has today's authenticated Owner stop request and contact. Use `/tmp/home_ops/approval-forms/source/priority.pdf` to resolve the conflict, dock the SmartHome robot, and reply to the Owner with the actual result.",
+  "instruction": "Review the cleaning instruction image in Simple Gallery Pro on the first phone and the latest cleaning request plus matching contact on the second phone. Use `/tmp/home_ops/approval-forms/source/priority.pdf` to determine which instruction has priority, apply the authorized result in SmartHome, and reply to the requester with the actual robot result.",
   "devices": [
     {
       "id": "linux_0",
@@ -62,7 +62,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "mkdir -p '/sdcard/DCIM/Camera' && rm -f '/sdcard/DCIM/Camera/continue_cleaning_old_614.png'"
+            "command": "mkdir -p '/sdcard/DCIM/Camera' && rm -f '/sdcard/DCIM/Camera/cleaning_instruction.png'"
           }
         },
         {
@@ -70,8 +70,8 @@
           "parameters": {
             "files": [
               {
-                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_614/android/android_0/continue_cleaning_old_614.png",
-                "path": "/sdcard/DCIM/Camera/continue_cleaning_old_614.png"
+                "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_614/android/android_0/cleaning_instruction.png",
+                "path": "/sdcard/DCIM/Camera/cleaning_instruction.png"
               }
             ]
           }
@@ -79,14 +79,14 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://'/sdcard/DCIM/Camera/continue_cleaning_old_614.png' >/dev/null 2>&1 || true"
+            "command": "am broadcast -a android.intent.action.MEDIA_SCANNER_SCAN_FILE -d file://'/sdcard/DCIM/Camera/cleaning_instruction.png' >/dev/null 2>&1 || true"
           }
         },
         {
           "type": "androidworld_gallery_image_text_preflight",
           "parameters": {
-            "path": "/sdcard/DCIM/Camera/continue_cleaning_old_614.png",
-            "filename": "continue_cleaning_old_614.png",
+            "path": "/sdcard/DCIM/Camera/cleaning_instruction.png",
+            "filename": "cleaning_instruction.png",
             "relative_path": "DCIM/Camera/",
             "mime_type": "image/png",
             "required_text": [
@@ -198,7 +198,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/sdcard/DCIM/Camera/continue_cleaning_old_614.png'; rmdir '/sdcard/DCIM/Camera' 2>/dev/null || true"
+            "command": "rm -f '/sdcard/DCIM/Camera/cleaning_instruction.png'; rmdir '/sdcard/DCIM/Camera' 2>/dev/null || true"
           }
         }
       ]
@@ -317,7 +317,6 @@
       "information_transfer",
       "linux_interaction",
       "media_handling",
-      "negative_or_conflict_handling",
       "smarthome_reasoning"
     ],
     "asset_dir": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_614",

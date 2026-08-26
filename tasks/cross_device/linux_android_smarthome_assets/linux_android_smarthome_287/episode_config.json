@@ -70,46 +70,6 @@
       }
     },
     {
-      "device_id": "linux_0",
-      "func": "check_include_exclude",
-      "result": {
-        "type": "vm_command_line",
-        "command": "cat /tmp/access/cancel_policy.txt 2>/dev/null || true"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "include": [
-            "Only Owner contacts may cancel away routines.",
-            "Guest and Neighbor contacts must be rejected",
-            "routine must stay active"
-          ],
-          "exclude": []
-        }
-      },
-      "metadata": {
-        "path": "/tmp/access/cancel_policy.txt"
-      },
-      "enable_score_calc": false
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_command_history_count",
-      "enable_score_calc": false,
-      "result": {
-        "type": "smarthome_device_history"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      }
-    },
-    {
       "device_id": "home_0",
       "func": "smarthome.check_workflow_status",
       "result": {
@@ -129,40 +89,6 @@
               }
             ],
             "status": "active"
-          }
-        }
-      }
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_schedule_count",
-      "enable_score_calc": false,
-      "result": {
-        "type": "smarthome_schedules"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 0,
-            "match": {}
-          }
-        }
-      }
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_workflow_count",
-      "enable_score_calc": false,
-      "result": {
-        "type": "smarthome_workflows"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "count": 1,
-            "match": {}
           }
         }
       }

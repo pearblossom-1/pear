@@ -5,7 +5,7 @@
       {
         "type": "androidworld_sms_send",
         "parameters": {
-          "address": "5551490",
+          "address": "5556047",
           "body": "Kitchen PM2.5 is 91, above the 50 limit, so the purifier is now running on high."
         }
       }

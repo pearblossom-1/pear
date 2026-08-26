@@ -28,7 +28,7 @@
         {
           "type": "androidworld_sms_receive",
           "parameters": {
-            "address": "5552020",
+            "address": "5558391",
             "body": "At 19:30, set living room purifier high and close the curtain.",
             "wait_s": 5.0
           }
@@ -38,7 +38,7 @@
           "parameters": {
             "message": {
               "box": "inbox",
-              "address": "5552020",
+              "address": "5558391",
               "body": "At 19:30, set living room purifier high and close the curtain.",
               "require_exactly_one_for_address": true
             },

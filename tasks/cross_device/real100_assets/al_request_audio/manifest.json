@@ -6,10 +6,10 @@
   "expected_files": [
     "expected/memo_path.txt"
   ],
-  "note": "The request file contains only the memo filename, M4A format, public /sdcard/Recordings destination, and recording action. Evaluation pulls that Android artifact and requires a decodable positive-duration M4A/MP4-family audio stream; renamed text and empty containers fail.",
+  "note": "The request file contains only the memo filename, M4A format, public Recordings-folder destination, and recording action. Evaluation pulls the Android artifact and requires a decodable positive-duration M4A/MP4-family audio stream; renamed text and empty containers fail.",
   "source_card": "037",
   "device_topology": "1A+1L",
-  "instruction": "Linux 的 `/tmp/brief/request.txt` 写了语音备忘录的文件名、M4A 格式和公共保存路径。用 Android Audio Recorder 录一段简短语音，并按 request 保存或导出；必要时可用 Android Files 放到指定目录。",
+  "instruction": "Linux 的 `/tmp/brief/request.txt` 写了语音备忘录的文件名、M4A 格式和手机上的公共 Recordings 保存位置。用 Android Audio Recorder 录一段简短语音，并按 request 保存或导出；必要时可用 Android Files 放到指定文件夹。",
   "surfaces": "Linux text -> Android Audio Recorder recording -> public Android Recordings file",
   "template_source": "tasks/cross_device/real20/briefing_voice_memo_001.json"
 }

@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_185",
-  "instruction": "Assess the Owner's request for the basic living-room light against /tmp/access/capability.pdf and the actual SmartHome devices. If percentage dimming is unsupported for that target, leave the requested basic light unchanged and do not substitute a different living-room light. Record one infeasible capability report in SmartHome and send the Owner a clear natural explanation that identifies the requested level and unchanged result.",
+  "instruction": "Assess the Owner's request for the basic living-room light using `/tmp/access/capability.pdf` and the actual SmartHome devices. If percentage dimming is not supported for that target, leave the requested basic light unchanged, do not substitute another living-room light, and reply to the Owner with the requested level and why it could not be applied.",
   "devices": [
     {
       "id": "linux_0",
@@ -93,7 +93,7 @@
         {
           "type": "androidworld_contact_add",
           "parameters": {
-            "name": "House Owner",
+            "name": "Rachel Morgan",
             "number": "+1555018501",
             "notes": "Role: Owner"
           }
@@ -102,12 +102,12 @@
           "type": "androidworld_contact_preflight",
           "parameters": {
             "contact": {
-              "name": "House Owner",
+              "name": "Rachel Morgan",
               "number": "+1555018501",
               "notes_exact": "Role: Owner"
             },
             "required_visible_text": [
-              "House Owner",
+              "Rachel Morgan",
               "Role: Owner"
             ]
           }
@@ -260,87 +260,6 @@
         "type": "rule",
         "rules": {
           "expected": "present"
-        }
-      }
-    },
-    {
-      "device_id": "home_0",
-      "func": "smarthome.check_infeasible_report",
-      "result": {
-        "type": "smarthome_infeasible_reports"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": {
-            "semantic_report": {
-              "exact_report_count": 1,
-              "category_aliases": [
-                "unsupported command",
-                "unsupported capability",
-                "dimming unavailable",
-                "capability issue"
-              ],
-              "target_aliases": [
-                "basic living room light",
-                "basic living-room light",
-                "living_room_light_1",
-                "35 percent basic light request"
-              ],
-              "reason_relation": {
-                "entities": [
-                  [
-                    "basic living room light",
-                    "basic living-room light",
-                    "living_room_light_1"
-                  ],
-                  [
-                    "35%",
-                    "35 percent"
-                  ],
-                  [
-                    "dimming",
-                    "brightness",
-                    "dim",
-                    "dimmable"
-                  ],
-                  [
-                    "unsupported",
-                    "not dimmable",
-                    "does not support",
-                    "cannot dim",
-                    "can't dim",
-                    "cannot be changed"
-                  ]
-                ],
-                "positive_phrases": [
-                  [
-                    "unsupported",
-                    "not dimmable",
-                    "does not support",
-                    "cannot dim",
-                    "can't dim",
-                    "cannot be changed"
-                  ]
-                ],
-                "allowed_negative_capability_phrases": [
-                  "not dimmable",
-                  "does not support dimming",
-                  "cannot dim",
-                  "can't dim",
-                  "cannot be changed to 35%",
-                  "cannot be changed to 35 percent"
-                ],
-                "conflict_phrases": [
-                  "supports dimming",
-                  "set to 35%",
-                  "set to 35 percent",
-                  "changed to 35%",
-                  "changed to 35 percent"
-                ]
-              }
-            }
-          }
         }
       }
     },

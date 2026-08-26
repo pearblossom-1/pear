@@ -89,7 +89,6 @@
           }
         }
       },
-      "enable_score_calc": false,
       "name": "unsupported-capability task leaves every Home device unchanged"
     }
   ],

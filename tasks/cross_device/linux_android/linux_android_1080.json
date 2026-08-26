@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1080",
-  "instruction": "Before sending the confirmation SMS, compare the current row in `/tmp/contact_mismatch_blocks_sms/request_table.csv` with the exact-name Contacts entry on the first phone and follow `/tmp/contact_mismatch_blocks_sms/handoff_policy.md`. If the numbers differ, do not send the confirmation to either number. Explain the case, approval code, owner, both numbers, and blocked reason in `/storage/emulated/0/Documents/Markor/1080-A_blocked.md` on the second phone.",
+  "instruction": "Before sending the confirmation SMS, compare the current row in `/tmp/contact_mismatch_blocks_sms/request_table.csv` with the exact-name Contacts entry on the first phone and follow `/tmp/contact_mismatch_blocks_sms/handoff_policy.md`. If the numbers differ, do not send the confirmation to either number. On the second phone, create a Markor note called `1080-A contact status` with the case, approval code, owner, both numbers, and blocked reason.",
   "devices": [
     {
       "id": "android_0",
@@ -64,7 +64,7 @@
         },
         {"type": "ensure_app", "parameters": {"app": "simple sms messenger"}},
         {"type": "androidworld_sms_clear", "parameters": {}},
-        {"type": "adb_shell", "parameters": {"command": "rm -f '/storage/emulated/0/Documents/Markor/1080-A_blocked.md' && test ! -e '/storage/emulated/0/Documents/Markor/1080-A_blocked.md'", "check_exit_status": true}},
+        {"type": "adb_shell", "parameters": {"command": "rm -f '/storage/emulated/0/Documents/Markor/1080-A contact status.md' && test ! -e '/storage/emulated/0/Documents/Markor/1080-A contact status.md'", "check_exit_status": true}},
         {"type": "open_app", "parameters": {"app": "simple sms messenger"}},
         {"type": "open_app", "parameters": {"app": "markor"}}
       ]
@@ -120,7 +120,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/1080-A_blocked.md'"
+            "command": "rm -f '/storage/emulated/0/Documents/Markor/1080-A contact status.md'"
           }
         },
         {"type": "androidworld_sms_clear", "parameters": {}}
@@ -145,7 +145,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/1080-A_blocked.md",
+        "path": "/storage/emulated/0/Documents/Markor/1080-A contact status.md",
         "rules": {
           "entities": ["1080-A", "NX08091", "Mira Patel", "+1555011991", "+1555011881"],
           "required_phrases": [["mismatch", "does not match", "different", "conflicts"]],
@@ -235,7 +235,7 @@
       {
         "kind": "android_file",
         "device_id": "android_1",
-        "path": "/storage/emulated/0/Documents/Markor/1080-A_blocked.md",
+        "path": "/storage/emulated/0/Documents/Markor/1080-A contact status.md",
         "required": [
           "1080-A",
           "NX08091",

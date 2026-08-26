@@ -86,14 +86,14 @@
             },
             {
               "playlist": "Route review set",
-              "track_title": "missing signature cue",
+              "track_title": "evening signature cue",
               "manifest_required": "yes",
               "android_playlist": "missing",
               "category": "missing"
             },
             {
               "playlist": "Route review set",
-              "track_title": "old archive outro",
+              "track_title": "route closeout",
               "manifest_required": "no",
               "android_playlist": "present",
               "category": "extra"

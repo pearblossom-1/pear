@@ -4,7 +4,7 @@
       {
         "type": "androidworld_sms_send",
         "parameters": {
-          "address": "5552650",
+          "address": "5559431",
           "body": "Bedroom humidity is 32%, below the 35% rule, so the humidifier is running on high."
         }
       }

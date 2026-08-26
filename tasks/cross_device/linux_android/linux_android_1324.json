@@ -66,7 +66,7 @@
             "start_ts": 1786780800,
             "end_ts": 1786784400,
             "location": "Room 4",
-            "description": "attendee Riley Stone phone 5551201324"
+            "description": "attendee Riley Stone phone 5557169"
           }
         },
         {
@@ -94,7 +94,7 @@
           "type": "androidworld_contact_add",
           "parameters": {
             "name": "Riley Stone",
-            "number": "5551201324",
+            "number": "5557169",
             "notes": "Vendor contact for APPT-1324"
           }
         },
@@ -102,7 +102,7 @@
           "type": "androidworld_contact_add",
           "parameters": {
             "name": "Riley Stoner",
-            "number": "5551201399",
+            "number": "5559438",
             "notes": "Near-name decoy"
           }
         },
@@ -174,18 +174,14 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201324",
+        "address": "5557169",
         "body_relation": {
           "entities": [
             "APPT-1324 Vendor Review",
             ["08:00", "8:00", "8 AM", "8:00 AM", "08:00 AM"],
-            "Room 4",
-            ["confirmed", "is confirmed", "scheduled", "is scheduled", "appointment confirmed", "see you at"]
+            "Room 4"
           ],
-          "positive_phrases": [
-            ["confirmed", "is confirmed", "scheduled", "is scheduled", "appointment confirmed", "see you at"]
-          ],
-          "conflict_phrases": ["maybe confirmed", "might be at 8", "not confirmed", "cancelled", "canceled"],
+          "conflict_phrases": ["wrong appointment", "wrong time", "wrong location"],
           "reject_incomplete_semantics": true
         }
       },
@@ -202,7 +198,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201399",
+        "address": "5559438",
         "any_body": true,
         "exact_count": 0
       },
@@ -235,7 +231,7 @@
             ["Date and time", "2026-08-15 08:00-09:00"],
             ["Location", "Room 4"],
             ["Attendee", "Riley Stone"],
-            ["Phone", "5551201324"],
+            ["Phone", "5557169"],
             ["Confirmation channel", ["SMS", "sms", "text", "text message", "SMS message", "texting", "Simple SMS Messenger"]]
           ],
           "case_sensitive": false

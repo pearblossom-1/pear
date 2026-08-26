@@ -36,28 +36,6 @@
               "high purifier"
             ]
           ],
-          "required_phrases": [
-            [
-              "scheduled",
-              "will be prepared",
-              "will be ready",
-              "prepared at",
-              "preparation time"
-            ]
-          ],
-          "conflict_phrases": [
-            "not ready",
-            "cancelled",
-            "pending",
-            "already ready",
-            "already prepared",
-            "is ready",
-            "is prepared",
-            "was ready",
-            "was prepared",
-            "ready now",
-            "prepared now"
-          ],
           "reject_questions": true,
           "reject_uncertainty": true,
           "reject_negated_relations": true

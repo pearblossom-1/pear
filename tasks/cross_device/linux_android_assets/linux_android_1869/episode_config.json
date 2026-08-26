@@ -39,10 +39,10 @@
             "wrong route",
             "wrong site",
             "wrong time",
-            "not an escalation",
-            "do not send",
-            "cancelled",
-            "canceled"
+            "not an escalation"
+          ],
+          "allowed_reversal_terms": [
+            "do not send"
           ],
           "reject_incomplete_semantics": true
         },

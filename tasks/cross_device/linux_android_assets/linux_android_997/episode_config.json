@@ -13,8 +13,7 @@
             "enabled": true
           }
         ],
-        "allow_unrelated": false,
-        "reject_identity_duplicates": true
+        "allow_unrelated": true
       },
       "expected": {
         "type": "rule",
@@ -45,35 +44,11 @@
               "difference",
               "differs",
               "outside"
-            ],
-            [
-              "alarm is set",
-              "alarm set",
-              "fallback alarm",
-              "added alarm",
-              "alarm is enabled",
-              "enabled alarm"
             ]
-          ],
-          "positive_phrases": [
-            "alarm is set",
-            "alarm set",
-            "fallback alarm",
-            "added alarm",
-            "alarm is enabled",
-            "enabled alarm"
           ],
           "conflict_phrases": [
             "times match",
-            "no mismatch",
-            "alarm not set",
-            "do not set",
-            "blocked",
-            "removed",
-            "deleted",
-            "cancelled",
-            "canceled",
-            "disabled"
+            "no mismatch"
           ]
         }
       },

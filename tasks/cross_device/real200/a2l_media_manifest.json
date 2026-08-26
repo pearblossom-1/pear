@@ -1,6 +1,6 @@
 {
   "id": "a2l_media_manifest",
-  "instruction": "The first phone just took a field photo, and the second phone has a field voice recording in Android Files' Recordings folder. Please create `/tmp/media/manifest.json` on Linux with the filename, file type, and size of both media files as shown in each file's Details view. Use `photo` and `audio` objects, each with `filename`, `type`, and `size`; use the apps' displayed labels (common alternatives such as `PNG`, `M4A`, or a MIME type are also fine), and keep the displayed size unit.",
+  "instruction": "The first phone has a field photo in Simple Gallery Pro, and the second phone has a field voice recording in Android Files' Recordings folder. Open each file's Details view and create `/tmp/media/manifest.json` on Linux with the filename, file type, and displayed size of both media files. Use `photo` and `audio` objects, each with `filename`, `type`, and `size`; use the apps' displayed labels, and keep the displayed size unit.",
   "devices": [
     {
       "id": "android_0",

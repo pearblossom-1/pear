@@ -11,7 +11,7 @@
   ],
   "android_setup": {
     "android_0": [
-      {"type": "androidworld_retro_playlist_add", "parameters": {"playlist_name": "905-A route set", "songs": ["track_905_alpha", "track_905_bravo"]}}
+      {"type": "androidworld_retro_playlist_add", "parameters": {"playlist_name": "905-A route set", "songs": ["Harbor Morning", "Gate Signal"]}}
     ]
   },
   "notes": "Creates the requested native ordered playlist and the justified cross-desktop handoff."

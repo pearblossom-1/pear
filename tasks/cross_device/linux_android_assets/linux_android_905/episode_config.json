@@ -7,8 +7,8 @@
         "type": "retro_music_playlist",
         "playlist_name": "905-A route set",
         "expected_songs": [
-          "track_905_alpha",
-          "track_905_bravo"
+          "Harbor Morning",
+          "Gate Signal"
         ],
         "order_sensitive": true
       },

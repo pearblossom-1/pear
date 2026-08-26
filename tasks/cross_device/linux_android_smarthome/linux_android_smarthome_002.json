@@ -1,6 +1,6 @@
 {
   "id": "linux_android_smarthome_002",
-  "instruction": "Use the `Guest check-in` Calendar event, the `Maya Front Desk` contact, and `/tmp/guest-ready/guest_standard.csv` to schedule one active Guest room readiness workflow. The workflow must make every device state listed in the matching standard ready. Send Maya a concise confirmation that identifies the Guest room, the scheduled readiness time, and that the preparation has been scheduled or will be ready at that time.",
+  "instruction": "Use the `Guest check-in` Calendar event, the `Maya Patel` contact, and `/tmp/guest-ready/guest_standard.csv` to schedule one active Guest room readiness workflow. The workflow must make every device state listed in the matching standard ready. Send Maya a concise confirmation that identifies the Guest room, the scheduled readiness time, and that the preparation has been scheduled or will be ready at that time.",
   "devices": [
     {
       "id": "linux_0",
@@ -92,7 +92,7 @@
         {
           "type": "androidworld_contact_add",
           "parameters": {
-            "name": "Maya Front Desk",
+            "name": "Maya Patel",
             "number": "+1555010202",
             "notes": "Front desk notification contact"
           }
@@ -101,12 +101,12 @@
           "type": "androidworld_contact_preflight",
           "parameters": {
             "contact": {
-              "name": "Maya Front Desk",
+              "name": "Maya Patel",
               "number": "+1555010202",
               "notes_exact": "Front desk notification contact"
             },
             "required_visible_text": [
-              "Maya Front Desk",
+              "Maya Patel",
               "Front desk notification contact"
             ]
           }

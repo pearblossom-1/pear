@@ -1,6 +1,6 @@
 {
   "id": "linux_android_947",
-  "instruction": "The approved recording case needs to be handed to both the phone recording operator and the second-Linux transfer operator. Reconcile `/sdcard/Download/947-A_source.md` with `/tmp/audio_file_list_creates_reco/request_table.csv` and follow `/tmp/audio_file_list_creates_reco/handoff_policy.md`. Save the routing decision to `/tmp/audio_file_list_creates_reco/decision.json`, leave the phone operator a `947-A recording handoff` note in Markor, and write the transfer handoff to `/tmp/audio_file_list_creates_reco/handoff.txt` on the second Linux machine.",
+  "instruction": "The approved recording case needs to be handed to both the phone recording operator and the second-Linux transfer operator. Reconcile `947-A_source.md` in Downloads on the phone with `/tmp/audio_file_list_creates_reco/request_table.csv` and `/tmp/audio_file_list_creates_reco/handoff_policy.md` on the first Linux machine. Save `/tmp/audio_file_list_creates_reco/decision.json` on the first Linux machine, create a Markor note called `947-A recording handoff`, and write `/tmp/audio_file_list_creates_reco/handoff.txt` on the second Linux machine.",
   "devices": [
     {
       "id": "android_0",

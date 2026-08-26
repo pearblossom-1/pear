@@ -55,7 +55,7 @@
         {
           "type": "androidworld_sms_receive",
           "parameters": {
-            "address": "5551201208",
+            "address": "5557628",
             "body": "Today's request approval code is APP-5088.",
             "wait_s": 5.0
           }

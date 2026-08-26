@@ -1,6 +1,6 @@
 {
   "id": "linux_android_943",
-  "instruction": "Please prepare the transcript-status record for the current approved audio case. Match the phone evidence in `/sdcard/Download/943-A_source.md` to the current row in `/tmp/audio/request_table.csv`, follow the public schema and decision rule in `/tmp/audio/handoff_policy.md`, and save the completed CSV as `/tmp/audio/status.csv`.",
+  "instruction": "Please prepare the transcript-status record for the current approved audio case. Match the phone evidence in `943-A_source.md` in Downloads to the current row in `/tmp/audio/request_table.csv`, follow the public schema and decision rule in `/tmp/audio/handoff_policy.md`, and save the completed CSV as `/tmp/audio/status.csv`.",
   "devices": [
     {
       "id": "android_0",

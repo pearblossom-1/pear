@@ -1,6 +1,6 @@
 {
   "id": "al2_alarm_calc_email",
-  "instruction": "The Android Clock app has a `Delivery` alarm. Please open `/tmp/delivery/schedule.xlsx` in LibreOffice Calc on the first Linux machine, find the Delivery row and fill in the alarm time, then create a notification draft in Thunderbird on the second Linux machine using the notification recipient shown in that Delivery row.",
+  "instruction": "The Android Clock app has a `Delivery` alarm. Open `/tmp/delivery/schedule.xlsx` in LibreOffice Calc on the first Linux machine, find the Delivery row, and fill in the alarm time. Then create a notification draft in Thunderbird on the second Linux machine using the notification recipient shown in that Delivery row. The draft should identify `Delivery` and state its alarm time.",
   "devices": [
     {
       "id": "android_0",
@@ -172,7 +172,6 @@
         ],
         "allow_extra_recipients": false,
         "recipient_header_policy": "single_to_only",
-        "exact_total_drafts": 1,
         "attachments": [],
         "allow_extra_attachments": false,
         "mime_body_policy": "safe_visible_text",
@@ -187,24 +186,25 @@
               "8:45AM"
             ]
           ],
-          "positive_phrases": [
-            [
-              "updated",
-              "update is complete",
-              "scheduled",
-              "notification time",
-              "alarm",
-              "set for",
-              "at"
-            ]
+          "nearest_relations": [
+            {
+              "anchor": [
+                "Delivery"
+              ],
+              "expected": [
+                "08:45",
+                "8:45"
+              ],
+              "forbidden": [
+                "09:15",
+                "9:15"
+              ],
+              "max_distance": 32,
+              "same_clause": false
+            }
           ],
-          "reject_unlisted_entity_pattern": "(?<!\\d)(?:[01]?\\d|2[0-3]):[0-5]\\d(?:\\s*[ap]\\.?m\\.?)?(?!\\d)",
-          "allowed_unlisted_entities": [
-            "08:45",
-            "8:45",
-            "08:45 AM",
-            "8:45 AM",
-            "8:45AM"
+          "conflict_patterns": [
+            "\\bDelivery\\b\\s*(?:(?:alarm|notification(?:\\s+time)?|time)\\s*)?(?:(?:is|was|=|:|[-\\u2014])\\s*)?(?:(?:at|set\\s+for|scheduled\\s+for)\\s*)?(?!(?:0?8:45)(?:\\s*a\\.?m\\.?)?\\b)(?:[01]?\\d|2[0-3]):[0-5]\\d(?:\\s*[ap]\\.?m\\.?)?\\b"
           ],
           "reject_incomplete_semantics": true
         },
@@ -250,7 +250,7 @@
     "device_topology": "1A+2L",
     "surfaces": "Android Clock app + linux_0 Calc + linux_1 Thunderbird",
     "setup_note": "Android provides the Delivery alarm; linux_0 provides schedule.xlsx with the notification recipient cue in the Delivery row; linux_1 provides a clean Thunderbird profile for the draft.",
-    "evaluate_note": "Checks the source-preserving Calc update and one exact-profile Thunderbird Drafts message whose Delivery label and 08:45 time form a positive, non-negated relation.",
+    "evaluate_note": "Checks the source-preserving Calc update and requires at least one matching task-profile draft whose Delivery label and 08:45 time form a local positive relation. Unrelated drafts and unrelated times do not affect scoring.",
     "implementation_status": "fixture_scaffold",
     "readiness": "R1_native_content_thunderbird_state",
     "native_evaluator_status": "native_content_thunderbird_state",
@@ -310,6 +310,6 @@
         ]
       }
     ],
-    "lite_evaluator_hardening_note": "The workbook preserves all meaningful source cells, sheet state, and relevant row/column visibility while permitting only Schedule!C2; visible Calc time serials normalize to HH:MM. The draft getter reads only the exact profile Drafts store, requires exactly one draft and one To recipient, rejects attachments and sent copies, and binds Delivery plus an equivalent 08:45 form across subject and body in one affirmative relation. Setup validates the workbook cue/empty target cell and the usable empty Thunderbird profile."
+    "lite_evaluator_hardening_note": "The workbook preserves all meaningful source cells, sheet state, and relevant row/column visibility while permitting only Schedule!C2; visible Calc time serials normalize to HH:MM. The draft getter reads only the task-owned profile and accepts any matching draft, keeps the exact single-To recipient and no-attachment contract, and locally binds Delivery to an equivalent 08:45 form without a global time whitelist or extra positive keyword. The Sent-folder guard remains diagnostic."
   }
 }

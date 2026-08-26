@@ -1,6 +1,6 @@
 {
   "id": "linux_android_1040",
-  "instruction": "Please set up the approved route-review session. Match `/sdcard/Download/1040-A_source.md` on the first phone to the current event in `/tmp/music/event_schedule.csv` using `/tmp/music/handoff_policy.md`; the second phone's `/sdcard/Download/1040-A_android_1_context.md` gives the track order. On the first phone, create the approved Simple Calendar Pro event and the Retro Music playlist `1040-A route set`. Save the route-handoff decision to `/tmp/music/decision.json` on Linux using the schema shown in the policy.",
+  "instruction": "Please set up the approved route-review session. Match `1040-A_source.md` in Downloads on the first phone to the current event in `/tmp/music/event_schedule.csv` using `/tmp/music/handoff_policy.md`; `1040-A_android_1_context.md` in Downloads on the second phone gives the track order. On the first phone, create the approved Simple Calendar Pro event and the Retro Music playlist `1040-A route set`. Save the route-handoff decision to `/tmp/music/decision.json` on Linux using the schema shown in the policy.",
   "devices": [
     {
       "id": "android_0",

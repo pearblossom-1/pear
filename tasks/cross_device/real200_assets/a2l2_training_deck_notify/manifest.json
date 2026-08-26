@@ -5,10 +5,10 @@
   "difficulty": "Medium",
   "motif": "M5",
   "interaction_mode": "GUI-focused",
-  "instruction": "Prepare the training deck from the phone event/contacts and linux_1's local template, then use linux_0's notification handoff to draft the referenced ready notice in Thunderbird.",
+  "instruction": "Please prepare a training package across four devices. Simple Calendar Pro on the first phone has the training event, and Android Contacts on the second phone has the attendees. The first Linux machine has `/tmp/training/handoff.txt` with the notification requirement, while the second Linux machine has the Impress template `/tmp/training/training_deck.odp` and Thunderbird. On the second Linux machine, use the local template to create `/tmp/training/field_onboarding_deck.odp`, filling in the event title, date, start and end time, location, and all attendee names. Then create a Thunderbird draft addressed to every attendee. Identify the event in the subject or body, and in the body state that the training package is ready and include the package reference from `/tmp/training/handoff.txt`. Save it as a draft; do not send it.",
   "surfaces": "android_0 Simple Calendar Pro + android_1 Android Contacts app + linux_0 handoff + linux_1 local Impress template/output and Thunderbird",
   "setup_note": "android_0 写 event；android_1 仅写 attendees contacts；linux_0 上传 handoff；linux_1 上传本地 template 并配置空 Thunderbird Drafts。",
-  "evaluate_note": "Validates the ODP structure/content plus exact draft recipients, event identification in subject or body, and a positive package-ready body relation containing FO-618.",
+  "evaluate_note": "Validates the ODP structure/content plus exact draft recipients, event identification in subject or body, and a positive package-ready body relation containing FO-618. The task-owned Thunderbird Sent folder is scored as empty.",
   "requires_helper_audit": false,
   "source_files": [
     "source/handoff.txt",
@@ -78,7 +78,8 @@
     "Deck text checks complete event fields and attendee names separately, not one fixed separator format.",
     "Thunderbird draft checks both attendee emails independently.",
     "Template and final deck are both on linux_1; linux_0 contributes the unique FO-618 handoff.",
-    "The output path and required draft meaning are visible in the instruction."
+    "The output path and required draft meaning are visible in the instruction.",
+    "The explicit do-not-send requirement is closed by scoring the task-owned Sent folder as empty; no send trajectory or attachment is required."
   ],
   "cross_device_checks": [
     "real200_card_196_parsed_from_v3_expansion"

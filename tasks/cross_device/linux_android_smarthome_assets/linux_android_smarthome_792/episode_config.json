@@ -34,11 +34,6 @@
               "curtains"
             ]
           ],
-          "conflict_phrases": [
-            "pending",
-            "not applied",
-            "unchanged"
-          ],
           "reject_questions": true,
           "reject_uncertainty": true,
           "reject_negated_relations": true

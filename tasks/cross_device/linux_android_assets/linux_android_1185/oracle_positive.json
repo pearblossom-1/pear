@@ -6,14 +6,14 @@
       {
         "type": "androidworld_sms_send",
         "parameters": {
-          "address": "5551201185",
+          "address": "5557312",
           "body": "MTG-Q3-OPS Q3 Ops Review is confirmed."
         }
       },
       {
         "type": "androidworld_sms_send",
         "parameters": {
-          "address": "5551201186",
+          "address": "5558426",
           "body": "MTG-Q3-OPS Q3 Ops Review is confirmed."
         }
       }

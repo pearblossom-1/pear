@@ -1,6 +1,6 @@
 {
   "id": "android_only_285",
-  "instruction": "Open `music_export_manifest.csv` in Downloads on the first phone. On the second phone, use Files to copy each listed MP3 that exists from Music into `Music/Export`. Leave unlisted files alone and do not create missing files. Then create a Markor note on the second phone and save it as `Music export report.md`, marking each listed file as copied or missing.",
+  "instruction": "Open `music_export_manifest.csv` in Downloads on the first phone. On the second phone, use Files to copy each listed MP3 that is present in Music into `Music/Export`. Do not copy files that are not listed in the manifest, and do not create files that are missing. Then create a Markor note called `Music export report` on the second phone listing each manifest filename and whether it was copied or missing.",
   "devices": [
     {
       "id": "android_0",
@@ -43,9 +43,9 @@
             "missing_filenames": [],
             "open_filename": "music_export_manifest.csv",
             "required_visible_text": [
-              "north_loop.mp3",
-              "bridge_check.mp3",
-              "missing_song.mp3"
+              "morning_walk.mp3",
+              "blue_train.mp3",
+              "sunday_rain.mp3"
             ]
           }
         }
@@ -69,7 +69,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -rf /sdcard/Music/Export && mkdir -p /sdcard/Music/Export && rm -f /sdcard/Music/north_loop.mp3 /sdcard/Music/bridge_check.mp3 /sdcard/Music/unlisted.mp3 /sdcard/Music/missing_song.mp3 '/storage/emulated/0/Documents/Markor/Music export report.md' && content delete --uri content://media/external/audio/media --where \"_display_name='north_loop.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='bridge_check.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='unlisted.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='missing_song.mp3'\" >/dev/null 2>&1 || true"
+            "command": "rm -rf /sdcard/Music/Export && mkdir -p /sdcard/Music/Export && rm -f /sdcard/Music/morning_walk.mp3 /sdcard/Music/blue_train.mp3 /sdcard/Music/city_lights.mp3 /sdcard/Music/sunday_rain.mp3 '/storage/emulated/0/Documents/Markor/Music export report.md' '/storage/emulated/0/Documents/Markor/Markor/Music export report.md' && content delete --uri content://media/external/audio/media --where \"_display_name='morning_walk.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='blue_train.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='city_lights.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='sunday_rain.mp3'\" >/dev/null 2>&1 || true"
           }
         },
         {
@@ -82,9 +82,9 @@
           "type": "androidworld_mp3_push",
           "parameters": {
             "songs": [
-              "north_loop",
-              "bridge_check",
-              "unlisted"
+              "morning_walk",
+              "blue_train",
+              "city_lights"
             ]
           }
         },
@@ -93,12 +93,12 @@
           "parameters": {
             "directory": "/sdcard/Music",
             "expected_filenames": [
-              "north_loop.mp3",
-              "bridge_check.mp3",
-              "unlisted.mp3"
+              "morning_walk.mp3",
+              "blue_train.mp3",
+              "city_lights.mp3"
             ],
             "missing_filenames": [
-              "missing_song.mp3"
+              "sunday_rain.mp3"
             ]
           }
         },
@@ -108,11 +108,17 @@
             "snapshot_id": "android_only_285_music_sources",
             "directories": [],
             "files": [
-              "/sdcard/Music/north_loop.mp3",
-              "/sdcard/Music/bridge_check.mp3",
-              "/sdcard/Music/unlisted.mp3",
-              "/sdcard/Music/missing_song.mp3"
+              "/sdcard/Music/morning_walk.mp3",
+              "/sdcard/Music/blue_train.mp3",
+              "/sdcard/Music/city_lights.mp3",
+              "/sdcard/Music/sunday_rain.mp3"
             ]
+          }
+        },
+        {
+          "type": "androidworld_markor_root_preflight",
+          "parameters": {
+            "path": "/storage/emulated/0/Documents/Markor"
           }
         }
       ]
@@ -136,7 +142,7 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -rf /sdcard/Music/Export && rm -f /sdcard/Music/north_loop.mp3 /sdcard/Music/bridge_check.mp3 /sdcard/Music/unlisted.mp3 /sdcard/Music/missing_song.mp3 '/storage/emulated/0/Documents/Markor/Music export report.md' && content delete --uri content://media/external/audio/media --where \"_display_name='north_loop.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='bridge_check.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='unlisted.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='missing_song.mp3'\" >/dev/null 2>&1 || true"
+            "command": "rm -rf /sdcard/Music/Export && rm -f /sdcard/Music/morning_walk.mp3 /sdcard/Music/blue_train.mp3 /sdcard/Music/city_lights.mp3 /sdcard/Music/sunday_rain.mp3 '/storage/emulated/0/Documents/Markor/Music export report.md' '/storage/emulated/0/Documents/Markor/Markor/Music export report.md' && content delete --uri content://media/external/audio/media --where \"_display_name='morning_walk.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='blue_train.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='city_lights.mp3'\" >/dev/null 2>&1 || true && content delete --uri content://media/external/audio/media --where \"_display_name='sunday_rain.mp3'\" >/dev/null 2>&1 || true"
           }
         }
       ]
@@ -153,20 +159,20 @@
         "preserve_directories": [],
         "file_mappings": [
           {
-            "baseline_path": "/sdcard/Music/north_loop.mp3",
-            "current_path": "/sdcard/Music/north_loop.mp3"
+            "baseline_path": "/sdcard/Music/morning_walk.mp3",
+            "current_path": "/sdcard/Music/morning_walk.mp3"
           },
           {
-            "baseline_path": "/sdcard/Music/bridge_check.mp3",
-            "current_path": "/sdcard/Music/bridge_check.mp3"
+            "baseline_path": "/sdcard/Music/blue_train.mp3",
+            "current_path": "/sdcard/Music/blue_train.mp3"
           },
           {
-            "baseline_path": "/sdcard/Music/unlisted.mp3",
-            "current_path": "/sdcard/Music/unlisted.mp3"
+            "baseline_path": "/sdcard/Music/city_lights.mp3",
+            "current_path": "/sdcard/Music/city_lights.mp3"
           },
           {
-            "baseline_path": "/sdcard/Music/missing_song.mp3",
-            "current_path": "/sdcard/Music/missing_song.mp3"
+            "baseline_path": "/sdcard/Music/sunday_rain.mp3",
+            "current_path": "/sdcard/Music/sunday_rain.mp3"
           }
         ]
       },
@@ -176,10 +182,10 @@
           "expected": "exact"
         }
       },
-      "enable_score_calc": false
+      "enable_score_calc": true
     },
     {
-      "name": "Copy north_loop and bridge_check from their original setup bytes",
+      "name": "Copy morning_walk and blue_train from their original setup bytes",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
@@ -188,12 +194,12 @@
         "preserve_directories": [],
         "file_mappings": [
           {
-            "baseline_path": "/sdcard/Music/north_loop.mp3",
-            "current_path": "/sdcard/Music/Export/north_loop.mp3"
+            "baseline_path": "/sdcard/Music/morning_walk.mp3",
+            "current_path": "/sdcard/Music/Export/morning_walk.mp3"
           },
           {
-            "baseline_path": "/sdcard/Music/bridge_check.mp3",
-            "current_path": "/sdcard/Music/Export/bridge_check.mp3"
+            "baseline_path": "/sdcard/Music/blue_train.mp3",
+            "current_path": "/sdcard/Music/Export/blue_train.mp3"
           }
         ]
       },
@@ -202,7 +208,8 @@
         "rules": {
           "expected": "exact"
         }
-      }
+      },
+      "enable_score_calc": true
     },
     {
       "name": "Music/Export recursive .mp3 business-audio count is 2",
@@ -221,15 +228,15 @@
           "expected": "2"
         }
       },
-      "enable_score_calc": false
+      "enable_score_calc": true
     },
     {
-      "name": "missing_song.mp3 is not fabricated in Music/Export",
+      "name": "sunday_rain.mp3 is not fabricated in Music/Export",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
         "type": "android_file_state",
-        "path": "/sdcard/Music/Export/missing_song.mp3"
+        "path": "/sdcard/Music/Export/sunday_rain.mp3"
       },
       "expected": {
         "type": "rule",
@@ -237,15 +244,15 @@
           "expected": "missing"
         }
       },
-      "enable_score_calc": false
+      "enable_score_calc": true
     },
     {
-      "name": "unlisted.mp3 is not exported",
+      "name": "city_lights.mp3 is not exported",
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
         "type": "android_file_state",
-        "path": "/sdcard/Music/Export/unlisted.mp3"
+        "path": "/sdcard/Music/Export/city_lights.mp3"
       },
       "expected": {
         "type": "rule",
@@ -253,7 +260,7 @@
           "expected": "missing"
         }
       },
-      "enable_score_calc": false
+      "enable_score_calc": true
     },
     {
       "name": "Report copied and missing manifest entries without false exports",
@@ -264,14 +271,17 @@
         "path": "/storage/emulated/0/Documents/Markor/Music export report.md",
         "rules": {
           "entities": [
-            "north_loop.mp3",
-            "bridge_check.mp3",
-            "missing_song.mp3"
+            "morning_walk.mp3",
+            "blue_train.mp3",
+            "sunday_rain.mp3"
           ],
           "required_phrases": [
             [
               "copied",
-              "exported"
+              "exported",
+              "Export",
+              "in Export",
+              "in Music/Export"
             ],
             [
               "missing",
@@ -282,7 +292,10 @@
           "positive_phrases": [
             [
               "copied",
-              "exported"
+              "exported",
+              "Export",
+              "in Export",
+              "in Music/Export"
             ],
             [
               "missing",
@@ -290,29 +303,23 @@
               "not found"
             ]
           ],
-          "conflict_phrases": [
-            "cancelled",
-            "withdrawn"
-          ],
           "allowed_negative_capability_phrases": [
             "not copied",
             "not exported",
             "not found",
             "not in the manifest"
           ],
-          "conflict_patterns": [
-            "missing_song\\.mp3[^.;\\n]{0,24}\\b(?:is\\s+)?(?:present|available|exists|copied|exported)\\b",
-            "unlisted\\.mp3.{0,24}(?<!not )(?<!never )\\b(?:copied|exported)\\b",
-            "(?<!not )(?<!never )\\b(?:copied|exported)\\b.{0,24}unlisted\\.mp3"
-          ],
           "relation_groups": [
             {
               "entities": [
-                "north_loop.mp3"
+                "morning_walk.mp3"
               ],
               "phrases": [
                 "copied",
-                "exported"
+                "exported",
+                "Export",
+                "in Export",
+                "in Music/Export"
               ],
               "conflicts": [
                 "not copied",
@@ -322,11 +329,14 @@
             },
             {
               "entities": [
-                "bridge_check.mp3"
+                "blue_train.mp3"
               ],
               "phrases": [
                 "copied",
-                "exported"
+                "exported",
+                "Export",
+                "in Export",
+                "in Music/Export"
               ],
               "conflicts": [
                 "not copied",
@@ -336,7 +346,7 @@
             },
             {
               "entities": [
-                "missing_song.mp3"
+                "sunday_rain.mp3"
               ],
               "phrases": [
                 "missing",

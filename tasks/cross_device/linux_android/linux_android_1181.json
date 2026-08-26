@@ -51,7 +51,7 @@
         {
           "type": "androidworld_sms_receive",
           "parameters": {
-            "address": "5551201181",
+            "address": "5556841",
             "body": "This is Mira. Please check CASE-4187 before lunch.",
             "wait_s": 5.0
           }
@@ -70,7 +70,7 @@
           "type": "androidworld_contact_add",
           "parameters": {
             "name": "Mira Chen",
-            "number": "5551201181",
+            "number": "5556841",
             "notes": "Support customer; verify case code from text."
           }
         }
@@ -111,7 +111,7 @@
       "result": {
         "type": "androidworld_sms_message",
         "box": "sent",
-        "address": "5551201181",
+        "address": "5556841",
         "body_relation": {
           "entities": [
             "CASE-4187",
@@ -140,16 +140,15 @@
             "backordered",
             "not allocated",
             "unavailable",
-            "cancelled",
-            "closed",
-            "is false",
-            "obsolete",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Saturday",
-            "Sunday"
+            "is false"
+          ],
+          "allowed_reversal_terms": [
+            "not Monday",
+            "not Tuesday",
+            "not Wednesday",
+            "not Thursday",
+            "not Saturday",
+            "not Sunday"
           ],
           "relation_groups": [
             {

@@ -9,45 +9,6 @@
   },
   "eval": [
     {
-      "device_id": "linux_0",
-      "func": "check_include_exclude",
-      "result": {
-        "type": "vm_command_line",
-        "command": "cat /tmp/home_ops/operations-log/source/location_map.csv 2>/dev/null || true"
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "include": [
-            "favorite,room,run_at,light_pct,curtain_pct",
-            "Office,study,2026-06-16T20:30:00,45,50"
-          ],
-          "exclude": []
-        }
-      },
-      "metadata": {
-        "path": "/tmp/home_ops/operations-log/source/location_map.csv"
-      },
-      "enable_score_calc": false
-    },
-    {
-      "device_id": "android_0",
-      "func": "exact_match",
-      "result": {
-        "type": "osmand_favorite",
-        "favorite_name": "Office",
-        "favorite_lat": 47.657,
-        "favorite_lon": -122.377
-      },
-      "expected": {
-        "type": "rule",
-        "rules": {
-          "expected": "present"
-        }
-      },
-      "enable_score_calc": false
-    },
-    {
       "device_id": "android_1",
       "func": "exact_match",
       "result": {
@@ -89,28 +50,33 @@
     },
     {
       "device_id": "home_0",
-      "func": "smarthome.check_workflow_effects",
+      "func": "smarthome.check_planned_effects",
       "result": {
-        "type": "smarthome_workflows"
+        "type": "smarthome_home_state"
       },
       "expected": {
         "type": "rule",
         "rules": {
           "expected": {
-            "run_at": "2026-06-16T20:30:00",
-            "status": "active",
-            "exact_active_workflow_count": 1,
-            "effects": {
-              "study_dimmable_light_1": {
-                "power": "on",
-                "brightness_pct": 45
-              },
-              "study_curtain_1": {
-                "open_pct": 50
+            "plans": [
+              {
+                "run_at": "2026-06-16T20:30:00",
+                "effects": {
+                  "study_dimmable_light_1": {
+                    "power": "on",
+                    "brightness_pct": 45
+                  },
+                  "study_curtain_1": {
+                    "open_pct": 50
+                  }
+                }
               }
-            }
+            ]
           }
         }
+      },
+      "metadata": {
+        "role": "requested_business_effects"
       }
     }
   ],

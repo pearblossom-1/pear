@@ -1,4 +1,4 @@
 {
   "linux_actions": [{"device_id": "linux_1", "type": "cli.execute", "parameters": {"command": "mkdir -p /tmp/sites && printf '%s\n' '1034-A / NX03460 for Nadia Ross is blocked because North Annex Access has no coordinates.' > /tmp/sites/1034-A_handoff.txt", "shell": true}}],
-  "android_setup": {"android_1": [{"type": "adb_shell", "parameters": {"command": "mkdir -p '/storage/emulated/0/Documents/Markor' && printf '%s\n' '1034-A / NX03460 for Nadia Ross is blocked because North Annex Access has no coordinates.' > '/storage/emulated/0/Documents/Markor/1034-A_blocked.md'"}}]}
+  "android_setup": {"android_1": [{"type": "adb_shell", "parameters": {"command": "mkdir -p '/storage/emulated/0/Documents/Markor' && printf '%s\n' '1034-A / NX03460 for Nadia Ross is blocked because North Annex Access has no coordinates.' > '/storage/emulated/0/Documents/Markor/1034-A route status.md'"}}]}
 }

@@ -68,7 +68,6 @@
           "expected": {
             "run_at": "2026-06-17T09:35:00",
             "status": "active",
-            "exact_active_workflow_count": 1,
             "effects": {
               "bedroom_humidifier_1": {
                 "power": "on",

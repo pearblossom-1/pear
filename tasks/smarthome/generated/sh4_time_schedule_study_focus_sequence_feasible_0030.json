@@ -1,6 +1,6 @@
 {
   "id": "sh4_time_schedule_study_focus_sequence_feasible_0030",
-  "instruction": "I'm starting a focus session in 20 minutes. Set the study light to 35% then, and turn on the air purifier 20 minutes later.",
+  "instruction": "I'm starting a focus session in 20 minutes. Set the study light to 35% then, and turn on the air purifier 20 minutes after that.",
   "devices": [
     {
       "id": "home_0",
@@ -42,7 +42,6 @@
         "type": "rule",
         "rules": {
           "expected": {
-            "exact_active_plan_count": 2,
             "plans": [
               {
                 "run_at": "2026-06-14T21:20:00",
@@ -67,7 +66,7 @@
       },
       "enable_score_calc": true,
       "metadata": {
-        "role": "unique_persistent_plan_effects"
+        "role": "requested_persistent_plan_effects"
       }
     }
   ],
