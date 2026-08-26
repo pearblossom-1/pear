@@ -1,8 +1,69 @@
 diff --git a/mdcbench/evaluation/entity_relations.py b/mdcbench/evaluation/entity_relations.py
-index bbb62c155..ae463c2a1 100644
+index bbb62c155..5fdf6fbcd 100644
 --- a/mdcbench/evaluation/entity_relations.py
 +++ b/mdcbench/evaluation/entity_relations.py
-@@ -152,6 +152,18 @@ def score_entity_relation(text: Any, rules: dict[str, Any]) -> bool:
+@@ -6,6 +6,12 @@ from collections import Counter
+ from itertools import product
+ from typing import Any
+ 
++from mdcbench.evaluation.status_relations import (
++    canonicalize_status_phrases,
++    status_alias_category,
++    status_phrase_spans,
++)
++
+ 
+ _UNCERTAIN = re.compile(
+     r"\b(?:maybe|perhaps|possibly|might|uncertain|unknown|unconfirmed|unsure|apparently)\b"
+@@ -78,14 +84,20 @@ def score_entity_relation(text: Any, rules: dict[str, Any]) -> bool:
+     uncertainty_text = normalized
+     for allowed in rules.get("allowed_permission_phrases", []):
+         uncertainty_text = _phrase_pattern(str(allowed)).sub(" ", uncertainty_text)
+-    local_polarity_text = negation_text
++    false_assignment_text = normalized
++    for allowed in rules.get("allowed_false_assignment_phrases", []):
++        for phrase in _alternatives(allowed):
++            false_assignment_text = _phrase_pattern(phrase).sub(
++                " ", false_assignment_text
++            )
++    local_polarity_text = _normalize(canonicalize_status_phrases(negation_text))
+     for allowed in rules.get("allowed_reversal_terms", []):
+         local_polarity_text = _phrase_pattern(str(allowed)).sub(" ", local_polarity_text)
+     if (
+         not normalized
+         or _UNCERTAIN.search(uncertainty_text)
+         or _REVERSAL.search(reversal_text)
+-        or _FALSE_ASSIGNMENT.search(normalized)
++        or _FALSE_ASSIGNMENT.search(false_assignment_text)
+         or _YET_TO_BE.search(normalized)
+     ):
+         return False
+@@ -127,6 +139,24 @@ def score_entity_relation(text: Any, rules: dict[str, Any]) -> bool:
+         if not _is_implicit_entity(item, implicit_entities)
+     ):
+         return False
++    ordered_entities = rules.get("ordered_entities")
++    if ordered_entities is not None:
++        if (
++            not isinstance(ordered_entities, list)
++            or len(ordered_entities) < 2
++            or any(not _alternatives(item) for item in ordered_entities)
++        ):
++            return False
++        first_positions: list[int] = []
++        for item in ordered_entities:
++            spans = _alternative_spans(normalized, item)
++            if not spans:
++                return False
++            first_positions.append(spans[0][0])
++        if first_positions != sorted(first_positions) or len(set(first_positions)) != len(
++            first_positions
++        ):
++            return False
+     unlisted_pattern = str(rules.get("reject_unlisted_entity_pattern", "")).strip()
+     if unlisted_pattern:
+         try:
+@@ -152,6 +182,18 @@ def score_entity_relation(text: Any, rules: dict[str, Any]) -> bool:
      ):
          return False
  
@@ -21,38 +82,103 @@ index bbb62c155..ae463c2a1 100644
      # Structured line contracts keep list notes phrasing tolerant while still
      # rejecting extra business rows. Headings and source citations stay free-form
      # because the contract regex selects only the rows that carry list semantics.
-@@ -190,6 +202,30 @@ def score_entity_relation(text: Any, rules: dict[str, Any]) -> bool:
-     if any(_matches_alternative(conflict_text, item) for item in rules.get("conflict_phrases", [])):
+@@ -183,11 +225,83 @@ def score_entity_relation(text: Any, rules: dict[str, Any]) -> bool:
          return False
  
+     positives = rules.get("positive_phrases", [])
+-    if positives and not any(_matches_alternative(normalized, item) for item in positives):
++    if positives and not any(
++        _matches_alternative(normalized, item, status_aware=True)
++        for item in positives
++    ):
++        return False
++    if any(
++        not _matches_alternative(normalized, item, status_aware=True)
++        for item in rules.get("required_phrases", [])
++    ):
++        return False
++    if any(
++        _matches_alternative(conflict_text, item, status_aware=True)
++        for item in rules.get("conflict_phrases", [])
++    ):
++        return False
++
 +    required_patterns = rules.get("required_patterns", [])
-+    if not isinstance(required_patterns, list) or len(required_patterns) > 100:
-+        return False
-+    for pattern in required_patterns:
-+        if not isinstance(pattern, str) or not pattern or len(pattern) > 4096:
-+            return False
-+        try:
-+            if not re.search(pattern, raw, flags=re.IGNORECASE):
-+                return False
-+        except re.error:
-+            return False
-+
 +    conflict_patterns = rules.get("conflict_patterns", [])
-+    if not isinstance(conflict_patterns, list) or len(conflict_patterns) > 100:
++    if (
++        not isinstance(required_patterns, list)
++        or not isinstance(conflict_patterns, list)
++        or len(required_patterns) > 100
++        or len(conflict_patterns) > 100
++        or any(
++            not isinstance(pattern, str)
++            or not pattern
++            or len(pattern) > 4096
++            for pattern in required_patterns
++        )
++        or any(
++            not isinstance(pattern, str)
++            or not pattern
++            or len(pattern) > 4096
++            for pattern in conflict_patterns
++        )
++    ):
 +        return False
-+    for pattern in conflict_patterns:
-+        if not isinstance(pattern, str) or not pattern or len(pattern) > 4096:
++    status_pattern_text = canonicalize_status_phrases(raw)
++    try:
++        if any(
++            re.search(pattern, raw, flags=re.IGNORECASE | re.MULTILINE) is None
++            and re.search(
++                pattern,
++                status_pattern_text,
++                flags=re.IGNORECASE | re.MULTILINE,
++            )
++            is None
++            for pattern in required_patterns
++        ):
 +            return False
-+        try:
-+            if re.search(pattern, raw, flags=re.IGNORECASE):
-+                return False
-+        except re.error:
++        if any(
++            re.search(
++                pattern,
++                status_pattern_text,
++                flags=re.IGNORECASE | re.MULTILINE,
++            )
++            is not None
++            for pattern in conflict_patterns
++        ):
 +            return False
++    except re.error:
+         return False
+-    if any(not _matches_alternative(normalized, item) for item in rules.get("required_phrases", [])):
 +
++    if "numeric_unit_relations" in rules and not _matches_numeric_unit_relations(
++        raw,
++        rules.get("numeric_unit_relations"),
++    ):
+         return False
+-    if any(_matches_alternative(conflict_text, item) for item in rules.get("conflict_phrases", [])):
++
++    if (
++        "numeric_coordinate_relations" in rules
++        and not _matches_numeric_coordinate_relations(
++            raw,
++            rules.get("numeric_coordinate_relations"),
++            rules.get("numeric_coordinate_transition_symbols"),
++        )
++    ):
+         return False
+ 
      if "nearest_relations" in rules:
-         nearest_relations = _parse_nearest_relations(rules.get("nearest_relations"))
-         if nearest_relations is None or not _matches_nearest_relations(
-@@ -1111,6 +1147,168 @@ def _ordered_relation_components_match(
+@@ -236,7 +350,7 @@ def score_entity_relation(text: Any, rules: dict[str, Any]) -> bool:
+             if not matching or (len(matching) != 1 and not group.get("allow_multiple_matches", False)):
+                 return False
+             if any(
+-                _matches_alternative(clause, item)
++                _matches_alternative(clause, item, status_aware=True)
+                 for clause in matching
+                 for item in group.get("conflicts", [])
+             ):
+@@ -1111,6 +1225,168 @@ def _ordered_relation_components_match(
      )
  
  
@@ -220,4 +346,1860 @@ index bbb62c155..ae463c2a1 100644
 +
  def _structured_phrase_pattern(value: str) -> re.Pattern[str]:
      """Match declared relation vocabulary across natural CJK/ASCII joins.
+ 
+@@ -1285,8 +1561,20 @@ def select_relation_section(text: Any, section_start: Any = None, section_end: A
+     return raw[start_index:end_matches[0].start()]
+ 
+ 
+-def _matches_alternative(text: str, value: Any) -> bool:
+-    return any(_phrase_pattern(item).search(text) for item in _alternatives(value))
++def _matches_alternative(
++    text: str,
++    value: Any,
++    *,
++    status_aware: bool = False,
++) -> bool:
++    for item in _alternatives(value):
++        category = status_alias_category(item) if status_aware else None
++        if category is not None:
++            if status_phrase_spans(text, category):
++                return True
++        elif _phrase_pattern(item).search(text):
++            return True
++    return False
+ 
+ 
+ def _has_unresolved_completion_claim(text: str) -> bool:
+@@ -1305,14 +1593,20 @@ def _alternatives(value: Any) -> list[str]:
+     return [_normalize(item) for item in raw if _normalize(item)]
+ 
+ 
+-def _alternative_spans(text: str, value: Any) -> list[tuple[int, int]]:
+-    spans = sorted(
+-        {
+-            match.span()
+-            for item in _alternatives(value)
+-            for match in _phrase_pattern(item).finditer(text)
+-        }
+-    )
++def _alternative_spans(
++    text: str,
++    value: Any,
++    *,
++    status_aware: bool = False,
++) -> list[tuple[int, int]]:
++    observed: set[tuple[int, int]] = set()
++    for item in _alternatives(value):
++        category = status_alias_category(item) if status_aware else None
++        if category is not None:
++            observed.update(status_phrase_spans(text, category))
++        else:
++            observed.update(match.span() for match in _phrase_pattern(item).finditer(text))
++    spans = sorted(observed)
+     merged: list[tuple[int, int]] = []
+     for start, end in spans:
+         if merged and start < merged[-1][1] and end > merged[-1][0]:
+@@ -1393,6 +1687,728 @@ def _relation_clauses(raw: str, *, preserve_pipe_rows: bool = False) -> list[str
+         if _normalize(clause)
+     ]
+ 
++
++def _semantic_record_normalize(value: Any) -> str:
++    """Normalize presentation-only differences in one structured record cell."""
++
++    text = _normalize(canonicalize_status_phrases(value)).replace("_", " ")
++    text = re.sub(r"(?<=[a-z])(?=[+-]?\d)", " ", text, flags=re.IGNORECASE)
++    text = re.sub(r"(?<=\d)(?=[a-z])", " ", text, flags=re.IGNORECASE)
++    return re.sub(r"\s+", " ", text).strip(" \t:=-")
++
++
++def _semantic_record_exact(value: Any, alternatives: Any) -> bool:
++    normalized = _semantic_record_normalize(value)
++    return any(
++        normalized == _semantic_record_normalize(alternative)
++        for alternative in _alternatives(alternatives)
++    )
++
++
++def _semantic_record_contains(value: Any, alternatives: Any) -> bool:
++    normalized = _semantic_record_normalize(value)
++    return any(
++        _phrase_pattern(_semantic_record_normalize(alternative)).search(normalized)
++        for alternative in _alternatives(alternatives)
++    )
++
++
++def _semantic_record_declared_values(value: Any, alternatives: Any) -> list[str]:
++    """Return asserted values, preferring a longer phrase over its substring."""
++
++    normalized = _semantic_record_normalize(value)
++    matches: list[tuple[int, int, str]] = []
++    for alternative in _alternatives(alternatives):
++        phrase = _semantic_record_normalize(alternative)
++        matches.extend(
++            (match.start(), match.end(), alternative)
++            for match in _phrase_pattern(phrase).finditer(normalized)
++        )
++    maximal = [
++        match
++        for match in matches
++        if not any(
++            other[0] <= match[0]
++            and match[1] <= other[1]
++            and (other[0], other[1]) != (match[0], match[1])
++            for other in matches
++        )
++    ]
++    return list(dict.fromkeys(match[2] for match in maximal))
++
++
++def _parse_semantic_record_table_contract(
++    contract: Any,
++) -> tuple[list[str], list[dict[str, Any]], list[str], dict[str, list[str]]] | None:
++    if (
++        not isinstance(contract, dict)
++        or set(contract) - {"item_headers", "records"}
++    ):
++        return None
++    item_headers = contract.get("item_headers", ["item"])
++    records = contract.get("records")
++    if (
++        not isinstance(item_headers, list)
++        or not item_headers
++        or any(not isinstance(item, str) or not item.strip() for item in item_headers)
++        or not isinstance(records, list)
++        or not records
++    ):
++        return None
++
++    parsed_records: list[dict[str, Any]] = []
++    field_names: list[str] = []
++    field_labels: dict[str, list[str]] = {}
++    observed_items: set[str] = set()
++    for record in records:
++        if not isinstance(record, dict) or set(record) != {"item", "fields"}:
++            return None
++        items = _alternatives(record.get("item"))
++        raw_fields = record.get("fields")
++        normalized_items = {_semantic_record_normalize(item) for item in items}
++        if (
++            not items
++            or not normalized_items
++            or observed_items.intersection(normalized_items)
++            or not isinstance(raw_fields, list)
++            or not raw_fields
++        ):
++            return None
++        observed_items.update(normalized_items)
++
++        parsed_fields: list[dict[str, Any]] = []
++        names: list[str] = []
++        for field in raw_fields:
++            if (
++                not isinstance(field, dict)
++                or set(field) - {"name", "labels", "values", "allow_unlabeled"}
++            ):
++                return None
++            name = str(field.get("name", "")).strip()
++            labels = _alternatives(field.get("labels"))
++            values = _alternatives(field.get("values"))
++            allow_unlabeled = field.get("allow_unlabeled", False)
++            if (
++                not name
++                or name in names
++                or not labels
++                or not values
++                or not isinstance(allow_unlabeled, bool)
++            ):
++                return None
++            names.append(name)
++            normalized_labels = [_semantic_record_normalize(item) for item in labels]
++            if name in field_labels and set(field_labels[name]) != set(normalized_labels):
++                return None
++            if name not in field_names:
++                field_names.append(name)
++            field_labels[name] = normalized_labels
++            parsed_fields.append(
++                {
++                    "name": name,
++                    "labels": labels,
++                    "values": values,
++                    "allow_unlabeled": allow_unlabeled,
++                }
++            )
++        parsed_records.append(
++            {"item": record["item"], "items": items, "fields": parsed_fields}
++        )
++
++    if not field_names:
++        return None
++    normalized_item_headers = [_semantic_record_normalize(item) for item in item_headers]
++    header_domains = [set(normalized_item_headers), *(
++        set(field_labels[name]) for name in field_names
++    )]
++    if any(
++        left.intersection(right)
++        for index, left in enumerate(header_domains)
++        for right in header_domains[index + 1 :]
++    ):
++        return None
++    return item_headers, parsed_records, field_names, field_labels
++
++
++def _semantic_record_table_rows_match(
++    text: str,
++    item_headers: list[str],
++    records: list[dict[str, Any]],
++    field_names: list[str],
++    field_labels: dict[str, list[str]],
++) -> bool | None:
++    lines = text.replace("\r\n", "\n").replace("\r", "\n").split("\n")
++    recognized = False
++    observed: Counter[str] = Counter()
++    for header_index, raw_line in enumerate(lines):
++        if "|" not in raw_line:
++            continue
++        header_cells = [
++            cell.strip()
++            for cell in raw_line.strip().strip("|").split("|")
++        ]
++        expected_columns = ["item", *field_names]
++        if len(header_cells) != len(expected_columns):
++            continue
++        column_kinds: list[str] = []
++        valid_header = True
++        for cell in header_cells:
++            normalized = _semantic_record_normalize(cell)
++            matches = []
++            if normalized in {
++                _semantic_record_normalize(item) for item in item_headers
++            }:
++                matches.append("item")
++            matches.extend(
++                name for name in field_names if normalized in set(field_labels[name])
++            )
++            if len(matches) != 1:
++                valid_header = False
++                break
++            column_kinds.append(matches[0])
++        if not valid_header or Counter(column_kinds) != Counter(expected_columns):
++            continue
++        recognized = True
++
++        for raw_row in lines[header_index + 1 :]:
++            if "|" not in raw_row:
++                break
++            cells = [cell.strip() for cell in raw_row.strip().strip("|").split("|")]
++            if cells and all(re.fullmatch(r":?-{3,}:?", cell) for cell in cells):
++                continue
++            if len(cells) != len(expected_columns) or not any(cells):
++                return False
++            values = dict(zip(column_kinds, cells, strict=True))
++            matching_records = [
++                record
++                for record in records
++                if _semantic_record_exact(values["item"], record["item"])
++            ]
++            if len(matching_records) != 1:
++                return False
++            record = matching_records[0]
++            if any(
++                not _semantic_record_exact(values[field["name"]], field["values"])
++                for field in record["fields"]
++            ):
++                return False
++            record_field_names = {field["name"] for field in record["fields"]}
++            if any(
++                str(values[name]).strip()
++                for name in field_names
++                if name not in record_field_names
++            ):
++                return False
++            observed[_semantic_record_normalize(record["items"][0])] += 1
++
++    if not recognized:
++        return None
++    return all(observed[_semantic_record_normalize(record["items"][0])] >= 1 for record in records)
++
++
++def _semantic_record_text_segment_state(
++    segment: str,
++    record: dict[str, Any],
++    field_value_domains: dict[str, list[str]],
++) -> str:
++    fragments = [
++        _semantic_record_normalize(fragment)
++        for fragment in re.split(
++            r"[,;|\n\r]+|(?<=[.!?])\s+|\b(?:and|while)\b",
++            segment,
++            flags=re.IGNORECASE,
++        )
++        if _semantic_record_normalize(fragment)
++    ]
++    field_matches: dict[str, bool] = {}
++    has_signal = False
++    for field in record["fields"]:
++        name = field["name"]
++        labeled = [
++            fragment
++            for fragment in fragments
++            if _semantic_record_contains(fragment, field["labels"])
++        ]
++        expected_labeled = [
++            fragment
++            for fragment in labeled
++            if _semantic_record_contains(fragment, field["values"])
++        ]
++        if labeled:
++            has_signal = True
++        for fragment in labeled:
++            declared_values = _semantic_record_declared_values(
++                fragment,
++                field_value_domains[name],
++            )
++            expected_here = _semantic_record_contains(fragment, field["values"])
++            numeric_claim = bool(re.search(r"(?<![a-z0-9])[+-]?\d+(?:\.\d+)?(?![a-z0-9])", fragment))
++            expected_is_numeric = any(
++                re.search(r"\d", value) for value in _alternatives(field["values"])
++            )
++            if (
++                any(
++                    not _semantic_record_exact(value, field["values"])
++                    for value in declared_values
++                )
++                or expected_is_numeric and numeric_claim and not expected_here
++            ):
++                return "invalid"
++        matched = bool(expected_labeled)
++        if field["allow_unlabeled"]:
++            declared_in_segment = _semantic_record_declared_values(
++                segment,
++                field_value_domains[name],
++            )
++            if declared_in_segment:
++                has_signal = True
++            if any(
++                not _semantic_record_exact(value, field["values"])
++                for value in declared_in_segment
++            ):
++                return "invalid"
++            matched = matched or _semantic_record_contains(segment, field["values"])
++        field_matches[name] = matched
++    if not has_signal:
++        return "ignore"
++    return "valid" if all(field_matches.values()) else "invalid"
++
++
++def _matches_semantic_record_table(text: str, contract: Any) -> bool:
++    """Bind item, required/current values, and result by explicit field roles.
++
++    Markdown tables use declared headers; a record may leave a field blank when
++    that field is not part of its contract. Prose, bullets, and key-value notes
++    use item-delimited record segments whose labeled field fragments are evaluated
++    independently. No token-distance heuristic assigns a number to a role.
++    """
++
++    parsed = _parse_semantic_record_table_contract(contract)
++    if parsed is None:
++        return False
++    item_headers, records, field_names, field_labels = parsed
++    table_state = _semantic_record_table_rows_match(
++        text,
++        item_headers,
++        records,
++        field_names,
++        field_labels,
++    )
++    if table_state is not None:
++        return table_state
++
++    normalized = _normalize_preserving_line_breaks(text)
++    anchors: list[tuple[int, int, int]] = []
++    for record_index, record in enumerate(records):
++        anchors.extend(
++            (match.start(), match.end(), record_index)
++            for item in record["items"]
++            for match in _phrase_pattern(item).finditer(normalized)
++        )
++    anchors = sorted(set(anchors))
++    if not anchors:
++        return False
++
++    field_value_domains: dict[str, list[str]] = {name: [] for name in field_names}
++    for record in records:
++        for field in record["fields"]:
++            field_value_domains[field["name"]].extend(field["values"])
++    matched_records: set[int] = set()
++    for index, (start, _end, record_index) in enumerate(anchors):
++        finish = anchors[index + 1][0] if index + 1 < len(anchors) else len(normalized)
++        segment_start = start
++        if len(records) == 1 and len(anchors) == 1:
++            # A natural single-record sentence may put a labeled field before
++            # its item (for example, "Reviewer Mara handles session S-84").
++            # Include only the current sentence/paragraph so preceding history
++            # is not rebound to the scored record.
++            prefix = normalized[:start]
++            boundaries = [
++                match.end()
++                for match in re.finditer(r"(?:[.!?]\s+|\n\s*\n)", prefix)
++            ]
++            segment_start = boundaries[-1] if boundaries else 0
++        state = _semantic_record_text_segment_state(
++            normalized[segment_start:finish],
++            records[record_index],
++            field_value_domains,
++        )
++        if state == "invalid":
++            return False
++        if state == "valid":
++            matched_records.add(record_index)
++    return matched_records == set(range(len(records)))
++
++
++_COORDINATE_PAIR = re.compile(
++    r"(?<![a-z0-9.])"
++    r"([+-]?(?:\d+(?:\.\d+)?|\.\d+))"
++    r"\s*,\s*"
++    r"([+-]?(?:\d+(?:\.\d+)?|\.\d+))"
++    r"(?![a-z0-9]|\.\d)",
++    re.IGNORECASE,
++)
++
++_COORDINATE_HISTORY_MARKER = re.compile(
++    r"\b(?:archived|backup|former|historical|old|previous|prior|stale)\b"
++    r"|\b(?:alternate|alternative)\b|\bnot\s+current\b|\bnon-current\b",
++    re.IGNORECASE,
++)
++
++_COORDINATE_CURRENT_MARKER = re.compile(
++    r"\b(?:active|current|final|now|target)\b",
++    re.IGNORECASE,
++)
++
++_COORDINATE_CLAUSE_BOUNDARY = re.compile(r"[;\n\r!?]|\.(?!\d)")
++
++
++def _coordinate_clause_bounds(text: str, start: int, end: int) -> tuple[int, int]:
++    left = max(
++        (match.end() for match in _COORDINATE_CLAUSE_BOUNDARY.finditer(text, 0, start)),
++        default=0,
++    )
++    right_match = _COORDINATE_CLAUSE_BOUNDARY.search(text, end)
++    return left, right_match.start() if right_match else len(text)
++
++
++def _coordinate_pair_is_historical(text: str, start: int, end: int) -> bool:
++    left, right = _coordinate_clause_bounds(text, start, end)
++    clause = text[left:right]
++    relative_start = start - left
++    markers: list[tuple[int, str]] = []
++    markers.extend(
++        (min(abs(match.start() - relative_start), abs(match.end() - relative_start)), "history")
++        for match in _COORDINATE_HISTORY_MARKER.finditer(clause)
++    )
++    markers.extend(
++        (min(abs(match.start() - relative_start), abs(match.end() - relative_start)), "current")
++        for match in _COORDINATE_CURRENT_MARKER.finditer(clause)
++    )
++    if not markers:
++        return False
++    markers.sort(key=lambda item: (item[0], item[1] != "current"))
++    return markers[0][1] == "history"
++
++
++def _pipe_cell_spans(line: str, offset: int) -> list[tuple[int, int, str]]:
++    separators = [-1, *(index for index, char in enumerate(line) if char == "|"), len(line)]
++    cells: list[tuple[int, int, str]] = []
++    for left, right in zip(separators, separators[1:], strict=False):
++        start = left + 1
++        end = right
++        value = line[start:end]
++        if (left == -1 or right == len(line)) and not value.strip():
++            continue
++        leading = len(value) - len(value.lstrip())
++        trailing = len(value) - len(value.rstrip())
++        cells.append(
++            (
++                offset + start + leading,
++                offset + end - trailing,
++                value.strip(),
++            )
++        )
++    return cells
++
++
++def _coordinate_table_owners(
++    text: str,
++    contracts: list[dict[str, Any]],
++) -> dict[tuple[int, int], int]:
++    """Bind coordinate cells to labeled Markdown table columns."""
++
++    lines = text.splitlines(keepends=True)
++    offsets: list[int] = []
++    position = 0
++    for line in lines:
++        offsets.append(position)
++        position += len(line)
++
++    owners: dict[tuple[int, int], int] = {}
++    for header_index, header in enumerate(lines):
++        if "|" not in header:
++            continue
++        header_cells = _pipe_cell_spans(header, offsets[header_index])
++        columns: dict[int, int] = {}
++        for column, (_start, _end, cell) in enumerate(header_cells):
++            matching_contracts = [
++                index
++                for index, contract in enumerate(contracts)
++                if any(
++                    _phrase_pattern(anchor).search(_normalize(cell))
++                    for anchor in contract["anchor_values"]
++                )
++            ]
++            if len(matching_contracts) == 1:
++                columns[column] = matching_contracts[0]
++        if set(columns.values()) != set(range(len(contracts))):
++            continue
++
++        for row_index in range(header_index + 1, len(lines)):
++            row = lines[row_index]
++            if "|" not in row:
++                break
++            cells = _pipe_cell_spans(row, offsets[row_index])
++            if cells and all(
++                re.fullmatch(r":?-{3,}:?", cell.strip())
++                for _start, _end, cell in cells
++            ):
++                continue
++            if len(cells) != len(header_cells):
++                break
++            for column, owner in columns.items():
++                start, _end, cell = cells[column]
++                for match in _COORDINATE_PAIR.finditer(cell):
++                    owners[(start + match.start(), start + match.end())] = owner
++    return owners
++
++
++def _matches_numeric_coordinate_relations(
++    text: str,
++    contracts: Any,
++    transition_symbols: Any = None,
++) -> bool:
++    """Compare labeled latitude/longitude pairs numerically by named anchor."""
++
++    if not isinstance(contracts, list) or not contracts:
++        return False
++    if transition_symbols is None:
++        parsed_transition_symbols: list[str] = []
++    elif (
++        not isinstance(transition_symbols, list)
++        or not transition_symbols
++        or any(
++            not isinstance(symbol, str) or not symbol
++            for symbol in transition_symbols
++        )
++    ):
++        return False
++    else:
++        parsed_transition_symbols = list(dict.fromkeys(transition_symbols))
++    parsed: list[dict[str, Any]] = []
++    for contract in contracts:
++        if not isinstance(contract, dict) or set(contract) - {
++            "anchor",
++            "latitude",
++            "longitude",
++            "tolerance",
++            "max_anchor_gap_chars",
++            "include_historical",
++        }:
++            return False
++        anchors = _alternatives(contract.get("anchor"))
++        latitude = contract.get("latitude")
++        longitude = contract.get("longitude")
++        tolerance = contract.get("tolerance", 0.000005)
++        max_gap = contract.get("max_anchor_gap_chars", 240)
++        include_historical = contract.get("include_historical", False)
++        if (
++            (not anchors and not parsed_transition_symbols)
++            or isinstance(latitude, bool)
++            or not isinstance(latitude, (int, float))
++            or isinstance(longitude, bool)
++            or not isinstance(longitude, (int, float))
++            or isinstance(tolerance, bool)
++            or not isinstance(tolerance, (int, float))
++            or tolerance < 0
++            or not -90 <= float(latitude) <= 90
++            or not -180 <= float(longitude) <= 180
++            or isinstance(max_gap, bool)
++            or not isinstance(max_gap, int)
++            or not 16 <= max_gap <= 1000
++            or not isinstance(include_historical, bool)
++        ):
++            return False
++        anchor_spans = sorted(
++            {
++                match.span()
++                for anchor in anchors
++                for match in _phrase_pattern(anchor).finditer(text)
++            }
++        )
++        if not anchor_spans and not parsed_transition_symbols:
++            return False
++        parsed.append(
++            {
++                "latitude": float(latitude),
++                "longitude": float(longitude),
++                "tolerance": float(tolerance),
++                "max_gap": max_gap,
++                "include_historical": include_historical,
++                "anchor_values": anchors,
++                "anchors": anchor_spans,
++                "pairs": [],
++            }
++        )
++
++    coordinate_matches = list(_COORDINATE_PAIR.finditer(text))
++    has_transition_chain = (
++        bool(parsed_transition_symbols)
++        and len(coordinate_matches) == len(parsed)
++        and all(
++            any(
++                symbol in text[left.end() : right.start()]
++                for symbol in parsed_transition_symbols
++            )
++            for left, right in zip(
++                coordinate_matches,
++                coordinate_matches[1:],
++                strict=False,
++            )
++        )
++    )
++    if has_transition_chain:
++        return _matches_ordered_coordinate_transition(
++            text,
++            parsed,
++            parsed_transition_symbols,
++        )
++    if parsed_transition_symbols and any(
++        not contract["anchors"] for contract in parsed
++    ):
++        return False
++
++    table_owners = _coordinate_table_owners(text, parsed)
++    for match in coordinate_matches:
++        try:
++            pair = (float(match.group(1)), float(match.group(2)))
++        except ValueError:
++            return False
++        owner = table_owners.get(match.span())
++        if owner is None:
++            clause_start, clause_end = _coordinate_clause_bounds(
++                text,
++                match.start(),
++                match.end(),
++            )
++            candidate_anchors = [
++                [
++                    span
++                    for span in contract["anchors"]
++                    if clause_start <= span[0] and span[1] <= clause_end
++                ]
++                for contract in parsed
++            ]
++            if not any(candidate_anchors):
++                candidate_anchors = [contract["anchors"] for contract in parsed]
++            distances: list[tuple[int, int] | None] = []
++            for anchors in candidate_anchors:
++                if not anchors:
++                    distances.append(None)
++                    continue
++                distances.append(
++                    min(
++                        (
++                            max(anchor_start - match.end(), match.start() - anchor_end, 0),
++                            0 if anchor_end <= match.start() else 1,
++                        )
++                        for anchor_start, anchor_end in anchors
++                    )
++                )
++            nearest = min(distance for distance in distances if distance is not None)
++            if nearest[0] > max(contract["max_gap"] for contract in parsed):
++                continue
++            owners = [index for index, distance in enumerate(distances) if distance == nearest]
++            if len(owners) != 1 or nearest[0] > parsed[owners[0]]["max_gap"]:
++                return False
++            owner = owners[0]
++        if (
++            parsed[owner]["include_historical"]
++            or not _coordinate_pair_is_historical(text, match.start(), match.end())
++        ):
++            parsed[owner]["pairs"].append(pair)
++
++    for contract in parsed:
++        pairs = contract["pairs"]
++        if not pairs or any(
++            abs(latitude - contract["latitude"]) > contract["tolerance"]
++            or abs(longitude - contract["longitude"]) > contract["tolerance"]
++            for latitude, longitude in pairs
++        ):
++            return False
++    return True
++
++
++def _matches_ordered_coordinate_transition(
++    text: str,
++    contracts: list[dict[str, Any]],
++    transition_symbols: list[str],
++) -> bool:
++    matches = list(_COORDINATE_PAIR.finditer(text))
++    if len(matches) != len(contracts):
++        return False
++    if any(
++        not any(
++            symbol in text[left.end() : right.start()]
++            for symbol in transition_symbols
++        )
++        for left, right in zip(matches, matches[1:], strict=False)
++    ):
++        return False
++    for match, contract in zip(matches, contracts, strict=True):
++        try:
++            latitude = float(match.group(1))
++            longitude = float(match.group(2))
++        except ValueError:
++            return False
++        if (
++            abs(latitude - contract["latitude"]) > contract["tolerance"]
++            or abs(longitude - contract["longitude"]) > contract["tolerance"]
++        ):
++            return False
++    return True
++
++
++def _matches_numeric_unit_relations(text: str, contracts: Any) -> bool:
++    """Bind each declared numeric value and unit to its named clause anchor."""
++
++    if not isinstance(contracts, list) or not contracts:
++        return False
++    clauses = _relation_clauses(text)
++    for contract in contracts:
++        if not isinstance(contract, dict) or set(contract) - {
++            "anchor",
++            "value",
++            "units",
++            "tolerance",
++        }:
++            return False
++        anchors = _alternatives(contract.get("anchor"))
++        units = _alternatives(contract.get("units"))
++        expected = contract.get("value")
++        tolerance = contract.get("tolerance", 0)
++        if (
++            not anchors
++            or not units
++            or isinstance(expected, bool)
++            or not isinstance(expected, (int, float))
++            or isinstance(tolerance, bool)
++            or not isinstance(tolerance, (int, float))
++            or tolerance < 0
++        ):
++            return False
++        unit_pattern = "(?:" + "|".join(
++            re.escape(unit).replace(r"\ ", r"\s+") for unit in units
++        ) + ")"
++        quantity_pattern = re.compile(
++            rf"(?<![a-z0-9.])([+-]?\d+(?:\.\d+)?)\s*{unit_pattern}(?![a-z0-9])",
++            flags=re.IGNORECASE,
++        )
++        found = False
++        for clause in clauses:
++            if not any(_phrase_pattern(anchor).search(clause) for anchor in anchors):
++                continue
++            quantities = [float(match.group(1)) for match in quantity_pattern.finditer(clause)]
++            if not quantities:
++                continue
++            found = True
++            if any(abs(value - float(expected)) > float(tolerance) for value in quantities):
++                return False
++        if not found:
++            return False
++    return True
++
+ def _matches_group(
+     text: str,
+     group: dict[str, Any],
+@@ -1407,15 +2423,18 @@ def _matches_group(
+         for item in group_entities
+     ) and (
+         not group_phrases
+-        or any(_matches_alternative(text, item) for item in group_phrases)
++        or any(
++            _matches_alternative(text, item, status_aware=True)
++            for item in group_phrases
++        )
+     )
+ 
+ def _parse_nearest_relations(
+     value: Any,
+-) -> list[tuple[list[str], list[str], list[str], int, list[list[str]]]] | None:
++) -> list[tuple[list[str], list[str], list[str], int, list[list[str]], bool]] | None:
+     if not isinstance(value, list) or not value:
+         return None
+-    parsed: list[tuple[list[str], list[str], list[str], int, list[list[str]]]] = []
++    parsed: list[tuple[list[str], list[str], list[str], int, list[list[str]], bool]] = []
+     for relation in value:
+         if not isinstance(relation, dict):
+             return None
+@@ -1428,6 +2447,7 @@ def _parse_nearest_relations(
+             else _relation_alternatives(forbidden_value)
+         )
+         max_distance = relation.get("max_distance")
++        same_clause = relation.get("same_clause", False)
+         collective_value = relation.get("collective_anchors", None)
+         collective_anchors: list[list[str]] = []
+         if collective_value is not None:
+@@ -1445,11 +2465,19 @@ def _parse_nearest_relations(
+             or isinstance(max_distance, bool)
+             or not isinstance(max_distance, int)
+             or not 1 <= max_distance <= _MAX_NEAREST_RELATION_DISTANCE
++            or not isinstance(same_clause, bool)
+             or set(expected).intersection(forbidden)
+         ):
+             return None
+         parsed.append(
+-            (anchors, expected, forbidden, max_distance, collective_anchors)
++            (
++                anchors,
++                expected,
++                forbidden,
++                max_distance,
++                collective_anchors,
++                same_clause,
++            )
+         )
+     return parsed
+ 
+@@ -1463,20 +2491,59 @@ def _relation_alternatives(value: Any) -> list[str] | None:
+ 
+ def _matches_nearest_relations(
+     text: str,
+-    relations: list[tuple[list[str], list[str], list[str], int, list[list[str]]]],
++    relations: list[
++        tuple[list[str], list[str], list[str], int, list[list[str]], bool]
++    ],
+ ) -> bool:
+-    for anchors, expected, forbidden, max_distance, collective_anchors in relations:
+-        expected_spans = _alternative_spans(text, expected)
+-        forbidden_spans = _alternative_spans(text, forbidden)
++    for (
++        anchors,
++        expected,
++        forbidden,
++        max_distance,
++        collective_anchors,
++        same_clause,
++    ) in relations:
++        expected_spans = _alternative_spans(text, expected, status_aware=True)
++        forbidden_spans = [
++            forbidden_span
++            for forbidden_span in _alternative_spans(
++                text,
++                forbidden,
++                status_aware=True,
++            )
++            if not any(
++                expected_span[0] <= forbidden_span[0]
++                and forbidden_span[1] <= expected_span[1]
++                for expected_span in expected_spans
++            )
++        ]
+         matched = False
+         collective_matched = False
+         anchor_spans = _alternative_spans(text, anchors)
+         for anchor_span in anchor_spans:
++            local_expected = (
++                [
++                    span
++                    for span in expected_spans
++                    if _spans_share_association_clause(text, anchor_span, span)
++                ]
++                if same_clause
++                else expected_spans
++            )
++            local_forbidden = (
++                [
++                    span
++                    for span in forbidden_spans
++                    if _spans_share_association_clause(text, anchor_span, span)
++                ]
++                if same_clause
++                else forbidden_spans
++            )
+             expected_distance = _nearest_span_distance(
+-                text, anchor_span, expected_spans
++                text, anchor_span, local_expected
+             )
+             forbidden_distance = _nearest_span_distance(
+-                text, anchor_span, forbidden_spans
++                text, anchor_span, local_forbidden
+             )
+             if (
+                 forbidden_distance is not None
+@@ -1491,11 +2558,29 @@ def _matches_nearest_relations(
+                 matched = True
+         for collective in collective_anchors:
+             for anchor_span in _alternative_spans(text, collective):
++                local_expected = (
++                    [
++                        span
++                        for span in expected_spans
++                        if _spans_share_association_clause(text, anchor_span, span)
++                    ]
++                    if same_clause
++                    else expected_spans
++                )
++                local_forbidden = (
++                    [
++                        span
++                        for span in forbidden_spans
++                        if _spans_share_association_clause(text, anchor_span, span)
++                    ]
++                    if same_clause
++                    else forbidden_spans
++                )
+                 expected_distance = _nearest_span_distance(
+-                    text, anchor_span, expected_spans
++                    text, anchor_span, local_expected
+                 )
+                 forbidden_distance = _nearest_span_distance(
+-                    text, anchor_span, forbidden_spans
++                    text, anchor_span, local_forbidden
+                 )
+                 if (
+                     expected_distance is not None
+@@ -1513,6 +2598,15 @@ def _matches_nearest_relations(
+             return False
+     return True
+ 
++
++def _spans_share_association_clause(
++    text: str,
++    first: tuple[int, int],
++    second: tuple[int, int],
++) -> bool:
++    left, right = sorted((first, second))
++    return _ASSOCIATION_BOUNDARY.search(text[left[1] : right[0]]) is None
++
+ def _nearest_span_distance(
+     text: str,
+     source: tuple[int, int],
+@@ -1648,7 +2742,10 @@ def _matches_group_without_context_anchor(
+         _matches_alternative(text, item) for item in non_anchor_entities
+     ) and (
+         not group_phrases
+-        or any(_matches_alternative(text, item) for item in group_phrases)
++        or any(
++            _matches_alternative(text, item, status_aware=True)
++            for item in group_phrases
++        )
+     )
+ 
+ def _clause_contributes_to_group(
+@@ -1668,7 +2765,7 @@ def _clause_contributes_to_group(
+         if _matches_alternative(clause, entity):
+             return True
+     return any(
+-        _matches_alternative(clause, phrase)
++        _matches_alternative(clause, phrase, status_aware=True)
+         for phrase in group.get("phrases", [])
+     )
+ 
+diff --git a/mdcbench/evaluation/semantic_change.py b/mdcbench/evaluation/semantic_change.py
+index ec55b3048..c2a61d216 100644
+--- a/mdcbench/evaluation/semantic_change.py
++++ b/mdcbench/evaluation/semantic_change.py
+@@ -1,6 +1,8 @@
+ from __future__ import annotations
+ 
++from collections import Counter
+ from dataclasses import dataclass
++from itertools import product
+ import json
+ import re
+ from typing import Any
+@@ -48,7 +50,15 @@ class _Relation:
+ 
+ 
+ def score_semantic_change(value: Any, rules: dict[str, Any]) -> bool:
+-    """Return whether *value* states exactly one consistent old-to-new relation."""
++    """Score an explicit semantic change or ordered semantic records.
++
++    ``records`` is an opt-in contract for additive outcomes where representing
++    the result as an old-to-new replacement would be factually wrong. Existing
++    change contracts retain their original behavior.
++    """
++
++    if "records" in rules:
++        return _score_ordered_semantic_records(value, rules)
+ 
+     if rules.get("require_affirmative"):
+         raw_text = _json_text(value)
+@@ -62,6 +72,12 @@ def score_semantic_change(value: Any, rules: dict[str, Any]) -> bool:
+         ):
+             return False
+ 
++    relation_mode = rules.get("relation_mode")
++    if relation_mode is not None:
++        if relation_mode == "field_change_set":
++            return _score_field_change_set(value, rules)
++        return False
++
+     old_values = _rule_values(rules.get("old", {}))
+     new_values = _rule_values(rules.get("new", {}))
+     if not old_values or not new_values:
+@@ -72,7 +88,10 @@ def score_semantic_change(value: Any, rules: dict[str, Any]) -> bool:
+         alternatives = required if isinstance(required, list) else [required]
+         if not any(_contains_value(global_text, _normalize(item)) for item in alternatives):
+             return False
+-    if _has_global_contradiction(global_text) or _has_final_state_contradiction(
++    if _has_global_contradiction(global_text) or _has_entity_unchanged_claim(
++        value,
++        entity=_normalize(rules.get("entity", "")),
++    ) or _has_final_state_contradiction(
+         global_text,
+         old_values,
+         new_values,
+@@ -111,6 +130,528 @@ def score_semantic_change(value: Any, rules: dict[str, Any]) -> bool:
+     return True
+ 
+ 
++def _score_ordered_semantic_records(value: Any, rules: dict[str, Any]) -> bool:
++    """Bind each declared record to its own identity, facts, and role.
++
++    Record regions are separated halfway between their identity anchors. This
++    permits label, time, and role values on separate lines or table cells while
++    avoiding same-clause and fixed token-distance requirements.
++    """
++
++    records = rules.get("records")
++    if not isinstance(records, list) or len(records) < 2:
++        return False
++    raw = value if isinstance(value, str) else _json_text(value)
++    normalized = _normalize(raw)
++    if not normalized:
++        return False
++    if rules.get("reject_questions", True) and ("?" in raw or "？" in raw):
++        return False
++    if rules.get("reject_uncertainty", True) and re.search(
++        r"\b(?:maybe|perhaps|possibly|might|uncertain|unknown|unconfirmed|unsure)\b"
++        r"|\b(?:may|could)\s+be\b|\bnot\s+sure\b",
++        normalized,
++        flags=re.IGNORECASE,
++    ):
++        return False
++    global_conflicts = rules.get("global_conflicts", [])
++    if not isinstance(global_conflicts, list) or any(
++        _contains_value(normalized, conflict) for conflict in global_conflicts
++    ):
++        return False
++
++    parsed: list[tuple[list[tuple[int, int]], list[Any], list[Any]]] = []
++    for record in records:
++        if not isinstance(record, dict):
++            return False
++        identities = record.get("identity")
++        required = record.get("required")
++        conflicts = record.get("conflicts", [])
++        if (
++            not isinstance(identities, list)
++            or not identities
++            or not isinstance(required, list)
++            or not required
++            or not isinstance(conflicts, list)
++            or any(not isinstance(group, list) or not group for group in required)
++        ):
++            return False
++        identity_spans = _semantic_alternative_spans(raw, identities)
++        if not identity_spans:
++            return False
++        if rules.get("unique_identities", False) and len(identity_spans) != 1:
++            return False
++        parsed.append((identity_spans, required, conflicts))
++
++    ordered = rules.get("ordered", True)
++    if not isinstance(ordered, bool):
++        return False
++    for anchors in product(*(item[0] for item in parsed)):
++        starts = [span[0] for span in anchors]
++        if len(set(starts)) != len(starts):
++            continue
++        if ordered and starts != sorted(starts):
++            continue
++        anchored_records = list(enumerate(anchors))
++        if not ordered:
++            anchored_records.sort(key=lambda item: item[1])
++        ordered_anchors = [anchor for _record_index, anchor in anchored_records]
++        boundaries = [0]
++        for left, right in zip(ordered_anchors, ordered_anchors[1:]):
++            boundaries.append(_semantic_record_boundary(raw, left, right))
++        boundaries.append(len(raw))
++
++        matched = True
++        for position, (record_index, _anchor) in enumerate(anchored_records):
++            _spans, required, conflicts = parsed[record_index]
++            region = raw[boundaries[position] : boundaries[position + 1]]
++            if any(
++                not any(_contains_value(region, alternative) for alternative in group)
++                for group in required
++            ):
++                matched = False
++                break
++            if any(_contains_value(region, conflict) for conflict in conflicts):
++                matched = False
++                break
++        if matched:
++            return True
++    return False
++
++
++def _semantic_alternative_spans(
++    text: str, alternatives: list[Any]
++) -> list[tuple[int, int]]:
++    spans: set[tuple[int, int]] = set()
++    for alternative in alternatives:
++        normalized = _normalize(alternative)
++        if not normalized:
++            continue
++        escaped = re.escape(normalized).replace(r"\ ", r"\s+")
++        pattern = re.compile(
++            rf"(?<![a-z0-9]){escaped}(?![a-z0-9])",
++            flags=re.IGNORECASE,
++        )
++        spans.update((match.start(), match.end()) for match in pattern.finditer(text))
++    return sorted(spans)
++
++
++def _semantic_record_boundary(
++    text: str, left: tuple[int, int], right: tuple[int, int]
++) -> int:
++    """Choose a human-visible record separator between two identity anchors."""
++
++    gap = text[left[1] : right[0]]
++    paragraph_breaks = list(re.finditer(r"\n[ \t]*\n", gap))
++    if paragraph_breaks:
++        return left[1] + paragraph_breaks[-1].end()
++    newline = gap.rfind("\n")
++    if newline >= 0:
++        return left[1] + newline + 1
++    semicolon = max(gap.rfind(";"), gap.rfind("；"))
++    if semicolon >= 0:
++        return left[1] + semicolon + 1
++    sentence_breaks = list(re.finditer(r"[.!?。！？]\s+", gap))
++    if sentence_breaks:
++        return left[1] + sentence_breaks[-1].end()
++    return (left[1] + right[0]) // 2
++@dataclass(frozen=True)
++class _FieldPair:
++    hint: str
++    old: Any
++    new: Any
++
++
++def _score_field_change_set(value: Any, rules: dict[str, Any]) -> bool:
++    """Score one entity's complete set of field changes across common JSON shapes."""
++
++    groups = _field_change_groups(rules.get("field_groups"))
++    if groups is None:
++        return False
++
++    global_text = _normalize(_json_text(value))
++    entity = _normalize(rules.get("entity", ""))
++    if not entity or not _contains_value(global_text, entity):
++        return False
++    if any(
++        _contains_value(global_text, _normalize(forbidden))
++        for forbidden in rules.get("forbidden_entities", [])
++    ):
++        return False
++
++    all_old = [item for group in groups for item in group[2]]
++    all_new = [item for group in groups for item in group[3]]
++    if _has_target_entity_contradiction(
++        value,
++        entity,
++        old_values=all_old,
++        new_values=all_new,
++        other_entities=[
++            _normalize(item)
++            for item in [
++                *rules.get("forbidden_entities", []),
++                *rules.get("forbidden_change_entities", []),
++            ]
++        ],
++    ) or any(
++        _has_forbidden_entity_change_claim(value, _normalize(forbidden))
++        for forbidden in rules.get("forbidden_change_entities", [])
++    ):
++        return False
++
++    pairs: list[_FieldPair] = []
++    invalid = [False]
++    _collect_field_pairs(value, (), pairs, invalid)
++    if invalid[0] or not pairs:
++        return False
++
++    aliases = {
++        alias: name
++        for name, group_aliases, _old, _new, _pattern in groups
++        for alias in group_aliases
++    }
++    observed: dict[str, list[_FieldPair]] = {name: [] for name, *_rest in groups}
++    for pair in pairs:
++        if isinstance(pair.old, dict) or isinstance(pair.new, dict):
++            if not isinstance(pair.old, dict) or not isinstance(pair.new, dict):
++                return False
++            exploded = _explode_structured_field_pair(pair, aliases)
++            if exploded is None:
++                return False
++            for field_pair in exploded:
++                observed[field_pair.hint].append(field_pair)
++            continue
++
++        field_name = aliases.get(_normalize(pair.hint))
++        if field_name is None:
++            candidates = [
++                name
++                for name, _group_aliases, old_values, new_values, _pattern in groups
++                if _contains_all(_normalize(_json_text(pair.old)), old_values)
++                and _contains_all(_normalize(_json_text(pair.new)), new_values)
++            ]
++            if len(candidates) != 1:
++                return False
++            field_name = candidates[0]
++        observed[field_name].append(
++            _FieldPair(field_name, pair.old, pair.new)
++        )
++
++    for name, _group_aliases, old_values, new_values, value_pattern in groups:
++        field_pairs = observed.get(name, [])
++        if not field_pairs:
++            return False
++        old_blob = _normalize(_json_text([pair.old for pair in field_pairs]))
++        new_blob = _normalize(_json_text([pair.new for pair in field_pairs]))
++        if not _contains_all(old_blob, old_values) or not _contains_all(new_blob, new_values):
++            return False
++        if any(_contains_value(old_blob, item) for item in new_values if item not in old_values):
++            return False
++        if any(_contains_value(new_blob, item) for item in old_values if item not in new_values):
++            return False
++        if any(_value_occurrence_count(old_blob, item) != 1 for item in old_values):
++            return False
++        if any(_value_occurrence_count(new_blob, item) != 1 for item in new_values):
++            return False
++        if value_pattern is not None:
++            try:
++                old_matches = Counter(
++                    _normalize(match.group(0))
++                    for match in re.finditer(value_pattern, old_blob, re.IGNORECASE)
++                )
++                new_matches = Counter(
++                    _normalize(match.group(0))
++                    for match in re.finditer(value_pattern, new_blob, re.IGNORECASE)
++                )
++            except re.error:
++                return False
++            if old_matches != Counter(old_values) or new_matches != Counter(new_values):
++                return False
++    return True
++
++
++def _field_change_groups(
++    raw_groups: Any,
++) -> list[tuple[str, set[str], list[str], list[str], str | None]] | None:
++    if not isinstance(raw_groups, list) or not raw_groups:
++        return None
++    parsed: list[tuple[str, set[str], list[str], list[str], str | None]] = []
++    seen_names: set[str] = set()
++    seen_aliases: set[str] = set()
++    for raw_group in raw_groups:
++        if not isinstance(raw_group, dict):
++            return None
++        name = _normalize(raw_group.get("name", ""))
++        raw_aliases = raw_group.get("aliases", [])
++        if not name or name in seen_names or not isinstance(raw_aliases, list):
++            return None
++        aliases = {_normalize(item) for item in [name, *raw_aliases] if _normalize(item)}
++        old_values = _rule_values(raw_group.get("old", []))
++        new_values = _rule_values(raw_group.get("new", []))
++        value_pattern = raw_group.get("value_pattern")
++        if (
++            not aliases
++            or seen_aliases.intersection(aliases)
++            or not old_values
++            or not new_values
++            or value_pattern is not None
++            and not isinstance(value_pattern, str)
++        ):
++            return None
++        seen_names.add(name)
++        seen_aliases.update(aliases)
++        parsed.append((name, aliases, old_values, new_values, value_pattern))
++    return parsed
++
++
++def _collect_field_pairs(
++    node: Any,
++    path: tuple[str, ...],
++    pairs: list[_FieldPair],
++    invalid: list[bool],
++) -> None:
++    if isinstance(node, list):
++        for index, child in enumerate(node):
++            _collect_field_pairs(child, (*path, str(index)), pairs, invalid)
++        return
++    if not isinstance(node, dict):
++        return
++
++    consumed: set[str] = set()
++    flattened: dict[str, dict[str, Any]] = {"old": {}, "new": {}}
++    marker_pattern = re.compile(
++        r"^(old|previous|before|from|new|corrected|after|to)[ _-]+(.+)$",
++        flags=re.IGNORECASE,
++    )
++    for key, child in node.items():
++        match = marker_pattern.fullmatch(str(key).strip())
++        if not match:
++            continue
++        side = "old" if _normalize(match.group(1)) in OLD_MARKERS else "new"
++        flattened[side][_normalize(match.group(2))] = child
++        consumed.add(key)
++    if flattened["old"] or flattened["new"]:
++        if set(flattened["old"]) != set(flattened["new"]):
++            invalid[0] = True
++        else:
++            for hint in flattened["old"]:
++                pairs.append(
++                    _FieldPair(hint, flattened["old"][hint], flattened["new"][hint])
++                )
++
++    direct: dict[str, list[tuple[str, Any]]] = {"old": [], "new": []}
++    for key, child in node.items():
++        normalized_key = _normalize(key)
++        if key in consumed:
++            continue
++        if normalized_key in OLD_MARKERS:
++            direct["old"].append((key, child))
++        elif normalized_key in NEW_MARKERS - {"updated", "now"}:
++            direct["new"].append((key, child))
++    if direct["old"] or direct["new"]:
++        if len(direct["old"]) != 1 or len(direct["new"]) != 1:
++            invalid[0] = True
++        else:
++            field_hint = _normalize(node.get("field", ""))
++            if not field_hint:
++                field_hint = next(
++                    (
++                        _normalize(item)
++                        for item in reversed(path)
++                        if not item.isdigit() and _normalize(item) not in {"changes", "change"}
++                    ),
++                    "",
++                )
++            pairs.append(
++                _FieldPair(field_hint, direct["old"][0][1], direct["new"][0][1])
++            )
++            consumed.update({direct["old"][0][0], direct["new"][0][0]})
++
++    for key, child in node.items():
++        if key in consumed or key == "field":
++            continue
++        if isinstance(child, (dict, list)):
++            _collect_field_pairs(child, (*path, str(key)), pairs, invalid)
++
++
++def _explode_structured_field_pair(
++    pair: _FieldPair,
++    aliases: dict[str, str],
++) -> list[_FieldPair] | None:
++    old_values: dict[str, list[Any]] = {}
++    new_values: dict[str, list[Any]] = {}
++    for side, source in ((old_values, pair.old), (new_values, pair.new)):
++        for key, value in source.items():
++            field_name = aliases.get(_normalize(key))
++            if field_name is None:
++                return None
++            side.setdefault(field_name, []).append(value)
++    if set(old_values) != set(new_values) or not old_values:
++        return None
++    return [
++        _FieldPair(
++            field_name,
++            old_values[field_name][0]
++            if len(old_values[field_name]) == 1
++            else old_values[field_name],
++            new_values[field_name][0]
++            if len(new_values[field_name]) == 1
++            else new_values[field_name],
++        )
++        for field_name in old_values
++    ]
++
++
++def _value_occurrence_count(text: str, value: str) -> int:
++    normalized = _normalize(value)
++    if not normalized:
++        return 0
++    escaped = re.escape(normalized).replace(r"\ ", r"\s+")
++    if re.fullmatch(r"\d{1,2}:\d{2}", normalized):
++        pattern = rf"(?<![a-z0-9:]){escaped}(?![a-z0-9:])"
++    else:
++        pattern = rf"(?<![a-z0-9]){escaped}(?![a-z0-9])"
++    return len(re.findall(pattern, _normalize(text), flags=re.IGNORECASE))
++
++
++def _has_target_entity_contradiction(
++    value: Any,
++    entity: str,
++    *,
++    old_values: list[str],
++    new_values: list[str],
++    other_entities: list[str],
++) -> bool:
++    """Reject contradictions about the scored entity without policing other records."""
++
++    identity_keys = {"entity", "meeting", "event", "title", "name"}
++    assertion_keys = {"note", "status", "state", "result", "outcome", "summary"}
++
++    def contradicts(node: Any) -> bool:
++        text = _normalize(_json_text(node))
++        if (
++            not _contains_value(text, entity)
++            and any(_contains_value(text, item) for item in other_entities)
++        ):
++            return False
++        return _has_global_contradiction(text) or _has_final_state_contradiction(
++            text,
++            old_values,
++            new_values,
++        )
++
++    def visit(node: Any) -> bool:
++        if isinstance(node, str):
++            return _contains_value(node, entity) and contradicts(node)
++        if isinstance(node, list):
++            return any(visit(child) for child in node)
++        if not isinstance(node, dict):
++            return False
++
++        owns_target = any(
++            _normalize(key) in identity_keys
++            and _contains_value(_normalize(child), entity)
++            for key, child in node.items()
++            if not isinstance(child, (dict, list))
++        )
++        if owns_target:
++            for key, child in node.items():
++                normalized_key = _normalize(key)
++                if normalized_key in assertion_keys and contradicts(child):
++                    return True
++                if (
++                    normalized_key in {"changed", "corrected", "updated"}
++                    and (
++                        child is False
++                        or not isinstance(child, (dict, list))
++                        and _normalize(child) in {"0", "false", "no"}
++                    )
++                ):
++                    return True
++
++        for key, child in node.items():
++            if _contains_value(_normalize(key), entity) and isinstance(child, dict):
++                if any(
++                    _normalize(child_key) in assertion_keys and contradicts(child_value)
++                    for child_key, child_value in child.items()
++                ):
++                    return True
++            if visit(child):
++                return True
++        return False
++
++    return visit(value)
++
++
++def _has_forbidden_entity_change_claim(value: Any, entity: str) -> bool:
++    """Find an asserted change for another entity while allowing unchanged notes."""
++
++    if not entity:
++        return False
++    identity_keys = {"entity", "meeting", "event", "title", "name"}
++    change_action = re.compile(
++        r"\b(?:change|changed|modified|updated|corrected|moved|replaced)\b",
++        flags=re.IGNORECASE,
++    )
++    negative_change = re.compile(
++        r"\bunchanged\b|\bno\s+(?:actual\s+)?changes?\b|"
++        r"\b(?:do|does|did|is|was|has|have)\s+not\s+(?:been\s+)?"
++        r"(?:changed|modified|updated|corrected|moved|replaced)\b|"
++        r"\bnot\s+modified\b",
++        flags=re.IGNORECASE,
++    )
++
++    def affirmative_text(node: Any) -> bool:
++        text = _normalize(_json_text(node))
++        return bool(change_action.search(text)) and not negative_change.search(text)
++
++    def has_change_structure(node: dict[str, Any]) -> bool:
++        keys = {_normalize(key) for key in node}
++        if any(
++            _normalize(key) in {"change", "changes"} and bool(child)
++            for key, child in node.items()
++        ):
++            return True
++        has_old = any(
++            key in OLD_MARKERS or re.match(r"^(?:old|previous|before|from)[ _-]+", key)
++            for key in keys
++        )
++        has_new = any(
++            key in NEW_MARKERS or re.match(r"^(?:new|corrected|after|to)[ _-]+", key)
++            for key in keys
++        )
++        return has_old and has_new
++
++    def visit(node: Any) -> bool:
++        if isinstance(node, str):
++            return _contains_value(node, entity) and affirmative_text(node)
++        if isinstance(node, list):
++            return any(visit(child) for child in node)
++        if not isinstance(node, dict):
++            return False
++
++        owns_entity = any(
++            _normalize(key) in identity_keys
++            and _contains_value(_normalize(child), entity)
++            for key, child in node.items()
++            if not isinstance(child, (dict, list))
++        )
++        if owns_entity and has_change_structure(node):
++            return True
++        for key, child in node.items():
++            if _contains_value(_normalize(key), entity) and (
++                affirmative_text(child)
++                or isinstance(child, dict)
++                and has_change_structure(child)
++            ):
++                return True
++            if visit(child):
++                return True
++        return False
++
++    return visit(value)
++
++
+ def _collect_relations(
+     node: Any,
+     context: str,
+@@ -313,7 +854,6 @@ def _has_global_contradiction(text: str) -> bool:
+     marker = r"(?:old|previous|before|former|original|new|corrected|after|current|updated)"
+     patterns = (
+         r"\b(?:no|without)\s+(?:actual\s+)?changes?\b",
+-        r"\bunchanged\b",
+         rf"\b(?:did|does|was|is|has|have)\s+not\s+(?:been\s+)?{relation_word}\b",
+         rf"\b(?:isn't|isnt|wasn't|wasnt)\s+{relation_word}\b",
+         rf"\bno\s+longer\b(?:\s+\w+){{0,4}}\s+\b{marker}\b",
+@@ -328,6 +868,88 @@ def _has_global_contradiction(text: str) -> bool:
+     return any(re.search(pattern, text, flags=re.IGNORECASE) for pattern in patterns)
+ 
+ 
++def _has_entity_unchanged_claim(value: Any, *, entity: str) -> bool:
++    """Reject an unchanged claim only when it is about the scored entity.
++
++    Change logs often include an explicit list of records that were checked
++    but did not require edits.  A sibling such as ``Ops sync`` being listed as
++    unchanged must not invalidate the one required ``Vendor planning``
++    correction.  Conversely, an unchanged claim bound to the scored entity is
++    still contradictory.
++    """
++
++    if not entity:
++        # Evaluators without a named entity retain the conservative legacy
++        # contract: any affirmative ``unchanged`` claim contradicts the one
++        # required old-to-new relation. The entity-aware exception below is
++        # only for logs that identify an unrelated sibling record.
++        def has_unqualified_claim(node: Any) -> bool:
++            if isinstance(node, dict):
++                for key, child in node.items():
++                    if re.search(
++                        r"\bunchanged\b|\bno[_\s-]*changes?\b|\bnot[_\s-]*changed\b",
++                        _normalize(key),
++                        flags=re.IGNORECASE,
++                    ) and child not in (False, None, "", [], {}):
++                        return True
++                    if has_unqualified_claim(child):
++                        return True
++                return False
++            if isinstance(node, (list, tuple)):
++                return any(has_unqualified_claim(child) for child in node)
++            return bool(
++                re.search(
++                    r"\bunchanged\b|\bnot\s+changed\b|\bdid\s+not\s+change\b",
++                    _normalize(node),
++                    flags=re.IGNORECASE,
++                )
++            )
++
++        return has_unqualified_claim(value)
++
++    def visit(node: Any, *, unchanged_context: bool = False) -> bool:
++        if isinstance(node, dict):
++            for key, child in node.items():
++                normalized_key = _normalize(key)
++                key_marks_unchanged = bool(
++                    re.search(
++                        r"\bunchanged\b|\bno[_\s-]*changes?\b|\bnot[_\s-]*changed\b",
++                        normalized_key,
++                        flags=re.IGNORECASE,
++                    )
++                )
++                if visit(
++                    child,
++                    unchanged_context=unchanged_context or key_marks_unchanged,
++                ):
++                    return True
++            return False
++        if isinstance(node, (list, tuple)):
++            return any(
++                visit(child, unchanged_context=unchanged_context)
++                for child in node
++            )
++
++        text = _normalize(node)
++        if not text:
++            return False
++        if unchanged_context:
++            return _contains_value(text, entity)
++        for clause in re.split(r"[.!?;\n]+", text):
++            if (
++                _contains_value(clause, entity)
++                and re.search(
++                    r"\bunchanged\b|\bnot\s+changed\b|\bdid\s+not\s+change\b",
++                    clause,
++                    flags=re.IGNORECASE,
++                )
++            ):
++                return True
++        return False
++
++    return visit(value)
++
++
+ def _has_final_state_contradiction(
+     text: str,
+     old_values: list[str],
+diff --git a/mdcbench/evaluation/status_relations.py b/mdcbench/evaluation/status_relations.py
+index 9e7ad2e7b..68ef02de4 100644
+--- a/mdcbench/evaluation/status_relations.py
++++ b/mdcbench/evaluation/status_relations.py
+@@ -4,14 +4,18 @@ import re
+ from typing import Any
+ 
+ 
+-_PRESENT_PATTERNS = (
++_RELATION_PRESENT_PATTERNS = (
+     r"\bpresent\b",
+     r"\bexists?\b",
+     r"\bavailable\b",
+     r"\bfound\b",
++)
++_PRESENT_PATTERNS = (
++    *_RELATION_PRESENT_PATTERNS,
+     r"\blocated\b",
++    r"\bis\s+there\b",
+ )
+-_MISSING_PATTERNS = (
++_RELATION_MISSING_PATTERNS = (
+     r"\bmissing\b",
+     r"\babsent\b",
+     r"\bunavailable\b",
+@@ -20,8 +24,30 @@ _MISSING_PATTERNS = (
+     r"\bcould\s+not\s+(?:be\s+)?(?:find|found)\b",
+     r"\bcouldn['’]?t\s+(?:be\s+)?(?:find|found)\b",
+     r"\bdoes\s+not\s+exist\b",
++    r"\bdoesn['’]?t\s+exist\b",
+     r"\bnot\s+present\b",
++    r"\bisn['’]?t\s+present\b",
+     r"\bnot\s+available\b",
++    r"\bisn['’]?t\s+available\b",
++)
++_MISSING_PATTERNS = _RELATION_MISSING_PATTERNS
++_PRESENT_STATUS_ALIASES = frozenset({"present", "available", "found", "exist", "exists"})
++_MISSING_STATUS_ALIASES = frozenset(
++    {
++        "missing",
++        "absent",
++        "unavailable",
++        "not found",
++        "not present",
++        "does not exist",
++        "doesn't exist",
++        "doesn’t exist",
++        "isn't present",
++        "isn’t present",
++        "isn't available",
++        "isn’t available",
++        "not available",
++    }
+ )
+ _AMBIGUOUS_NEGATION = re.compile(
+     r"\bno\s+longer\b.{0,32}\b(?:present|missing|absent|available|unavailable|found|exists?)\b"
+@@ -31,6 +57,68 @@ _AMBIGUOUS_NEGATION = re.compile(
+ )
+ 
+ 
++def status_alias_category(value: Any) -> str | None:
++    """Return the canonical category for a standalone status alias."""
++
++    normalized = _normalize(value)
++    if normalized in _MISSING_STATUS_ALIASES:
++        return "missing"
++    if normalized in _PRESENT_STATUS_ALIASES:
++        return "present"
++    return None
++
++
++def status_phrase_spans(text: Any, expected: str) -> list[tuple[int, int]]:
++    """Find negation-aware present/missing assertions in text."""
++
++    raw = str(text)
++    missing_spans = _merged_pattern_spans(raw, _RELATION_MISSING_PATTERNS)
++    if expected == "missing":
++        return missing_spans
++    if expected != "present":
++        return []
++
++    masked = list(raw)
++    for start, end in missing_spans:
++        masked[start:end] = " " * (end - start)
++    return _merged_pattern_spans("".join(masked), _RELATION_PRESENT_PATTERNS)
++
++
++def canonicalize_status_phrases(text: Any) -> str:
++    """Canonicalize status assertions without exposing negated positive words."""
++
++    raw = str(text)
++    replacements = [
++        (start, end, "missing")
++        for start, end in status_phrase_spans(raw, "missing")
++    ]
++    replacements.extend(
++        (start, end, "present")
++        for start, end in status_phrase_spans(raw, "present")
++    )
++    for start, end, replacement in sorted(replacements, reverse=True):
++        raw = raw[:start] + replacement + raw[end:]
++    return raw
++
++
++def _merged_pattern_spans(
++    text: str,
++    patterns: tuple[str, ...],
++) -> list[tuple[int, int]]:
++    spans = sorted(
++        match.span()
++        for pattern in patterns
++        for match in re.finditer(pattern, text, flags=re.IGNORECASE)
++    )
++    merged: list[tuple[int, int]] = []
++    for start, end in spans:
++        if merged and start <= merged[-1][1]:
++            merged[-1] = (merged[-1][0], max(merged[-1][1], end))
++        else:
++            merged.append((start, end))
++    return merged
++
++
+ def score_named_status_note(text: Any, rules: dict[str, Any]) -> bool:
+     """Validate one unambiguous present/missing relation per exact named item."""
+ 
+@@ -51,6 +139,18 @@ def score_named_status_note(text: Any, rules: dict[str, Any]) -> bool:
+     normalized_names = {_normalize(name): str(expected).casefold() for name, expected in relations.items()}
+     if any(expected not in {"present", "missing"} for expected in normalized_names.values()):
+         return False
++    aliases = rules.get("entity_aliases", {})
++    if not isinstance(aliases, dict):
++        return False
++    normalized_aliases: dict[str, list[str]] = {}
++    for name, values in aliases.items():
++        normalized_name = _normalize(name)
++        if normalized_name not in normalized_names or not isinstance(values, list):
++            return False
++        normalized_values = [_normalize(value) for value in values]
++        if not normalized_values or any(not value for value in normalized_values):
++            return False
++        normalized_aliases[normalized_name] = normalized_values
+     unlisted_pattern = str(rules.get("reject_unlisted_entity_pattern", "")).strip()
+     if unlisted_pattern:
+         try:
+@@ -60,17 +160,32 @@ def score_named_status_note(text: Any, rules: dict[str, Any]) -> bool:
+             }
+         except re.error:
+             return False
+-        if observed - set(normalized_names):
++        allowed_entities = set(normalized_names)
++        allowed_entities.update(
++            alias for values in normalized_aliases.values() for alias in values
++        )
++        if observed - allowed_entities:
+             return False
+     clauses = _clauses(raw_text)
+ 
+     for name, expected in normalized_names.items():
+-        entity = _entity_pattern(name)
+-        matching = [clause for clause in clauses if entity.search(_normalize(clause))]
++        entities = [_entity_pattern(name)]
++        entities.extend(
++            _entity_pattern(alias) for alias in normalized_aliases.get(name, [])
++        )
++        matching = [
++            clause
++            for clause in clauses
++            if any(entity.search(_normalize(clause)) for entity in entities)
++        ]
+         if not matching:
+             return False
+         if rules.get("require_one_relation_per_entity") and (
+-            len(matching) != 1 or len(list(entity.finditer(normalized_text))) != 1
++            len(matching) != 1
++            or sum(
++                len(list(entity.finditer(normalized_text))) for entity in entities
++            )
++            != 1
+         ):
+             return False
+         states = [_clause_state(clause) for clause in matching]
+@@ -96,15 +211,23 @@ def _has_exact_source_line(text: str, source: str) -> bool:
+     for line in text.splitlines():
+         candidate = re.sub(r"^\s*(?:[-*+]\s+|#{1,6}\s*)", "", line).strip()
+         patterns = (
+-            r"source\s*(?::|[-–—])\s*(?P<value>.+?)\s*",
+-            r"source\s+is\s+(?P<value>.+?)\s*",
++            r"requested\s+via\s+(?P<value>.+?)\s*:\s*.+",
++            r"(?:request\s+)?source\s*(?::|[-–—])\s*(?P<value>.+?)\s*",
++            r"(?:request\s+)?source\s+is\s+(?P<value>.+?)\s*",
+             r"requested\s+via\s+(?P<value>.+?)\s*",
+             r"from\s+(?P<value>.+?)\s*",
++            r"(?:the\s+)?request\s+came\s+from\s+(?P<value>.+?)\s*",
+         )
+         for pattern in patterns:
+             match = re.fullmatch(pattern, candidate, flags=re.IGNORECASE)
+             if match:
+-                declarations.append(_normalize(match.group("value")))
++                # A natural source declaration commonly ends the sentence
++                # with punctuation.  Treat that punctuation as prose rather
++                # than as part of the source name while keeping the source
++                # value itself exact.
++                declarations.append(
++                    _normalize(match.group("value")).rstrip(".。;；")
++                )
+                 break
+     return len(declarations) == 1 and declarations[0] == source
  

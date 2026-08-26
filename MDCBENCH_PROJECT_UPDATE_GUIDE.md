@@ -4,9 +4,14 @@ Pear is the exchange repository for the reviewed Core200 task snapshot. The
 task files and their attachments are authoritative; the per-task review notes
 may lag behind the JSON files.
 
-This update also includes one optional runtime compatibility patch for
-`mdcbench/evaluation/entity_relations.py`. No test file, experiment output, run
-history, or frozen evaluation manifest is included.
+This update also includes a runtime compatibility patch for the final
+`mdcbench/evaluation/entity_relations.py`, its required status-phrase
+canonicalization dependency in `mdcbench/evaluation/status_relations.py`, and
+the additive-record scorer in `mdcbench/evaluation/semantic_change.py`. If the
+destination runtime already contains the final Core200 relation changes, do not
+apply it again;
+otherwise the patch must be applied before running Core200. No test file,
+experiment output, run history, or frozen evaluation manifest is included.
 
 ## 1. Update the Pear checkout
 
@@ -57,15 +62,19 @@ git apply --check /path/to/pear/patches/core200_entity_relations.patch
 git apply /path/to/pear/patches/core200_entity_relations.patch
 ```
 
-If the check reports that the patch is already applied, no action is needed. If
-the evaluator file has independent local edits, do not overwrite it. Merge the
-patch manually, preserving local changes. The patch adds support for these
-task-visible contracts:
+If the destination runtime already contains the final Core200 entity-relation
+changes, no patch is needed. Otherwise `git apply --check` must pass and the
+patch must be applied before Core200 runs. If the evaluator file has independent
+local edits, do not overwrite it; merge the patch while preserving those edits.
+The patch adds support for these task-visible contracts:
 
 - `required_patterns`
 - `conflict_patterns`
 - `ordered_entities`
 - `semantic_record_table`
+- single-record `semantic_record_table` prefix binding within the same sentence
+  or paragraph
+- additive semantic-record relations used by `android_change_note_state`
 
 The test-only change used during integration is intentionally not distributed
 through Pear.
@@ -73,7 +82,7 @@ through Pear.
 ## 5. Minimal local verification
 
 ```bash
-python3 -m py_compile mdcbench/evaluation/entity_relations.py
+python3 -m py_compile mdcbench/evaluation/entity_relations.py mdcbench/evaluation/status_relations.py mdcbench/evaluation/semantic_change.py
 git status --short
 ```
 
