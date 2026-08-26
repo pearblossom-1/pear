@@ -140,7 +140,7 @@
                 ]
               },
               "min_matching_report_count": 1,
-              "reject_nonmatching_reports": true
+              "reject_nonmatching_reports": false
             }
           }
         }

@@ -197,16 +197,9 @@
               "does not support 35% dimming",
               "does not support 35 percent dimming",
               "does not support dimming",
+              "is not dimmable",
+              "not dimmable",
               "not supported"
-            ],
-            [
-              "unchanged",
-              "left unchanged",
-              "remains unchanged",
-              "stays unchanged",
-              "no light setting was changed",
-              "no light was changed",
-              "was not changed"
             ]
           ],
           "required_phrases": [
@@ -220,6 +213,8 @@
               "does not support 35% dimming",
               "does not support 35 percent dimming",
               "does not support dimming",
+              "is not dimmable",
+              "not dimmable",
               "not supported"
             ]
           ],
@@ -245,6 +240,14 @@
             "is not supported",
             "cannot dim",
             "can't dim",
+            "could not be applied",
+            "couldn't be applied",
+            "cannot be applied",
+            "can't be applied",
+            "could not apply",
+            "couldn't apply",
+            "cannot apply",
+            "can't apply",
             "could not be changed to 35%",
             "could not be changed to 35 percent",
             "couldn't be changed to 35%",

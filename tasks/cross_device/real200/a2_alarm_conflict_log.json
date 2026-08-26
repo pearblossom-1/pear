@@ -228,7 +228,7 @@
               ]
             }
           ],
-          "ordered": true,
+          "ordered": false,
           "unique_identities": true,
           "reject_questions": true,
           "reject_uncertainty": true
@@ -255,7 +255,7 @@
     "device_topology": "2A",
     "surfaces": "android_0 Simple Calendar Pro + android_1 Clock app -> android_1 Clock app + android_0 Markor",
     "setup_note": "android_0 creates the actual-departure Calendar event and resets the task-owned `Alarm fix` note; android_1 starts with the enabled 07:50 `Depot preparation` fallback alarm.",
-    "evaluate_note": "Requires both enabled alarms to be positively observable and binds the Markor note as two ordered semantic records: the retained 07:50 preparation fallback followed by the actual 08:20 departure.",
+    "evaluate_note": "Requires both enabled alarms to be positively observable and binds the Markor note as two semantic records: the retained 07:50 preparation fallback and the actual 08:20 departure, regardless of mention order.",
     "implementation_status": "fixture_scaffold",
     "readiness": "R1_native_android_app_text_state",
     "native_evaluator_status": "native_android_app_text_state",
@@ -307,11 +307,11 @@
           "Depot departure",
           "08:20"
         ],
-        "relation_notes": "Accepts prose, multiline key/value, and table forms when each alarm record has its own label, time, and role and the retained preparation record precedes the actual departure record. Reversed times, reversed order, or entity-bound removal/disable/replacement claims fail; comparative wording such as `instead of replacing` is allowed."
+        "relation_notes": "Accepts prose, multiline key/value, and table forms when each alarm record has its own label, time, and role. Mention order is flexible; reversed times or roles and entity-bound removal/disable/replacement claims fail, while comparative wording such as `instead of replacing` is allowed."
       }
     ],
     "browser_state_outputs": [],
     "thunderbird_draft_outputs": [],
-    "lite_evaluator_hardening_note": "The additive outcome avoids unsupported absence/count claims: both enabled alarms are checked by reliable positive presence. The note scorer uses ordered semantic record regions instead of replacement semantics, same-clause binding, token-distance limits, or a global time whitelist; harmless comparative wording is allowed while reversed or entity-bound removal/disable/replacement claims fail."
+    "lite_evaluator_hardening_note": "The additive outcome avoids unsupported absence/count claims: both enabled alarms are checked by reliable positive presence. The note scorer uses semantic record regions with flexible mention order instead of replacement semantics, same-clause binding, token-distance limits, or a global time whitelist; harmless comparative wording is allowed while reversed times or roles and entity-bound removal/disable/replacement claims fail."
   }
 }

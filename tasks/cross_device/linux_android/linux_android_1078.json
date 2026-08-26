@@ -126,12 +126,18 @@
         "path": "/storage/emulated/0/Documents/Markor/1078-A form status.md",
         "rules": {
           "entities": ["1078-A", "NX07877", "Owen Park"],
-          "positive_phrases": ["blocked"],
+          "positive_phrases": [
+            "blocked",
+            "not ready to submit",
+            "not ready for submission",
+            "not submitted"
+          ],
           "required_phrases": [
             [
               "the required SMS form code is unavailable",
               "required SMS form code is unavailable",
               "the SMS did not provide the required form code",
+              "the latest SMS did not provide the required form code",
               "the form code is missing from the latest SMS",
               "form code is missing from the latest SMS",
               "no usable SMS form code was provided",
@@ -152,7 +158,11 @@
             ]
           ],
           "allowed_negative_capability_phrases": [
+            "not ready to submit",
+            "not ready for submission",
+            "not submitted",
             "the SMS did not provide the required form code",
+            "the latest SMS did not provide the required form code",
             "no usable SMS form code was provided",
             "the required code was not included in the SMS",
             "required code was not included in the SMS",
@@ -161,9 +171,18 @@
             "required form code not provided",
             "required form code was not provided"
           ],
+          "allowed_conflict_phrases": [
+            "not ready to submit",
+            "not ready for submission",
+            "not submitted"
+          ],
           "conflict_phrases": [
-            "ready",
-            "submitted",
+            "is ready to submit",
+            "ready for submission",
+            "was submitted",
+            "has been submitted",
+            "submission succeeded",
+            "successfully submitted",
             "not blocked",
             "required SMS form code is available",
             "SMS form code is available",

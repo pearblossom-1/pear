@@ -29,8 +29,16 @@
               "not assigned",
               "wrong"
             ],
+            "allowed_conflict_phrases": [
+              "S-71 is not the active session",
+              "S-71 is not active"
+            ],
+            "allowed_negative_capability_phrases": [
+              "S-71 is not the active session",
+              "S-71 is not active"
+            ],
             "conflict_patterns": [
-              "(?i)(?:\\b(?:current|active)\\b[^.;\\n]{0,80}\\b(?:S-71|old_session\\.wav|Iris)\\b|\\b(?:S-71|old_session\\.wav|Iris)\\b[^.;\\n]{0,80}\\b(?:current|active)\\b)"
+              "(?i)(?:\\b(?:current|active)\\b[^.;\\n]{0,80}\\b(?:S-71|old_session\\.wav|Iris)\\b|\\b(?:S-71|old_session\\.wav|Iris)\\b(?![^.;\\n]{0,80}\\bnot(?:\\s+the)?\\s+(?:current|active)\\b)[^.;\\n]{0,80}\\b(?:current|active)\\b)"
             ],
             "semantic_record_table": {
               "item_headers": [
