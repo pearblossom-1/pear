@@ -43,6 +43,13 @@
           }
         },
         {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "pm clear net.gsantner.markor >/dev/null && mkdir -p '/storage/emulated/0/Documents/markor' && : > '/storage/emulated/0/Documents/markor/1078-A form status.md'",
+            "check_exit_status": true
+          }
+        },
+        {
           "type": "ensure_app",
           "parameters": {
             "app": "markor"
@@ -51,7 +58,22 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/1078-A form status.md'"
+            "command": "am start -n net.gsantner.markor/net.gsantner.markor.activity.MainActivity >/dev/null 2>&1; sleep 7",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for i in 1 2 3; do input tap 982 2244; sleep 1; done",
+            "check_exit_status": true
+          }
+        },
+        {
+          "type": "adb_shell",
+          "parameters": {
+            "command": "for i in 1 2 3; do input tap 982 2244; sleep 1; done; am force-stop net.gsantner.markor",
+            "check_exit_status": true
           }
         }
       ]
@@ -99,7 +121,8 @@
         {
           "type": "adb_shell",
           "parameters": {
-            "command": "rm -f '/storage/emulated/0/Documents/Markor/1078-A form status.md'"
+            "command": "am force-stop net.gsantner.markor && rm -f '/storage/emulated/0/Documents/markor/1078-A form status.md'",
+            "check_exit_status": true
           }
         }
       ]
@@ -123,7 +146,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/1078-A form status.md",
+        "path": "/storage/emulated/0/Documents/markor/1078-A form status.md",
         "rules": {
           "entities": ["1078-A", "NX07877", "Owen Park"],
           "positive_phrases": [
@@ -266,7 +289,7 @@
       {
         "kind": "android_file",
         "device_id": "android_0",
-        "path": "/storage/emulated/0/Documents/Markor/1078-A form status.md",
+        "path": "/storage/emulated/0/Documents/markor/1078-A form status.md",
         "required": [
           "1078-A",
           "NX07877",

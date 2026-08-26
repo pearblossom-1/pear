@@ -23,6 +23,7 @@
                 "unsupported capability",
                 "feature unavailable"
               ],
+              "require_category_alias": false,
               "target_aliases": [
                 "bedroom light color",
                 "bedroom light color control",

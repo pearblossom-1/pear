@@ -6,7 +6,7 @@
       "func": "exact_match",
       "result": {
         "type": "android_entity_relation_note",
-        "path": "/storage/emulated/0/Documents/Markor/1078-A form status.md",
+        "path": "/storage/emulated/0/Documents/markor/1078-A form status.md",
         "rules": {
           "entities": [
             "1078-A",
