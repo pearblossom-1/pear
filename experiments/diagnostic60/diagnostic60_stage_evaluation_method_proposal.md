@@ -164,9 +164,9 @@
 | `android_smarthome_149` | `E03` | `local_stage` | `S05` | `true` | `smarthome.check_allowed_state_diff` |
 | `linux_android_1814` | `E01` | `local_stage` | `S04` | `true` | `check_docx_text` |
 
-## Fixed semantic judge v1
+## Frozen semantic judge v2
 
-Frozen prompt ID: `diagnostic60.semantic_handoff_judge.v1`.
+Frozen prompt ID: `diagnostic60.semantic_handoff_judge.v2`.
 
 The judge receives only:
 
@@ -177,14 +177,15 @@ The judge receives only:
 
 It must not receive the E2E model trajectory, E2E score, failure label, or another stage's actual output.
 
-Proposed fixed prompt:
+Frozen fixed prompt:
 
 ```text
 You are evaluating an isolated information-acquisition stage in a device-level
 decomposition experiment.
 
-Decide whether CANDIDATE preserves all and only the task-relevant information
-needed by the declared downstream stages when compared with GOLD.
+Decide whether CANDIDATE preserves all task-relevant information needed by the
+declared downstream stages, without materially incorrect or misleading
+information, when compared with GOLD.
 
 Use these criteria:
 1. Correctness: no material factual error or wrong selection.
@@ -197,8 +198,8 @@ PASS — correct and sufficient.
 FAIL — incorrect, missing a necessary fact, or materially misleading.
 UNCERTAIN — the supplied gold/reference is insufficient to decide reliably.
 
-Do not judge writing style, completeness beyond the handoff contract, or the
-success of any other stage.
+Do not judge writing style, harmless additional true information, completeness
+beyond the handoff contract, or the success of any other stage.
 ```
 
 Required output schema:
@@ -207,7 +208,11 @@ Required output schema:
 {"label":"PASS|FAIL|UNCERTAIN","reason":"one concise evidence-based reason"}
 ```
 
-The prompt and protocol above are frozen. The concrete judge model/version and decoding settings remain a pre-run human decision. `UNCERTAIN` cases and a predeclared audit sample of PASS/FAIL cases go to human review; the prompt is not adjusted after seeing outcomes.
+The prompt and protocol above are frozen. The concrete model/version, decoding
+settings, and machine-readable output schema are frozen in
+`diagnostic60_semantic_judge_v2.json`. Every `UNCERTAIN` judgment and a
+seeded random 20% sample of PASS/FAIL judgments go to human review. The prompt
+is not adjusted after formal outcomes are observed.
 
 ## Gold handoff and initialization
 

@@ -1,0 +1,269 @@
+{
+  "schema_version": "devicesworld.diagnostic_native_predecessor_state.v1",
+  "gold_predecessor_state_id": "android_smarthome_877.S04__to__android_smarthome_877.S03",
+  "task_id": "android_smarthome_877",
+  "predecessor_stage_id": "android_smarthome_877.S04",
+  "device_id": "home_0",
+  "device_type": "home",
+  "source": "original setup subset plus approved oracle actions",
+  "state": {
+    "runtime": "SmartHomeRuntime",
+    "home_state": {
+      "current_time": "2026-06-16T19:00:00",
+      "rooms": {
+        "bathroom": {
+          "temperature_c": 24.2,
+          "humidity_pct": 58.3,
+          "brightness_lux": 283.8,
+          "air_quality_pm25": 21.4,
+          "noise_level_db": 40.6,
+          "occupied": true
+        },
+        "bedroom": {
+          "temperature_c": 23.4,
+          "humidity_pct": 50.6,
+          "brightness_lux": 300.0,
+          "air_quality_pm25": 23.1,
+          "noise_level_db": 25.0,
+          "occupied": true
+        },
+        "living_room": {
+          "temperature_c": 24.6,
+          "humidity_pct": 44.8,
+          "brightness_lux": 220.0,
+          "air_quality_pm25": 31.6,
+          "noise_level_db": 38.9,
+          "occupied": false
+        },
+        "office": {
+          "temperature_c": 24.4,
+          "humidity_pct": 50.0,
+          "brightness_lux": 1000.0,
+          "air_quality_pm25": 14.9,
+          "noise_level_db": 41.4,
+          "occupied": true
+        }
+      },
+      "devices": [
+        {
+          "device_id": "bathroom_air_purifier_1",
+          "device_type": "air_purifier",
+          "room_id": "bathroom",
+          "state": {
+            "power": "off",
+            "level": "low"
+          }
+        },
+        {
+          "device_id": "bathroom_humidifier_1",
+          "device_type": "humidifier",
+          "room_id": "bathroom",
+          "state": {
+            "power": "off",
+            "level": "high"
+          }
+        },
+        {
+          "device_id": "bedroom_air_conditioner_1",
+          "device_type": "air_conditioner",
+          "room_id": "bedroom",
+          "state": {
+            "power": "on",
+            "mode": "dry",
+            "target_temperature_c": 27.0
+          }
+        },
+        {
+          "device_id": "bedroom_curtain_1",
+          "device_type": "curtain",
+          "room_id": "bedroom",
+          "state": {
+            "open_pct": 100,
+            "status": "open"
+          }
+        },
+        {
+          "device_id": "bedroom_dehumidifier_1",
+          "device_type": "dehumidifier",
+          "room_id": "bedroom",
+          "state": {
+            "power": "off",
+            "level": "high"
+          }
+        },
+        {
+          "device_id": "bedroom_light_1",
+          "device_type": "light",
+          "room_id": "bedroom",
+          "state": {
+            "power": "off"
+          }
+        },
+        {
+          "device_id": "living_room_air_conditioner_1",
+          "device_type": "air_conditioner",
+          "room_id": "living_room",
+          "state": {
+            "power": "on",
+            "mode": "cool",
+            "target_temperature_c": 25.0
+          }
+        },
+        {
+          "device_id": "living_room_air_purifier_1",
+          "device_type": "air_purifier",
+          "room_id": "living_room",
+          "state": {
+            "power": "off",
+            "level": "low"
+          }
+        },
+        {
+          "device_id": "living_room_curtain_1",
+          "device_type": "curtain",
+          "room_id": "living_room",
+          "state": {
+            "open_pct": 40,
+            "status": "partial"
+          }
+        },
+        {
+          "device_id": "living_room_dehumidifier_1",
+          "device_type": "dehumidifier",
+          "room_id": "living_room",
+          "state": {
+            "power": "on",
+            "level": "high"
+          }
+        },
+        {
+          "device_id": "living_room_dimmable_light_1",
+          "device_type": "dimmable_light",
+          "room_id": "living_room",
+          "state": {
+            "power": "on",
+            "brightness_pct": 20
+          }
+        },
+        {
+          "device_id": "living_room_robot_vacuum_1",
+          "device_type": "robot_vacuum",
+          "room_id": "living_room",
+          "state": {
+            "power": "off",
+            "status": "docked",
+            "battery_pct": 42
+          }
+        },
+        {
+          "device_id": "office_air_conditioner_1",
+          "device_type": "air_conditioner",
+          "room_id": "office",
+          "state": {
+            "power": "on",
+            "mode": "cool",
+            "target_temperature_c": 23.0
+          }
+        },
+        {
+          "device_id": "office_air_purifier_1",
+          "device_type": "air_purifier",
+          "room_id": "office",
+          "state": {
+            "power": "off",
+            "level": "medium"
+          }
+        },
+        {
+          "device_id": "office_dimmable_light_1",
+          "device_type": "dimmable_light",
+          "room_id": "office",
+          "state": {
+            "power": "on",
+            "brightness_pct": 100
+          }
+        },
+        {
+          "device_id": "office_light_1",
+          "device_type": "light",
+          "room_id": "office",
+          "state": {
+            "power": "on"
+          }
+        },
+        {
+          "device_id": "office_robot_vacuum_1",
+          "device_type": "robot_vacuum",
+          "room_id": "office",
+          "state": {
+            "power": "off",
+            "status": "docked",
+            "battery_pct": 53
+          }
+        }
+      ],
+      "schedules": [],
+      "workflows": [],
+      "infeasible_reports": [],
+      "answer_reports": [],
+      "history": [
+        {
+          "sequence": 1,
+          "time": "2026-06-16T19:00:00",
+          "device_id": "office_air_conditioner_1",
+          "device_type": "air_conditioner",
+          "room_id": "office",
+          "command": "set_mode",
+          "args": {
+            "mode": "cool"
+          },
+          "before": {
+            "power": "on",
+            "mode": "auto",
+            "target_temperature_c": 26.0
+          },
+          "after": {
+            "power": "on",
+            "mode": "cool",
+            "target_temperature_c": 26.0
+          },
+          "schedule_id": null
+        },
+        {
+          "sequence": 2,
+          "time": "2026-06-16T19:00:00",
+          "device_id": "office_air_conditioner_1",
+          "device_type": "air_conditioner",
+          "room_id": "office",
+          "command": "set_target_temperature",
+          "args": {
+            "temperature_c": 23.0
+          },
+          "before": {
+            "power": "on",
+            "mode": "cool",
+            "target_temperature_c": 26.0
+          },
+          "after": {
+            "power": "on",
+            "mode": "cool",
+            "target_temperature_c": 23.0
+          },
+          "schedule_id": null
+        }
+      ]
+    }
+  },
+  "original_evaluator_validation": [
+    {
+      "original_evaluator_ref": "evaluation[2]",
+      "success": true,
+      "score": 1.0
+    },
+    {
+      "original_evaluator_ref": "evaluation[3]",
+      "success": true,
+      "score": 1.0
+    }
+  ]
+}

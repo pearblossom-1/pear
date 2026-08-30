@@ -1,0 +1,150 @@
+{
+  "schema_version": "devicesworld.diagnostic_native_predecessor_state.v1",
+  "gold_predecessor_state_id": "linux_smarthome_999.S05__to__linux_smarthome_999.S04",
+  "task_id": "linux_smarthome_999",
+  "predecessor_stage_id": "linux_smarthome_999.S05",
+  "device_id": "home_0",
+  "device_type": "home",
+  "source": "original setup subset plus approved oracle actions",
+  "state": {
+    "runtime": "SmartHomeRuntime",
+    "home_state": {
+      "current_time": "2026-07-15T13:50:00",
+      "rooms": {
+        "guest_room": {
+          "temperature_c": 24.6,
+          "humidity_pct": 46.7,
+          "brightness_lux": 180.0,
+          "air_quality_pm25": 31.3,
+          "noise_level_db": 35.2,
+          "occupied": true
+        },
+        "laundry_room": {
+          "temperature_c": 23.8,
+          "humidity_pct": 44.2,
+          "brightness_lux": 462.6,
+          "air_quality_pm25": 19.9,
+          "noise_level_db": 34.3,
+          "occupied": true
+        },
+        "utility_room": {
+          "temperature_c": 22.0,
+          "humidity_pct": 45.0,
+          "brightness_lux": 0.0,
+          "air_quality_pm25": 25.0,
+          "noise_level_db": 30.0,
+          "occupied": false
+        }
+      },
+      "devices": [
+        {
+          "device_id": "laundry_room_dryer_1",
+          "device_type": "dryer",
+          "room_id": "laundry_room",
+          "state": {
+            "power": "off",
+            "cycle": "heavy",
+            "remaining_min": 0,
+            "status": "stopped"
+          }
+        },
+        {
+          "device_id": "laundry_room_washer_1",
+          "device_type": "washer",
+          "room_id": "laundry_room",
+          "state": {
+            "power": "on",
+            "cycle": "delicate",
+            "remaining_min": 40,
+            "status": "running"
+          }
+        },
+        {
+          "device_id": "utility_room_washer_1",
+          "device_type": "washer",
+          "room_id": "utility_room",
+          "state": {
+            "power": "on",
+            "cycle": "normal",
+            "remaining_min": 21,
+            "status": "running"
+          }
+        }
+      ],
+      "schedules": [],
+      "workflows": [],
+      "infeasible_reports": [],
+      "answer_reports": [],
+      "history": [
+        {
+          "sequence": 1,
+          "time": "2026-07-15T13:50:00",
+          "device_id": "laundry_room_washer_1",
+          "device_type": "washer",
+          "room_id": "laundry_room",
+          "command": "start_cycle",
+          "args": {
+            "cycle": "delicate"
+          },
+          "before": {
+            "power": "off",
+            "cycle": "normal",
+            "remaining_min": 0,
+            "status": "idle"
+          },
+          "after": {
+            "power": "on",
+            "cycle": "delicate",
+            "remaining_min": 40,
+            "status": "running"
+          },
+          "schedule_id": null
+        },
+        {
+          "sequence": 2,
+          "time": "2026-07-15T13:50:00",
+          "device_id": "laundry_room_dryer_1",
+          "device_type": "dryer",
+          "room_id": "laundry_room",
+          "command": "stop_cycle",
+          "args": {},
+          "before": {
+            "power": "on",
+            "cycle": "heavy",
+            "remaining_min": 26,
+            "status": "running"
+          },
+          "after": {
+            "power": "off",
+            "cycle": "heavy",
+            "remaining_min": 0,
+            "status": "stopped"
+          },
+          "schedule_id": null
+        }
+      ]
+    }
+  },
+  "original_evaluator_validation": [
+    {
+      "original_evaluator_ref": "evaluation[2]",
+      "success": true,
+      "score": 1.0
+    },
+    {
+      "original_evaluator_ref": "evaluation[3]",
+      "success": true,
+      "score": 1.0
+    },
+    {
+      "original_evaluator_ref": "evaluation[4]",
+      "success": true,
+      "score": 1.0
+    },
+    {
+      "original_evaluator_ref": "evaluation[5]",
+      "success": true,
+      "score": 1.0
+    }
+  ]
+}

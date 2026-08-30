@@ -1,0 +1,80 @@
+{
+  "schema_version": "devicesworld.diagnostic_native_predecessor_state.v1",
+  "gold_predecessor_state_id": "linux_android_1241.S04__to__linux_android_1241.S03",
+  "task_id": "linux_android_1241",
+  "predecessor_stage_id": "linux_android_1241.S04",
+  "device_id": "android_0",
+  "device_type": "android",
+  "source": "original setup subset plus approved oracle actions",
+  "state": {
+    "runtime": "FakeAndroidRuntime canonical provider state",
+    "android_state": {
+      "files": {},
+      "media_store_rows": [],
+      "media_isolations": {},
+      "media_inventory_snapshots": {},
+      "media_isolation_owners": {},
+      "osmand_favorites_isolations": {},
+      "osmand_favorites_active_isolation": null,
+      "values": {},
+      "visible_text": "",
+      "sms": [
+        {
+          "box": "sent",
+          "address": "5557304",
+          "body": "Ops Planning Sync 2026-07-28 08:30 Pier 3 Room B"
+        },
+        {
+          "box": "sent",
+          "address": "5558619",
+          "body": "Ops Planning Sync 2026-07-28 08:30 Pier 3 Room B"
+        }
+      ],
+      "contacts": [],
+      "calendar_events": [
+        {
+          "title": "Ops Planning Sync",
+          "start_ts": 1785227400,
+          "end_ts": 1785229200,
+          "location": "Pier 3 Room B",
+          "description": "OPS-PLANNING-1241 from active brief."
+        }
+      ],
+      "tasks": [],
+      "alarms": [],
+      "timers": [],
+      "recipes": [],
+      "osmand_favorites": [],
+      "retro_songs": [],
+      "retro_playlists": [],
+      "retro_playing_queue": [],
+      "retro_playlist_database_files": {},
+      "retro_playlist_database_symlinks": [],
+      "retro_playlist_isolations": {},
+      "alarm_provider_available": true,
+      "contact_provider_available": true
+    }
+  },
+  "original_evaluator_validation": [
+    {
+      "original_evaluator_ref": "evaluation[1]",
+      "success": true,
+      "score": 1.0
+    },
+    {
+      "original_evaluator_ref": "evaluation[2]",
+      "success": true,
+      "score": 1.0
+    },
+    {
+      "original_evaluator_ref": "evaluation[3]",
+      "success": true,
+      "score": 1.0
+    },
+    {
+      "original_evaluator_ref": "evaluation[4]",
+      "success": true,
+      "score": 1.0
+    }
+  ]
+}

@@ -1,0 +1,141 @@
+{
+  "schema_version": "devicesworld.diagnostic_native_predecessor_state.v1",
+  "gold_predecessor_state_id": "linux_smarthome_983.S05__to__linux_smarthome_983.S04",
+  "task_id": "linux_smarthome_983",
+  "predecessor_stage_id": "linux_smarthome_983.S05",
+  "device_id": "home_0",
+  "device_type": "home",
+  "source": "original setup subset plus approved oracle actions",
+  "state": {
+    "runtime": "SmartHomeRuntime",
+    "home_state": {
+      "current_time": "2026-07-15T12:10:00",
+      "rooms": {
+        "bedroom": {
+          "temperature_c": 25.6,
+          "humidity_pct": 45.5,
+          "brightness_lux": 915.0,
+          "air_quality_pm25": 24.6,
+          "noise_level_db": 30.1,
+          "occupied": false
+        },
+        "kitchen": {
+          "temperature_c": 24.1,
+          "humidity_pct": 49.8,
+          "brightness_lux": 272.6,
+          "air_quality_pm25": 41.6,
+          "noise_level_db": 58.0,
+          "occupied": true
+        },
+        "office": {
+          "temperature_c": 25.6,
+          "humidity_pct": 37.7,
+          "brightness_lux": 750.0,
+          "air_quality_pm25": 47.1,
+          "noise_level_db": 58.0,
+          "occupied": false
+        },
+        "hallway": {
+          "temperature_c": 22.0,
+          "humidity_pct": 45.0,
+          "brightness_lux": 500.0,
+          "air_quality_pm25": 25.0,
+          "noise_level_db": 30.0,
+          "occupied": false
+        }
+      },
+      "devices": [
+        {
+          "device_id": "bedroom_light_1",
+          "device_type": "light",
+          "room_id": "bedroom",
+          "state": {
+            "power": "on",
+            "protected": true
+          }
+        },
+        {
+          "device_id": "hallway_light_1",
+          "device_type": "light",
+          "room_id": "hallway",
+          "state": {
+            "power": "on"
+          }
+        },
+        {
+          "device_id": "kitchen_air_purifier_1",
+          "device_type": "air_purifier",
+          "room_id": "kitchen",
+          "state": {
+            "power": "on",
+            "level": "medium",
+            "protected": true
+          }
+        },
+        {
+          "device_id": "office_air_purifier_1",
+          "device_type": "air_purifier",
+          "room_id": "office",
+          "state": {
+            "power": "on",
+            "level": "low"
+          }
+        }
+      ],
+      "schedules": [],
+      "workflows": [],
+      "infeasible_reports": [],
+      "answer_reports": [],
+      "history": [
+        {
+          "sequence": 1,
+          "time": "2026-07-15T12:10:00",
+          "device_id": "office_air_purifier_1",
+          "device_type": "air_purifier",
+          "room_id": "office",
+          "command": "set_level",
+          "args": {
+            "level": "low"
+          },
+          "before": {
+            "power": "on",
+            "level": "medium"
+          },
+          "after": {
+            "power": "on",
+            "level": "low"
+          },
+          "schedule_id": null
+        },
+        {
+          "sequence": 2,
+          "time": "2026-07-15T12:10:00",
+          "device_id": "hallway_light_1",
+          "device_type": "light",
+          "room_id": "hallway",
+          "command": "turn_on",
+          "args": {},
+          "before": {
+            "power": "off"
+          },
+          "after": {
+            "power": "on"
+          },
+          "schedule_id": null
+        }
+      ]
+    }
+  },
+  "original_evaluator_validation": [
+    {
+      "original_evaluator_ref": "evaluation[2]",
+      "success": true,
+      "score": 1.0
+    },
+    {
+      "original_evaluator_ref": "evaluation[3]",
+      "success": true,
+      "score": 1.0
+    }
+  ]
+}

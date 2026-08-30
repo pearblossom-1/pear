@@ -34,14 +34,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (attendee identity, active/archive status, role, and contact destination; relevant rows, current/active selection, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: declared_source_file=`/tmp/meeting/attendees.csv`
   - Expected handoff: information — attendee identity, active/archive status, role, and contact destination; relevant rows, current/active selection, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_0: create the required Linux file at `/tmp/meeting/brief_transform_audit.csv`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/meeting/brief_transform_audit.csv`
@@ -85,14 +85,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching calendar event identity, time, location, and description; matching event identity, time, location, and description). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded calendar event`
   - Expected handoff: information — matching calendar event identity, time, location, and description; matching event identity, time, location, and description
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_0: create the required calendar event. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required calendar event
@@ -135,14 +135,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/android_smarthome_assets/android_smarthome_233/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on home_0: report the infeasible SmartHome request correctly. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — report the infeasible SmartHome request correctly
@@ -180,21 +180,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (playlist identity and exact ordered or unordered track membership required downstream; audio identity, requested format/location, or task-relevant content). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded audio file`, task_provided_app_state=`preloaded playlist`
   - Expected handoff: information — playlist identity and exact ordered or unordered track membership required downstream; audio identity, requested format/location, or task-relevant content
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On linux_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching phone value; required filename, file membership, or file content facts; playlist identity and exact track membership). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/launch/README.md`, task_provided_file=`/tmp/launch/validator.html`
   - Expected handoff: information — matching phone value; required filename, file membership, or file content facts; playlist identity and exact track membership
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_0: implement the required persisted web logic. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — implement the required persisted web logic
@@ -237,14 +237,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching contact identity, role, phone number, or email address; relevant rows, current/active selection, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/contacts/recipient_table.csv`
   - Expected handoff: information — matching contact identity, role, phone number, or email address; relevant rows, current/active selection, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_1: create and verify the required Linux artifact. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create and verify the required Linux artifact
@@ -282,21 +282,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (site/room mapping, route facts, and applicable decision rule; favorite identity, label, and coordinates). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded map favorite state`, task_provided_file=`/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx`
   - Expected handoff: information — site/room mapping, route facts, and applicable decision rule; favorite identity, label, and coordinates
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On linux_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (applicable policy rule, thresholds, authorization, and decision consequence; relevant rows, current/active selection, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/sites/site_registry.csv`, task_provided_file=`/tmp/sites/handoff_policy.md`
   - Expected handoff: information — applicable policy rule, thresholds, authorization, and decision consequence; relevant rows, current/active selection, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_1: create or preserve the required map favorites; create or update the required Markor note. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create or preserve the required map favorites; create or update the required Markor note
@@ -338,7 +338,7 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_1: create or preserve the required task set. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create or preserve the required task set
@@ -373,7 +373,7 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_1: create the required Android status note. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Android status note
@@ -409,14 +409,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (audio identity, requested format/location, or task-relevant content). Do not perform any final task outcome or modify the source state.
   - Source/context: declared_source_file=`/tmp/media/clips/long_audio_A.wav`, declared_source_file=`/tmp/media/clips/old_session.wav`
   - Expected handoff: information — audio identity, requested format/location, or task-relevant content
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_1: create and verify the required Linux artifact. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create and verify the required Linux artifact
@@ -451,7 +451,7 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_0: create or preserve the required task set. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create or preserve the required task set
@@ -487,14 +487,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/android_smarthome_assets/android_smarthome_219/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on home_0: report the infeasible SmartHome request correctly. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — report the infeasible SmartHome request correctly
@@ -531,14 +531,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant rows, current/active selection, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/data/input.csv`
   - Expected handoff: information — relevant rows, current/active selection, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_0: create the required Linux file. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file
@@ -580,7 +580,7 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_1: create the required Linux file. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file
@@ -616,14 +616,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/android_smarthome_assets/android_smarthome_231/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on home_0: report the infeasible SmartHome request correctly. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — report the infeasible SmartHome request correctly
@@ -659,14 +659,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant rows, current/active selection, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/android_targets/site_row.csv`
   - Expected handoff: information — relevant rows, current/active selection, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_0: create or preserve the required map favorites. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create or preserve the required map favorites
@@ -706,28 +706,28 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant rows, current values, identifiers, and requested decisions; relevant workbook rows, current values, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: declared_source_file=`/tmp/bedroom-comfort-fallback/register/comfort_order.xlsx`
   - Expected handoff: information — relevant rows, current values, identifiers, and requested decisions; relevant workbook rows, current values, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (task identity, notes, due state, and fields required downstream). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/storage/emulated/0/Download/bedroom-comfort.txt`, task_provided_app_state=`preloaded task`
   - Expected handoff: information — task identity, notes, due state, and fields required downstream
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_897/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[4]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S05` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_1: create the required Linux file at `/tmp/bedroom-comfort-fallback/result/comfort_order_done.xlsx`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/bedroom-comfort-fallback/result/comfort_order_done.xlsx`
@@ -780,21 +780,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching contact identity, role, phone number, or email address; matching calendar event identity, time, location, and description; matching event identity, time, location, and description). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded contact`, task_provided_app_state=`preloaded calendar event`
   - Expected handoff: information — matching contact identity, role, phone number, or email address; matching calendar event identity, time, location, and description; matching event identity, time, location, and description
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_0: create the required Linux file at `/tmp/visit/record.docx`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/visit/record.docx`
@@ -847,28 +847,28 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (site/room mapping, route facts, and applicable decision rule; favorite identity, label, and coordinates). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded map favorite state`, task_provided_file=`/storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx`
   - Expected handoff: information — site/room mapping, route facts, and applicable decision rule; favorite identity, label, and coordinates
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching calendar event identity, time, location, and description; matching event identity, time, location, and description; message sender, request identifiers, approval details, and requested action). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded calendar event`, task_provided_app_state=`received message`
   - Expected handoff: information — matching calendar event identity, time, location, and description; matching event identity, time, location, and description; message sender, request identifiers, approval details, and requested action
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_470/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[4]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S05` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_1: send or withhold the required message. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — send or withhold the required message
@@ -913,21 +913,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (recipe identity, code, mapped scene, and relevant preparation facts; task identity, notes, due state, and fields required downstream). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded task`, task_provided_app_state=`preloaded recipe`
   - Expected handoff: information — recipe identity, code, mapped scene, and relevant preparation facts; task identity, notes, due state, and fields required downstream
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_696/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_0: update and complete the required task. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — update and complete the required task
@@ -972,28 +972,28 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (playlist identity and exact ordered or unordered track membership required downstream; audio identity, requested format/location, or task-relevant content). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded audio file`, task_provided_app_state=`preloaded playlist`
   - Expected handoff: information — playlist identity and exact ordered or unordered track membership required downstream; audio identity, requested format/location, or task-relevant content
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching calendar event identity, time, location, and description; matching event identity, time, location, and description). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded calendar event`
   - Expected handoff: information — matching calendar event identity, time, location, and description; matching event identity, time, location, and description
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_474/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[4]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S05` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on home_0: create, cancel, or preserve the required SmartHome workflow. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create, cancel, or preserve the required SmartHome workflow
@@ -1031,21 +1031,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant date, time, duration, or lead time; which candidate records or controls are active). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/storage/emulated/0/Documents/Markor/Climate Update.md`
   - Expected handoff: information — relevant date, time, duration, or lead time; which candidate records or controls are active
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_077/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_0: create or update the required Markor note. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create or update the required Markor note
@@ -1088,14 +1088,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (audio identity, requested format/location, or task-relevant content). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded audio file`
   - Expected handoff: information — audio identity, requested format/location, or task-relevant content
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_1: copy or preserve the required Android files; produce the required Android file set; produce or preserve the required Android file state; create or update the required Markor note. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — copy or preserve the required Android files; produce the required Android file set; produce or preserve the required Android file state; create or update the required Markor note
@@ -1134,28 +1134,28 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (alarm identity, enabled state, and next scheduled time). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded alarm`
   - Expected handoff: information — alarm identity, enabled state, and next scheduled time
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (task identity, notes, due state, and fields required downstream). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/storage/emulated/0/Download/filter_service_note.txt`, task_provided_app_state=`preloaded task`
   - Expected handoff: information — task identity, notes, due state, and fields required downstream
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_423/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[4]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S05` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_1: update and complete the required task. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — update and complete the required task
@@ -1198,14 +1198,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (required filename, file membership, or file content facts). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/portal/bookmark_export.html`, task_provided_file=`/tmp/portal/local_pages/a.html`, task_provided_file=`/tmp/portal/local_pages/b.html`
   - Expected handoff: information — required filename, file membership, or file content facts
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_1: create and verify the required Linux artifact. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create and verify the required Linux artifact
@@ -1242,21 +1242,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching contact identity, role, phone number, or email address; message sender, request identifiers, approval details, and requested action). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`received message`, task_provided_app_state=`preloaded contact`
   - Expected handoff: information — matching contact identity, role, phone number, or email address; message sender, request identifiers, approval details, and requested action
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_287/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_0: send or withhold the required message. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — send or withhold the required message
@@ -1294,21 +1294,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching contact and communication destination; matching phone value; matching email recipient; required filename, file membership, or file content facts; photo identity or visible condition). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/train/handoff.txt`
   - Expected handoff: information — matching contact and communication destination; matching phone value; matching email recipient; required filename, file membership, or file content facts; photo identity or visible condition
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (required output fields, labels, layout, and formatting constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/train/template.odp`
   - Expected handoff: information — required output fields, labels, layout, and formatting constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[4]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_0: create or rename the required Android image. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create or rename the required Android image
@@ -1351,14 +1351,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant rows, current/active selection, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/code/maintainer.csv`
   - Expected handoff: information — relevant rows, current/active selection, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_1: create and verify the required Linux artifact. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create and verify the required Linux artifact
@@ -1396,21 +1396,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching contact identity, role, phone number, or email address; matching calendar event identity, time, location, and description; matching event identity, time, location, and description; message sender, request identifiers, approval details, and requested action). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded calendar event`, task_provided_app_state=`received message`, task_provided_app_state=`preloaded contact`
   - Expected handoff: information — matching contact identity, role, phone number, or email address; matching calendar event identity, time, location, and description; matching event identity, time, location, and description; message sender, request identifiers, approval details, and requested action
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_271/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_0: create or update the required Markor note. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create or update the required Markor note
@@ -1457,28 +1457,28 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (recipe identity, code, mapped scene, and relevant preparation facts). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded recipe`
   - Expected handoff: information — recipe identity, code, mapped scene, and relevant preparation facts
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (task identity, notes, due state, and fields required downstream). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded task`
   - Expected handoff: information — task identity, notes, due state, and fields required downstream
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[4]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S05` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_0: create or update the required recipe state. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create or update the required recipe state
@@ -1530,21 +1530,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching contact identity, role, phone number, or email address; matching calendar event identity, time, location, and description; matching event identity, time, location, and description; message sender, request identifiers, approval details, and requested action). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded calendar event`, task_provided_app_state=`received message`, task_provided_app_state=`preloaded contact`
   - Expected handoff: information — matching contact identity, role, phone number, or email address; matching calendar event identity, time, location, and description; matching event identity, time, location, and description; message sender, request identifiers, approval details, and requested action
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_288/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_0: create or update the required Markor note. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create or update the required Markor note
@@ -1590,28 +1590,28 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (alarm identity, enabled state, and next scheduled time). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded alarm`
   - Expected handoff: information — alarm identity, enabled state, and next scheduled time
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (task identity, notes, due state, and fields required downstream). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/storage/emulated/0/Download/guest_wake_humidity.txt`, task_provided_app_state=`preloaded task`
   - Expected handoff: information — task identity, notes, due state, and fields required downstream
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_439/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[4]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S05` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_1: update and complete the required task. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — update and complete the required task
@@ -1654,14 +1654,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant rows, current/active selection, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/routes/address_book.csv`
   - Expected handoff: information — relevant rows, current/active selection, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_1: create the required Linux file at `/tmp/routes/dispatch.xlsx`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/routes/dispatch.xlsx`
@@ -1697,14 +1697,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (audio identity, requested format/location, or task-relevant content). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded audio file`
   - Expected handoff: information — audio identity, requested format/location, or task-relevant content
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_1: create or preserve the required music playlist. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create or preserve the required music playlist
@@ -1740,14 +1740,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (alarm identity, enabled state, and next scheduled time; applicable policy rule, thresholds, authorization, and decision consequence; relevant rows, current/active selection, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/alarms/alarm_policy.csv`, task_provided_file=`/tmp/alarms/handoff_policy.md`
   - Expected handoff: information — alarm identity, enabled state, and next scheduled time; applicable policy rule, thresholds, authorization, and decision consequence; relevant rows, current/active selection, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_1: create or update the required alarm; create or update the required Markor note. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create or update the required alarm; create or update the required Markor note
@@ -1783,14 +1783,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching calendar event identity, time, location, and description; matching event identity, time, location, and description). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded calendar event`
   - Expected handoff: information — matching calendar event identity, time, location, and description; matching event identity, time, location, and description
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_1: update the required calendar event set. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — update the required calendar event set
@@ -1827,21 +1827,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (exact requested item membership, filenames, and no-substitution constraints; relevant rows, current/active selection, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/music/track_manifest.csv`
   - Expected handoff: information — exact requested item membership, filenames, and no-substitution constraints; relevant rows, current/active selection, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (playlist identity and exact ordered or unordered track membership required downstream; required output fields, labels, layout, and formatting constraints; relevant rows, current/active selection, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/music/playlist_audit_template.csv`
   - Expected handoff: information — playlist identity and exact ordered or unordered track membership required downstream; required output fields, labels, layout, and formatting constraints; relevant rows, current/active selection, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_1: create the required Linux file at `/tmp/music/playlist_audit.csv`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/music/playlist_audit.csv`
@@ -1879,28 +1879,28 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching phone value; which candidate record or state is current; coordinates or route data; photo identity or visible condition). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/sdcard/Download/inspection_context.txt`
   - Expected handoff: information — matching phone value; which candidate record or state is current; coordinates or route data; photo identity or visible condition
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On linux_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant rows, current/active selection, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: declared_source_file=`/tmp/sites/site_registry.csv`
   - Expected handoff: information — relevant rows, current/active selection, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (required output fields, labels, layout, and formatting constraints; task-relevant document fields and any required layout/template constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: declared_source_file=`/tmp/inspection/packet_template.odt`
   - Expected handoff: information — required output fields, labels, layout, and formatting constraints; task-relevant document fields and any required layout/template constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[4]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S05` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_1: create the required Linux file at `/tmp/inspection/packet.odt`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/inspection/packet.odt`
@@ -1937,14 +1937,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (required filename, file membership, or file content facts). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/home/user/incoming/reports_bundle.zip`
   - Expected handoff: information — required filename, file membership, or file content facts
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_0: create the required Linux file at `/home/user/manifests/release_manifest.xlsx`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/home/user/manifests/release_manifest.xlsx`
@@ -1989,28 +1989,28 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching contact identity, role, phone number, or email address). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded contact`
   - Expected handoff: information — matching contact identity, role, phone number, or email address
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On linux_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (attendee identity, active/archive status, role, and contact destination; listed entities, mapping/fallback rules, and visible output schema; relevant rows, current/active selection, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/attendees/attendee_matrix.csv`
   - Expected handoff: information — attendee identity, active/archive status, role, and contact destination; listed entities, mapping/fallback rules, and visible output schema; relevant rows, current/active selection, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (required output fields, labels, layout, and formatting constraints; task-relevant document fields and any required layout/template constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/agenda/agenda_template.odt`
   - Expected handoff: information — required output fields, labels, layout, and formatting constraints; task-relevant document fields and any required layout/template constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[4]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S05` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_1: create the required Linux file at `/tmp/attendees/packet.odt`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/attendees/packet.odt`
@@ -2046,14 +2046,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching calendar event identity, time, location, and description; matching event identity, time, location, and description). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded calendar event`
   - Expected handoff: information — matching calendar event identity, time, location, and description; matching event identity, time, location, and description
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_1: update the required calendar event set. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — update the required calendar event set
@@ -2091,28 +2091,28 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (message sender, request identifiers, approval details, and requested action). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`received message`
   - Expected handoff: information — message sender, request identifiers, approval details, and requested action
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On linux_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant rows, current/active selection, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/release/readiness.csv`
   - Expected handoff: information — relevant rows, current/active selection, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (task-relevant policy, request, or template facts from the document). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/release/release_packet.pdf`
   - Expected handoff: information — task-relevant policy, request, or template facts from the document
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[4]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S05` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_1: create and verify the required Linux artifact. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create and verify the required Linux artifact
@@ -2148,14 +2148,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_smarthome_assets/linux_smarthome_373/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_0: create the required Linux file at `/tmp/climate/capability.xlsx`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/climate/capability.xlsx`
@@ -2191,14 +2191,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_smarthome_assets/linux_smarthome_350/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_0: create the required Linux file at `/tmp/maintenance/result.json`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/maintenance/result.json`
@@ -2233,7 +2233,7 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_0: create the requested Android audio file. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the requested Android audio file
@@ -2269,14 +2269,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_smarthome_assets/linux_smarthome_361/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_0: create the required Linux file at `/tmp/home_reports/rooms.xlsx`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/home_reports/rooms.xlsx`
@@ -2313,14 +2313,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/android_smarthome_assets/android_smarthome_877/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_0: create or update the required task status. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create or update the required task status
@@ -2364,21 +2364,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching contact identity, role, phone number, or email address). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded contact`
   - Expected handoff: information — matching contact identity, role, phone number, or email address
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On linux_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching contact and communication destination; matching phone value). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/home/user/web/client.html`
   - Expected handoff: information — matching contact and communication destination; matching phone value
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_0: satisfy the `host_form_submission_state` outcome. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — satisfy the `host_form_submission_state` outcome
@@ -2414,14 +2414,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/android_smarthome_assets/android_smarthome_336/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_0: create or verify the required Android artifact. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create or verify the required Android artifact
@@ -2457,14 +2457,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching contact identity, role, phone number, or email address). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded contact`
   - Expected handoff: information — matching contact identity, role, phone number, or email address
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_1: create or update the required Markor note; send or withhold the required message. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create or update the required Markor note; send or withhold the required message
@@ -2502,21 +2502,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching calendar event identity, time, location, and description; matching event identity, time, location, and description). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded calendar event`
   - Expected handoff: information — matching calendar event identity, time, location, and description; matching event identity, time, location, and description
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching contact identity, role, phone number, or email address). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded contact`
   - Expected handoff: information — matching contact identity, role, phone number, or email address
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_0: create the required Linux file at `/tmp/agenda/appointment_agenda.odt`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/agenda/appointment_agenda.odt`
@@ -2559,14 +2559,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_smarthome_assets/linux_smarthome_063/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on home_0: apply the required SmartHome device state. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — apply the required SmartHome device state
@@ -2604,21 +2604,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant workbook rows, current values, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/lifecycle/board.xlsx`
   - Expected handoff: information — relevant workbook rows, current values, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_smarthome_assets/linux_smarthome_999/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_1: create the required Linux file at `/tmp/lifecycle/board.xlsx`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/lifecycle/board.xlsx`
@@ -2661,14 +2661,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching contact identity, role, phone number, or email address). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded contact`
   - Expected handoff: information — matching contact identity, role, phone number, or email address
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_0: send or withhold the required message; create or update the required Markor note. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — send or withhold the required message; create or update the required Markor note
@@ -2705,21 +2705,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant rows, current values, identifiers, and requested decisions; relevant workbook rows, current values, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/ranges/register.xlsx`
   - Expected handoff: information — relevant rows, current values, identifiers, and requested decisions; relevant workbook rows, current values, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_smarthome_assets/linux_smarthome_932/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_1: create the required Linux file at `/tmp/ranges/register.xlsx`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/ranges/register.xlsx`
@@ -2754,7 +2754,7 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_0: create and verify the required Linux artifact. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create and verify the required Linux artifact
@@ -2791,14 +2791,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_smarthome_assets/linux_smarthome_656/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_0: create the required Linux file at `/tmp/climate/fallback_result.json`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/climate/fallback_result.json`
@@ -2843,21 +2843,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On linux_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant workbook rows, current values, identifiers, and required fields). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/protection/board.xlsx`
   - Expected handoff: information — relevant workbook rows, current values, identifiers, and required fields
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_smarthome_assets/linux_smarthome_983/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_1: create the required Linux file at `/tmp/protection/board.xlsx`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/protection/board.xlsx`
@@ -2900,14 +2900,14 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/linux_smarthome_assets/linux_smarthome_098/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on home_0: apply the required SmartHome device state. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — apply the required SmartHome device state
@@ -2945,21 +2945,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching contact identity, role, phone number, or email address). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded contact`
   - Expected handoff: information — matching contact identity, role, phone number, or email address
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On home_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (relevant live devices, properties, schedules, workflows, and feasibility constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: live_smarthome_state=`tasks/cross_device/android_smarthome_assets/android_smarthome_149/episode_config.json`
   - Expected handoff: information — relevant live devices, properties, schedules, workflows, and feasibility constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on android_1: send or withhold the required message. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — send or withhold the required message
@@ -3003,21 +3003,21 @@ Frozen stage handoff and initialization contracts:
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S02` frozen instruction blueprint: On android_1 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (matching contact identity, role, phone number, or email address). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_app_state=`preloaded contact`
   - Expected handoff: information — matching contact identity, role, phone number, or email address
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[2]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S03` frozen instruction blueprint: On linux_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (task-relevant document fields and any required layout/template constraints). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`/tmp/change/change_form.docx`
   - Expected handoff: information — task-relevant document fields and any required layout/template constraints
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[3]` plus declared gold overlays.
-  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v1)`.
+  - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
 - `S04` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_0: create the required Linux file at `/tmp/change/change_form.docx`. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create the required Linux file at `/tmp/change/change_form.docx`

@@ -1,0 +1,68 @@
+{
+  "schema_version": "devicesworld.diagnostic_semantic_judge.v2",
+  "judge_id": "diagnostic60.semantic_handoff_judge.v2",
+  "freeze_status": "frozen_before_formal_stage_runs",
+  "model": {
+    "provider": "openai",
+    "adapter": "openai_compatible",
+    "endpoint": "chat_completions",
+    "model_id": "gpt-5.5",
+    "model_version": "gpt-5.5",
+    "provider_env_file": ".env",
+    "provider_env_section": "gpt"
+  },
+  "decoding": {
+    "temperature": 0,
+    "top_p": 1,
+    "n": 1,
+    "max_completion_tokens": 256,
+    "request_timeout_s": 180,
+    "response_format": "strict_json_schema",
+    "store": false
+  },
+  "prompt": "You are evaluating an isolated information-acquisition stage in a device-level\ndecomposition experiment.\n\nDecide whether CANDIDATE preserves all task-relevant information needed by the\ndeclared downstream stages, without materially incorrect or misleading\ninformation, when compared with GOLD.\n\nUse these criteria:\n1. Correctness: no material factual error or wrong selection.\n2. Sufficiency: every fact needed for downstream execution is present.\n3. No material distortion: wording differences are allowed, but a downstream\n   executor following CANDIDATE must not be led to a wrong action or omission.\n\nReturn exactly one label and one short reason:\nPASS — correct and sufficient.\nFAIL — incorrect, missing a necessary fact, or materially misleading.\nUNCERTAIN — the supplied gold/reference is insufficient to decide reliably.\n\nDo not judge writing style, harmless additional true information, completeness\nbeyond the handoff contract, or the success of any other stage.",
+  "input_fields": [
+    "original_task_instruction",
+    "stage_goal",
+    "expected_handoff_contract",
+    "gold_reference",
+    "candidate"
+  ],
+  "forbidden_inputs": [
+    "E2E model trajectory",
+    "E2E score",
+    "failure label",
+    "another isolated stage's actual output"
+  ],
+  "output_schema": {
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+      "label",
+      "reason"
+    ],
+    "properties": {
+      "label": {
+        "type": "string",
+        "enum": [
+          "PASS",
+          "FAIL",
+          "UNCERTAIN"
+        ]
+      },
+      "reason": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 500
+      }
+    }
+  },
+  "human_audit": {
+    "uncertain": "100_percent",
+    "pass_fail_spot_check_fraction": 0.2,
+    "sampling_method": "random.Random(seed).sample over sorted PASS/FAIL judgment IDs",
+    "sampling_seed": 20260830,
+    "rounding": "ceil_to_next_whole_judgment"
+  },
+  "post_run_prompt_changes_allowed": false
+}

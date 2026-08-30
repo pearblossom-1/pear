@@ -1,0 +1,177 @@
+{
+  "schema_version": "devicesworld.diagnostic_native_predecessor_state.v1",
+  "gold_predecessor_state_id": "linux_smarthome_656.S04__to__linux_smarthome_656.S03",
+  "task_id": "linux_smarthome_656",
+  "predecessor_stage_id": "linux_smarthome_656.S04",
+  "device_id": "home_0",
+  "device_type": "home",
+  "source": "original setup subset plus approved oracle actions",
+  "state": {
+    "runtime": "SmartHomeRuntime",
+    "home_state": {
+      "current_time": "2026-06-25T12:00:00",
+      "rooms": {
+        "guest_room": {
+          "temperature_c": 21.0,
+          "humidity_pct": 46.4,
+          "brightness_lux": 240.0,
+          "air_quality_pm25": 59.4,
+          "noise_level_db": 29.0,
+          "occupied": false
+        },
+        "office": {
+          "temperature_c": 21.0,
+          "humidity_pct": 55.4,
+          "brightness_lux": 146.4,
+          "air_quality_pm25": 54.5,
+          "noise_level_db": 27.8,
+          "occupied": false
+        },
+        "study": {
+          "temperature_c": 23.4,
+          "humidity_pct": 51.3,
+          "brightness_lux": 68.6,
+          "air_quality_pm25": 58.2,
+          "noise_level_db": 34.0,
+          "occupied": false
+        }
+      },
+      "devices": [
+        {
+          "device_id": "office_air_conditioner_1",
+          "device_type": "air_conditioner",
+          "room_id": "office",
+          "state": {
+            "power": "on",
+            "mode": "cool",
+            "target_temperature_c": 24.0
+          }
+        },
+        {
+          "device_id": "study_heater_1",
+          "device_type": "heater",
+          "room_id": "study",
+          "state": {
+            "power": "on",
+            "target_temperature_c": 22.0
+          }
+        }
+      ],
+      "schedules": [],
+      "workflows": [],
+      "infeasible_reports": [],
+      "answer_reports": [],
+      "history": [
+        {
+          "sequence": 1,
+          "time": "2026-06-25T12:00:00",
+          "device_id": "office_air_conditioner_1",
+          "device_type": "air_conditioner",
+          "room_id": "office",
+          "command": "turn_on",
+          "args": {},
+          "before": {
+            "power": "off",
+            "mode": "auto",
+            "target_temperature_c": 26.0
+          },
+          "after": {
+            "power": "on",
+            "mode": "auto",
+            "target_temperature_c": 26.0
+          },
+          "schedule_id": null
+        },
+        {
+          "sequence": 2,
+          "time": "2026-06-25T12:00:00",
+          "device_id": "office_air_conditioner_1",
+          "device_type": "air_conditioner",
+          "room_id": "office",
+          "command": "set_mode",
+          "args": {
+            "mode": "cool"
+          },
+          "before": {
+            "power": "on",
+            "mode": "auto",
+            "target_temperature_c": 26.0
+          },
+          "after": {
+            "power": "on",
+            "mode": "cool",
+            "target_temperature_c": 26.0
+          },
+          "schedule_id": null
+        },
+        {
+          "sequence": 3,
+          "time": "2026-06-25T12:00:00",
+          "device_id": "office_air_conditioner_1",
+          "device_type": "air_conditioner",
+          "room_id": "office",
+          "command": "set_target_temperature",
+          "args": {
+            "temperature_c": 24.0
+          },
+          "before": {
+            "power": "on",
+            "mode": "cool",
+            "target_temperature_c": 26.0
+          },
+          "after": {
+            "power": "on",
+            "mode": "cool",
+            "target_temperature_c": 24.0
+          },
+          "schedule_id": null
+        },
+        {
+          "sequence": 4,
+          "time": "2026-06-25T12:00:00",
+          "device_id": "study_heater_1",
+          "device_type": "heater",
+          "room_id": "study",
+          "command": "turn_on",
+          "args": {},
+          "before": {
+            "power": "off",
+            "target_temperature_c": 22.0
+          },
+          "after": {
+            "power": "on",
+            "target_temperature_c": 22.0
+          },
+          "schedule_id": null
+        },
+        {
+          "sequence": 5,
+          "time": "2026-06-25T12:00:00",
+          "device_id": "study_heater_1",
+          "device_type": "heater",
+          "room_id": "study",
+          "command": "set_target_temperature",
+          "args": {
+            "temperature_c": 22.0
+          },
+          "before": {
+            "power": "on",
+            "target_temperature_c": 22.0
+          },
+          "after": {
+            "power": "on",
+            "target_temperature_c": 22.0
+          },
+          "schedule_id": null
+        }
+      ]
+    }
+  },
+  "original_evaluator_validation": [
+    {
+      "original_evaluator_ref": "evaluation[1]",
+      "success": true,
+      "score": 1.0
+    }
+  ]
+}

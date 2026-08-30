@@ -1,5 +1,76 @@
 # DevicesWorld Diagnostic-60 Sampling Report
 
+<!-- diagnostic60-final-distribution:begin -->
+## Final Diagnostic-60 distribution
+
+This is the frozen post-replacement distribution. It supplements rather than replaces the original result-blind Primary-60/Backup-20 statistics below. Only Primary rank 42 changed; no resampling or family-targeted adjustment occurred.
+
+### Environment scope
+
+| Value | Final-60 |
+| --- | ---: |
+| `same_class_multi_device` | 12 |
+| `three_environment` | 12 |
+| `two_environment` | 36 |
+
+### Device count
+
+| Value | Final-60 |
+| --- | ---: |
+| `2` | 28 |
+| `3` | 20 |
+| `4` | 12 |
+
+### Difficulty
+
+| Value | Final-60 |
+| --- | ---: |
+| `easy` | 15 |
+| `hard` | 15 |
+| `medium` | 30 |
+
+### Feasibility
+
+| Value | Final-60 |
+| --- | ---: |
+| `feasible` | 57 |
+| `infeasible` | 3 |
+
+### Major environment combinations
+
+| Value | Final-60 |
+| --- | ---: |
+| `android_only` | 4 |
+| `android_smarthome` | 6 |
+| `linux_android` | 14 |
+| `linux_android_smarthome` | 12 |
+| `linux_only` | 5 |
+| `linux_smarthome` | 9 |
+| `real100` | 5 |
+| `real200` | 2 |
+| `real300` | 3 |
+
+### Primary topology
+
+| Value | Final-60 |
+| --- | ---: |
+| `chain` | 6 |
+| `fan_in` | 23 |
+| `multi_output_joint_postconditions` | 25 |
+| `return_dependency` | 6 |
+
+### Topology tags (multi-label)
+
+| Value | Final-60 |
+| --- | ---: |
+| `chain` | 6 |
+| `fan_in` | 54 |
+| `fan_out` | 31 |
+| `multi_output_joint_postconditions` | 37 |
+| `return_dependency` | 6 |
+
+<!-- diagnostic60-final-distribution:end -->
+
 > This report records the original result-blind Primary-60 and Backup-20 sampling. The reviewed frozen list is `diagnostic60_final.jsonl`: Primary rank 42 alone was replaced with Backup rank 15, as recorded in `diagnostic60_replacement_log.jsonl`. No resampling occurred.
 
 ## Freeze inputs

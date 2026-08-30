@@ -1,0 +1,54 @@
+{
+  "schema_version": "devicesworld.diagnostic_native_predecessor_state.v1",
+  "gold_predecessor_state_id": "linux_android_1368.S03__to__linux_android_1368.S04",
+  "task_id": "linux_android_1368",
+  "predecessor_stage_id": "linux_android_1368.S03",
+  "device_id": "android_0",
+  "device_type": "android",
+  "source": "original setup subset plus approved oracle actions",
+  "state": {
+    "runtime": "FakeAndroidRuntime canonical provider state",
+    "android_state": {
+      "files": {},
+      "media_store_rows": [],
+      "media_isolations": {},
+      "media_inventory_snapshots": {},
+      "media_isolation_owners": {},
+      "osmand_favorites_isolations": {},
+      "osmand_favorites_active_isolation": null,
+      "values": {},
+      "visible_text": "",
+      "sms": [],
+      "contacts": [],
+      "calendar_events": [
+        {
+          "title": "CAL-1368 Permit Review",
+          "start_ts": 1787994000,
+          "end_ts": 1787997600,
+          "location": "Room 9",
+          "description": "Original description — Bring revised permit packet"
+        }
+      ],
+      "tasks": [],
+      "alarms": [],
+      "timers": [],
+      "recipes": [],
+      "osmand_favorites": [],
+      "retro_songs": [],
+      "retro_playlists": [],
+      "retro_playing_queue": [],
+      "retro_playlist_database_files": {},
+      "retro_playlist_database_symlinks": [],
+      "retro_playlist_isolations": {},
+      "alarm_provider_available": true,
+      "contact_provider_available": true
+    }
+  },
+  "original_evaluator_validation": [
+    {
+      "original_evaluator_ref": "evaluation[1]",
+      "success": true,
+      "score": 1.0
+    }
+  ]
+}

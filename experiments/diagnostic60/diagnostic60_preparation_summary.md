@@ -1,33 +1,36 @@
 # DevicesWorld Diagnostic-60 Preparation Summary
 
-> Current gate: **final sample and reviewed proposals frozen; awaiting human go-ahead for executable construction; no formal run started**.
+> Current gate: **executable stages constructed and protocol frozen; targeted smoke review pending final human confirmation; no formal stage batch started**.
 
-This directory implements the pre-run deliverables requested by `docs/plan1/devicesworld_diagnostic60_decomposition_experiment_plan.md`.
+## Frozen experiment
 
-## Completed proposal artifacts
+- Final sample: **60 tasks**, with the single documented rank-42 replacement and no resampling.
+- Decomposition: **235 stages** (`information_acquisition=149`, `environment_execution=86`).
+- Evaluator ownership: `local_stage=108`, `local_guard=38`, `global_only=1`; the global-only evaluator remains excluded from Local-All.
+- Semantic judge: `diagnostic60.semantic_handoff_judge.v2`, fixed model `gpt-5.5`, decoding, prompt, strict output schema, and audit sampling.
+- Isolated budget: 30 model-action turns and 900 seconds total, split into 720 seconds for execution/local evaluation/cleanup and 180 seconds for the semantic judge.
 
-| Plan deliverable | Artifact | Current status |
-| --- | --- | --- |
-| Core-200 metadata | `metadata_core200.jsonl` and `../manifests/core200.jsonl` | 200 unique frozen task references |
-| Stratified sample | `diagnostic60_primary.jsonl` and `diagnostic60_backup.jsonl` | original 60 primary + 20 disjoint backups retained, seed 20260806 |
-| Final sample | `diagnostic60_final.jsonl` and `diagnostic60_replacement_log.jsonl` | frozen 60; one documented Primary-to-Backup replacement |
-| Sampling report | `diagnostic60_sampling_report.md` | all effective coverage minima met; result-blind input boundary documented |
-| Dependency graphs | `diagnostic60_dependency_graph_proposal.md` | 60 reviewed and frozen task DAG proposals |
-| Device-local decomposition | `diagnostic60_decomposition_proposals.jsonl` and `diagnostic60_decomposition_proposal.md` | 235 frozen stage blueprints; not executable |
-| Stage evaluation method | `diagnostic60_stage_evaluation_method_proposal.md` | frozen ownership mapping + fixed semantic-judge prompt/protocol |
-| Remaining human decisions | `diagnostic60_human_review_questions.md` | go-ahead, judge model/settings, and E2E-version decision |
+## Materialized executable artifacts
 
-## Proposal totals
+| Artifact | Status |
+| --- | --- |
+| `diagnostic60_sampling_report.md` | original result-blind statistics retained; post-replacement Final-60 distribution added |
+| `diagnostic60_gold_handoffs.jsonl` | 149 concrete minimal handoffs, each retaining a complete auditable source snapshot |
+| `diagnostic60_gold_predecessor_states.jsonl` | 19 native-state/artifact predecessor references |
+| `gold_states/` and `gold_artifacts/` | replayed Android/SmartHome state plus real HTML/ZIP artifacts |
+| `diagnostic60_executable_stage_specs.jsonl` | 235 single-device executable specs |
+| `scripts/experiments/diagnostic60_stage_runner.py` | one-stage execution, semantic judge, exact step accounting, and Local-All aggregation |
+| `diagnostic60_validation_smoke_report.md` | representative static, evaluator, runtime, and remaining-blocker evidence |
 
-- Tasks: **60**.
-- Stages: **235**; kinds: `{"environment_execution": 86, "information_acquisition": 149}`.
-- Original evaluator references mapped exactly once: **147**, of which **127** are scored in the original tasks.
-- Evaluator ownership: `local_stage=108`, `local_guard=38`, `global_only=1`.
-- Maximum-layer distribution by task: `{"2": 42, "3": 18}`.
-- Model-result inputs used for sampling or decomposition: **0**.
-- Executable stage tasks created: **0**.
-- Model, Android, Linux VM, or SmartHome experiment runs started: **0**.
+## Construction validation
 
-## Required next decision
+- Task schema: 235/235 pass; run-config schema: 235/235 pass.
+- Information-stage own gold excluded: 149/149.
+- Actual predecessor isolated outputs disabled: 235/235.
+- Native predecessor state/artifact materialized: 19/19.
+- Minimal source projection: 8 explicit tabular selections and 2 structured document selections; 4 cross-stage join tables remain complete; audit evidence retained for 149/149 handoffs.
+- Formal GPT-5.5 isolated-stage runs started: **0/235**.
 
-Obtain human confirmation of the frozen artifacts and select the concrete semantic-judge model/settings. After confirmation, construct executable stages from the frozen contracts. Do not launch formal stages or modify tasks from model results at this gate.
+## Next decision
+
+Resolve or explicitly adjudicate the blockers in `diagnostic60_validation_smoke_report.md`, including the under-specified frozen contract for `al_tutorial_screenshot.S01`, then obtain human confirmation. Do not modify the frozen DAG/decomposition from model outcomes, and do not launch the formal 235-stage batch before that confirmation.

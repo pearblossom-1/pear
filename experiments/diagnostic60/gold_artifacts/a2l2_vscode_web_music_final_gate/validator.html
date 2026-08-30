@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Launch Validator</title>
+  <style>
+    body { font: 16px/1.45 system-ui, sans-serif; max-width: 760px; margin: 3rem auto; color: #1f2937; }
+    textarea { width: 100%; box-sizing: border-box; margin: .35rem 0 1rem; }
+    button { padding: .55rem .9rem; }
+    pre { background: #f3f4f6; padding: 1rem; min-height: 6rem; }
+  </style>
+</head>
+<body>
+  <h1>Launch Validator</h1>
+  <p>Enter one Android source item per line, then validate the launch gate.</p>
+  <label>Checklist items<br><textarea id="checklist" rows="5" cols="48"></textarea></label><br>
+  <label>Playlist tracks<br><textarea id="tracks" rows="5" cols="48"></textarea></label><br>
+  <button id="validate">Validate</button>
+  <pre id="result">Waiting for input.</pre>
+  <script>
+    function evaluateLaunchGate(checklist, playlistTracks) {
+      const requiredChecklist = ["copy approved", "test suite passed", "handoff owner assigned"];
+      const requiredTracks = ["launch_intro", "safety_brief", "handoff_cue"];
+      const exactMembers = (actual, required) => Array.isArray(actual)
+        && actual.length === required.length
+        && new Set(actual).size === actual.length
+        && required.every(value => actual.includes(value));
+      const checklistReady = exactMembers(checklist, requiredChecklist);
+      const audioReady = exactMembers(playlistTracks, requiredTracks);
+      return { checklistReady, audioReady, launch_passed: checklistReady && audioReady };
+    }
+    globalThis.evaluateLaunchGate = evaluateLaunchGate;
+
+    const lines = id => document.querySelector(id).value.split(/\r?\n/).map(value => value.trim()).filter(Boolean);
+    document.querySelector('#validate').addEventListener('click', () => {
+      const checklist = lines('#checklist');
+      const tracks = lines('#tracks');
+      document.querySelector('#result').textContent = JSON.stringify({
+        ...evaluateLaunchGate(checklist, tracks),
+        checklist_items: checklist.length,
+        audio_tracks: tracks.length
+      }, null, 2);
+    });
+  </script>
+</body>
+</html>

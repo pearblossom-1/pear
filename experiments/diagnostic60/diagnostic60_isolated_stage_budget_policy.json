@@ -1,0 +1,38 @@
+{
+  "schema_version": "devicesworld.diagnostic_stage_budget.v1",
+  "policy_id": "diagnostic60.isolated_stage_budget.v1",
+  "freeze_status": "frozen_before_formal_stage_runs",
+  "scope": "all_235_isolated_stages",
+  "max_steps": 30,
+  "max_wall_time_s": 900,
+  "phase_allocation_s": {
+    "environment_agent_local_evaluator_cleanup": 720,
+    "semantic_judge_if_applicable": 180
+  },
+  "step_limit_definition": "runner model-action turns, including the final done turn and invalid/failed turns; the same limit is passed to run_llm_task",
+  "actual_environment_steps_definition": "successful non-done environment transitions: trajectory step events with a parsed action, ok=true, and action.type != done; wait counts, the final done action does not",
+  "also_record": [
+    "model_action_turns",
+    "environment_action_attempts",
+    "actual_environment_steps",
+    "termination_reason",
+    "wall_time_s",
+    "cleanup_ok"
+  ],
+  "termination_policy": [
+    "stop normally when the agent emits done",
+    "stop the agent loop at 30 model-action turns",
+    "stop cooperatively between blocking calls when the 720-second execution allocation is exhausted",
+    "treat an unrecoverable initialization/runtime error as stage_error after cleanup is attempted",
+    "for an information stage, a semantic-judge timeout yields UNCERTAIN and mandatory human audit",
+    "the outer stage launcher enforces the 900-second total budget and records the terminal cause"
+  ],
+  "aggregation": {
+    "per_stage_field": "actual_environment_steps",
+    "per_original_task_field": "sum_actual_environment_steps",
+    "local_all": "all isolated stages for the original task pass after UNCERTAIN adjudication",
+    "e2e": "version-matched E2E success on the same Final-60 task",
+    "composition_gap": "Local-All success rate minus E2E success rate",
+    "budget_feasible_robustness": "optional: recompute Local-All on tasks whose isolated-stage actual-step sum is within the declared comparison threshold; report the threshold explicitly"
+  }
+}

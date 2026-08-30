@@ -1,0 +1,43 @@
+{
+  "status": "construction_validation_passed",
+  "final_tasks": 60,
+  "stages": 235,
+  "stage_kind_counts": {
+    "environment_execution": 86,
+    "information_acquisition": 149
+  },
+  "gold_handoffs": 149,
+  "gold_predecessor_states": 19,
+  "representative_stages": {
+    "simple_information_acquisition": "a2l_contact_otp_web_form.S01",
+    "document_policy_semantic_extraction": "linux_android_smarthome_897.S01",
+    "android_execution": "a2_missing_media_status.S02",
+    "linux_file_execution": "l2_csv_to_json.S02",
+    "smarthome_execution": "linux_android_smarthome_338.S07",
+    "same_device_later_layer_reentry": "linux_android_1241.S03",
+    "gold_artifact_transfer": "a2l2_vscode_web_music_final_gate.S05",
+    "global_only_evaluator_task": "a2l2_vscode_web_music_final_gate.S04"
+  },
+  "checks": {
+    "stage_task_schema": "235/235 pass",
+    "stage_run_config_schema": "235/235 pass",
+    "information_stage_own_gold_not_injected": "149/149 pass",
+    "actual_predecessor_outputs_disabled": "235/235 pass",
+    "native_predecessor_state_materialized": "19/19 pass",
+    "global_only_not_localized": "pass",
+    "artifact_overlay_present": "pass",
+    "semantic_judge_output_schema_fixture": "pass",
+    "minimal_gold_projection": "8 tabular selections + 2 structured selections pass",
+    "cross_stage_join_tables_retained": "4/4 pass",
+    "complete_gold_source_snapshot_retained": "149/149 pass"
+  },
+  "known_frozen_contract_blockers": [
+    {
+      "stage_id": "al_tutorial_screenshot.S01",
+      "issue": "the frozen stage instruction/expected-handoff semantics name only title/status, while downstream execution also requires the selected working_directory and command",
+      "materialized_gold_complete": true,
+      "frozen_contract_modified": false
+    }
+  ],
+  "max_gold_reference_json_chars": 4013
+}
