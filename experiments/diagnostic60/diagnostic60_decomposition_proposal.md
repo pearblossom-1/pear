@@ -2748,13 +2748,14 @@ Original instruction:
 
 Frozen stage handoff and initialization contracts:
 
-- `S01` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (title or record name; record status or decision). Do not perform any final task outcome or modify the source state.
+- `S01` frozen instruction blueprint: On android_0 only, inspect the task-provided sources listed in the stage context. Report only the downstream-required information (request and tutorial identity; selected record status; selected working_directory; exact selected command). Do not perform any final task outcome or modify the source state.
   - Source/context: task_provided_file=`${note_path}`
-  - Expected handoff: information — title or record name; record status or decision
+  - Expected handoff: information — request and tutorial identity; selected record status; selected working_directory; exact selected command
   - Gold predecessor state: none
   - Gold handoff contract status: `frozen_source_grounded_contract`.
   - Initialization: original setup groups `[1]` plus declared gold overlays.
   - Evaluation: `ai_semantic_judge (diagnostic60.semantic_handoff_judge.v2)`.
+  - Pre-run contract correction: the original task requires the downstream Linux stage to execute the selected row's command in its selected working_directory; title/status alone cannot initialize that downstream stage; scope: handoff contract and stage instruction only; no DAG, boundary, device, or evaluator change.
 - `S02` frozen instruction blueprint: Using the supplied gold predecessor handoffs and state, complete only the local portion on linux_0: create and verify the required Linux artifact. Do not inspect or operate unrelated devices.
   - Source/context: gold predecessor context only
   - Expected handoff: environment_state — create and verify the required Linux artifact

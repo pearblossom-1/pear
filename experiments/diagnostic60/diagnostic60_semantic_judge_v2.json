@@ -20,6 +20,19 @@
     "response_format": "strict_json_schema",
     "store": false
   },
+  "transport": {
+    "max_attempts": 2,
+    "retry_backoff_s": [
+      1.0
+    ],
+    "retryable_failures": [
+      "connection_error",
+      "request_timeout",
+      "rate_limit",
+      "http_5xx"
+    ],
+    "log_every_attempt": true
+  },
   "prompt": "You are evaluating an isolated information-acquisition stage in a device-level\ndecomposition experiment.\n\nDecide whether CANDIDATE preserves all task-relevant information needed by the\ndeclared downstream stages, without materially incorrect or misleading\ninformation, when compared with GOLD.\n\nUse these criteria:\n1. Correctness: no material factual error or wrong selection.\n2. Sufficiency: every fact needed for downstream execution is present.\n3. No material distortion: wording differences are allowed, but a downstream\n   executor following CANDIDATE must not be led to a wrong action or omission.\n\nReturn exactly one label and one short reason:\nPASS — correct and sufficient.\nFAIL — incorrect, missing a necessary fact, or materially misleading.\nUNCERTAIN — the supplied gold/reference is insufficient to decide reliably.\n\nDo not judge writing style, harmless additional true information, completeness\nbeyond the handoff contract, or the success of any other stage.",
   "input_fields": [
     "original_task_instruction",

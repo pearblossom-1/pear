@@ -1,0 +1,605 @@
+{
+  "schema_version": "devicesworld.diagnostic60_executable_freeze.v1",
+  "freeze_status": "awaiting_human_authorization_for_formal_runs",
+  "formal_isolated_stage_runs_started": 0,
+  "implementation_commit_sha": "3701996cca33d442fb27fd0920e91b2de81c7084",
+  "frozen_task_count": 60,
+  "frozen_stage_count": 235,
+  "hash_algorithm": "sha256",
+  "implementation_files": [
+    {
+      "path": "mdcbench/runner/run_llm_task.py",
+      "sha256": "5b08e611bc2b1ace3ce39a5704bd2c2181fca317295874ba54279764849d5a4f",
+      "size_bytes": 91004
+    },
+    {
+      "path": "scripts/experiments/diagnostic60_sampling.py",
+      "sha256": "506706edfeda817341354446c2996c6e8f996b525640ba97b5822327d41fa490",
+      "size_bytes": 50332
+    },
+    {
+      "path": "scripts/experiments/diagnostic60_freeze.py",
+      "sha256": "de57e5457142d823f314688aab30892118a7245ccd2f147fe4e76a0de234e228",
+      "size_bytes": 9197
+    },
+    {
+      "path": "scripts/experiments/diagnostic60_decomposition.py",
+      "sha256": "3cbc1ab562d2d1ec62063a694d2cee63b81e04eb34ea6f2fac9b646d808a52de",
+      "size_bytes": 80651
+    },
+    {
+      "path": "scripts/experiments/diagnostic60_executable.py",
+      "sha256": "af81ac0d7d42a36b03c2f3ebd516a8476270bc47474a92f05ff00967a9e957b1",
+      "size_bytes": 87092
+    },
+    {
+      "path": "scripts/experiments/diagnostic60_stage_runner.py",
+      "sha256": "52d7c7ce2598e06b55699ad6fd5f298f0ccc5118057136fad761381d1040a516",
+      "size_bytes": 59354
+    }
+  ],
+  "configuration_and_frozen_artifact_files": [
+    {
+      "path": "configs/agents/gpt-5.5-lite.yaml",
+      "sha256": "22394ea5f6a812b55b679dd259226233ca18fbd0c86c7b888e02b469f7d907f6",
+      "size_bytes": 528
+    },
+    {
+      "path": "experiments/manifests/core200.jsonl",
+      "sha256": "777c88a6315cd565da540911a2c88c19a97ef8f649531a93c2156585eb35178b",
+      "size_bytes": 67674
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_backup.jsonl",
+      "sha256": "4c822f73b439aa0d96782fbb597ffb21f578aaf70ef218277321169c6048241c",
+      "size_bytes": 19091
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_construction_validation.json",
+      "sha256": "b6e6b53e9dc6152a0b9bf824f3b779e07e1b6610fc98df2cd28b714c83424365",
+      "size_bytes": 2486
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_decomposition_proposal.md",
+      "sha256": "73be3933a8bbe3c451925a8e76cbf3ce6edfdaa52aa3153b3019566e3d9ff55e",
+      "size_bytes": 304650
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_decomposition_proposals.jsonl",
+      "sha256": "972554de4441ad03653fade7e0c3b0f40be0a9938743952391456edadc50ef2f",
+      "size_bytes": 1145839
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_dependency_graph_proposal.md",
+      "sha256": "261c030442009b8aedcd1660aa82b1da2f83a6cf9540232c1e7225fc3e0b9d17",
+      "size_bytes": 22589
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_executable_preparation_report.md",
+      "sha256": "b9cdfdf1898b6c9ed8f382ef966804c453aace0f93f373c540307ce21b81adb2",
+      "size_bytes": 3279
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_executable_stage_specs.jsonl",
+      "sha256": "25d5e3c0560e76071f1c6f8e119af237650368c050f17921b382c5ef1ebdcd8d",
+      "size_bytes": 2057348
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_final.jsonl",
+      "sha256": "c3f59c2accc2f723bbef18e96c9157e242f6237c93d31e5317d5b7ced64d6161",
+      "size_bytes": 67068
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_gold_handoffs.jsonl",
+      "sha256": "77d808be47a557f3c62892bb17d7660d146c8583f3260b452fb7c4aa9ec69794",
+      "size_bytes": 485091
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_gold_predecessor_states.jsonl",
+      "sha256": "41cca79484b3d4a9d550c3669db48334d0181d4fb1cfa0a60b226a0dc3199b2c",
+      "size_bytes": 57255
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_human_review_questions.md",
+      "sha256": "35a3cbebec4db53e45d17cf14d54b162c0dc64d278e6ff47b8c7667463184e37",
+      "size_bytes": 2000
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_isolated_stage_budget_policy.json",
+      "sha256": "c2ee7bf39c550accaa3d445998756bd36c2264285fde571cc5ba89c8a2d4bf5c",
+      "size_bytes": 2462
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_preparation_summary.md",
+      "sha256": "860b195817b2acdc5bdd53666f596f88e18732043ba0c563a7d2de68dbb351c6",
+      "size_bytes": 2566
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_primary.jsonl",
+      "sha256": "086497afd847a08ef253fb7e47e7cdb29bf96f074d56ae867ec825546da29656",
+      "size_bytes": 56852
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_replacement_log.jsonl",
+      "sha256": "7254c39aa51c9f58dc732577a296ba859b83658c950288376789dc97ed889936",
+      "size_bytes": 2218
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_runtime_preflight_report.md",
+      "sha256": "08b1bd992a7dd976d4e5d7357f664e2b8f01909c9fa80f6593209c2ce8b4e1e2",
+      "size_bytes": 4388
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_runtime_preflight_results.json",
+      "sha256": "0d5c1a3e71e8dbfaf9057a96b6d6efd18f1be54f02ab20b3d69e6b9aa78718f7",
+      "size_bytes": 9989
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_sampling_report.md",
+      "sha256": "1d857d344f250351317fc2e216b8f1c0cb4a1713e7143d1a8552dd290f677d32",
+      "size_bytes": 9175
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_semantic_judge_v2.json",
+      "sha256": "67a044368adc5a5d79cf26e7439ed514222cf8cdf3067a46ae89fa8df3e29845",
+      "size_bytes": 2869
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_stage_evaluation_method_proposal.md",
+      "sha256": "eec989d5aeab7fa94e40202e72151d9e42ef64ac322d77e8e8d54c32bc96666c",
+      "size_bytes": 18750
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_validation_smoke_report.md",
+      "sha256": "08b1bd992a7dd976d4e5d7357f664e2b8f01909c9fa80f6593209c2ce8b4e1e2",
+      "size_bytes": 4388
+    },
+    {
+      "path": "experiments/diagnostic60/gold_artifacts/a2l2_vscode_web_music_final_gate/validator.html",
+      "sha256": "c8f919440acf1276ad2034d1aa1ee885d759e5eeca540db34bd00fd1be9dbd0e",
+      "size_bytes": 2104
+    },
+    {
+      "path": "experiments/diagnostic60/gold_artifacts/linux_only_327/release_candidate.zip",
+      "sha256": "3fae3128bb6fed83808aad1cbb86fede5c9cf8975a907f2a3e0f65ae7960a73e",
+      "size_bytes": 1623
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/android_smarthome_149__S05__to__android_smarthome_149__S04.json",
+      "sha256": "cfe53e2d60f22e65d58ecd7e54ac543d0765040254bdcbb064e7423002d8085e",
+      "size_bytes": 7037
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/android_smarthome_877__S04__to__android_smarthome_877__S03.json",
+      "sha256": "96e50d5638a2b6a6dae0df0e0fbee2f27c4218c7f5461fede6d1c27511340ea5",
+      "size_bytes": 7174
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_android_1241__S04__to__linux_android_1241__S03.json",
+      "sha256": "14befe3c47d5013d993e524230fa9e19e010a000ad2fd3c706134e7cb5d864a6",
+      "size_bytes": 2238
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_android_1368__S03__to__linux_android_1368__S04.json",
+      "sha256": "087c98b80cbb9e74dcb2022b3da943980bcd53216fbe77b360e7d3f01dea70a8",
+      "size_bytes": 1640
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_android_smarthome_077__S05__to__linux_android_smarthome_077__S04.json",
+      "sha256": "8148fd73be18630e4e414021b56d65e7ad4b1efebc69847f908060e43a7b580d",
+      "size_bytes": 7850
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_android_smarthome_271__S05__to__linux_android_smarthome_271__S04.json",
+      "sha256": "be1cb3ec9fdc49f8e4c11c35d5d0008a7c13cca2267da4f06514478daf9009bb",
+      "size_bytes": 7735
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_android_smarthome_288__S05__to__linux_android_smarthome_288__S04.json",
+      "sha256": "db33d6a339ae8e108cc236d44f4109e4ba3d566458b1fee93b4aa9dd8964e1d1",
+      "size_bytes": 5327
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_android_smarthome_338__S07__to__linux_android_smarthome_338__S06.json",
+      "sha256": "e5aa1306070d2ab4cd9479b554c28a11314e4e37e339de9409a0c5d784ea0bb1",
+      "size_bytes": 7603
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_android_smarthome_423__S06__to__linux_android_smarthome_423__S05.json",
+      "sha256": "a20f77c2e311c6743443e9210ee4cd78d9c7b6d581e7fd27d79c7f7761df58e7",
+      "size_bytes": 4576
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_android_smarthome_439__S06__to__linux_android_smarthome_439__S05.json",
+      "sha256": "4f4f7a52bd3e27164a3dd417b4114b3525d5fb5456d83b2acb58f7a981513bb3",
+      "size_bytes": 5710
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_android_smarthome_470__S06__to__linux_android_smarthome_470__S05.json",
+      "sha256": "06378511a708191910c2e912bf0bdae0e802c6e353e0d790361a14f38e3322e2",
+      "size_bytes": 7245
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_android_smarthome_696__S05__to__linux_android_smarthome_696__S04.json",
+      "sha256": "45c20cf80d6d43ece8e7e97e0195efb9e6d8a3bad2d68fdeed8cfbf6fe1db503",
+      "size_bytes": 5219
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_android_smarthome_897__S07__to__linux_android_smarthome_897__S05.json",
+      "sha256": "57caba1ec10f962d4e52bc846f8c861e415ed6a94b0ebe43eb6e755ff95d0362",
+      "size_bytes": 12678
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_android_smarthome_897__S07__to__linux_android_smarthome_897__S06.json",
+      "sha256": "73c9bca556122916b18ce05671ca7d6154726fc528c23c5ed9028ae7f3be8e8f",
+      "size_bytes": 12678
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_smarthome_656__S04__to__linux_smarthome_656__S03.json",
+      "sha256": "1822abc0040dc6fe5cf8522804937cdaccfd18d8d9912aa4a4763e285e5c7227",
+      "size_bytes": 4815
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_smarthome_983__S05__to__linux_smarthome_983__S04.json",
+      "sha256": "709d32fd5f07b86fbea33d4b957284ec5d517647577b244e375cd5c88e6ff3e8",
+      "size_bytes": 3656
+    },
+    {
+      "path": "experiments/diagnostic60/gold_states/linux_smarthome_999__S05__to__linux_smarthome_999__S04.json",
+      "sha256": "cf6b6717aee88c4793f947c821ec9a6a9a4e39e74e403417280c51bfec9507fa",
+      "size_bytes": 3981
+    },
+    {
+      "path": "experiments/diagnostic60/metadata_core200.jsonl",
+      "sha256": "b89a00af8a1626ea7f7d442dedc3f30c119e3ceadb44b77fd2b3750b8d5e40c5",
+      "size_bytes": 361683
+    },
+    {
+      "path": "experiments/diagnostic60/prompts/adaptation_notes.md",
+      "sha256": "a51500d342d38d2ec807b50be969552083cc7428f9bfe392839cfd147fe5ee34",
+      "size_bytes": 1174
+    },
+    {
+      "path": "experiments/diagnostic60/prompts/android_from_core200_baseline.diff",
+      "sha256": "3be0544f2ebb6702fe5ec84ea8b17e3db551cbfaf87f6bc8097889beac703b25",
+      "size_bytes": 20731
+    },
+    {
+      "path": "experiments/diagnostic60/prompts/android_isolated_stage_system_prompt.txt",
+      "sha256": "570e3d11b32692d02620b56a3f955c794dc3abb757931d060ed896069bb8f14f",
+      "size_bytes": 8987
+    },
+    {
+      "path": "experiments/diagnostic60/prompts/core200_gpt55_baseline_system_prompt_mother.txt",
+      "sha256": "d0a70e2e756967a15b774d0721ce696bbbc68a61462b0fb525a474e8ac5bdc4d",
+      "size_bytes": 17089
+    },
+    {
+      "path": "experiments/diagnostic60/prompts/home_from_core200_baseline.diff",
+      "sha256": "fadacbb9ce1a7660850dd10f8921428146a971660d72cfbc0c302669db9108fd",
+      "size_bytes": 22291
+    },
+    {
+      "path": "experiments/diagnostic60/prompts/linux_from_core200_baseline.diff",
+      "sha256": "f575f71279f0bd81d6861e99955c605a1731faefdb4dc6d86b55512ff6003b38",
+      "size_bytes": 20169
+    },
+    {
+      "path": "experiments/diagnostic60/prompts/linux_isolated_stage_system_prompt.txt",
+      "sha256": "53afa631277c4aa30ea4fb3c1db4d3d08f18bea61a3b4b396a0ebca3d0d3f1e4",
+      "size_bytes": 6624
+    },
+    {
+      "path": "experiments/diagnostic60/prompts/prompt_manifest.json",
+      "sha256": "085d97200e9e95d7ebd5d92c8ecc9bb7690e2af2cf2d38e88e4d4fab45ff338e",
+      "size_bytes": 2031
+    },
+    {
+      "path": "experiments/diagnostic60/prompts/smarthome_isolated_stage_system_prompt.txt",
+      "sha256": "04612d8803bf6405c6a41b827ffa1190ad142a16d3757e72ca9635fd7bd0c6dd",
+      "size_bytes": 8123
+    }
+  ],
+  "source_task_files": [
+    {
+      "path": "tasks/cross_device/android_only/android_only_210.json",
+      "sha256": "9c8530e829afe89fdf7ce18ee78c412a6a9161635ea94f3ed4677fa816ff8459",
+      "size_bytes": 7106
+    },
+    {
+      "path": "tasks/cross_device/android_only/android_only_218.json",
+      "sha256": "838bc0c7fdf6ebbdc31987724ae498ffd72bc20b81274741095657551d36e69d",
+      "size_bytes": 6215
+    },
+    {
+      "path": "tasks/cross_device/android_only/android_only_260.json",
+      "sha256": "a0ec0cdb8a8e34b67d38e159186a78f04b7b9616c1f2b21305d3b28ea1edbe5d",
+      "size_bytes": 5219
+    },
+    {
+      "path": "tasks/cross_device/android_only/android_only_285.json",
+      "sha256": "3d83dd3b5bf5ea3e9ffbb1ca9448b1a5b7a35afe38de5210a362ac16df9b2273",
+      "size_bytes": 12820
+    },
+    {
+      "path": "tasks/cross_device/android_smarthome/android_smarthome_149.json",
+      "sha256": "5913d7f31586b4e3b850e19e353be8fee6b73f69b84a3c6d1fd6c7edce097b6c",
+      "size_bytes": 8168
+    },
+    {
+      "path": "tasks/cross_device/android_smarthome/android_smarthome_219.json",
+      "sha256": "6a4db415cd1fef6325a0f12ebd8df5891a0f9eef29db0c3620459d42d08f5d55",
+      "size_bytes": 6431
+    },
+    {
+      "path": "tasks/cross_device/android_smarthome/android_smarthome_231.json",
+      "sha256": "1e6f6622a49afb4d04b66b81614fd665bda424003f3e971c48d3342aa4a2a359",
+      "size_bytes": 6337
+    },
+    {
+      "path": "tasks/cross_device/android_smarthome/android_smarthome_233.json",
+      "sha256": "7f653031bc027a7eb0037c3480eb2899bad48b42e66ca0ba8f77e067d79046b1",
+      "size_bytes": 6679
+    },
+    {
+      "path": "tasks/cross_device/android_smarthome/android_smarthome_336.json",
+      "sha256": "425a2099cd986d8660262098845f4a0a22b9a4d15be24ee920ea1a5cb1da2a21",
+      "size_bytes": 8883
+    },
+    {
+      "path": "tasks/cross_device/android_smarthome/android_smarthome_877.json",
+      "sha256": "8de942d111dde0c9d32567ad785e6b8c3ef30f5961571c476687dbbd23593974",
+      "size_bytes": 9399
+    },
+    {
+      "path": "tasks/cross_device/linux_android/linux_android_1034.json",
+      "sha256": "6fcc050ec2c38cd4eea0a1ed84872819893e96d5005bdbc08272b314f3a4660f",
+      "size_bytes": 9690
+    },
+    {
+      "path": "tasks/cross_device/linux_android/linux_android_1241.json",
+      "sha256": "ce6fc88ceadc1a66347d1790d0da509424afc12677da2ed207cae0d1f924b1f1",
+      "size_bytes": 10664
+    },
+    {
+      "path": "tasks/cross_device/linux_android/linux_android_1255.json",
+      "sha256": "2236ec9411ebdc844e22ae768b960b0e00223195ba3c12c6f9f680d4581ed963",
+      "size_bytes": 5936
+    },
+    {
+      "path": "tasks/cross_device/linux_android/linux_android_1274.json",
+      "sha256": "289ef6491a7db9df16e74a926ae0d99babdaa21a680017f9c718230a84b79f6e",
+      "size_bytes": 6676
+    },
+    {
+      "path": "tasks/cross_device/linux_android/linux_android_1324.json",
+      "sha256": "db155344c04413078d40b6fa4fd0556d4adda45fc93ce30678b80b702dc5dea0",
+      "size_bytes": 9237
+    },
+    {
+      "path": "tasks/cross_device/linux_android/linux_android_1368.json",
+      "sha256": "917383222ad139278defd5b8b74fd8430a5e1eb2eba3785aca2af51d464da0ba",
+      "size_bytes": 5700
+    },
+    {
+      "path": "tasks/cross_device/linux_android/linux_android_1798.json",
+      "sha256": "fb8ff580549b0da7045596d9131565116d5b7e67a86cd2f91090e84a40dfa5c2",
+      "size_bytes": 9530
+    },
+    {
+      "path": "tasks/cross_device/linux_android/linux_android_1814.json",
+      "sha256": "00a1ff1a7fdc530d12fc1657d7ca0b68b756cf9d8f57cd99ef1d68a0b7a19dd5",
+      "size_bytes": 7950
+    },
+    {
+      "path": "tasks/cross_device/linux_android/linux_android_1831.json",
+      "sha256": "3975c19667fb9e7c5e06f0fd15ef02a484f24b36e8e27dd4af69371b7649c3cc",
+      "size_bytes": 5958
+    },
+    {
+      "path": "tasks/cross_device/linux_android/linux_android_1858.json",
+      "sha256": "664ea917ced7df68d52f4da68373b24fadd2b5220bb51c1b275366028249b571",
+      "size_bytes": 9989
+    },
+    {
+      "path": "tasks/cross_device/linux_android/linux_android_1859.json",
+      "sha256": "cddc74abb1fc8ddc4962c923f33fd4f2ff10aaaf1d6198f0b3bd00803a742265",
+      "size_bytes": 15989
+    },
+    {
+      "path": "tasks/cross_device/linux_android/linux_android_1863.json",
+      "sha256": "6b9819f51e71ada60ea07cc021783f9cc041ac5515e80a82d2e75547c9cb6557",
+      "size_bytes": 12594
+    },
+    {
+      "path": "tasks/cross_device/linux_android/linux_android_1866.json",
+      "sha256": "ee6cad3e0a5029110f4d1ddff32ad8e58fef0be459ed9e4fe336a220ff3307d4",
+      "size_bytes": 11271
+    },
+    {
+      "path": "tasks/cross_device/linux_android/linux_android_997.json",
+      "sha256": "70a06b8ffa8f3e8fe25bfb9bf4176fc3271290f7781399cba0858cbbeb560b2c",
+      "size_bytes": 8917
+    },
+    {
+      "path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_077.json",
+      "sha256": "8bec191f0b69a853561609a81b25aa7eaa28b0259c329985a5ae329a7bff28ac",
+      "size_bytes": 7851
+    },
+    {
+      "path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_113.json",
+      "sha256": "86a3eaa8ce00d2737c6b4126ca513c3df1ee279c28e6494e5626c46eb67c0114",
+      "size_bytes": 10074
+    },
+    {
+      "path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_271.json",
+      "sha256": "90c7433aa3273bfbbbc0746506898c7aad56166535c80af1f71d9080b81f206a",
+      "size_bytes": 9522
+    },
+    {
+      "path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_287.json",
+      "sha256": "3d66b5fb56c4e1eb02c031e3552423a08d2d0bba9b0e1278d46039e076f3f1df",
+      "size_bytes": 6837
+    },
+    {
+      "path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_288.json",
+      "sha256": "69686370543ce9563b42a844f99fca4f6f65f013a9f0f51b5e5cb46f928ed9f6",
+      "size_bytes": 8350
+    },
+    {
+      "path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_338.json",
+      "sha256": "36994d76ea8a01b38b7825f604bc9a83a0671882fd873ada7ec571fb8c4818b8",
+      "size_bytes": 8503
+    },
+    {
+      "path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_423.json",
+      "sha256": "869b8c487e965f5635f58866dbe83be32eba77fd1727b7c24fbaa065c78d6317",
+      "size_bytes": 9524
+    },
+    {
+      "path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_439.json",
+      "sha256": "c4c8c201fbf476e5e1f31a6d4391c91cfe9f7bc1ccecada7388300173daf42c6",
+      "size_bytes": 9246
+    },
+    {
+      "path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_470.json",
+      "sha256": "651361d67253c4c2eb972f95b1630cbc6c0ccff7d69dc9e8e8da78c3af660863",
+      "size_bytes": 8927
+    },
+    {
+      "path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_474.json",
+      "sha256": "4fa2374d17a41bea71926952116ba5104177a7ed9e2e9267443b6876ea3fb2be",
+      "size_bytes": 7106
+    },
+    {
+      "path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_696.json",
+      "sha256": "dcf252a44ff9fc078282bb6e054d046ebad97ae8a92f7deecf02f33bef62980f",
+      "size_bytes": 8050
+    },
+    {
+      "path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_897.json",
+      "sha256": "e421ecf518aa8c4a2bdf5a0f6281f8e99c08b5fe6dd6cf8dd569ecc3e0414e0b",
+      "size_bytes": 12430
+    },
+    {
+      "path": "tasks/cross_device/linux_only/linux_only_224.json",
+      "sha256": "07d8a15cf3b0a0a3f4b36176eed41d0d1b6595d2f9d371a69de50014368abf63",
+      "size_bytes": 7098
+    },
+    {
+      "path": "tasks/cross_device/linux_only/linux_only_275.json",
+      "sha256": "cd0bb8c88c34dcccd6587446973552840151b7253ec464bf5d58c30629e867b4",
+      "size_bytes": 9151
+    },
+    {
+      "path": "tasks/cross_device/linux_only/linux_only_283.json",
+      "sha256": "9da2b6e1068b5b940e4b72d02531716896f8b09858a15fd0c283e688afe628a4",
+      "size_bytes": 7383
+    },
+    {
+      "path": "tasks/cross_device/linux_only/linux_only_298.json",
+      "sha256": "d12ee81353bd92bae548a81eaf40309d8acadb6e06c36c7d7473edd1b1018f77",
+      "size_bytes": 9192
+    },
+    {
+      "path": "tasks/cross_device/linux_only/linux_only_327.json",
+      "sha256": "c4eafec0a741c3f78d514851b67bb74292f93a671bdfdc4eb46a8d35ece7e62c",
+      "size_bytes": 5544
+    },
+    {
+      "path": "tasks/cross_device/linux_smarthome/linux_smarthome_063.json",
+      "sha256": "4781a8da9bd0f81035c02bb8208d68a0f4c2423992825d5842f820a220f026c7",
+      "size_bytes": 4325
+    },
+    {
+      "path": "tasks/cross_device/linux_smarthome/linux_smarthome_098.json",
+      "sha256": "f61c6eb87ff9f364b7b536275bb64dc86e59b66337ea7a3eee71c4fc9907ffeb",
+      "size_bytes": 4643
+    },
+    {
+      "path": "tasks/cross_device/linux_smarthome/linux_smarthome_350.json",
+      "sha256": "29f5fd77384253f2606ac0132eeab914893feb0e98808cba43be198070a6c842",
+      "size_bytes": 6236
+    },
+    {
+      "path": "tasks/cross_device/linux_smarthome/linux_smarthome_361.json",
+      "sha256": "add30f2e4012440c18c231cad47b08daa17d7128b3be76c6440ac56301d211f9",
+      "size_bytes": 8202
+    },
+    {
+      "path": "tasks/cross_device/linux_smarthome/linux_smarthome_373.json",
+      "sha256": "9e59090fe0473b12abcda9a6790cf9dd5ede83ba0d4ff6555d880505e0f3f6db",
+      "size_bytes": 6534
+    },
+    {
+      "path": "tasks/cross_device/linux_smarthome/linux_smarthome_656.json",
+      "sha256": "54661e7cd5f2e72f983732b7d40c2f77e49eefae665f0040ea2de51ed1fde88c",
+      "size_bytes": 5993
+    },
+    {
+      "path": "tasks/cross_device/linux_smarthome/linux_smarthome_932.json",
+      "sha256": "4ab8c07662b610fd780acf183393fbf91e6e9a70910d4ea932f0eef236e090ed",
+      "size_bytes": 7167
+    },
+    {
+      "path": "tasks/cross_device/linux_smarthome/linux_smarthome_983.json",
+      "sha256": "01a7676cb9a34868824ef305af1863cf3aad26063d2f2b968ba486d06e02ab26",
+      "size_bytes": 8293
+    },
+    {
+      "path": "tasks/cross_device/linux_smarthome/linux_smarthome_999.json",
+      "sha256": "6edb3811c19b8fb12b03ee659ffcc45b21e0898f73c8b808a2a6884d7f4c9ad7",
+      "size_bytes": 9153
+    },
+    {
+      "path": "tasks/cross_device/real100/a2_missing_media_status.json",
+      "sha256": "98a0660c2582dc927dc31240331308a8d801a7238f355221e74d11cfe47a30c7",
+      "size_bytes": 5479
+    },
+    {
+      "path": "tasks/cross_device/real100/al2_data_transform_sync.json",
+      "sha256": "88dfcefb8ca5b9a54091228f38872b4c33952b0c549dc8a0e2affcd93e712488",
+      "size_bytes": 6711
+    },
+    {
+      "path": "tasks/cross_device/real100/al_request_audio.json",
+      "sha256": "6ac7870304522208d9d15b29f664fbc48f2816ae75db4214b6f4fb3bce1a9429",
+      "size_bytes": 5820
+    },
+    {
+      "path": "tasks/cross_device/real100/al_tutorial_screenshot.json",
+      "sha256": "55dcc5d2f5021dd16a0fbb366fc81f78023ca42ef99a554fabf84a234d908ecf",
+      "size_bytes": 6852
+    },
+    {
+      "path": "tasks/cross_device/real100/l2_csv_to_json.json",
+      "sha256": "91d4433eebbcdda79e4c29c64cbc83424fa890f015d267e43991ca3113c04cfc",
+      "size_bytes": 4766
+    },
+    {
+      "path": "tasks/cross_device/real200/a2l_contact_otp_web_form.json",
+      "sha256": "703f478474ed580001d37009f654a78b773ae48fb8c37fc52173bdf1e5f9f78c",
+      "size_bytes": 7277
+    },
+    {
+      "path": "tasks/cross_device/real200/al_thunderbird_attachment_to_tasks.json",
+      "sha256": "f0fae2f6dceeeebbac6d71fd04fd1d389e1d7b9fc26f3b2afa27422215fc7d58",
+      "size_bytes": 7217
+    },
+    {
+      "path": "tasks/cross_device/real300/a2_gallery_album_to_tasks.json",
+      "sha256": "6b4a379681fea8b6f4a742c9e103a40d3277d0e44f46116f60c8f8d863b7d50b",
+      "size_bytes": 5764
+    },
+    {
+      "path": "tasks/cross_device/real300/a2l2_training_media_deck_email.json",
+      "sha256": "b79a5454602c6035e420ea485e1206338784f56f9eb54aacf11df940d0c12309",
+      "size_bytes": 14220
+    },
+    {
+      "path": "tasks/cross_device/real300/a2l2_vscode_web_music_final_gate.json",
+      "sha256": "83b2ff68deb68ee6cfa52d7bbae56b49fc831265caead36c1a094f24587cadb2",
+      "size_bytes": 12603
+    }
+  ]
+}

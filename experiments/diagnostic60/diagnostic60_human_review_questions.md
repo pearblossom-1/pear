@@ -1,6 +1,6 @@
 # Diagnostic-60 Remaining Human-Review Questions
 
-> Executable construction is complete. Formal GPT-5.5 isolated-stage runs remain stopped pending the frozen-contract decision, smoke blockers, and human confirmation below.
+> Executable construction and final runtime preflight are complete. Formal GPT-5.5 isolated-stage runs remain stopped pending explicit human confirmation below.
 
 ## Resolved
 
@@ -9,12 +9,13 @@
 - Semantic judge v2 model/settings/prompt/schema and the isolated-stage budget are frozen.
 - 149 information handoffs, 19 environment predecessor states/artifacts, and 235 executable specs are materialized without using model trajectories or predecessor isolated outputs. Complete source evidence is retained separately from the minimal downstream projection.
 - The sole global-only evaluator remains task-global and is not forced into Local-All.
+- `al_tutorial_screenshot.S01` now explicitly requires request/tutorial identity, status, `working_directory`, and command; the correction reason is recorded without changing its DAG.
+- Semantic Judge endpoint serialization/connectivity/parsing passed for synthetic and real stage-format cases without changing the frozen prompt.
+- Android, Linux, SmartHome, same-device re-entry, gold predecessor state, and native artifact-transfer lifecycles passed after the recorded Linux cleanup-timeout implementation correction.
+- `linux_android_1324` now has a clean version-matched E2E PASS; the old process-timeout attempt remains preserved.
 
-## Remaining blocking confirmations
+## Remaining confirmation
 
-1. Decide whether to allow a narrow freeze exception for `al_tutorial_screenshot.S01`: its frozen instruction/contract asks for title/status but the selected working directory and command are also required downstream. The materialized gold is complete; the frozen instruction was not silently changed.
-2. Resolve or explicitly accept every runtime blocker recorded in `diagnostic60_validation_smoke_report.md`, including the live semantic-judge endpoint check and unavailable Linux VM lifecycle smoke.
-3. Supply a clean, version-matched E2E outcome for every Final-60 task before calculating E2E or Composition Gap; do not silently treat an environment/process failure as model failure.
-4. After reviewing the artifacts and smoke report, explicitly approve starting the formal Diagnostic-60 GPT-5.5 isolated-stage experiment.
+1. After reviewing the frozen artifacts and `diagnostic60_runtime_preflight_report.md`, explicitly approve starting the formal Diagnostic-60 GPT-5.5 isolated-stage experiment.
 
-These are execution-gate questions, not reasons to resample, change the Core-200 tasks, alter the frozen DAG, or localize the global-only evaluator.
+No executable implementation or runtime blocker remains. This human gate is not a reason to resample, change the Core-200 tasks, alter the frozen DAG, or localize the global-only evaluator.

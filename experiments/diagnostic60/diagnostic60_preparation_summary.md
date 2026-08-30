@@ -8,7 +8,7 @@
 - Decomposition: **235 stages** (`information_acquisition=149`, `environment_execution=86`).
 - Evaluator ownership: `local_stage=108`, `local_guard=38`, `global_only=1`; the global-only evaluator remains excluded from Local-All.
 - Semantic judge: `diagnostic60.semantic_handoff_judge.v2`, fixed model `gpt-5.5`, decoding, prompt, strict output schema, and audit sampling.
-- Isolated budget: 30 model-action turns and 900 seconds total, split into 720 seconds for execution/local evaluation/cleanup and 180 seconds for the semantic judge.
+- Isolated budget: 30 Core-compatible recorded interaction steps and 600 seconds of agent execution after reset; setup/materialization, evaluation/judge, and cleanup use separate infrastructure timeouts.
 
 ## Materialized executable artifacts
 
@@ -33,4 +33,4 @@
 
 ## Next decision
 
-Resolve or explicitly adjudicate the blockers in `diagnostic60_validation_smoke_report.md`, including the under-specified frozen contract for `al_tutorial_screenshot.S01`, then obtain human confirmation. Do not modify the frozen DAG/decomposition from model outcomes, and do not launch the formal 235-stage batch before that confirmation.
+Review the real runtime preflight results and any remaining infrastructure blockers, then provide explicit confirmation. The `al_tutorial_screenshot.S01` correction is complete and did not change its DAG. Do not launch the formal 235-stage batch before confirmation.

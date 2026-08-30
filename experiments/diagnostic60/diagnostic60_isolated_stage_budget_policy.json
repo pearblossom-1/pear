@@ -1,31 +1,39 @@
 {
-  "schema_version": "devicesworld.diagnostic_stage_budget.v1",
-  "policy_id": "diagnostic60.isolated_stage_budget.v1",
+  "schema_version": "devicesworld.diagnostic_stage_budget.v2",
+  "policy_id": "diagnostic60.isolated_stage_budget.v2",
   "freeze_status": "frozen_before_formal_stage_runs",
   "scope": "all_235_isolated_stages",
+  "max_environment_steps": 30,
   "max_steps": 30,
-  "max_wall_time_s": 900,
-  "phase_allocation_s": {
-    "environment_agent_local_evaluator_cleanup": 720,
-    "semantic_judge_if_applicable": 180
+  "agent_execution_wall_time_s": 600,
+  "agent_execution_scope": "starts after setup/reset and gold-state materialization completes; ends before local evaluation or semantic judge",
+  "infrastructure_phase_timeouts_s": {
+    "environment_start": 180,
+    "setup_reset": 300,
+    "evaluation": 300,
+    "semantic_judge": 180,
+    "cleanup_close": 180
   },
-  "step_limit_definition": "runner model-action turns, including the final done turn and invalid/failed turns; the same limit is passed to run_llm_task",
-  "actual_environment_steps_definition": "successful non-done environment transitions: trajectory step events with a parsed action, ok=true, and action.type != done; wait counts, the final done action does not",
+  "outer_process_safety_timeout_s": 1860,
+  "step_limit_definition": "Core-200-compatible recorded trajectory step events, including invalid/failed interactions and the final done turn",
+  "actual_environment_steps_definition": "the same count used by the Core-200 main runner result.steps: every recorded trajectory event with event=step, including invalid/failed interactions and the final done interaction",
   "also_record": [
     "model_action_turns",
     "environment_action_attempts",
     "actual_environment_steps",
     "termination_reason",
-    "wall_time_s",
+    "agent_duration_s",
+    "total_lifecycle_duration_s",
     "cleanup_ok"
   ],
   "termination_policy": [
     "stop normally when the agent emits done",
-    "stop the agent loop at 30 model-action turns",
-    "stop cooperatively between blocking calls when the 720-second execution allocation is exhausted",
-    "treat an unrecoverable initialization/runtime error as stage_error after cleanup is attempted",
-    "for an information stage, a semantic-judge timeout yields UNCERTAIN and mandatory human audit",
-    "the outer stage launcher enforces the 900-second total budget and records the terminal cause"
+    "stop the agent loop at 30 recorded interaction turns",
+    "stop the agent loop at 600 seconds of post-reset agent interaction execution",
+    "reset, setup, gold-state materialization, local evaluation, semantic judging, and cleanup are excluded from the 600 seconds",
+    "an infrastructure-phase failure is recorded separately and does not become an agent FAIL",
+    "a semantic-judge timeout or exhausted retry yields UNCERTAIN and mandatory human audit",
+    "the outer process safety timeout only prevents a stuck lifecycle and is not the agent-duration metric"
   ],
   "aggregation": {
     "per_stage_field": "actual_environment_steps",

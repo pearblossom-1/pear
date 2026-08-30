@@ -29,15 +29,28 @@
     "semantic_judge_output_schema_fixture": "pass",
     "minimal_gold_projection": "8 tabular selections + 2 structured selections pass",
     "cross_stage_join_tables_retained": "4/4 pass",
-    "complete_gold_source_snapshot_retained": "149/149 pass"
+    "complete_gold_source_snapshot_retained": "149/149 pass",
+    "single_device_runtime_protocol": "235/235 pass",
+    "device_prompt_hash_reference": "235/235 pass",
+    "s01_pre_run_contract_correction": "pass",
+    "linux_vmware_command_timeout_within_cleanup_phase": "pass"
   },
-  "known_frozen_contract_blockers": [
+  "pre_run_contract_corrections": [
     {
       "stage_id": "al_tutorial_screenshot.S01",
-      "issue": "the frozen stage instruction/expected-handoff semantics name only title/status, while downstream execution also requires the selected working_directory and command",
+      "correction_id": "diagnostic60.pre_run_contract_correction.al_tutorial_screenshot.S01.v1",
+      "required_semantics": [
+        "request and tutorial identity",
+        "selected record status",
+        "selected working_directory",
+        "exact selected command"
+      ],
+      "reason": "the original task requires the downstream Linux stage to execute the selected row's command in its selected working_directory; title/status alone cannot initialize that downstream stage",
+      "scope": "handoff contract and stage instruction only; no DAG, boundary, device, or evaluator change",
       "materialized_gold_complete": true,
-      "frozen_contract_modified": false
+      "dag_modified": false
     }
   ],
+  "known_frozen_contract_blockers": [],
   "max_gold_reference_json_chars": 4013
 }

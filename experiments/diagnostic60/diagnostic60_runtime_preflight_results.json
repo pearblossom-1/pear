@@ -1,0 +1,227 @@
+{
+  "schema_version": "devicesworld.diagnostic60_runtime_preflight.v1",
+  "formal_isolated_stage_runs_started": 0,
+  "frozen_stage_count": 235,
+  "semantic_judge_endpoint_smoke": {
+    "summary_ref": "experiments/diagnostic60/preflight/semantic_judge_endpoint_smoke/semantic_judge_endpoint_smoke_summary.json",
+    "endpoint_connectivity": true,
+    "serialization_and_parsing": true,
+    "case_labels": [
+      "PASS",
+      "PASS"
+    ],
+    "all_cases_first_attempt": true,
+    "prompt_or_config_changed_from_smoke": false
+  },
+  "lifecycle_smoke": [
+    {
+      "coverage": "android_information_semantic_judge",
+      "stage_id": "a2l_contact_otp_web_form.S01",
+      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l_contact_otp_web_form.S01_run01/stage_result.json",
+      "target_device": "android_0",
+      "current_executable_record_sha256": "2a5d28bf73343ec665b6a297e955f0e181754aa07070383652fffca626de8765",
+      "smoke_executable_record_sha256": "2a5d28bf73343ec665b6a297e955f0e181754aa07070383652fffca626de8765",
+      "record_matches_current_frozen_spec": true,
+      "lifecycle_pass": true,
+      "stage_pass": true,
+      "model_outcome_used_to_modify_protocol": false,
+      "actual_environment_steps": 1,
+      "agent_duration_s": 11.231,
+      "total_lifecycle_duration_s": 41.65,
+      "single_device_checks": {
+        "runtime_mode": true,
+        "fixed_device": true,
+        "observation_scope": true,
+        "model_did_not_supply_runner_device_id": true,
+        "runner_routed_all_local_actions": true,
+        "persistent_stage_instruction": true,
+        "actual_predecessor_output_disabled": true,
+        "core_compatible_step_count": true
+      },
+      "logging_checks": {
+        "identity_and_spec_reference": true,
+        "target_and_instruction": true,
+        "predecessor_reference_and_materialization": true,
+        "trajectory_observation_response_action_feedback": true,
+        "steps_duration_tokens_termination": true,
+        "stage_output_or_evaluator_items": true,
+        "setup_evaluation_cleanup_and_infrastructure": true
+      }
+    },
+    {
+      "coverage": "android_environment_local_evaluator",
+      "stage_id": "a2_missing_media_status.S02",
+      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2_missing_media_status.S02_run01/stage_result.json",
+      "target_device": "android_1",
+      "current_executable_record_sha256": "022d0707663bdfa201c40a3965814f6d0694fa54fba417784bf697f356ff450b",
+      "smoke_executable_record_sha256": "022d0707663bdfa201c40a3965814f6d0694fa54fba417784bf697f356ff450b",
+      "record_matches_current_frozen_spec": true,
+      "lifecycle_pass": true,
+      "stage_pass": false,
+      "model_outcome_used_to_modify_protocol": false,
+      "actual_environment_steps": 9,
+      "agent_duration_s": 367.989,
+      "total_lifecycle_duration_s": 391.731,
+      "single_device_checks": {
+        "runtime_mode": true,
+        "fixed_device": true,
+        "observation_scope": true,
+        "model_did_not_supply_runner_device_id": true,
+        "runner_routed_all_local_actions": true,
+        "persistent_stage_instruction": true,
+        "actual_predecessor_output_disabled": true,
+        "core_compatible_step_count": true
+      },
+      "logging_checks": {
+        "identity_and_spec_reference": true,
+        "target_and_instruction": true,
+        "predecessor_reference_and_materialization": true,
+        "trajectory_observation_response_action_feedback": true,
+        "steps_duration_tokens_termination": true,
+        "stage_output_or_evaluator_items": true,
+        "setup_evaluation_cleanup_and_infrastructure": true
+      }
+    },
+    {
+      "coverage": "smarthome_environment_local_evaluator",
+      "stage_id": "linux_android_smarthome_338.S07",
+      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_smarthome_338.S07_run01/stage_result.json",
+      "target_device": "home_0",
+      "current_executable_record_sha256": "0f5708008f7ed9a5d18f266cee280b8dac40cd3637afb50df6f0f9a5eb2eaff4",
+      "smoke_executable_record_sha256": "0f5708008f7ed9a5d18f266cee280b8dac40cd3637afb50df6f0f9a5eb2eaff4",
+      "record_matches_current_frozen_spec": true,
+      "lifecycle_pass": true,
+      "stage_pass": true,
+      "model_outcome_used_to_modify_protocol": false,
+      "actual_environment_steps": 3,
+      "agent_duration_s": 19.075,
+      "total_lifecycle_duration_s": 19.49,
+      "single_device_checks": {
+        "runtime_mode": true,
+        "fixed_device": true,
+        "observation_scope": true,
+        "model_did_not_supply_runner_device_id": true,
+        "runner_routed_all_local_actions": true,
+        "persistent_stage_instruction": true,
+        "actual_predecessor_output_disabled": true,
+        "core_compatible_step_count": true
+      },
+      "logging_checks": {
+        "identity_and_spec_reference": true,
+        "target_and_instruction": true,
+        "predecessor_reference_and_materialization": true,
+        "trajectory_observation_response_action_feedback": true,
+        "steps_duration_tokens_termination": true,
+        "stage_output_or_evaluator_items": true,
+        "setup_evaluation_cleanup_and_infrastructure": true
+      }
+    },
+    {
+      "coverage": "linux_same_device_reentry_gold_state",
+      "stage_id": "linux_android_1241.S03",
+      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_1241.S03_run02/stage_result.json",
+      "target_device": "linux_0",
+      "current_executable_record_sha256": "327c9cc8790cf88a23eb4a7ba86090dfd32fe206462d42b7cfc246817d201e17",
+      "smoke_executable_record_sha256": "327c9cc8790cf88a23eb4a7ba86090dfd32fe206462d42b7cfc246817d201e17",
+      "record_matches_current_frozen_spec": true,
+      "lifecycle_pass": true,
+      "stage_pass": false,
+      "model_outcome_used_to_modify_protocol": false,
+      "actual_environment_steps": 2,
+      "agent_duration_s": 18.06,
+      "total_lifecycle_duration_s": 114.108,
+      "single_device_checks": {
+        "runtime_mode": true,
+        "fixed_device": true,
+        "observation_scope": true,
+        "model_did_not_supply_runner_device_id": true,
+        "runner_routed_all_local_actions": true,
+        "persistent_stage_instruction": true,
+        "actual_predecessor_output_disabled": true,
+        "core_compatible_step_count": true
+      },
+      "logging_checks": {
+        "identity_and_spec_reference": true,
+        "target_and_instruction": true,
+        "predecessor_reference_and_materialization": true,
+        "trajectory_observation_response_action_feedback": true,
+        "steps_duration_tokens_termination": true,
+        "stage_output_or_evaluator_items": true,
+        "setup_evaluation_cleanup_and_infrastructure": true
+      }
+    },
+    {
+      "coverage": "linux_native_artifact_transfer",
+      "stage_id": "a2l2_vscode_web_music_final_gate.S05",
+      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_run01/stage_result.json",
+      "target_device": "linux_1",
+      "current_executable_record_sha256": "f2b9aaf31fde584a913a8336e0baa87f317d0f21ada1431f704419460f7bc01c",
+      "smoke_executable_record_sha256": "f2b9aaf31fde584a913a8336e0baa87f317d0f21ada1431f704419460f7bc01c",
+      "record_matches_current_frozen_spec": true,
+      "lifecycle_pass": true,
+      "stage_pass": true,
+      "model_outcome_used_to_modify_protocol": false,
+      "actual_environment_steps": 8,
+      "agent_duration_s": 141.798,
+      "total_lifecycle_duration_s": 247.408,
+      "single_device_checks": {
+        "runtime_mode": true,
+        "fixed_device": true,
+        "observation_scope": true,
+        "model_did_not_supply_runner_device_id": true,
+        "runner_routed_all_local_actions": true,
+        "persistent_stage_instruction": true,
+        "actual_predecessor_output_disabled": true,
+        "core_compatible_step_count": true
+      },
+      "logging_checks": {
+        "identity_and_spec_reference": true,
+        "target_and_instruction": true,
+        "predecessor_reference_and_materialization": true,
+        "trajectory_observation_response_action_feedback": true,
+        "steps_duration_tokens_termination": true,
+        "stage_output_or_evaluator_items": true,
+        "setup_evaluation_cleanup_and_infrastructure": true
+      }
+    }
+  ],
+  "implementation_correction": {
+    "issue": "Linux VMware cleanup used a 60-second internal command timeout under a 180-second infrastructure phase.",
+    "pre_correction_result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_1241.S03_run01/stage_result.json",
+    "pre_correction_infrastructure_failure": true,
+    "pre_correction_reason": [
+      {
+        "phase": "cleanup_close",
+        "reason": "cleanup_failed"
+      }
+    ],
+    "correction": "set generated Linux stage runtime vmware_command_timeout_s=170 within the frozen 180-second cleanup phase",
+    "dag_or_stage_contract_changed": false,
+    "post_correction_lifecycle_pass": true
+  },
+  "clean_e2e_rerun": {
+    "task_id": "linux_android_1324",
+    "result_ref": "runs/gpt-5.5-lite/mdcbench_lite_v1/core200_rerun_20260830_task041_clean_e2e_run_01/041_linux_android_1324/result.json",
+    "old_infrastructure_attempt_preserved": true,
+    "runtime_input_mode": "baseline_multi_device",
+    "model": "gpt-5.5",
+    "max_steps": 50,
+    "max_duration_s": 1800.0,
+    "success": true,
+    "score": 1.0,
+    "steps": 15,
+    "duration_s": 360.682,
+    "cleanup_ok": true
+  },
+  "validation": {
+    "all_five_representative_lifecycles_pass": true,
+    "all_smoke_records_match_current_frozen_specs": true,
+    "all_single_device_runtime_checks_pass": true,
+    "formal_logging_contract_pass": true,
+    "semantic_judge_endpoint_pass": true,
+    "linux_cleanup_correction_verified": true,
+    "clean_e2e_rerun_completed": true
+  },
+  "remaining_blockers": [],
+  "human_gate": "await explicit approval before GPT-5.5 x 235 isolated stages"
+}

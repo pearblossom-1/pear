@@ -14,7 +14,8 @@
 | Artifact | Contents |
 | --- | --- |
 | `diagnostic60_semantic_judge_v2.json` | frozen GPT-5.5 judge model/version, decoding, prompt, schema, and audit sampling protocol |
-| `diagnostic60_isolated_stage_budget_policy.json` | uniform 30-turn / 900-second isolated-stage policy and step aggregation definitions |
+| `diagnostic60_isolated_stage_budget_policy.json` | uniform 30-step / 600-second agent-execution policy with separate infrastructure timeouts |
+| `prompts/` | the Core-200 GPT-5.5 mother snapshot, three device-specific templates, hashes, notes, and unified diffs |
 | `diagnostic60_gold_handoffs.jsonl` | 149 source-grounded minimal references plus complete auditable source snapshots |
 | `diagnostic60_gold_predecessor_states.jsonl` | 19 materialized environment-predecessor edge states |
 | `gold_states/` | replayed native Android/SmartHome predecessor states validated by their original local evaluators |
@@ -47,4 +48,4 @@ The launcher exits 0 for PASS, 1 for FAIL/error, and 2 for `UNCERTAIN`. Its `sum
 
 ## Formal-run gate
 
-The specs are constructed, but the smoke report records execution blockers and one frozen-contract mismatch for `al_tutorial_screenshot.S01`. Do not launch the full GPT-5.5 isolated-stage batch until those items are resolved or explicitly accepted and human confirmation is recorded.
+The S01 contract correction is recorded and the specs are constructed. Do not launch the full GPT-5.5 isolated-stage batch until the runtime preflight report is reviewed and human confirmation is recorded.
