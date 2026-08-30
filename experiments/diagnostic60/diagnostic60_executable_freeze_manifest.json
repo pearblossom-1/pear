@@ -2,15 +2,15 @@
   "schema_version": "devicesworld.diagnostic60_executable_freeze.v1",
   "freeze_status": "awaiting_human_authorization_for_formal_runs",
   "formal_isolated_stage_runs_started": 0,
-  "implementation_commit_sha": "3701996cca33d442fb27fd0920e91b2de81c7084",
+  "implementation_commit_sha": "8df2196299f56b0daba49b98d4623d3b6f788c59",
   "frozen_task_count": 60,
   "frozen_stage_count": 235,
   "hash_algorithm": "sha256",
   "implementation_files": [
     {
       "path": "mdcbench/runner/run_llm_task.py",
-      "sha256": "5b08e611bc2b1ace3ce39a5704bd2c2181fca317295874ba54279764849d5a4f",
-      "size_bytes": 91004
+      "sha256": "b8d4fc32191844f470a94b9be9e9c152da5f1be8085db97ab0ad469a882e17e5",
+      "size_bytes": 92924
     },
     {
       "path": "scripts/experiments/diagnostic60_sampling.py",
@@ -24,18 +24,18 @@
     },
     {
       "path": "scripts/experiments/diagnostic60_decomposition.py",
-      "sha256": "3cbc1ab562d2d1ec62063a694d2cee63b81e04eb34ea6f2fac9b646d808a52de",
-      "size_bytes": 80651
+      "sha256": "1f809227238a1246351a753751d5a42c9b8ae0ac96c4c4606556e256d39e7ae3",
+      "size_bytes": 80503
     },
     {
       "path": "scripts/experiments/diagnostic60_executable.py",
-      "sha256": "af81ac0d7d42a36b03c2f3ebd516a8476270bc47474a92f05ff00967a9e957b1",
-      "size_bytes": 87092
+      "sha256": "c90f89707ab15cbefc7f9ef31b5a94babbeec898615922880d93bf6b5ac29cad",
+      "size_bytes": 89046
     },
     {
       "path": "scripts/experiments/diagnostic60_stage_runner.py",
-      "sha256": "52d7c7ce2598e06b55699ad6fd5f298f0ccc5118057136fad761381d1040a516",
-      "size_bytes": 59354
+      "sha256": "961e054e1721e1408a9e6329368134110c88d7a40eee9702d817538608297f15",
+      "size_bytes": 67058
     }
   ],
   "configuration_and_frozen_artifact_files": [
@@ -56,18 +56,18 @@
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_construction_validation.json",
-      "sha256": "b6e6b53e9dc6152a0b9bf824f3b779e07e1b6610fc98df2cd28b714c83424365",
-      "size_bytes": 2486
+      "sha256": "930ff26d0b02b3a4921538b4f900f819db0893ab5a4d2170057e92678b6f2982",
+      "size_bytes": 2541
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_decomposition_proposal.md",
-      "sha256": "73be3933a8bbe3c451925a8e76cbf3ce6edfdaa52aa3153b3019566e3d9ff55e",
-      "size_bytes": 304650
+      "sha256": "71be298aa65c7017a1adf7dde327c4a146e153a08f2cd55a9de53472e304004c",
+      "size_bytes": 291032
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_decomposition_proposals.jsonl",
-      "sha256": "972554de4441ad03653fade7e0c3b0f40be0a9938743952391456edadc50ef2f",
-      "size_bytes": 1145839
+      "sha256": "aab539011dced64e72e6063bc608ddac0d02d0d19d59de639757aecde161485f",
+      "size_bytes": 1132221
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_dependency_graph_proposal.md",
@@ -76,13 +76,13 @@
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_executable_preparation_report.md",
-      "sha256": "b9cdfdf1898b6c9ed8f382ef966804c453aace0f93f373c540307ce21b81adb2",
-      "size_bytes": 3279
+      "sha256": "70e2f764d86ac1058b51f041bba4bfcd37c01529921ccdaf62ec93d2b8d4c351",
+      "size_bytes": 3289
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_executable_stage_specs.jsonl",
-      "sha256": "25d5e3c0560e76071f1c6f8e119af237650368c050f17921b382c5ef1ebdcd8d",
-      "size_bytes": 2057348
+      "sha256": "083f5b57c426d98cb72cd282237fa4b9c51ea5349fa879c2e6caf2af1af648bf",
+      "size_bytes": 1921528
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_final.jsonl",
@@ -101,8 +101,8 @@
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_human_review_questions.md",
-      "sha256": "35a3cbebec4db53e45d17cf14d54b162c0dc64d278e6ff47b8c7667463184e37",
-      "size_bytes": 2000
+      "sha256": "b2db0422fb816f306bb0807f977ba211a43e339f9d9287e765790e81a82716b3",
+      "size_bytes": 2214
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_isolated_stage_budget_policy.json",
@@ -111,13 +111,18 @@
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_preparation_summary.md",
-      "sha256": "860b195817b2acdc5bdd53666f596f88e18732043ba0c563a7d2de68dbb351c6",
-      "size_bytes": 2566
+      "sha256": "12415588f58abe7cc4b186708079316b7441beda015d0a9134a05ea6007a61e1",
+      "size_bytes": 2775
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_primary.jsonl",
       "sha256": "086497afd847a08ef253fb7e47e7cdb29bf96f074d56ae867ec825546da29656",
       "size_bytes": 56852
+    },
+    {
+      "path": "experiments/diagnostic60/diagnostic60_prompt_v2_model_visible_validation.json",
+      "sha256": "f6cc0a999ab19b3003a49f518e417fab1b492d482f15632ac28b9133ddf531c3",
+      "size_bytes": 5633
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_replacement_log.jsonl",
@@ -126,13 +131,13 @@
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_runtime_preflight_report.md",
-      "sha256": "08b1bd992a7dd976d4e5d7357f664e2b8f01909c9fa80f6593209c2ce8b4e1e2",
-      "size_bytes": 4388
+      "sha256": "820260a6a8c733ee79fe218892ecdd88b63e185fe10ab6016a34694d85c19764",
+      "size_bytes": 5234
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_runtime_preflight_results.json",
-      "sha256": "0d5c1a3e71e8dbfaf9057a96b6d6efd18f1be54f02ab20b3d69e6b9aa78718f7",
-      "size_bytes": 9989
+      "sha256": "aa441bbb05699575af800d2b12024dbdc0580d5ab15cd351854675fb8760e042",
+      "size_bytes": 24091
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_sampling_report.md",
@@ -151,8 +156,8 @@
     },
     {
       "path": "experiments/diagnostic60/diagnostic60_validation_smoke_report.md",
-      "sha256": "08b1bd992a7dd976d4e5d7357f664e2b8f01909c9fa80f6593209c2ce8b4e1e2",
-      "size_bytes": 4388
+      "sha256": "820260a6a8c733ee79fe218892ecdd88b63e185fe10ab6016a34694d85c19764",
+      "size_bytes": 5234
     },
     {
       "path": "experiments/diagnostic60/gold_artifacts/a2l2_vscode_web_music_final_gate/validator.html",
@@ -256,18 +261,18 @@
     },
     {
       "path": "experiments/diagnostic60/prompts/adaptation_notes.md",
-      "sha256": "a51500d342d38d2ec807b50be969552083cc7428f9bfe392839cfd147fe5ee34",
-      "size_bytes": 1174
+      "sha256": "f247ea7825e7757d87603eda1415b5213fa45c670ae5ee96530b4593ab417c0e",
+      "size_bytes": 1573
     },
     {
       "path": "experiments/diagnostic60/prompts/android_from_core200_baseline.diff",
-      "sha256": "3be0544f2ebb6702fe5ec84ea8b17e3db551cbfaf87f6bc8097889beac703b25",
-      "size_bytes": 20731
+      "sha256": "14efbbc891b383dc5ca5e6cfad3e45a4b1aef72ecd95b250988ecc44b23fdfc9",
+      "size_bytes": 20648
     },
     {
       "path": "experiments/diagnostic60/prompts/android_isolated_stage_system_prompt.txt",
-      "sha256": "570e3d11b32692d02620b56a3f955c794dc3abb757931d060ed896069bb8f14f",
-      "size_bytes": 8987
+      "sha256": "ee1f77ed70434b1ced8f4ee938a7b6a8e4fcc84be8a32ff345872d7db9df9e8a",
+      "size_bytes": 8904
     },
     {
       "path": "experiments/diagnostic60/prompts/core200_gpt55_baseline_system_prompt_mother.txt",
@@ -276,28 +281,28 @@
     },
     {
       "path": "experiments/diagnostic60/prompts/home_from_core200_baseline.diff",
-      "sha256": "fadacbb9ce1a7660850dd10f8921428146a971660d72cfbc0c302669db9108fd",
-      "size_bytes": 22291
+      "sha256": "cdc4bafd4fd863e2eb1c7a674f7d1e53169be8cf1dac39ec9862a5d9b8270955",
+      "size_bytes": 22186
     },
     {
       "path": "experiments/diagnostic60/prompts/linux_from_core200_baseline.diff",
-      "sha256": "f575f71279f0bd81d6861e99955c605a1731faefdb4dc6d86b55512ff6003b38",
-      "size_bytes": 20169
+      "sha256": "87e196cd1f487f0a27b2cb786c03a2f5d9f04a551b5a553d3a35254378feb23d",
+      "size_bytes": 20117
     },
     {
       "path": "experiments/diagnostic60/prompts/linux_isolated_stage_system_prompt.txt",
-      "sha256": "53afa631277c4aa30ea4fb3c1db4d3d08f18bea61a3b4b396a0ebca3d0d3f1e4",
-      "size_bytes": 6624
+      "sha256": "4d89195157d4ee141de26e106ba338220fb754f7f6d362c44f29d3642a957676",
+      "size_bytes": 6572
     },
     {
       "path": "experiments/diagnostic60/prompts/prompt_manifest.json",
-      "sha256": "085d97200e9e95d7ebd5d92c8ecc9bb7690e2af2cf2d38e88e4d4fab45ff338e",
+      "sha256": "99d65e1f563f8b167c9853a5881096e7c173d8e490e78251391f11148bed0352",
       "size_bytes": 2031
     },
     {
       "path": "experiments/diagnostic60/prompts/smarthome_isolated_stage_system_prompt.txt",
-      "sha256": "04612d8803bf6405c6a41b827ffa1190ad142a16d3757e72ca9635fd7bd0c6dd",
-      "size_bytes": 8123
+      "sha256": "6fe498bce96717de57b84ca415748363b44a478bc847d05a31ffc4244d5d0e56",
+      "size_bytes": 8018
     }
   ],
   "source_task_files": [

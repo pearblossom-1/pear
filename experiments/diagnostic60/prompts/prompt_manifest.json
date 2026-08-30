@@ -1,5 +1,5 @@
 {
-  "schema_version": "devicesworld.diagnostic_isolated_prompt_manifest.v1",
+  "schema_version": "devicesworld.diagnostic_isolated_prompt_manifest.v2",
   "freeze_status": "frozen_before_formal_stage_runs",
   "mother_constructor": "mdcbench.runner.run_llm_task._system_message",
   "mother_snapshot_ref": "experiments/diagnostic60/prompts/core200_gpt55_baseline_system_prompt_mother.txt",
@@ -12,23 +12,23 @@
   "adaptation_notes_ref": "experiments/diagnostic60/prompts/adaptation_notes.md",
   "device_prompts": {
     "android": {
-      "prompt_id": "diagnostic60.isolated_stage.android.v1",
+      "prompt_id": "diagnostic60.isolated_stage.android.v2",
       "template_ref": "experiments/diagnostic60/prompts/android_isolated_stage_system_prompt.txt",
-      "template_sha256": "570e3d11b32692d02620b56a3f955c794dc3abb757931d060ed896069bb8f14f",
+      "template_sha256": "ee1f77ed70434b1ced8f4ee938a7b6a8e4fcc84be8a32ff345872d7db9df9e8a",
       "adaptation_mother_sha256": "b81f22c63ec4840ab349c081bbd65303eff5c725c09f117e6afc02f1ca9c33d9",
       "diff_ref": "experiments/diagnostic60/prompts/android_from_core200_baseline.diff"
     },
     "linux": {
-      "prompt_id": "diagnostic60.isolated_stage.linux.v1",
+      "prompt_id": "diagnostic60.isolated_stage.linux.v2",
       "template_ref": "experiments/diagnostic60/prompts/linux_isolated_stage_system_prompt.txt",
-      "template_sha256": "53afa631277c4aa30ea4fb3c1db4d3d08f18bea61a3b4b396a0ebca3d0d3f1e4",
+      "template_sha256": "4d89195157d4ee141de26e106ba338220fb754f7f6d362c44f29d3642a957676",
       "adaptation_mother_sha256": "f499fe9a8bf1cbc1026d1e9e50fbd3df6268898716e0fbe30ca33c37eca09cfd",
       "diff_ref": "experiments/diagnostic60/prompts/linux_from_core200_baseline.diff"
     },
     "home": {
-      "prompt_id": "diagnostic60.isolated_stage.smarthome.v1",
+      "prompt_id": "diagnostic60.isolated_stage.smarthome.v2",
       "template_ref": "experiments/diagnostic60/prompts/smarthome_isolated_stage_system_prompt.txt",
-      "template_sha256": "04612d8803bf6405c6a41b827ffa1190ad142a16d3757e72ca9635fd7bd0c6dd",
+      "template_sha256": "6fe498bce96717de57b84ca415748363b44a478bc847d05a31ffc4244d5d0e56",
       "adaptation_mother_sha256": "7511b689fcb1723ad59951bab0c83ea8fb4b9558837b695fbc63023d717b8fc6",
       "diff_ref": "experiments/diagnostic60/prompts/home_from_core200_baseline.diff"
     }

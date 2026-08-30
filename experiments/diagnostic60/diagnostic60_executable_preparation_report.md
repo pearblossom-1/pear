@@ -15,7 +15,7 @@
 | --- | --- |
 | `diagnostic60_semantic_judge_v2.json` | frozen GPT-5.5 judge model/version, decoding, prompt, schema, and audit sampling protocol |
 | `diagnostic60_isolated_stage_budget_policy.json` | uniform 30-step / 600-second agent-execution policy with separate infrastructure timeouts |
-| `prompts/` | the Core-200 GPT-5.5 mother snapshot, three device-specific templates, hashes, notes, and unified diffs |
+| `prompts/` | the Core-200 GPT-5.5 mother snapshot, three device-specific Prompt v2 templates, hashes, notes, and unified diffs |
 | `diagnostic60_gold_handoffs.jsonl` | 149 source-grounded minimal references plus complete auditable source snapshots |
 | `diagnostic60_gold_predecessor_states.jsonl` | 19 materialized environment-predecessor edge states |
 | `gold_states/` | replayed native Android/SmartHome predecessor states validated by their original local evaluators |

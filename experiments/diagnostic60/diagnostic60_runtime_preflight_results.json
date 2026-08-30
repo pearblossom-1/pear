@@ -1,7 +1,182 @@
 {
-  "schema_version": "devicesworld.diagnostic60_runtime_preflight.v1",
+  "schema_version": "devicesworld.diagnostic60_runtime_preflight.v2",
   "formal_isolated_stage_runs_started": 0,
   "frozen_stage_count": 235,
+  "prompt_v2": {
+    "manifest_ref": "experiments/diagnostic60/prompts/prompt_manifest.json",
+    "manifest_schema_version": "devicesworld.diagnostic_isolated_prompt_manifest.v2",
+    "device_prompts": {
+      "android": {
+        "prompt_id": "diagnostic60.isolated_stage.android.v2",
+        "template_ref": "experiments/diagnostic60/prompts/android_isolated_stage_system_prompt.txt",
+        "template_sha256": "ee1f77ed70434b1ced8f4ee938a7b6a8e4fcc84be8a32ff345872d7db9df9e8a",
+        "adaptation_mother_sha256": "b81f22c63ec4840ab349c081bbd65303eff5c725c09f117e6afc02f1ca9c33d9",
+        "diff_ref": "experiments/diagnostic60/prompts/android_from_core200_baseline.diff"
+      },
+      "linux": {
+        "prompt_id": "diagnostic60.isolated_stage.linux.v2",
+        "template_ref": "experiments/diagnostic60/prompts/linux_isolated_stage_system_prompt.txt",
+        "template_sha256": "4d89195157d4ee141de26e106ba338220fb754f7f6d362c44f29d3642a957676",
+        "adaptation_mother_sha256": "f499fe9a8bf1cbc1026d1e9e50fbd3df6268898716e0fbe30ca33c37eca09cfd",
+        "diff_ref": "experiments/diagnostic60/prompts/linux_from_core200_baseline.diff"
+      },
+      "home": {
+        "prompt_id": "diagnostic60.isolated_stage.smarthome.v2",
+        "template_ref": "experiments/diagnostic60/prompts/smarthome_isolated_stage_system_prompt.txt",
+        "template_sha256": "6fe498bce96717de57b84ca415748363b44a478bc847d05a31ffc4244d5d0e56",
+        "adaptation_mother_sha256": "7511b689fcb1723ad59951bab0c83ea8fb4b9558837b695fbc63023d717b8fc6",
+        "diff_ref": "experiments/diagnostic60/prompts/home_from_core200_baseline.diff"
+      }
+    }
+  },
+  "model_visible_request_validation": {
+    "schema_version": "devicesworld.diagnostic60_model_visible_request_validation.v1",
+    "validation_scope": "all model requests from the five prompt-v2 lifecycle smoke runs",
+    "forbidden_patterns": {
+      "isolated": "\\bisolated\\b",
+      "decomposition": "\\bdecomposition\\b",
+      "gold_predecessor": "\\bgold[ _-]+predecessor\\b",
+      "gold_handoff": "\\bgold[ _-]+handoff\\b",
+      "gold_action_or_state": "\\bgold[ _-]+(?:actions?|native|state)\\b",
+      "sibling_stage": "\\bsibling[ _-]+stage\\b",
+      "predecessor_run": "\\bpredecessor[ _-]+run\\b",
+      "e2e": "\\be2e\\b",
+      "local_all": "\\blocal[ _-]+all\\b",
+      "frozen_device_or_spec": "\\bfrozen[ _-]+(?:device|spec)\\b",
+      "stage_type": "\\b(?:information(?:[ _-]+acquisition)?|environment[ _-]+execution)[ _-]+stage\\b",
+      "local_stage": "\\blocal[ _-]+stage\\b",
+      "stage_context_or_source": "\\bstage[ _-]+(?:context|source|instruction)\\b",
+      "dependency_layer": "\\bdependency[ _-]+layer\\b",
+      "global_only_evaluator": "\\bglobal[ _-]+only[ _-]+evaluator\\b",
+      "semantic_judge": "\\bsemantic[ _-]+judge\\b",
+      "runner_routing": "\\brunner[ _-]+(?:routes?|supplies?)\\b",
+      "routed_action_space": "\\brouted[ _-]+action[ _-]+space\\b",
+      "downstream_framing": "\\bdownstream[ _-]+(?:required|stage|execution|handoff)\\b"
+    },
+    "required_device_types": [
+      "android",
+      "linux",
+      "home"
+    ],
+    "observed_device_types": [
+      "android",
+      "home",
+      "linux"
+    ],
+    "stage_checks": [
+      {
+        "stage_id": "a2l_contact_otp_web_form.S01",
+        "target_device": "android_0",
+        "target_device_type": "android",
+        "pass": true,
+        "prompt_count": 1,
+        "prompt_files": [
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l_contact_otp_web_form.S01_prompt_v2_run02/prompts/step_000_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          }
+        ]
+      },
+      {
+        "stage_id": "a2_missing_media_status.S02",
+        "target_device": "android_1",
+        "target_device_type": "android",
+        "pass": true,
+        "prompt_count": 1,
+        "prompt_files": [
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2_missing_media_status.S02_prompt_v2_run01/prompts/step_000_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          }
+        ]
+      },
+      {
+        "stage_id": "linux_android_smarthome_338.S07",
+        "target_device": "home_0",
+        "target_device_type": "home",
+        "pass": true,
+        "prompt_count": 2,
+        "prompt_files": [
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_smarthome_338.S07_prompt_v2_run01/prompts/step_000_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_smarthome_338.S07_prompt_v2_run01/prompts/step_001_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          }
+        ]
+      },
+      {
+        "stage_id": "linux_android_1241.S03",
+        "target_device": "linux_0",
+        "target_device_type": "linux",
+        "pass": true,
+        "prompt_count": 2,
+        "prompt_files": [
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_1241.S03_prompt_v2_run01/prompts/step_000_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_1241.S03_prompt_v2_run01/prompts/step_001_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          }
+        ]
+      },
+      {
+        "stage_id": "a2l2_vscode_web_music_final_gate.S05",
+        "target_device": "linux_1",
+        "target_device_type": "linux",
+        "pass": true,
+        "prompt_count": 7,
+        "prompt_files": [
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/prompts/step_000_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/prompts/step_001_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/prompts/step_002_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/prompts/step_003_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/prompts/step_004_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/prompts/step_005_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/prompts/step_006_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          }
+        ]
+      }
+    ],
+    "all_pass": true
+  },
   "semantic_judge_endpoint_smoke": {
     "summary_ref": "experiments/diagnostic60/preflight/semantic_judge_endpoint_smoke/semantic_judge_endpoint_smoke_summary.json",
     "endpoint_connectivity": true,
@@ -17,17 +192,21 @@
     {
       "coverage": "android_information_semantic_judge",
       "stage_id": "a2l_contact_otp_web_form.S01",
-      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l_contact_otp_web_form.S01_run01/stage_result.json",
+      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l_contact_otp_web_form.S01_prompt_v2_run02/stage_result.json",
       "target_device": "android_0",
-      "current_executable_record_sha256": "2a5d28bf73343ec665b6a297e955f0e181754aa07070383652fffca626de8765",
-      "smoke_executable_record_sha256": "2a5d28bf73343ec665b6a297e955f0e181754aa07070383652fffca626de8765",
+      "target_device_type": "android",
+      "prompt_id": "diagnostic60.isolated_stage.android.v2",
+      "prompt_template_sha256": "ee1f77ed70434b1ced8f4ee938a7b6a8e4fcc84be8a32ff345872d7db9df9e8a",
+      "current_executable_record_sha256": "ad2614e72d738c05e75c30af245aaca4b0a44f0f2508496467608bab50459fa0",
+      "smoke_executable_record_sha256": "ad2614e72d738c05e75c30af245aaca4b0a44f0f2508496467608bab50459fa0",
       "record_matches_current_frozen_spec": true,
       "lifecycle_pass": true,
       "stage_pass": true,
       "model_outcome_used_to_modify_protocol": false,
       "actual_environment_steps": 1,
-      "agent_duration_s": 11.231,
-      "total_lifecycle_duration_s": 41.65,
+      "agent_duration_s": 13.86,
+      "agent_duration_within_frozen_budget": true,
+      "total_lifecycle_duration_s": 40.275,
       "single_device_checks": {
         "runtime_mode": true,
         "fixed_device": true,
@@ -37,6 +216,17 @@
         "persistent_stage_instruction": true,
         "actual_predecessor_output_disabled": true,
         "core_compatible_step_count": true
+      },
+      "model_visible_prompt_check": {
+        "pass": true,
+        "prompt_count": 1,
+        "prompt_files": [
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l_contact_otp_web_form.S01_prompt_v2_run02/prompts/step_000_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          }
+        ]
       },
       "logging_checks": {
         "identity_and_spec_reference": true,
@@ -51,17 +241,21 @@
     {
       "coverage": "android_environment_local_evaluator",
       "stage_id": "a2_missing_media_status.S02",
-      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2_missing_media_status.S02_run01/stage_result.json",
+      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2_missing_media_status.S02_prompt_v2_run01/stage_result.json",
       "target_device": "android_1",
-      "current_executable_record_sha256": "022d0707663bdfa201c40a3965814f6d0694fa54fba417784bf697f356ff450b",
-      "smoke_executable_record_sha256": "022d0707663bdfa201c40a3965814f6d0694fa54fba417784bf697f356ff450b",
+      "target_device_type": "android",
+      "prompt_id": "diagnostic60.isolated_stage.android.v2",
+      "prompt_template_sha256": "ee1f77ed70434b1ced8f4ee938a7b6a8e4fcc84be8a32ff345872d7db9df9e8a",
+      "current_executable_record_sha256": "1fc26c4d8c0689c223e794d7439729421c06957f22052839b7dabd86fbfccfbb",
+      "smoke_executable_record_sha256": "1fc26c4d8c0689c223e794d7439729421c06957f22052839b7dabd86fbfccfbb",
       "record_matches_current_frozen_spec": true,
       "lifecycle_pass": true,
       "stage_pass": false,
       "model_outcome_used_to_modify_protocol": false,
-      "actual_environment_steps": 9,
-      "agent_duration_s": 367.989,
-      "total_lifecycle_duration_s": 391.731,
+      "actual_environment_steps": 1,
+      "agent_duration_s": 29.641,
+      "agent_duration_within_frozen_budget": true,
+      "total_lifecycle_duration_s": 54.339,
       "single_device_checks": {
         "runtime_mode": true,
         "fixed_device": true,
@@ -71,6 +265,17 @@
         "persistent_stage_instruction": true,
         "actual_predecessor_output_disabled": true,
         "core_compatible_step_count": true
+      },
+      "model_visible_prompt_check": {
+        "pass": true,
+        "prompt_count": 1,
+        "prompt_files": [
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2_missing_media_status.S02_prompt_v2_run01/prompts/step_000_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          }
+        ]
       },
       "logging_checks": {
         "identity_and_spec_reference": true,
@@ -85,17 +290,21 @@
     {
       "coverage": "smarthome_environment_local_evaluator",
       "stage_id": "linux_android_smarthome_338.S07",
-      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_smarthome_338.S07_run01/stage_result.json",
+      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_smarthome_338.S07_prompt_v2_run01/stage_result.json",
       "target_device": "home_0",
-      "current_executable_record_sha256": "0f5708008f7ed9a5d18f266cee280b8dac40cd3637afb50df6f0f9a5eb2eaff4",
-      "smoke_executable_record_sha256": "0f5708008f7ed9a5d18f266cee280b8dac40cd3637afb50df6f0f9a5eb2eaff4",
+      "target_device_type": "home",
+      "prompt_id": "diagnostic60.isolated_stage.smarthome.v2",
+      "prompt_template_sha256": "6fe498bce96717de57b84ca415748363b44a478bc847d05a31ffc4244d5d0e56",
+      "current_executable_record_sha256": "d57ad6cc2c9858f0b2f43376a379d9c1f966e2716231e8a54dc901fbed5841c9",
+      "smoke_executable_record_sha256": "d57ad6cc2c9858f0b2f43376a379d9c1f966e2716231e8a54dc901fbed5841c9",
       "record_matches_current_frozen_spec": true,
       "lifecycle_pass": true,
       "stage_pass": true,
       "model_outcome_used_to_modify_protocol": false,
-      "actual_environment_steps": 3,
-      "agent_duration_s": 19.075,
-      "total_lifecycle_duration_s": 19.49,
+      "actual_environment_steps": 2,
+      "agent_duration_s": 13.389,
+      "agent_duration_within_frozen_budget": true,
+      "total_lifecycle_duration_s": 13.669,
       "single_device_checks": {
         "runtime_mode": true,
         "fixed_device": true,
@@ -105,6 +314,22 @@
         "persistent_stage_instruction": true,
         "actual_predecessor_output_disabled": true,
         "core_compatible_step_count": true
+      },
+      "model_visible_prompt_check": {
+        "pass": true,
+        "prompt_count": 2,
+        "prompt_files": [
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_smarthome_338.S07_prompt_v2_run01/prompts/step_000_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_smarthome_338.S07_prompt_v2_run01/prompts/step_001_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          }
+        ]
       },
       "logging_checks": {
         "identity_and_spec_reference": true,
@@ -119,17 +344,21 @@
     {
       "coverage": "linux_same_device_reentry_gold_state",
       "stage_id": "linux_android_1241.S03",
-      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_1241.S03_run02/stage_result.json",
+      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_1241.S03_prompt_v2_run01/stage_result.json",
       "target_device": "linux_0",
-      "current_executable_record_sha256": "327c9cc8790cf88a23eb4a7ba86090dfd32fe206462d42b7cfc246817d201e17",
-      "smoke_executable_record_sha256": "327c9cc8790cf88a23eb4a7ba86090dfd32fe206462d42b7cfc246817d201e17",
+      "target_device_type": "linux",
+      "prompt_id": "diagnostic60.isolated_stage.linux.v2",
+      "prompt_template_sha256": "4d89195157d4ee141de26e106ba338220fb754f7f6d362c44f29d3642a957676",
+      "current_executable_record_sha256": "1e5371ad32b63b9694958370c6dd2951940502ffecaefa6819579767c526bd05",
+      "smoke_executable_record_sha256": "1e5371ad32b63b9694958370c6dd2951940502ffecaefa6819579767c526bd05",
       "record_matches_current_frozen_spec": true,
       "lifecycle_pass": true,
       "stage_pass": false,
       "model_outcome_used_to_modify_protocol": false,
       "actual_environment_steps": 2,
-      "agent_duration_s": 18.06,
-      "total_lifecycle_duration_s": 114.108,
+      "agent_duration_s": 28.285,
+      "agent_duration_within_frozen_budget": true,
+      "total_lifecycle_duration_s": 125.808,
       "single_device_checks": {
         "runtime_mode": true,
         "fixed_device": true,
@@ -139,6 +368,22 @@
         "persistent_stage_instruction": true,
         "actual_predecessor_output_disabled": true,
         "core_compatible_step_count": true
+      },
+      "model_visible_prompt_check": {
+        "pass": true,
+        "prompt_count": 2,
+        "prompt_files": [
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_1241.S03_prompt_v2_run01/prompts/step_000_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_1241.S03_prompt_v2_run01/prompts/step_001_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          }
+        ]
       },
       "logging_checks": {
         "identity_and_spec_reference": true,
@@ -153,17 +398,21 @@
     {
       "coverage": "linux_native_artifact_transfer",
       "stage_id": "a2l2_vscode_web_music_final_gate.S05",
-      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_run01/stage_result.json",
+      "result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/stage_result.json",
       "target_device": "linux_1",
-      "current_executable_record_sha256": "f2b9aaf31fde584a913a8336e0baa87f317d0f21ada1431f704419460f7bc01c",
-      "smoke_executable_record_sha256": "f2b9aaf31fde584a913a8336e0baa87f317d0f21ada1431f704419460f7bc01c",
+      "target_device_type": "linux",
+      "prompt_id": "diagnostic60.isolated_stage.linux.v2",
+      "prompt_template_sha256": "4d89195157d4ee141de26e106ba338220fb754f7f6d362c44f29d3642a957676",
+      "current_executable_record_sha256": "0cd7e120f19af7e18417988abc518b7941dbf1ab0d6465e53305c1d1b99cf31b",
+      "smoke_executable_record_sha256": "0cd7e120f19af7e18417988abc518b7941dbf1ab0d6465e53305c1d1b99cf31b",
       "record_matches_current_frozen_spec": true,
       "lifecycle_pass": true,
-      "stage_pass": true,
+      "stage_pass": false,
       "model_outcome_used_to_modify_protocol": false,
-      "actual_environment_steps": 8,
-      "agent_duration_s": 141.798,
-      "total_lifecycle_duration_s": 247.408,
+      "actual_environment_steps": 6,
+      "agent_duration_s": 600.005,
+      "agent_duration_within_frozen_budget": true,
+      "total_lifecycle_duration_s": 699.791,
       "single_device_checks": {
         "runtime_mode": true,
         "fixed_device": true,
@@ -173,6 +422,47 @@
         "persistent_stage_instruction": true,
         "actual_predecessor_output_disabled": true,
         "core_compatible_step_count": true
+      },
+      "model_visible_prompt_check": {
+        "pass": true,
+        "prompt_count": 7,
+        "prompt_files": [
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/prompts/step_000_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/prompts/step_001_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/prompts/step_002_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/prompts/step_003_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/prompts/step_004_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/prompts/step_005_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          },
+          {
+            "prompt_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/prompts/step_006_prompt.txt",
+            "forbidden_term_hits": [],
+            "pass": true
+          }
+        ]
       },
       "logging_checks": {
         "identity_and_spec_reference": true,
@@ -185,6 +475,21 @@
       }
     }
   ],
+  "agent_budget_enforcement": {
+    "policy_ref": "experiments/diagnostic60/diagnostic60_isolated_stage_budget_policy.json",
+    "agent_execution_wall_time_s": 600.0,
+    "reporting_tolerance_s": 1.0,
+    "pre_correction_result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run01/stage_result.json",
+    "pre_correction_agent_duration_s": 751.537,
+    "pre_correction_termination_reason": "agent_wall_time_limit",
+    "issue": "The model client retry handler caught the prior Exception-based SIGALRM interruption and allowed an agent request to exceed the 600-second budget.",
+    "correction": "use a BaseException-derived agent deadline interruption for model and environment blocking calls so ordinary client retry handlers cannot swallow it",
+    "baseline_runtime_without_agent_budget_changed": false,
+    "dag_or_stage_contract_changed": false,
+    "post_correction_result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/a2l2_vscode_web_music_final_gate.S05_prompt_v2_run02/stage_result.json",
+    "post_correction_agent_duration_s": 600.005,
+    "post_correction_within_budget": true
+  },
   "implementation_correction": {
     "issue": "Linux VMware cleanup used a 60-second internal command timeout under a 180-second infrastructure phase.",
     "pre_correction_result_ref": "experiments/diagnostic60/preflight/lifecycle_smoke/linux_android_1241.S03_run01/stage_result.json",
@@ -217,11 +522,14 @@
     "all_five_representative_lifecycles_pass": true,
     "all_smoke_records_match_current_frozen_specs": true,
     "all_single_device_runtime_checks_pass": true,
+    "all_prompt_v2_model_visible_requests_pass": true,
+    "all_smoke_agent_durations_within_frozen_budget": true,
     "formal_logging_contract_pass": true,
     "semantic_judge_endpoint_pass": true,
     "linux_cleanup_correction_verified": true,
+    "agent_deadline_correction_verified": true,
     "clean_e2e_rerun_completed": true
   },
   "remaining_blockers": [],
-  "human_gate": "await explicit approval before GPT-5.5 x 235 isolated stages"
+  "human_gate": "await explicit approval before GPT-5.5 x 235 single-device local-task runs"
 }

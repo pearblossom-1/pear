@@ -32,6 +32,7 @@
     "complete_gold_source_snapshot_retained": "149/149 pass",
     "single_device_runtime_protocol": "235/235 pass",
     "device_prompt_hash_reference": "235/235 pass",
+    "model_visible_prompt_v2_framing": "235/235 pass",
     "s01_pre_run_contract_correction": "pass",
     "linux_vmware_command_timeout_within_cleanup_phase": "pass"
   },
