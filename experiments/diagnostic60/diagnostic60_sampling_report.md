@@ -1,5 +1,7 @@
 # DevicesWorld Diagnostic-60 Sampling Report
 
+> This report records the original result-blind Primary-60 and Backup-20 sampling. The reviewed frozen list is `diagnostic60_final.jsonl`: Primary rank 42 alone was replaced with Backup rank 15, as recorded in `diagnostic60_replacement_log.jsonl`. No resampling occurred.
+
 ## Freeze inputs
 
 - Core-200 equivalent manifest: `tasks/mdcbench_lite/mdcbench_lite_v1.json`
@@ -163,7 +165,7 @@
 - Primary family keys: **58**.
 - Maximum primary repetition: **2** (cap: 2).
 - Repeated primary families: `{"structural_v1:android_smarthome:S021": 2, "structural_v1:linux_android_smarthome:S008": 2}`.
-- Explicit `metadata.motif` and `metadata.sh_type` identifiers take priority; all other family keys use the documented structural signature in `metadata_core200.jsonl`.
+- These values are near-duplicate/dedup signatures only, not a formal task-family taxonomy. Explicit `metadata.motif` and `metadata.sh_type` identifiers take priority; all other keys use the documented structural signature in `metadata_core200.jsonl`.
 
 ## Relaxation log
 
@@ -183,7 +185,7 @@
 - The generator performs an in-memory second run and requires identical primary and backup task ID order.
 - The test suite mutates performance-related manifest fields and requires the selected task IDs to remain unchanged.
 - Primary and backup are disjoint, and all JSONL records use versioned schemas.
-- Human review is still required for metadata correctness, near-duplicate families, decomposition suitability, and setup/evaluator stability.
+- The structural proxy is not a taxonomy or blocking issue; its only role is near-duplicate/dedup control in the original sampler.
 - No stage task, decomposition spec, model run, or automatic replacement is produced by this sampling generator; decomposition proposals are separate human-review-gated artifacts.
 
 ## Researcher confirmation
