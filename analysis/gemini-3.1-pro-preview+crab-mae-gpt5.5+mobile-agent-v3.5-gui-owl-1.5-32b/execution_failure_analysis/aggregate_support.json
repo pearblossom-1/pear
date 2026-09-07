@@ -1,0 +1,808 @@
+{
+  "overall": {
+    "gemini": {
+      "n": 200,
+      "passed": 41,
+      "success_rate": 0.205,
+      "mean_score": 0.4325,
+      "mean_steps": 25.29,
+      "median_steps": 19.5,
+      "mean_duration_s": 719.763535,
+      "median_duration_s": 568.9295,
+      "terminations": {
+        "time_limit": 10,
+        "done": 125,
+        "max_steps": 65
+      }
+    },
+    "crab": {
+      "n": 200,
+      "passed": 55,
+      "success_rate": 0.275,
+      "mean_score": 0.49466666666666664,
+      "mean_steps": 27.805,
+      "median_steps": 25.0,
+      "mean_duration_s": 1157.281555,
+      "median_duration_s": 1247.625,
+      "terminations": {
+        "time_limit": 45,
+        "done": 115,
+        "max_steps": 40
+      }
+    },
+    "mobile": {
+      "n": 200,
+      "passed": 13,
+      "success_rate": 0.065,
+      "mean_score": 0.19341666666666665,
+      "mean_steps": 38.005,
+      "median_steps": 50.0,
+      "mean_duration_s": 413.00097,
+      "median_duration_s": 424.016,
+      "terminations": {
+        "max_steps": 143,
+        "done": 57
+      }
+    }
+  },
+  "by_device_types": {
+    "gemini": {
+      "android": {
+        "n": 20,
+        "passed": 1,
+        "success_rate": 0.05,
+        "mean_score": 0.20416666666666666,
+        "mean_steps": 41.85,
+        "median_steps": 50.0,
+        "mean_duration_s": 673.10855,
+        "median_duration_s": 702.406,
+        "terminations": {
+          "done": 6,
+          "max_steps": 14
+        }
+      },
+      "android+home": {
+        "n": 25,
+        "passed": 3,
+        "success_rate": 0.12,
+        "mean_score": 0.5266666666666666,
+        "mean_steps": 31.44,
+        "median_steps": 50,
+        "mean_duration_s": 408.56996,
+        "median_duration_s": 372.625,
+        "terminations": {
+          "max_steps": 13,
+          "done": 12
+        }
+      },
+      "android+home+linux": {
+        "n": 30,
+        "passed": 3,
+        "success_rate": 0.1,
+        "mean_score": 0.4583333333333333,
+        "mean_steps": 35.06666666666667,
+        "median_steps": 44.5,
+        "mean_duration_s": 1133.2099333333333,
+        "median_duration_s": 1076.7735,
+        "terminations": {
+          "done": 13,
+          "max_steps": 15,
+          "time_limit": 2
+        }
+      },
+      "android+linux": {
+        "n": 67,
+        "passed": 12,
+        "success_rate": 0.1791044776119403,
+        "mean_score": 0.33059701492537313,
+        "mean_steps": 30.492537313432837,
+        "median_steps": 31,
+        "mean_duration_s": 1065.9909552238805,
+        "median_duration_s": 1035.563,
+        "terminations": {
+          "time_limit": 8,
+          "done": 36,
+          "max_steps": 23
+        }
+      },
+      "home": {
+        "n": 10,
+        "passed": 8,
+        "success_rate": 0.8,
+        "mean_score": 0.9,
+        "mean_steps": 2.5,
+        "median_steps": 2.5,
+        "mean_duration_s": 18.4233,
+        "median_duration_s": 20.789,
+        "terminations": {
+          "done": 10
+        }
+      },
+      "home+linux": {
+        "n": 30,
+        "passed": 10,
+        "success_rate": 0.3333333333333333,
+        "mean_score": 0.6616666666666666,
+        "mean_steps": 7.4,
+        "median_steps": 7.0,
+        "mean_duration_s": 305.1741,
+        "median_duration_s": 307.539,
+        "terminations": {
+          "done": 30
+        }
+      },
+      "linux": {
+        "n": 18,
+        "passed": 4,
+        "success_rate": 0.2222222222222222,
+        "mean_score": 0.25,
+        "mean_steps": 5.166666666666667,
+        "median_steps": 4.0,
+        "mean_duration_s": 306.6188333333333,
+        "median_duration_s": 287.914,
+        "terminations": {
+          "done": 18
+        }
+      }
+    },
+    "crab": {
+      "android": {
+        "n": 20,
+        "passed": 1,
+        "success_rate": 0.05,
+        "mean_score": 0.20416666666666666,
+        "mean_steps": 47.8,
+        "median_steps": 50.0,
+        "mean_duration_s": 1426.1922,
+        "median_duration_s": 1455.5315,
+        "terminations": {
+          "done": 3,
+          "max_steps": 15,
+          "time_limit": 2
+        }
+      },
+      "android+home": {
+        "n": 25,
+        "passed": 2,
+        "success_rate": 0.08,
+        "mean_score": 0.45999999999999996,
+        "mean_steps": 34.04,
+        "median_steps": 46,
+        "mean_duration_s": 1212.32196,
+        "median_duration_s": 1248.953,
+        "terminations": {
+          "time_limit": 8,
+          "max_steps": 7,
+          "done": 10
+        }
+      },
+      "android+home+linux": {
+        "n": 30,
+        "passed": 4,
+        "success_rate": 0.13333333333333333,
+        "mean_score": 0.4722222222222222,
+        "mean_steps": 37.56666666666667,
+        "median_steps": 38.5,
+        "mean_duration_s": 1464.9644666666666,
+        "median_duration_s": 1643.3985,
+        "terminations": {
+          "done": 12,
+          "time_limit": 10,
+          "max_steps": 8
+        }
+      },
+      "android+linux": {
+        "n": 67,
+        "passed": 22,
+        "success_rate": 0.3283582089552239,
+        "mean_score": 0.49776119402985075,
+        "mean_steps": 29.65671641791045,
+        "median_steps": 28,
+        "mean_duration_s": 1244.5669402985075,
+        "median_duration_s": 1300.063,
+        "terminations": {
+          "time_limit": 17,
+          "done": 40,
+          "max_steps": 10
+        }
+      },
+      "home": {
+        "n": 10,
+        "passed": 3,
+        "success_rate": 0.3,
+        "mean_score": 0.45,
+        "mean_steps": 7.6,
+        "median_steps": 3.0,
+        "mean_duration_s": 207.4702,
+        "median_duration_s": 71.203,
+        "terminations": {
+          "done": 10
+        }
+      },
+      "home+linux": {
+        "n": 30,
+        "passed": 9,
+        "success_rate": 0.3,
+        "mean_score": 0.5333333333333333,
+        "mean_steps": 14.166666666666666,
+        "median_steps": 14.0,
+        "mean_duration_s": 1081.1146,
+        "median_duration_s": 1006.8285000000001,
+        "terminations": {
+          "done": 22,
+          "time_limit": 8
+        }
+      },
+      "linux": {
+        "n": 18,
+        "passed": 14,
+        "success_rate": 0.7777777777777778,
+        "mean_score": 0.8518518518518519,
+        "mean_steps": 7.722222222222222,
+        "median_steps": 6.0,
+        "mean_duration_s": 598.9643888888888,
+        "median_duration_s": 500.336,
+        "terminations": {
+          "done": 18
+        }
+      }
+    },
+    "mobile": {
+      "android": {
+        "n": 20,
+        "passed": 0,
+        "success_rate": 0.0,
+        "mean_score": 0.15416666666666667,
+        "mean_steps": 45.35,
+        "median_steps": 50.0,
+        "mean_duration_s": 370.61655,
+        "median_duration_s": 358.94550000000004,
+        "terminations": {
+          "max_steps": 17,
+          "done": 3
+        }
+      },
+      "android+home": {
+        "n": 25,
+        "passed": 1,
+        "success_rate": 0.04,
+        "mean_score": 0.27666666666666667,
+        "mean_steps": 37.64,
+        "median_steps": 50,
+        "mean_duration_s": 290.68128,
+        "median_duration_s": 297.187,
+        "terminations": {
+          "max_steps": 17,
+          "done": 8
+        }
+      },
+      "android+home+linux": {
+        "n": 30,
+        "passed": 0,
+        "success_rate": 0.0,
+        "mean_score": 0.10555555555555556,
+        "mean_steps": 42.06666666666667,
+        "median_steps": 50.0,
+        "mean_duration_s": 498.8489333333333,
+        "median_duration_s": 464.30449999999996,
+        "terminations": {
+          "max_steps": 24,
+          "done": 6
+        }
+      },
+      "android+linux": {
+        "n": 67,
+        "passed": 2,
+        "success_rate": 0.029850746268656716,
+        "mean_score": 0.13233830845771144,
+        "mean_steps": 45.52238805970149,
+        "median_steps": 50,
+        "mean_duration_s": 541.6870597014926,
+        "median_duration_s": 523.359,
+        "terminations": {
+          "max_steps": 59,
+          "done": 8
+        }
+      },
+      "home": {
+        "n": 10,
+        "passed": 4,
+        "success_rate": 0.4,
+        "mean_score": 0.65,
+        "mean_steps": 2.2,
+        "median_steps": 2.0,
+        "mean_duration_s": 5.0437,
+        "median_duration_s": 5.039,
+        "terminations": {
+          "done": 10
+        }
+      },
+      "home+linux": {
+        "n": 30,
+        "passed": 4,
+        "success_rate": 0.13333333333333333,
+        "mean_score": 0.255,
+        "mean_steps": 30.8,
+        "median_steps": 50.0,
+        "mean_duration_s": 331.8505333333333,
+        "median_duration_s": 347.4685,
+        "terminations": {
+          "done": 13,
+          "max_steps": 17
+        }
+      },
+      "linux": {
+        "n": 18,
+        "passed": 2,
+        "success_rate": 0.1111111111111111,
+        "mean_score": 0.1388888888888889,
+        "mean_steps": 27.5,
+        "median_steps": 29.0,
+        "mean_duration_s": 369.79872222222224,
+        "median_duration_s": 356.321,
+        "terminations": {
+          "max_steps": 9,
+          "done": 9
+        }
+      }
+    }
+  },
+  "by_device_count": {
+    "gemini": {
+      "1": {
+        "n": 10,
+        "passed": 8,
+        "success_rate": 0.8,
+        "mean_score": 0.9,
+        "mean_steps": 2.5,
+        "median_steps": 2.5,
+        "mean_duration_s": 18.4233,
+        "median_duration_s": 20.789,
+        "terminations": {
+          "done": 10
+        }
+      },
+      "2": {
+        "n": 95,
+        "passed": 23,
+        "success_rate": 0.24210526315789474,
+        "mean_score": 0.4089473684210526,
+        "mean_steps": 22.54736842105263,
+        "median_steps": 13,
+        "mean_duration_s": 479.6074105263158,
+        "median_duration_s": 358.234,
+        "terminations": {
+          "done": 67,
+          "max_steps": 28
+        }
+      },
+      "3": {
+        "n": 66,
+        "passed": 7,
+        "success_rate": 0.10606060606060606,
+        "mean_score": 0.41515151515151516,
+        "mean_steps": 30.439393939393938,
+        "median_steps": 27.5,
+        "mean_duration_s": 870.7647727272728,
+        "median_duration_s": 886.6635,
+        "terminations": {
+          "done": 38,
+          "max_steps": 28
+        }
+      },
+      "4": {
+        "n": 29,
+        "passed": 3,
+        "success_rate": 0.10344827586206896,
+        "mean_score": 0.3879310344827586,
+        "mean_steps": 30.413793103448278,
+        "median_steps": 31,
+        "mean_duration_s": 1404.6653448275863,
+        "median_duration_s": 1582.359,
+        "terminations": {
+          "time_limit": 10,
+          "done": 10,
+          "max_steps": 9
+        }
+      }
+    },
+    "crab": {
+      "1": {
+        "n": 10,
+        "passed": 3,
+        "success_rate": 0.3,
+        "mean_score": 0.45,
+        "mean_steps": 7.6,
+        "median_steps": 3.0,
+        "mean_duration_s": 207.4702,
+        "median_duration_s": 71.203,
+        "terminations": {
+          "done": 10
+        }
+      },
+      "2": {
+        "n": 95,
+        "passed": 33,
+        "success_rate": 0.3473684210526316,
+        "mean_score": 0.5096491228070176,
+        "mean_steps": 26.4,
+        "median_steps": 20,
+        "mean_duration_s": 999.1521473684211,
+        "median_duration_s": 958.969,
+        "terminations": {
+          "done": 58,
+          "max_steps": 26,
+          "time_limit": 11
+        }
+      },
+      "3": {
+        "n": 66,
+        "passed": 14,
+        "success_rate": 0.21212121212121213,
+        "mean_score": 0.5040404040404041,
+        "mean_steps": 30.09090909090909,
+        "median_steps": 26.0,
+        "mean_duration_s": 1322.5066363636363,
+        "median_duration_s": 1332.383,
+        "terminations": {
+          "done": 35,
+          "max_steps": 11,
+          "time_limit": 20
+        }
+      },
+      "4": {
+        "n": 29,
+        "passed": 5,
+        "success_rate": 0.1724137931034483,
+        "mean_score": 0.4396551724137931,
+        "mean_steps": 34.172413793103445,
+        "median_steps": 36,
+        "mean_duration_s": 1626.7833448275862,
+        "median_duration_s": 1817.937,
+        "terminations": {
+          "time_limit": 14,
+          "done": 12,
+          "max_steps": 3
+        }
+      }
+    },
+    "mobile": {
+      "1": {
+        "n": 10,
+        "passed": 4,
+        "success_rate": 0.4,
+        "mean_score": 0.65,
+        "mean_steps": 2.2,
+        "median_steps": 2.0,
+        "mean_duration_s": 5.0437,
+        "median_duration_s": 5.039,
+        "terminations": {
+          "done": 10
+        }
+      },
+      "2": {
+        "n": 95,
+        "passed": 9,
+        "success_rate": 0.09473684210526316,
+        "mean_score": 0.21298245614035088,
+        "mean_steps": 36.084210526315786,
+        "median_steps": 50,
+        "mean_duration_s": 338.91374736842107,
+        "median_duration_s": 350.125,
+        "terminations": {
+          "done": 32,
+          "max_steps": 63
+        }
+      },
+      "3": {
+        "n": 66,
+        "passed": 0,
+        "success_rate": 0.0,
+        "mean_score": 0.13434343434343435,
+        "mean_steps": 44.86363636363637,
+        "median_steps": 50.0,
+        "mean_duration_s": 489.2324545454546,
+        "median_duration_s": 489.625,
+        "terminations": {
+          "max_steps": 57,
+          "done": 9
+        }
+      },
+      "4": {
+        "n": 29,
+        "passed": 0,
+        "success_rate": 0.0,
+        "mean_score": 0.10632183908045977,
+        "mean_steps": 41.03448275862069,
+        "median_steps": 50,
+        "mean_duration_s": 622.8830689655173,
+        "median_duration_s": 612.906,
+        "terminations": {
+          "max_steps": 23,
+          "done": 6
+        }
+      }
+    }
+  },
+  "pairs": {
+    "gemini+crab": {
+      "both_fail": 128,
+      "both_pass": 24,
+      "only_crab": 31,
+      "only_gemini": 17
+    },
+    "gemini+mobile": {
+      "both_fail": 156,
+      "only_gemini": 31,
+      "both_pass": 10,
+      "only_mobile": 3
+    },
+    "crab+mobile": {
+      "both_fail": 142,
+      "only_crab": 45,
+      "both_pass": 10,
+      "only_mobile": 3
+    }
+  },
+  "pairs_without_new_scoring_questions": {
+    "gemini+crab": {
+      "n": 198,
+      "counts": {
+        "both_fail": 128,
+        "both_pass": 24,
+        "only_crab": 29,
+        "only_gemini": 17
+      },
+      "separate": [
+        {
+          "task_id": "linux_android_1320",
+          "raw_pair": "only_crab",
+          "reason": "incidental scoring question; no result change"
+        },
+        {
+          "task_id": "linux_only_249",
+          "raw_pair": "only_crab",
+          "reason": "incidental scoring question; no result change"
+        }
+      ]
+    },
+    "gemini+mobile": {
+      "n": 198,
+      "counts": {
+        "both_fail": 154,
+        "only_gemini": 31,
+        "both_pass": 10,
+        "only_mobile": 3
+      },
+      "separate": [
+        {
+          "task_id": "linux_android_1320",
+          "raw_pair": "both_fail",
+          "reason": "incidental scoring question; no result change"
+        },
+        {
+          "task_id": "linux_only_249",
+          "raw_pair": "both_fail",
+          "reason": "incidental scoring question; no result change"
+        }
+      ]
+    },
+    "crab+mobile": {
+      "n": 200,
+      "counts": {
+        "both_fail": 142,
+        "only_crab": 45,
+        "both_pass": 10,
+        "only_mobile": 3
+      },
+      "separate": []
+    }
+  },
+  "comparability": {
+    "gemini+crab": {
+      "exact_task_equal": 200,
+      "task_diffs": {},
+      "materialized_diff_paths": {
+        "/setup/2/config/1/parameters/files/0/local_path": 29,
+        "/setup/3/config/1/parameters/files/0/local_path": 6,
+        "/setup/0/config/2/parameters/files/0/local_path": 10,
+        "/setup/1/config/1/parameters/files/0/local_path": 62,
+        "/setup/1/config/1/parameters/files/1/local_path": 7,
+        "/setup/1/config/2/parameters/files/0/local_path": 13,
+        "/setup/0/config/1/parameters/files/0/local_path": 127,
+        "/setup/1/config/3/parameters/files/0/local_path": 10,
+        "/setup/1/config/3/parameters/files/1/local_path": 1,
+        "/evaluation/0/expected/rules/preserve_from": 10,
+        "/setup/2/config/1/parameters/files/1/local_path": 8,
+        "/setup/0/config/9/parameters/files/0/local_path": 2,
+        "/setup/1/config/2/parameters/files/1/local_path": 2,
+        "/setup/1/config/2/parameters/files/2/local_path": 1,
+        "/setup/1/config/2/parameters/files/3/local_path": 1,
+        "/evaluation/0/result/download_source": 1,
+        "/setup/0/config/2/parameters/files/1/local_path": 1,
+        "/setup/0/config/2/parameters/files/2/local_path": 1,
+        "/setup/0/config/1/parameters/files/1/local_path": 12,
+        "/setup/0/config/1/parameters/files/2/local_path": 4,
+        "/setup/1/config/1/parameters/files/2/local_path": 1,
+        "/setup/0/config/5/parameters/files/0/local_path": 1,
+        "/setup/0/config/3/parameters/files/0/local_path": 2,
+        "/evaluation/0/expected/rules/members/dispatch_client.py": 1,
+        "/evaluation/0/expected/rules/members/manifest_copy.csv": 1,
+        "/evaluation/0/expected/rules/members/release_notes.md": 1,
+        "/setup/0/config/1/parameters/files/3/local_path": 1,
+        "/setup/0/config/1/parameters/files/4/local_path": 1,
+        "/setup/2/config/2/parameters/files/0/local_path": 2,
+        "/setup/2/config/3/parameters/files/0/local_path": 1,
+        "/evaluation/1/expected/rules/preserve_from": 4,
+        "/setup/0/config/6/parameters/files/0/local_path": 2,
+        "/setup/0/config/3/parameters/files/1/local_path": 1,
+        "/setup/0/config/8/parameters/files/0/local_path": 1,
+        "/setup/0/config/4/parameters/files/0/local_path": 1,
+        "/evaluation/2/expected/rules/source_path": 1,
+        "/evaluation/0/expected/rules/members/normalizer.py": 1,
+        "/evaluation/0/expected/rules/members/test_output.txt": 1,
+        "/setup/1/config/7/parameters/files/0/local_path": 1,
+        "/setup/1/config/5/parameters/files/0/local_path": 2,
+        "/evaluation/0/expected/rules/members/Alpha_Report_v2.pdf/archive": 1,
+        "/evaluation/0/expected/rules/members/Beta_Summary_v1.pdf/archive": 1
+      },
+      "evaluator_spec_diff_paths": {
+        "/0/expected/rules/preserve_from": 10,
+        "/0/result/download_source": 1,
+        "/0/expected/rules/members/dispatch_client.py": 1,
+        "/0/expected/rules/members/manifest_copy.csv": 1,
+        "/0/expected/rules/members/release_notes.md": 1,
+        "/1/expected/rules/preserve_from": 4,
+        "/2/expected/rules/source_path": 1,
+        "/0/expected/rules/members/normalizer.py": 1,
+        "/0/expected/rules/members/test_output.txt": 1,
+        "/0/expected/rules/members/Alpha_Report_v2.pdf/archive": 1,
+        "/0/expected/rules/members/Beta_Summary_v1.pdf/archive": 1
+      },
+      "normalized_materialized_equal": 200,
+      "normalized_evaluator_spec_equal": 200,
+      "boundary": "configuration comparison only; no historical asset-byte or evaluator-implementation equivalence asserted"
+    },
+    "gemini+mobile": {
+      "exact_task_equal": 200,
+      "task_diffs": {},
+      "materialized_diff_paths": {
+        "/setup/2/config/1/parameters/files/0/local_path": 29,
+        "/setup/3/config/1/parameters/files/0/local_path": 6,
+        "/setup/0/config/2/parameters/files/0/local_path": 10,
+        "/setup/1/config/1/parameters/files/0/local_path": 62,
+        "/setup/1/config/1/parameters/files/1/local_path": 7,
+        "/setup/1/config/2/parameters/files/0/local_path": 13,
+        "/setup/0/config/1/parameters/files/0/local_path": 127,
+        "/setup/1/config/3/parameters/files/0/local_path": 10,
+        "/setup/1/config/3/parameters/files/1/local_path": 1,
+        "/evaluation/0/expected/rules/preserve_from": 10,
+        "/setup/2/config/1/parameters/files/1/local_path": 8,
+        "/setup/0/config/9/parameters/files/0/local_path": 2,
+        "/setup/1/config/2/parameters/files/1/local_path": 2,
+        "/setup/1/config/2/parameters/files/2/local_path": 1,
+        "/setup/1/config/2/parameters/files/3/local_path": 1,
+        "/evaluation/0/result/download_source": 1,
+        "/setup/0/config/2/parameters/files/1/local_path": 1,
+        "/setup/0/config/2/parameters/files/2/local_path": 1,
+        "/setup/0/config/1/parameters/files/1/local_path": 12,
+        "/setup/0/config/1/parameters/files/2/local_path": 4,
+        "/setup/1/config/1/parameters/files/2/local_path": 1,
+        "/setup/0/config/5/parameters/files/0/local_path": 1,
+        "/setup/0/config/3/parameters/files/0/local_path": 2,
+        "/evaluation/0/expected/rules/members/dispatch_client.py": 1,
+        "/evaluation/0/expected/rules/members/manifest_copy.csv": 1,
+        "/evaluation/0/expected/rules/members/release_notes.md": 1,
+        "/setup/0/config/1/parameters/files/3/local_path": 1,
+        "/setup/0/config/1/parameters/files/4/local_path": 1,
+        "/setup/2/config/2/parameters/files/0/local_path": 2,
+        "/setup/2/config/3/parameters/files/0/local_path": 1,
+        "/evaluation/1/expected/rules/preserve_from": 4,
+        "/setup/0/config/6/parameters/files/0/local_path": 2,
+        "/setup/0/config/3/parameters/files/1/local_path": 1,
+        "/setup/0/config/8/parameters/files/0/local_path": 1,
+        "/setup/0/config/4/parameters/files/0/local_path": 1,
+        "/evaluation/2/expected/rules/source_path": 1,
+        "/evaluation/0/expected/rules/members/normalizer.py": 1,
+        "/evaluation/0/expected/rules/members/test_output.txt": 1,
+        "/setup/1/config/7/parameters/files/0/local_path": 1,
+        "/setup/1/config/5/parameters/files/0/local_path": 2,
+        "/evaluation/0/expected/rules/members/Alpha_Report_v2.pdf/archive": 1,
+        "/evaluation/0/expected/rules/members/Beta_Summary_v1.pdf/archive": 1
+      },
+      "evaluator_spec_diff_paths": {
+        "/0/expected/rules/preserve_from": 10,
+        "/0/result/download_source": 1,
+        "/0/expected/rules/members/dispatch_client.py": 1,
+        "/0/expected/rules/members/manifest_copy.csv": 1,
+        "/0/expected/rules/members/release_notes.md": 1,
+        "/1/expected/rules/preserve_from": 4,
+        "/2/expected/rules/source_path": 1,
+        "/0/expected/rules/members/normalizer.py": 1,
+        "/0/expected/rules/members/test_output.txt": 1,
+        "/0/expected/rules/members/Alpha_Report_v2.pdf/archive": 1,
+        "/0/expected/rules/members/Beta_Summary_v1.pdf/archive": 1
+      },
+      "normalized_materialized_equal": 200,
+      "normalized_evaluator_spec_equal": 200,
+      "boundary": "configuration comparison only; no historical asset-byte or evaluator-implementation equivalence asserted"
+    },
+    "crab+mobile": {
+      "exact_task_equal": 200,
+      "task_diffs": {},
+      "materialized_diff_paths": {
+        "/setup/2/config/1/parameters/files/0/local_path": 29,
+        "/setup/3/config/1/parameters/files/0/local_path": 6,
+        "/setup/0/config/2/parameters/files/0/local_path": 10,
+        "/setup/1/config/1/parameters/files/0/local_path": 62,
+        "/setup/1/config/1/parameters/files/1/local_path": 7,
+        "/setup/1/config/2/parameters/files/0/local_path": 13,
+        "/setup/0/config/1/parameters/files/0/local_path": 127,
+        "/setup/1/config/3/parameters/files/0/local_path": 10,
+        "/setup/1/config/3/parameters/files/1/local_path": 1,
+        "/evaluation/0/expected/rules/preserve_from": 10,
+        "/setup/2/config/1/parameters/files/1/local_path": 8,
+        "/setup/0/config/9/parameters/files/0/local_path": 2,
+        "/setup/1/config/2/parameters/files/1/local_path": 2,
+        "/setup/1/config/2/parameters/files/2/local_path": 1,
+        "/setup/1/config/2/parameters/files/3/local_path": 1,
+        "/evaluation/0/result/download_source": 1,
+        "/setup/0/config/2/parameters/files/1/local_path": 1,
+        "/setup/0/config/2/parameters/files/2/local_path": 1,
+        "/setup/0/config/1/parameters/files/1/local_path": 12,
+        "/setup/0/config/1/parameters/files/2/local_path": 4,
+        "/setup/1/config/1/parameters/files/2/local_path": 1,
+        "/setup/0/config/5/parameters/files/0/local_path": 1,
+        "/setup/0/config/3/parameters/files/0/local_path": 2,
+        "/evaluation/0/expected/rules/members/dispatch_client.py": 1,
+        "/evaluation/0/expected/rules/members/manifest_copy.csv": 1,
+        "/evaluation/0/expected/rules/members/release_notes.md": 1,
+        "/setup/0/config/1/parameters/files/3/local_path": 1,
+        "/setup/0/config/1/parameters/files/4/local_path": 1,
+        "/setup/2/config/2/parameters/files/0/local_path": 2,
+        "/setup/2/config/3/parameters/files/0/local_path": 1,
+        "/evaluation/1/expected/rules/preserve_from": 4,
+        "/setup/0/config/6/parameters/files/0/local_path": 2,
+        "/setup/0/config/3/parameters/files/1/local_path": 1,
+        "/setup/0/config/8/parameters/files/0/local_path": 1,
+        "/setup/0/config/4/parameters/files/0/local_path": 1,
+        "/evaluation/2/expected/rules/source_path": 1,
+        "/evaluation/0/expected/rules/members/normalizer.py": 1,
+        "/evaluation/0/expected/rules/members/test_output.txt": 1,
+        "/setup/1/config/7/parameters/files/0/local_path": 1,
+        "/setup/1/config/5/parameters/files/0/local_path": 2,
+        "/evaluation/0/expected/rules/members/Alpha_Report_v2.pdf/archive": 1,
+        "/evaluation/0/expected/rules/members/Beta_Summary_v1.pdf/archive": 1
+      },
+      "evaluator_spec_diff_paths": {
+        "/0/expected/rules/preserve_from": 10,
+        "/0/result/download_source": 1,
+        "/0/expected/rules/members/dispatch_client.py": 1,
+        "/0/expected/rules/members/manifest_copy.csv": 1,
+        "/0/expected/rules/members/release_notes.md": 1,
+        "/1/expected/rules/preserve_from": 4,
+        "/2/expected/rules/source_path": 1,
+        "/0/expected/rules/members/normalizer.py": 1,
+        "/0/expected/rules/members/test_output.txt": 1,
+        "/0/expected/rules/members/Alpha_Report_v2.pdf/archive": 1,
+        "/0/expected/rules/members/Beta_Summary_v1.pdf/archive": 1
+      },
+      "normalized_materialized_equal": 200,
+      "normalized_evaluator_spec_equal": 200,
+      "boundary": "configuration comparison only; no historical asset-byte or evaluator-implementation equivalence asserted"
+    }
+  },
+  "checks": {
+    "rows": 600,
+    "statuses": {
+      "completed": 600
+    },
+    "returncodes": {
+      "1": 491,
+      "0": 109
+    },
+    "summary_raw_termination_mismatches": [],
+    "time_flag_reason_mismatches": [],
+    "max_steps_flag_not_50": []
+  }
+}
