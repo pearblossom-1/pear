@@ -1,266 +1,596 @@
-# HTML / Website：140 个候选页面组的业务与实现分类
+# HTML / Website 完整分类统计：460 条资源
 
-日期：2026-09-08。基于当前工作树的静态源码与任务指令复核；不是浏览器执行验证，也不是 agent 成功率审计。
+日期：2026-09-08。此版替换此前仅含 140 组的补充表，覆盖原盘点纳入的全部 HTML；不是最终发布范围或设备执行验证。
 
-## 1. 结论与范围
+## 1. 完整范围与对账
 
-- 原待审队列 140 组已逐组完成用途与交互实现分类，业务归类遗漏 0 组。
-- 按任务用途：表单型 99，按钮确认型 2，资料型 39；合计 140。
-- 按主要业务用途：16 类。每组只归入一个主类；混合任务按主要业务目标归类。
-- 140 是任务页面组数，不是独立网站数；16 类是本轮业务分类，也不是 16 个网站。
-- 39 组从“独立交互网站候选”降为任务材料类；剩余 101 组是合成表单/确认界面实例，仍不能逐组当作独立网站。
+| 项目 | 数量 |
+|---|---:|
+| 此前待归类并已复核的页面组 | 140 |
+| 此前标为资料类、本轮补充逐项归类的资源 | 320 |
+| **完整 HTML 统计范围** | **460** |
+| 关联不同原始任务 | 417 |
+| 实体 HTML 文件 | 458 |
+| setup 内联 HTML | 2 |
+| 主要业务类型（每资源一个主类） | 17 |
 
-原盘点纳入 460 条 HTML 资源。本轮只复核其中原标为 unresolved_web_application_candidate 的 140 条：恰为 140 个 task-web 组、140 个 HTML 源文件、140 个关联任务，均有 setup 部署路径。另 320 条原资料类不开展新一轮分类；直接关联的确认页只用来核实页面关系，不额外增加本轮分母。
+原发现数为 461；linux_only_249 的未部署旧 form.html 仍排除，故 461 − 1 = 460。不是“140 加上另外 460”，也不是 460 个独立网站或 460 个任务。
 
-沿用原候选范围可写：460 = 320（本轮未重新归类）+ 39（本轮资料型）+ 99（表单型）+ 2（按钮确认型）。原发现的第 461 条未部署 HTML 仍不加入。
+旧 140 关联 140 个任务；补充 320 关联 279 个任务；两部分有 2 个任务重合，按任务去重后为 417。同一任务的目录、详情、历史候选和确认页可占多条 HTML 资源，但不据此增加网站。
 
-不修改原 summary、inventory、任务、evaluator 或实验集合；不确定最终发布规模，不读取模型成败决定分类。
+本轮读取全部新增 320 条的正文/属性/脚本与原始 instruction，并沿用已完成的 140 条逐项复核；核对 setup 部署，针对下载与浏览器构造程序读取直接相关实现。未启动网页、设备或 agent；未依据模型表现分类，也未修改任务、evaluator、原统计范围或实验集合。
 
-## 2. 业务分布
+## 2. 完整业务分类表
 
-分类按“页面服务什么业务”，不是按页面 title、文件名或 HTML 控件猜测。SmartHome 计划/工作流单列；洗衣、清扫与设备维护按其业务单列；普通设备变更与盘点再分开。通用审核与登记只接收不属于这些更具体主类的页面。
+分母统一为 460。采用“业务目的”主分类，不把一个资源重复计入多个业务类。Home 环境设置、未来计划、家电维护和只读盘点分别归类；有食谱内容的新增资源归入食谱与烹饪准备。软件类名称扩展为“软件研发、发布与 QA”，以包含新纳入的 API/算法修复说明；原 140 的分类归属不变。
 
-| 业务类型 | 全部组数 | 占 140 比例 | 表单/按钮确认型 | 资料型 |
+| 业务类型 | 原 140 | 补充 320 | **全部** | 占 460 比例 |
 |---|---:|---:|---:|---:|
-| SmartHome 计划与工作流 | 16 | 11.43% | 16 | 0 |
-| 洗衣、清扫与家电维护 | 16 | 11.43% | 16 | 0 |
-| 房间设备变更与审批 | 14 | 10.00% | 13 | 1 |
-| 物流、库存与配送 | 12 | 8.57% | 5 | 7 |
-| 软件发布与 QA | 12 | 8.57% | 8 | 4 |
-| 通用请求审批与审核 | 9 | 6.43% | 7 | 2 |
-| 财务、发票与价格 | 9 | 6.43% | 1 | 8 |
-| 日程、预约与值班 | 9 | 6.43% | 8 | 1 |
-| 登记、调查与信息采集 | 8 | 5.71% | 8 | 0 |
-| 身份、验证码与访问确认 | 7 | 5.00% | 7 | 0 |
-| 运营、派工与资料交接 | 7 | 5.00% | 1 | 6 |
-| SmartHome 状态与能力盘点 | 6 | 4.29% | 6 | 0 |
-| 营销与图像制作需求 | 6 | 4.29% | 1 | 5 |
-| 服务器与配置运维 | 4 | 2.86% | 1 | 3 |
-| 音频、播放与转录 | 3 | 2.14% | 1 | 2 |
-| 地点与坐标登记 | 2 | 1.43% | 2 | 0 |
-| 合计 | 140 | 100% | 101 | 39 |
+| 房间设备变更与审批 | 14 | 61 | **75** | 16.30% |
+| SmartHome 计划与工作流 | 16 | 43 | **59** | 12.83% |
+| 运营、派工与资料交接 | 7 | 49 | **56** | 12.17% |
+| 物流、库存与配送 | 12 | 27 | **39** | 8.48% |
+| 软件研发、发布与 QA | 12 | 21 | **33** | 7.17% |
+| 通用请求审批与审核 | 9 | 23 | **32** | 6.96% |
+| 洗衣、清扫与家电维护 | 16 | 12 | **28** | 6.09% |
+| 地点与坐标登记 | 2 | 24 | **26** | 5.65% |
+| 日程、预约与值班 | 9 | 16 | **25** | 5.43% |
+| 音频、播放与转录 | 3 | 14 | **17** | 3.70% |
+| 财务、发票与价格 | 9 | 5 | **14** | 3.04% |
+| 身份、验证码与访问确认 | 7 | 7 | **14** | 3.04% |
+| 服务器与配置运维 | 4 | 7 | **11** | 2.39% |
+| 营销与图像制作需求 | 6 | 5 | **11** | 2.39% |
+| 登记、调查与信息采集 | 8 | 2 | **10** | 2.17% |
+| SmartHome 状态与能力盘点 | 6 | 1 | **7** | 1.52% |
+| 食谱与烹饪准备 | 0 | 3 | **3** | 0.65% |
+| **合计** | **140** | **320** | **460** | **100%** |
 
-比例四舍五入，显示值相加可能不是恰好 100%。类型体现任务材料的业务用途，例如“营销与图像制作需求”不表示网页内实现了图像编辑。
+显示百分比经四舍五入。这里的 17 类描述页面内容服务的业务，不是 17 个网站；例如营销图片制作要求页不代表网页本身有图像编辑器。
 
-## 3. 页面作用与真实交互
+## 3. 完整页面作用分类
 
-| 本任务中页面的作用 | 组数 | 比例 | 解释 |
-|---|---:|---:|---|
-| 表单型 | 99 | 70.71% | 输入字段并提交/验证/生成回执的页面；包含特殊不提交分支和先修复表单的任务 |
-| 按钮确认型 | 2 | 1.43% | 无可编辑字段，按钮跳转固定确认地址 |
-| 资料型 | 39 | 27.86% | 任务读取表格、规则或请求，主要工作在其他环境/应用完成；不要求提交网页 |
+以下为互斥的主要页面作用，数量必须合计 460。资料页可含普通链接或未被本任务使用的回执处理器，不等于所有资料页都无 JavaScript。
 
-资料型不能一律描述为“完全没有 JavaScript”：其中 linux_android_smarthome_872 有可用的 query 回执处理器，linux_only_128 有 acknowledged fragment 处理器，但本任务不要求使用。linux_only_149 还要求打开指定静态确认页；它没有实际网页库存提交或修改逻辑。
+| 页面作用 | 原 140 | 补充 320 | **全部** | 比例 |
+|---|---:|---:|---:|---:|
+| 阅读参考与资料页（含目录/附件索引） | 39 | 309 | **348** | 75.65% |
+| 表单型界面 | 99 | 0 | **99** | 21.52% |
+| 固定按钮确认入口 | 2 | 0 | **2** | 0.43% |
+| 专门下载入口 | 0 | 5 | **5** | 1.09% |
+| 静态确认/回执页 | 0 | 4 | **4** | 0.87% |
+| 浏览器结果构造程序 | 0 | 1 | **1** | 0.22% |
+| 待编辑 HTML 产物模板 | 0 | 1 | **1** | 0.22% |
+| **合计** | **140** | **320** | **460** | **100%** |
 
-按源码实际提交/回执机制（与上面的任务用途是不同维度）汇总：
+- 348 条资料类 = 原 140 中 39 条 + 补充 320 中 309 条；后者再分为 297 条普通资料、10 条目录/书签索引、2 条附件索引。
+- 99 条表单型包含不同接收机制，不等于 99 个独立网站；其中 linux_android_1078 当前分支要求不提交，linux_android_235 要先修复字段名再提交。
+- 2 条按钮确认入口与 4 条静态回执分开统计：前者是发起导航的界面，后者是已显示确认内容或作为目标的页面。同一流程不因此变成两个网站。
+- 5 条专门下载入口不包含表单型 linux_android_230；该表单还提供 PDF 下载，所以下载功能总数是 6 而不是 5。
+- linux_android_165 的 build-result.html 是浏览器执行程序：fetch source-input.json，调用 gate.js，写 DOM 结果；build-result.sh 通过 headless Chrome 提取结果生成 JSON。这是待修复模块的任务执行资产，不是纯静态正文，也不凭该程序额外计一个网站。
+- linux_only_271 的 report.html 是待替换的报告草稿，编辑发生在外部，不是内嵌 Web 编辑器。
 
-| 源码实现机制 | 组数 | 其中本任务仅作为资料 |
-|---|---:|---:|
-| 真实 POST 接收与校验回执 | 40 | 0 |
-| 前端预设值校验与成功/失败反馈 | 8 | 0 |
-| 表单字段写入 URL query / fragment | 51 | 1 |
-| fragment / 页内文本确认 | 2 | 1 |
-| 固定按钮跳转确认地址 | 2 | 0 |
-| 无实质提交/回执状态处理 | 37 | 37 |
+## 4. 完整功能分布（可多标签）
 
-前五项共 103 组存在提交/回执/导航代码。这是 5 种实现机制，不是 5 个已经去重的网站。固定确认导航中的 523 目标页部署存在缺口，不能将上述数量宣传为已验证可用网站数量。
+此表覆盖全部 460，功能可重叠，不能把各行相加当页面/应用总数。业务类型、主要页面作用、实现功能是三个不同维度。
 
-### 具体实现依据
+| 功能 | 原 140 | 补充 320 | 全部资源数 |
+|---|---:|---:|---:|
+| 信息展示 | 140 | 320 | 460 |
+| 表单业务输入入口 | 99 | 0 | 99 |
+| 提交/确认状态处理代码 | 103 | 0 | 103 |
+| 原生超链接 | 4 | 17 | 21 |
+| 下载链接 | 1 | 5 | 6 |
+| 真实文件上传控件 | 1 | 0 | 1 |
+| 浏览器结果计算/构造 | 0 | 1 | 1 |
 
-- 40 组 POST 表单：逐一核对 task 的 host_form_submission_state 合约。LinuxRuntime 用实际接收地址替换占位符；HostFormVerifier 接收字段/文件、校验并返回 submitted/invalid 页面。不能因为 HTML 没有 JavaScript 就误判不能提交。这里仅使用接收流程说明实现，不用 evaluator 隐藏答案推定业务需求。
-- 这 40 组内部：35 个普通原生 POST、1 个两步 wizard、1 个 multipart 上传、1 个带页内回执的 POST、1 个附 PDF 下载入口、1 个任务要求修复字段名后提交的表单。
-- 8 组前端值校验：输入与页面预设值比较，产生成功/失败文字或 fragment；不等于有后端数据库、账户系统或完整审批流程。
-- 51 组 query 回执：将输入写入浏览器地址的 query / fragment，其中 50 组要求提交，1 组仅作资料。这些 Home 页面不直接连接或控制 SmartHome；实时查询和设备动作由任务中的 Home 环境承担。
-- 2 组 fragment/文本回执：linux_only_263 收集 caseId/owner 并显示提交结果；linux_only_128 只是可选 acknowledged 标记。
-- 2 组固定确认导航：linux_only_121 与 linux_smarthome_523；前者的确认页由 setup 明确创建，后者见下方疑点。
+功能口径说明：
 
-相关共用实现：[runtime.py](../../mdcbench/devices/linux/runtime.py)、[host_form.py](../../mdcbench/devices/linux/host_form.py)。共享处理器说明复用机制，不足以单独决定所有业务页面应合并成一个网站。
+- 表单业务入口按实际收集字段的流程计，不把隐藏 token、readonly 材料、无处理器的装饰按钮自动计入。这里不是声称每个入口均已通过执行测试。
+- 提交/确认处理共 103：真实 POST 接收 40、前端值校验 8、query 回执 51、fragment/文本确认 2、固定确认导航 2。含两个在本任务中仅作为资料的处理器（linux_android_smarthome_872、linux_only_128）。
+- 原生超链接指 HTML 源码中的 a[href]，不包括纯文本 URL、脚本修改 location 或浏览器自行输入地址；只确认链接存在，未全面验证每个目标地址可访问。
+- 下载共 6 页：linux_android_230、linux_only_019、linux_smarthome_508、570、783、974；直接下载附件均在 setup 中部署。783 含当前与历史两条下载链接，但按页面只计 1。
+- 真实文件上传仅 linux_android_1585，含两个 file 字段及 multipart 接收。文件名含 upload 或字段写着 files 并不足以计上传。
+- 规则页面中的公式、阈值、筛选要求由 agent/外部应用执行，不当作 Web 查询筛选或 Web 计算功能。浏览器结果构造程序单列，不与“用户交互计算器”混称。
 
-## 4. 与旧功能标签的区别及边界
+旧 summary 中 form_entry=130、submit_confirm_handler=67 是自动源码线索，不是这次语义复核后的可用业务入口数：旧规则既把隐藏/readonly 控件计入，也漏掉原生 POST；还漏掉没有输入控件的 browser-backed 结果程序。本报告保留每条 initial_inventory_function_labels，另以 function_labels 保存完整复核口径，不默默覆盖原 summary。
 
-旧报告的 4 类是对全部 460 条 HTML 的自动功能标签（可重叠），本轮 16 类是对 140 组的业务主分类（互斥），不能互相替代，也不能相加。
+## 5. 页面关系、网站身份与具体例外
 
-- 旧 form_entry=130 只检测 input/select/textarea，隐藏或 readonly 字段、静态材料中的占位表单也会被计入。
-- 旧 submit_confirm_handler=67 漏掉无 JS 的真实原生 POST，同时把仅 preventDefault / return false 的空处理器也作为线索。因此它不是真实提交页面数。
-- 仅在本轮 140 组中确认 1 组真正 file-input/multipart 上传：linux_android_1585，含两个文件字段。linux_android_169 虽文件名含 upload，只提交 package_id；linux_android_886 的 files 字段只是文本文件名清单。
-- 本轮 140 组中确认 1 组 HTML download 链接：linux_android_230。PDF 由 setup 部署，链接始终可见，不宣称由验证码解锁。原 460 条的 download_export=6 不能被本轮的 1 覆盖。
-- Linux/Android 上制作 PNG、PDF、ODT、JSON、CSV、播放音频或编辑工作簿，不等于对应 HTML 实现这些功能。
+### 不按页面或业务类型计网站
 
-### 需要保留的具体静态疑点
+- linux_android_073 的 5 页是一个维护资料集合：目录与 East/West、Current/Archived/Draft 候选，不是 5 个网站。
+- linux_android_165 的 2 页分别是人读契约和程序化结果构造页；同任务不等于同一功能，更不能把执行程序当成额外网站产品。
+- linux_only_121 的按钮页与 setup 内联确认页属于同一确认路径；linux_only_149 的说明页与确认页同理。
+- JSONL 中 page_collection_id 仅表示同一 task 的关联资源，不冒充正式网站 canonical_id；标题、业务类、端口和共享处理器也不直接作为网站身份。
 
-linux_smarthome_523 的 index.html 点击后跳到 file:///home/user/approval/submitted.html?...#submitted；当前 setup 先删除 submitted.html，随后只部署 index.html，没有创建目标 HTML。故归为“有确认导航代码，但目标页初始化缺失”，不是完整可用的确认网站。依据为该任务 setup 与 HTML；本轮未执行验证、未修复，也不改判历史实验结果。
+**独立网站实体数仍需身份/家族确认，不能填写 460、140 或 17。** 当前已有 25 个明确应用实体的统计不在本轮重算；本次完成的是全部 HTML 的业务与页面/功能分类，而不是把每个合成页面包装成新应用。匿名下载页同样不能因可下载就独立算网站。网页是 task-specific materials 并不意味着它无价值或任务应删除。
 
-另外两项属于任务/实现边界，不是本轮发现的模型失败：linux_android_1078 的当前源记录分支要求保持表单未提交；linux_android_235 明确要求 agent 修复字段名不匹配后再提交，server.py 是字段契约示例，实际接收来自 runtime。99 个表单型不能等同于 99 个当前条件下都应该直接提交的任务。
+### 具体静态限制
 
-任务要求提交/按钮确认共 100 组（98 个表单 + 2 个按钮）；另外 1 个表单明确应保持未提交；39 个资料型不要求表单提交。此处同样只是静态要求，不是执行成功数量。
+- linux_smarthome_523 的按钮指向 submitted.html，但当前 setup 清除该文件后只部署 index.html，未见确认目标重建。仍记为有固定导航代码，并明确该缺口；不声称流程已验证可用，不修改或重判实验。
+- linux_android_230 的 PDF 链接始终可见，不宣称验证码技术上解锁文件。
+- linux_android_165 当前 gate.js 为待修复实现；有计算执行链不表示初始算法正确，这正是任务要求，不是本轮擅自修复的对象。
+- HTML 包含“submit”“dashboard”“editor”之类文案，但没有相应处理代码时，以实际界面/任务使用方式分类，不补出原任务没有的功能。
 
-## 5. 独立网站实体应该如何表述
+## 6. 全部 460 条逐项清单
 
-此次已完成全部 140 组的语义用途与交互分类，而不是将 140 个不同标题变成 140 个网站。39 组建议按 task-specific HTML materials 保留；其余 101 组记作 synthetic form/confirmation interfaces。
+完整理由、关联任务、部署位置、页面集合、原始与复核功能、证据路径均见 [html_website_classification.jsonl](html_website_classification.jsonl)。以下每行对应一个 HTML 资源，按业务主类排列；“原 140 / 补充 320”用于回溯来源。
 
-从功能角色、字段/记录结构与状态流，可见它们集中复用“输入记录—接收校验”“输入—前端值核对”“输入—URL 回执”“确认按钮—目标地址”等机制，而不是各自实现完整的票务、音乐、库存或 Home 控制产品。报告保留这些实现分类与每页证据，未把共享 builder/receiver、业务类型、页面标题或端口强行当作正式网站家族。
+| 任务 | 来源 | 业务类型 | 页面具体用途 | 页面作用 | 源码/内联位置 |
+|---|---|---|---|---|---|
+| [android_smarthome_510](../../tasks/cross_device/android_smarthome/android_smarthome_510.json) | 补充 320 | 房间设备变更与审批 | 迎宾温度分档与空调灯光预设 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/android_smarthome_assets/android_smarthome_510/android/android_0/files/guest_arrival_guide.html) |
+| [linux_android_smarthome_092](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_092.json) | 补充 320 | 房间设备变更与审批 | 空气与湿度告警允许动作 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_092/source/home/user/alerts/dashboard.html) |
+| [linux_android_smarthome_094](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_094.json) | 补充 320 | 房间设备变更与审批 | 客厅调光能力替代政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_094/source/home/user/capability.html) |
+| [linux_android_smarthome_100](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_100.json) | 补充 320 | 房间设备变更与审批 | 多设备更改批准与保护清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_100/source/home/user/share/Change%20Requests/changes.html) |
+| [linux_android_smarthome_203](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_203.json) | 补充 320 | 房间设备变更与审批 | 无障碍送货类型与房间准备映射 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_203/source/home/user/share/Mobility%20Delivery%20Access%20Guide.html) |
+| [linux_android_smarthome_208](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_208.json) | 补充 320 | 房间设备变更与审批 | 家庭服务动作批准与例外 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_208/source/home/user/share/Household%20Service%20Approvals.html) |
+| [linux_android_smarthome_213](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_213.json) | 补充 320 | 房间设备变更与审批 | 窗户施工访问类型与居家准备 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_213/source/home/user/share/Window%20Service%20Access.html) |
+| [linux_android_smarthome_218](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_218.json) | 补充 320 | 房间设备变更与审批 | 哮喘敏感住宿的既定房间净化方案 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_218/source/home/user/share/Sleepover%20Asthma%20Plan.html) |
+| [linux_android_smarthome_221](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_221.json) | 补充 320 | 房间设备变更与审批 | 面试模式对应清扫与照明设置 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_221/source/home/user/share/Office%20Interview%20Setup.html) |
+| [linux_android_smarthome_226](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_226.json) | 补充 320 | 房间设备变更与审批 | 材质与照度对应窗帘准备规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_226/source/home/user/share/Condition%20Photo%20Guide.html) |
+| [linux_android_smarthome_238](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_238.json) | 补充 320 | 房间设备变更与审批 | 发酵情境下除湿设备阈值规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_238/source/home/user/share/Bread%20Proofing%20Moisture.html) |
+| [linux_android_smarthome_305](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_305.json) | 补充 320 | 房间设备变更与审批 | 客厅节能关灯批准 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_305/source/home/oai/share/approvals/living_room_energy_approval.html) |
+| [linux_android_smarthome_310](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_310.json) | 补充 320 | 房间设备变更与审批 | 隐私窗帘批准及安全照明保护 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_310/source/home/oai/share/approvals/living_room_privacy_approval.html) |
+| [linux_android_smarthome_315](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_315.json) | 补充 320 | 房间设备变更与审批 | 施工结束后的除湿动作授权 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_315/source/home/oai/share/Contractor%20Access%20Approval.html) |
+| [linux_android_smarthome_361](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_361.json) | 补充 320 | 房间设备变更与审批 | 辅导占用房间加热阈值 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_361/source/home/user/home_ops/home-requests/source/approval_form.html) |
+| [linux_android_smarthome_362](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_362.json) | 补充 320 | 房间设备变更与审批 | 无障碍通道占用与灯光级别 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_362/source/home/user/home_ops/room-updates/source/approval_form.html) |
+| [linux_android_smarthome_363](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_363.json) | 补充 320 | 房间设备变更与审批 | 无人房间盘点摄影补光 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_363/source/home/user/home_ops/schedule-changes/source/approval_form.html) |
+| [linux_android_smarthome_364](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_364.json) | 补充 320 | 房间设备变更与审批 | 运行中洗衣设备检修照明规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_364/source/home/user/home_ops/approval-forms/source/approval_form.html) |
+| [linux_android_smarthome_365](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_365.json) | 补充 320 | 房间设备变更与审批 | 网络讲座眩光照度规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_365/source/home/user/home_ops/comfort-checks/source/approval_form.html) |
+| [linux_android_smarthome_366](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_366.json) | 补充 320 | 房间设备变更与审批 | 厨房维修照度与占用条件 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_366/source/home/user/home_ops/service-notes/source/approval_form.html) |
+| [linux_android_smarthome_367](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_367.json) | 补充 320 | 房间设备变更与审批 | 目录摄影补光和占用条件 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_367/source/home/user/home_ops/phone-handoff/source/approval_form.html) |
+| [linux_android_smarthome_368](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_368.json) | 补充 320 | 房间设备变更与审批 | 浴室高湿时关闭加湿器规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_368/source/home/user/home_ops/status-reports/source/approval_form.html) |
+| [linux_android_smarthome_369](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_369.json) | 补充 320 | 房间设备变更与审批 | 有人客房温度控制规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_369/source/home/user/home_ops/plan-revisions/source/approval_form.html) |
+| [linux_android_smarthome_370](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_370.json) | 补充 320 | 房间设备变更与审批 | 仪器校准照度区间规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_370/source/home/user/home_ops/operations-log/source/approval_form.html) |
+| [linux_android_smarthome_371](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_371.json) | 补充 320 | 房间设备变更与审批 | 厨房颗粒物净化与无需改变分支 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_371/source/home/user/home_ops/home-requests/source/approval_form.html) |
+| [linux_android_smarthome_372](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_372.json) | 补充 320 | 房间设备变更与审批 | 房间净化器缺失时不得替代规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_372/source/home/user/home_ops/room-updates/source/approval_form.html) |
+| [linux_android_smarthome_373](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_373.json) | 补充 320 | 房间设备变更与审批 | 迎宾隐私窗帘即时设置政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_373/source/home/user/home_ops/schedule-changes/source/approval_form.html) |
+| [linux_android_smarthome_374](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_374.json) | 补充 320 | 房间设备变更与审批 | 洗衣间无人时服务照明政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_374/source/home/oai/share/Laundry%20Service%20Lighting%20Policy.html) |
+| [linux_android_smarthome_375](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_375.json) | 补充 320 | 房间设备变更与审批 | 低照度阅读照明辅助规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_375/source/home/oai/share/Study%20Reading%20Accommodation.html) |
+| [linux_android_smarthome_376](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_376.json) | 补充 320 | 房间设备变更与审批 | 厨房 PM2.5 分档净化规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_376/source/home/oai/share/Kitchen%20Air%20Response%20Policy.html) |
+| [linux_android_smarthome_380](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_380.json) | 补充 320 | 房间设备变更与审批 | 有人校准场景空气净化规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_380/source/home/oai/share/Workshop%20Air%20Policy.html) |
+| [linux_android_smarthome_383](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_383.json) | 补充 320 | 房间设备变更与审批 | 洗衣间湿度分档除湿规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_383/source/home/oai/share/Laundry%20Drying%20Policy.html) |
+| [linux_android_smarthome_386](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_386.json) | 补充 320 | 房间设备变更与审批 | 低视力读书照明政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_386/source/home/oai/share/Accessibility%20Lighting%20Policy.html) |
+| [linux_android_smarthome_389](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_389.json) | 补充 320 | 房间设备变更与审批 | 修复后房间空气恢复政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_389/source/home/oai/share/Living%20Room%20Air%20Recovery%20Policy.html) |
+| [linux_android_smarthome_444](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_444.json) | 补充 320 | 房间设备变更与审批 | 技术员授权下即时净化规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_444/source/home/user/share/Indoor%20Air%20Response%20Policy.html) |
+| [linux_android_smarthome_449](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_449.json) | 补充 320 | 房间设备变更与审批 | 织物检查窗帘即时设置授权 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_449/source/home/user/share/Fabric%20Inspection%20Light%20Policy.html) |
+| [linux_android_smarthome_455](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_455.json) | 补充 320 | 房间设备变更与审批 | 运行中烘干设备的照明关断权限 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_455/source/home/user/share/Laundry%20Service%20Lighting%20Policy.html) |
+| [linux_android_smarthome_598](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_598.json) | 原 140 | 房间设备变更与审批 | 混合设备变更授权统计 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_598/source/home/user/home_ops/status-reports/source/approval.html) |
+| [linux_android_smarthome_616](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_616.json) | 原 140 | 房间设备变更与审批 | 家庭变更审批批次 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_616/source/home/user/home_ops/service-notes/source/portal.html) |
+| [linux_android_smarthome_620](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_620.json) | 原 140 | 房间设备变更与审批 | 家庭变更看板回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_620/source/home/user/home_ops/operations-log/source/board.html) |
+| [linux_android_smarthome_870](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_870.json) | 补充 320 | 房间设备变更与审批 | 混合设备与自动化请求处置用语 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_870/source/home/user/home_ops/operations-log/source/board.html) |
+| [linux_android_smarthome_872](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_872.json) | 原 140 | 房间设备变更与审批 | 家庭变更批准资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_872/source/tmp/approved-home-change/policy/approvals.html) |
+| [linux_android_smarthome_970](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_970.json) | 补充 320 | 房间设备变更与审批 | 四行家庭请求能力与批准政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_970/source/home/user/share/Home%20Request%20Approval%20Rules.html) |
+| [linux_smarthome_063](../../tasks/cross_device/linux_smarthome/linux_smarthome_063.json) | 补充 320 | 房间设备变更与审批 | 厨房空气恢复动作说明 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_063/source/tmp/home/pages/kitchen-recovery.html) |
+| [linux_smarthome_066](../../tasks/cross_device/linux_smarthome/linux_smarthome_066.json) | 补充 320 | 房间设备变更与审批 | 浴室除湿设备设置说明 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_066/source/tmp/home/pages/bathroom-humidity.html) |
+| [linux_smarthome_1000](../../tasks/cross_device/linux_smarthome/linux_smarthome_1000.json) | 补充 320 | 房间设备变更与审批 | 可写与只读 Home 字段能力规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_1000/source/tmp/capability/policy.html) |
+| [linux_smarthome_1004](../../tasks/cross_device/linux_smarthome/linux_smarthome_1004.json) | 补充 320 | 房间设备变更与审批 | 四类不执行设备请求处置规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_1004/source/tmp/nochange/policy.html) |
+| [linux_smarthome_1006](../../tasks/cross_device/linux_smarthome/linux_smarthome_1006.json) | 补充 320 | 房间设备变更与审批 | 角色权限、保护与平级冲突规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_1006/source/tmp/access/policy.html) |
+| [linux_smarthome_1008](../../tasks/cross_device/linux_smarthome/linux_smarthome_1008.json) | 补充 320 | 房间设备变更与审批 | 部分自动化设备存在性与手工例外 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_1008/source/tmp/partial/policy.html) |
+| [linux_smarthome_105](../../tasks/cross_device/linux_smarthome/linux_smarthome_105.json) | 补充 320 | 房间设备变更与审批 | 书房调光亮度设置 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_105/source/tmp/home/environment/study_dark.html) |
+| [linux_smarthome_132](../../tasks/cross_device/linux_smarthome/linux_smarthome_132.json) | 补充 320 | 房间设备变更与审批 | 厨房 PM2.5 阈值净化动作 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_132/source/tmp/home/gui/air.html) |
+| [linux_smarthome_156](../../tasks/cross_device/linux_smarthome/linux_smarthome_156.json) | 补充 320 | 房间设备变更与审批 | 厨房净化阈值与后续核验记录要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_156/source/tmp/home/integrated/air_quality.html) |
+| [linux_smarthome_251](../../tasks/cross_device/linux_smarthome/linux_smarthome_251.json) | 原 140 | 房间设备变更与审批 | 灯光窗帘配置回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_251/source/tmp/home/gui/lighting.html) |
+| [linux_smarthome_331](../../tasks/cross_device/linux_smarthome/linux_smarthome_331.json) | 补充 320 | 房间设备变更与审批 | 办公室空调批准设置 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_331/source/home/user/portal/request.html) |
+| [linux_smarthome_332](../../tasks/cross_device/linux_smarthome/linux_smarthome_332.json) | 补充 320 | 房间设备变更与审批 | 多房间告警批准与实时有效性 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_332/source/home/user/portal/alerts.html) |
+| [linux_smarthome_337](../../tasks/cross_device/linux_smarthome/linux_smarthome_337.json) | 补充 320 | 房间设备变更与审批 | 设备能力与缺失请求清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_337/source/home/user/portal/capability.html) |
+| [linux_smarthome_355](../../tasks/cross_device/linux_smarthome/linux_smarthome_355.json) | 补充 320 | 房间设备变更与审批 | 多房间严重空气告警响应 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_355/source/home/user/air/dashboard.html) |
+| [linux_smarthome_378](../../tasks/cross_device/linux_smarthome/linux_smarthome_378.json) | 原 140 | 房间设备变更与审批 | 卧室制冷选择回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_378/source/home/user/climate/cooling.html) |
+| [linux_smarthome_381](../../tasks/cross_device/linux_smarthome/linux_smarthome_381.json) | 原 140 | 房间设备变更与审批 | 窗帘请求适用性登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_381/source/home/user/curtain/request.html) |
+| [linux_smarthome_387](../../tasks/cross_device/linux_smarthome/linux_smarthome_387.json) | 原 140 | 房间设备变更与审批 | 空调模式请求处置回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_387/source/home/user/climate/mode-check.html) |
+| [linux_smarthome_442](../../tasks/cross_device/linux_smarthome/linux_smarthome_442.json) | 原 140 | 房间设备变更与审批 | 多设备请求能力审批登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_442/source/home/user/home/capabilities.html) |
+| [linux_smarthome_460](../../tasks/cross_device/linux_smarthome/linux_smarthome_460.json) | 原 140 | 房间设备变更与审批 | 综合变更审批回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_460/source/home/user/change/approval.html) |
+| [linux_smarthome_506](../../tasks/cross_device/linux_smarthome/linux_smarthome_506.json) | 原 140 | 房间设备变更与审批 | 房间调整请求复核 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_506/source/home/user/approval/index.html) |
+| [linux_smarthome_507](../../tasks/cross_device/linux_smarthome/linux_smarthome_507.json) | 原 140 | 房间设备变更与审批 | 空气污染定向响应回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_507/source/home/user/dashboard/air.html) |
+| [linux_smarthome_523](../../tasks/cross_device/linux_smarthome/linux_smarthome_523.json) | 原 140 | 房间设备变更与审批 | 照明审批固定确认导航 | 固定按钮确认入口 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_523/source/home/user/approval/index.html) |
+| [linux_smarthome_553](../../tasks/cross_device/linux_smarthome/linux_smarthome_553.json) | 原 140 | 房间设备变更与审批 | 家庭请求选择与例外登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_553/source/tmp/board/review.html) |
+| [linux_smarthome_569](../../tasks/cross_device/linux_smarthome/linux_smarthome_569.json) | 补充 320 | 房间设备变更与审批 | 空调维护通知有效期与占用条件 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_569/source/tmp/browser/maintenance_notice.html) |
+| [linux_smarthome_781](../../tasks/cross_device/linux_smarthome/linux_smarthome_781.json) | 补充 320 | 房间设备变更与审批 | 历史不可执行设备请求页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_781/source/home/user/approvals/archived.html) |
+| [linux_smarthome_781](../../tasks/cross_device/linux_smarthome/linux_smarthome_781.json) | 补充 320 | 房间设备变更与审批 | 当前窗帘操作批准详情 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_781/source/home/user/approvals/current.html) |
+| [linux_smarthome_781](../../tasks/cross_device/linux_smarthome/linux_smarthome_781.json) | 补充 320 | 房间设备变更与审批 | 当前与历史 Home 请求目录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_781/source/home/user/approvals/index.html) |
+| [linux_smarthome_782](../../tasks/cross_device/linux_smarthome/linux_smarthome_782.json) | 补充 320 | 房间设备变更与审批 | 可自动处理房间的风险优先级规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_782/source/home/user/dashboard/index.html) |
+| [linux_smarthome_786](../../tasks/cross_device/linux_smarthome/linux_smarthome_786.json) | 补充 320 | 房间设备变更与审批 | 批准设备能力请求清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_786/source/home/user/capability/index.html) |
+| [linux_smarthome_849](../../tasks/cross_device/linux_smarthome/linux_smarthome_849.json) | 补充 320 | 房间设备变更与审批 | 四行设备变更批准批次 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_849/source/tmp/browser/approval.html) |
+| [linux_smarthome_972](../../tasks/cross_device/linux_smarthome/linux_smarthome_972.json) | 补充 320 | 房间设备变更与审批 | 已关闭窗口的变更回执及事后核验规则 | 静态确认/回执页 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_972/source/home/user/approval/index.html) |
+| [linux_smarthome_991](../../tasks/cross_device/linux_smarthome/linux_smarthome_991.json) | 补充 320 | 房间设备变更与审批 | 当前设备审批与忙碌门禁 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_991/source/tmp/approval/current.html) |
+| [linux_android_smarthome_011](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_011.json) | 补充 320 | SmartHome 计划与工作流 | 门廊灯旧计划替换批准资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_011/source/approval_page.html) |
+| [linux_android_smarthome_091](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_091.json) | 补充 320 | SmartHome 计划与工作流 | 自动化变更编号批准表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_091/source/home/user/share/Approvals/change.html) |
+| [linux_android_smarthome_093](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_093.json) | 补充 320 | SmartHome 计划与工作流 | 睡眠冲突工作流清理候选 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_093/source/home/user/share/Workflow%20Cleanup/cleanup.html) |
+| [linux_android_smarthome_096](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_096.json) | 补充 320 | SmartHome 计划与工作流 | 访客抵达前自动化场景映射 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_096/source/home/user/guest.html) |
+| [linux_android_smarthome_098](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_098.json) | 补充 320 | SmartHome 计划与工作流 | 失败工作流修复批准与替代设置 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_098/source/home/user/repair.html) |
+| [linux_android_smarthome_117](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_117.json) | 补充 320 | SmartHome 计划与工作流 | 自动化请求编号批准表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_117/source/home/user/share/Automation%20Board/approvals.html) |
+| [linux_android_smarthome_320](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_320.json) | 补充 320 | SmartHome 计划与工作流 | 完整 Home 发布方案版本批准 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_320/source/home/oai/share/Final%20Release%20Approval.html) |
+| [linux_android_smarthome_393](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_393.json) | 补充 320 | SmartHome 计划与工作流 | 已有例程唯一替换规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_393/source/home/oai/share/Routine%20Replacement%20Policy.html) |
+| [linux_android_smarthome_397](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_397.json) | 补充 320 | SmartHome 计划与工作流 | 拍摄延期后窗帘单动作计划 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_397/source/home/oai/share/Kitchen%20Filming%20Privacy%20Policy.html) |
+| [linux_android_smarthome_403](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_403.json) | 补充 320 | SmartHome 计划与工作流 | 机密访谈延期后的灯窗帘计划 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_403/source/home/oai/share/Interview%20Privacy%20Policy.html) |
+| [linux_android_smarthome_407](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_407.json) | 补充 320 | SmartHome 计划与工作流 | 放映延期后的房间恢复计划 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_407/source/home/oai/share/Home%20Theater%20Privacy%20Policy.html) |
+| [linux_android_smarthome_462](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_462.json) | 补充 320 | SmartHome 计划与工作流 | 烟雾预警返家净化计划 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_462/source/home/user/share/Smoke%20Return%20Policy.html) |
+| [linux_android_smarthome_467](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_467.json) | 补充 320 | SmartHome 计划与工作流 | 保密设备返还时房间场景计划 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_467/source/home/user/share/Secure%20Equipment%20Return%20Policy.html) |
+| [linux_android_smarthome_479](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_479.json) | 补充 320 | SmartHome 计划与工作流 | 按歌单长度分支的折衣场景计划 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_479/source/home/user/share/Quiet%20Folding%20Scene%20Policy.html) |
+| [linux_android_smarthome_507](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_507.json) | 补充 320 | SmartHome 计划与工作流 | 晚餐提前十分钟灯帘计划 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_507/source/home/user/share/Supper%20Lighting%20Policy.html) |
+| [linux_android_smarthome_512](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_512.json) | 补充 320 | SmartHome 计划与工作流 | 远程考试改期准备计划 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_512/source/home/user/share/Remote%20Exam%20Privacy%20Policy.html) |
+| [linux_android_smarthome_517](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_517.json) | 补充 320 | SmartHome 计划与工作流 | 休息预约前灯帘/供暖准备计划 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_517/source/home/user/share/Medication%20Rest%20Policy.html) |
+| [linux_android_smarthome_542](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_542.json) | 补充 320 | SmartHome 计划与工作流 | 烘干计时器结束时关机计划替换 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_542/source/tmp/home_ops/room-updates/source/drying_policy.html) |
+| [linux_android_smarthome_561](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_561.json) | 原 140 | SmartHome 计划与工作流 | 失败工作流修复回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_561/source/home/user/home_ops/home-requests/source/fault.html) |
+| [linux_android_smarthome_604](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_604.json) | 原 140 | SmartHome 计划与工作流 | 会议场景改期批准回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_604/source/home/user/home_ops/approval-forms/source/approval.html) |
+| [linux_android_smarthome_605](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_605.json) | 补充 320 | SmartHome 计划与工作流 | 睡眠与娱乐冲突场景优先级 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_605/source/home/user/home_ops/comfort-checks/source/current-policy.html) |
+| [linux_android_smarthome_608](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_608.json) | 原 140 | SmartHome 计划与工作流 | 家庭自动化版本部署回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_608/source/home/user/home_ops/status-reports/source/release.html) |
+| [linux_android_smarthome_660](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_660.json) | 原 140 | SmartHome 计划与工作流 | 会议准备取消回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_660/source/home/user/home_ops/operations-log/source/cancel.html) |
+| [linux_android_smarthome_670](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_670.json) | 原 140 | SmartHome 计划与工作流 | 抵达环境准备批准 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_670/source/home/user/share/Committee%20Approval.html) |
+| [linux_android_smarthome_757](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_757.json) | 补充 320 | SmartHome 计划与工作流 | 会议改期替换批准 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_757/source/tmp/home_ops/phone-handoff/source/change.html) |
+| [linux_android_smarthome_859](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_859.json) | 补充 320 | SmartHome 计划与工作流 | 会议场景版本批准与提前量规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_859/source/home/user/home_ops/plan-revisions/source/change.html) |
+| [linux_android_smarthome_867](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_867.json) | 补充 320 | SmartHome 计划与工作流 | 失败与应保留工作流清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_867/source/home/user/home_ops/phone-handoff/source/fault.html) |
+| [linux_android_smarthome_947](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_947.json) | 原 140 | SmartHome 计划与工作流 | 办公室灯光计划批准 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_947/source/home/user/share/Office%20Meeting%20Approval.html) |
+| [linux_smarthome_1007](../../tasks/cross_device/linux_smarthome/linux_smarthome_1007.json) | 补充 320 | SmartHome 计划与工作流 | 夜间计划例外与只读交接规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_1007/source/tmp/overnight/policy.html) |
+| [linux_smarthome_116](../../tasks/cross_device/linux_smarthome/linux_smarthome_116.json) | 补充 320 | SmartHome 计划与工作流 | 浴室未来加热例程 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_116/source/tmp/home/schedule/bathroom_heat.html) |
+| [linux_smarthome_127](../../tasks/cross_device/linux_smarthome/linux_smarthome_127.json) | 补充 320 | SmartHome 计划与工作流 | 受保护服药提醒不可取消政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_127/source/tmp/home/requests/locked_workflow.html) |
+| [linux_smarthome_221](../../tasks/cross_device/linux_smarthome/linux_smarthome_221.json) | 原 140 | SmartHome 计划与工作流 | 例程清理工单回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_221/source/home/user/forms/workflow-cleanup.html) |
+| [linux_smarthome_242](../../tasks/cross_device/linux_smarthome/linux_smarthome_242.json) | 补充 320 | SmartHome 计划与工作流 | 书房专注灯帘未来例程 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_242/source/tmp/home/future/workflow-report.html) |
+| [linux_smarthome_257](../../tasks/cross_device/linux_smarthome/linux_smarthome_257.json) | 原 140 | SmartHome 计划与工作流 | 例程保留取消回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_257/source/tmp/home/gui/dashboard.html) |
+| [linux_smarthome_278](../../tasks/cross_device/linux_smarthome/linux_smarthome_278.json) | 补充 320 | SmartHome 计划与工作流 | 失败待运行例程清理与状态计数 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_278/source/tmp/home/status/status.html) |
+| [linux_smarthome_336](../../tasks/cross_device/linux_smarthome/linux_smarthome_336.json) | 补充 320 | SmartHome 计划与工作流 | 净化器未来低档计划替换 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_336/source/home/user/portal/schedules.html) |
+| [linux_smarthome_339](../../tasks/cross_device/linux_smarthome/linux_smarthome_339.json) | 补充 320 | SmartHome 计划与工作流 | 晚间噪声冲突工作流规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_339/source/home/user/portal/quiet.html) |
+| [linux_smarthome_360](../../tasks/cross_device/linux_smarthome/linux_smarthome_360.json) | 补充 320 | SmartHome 计划与工作流 | 批准且满足占用条件的未来计划 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_360/source/home/user/board/changes.html) |
+| [linux_smarthome_369](../../tasks/cross_device/linux_smarthome/linux_smarthome_369.json) | 原 140 | SmartHome 计划与工作流 | 例程状态核验回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_369/source/home/user/automation/review.html) |
+| [linux_smarthome_428](../../tasks/cross_device/linux_smarthome/linux_smarthome_428.json) | 原 140 | SmartHome 计划与工作流 | 占用冲突清扫例程复核 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_428/source/home/user/vacuum/workflow.html) |
+| [linux_smarthome_446](../../tasks/cross_device/linux_smarthome/linux_smarthome_446.json) | 原 140 | SmartHome 计划与工作流 | 计划清理变更回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_446/source/home/user/automation/cleanup.html) |
+| [linux_smarthome_447](../../tasks/cross_device/linux_smarthome/linux_smarthome_447.json) | 原 140 | SmartHome 计划与工作流 | 失败例程重建登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_447/source/home/user/automation/workflows.html) |
+| [linux_smarthome_449](../../tasks/cross_device/linux_smarthome/linux_smarthome_449.json) | 原 140 | SmartHome 计划与工作流 | 三阶段晚间自动化登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_449/source/home/user/automation/stages.html) |
+| [linux_smarthome_450](../../tasks/cross_device/linux_smarthome/linux_smarthome_450.json) | 原 140 | SmartHome 计划与工作流 | 迎宾例程取消回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_450/source/home/user/automation/cancel.html) |
+| [linux_smarthome_508](../../tasks/cross_device/linux_smarthome/linux_smarthome_508.json) | 补充 320 | SmartHome 计划与工作流 | 批准 Home 计划 CSV 下载及结果字段 | 专门下载入口 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_508/source/home/user/downloads/home-plan.html) |
+| [linux_smarthome_509](../../tasks/cross_device/linux_smarthome/linux_smarthome_509.json) | 补充 320 | SmartHome 计划与工作流 | 历史夜间设备计划政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_509/source/home/user/night/archived.html) |
+| [linux_smarthome_509](../../tasks/cross_device/linux_smarthome/linux_smarthome_509.json) | 补充 320 | SmartHome 计划与工作流 | 当前静音窗口设备计划政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_509/source/home/user/night/current.html) |
+| [linux_smarthome_510](../../tasks/cross_device/linux_smarthome/linux_smarthome_510.json) | 原 140 | SmartHome 计划与工作流 | 过期阅读计划取消登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_510/source/home/user/cleanup/schedules.html) |
+| [linux_smarthome_570](../../tasks/cross_device/linux_smarthome/linux_smarthome_570.json) | 补充 320 | SmartHome 计划与工作流 | 当前批准计划文件下载与登记规则 | 专门下载入口 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_570/source/home/user/plan-center/index.html) |
+| [linux_smarthome_607](../../tasks/cross_device/linux_smarthome/linux_smarthome_607.json) | 补充 320 | SmartHome 计划与工作流 | 维护窗口获批精确目标计划登记 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_607/source/home/user/approvals/index.html) |
+| [linux_smarthome_622](../../tasks/cross_device/linux_smarthome/linux_smarthome_622.json) | 原 140 | SmartHome 计划与工作流 | 办公室照明计划替换登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_622/source/home/user/change/index.html) |
+| [linux_smarthome_783](../../tasks/cross_device/linux_smarthome/linux_smarthome_783.json) | 补充 320 | SmartHome 计划与工作流 | 当前与旧计划政策下载入口 | 专门下载入口 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_783/source/home/user/policies/download.html) |
+| [linux_smarthome_784](../../tasks/cross_device/linux_smarthome/linux_smarthome_784.json) | 补充 320 | SmartHome 计划与工作流 | 撤销且批准的计划取消表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_784/source/home/user/cancel/index.html) |
+| [linux_smarthome_785](../../tasks/cross_device/linux_smarthome/linux_smarthome_785.json) | 补充 320 | SmartHome 计划与工作流 | R2 夜间工作流历史步骤 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_785/source/home/user/policy/archived.html) |
+| [linux_smarthome_785](../../tasks/cross_device/linux_smarthome/linux_smarthome_785.json) | 补充 320 | SmartHome 计划与工作流 | R3 夜间工作流保留删除新增步骤 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_785/source/home/user/policy/current.html) |
+| [linux_smarthome_787](../../tasks/cross_device/linux_smarthome/linux_smarthome_787.json) | 补充 320 | SmartHome 计划与工作流 | R4 工作流迁移批准与步骤 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_787/source/home/user/migration/index.html) |
+| [linux_smarthome_973](../../tasks/cross_device/linux_smarthome/linux_smarthome_973.json) | 补充 320 | SmartHome 计划与工作流 | 已撤销计划的取消批准表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_973/source/home/user/cancel/index.html) |
+| [linux_smarthome_974](../../tasks/cross_device/linux_smarthome/linux_smarthome_974.json) | 补充 320 | SmartHome 计划与工作流 | 当前与历史静音政策 JSON 下载 | 专门下载入口 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_974/source/home/user/policies/download.html) |
+| [linux_smarthome_997](../../tasks/cross_device/linux_smarthome/linux_smarthome_997.json) | 补充 320 | SmartHome 计划与工作流 | 计划撤销改期冗余保护处理规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_997/source/tmp/schedule/rules.html) |
+| [linux_android_021](../../tasks/cross_device/linux_android/linux_android_021.json) | 补充 320 | 运营、派工与资料交接 | 新员工入职必做与可选清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_021/source/page.html) |
+| [linux_android_053](../../tasks/cross_device/linux_android/linux_android_053.json) | 补充 320 | 运营、派工与资料交接 | 访客台开台待办来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_053/source/todo.html) |
+| [linux_android_073](../../tasks/cross_device/linux_android/linux_android_073.json) | 补充 320 | 运营、派工与资料交接 | East 维护清单旧版 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_073/source/east-archive.html) |
+| [linux_android_073](../../tasks/cross_device/linux_android/linux_android_073.json) | 补充 320 | 运营、派工与资料交接 | East 当班维护检查清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_073/source/east-current.html) |
+| [linux_android_073](../../tasks/cross_device/linux_android/linux_android_073.json) | 补充 320 | 运营、派工与资料交接 | East 未批准维护草稿 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_073/source/east-draft.html) |
+| [linux_android_073](../../tasks/cross_device/linux_android/linux_android_073.json) | 补充 320 | 运营、派工与资料交接 | 按地区和版本链接维护清单的目录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_073/source/index.html) |
+| [linux_android_073](../../tasks/cross_device/linux_android/linux_android_073.json) | 补充 320 | 运营、派工与资料交接 | West 区域维护清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_073/source/west-current.html) |
+| [linux_android_090](../../tasks/cross_device/linux_android/linux_android_090.json) | 原 140 | 运营、派工与资料交接 | 日终运营数量快照 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_090/source/day_dashboard.html) |
+| [linux_android_1069](../../tasks/cross_device/linux_android/linux_android_1069.json) | 原 140 | 运营、派工与资料交接 | 装卸区检查清单来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1069/source/checklist.html) |
+| [linux_android_1087](../../tasks/cross_device/linux_android/linux_android_1087.json) | 补充 320 | 运营、派工与资料交接 | 现场证据包必需项清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1087/source/checklist.html) |
+| [linux_android_111](../../tasks/cross_device/linux_android/linux_android_111.json) | 补充 320 | 运营、派工与资料交接 | 客服工单及退款回复依据 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_111/source/visible/5b52a61b_tickets.html) |
+| [linux_android_114](../../tasks/cross_device/linux_android/linux_android_114.json) | 补充 320 | 运营、派工与资料交接 | 检查报告文件索引与状态 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_114/source/visible/e81df722_reports.html) |
+| [linux_android_1239](../../tasks/cross_device/linux_android/linux_android_1239.json) | 补充 320 | 运营、派工与资料交接 | 工作条目源状态对照 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1239/source/tmp/work/status_table.html) |
+| [linux_android_1465](../../tasks/cross_device/linux_android/linux_android_1465.json) | 补充 320 | 运营、派工与资料交接 | 现场检查确认记录及归档格式 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1465/source/pending_confirmations.html) |
+| [linux_android_1506](../../tasks/cross_device/linux_android/linux_android_1506.json) | 补充 320 | 运营、派工与资料交接 | 按人员和状态选择团队待办 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1506/source/team_tasks.html) |
+| [linux_android_155](../../tasks/cross_device/linux_android/linux_android_155.json) | 补充 320 | 运营、派工与资料交接 | 前台按团队分配工作条目 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_155/source/work-orders.html) |
+| [linux_android_1578](../../tasks/cross_device/linux_android/linux_android_1578.json) | 补充 320 | 运营、派工与资料交接 | 合同与地区记录保留政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1578/source/beta.html) |
+| [linux_android_1588](../../tasks/cross_device/linux_android/linux_android_1588.json) | 补充 320 | 运营、派工与资料交接 | 历史客服指导页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1588/source/archive.html) |
+| [linux_android_1588](../../tasks/cross_device/linux_android/linux_android_1588.json) | 补充 320 | 运营、派工与资料交接 | 客服升级处理规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1588/source/escalation.html) |
+| [linux_android_1588](../../tasks/cross_device/linux_android/linux_android_1588.json) | 补充 320 | 运营、派工与资料交接 | 客服工单接收指导 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1588/source/intake.html) |
+| [linux_android_162](../../tasks/cross_device/linux_android/linux_android_162.json) | 补充 320 | 运营、派工与资料交接 | 装卸事故标注图和审阅证据交接要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_162/source/review-brief.html) |
+| [linux_android_164](../../tasks/cross_device/linux_android/linux_android_164.json) | 补充 320 | 运营、派工与资料交接 | 培训场地两页演示与邮件交接要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_164/source/brief.html) |
+| [linux_android_1646](../../tasks/cross_device/linux_android/linux_android_1646.json) | 补充 320 | 运营、派工与资料交接 | 当前现场摄影派工指令 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1646/source/capture_request.html) |
+| [linux_android_1755](../../tasks/cross_device/linux_android/linux_android_1755.json) | 补充 320 | 运营、派工与资料交接 | 当前值班码头状态页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1755/source/brow-55.html) |
+| [linux_android_1755](../../tasks/cross_device/linux_android/linux_android_1755.json) | 补充 320 | 运营、派工与资料交接 | 值班状态历史候选页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1755/source/brow-56.html) |
+| [linux_android_1761](../../tasks/cross_device/linux_android/linux_android_1761.json) | 补充 320 | 运营、派工与资料交接 | 设施维护就绪与安全签核状态 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1761/source/status.html) |
+| [linux_android_188](../../tasks/cross_device/linux_android/linux_android_188.json) | 补充 320 | 运营、派工与资料交接 | 设施重新开放安全摄影审阅规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_188/source/work-order.html) |
+| [linux_android_189](../../tasks/cross_device/linux_android/linux_android_189.json) | 补充 320 | 运营、派工与资料交接 | 设施维修照片包及记录规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_189/source/work-order.html) |
+| [linux_android_570](../../tasks/cross_device/linux_android/linux_android_570.json) | 补充 320 | 运营、派工与资料交接 | 客户确认队列与录音/回执交付要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_570/source/confirmations.html) |
+| [linux_android_683](../../tasks/cross_device/linux_android/linux_android_683.json) | 原 140 | 运营、派工与资料交接 | 现场派工资料看板 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_683/source/todo.html) |
+| [linux_android_694](../../tasks/cross_device/linux_android/linux_android_694.json) | 补充 320 | 运营、派工与资料交接 | 最终报告版本复制规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_694/source/move_request.html) |
+| [linux_android_843](../../tasks/cross_device/linux_android/linux_android_843.json) | 补充 320 | 运营、派工与资料交接 | 逾期待办与责任人资料表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_843/source/dashboard.html) |
+| [linux_android_867](../../tasks/cross_device/linux_android/linux_android_867.json) | 补充 320 | 运营、派工与资料交接 | 门岗证据照片纳入排除清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_867/source/review.html) |
+| [linux_android_884](../../tasks/cross_device/linux_android/linux_android_884.json) | 补充 320 | 运营、派工与资料交接 | 北门安全检查候选页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_884/source/north_gate.html) |
+| [linux_android_884](../../tasks/cross_device/linux_android/linux_android_884.json) | 补充 320 | 运营、派工与资料交接 | 南门通行检查候选页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_884/source/south_gate.html) |
+| [linux_android_884](../../tasks/cross_device/linux_android/linux_android_884.json) | 补充 320 | 运营、派工与资料交接 | 西装卸门暂缓检查页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_884/source/west_gate.html) |
+| [linux_android_885](../../tasks/cross_device/linux_android/linux_android_885.json) | 补充 320 | 运营、派工与资料交接 | 看板待办就绪分栏说明 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_885/source/validate.html) |
+| [linux_android_892](../../tasks/cross_device/linux_android/linux_android_892.json) | 补充 320 | 运营、派工与资料交接 | 现场证据照片视角清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_892/source/checklist.html) |
+| [linux_only_029](../../tasks/cross_device/linux_only/linux_only_029.json) | 补充 320 | 运营、派工与资料交接 | 季度业务复盘指标 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_029/source/dashboard.html) |
+| [linux_only_057](../../tasks/cross_device/linux_only/linux_only_057.json) | 原 140 | 运营、派工与资料交接 | 客户邮件撰写请求资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_057/source/compose_requests.html) |
+| [linux_only_064](../../tasks/cross_device/linux_only/linux_only_064.json) | 原 140 | 运营、派工与资料交接 | 项目归档包检查清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_064/source/checklist.html) |
+| [linux_only_098](../../tasks/cross_device/linux_only/linux_only_098.json) | 原 140 | 运营、派工与资料交接 | 设备零件维修成本资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_098/source/maintenance.html) |
+| [linux_only_221](../../tasks/cross_device/linux_only/linux_only_221.json) | 补充 320 | 运营、派工与资料交接 | 书签核对中已存在的 Page B | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_221/source/linux_1/tmp/bookmarks/b.html) |
+| [linux_only_221](../../tasks/cross_device/linux_only/linux_only_221.json) | 补充 320 | 运营、派工与资料交接 | 现有书签链接导出 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_221/source/linux_1/tmp/bookmarks/current_export.html) |
+| [linux_only_229](../../tasks/cross_device/linux_only/linux_only_229.json) | 补充 320 | 运营、派工与资料交接 | 多报告必需锚点清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_229/source/linux_0/tmp/readiness/checklist.html) |
+| [linux_only_232](../../tasks/cross_device/linux_only/linux_only_232.json) | 补充 320 | 运营、派工与资料交接 | 书签目录与 URL 文本导出 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_232/source/linux_1/tmp/portal/bookmark_export.html) |
+| [linux_only_265](../../tasks/cross_device/linux_only/linux_only_265.json) | 补充 320 | 运营、派工与资料交接 | 书签审计历史页面 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_265/source/linux_1/tmp/bookmarks/pages/archive.html) |
+| [linux_only_265](../../tasks/cross_device/linux_only/linux_only_265.json) | 补充 320 | 运营、派工与资料交接 | 书签审计看板页面 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_265/source/linux_1/tmp/bookmarks/pages/dashboard.html) |
+| [linux_only_265](../../tasks/cross_device/linux_only/linux_only_265.json) | 补充 320 | 运营、派工与资料交接 | 书签审计手册页面 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_265/source/linux_1/tmp/bookmarks/pages/runbook.html) |
+| [linux_only_267](../../tasks/cross_device/linux_only/linux_only_267.json) | 补充 320 | 运营、派工与资料交接 | 就绪工作队列优先级规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_267/source/linux_0/tmp/dashboard/queue.html) |
+| [linux_only_271](../../tasks/cross_device/linux_only/linux_only_271.json) | 补充 320 | 运营、派工与资料交接 | 待替换发布报告 HTML 草稿 | 待编辑 HTML 产物模板 | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_271/source/linux_1/tmp/report/report.html) |
+| [linux_only_275](../../tasks/cross_device/linux_only/linux_only_275.json) | 补充 320 | 运营、派工与资料交接 | 离线审阅门户书签目录导出 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_275/source/linux_1/tmp/portal/bookmark_export.html) |
+| [linux_only_275](../../tasks/cross_device/linux_only/linux_only_275.json) | 补充 320 | 运营、派工与资料交接 | 上线支持与升级联系人目录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_275/source/linux_1/tmp/portal/local_pages/b.html) |
+| [linux_only_285](../../tasks/cross_device/linux_only/linux_only_285.json) | 补充 320 | 运营、派工与资料交接 | 阻塞工单优先级与负责人 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_285/source/linux_0/tmp/dashboard/blockers.html) |
+| [linux_only_365](../../tasks/cross_device/linux_only/linux_only_365.json) | 原 140 | 运营、派工与资料交接 | 作业结束登记规则来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_365/source/ops_dashboard.html) |
+| [linux_only_106](../../tasks/cross_device/linux_only/linux_only_106.json) | 补充 320 | 运营、派工与资料交接 | 团队周报三页演示模板要求 | 阅读参考与资料页（含目录/附件索引） | [setup 内联](../../tasks/cross_device/linux_only/linux_only_106.json) |
+| [linux_android_081](../../tasks/cross_device/linux_android/linux_android_081.json) | 原 140 | 物流、库存与配送 | 快递取件预约 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_081/source/delivery_booking_form.html) |
+| [linux_android_086](../../tasks/cross_device/linux_android/linux_android_086.json) | 原 140 | 物流、库存与配送 | 实验室取件时间登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_086/source/lab_booking_form.html) |
+| [linux_android_1062](../../tasks/cross_device/linux_android/linux_android_1062.json) | 补充 320 | 物流、库存与配送 | 设备取件确认措辞 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1062/source/reply_request.html) |
+| [linux_android_115](../../tasks/cross_device/linux_android/linux_android_115.json) | 补充 320 | 物流、库存与配送 | 分区域当前取件通知 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_115/source/visible/6c07437d_notice.html) |
+| [linux_android_125](../../tasks/cross_device/linux_android/linux_android_125.json) | 原 140 | 物流、库存与配送 | 设备取件预约更正 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_125/source/booking.html) |
+| [linux_android_1338](../../tasks/cross_device/linux_android/linux_android_1338.json) | 补充 320 | 物流、库存与配送 | 批准取件回复行与干扰行 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1338/source/tmp/reply/request.html) |
+| [linux_android_1444](../../tasks/cross_device/linux_android/linux_android_1444.json) | 补充 320 | 物流、库存与配送 | 商品履约打包内容规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1444/source/package_request.html) |
+| [linux_android_1498](../../tasks/cross_device/linux_android/linux_android_1498.json) | 补充 320 | 物流、库存与配送 | 送达照片按路线手机归档规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1498/source/dashboard.html) |
+| [linux_android_1521](../../tasks/cross_device/linux_android/linux_android_1521.json) | 补充 320 | 物流、库存与配送 | 装箱优先客户名录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1521/source/priority_customers.html) |
+| [linux_android_156](../../tasks/cross_device/linux_android/linux_android_156.json) | 补充 320 | 物流、库存与配送 | 订单筛选导出数据表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_156/source/orders.html) |
+| [linux_android_1583](../../tasks/cross_device/linux_android/linux_android_1583.json) | 补充 320 | 物流、库存与配送 | 历史配送路线停靠页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1583/source/archive.html) |
+| [linux_android_1583](../../tasks/cross_device/linux_android/linux_android_1583.json) | 补充 320 | 物流、库存与配送 | 本次配送码头停靠指引 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1583/source/dock.html) |
+| [linux_android_1583](../../tasks/cross_device/linux_android/linux_android_1583.json) | 补充 320 | 物流、库存与配送 | 本次配送门岗停靠指引 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1583/source/gate.html) |
+| [linux_android_1583](../../tasks/cross_device/linux_android/linux_android_1583.json) | 补充 320 | 物流、库存与配送 | 配送停靠点多页目录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1583/source/routes.html) |
+| [linux_android_1583](../../tasks/cross_device/linux_android/linux_android_1583.json) | 补充 320 | 物流、库存与配送 | 本次配送堆场停靠指引 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1583/source/yard.html) |
+| [linux_android_169](../../tasks/cross_device/linux_android/linux_android_169.json) | 原 140 | 物流、库存与配送 | 出库照片关联登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_169/source/package_upload.html) |
+| [linux_android_195](../../tasks/cross_device/linux_android/linux_android_195.json) | 补充 320 | 物流、库存与配送 | 运输异常事实与当前追踪动作 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_195/source/portal.html) |
+| [linux_android_303](../../tasks/cross_device/linux_android/linux_android_303.json) | 补充 320 | 物流、库存与配送 | 商品入库摄影记录要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_303/source/item-42-photo-request.html) |
+| [linux_android_459](../../tasks/cross_device/linux_android/linux_android_459.json) | 补充 320 | 物流、库存与配送 | 装箱关闭核对与确认录音规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_459/source/packing-queue.html) |
+| [linux_android_472](../../tasks/cross_device/linux_android/linux_android_472.json) | 补充 320 | 物流、库存与配送 | 退货照片及订单台账处置规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_472/source/return-brief.html) |
+| [linux_android_506](../../tasks/cross_device/linux_android/linux_android_506.json) | 补充 320 | 物流、库存与配送 | 订单收件人与配送标签数据 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_506/source/orders.html) |
+| [linux_android_524](../../tasks/cross_device/linux_android/linux_android_524.json) | 补充 320 | 物流、库存与配送 | 需备忘的运输记录与照片映射 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_524/source/shipments.html) |
+| [linux_android_529](../../tasks/cross_device/linux_android/linux_android_529.json) | 补充 320 | 物流、库存与配送 | 季度库存状态与到期数据 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_529/source/inventory.html) |
+| [linux_android_559](../../tasks/cross_device/linux_android/linux_android_559.json) | 补充 320 | 物流、库存与配送 | 发运确认记录及单行更新政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_559/source/orders-dispatch.html) |
+| [linux_android_602](../../tasks/cross_device/linux_android/linux_android_602.json) | 补充 320 | 物流、库存与配送 | 订单与送达照片文件命名匹配 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_602/source/local_orders.html) |
+| [linux_android_620](../../tasks/cross_device/linux_android/linux_android_620.json) | 原 140 | 物流、库存与配送 | 交付图片处理报告模式说明 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_620/source/upload_template.html) |
+| [linux_android_647](../../tasks/cross_device/linux_android/linux_android_647.json) | 原 140 | 物流、库存与配送 | 订单查询资料表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_647/source/orders/index.html) |
+| [linux_android_657](../../tasks/cross_device/linux_android/linux_android_657.json) | 补充 320 | 物流、库存与配送 | 包裹摄影及调度跟进要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_657/source/photo_upload.html) |
+| [linux_android_676](../../tasks/cross_device/linux_android/linux_android_676.json) | 原 140 | 物流、库存与配送 | 仓库取件时刻表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_676/source/pickup_schedule.html) |
+| [linux_android_833](../../tasks/cross_device/linux_android/linux_android_833.json) | 补充 320 | 物流、库存与配送 | 门岗 ETA 批准短信模板 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_833/source/request.html) |
+| [linux_android_886](../../tasks/cross_device/linux_android/linux_android_886.json) | 原 140 | 物流、库存与配送 | 授权现场文件包登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_886/source/upload.html) |
+| [linux_only_022](../../tasks/cross_device/linux_only/linux_only_022.json) | 补充 320 | 物流、库存与配送 | 已提交订单的静态确认资料 | 静态确认/回执页 | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_022/source/confirmation.html) |
+| [linux_only_036](../../tasks/cross_device/linux_only/linux_only_036.json) | 原 140 | 物流、库存与配送 | 库存补货规则资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_036/source/inventory.html) |
+| [linux_only_053](../../tasks/cross_device/linux_only/linux_only_053.json) | 补充 320 | 物流、库存与配送 | 包装标签文本及位置说明 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_053/source/label_editor/index.html) |
+| [linux_only_149](../../tasks/cross_device/linux_only/linux_only_149.json) | 补充 320 | 物流、库存与配送 | 库存更新后的静态确认目标页 | 静态确认/回执页 | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_149/source/update_complete.html) |
+| [linux_only_149](../../tasks/cross_device/linux_only/linux_only_149.json) | 原 140 | 物流、库存与配送 | 库存规则来源及确认页导航 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_149/source/update_instructions.html) |
+| [linux_only_266](../../tasks/cross_device/linux_only/linux_only_266.json) | 补充 320 | 物流、库存与配送 | 出库归档必需与禁止成员清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_266/source/linux_0/tmp/ship/checklist.html) |
+| [linux_only_320](../../tasks/cross_device/linux_only/linux_only_320.json) | 原 140 | 物流、库存与配送 | 仓库补货更新依据来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_320/source/restock_request.html) |
+| [linux_only_344](../../tasks/cross_device/linux_only/linux_only_344.json) | 原 140 | 物流、库存与配送 | 订单更新指令来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_344/source/update_instructions.html) |
+| [linux_android_004](../../tasks/cross_device/linux_android/linux_android_004.json) | 补充 320 | 软件研发、发布与 QA | 4.8.2 发布技术就绪清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_004/source/checklist.html) |
+| [linux_android_033](../../tasks/cross_device/linux_android/linux_android_033.json) | 补充 320 | 软件研发、发布与 QA | REL-12 发布检查清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_033/source/checklist.html) |
+| [linux_android_083](../../tasks/cross_device/linux_android/linux_android_083.json) | 原 140 | 软件研发、发布与 QA | 版本发布门禁 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_083/source/release_dashboard.html) |
+| [linux_android_085](../../tasks/cross_device/linux_android/linux_android_085.json) | 补充 320 | 软件研发、发布与 QA | 标识符规范化与 QA 交接规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_085/source/gate_docs.html) |
+| [linux_android_1100](../../tasks/cross_device/linux_android/linux_android_1100.json) | 补充 320 | 软件研发、发布与 QA | 软件问题标题与分诊资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1100/source/issue_board.html) |
+| [linux_android_1124](../../tasks/cross_device/linux_android/linux_android_1124.json) | 原 140 | 软件研发、发布与 QA | 冻结窗口发布审阅材料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1124/source/release_form.html) |
+| [linux_android_1128](../../tasks/cross_device/linux_android/linux_android_1128.json) | 补充 320 | 软件研发、发布与 QA | 生产发布评审队列及角色要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1128/source/dashboard.html) |
+| [linux_android_1134](../../tasks/cross_device/linux_android/linux_android_1134.json) | 原 140 | 软件研发、发布与 QA | 未批准发布的门户说明 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1134/source/portal.html) |
+| [linux_android_1218](../../tasks/cross_device/linux_android/linux_android_1218.json) | 补充 320 | 软件研发、发布与 QA | REL-92 发布清单要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1218/source/tmp/release/dashboard.html) |
+| [linux_android_1308](../../tasks/cross_device/linux_android/linux_android_1308.json) | 补充 320 | 软件研发、发布与 QA | 问题看板可用标签 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1308/source/tmp/issues/board.html) |
+| [linux_android_1318](../../tasks/cross_device/linux_android/linux_android_1318.json) | 补充 320 | 软件研发、发布与 QA | 问题严重度与勾选状态 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1318/source/tmp/issues/board.html) |
+| [linux_android_154](../../tasks/cross_device/linux_android/linux_android_154.json) | 补充 320 | 软件研发、发布与 QA | 工单 formatter API 与废弃接口规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_154/source/api.html) |
+| [linux_android_1577](../../tasks/cross_device/linux_android/linux_android_1577.json) | 原 140 | 软件研发、发布与 QA | 就绪版本发布提交 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1577/source/release_portal.html) |
+| [linux_android_1582](../../tasks/cross_device/linux_android/linux_android_1582.json) | 原 140 | 软件研发、发布与 QA | 发布批准人登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1582/source/portal.html) |
+| [linux_android_1585](../../tasks/cross_device/linux_android/linux_android_1585.json) | 原 140 | 软件研发、发布与 QA | 批准发布包上传 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1585/source/checklist.html) |
+| [linux_android_1586](../../tasks/cross_device/linux_android/linux_android_1586.json) | 原 140 | 软件研发、发布与 QA | 发布窗口批准 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1586/source/window_dashboard.html) |
+| [linux_android_1591](../../tasks/cross_device/linux_android/linux_android_1591.json) | 补充 320 | 软件研发、发布与 QA | 生产冻结冲突响应政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1591/source/dashboard.html) |
+| [linux_android_165](../../tasks/cross_device/linux_android/linux_android_165.json) | 补充 320 | 软件研发、发布与 QA | 浏览器加载源数据并调用 gate 模块生成发布结果 | 浏览器结果构造程序 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_165/source/build-result.html) |
+| [linux_android_165](../../tasks/cross_device/linux_android/linux_android_165.json) | 补充 320 | 软件研发、发布与 QA | 发布模块行为与结果构造契约 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_165/source/release-gate-contract.html) |
+| [linux_android_183](../../tasks/cross_device/linux_android/linux_android_183.json) | 原 140 | 软件研发、发布与 QA | 组件修复的 QA 交接 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_183/source/qa-handoff.html) |
+| [linux_android_197](../../tasks/cross_device/linux_android/linux_android_197.json) | 补充 320 | 软件研发、发布与 QA | 发布批准、必需检查与闹钟交接规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_197/source/release-dashboard.html) |
+| [linux_android_479](../../tasks/cross_device/linux_android/linux_android_479.json) | 补充 320 | 软件研发、发布与 QA | 发布包成员与手机交接位置映射 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_479/source/release-file-map.html) |
+| [linux_android_881](../../tasks/cross_device/linux_android/linux_android_881.json) | 补充 320 | 软件研发、发布与 QA | 开放发布窗口与风险政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_881/source/form.html) |
+| [linux_android_889](../../tasks/cross_device/linux_android/linux_android_889.json) | 原 140 | 软件研发、发布与 QA | 发布就绪门禁确认 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_889/source/dashboard.html) |
+| [linux_android_893](../../tasks/cross_device/linux_android/linux_android_893.json) | 原 140 | 软件研发、发布与 QA | 软件缺陷升级登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_893/source/board.html) |
+| [linux_only_126](../../tasks/cross_device/linux_only/linux_only_126.json) | 原 140 | 软件研发、发布与 QA | 项目版本更新请求资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_126/source/version_update.html) |
+| [linux_only_170](../../tasks/cross_device/linux_only/linux_only_170.json) | 补充 320 | 软件研发、发布与 QA | 折扣函数分段算法修复说明 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_170/source/issue-42.html) |
+| [linux_only_211](../../tasks/cross_device/linux_only/linux_only_211.json) | 补充 320 | 软件研发、发布与 QA | 发布必需检查顺序与规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_211/source/linux_0/tmp/release/checklist.html) |
+| [linux_only_264](../../tasks/cross_device/linux_only/linux_only_264.json) | 补充 320 | 软件研发、发布与 QA | 发布必需与可选 gate 规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_264/source/linux_0/tmp/release/portal.html) |
+| [linux_only_273](../../tasks/cross_device/linux_only/linux_only_273.json) | 补充 320 | 软件研发、发布与 QA | 发布阻塞状态及通知邮件要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_273/source/linux_0/tmp/mail/portal.html) |
+| [linux_only_275](../../tasks/cross_device/linux_only/linux_only_275.json) | 补充 320 | 软件研发、发布与 QA | 离线发布就绪清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_275/source/linux_1/tmp/portal/local_pages/a.html) |
+| [linux_only_359](../../tasks/cross_device/linux_only/linux_only_359.json) | 原 140 | 软件研发、发布与 QA | 发布版本来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_359/source/release_status.html) |
+| [linux_only_369](../../tasks/cross_device/linux_only/linux_only_369.json) | 补充 320 | 软件研发、发布与 QA | 项目发布包完整成员与内容规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_369/source/release_bundle_check.html) |
+| [linux_android_072](../../tasks/cross_device/linux_android/linux_android_072.json) | 补充 320 | 通用请求审批与审核 | 供应商旧版审阅候选页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_072/source/archive.html) |
+| [linux_android_072](../../tasks/cross_device/linux_android/linux_android_072.json) | 补充 320 | 通用请求审批与审核 | 供应商草稿候选页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_072/source/draft.html) |
+| [linux_android_072](../../tasks/cross_device/linux_android/linux_android_072.json) | 补充 320 | 通用请求审批与审核 | 供应商当前审阅目标页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_072/source/review.html) |
+| [linux_android_072](../../tasks/cross_device/linux_android/linux_android_072.json) | 补充 320 | 通用请求审批与审核 | 供应商审阅中的非目标培训页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_072/source/training.html) |
+| [linux_android_1078](../../tasks/cross_device/linux_android/linux_android_1078.json) | 原 140 | 通用请求审批与审核 | 请求批准码校验入口 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1078/source/request_form.html) |
+| [linux_android_1208](../../tasks/cross_device/linux_android/linux_android_1208.json) | 原 140 | 通用请求审批与审核 | 就绪请求批准登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1208/source/tmp/forms/request.html) |
+| [linux_android_1209](../../tasks/cross_device/linux_android/linux_android_1209.json) | 补充 320 | 通用请求审批与审核 | 预算例外请求禁止提交规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1209/source/tmp/forms/request.html) |
+| [linux_android_1305](../../tasks/cross_device/linux_android/linux_android_1305.json) | 补充 320 | 通用请求审批与审核 | 审阅包 Alpha 当前候选页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1305/source/tmp/links/pages/page_alpha.html) |
+| [linux_android_1305](../../tasks/cross_device/linux_android/linux_android_1305.json) | 补充 320 | 通用请求审批与审核 | 审阅包历史候选页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1305/source/tmp/links/pages/page_archived.html) |
+| [linux_android_1305](../../tasks/cross_device/linux_android/linux_android_1305.json) | 补充 320 | 通用请求审批与审核 | 审阅包 Beta 当前候选页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1305/source/tmp/links/pages/page_beta.html) |
+| [linux_android_1378](../../tasks/cross_device/linux_android/linux_android_1378.json) | 补充 320 | 通用请求审批与审核 | 门户请求批准与派工角色条件 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1378/source/tmp/portal/checklist.html) |
+| [linux_android_1579](../../tasks/cross_device/linux_android/linux_android_1579.json) | 补充 320 | 通用请求审批与审核 | 物流客户当前合同审阅页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1579/source/logistics.html) |
+| [linux_android_1579](../../tasks/cross_device/linux_android/linux_android_1579.json) | 补充 320 | 通用请求审批与审核 | 实验室客户当前合同审阅页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1579/source/northwind.html) |
+| [linux_android_1579](../../tasks/cross_device/linux_android/linux_android_1579.json) | 补充 320 | 通用请求审批与审核 | 非合同负责人参考候选页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1579/source/observer.html) |
+| [linux_android_1580](../../tasks/cross_device/linux_android/linux_android_1580.json) | 原 140 | 通用请求审批与审核 | 变更请求审阅提交 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1580/source/review.html) |
+| [linux_android_1587](../../tasks/cross_device/linux_android/linux_android_1587.json) | 原 140 | 通用请求审批与审核 | 运营请求受理 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1587/source/request_board.html) |
+| [linux_android_1589](../../tasks/cross_device/linux_android/linux_android_1589.json) | 原 140 | 通用请求审批与审核 | 同行评审指派 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1589/source/review.html) |
+| [linux_android_847](../../tasks/cross_device/linux_android/linux_android_847.json) | 补充 320 | 通用请求审批与审核 | 安全审核人角色与工单摘要 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_847/source/reviewer_dashboard.html) |
+| [linux_android_855](../../tasks/cross_device/linux_android/linux_android_855.json) | 补充 320 | 通用请求审批与审核 | 门户必需与可选附件清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_855/source/portal.html) |
+| [linux_android_860](../../tasks/cross_device/linux_android/linux_android_860.json) | 补充 320 | 通用请求审批与审核 | 批准码和审核身份交叉确认规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_860/source/approval_portal.html) |
+| [linux_android_880](../../tasks/cross_device/linux_android/linux_android_880.json) | 原 140 | 通用请求审批与审核 | 缺批准码阻塞说明 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_880/source/form.html) |
+| [linux_android_883](../../tasks/cross_device/linux_android/linux_android_883.json) | 补充 320 | 通用请求审批与审核 | 库存审核人指派队列 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_883/source/dashboard.html) |
+| [linux_android_895](../../tasks/cross_device/linux_android/linux_android_895.json) | 原 140 | 通用请求审批与审核 | 访问拒绝决定记录 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_895/source/portal.html) |
+| [linux_android_971](../../tasks/cross_device/linux_android/linux_android_971.json) | 补充 320 | 通用请求审批与审核 | 设备采购请求与最新批准要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_971/source/form.html) |
+| [linux_only_215](../../tasks/cross_device/linux_only/linux_only_215.json) | 补充 320 | 通用请求审批与审核 | 供应商导出名录当前/暂停状态 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_215/source/linux_1/tmp/vendors/browser_export.html) |
+| [linux_only_262](../../tasks/cross_device/linux_only/linux_only_262.json) | 补充 320 | 通用请求审批与审核 | 案例分数阈值分级规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_262/source/linux_0/tmp/portal/dashboard.html) |
+| [linux_only_263](../../tasks/cross_device/linux_only/linux_only_263.json) | 原 140 | 通用请求审批与审核 | 待办案例提交与回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_263/source/linux_1/tmp/form/form.html) |
+| [linux_only_269](../../tasks/cross_device/linux_only/linux_only_269.json) | 补充 320 | 通用请求审批与审核 | 可见案例与负责人清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_269/source/linux_0/tmp/portal/cases.html) |
+| [linux_only_270](../../tasks/cross_device/linux_only/linux_only_270.json) | 补充 320 | 通用请求审批与审核 | 当前及历史审批政策链接目录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_270/source/linux_0/tmp/policy/bookmark_export.html) |
+| [linux_only_270](../../tasks/cross_device/linux_only/linux_only_270.json) | 补充 320 | 通用请求审批与审核 | 批准分数与 hold 条件政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_270/source/linux_0/tmp/policy/current.html) |
+| [linux_only_272](../../tasks/cross_device/linux_only/linux_only_272.json) | 原 140 | 通用请求审批与审核 | 人工审核规则来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_272/source/linux_1/tmp/form/review.html) |
+| [linux_only_274](../../tasks/cross_device/linux_only/linux_only_274.json) | 补充 320 | 通用请求审批与审核 | 批准合同与照片附件打包清单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_274/source/linux_0/tmp/attachments/portal.html) |
+| [linux_android_smarthome_095](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_095.json) | 补充 320 | 洗衣、清扫与家电维护 | 洗衣烘干清扫设备维护工单 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_095/source/home/user/maintenance/workorder.html) |
+| [linux_android_smarthome_097](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_097.json) | 补充 320 | 洗衣、清扫与家电维护 | 会议静音时家电中断政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_097/source/home/user/policies/quiet.html) |
+| [linux_android_smarthome_099](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_099.json) | 补充 320 | 洗衣、清扫与家电维护 | 确认洗衣事故停机规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_099/source/home/user/incidents/incident.html) |
+| [linux_android_smarthome_233](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_233.json) | 补充 320 | 洗衣、清扫与家电维护 | 邻居静音请求的吸尘器处置阈值 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_233/source/home/user/share/Shared-Wall%20Quiet%20Hours.html) |
+| [linux_android_smarthome_450](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_450.json) | 补充 320 | 洗衣、清扫与家电维护 | 洗衣批次放行及设备指派 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_450/source/home/user/share/Laundry%20Batch%20Dispatch.html) |
+| [linux_android_smarthome_524](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_524.json) | 补充 320 | 洗衣、清扫与家电维护 | 机器人实时电量安全处置规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_524/source/tmp/home_ops/approval-forms/source/ticket.html) |
+| [linux_android_smarthome_525](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_525.json) | 原 140 | 洗衣、清扫与家电维护 | 衣物护理洗衣工单 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_525/source/home/user/home_ops/comfort-checks/source/order.html) |
+| [linux_android_smarthome_587](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_587.json) | 原 140 | 洗衣、清扫与家电维护 | 洗衣订单执行回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_587/source/home/user/home_ops/laundry/source/order.html) |
+| [linux_android_smarthome_591](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_591.json) | 原 140 | 洗衣、清扫与家电维护 | 机器人清洁许可回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_591/source/home/user/home_ops/robot/source/approval.html) |
+| [linux_android_smarthome_821](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_821.json) | 补充 320 | 洗衣、清扫与家电维护 | 房间清扫申请批准目录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_821/source/tmp/home_ops/home-requests/source/approval.html) |
+| [linux_smarthome_095](../../tasks/cross_device/linux_smarthome/linux_smarthome_095.json) | 补充 320 | 洗衣、清扫与家电维护 | 客厅机器人开始清扫指令 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_095/source/tmp/home/actions/vacuum_start.html) |
+| [linux_smarthome_135](../../tasks/cross_device/linux_smarthome/linux_smarthome_135.json) | 补充 320 | 洗衣、清扫与家电维护 | 洗衣完成后除湿机停机条件 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_135/source/tmp/home/gui/laundry.html) |
+| [linux_smarthome_153](../../tasks/cross_device/linux_smarthome/linux_smarthome_153.json) | 补充 320 | 洗衣、清扫与家电维护 | 即时洗衣与稍后除湿双阶段交接 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_153/source/tmp/home/integrated/laundry_followup.html) |
+| [linux_smarthome_312](../../tasks/cross_device/linux_smarthome/linux_smarthome_312.json) | 补充 320 | 洗衣、清扫与家电维护 | 洗衣间漏水停机与事故记录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_312/source/tmp/home/incidents/leak.html) |
+| [linux_smarthome_365](../../tasks/cross_device/linux_smarthome/linux_smarthome_365.json) | 原 140 | 洗衣、清扫与家电维护 | 洗衣机状态登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_365/source/home/user/laundry/check.html) |
+| [linux_smarthome_393](../../tasks/cross_device/linux_smarthome/linux_smarthome_393.json) | 原 140 | 洗衣、清扫与家电维护 | 漏水事件处置回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_393/source/home/user/incidents/leak.html) |
+| [linux_smarthome_400](../../tasks/cross_device/linux_smarthome/linux_smarthome_400.json) | 原 140 | 洗衣、清扫与家电维护 | 洗衣停机审计登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_400/source/home/user/laundry/stop-order.html) |
+| [linux_smarthome_406](../../tasks/cross_device/linux_smarthome/linux_smarthome_406.json) | 原 140 | 洗衣、清扫与家电维护 | 烘干换程序延期登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_406/source/home/user/laundry/dryer-change.html) |
+| [linux_smarthome_412](../../tasks/cross_device/linux_smarthome/linux_smarthome_412.json) | 原 140 | 洗衣、清扫与家电维护 | 烘干能力与派工登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_412/source/home/user/laundry/dryer-options.html) |
+| [linux_smarthome_417](../../tasks/cross_device/linux_smarthome/linux_smarthome_417.json) | 原 140 | 洗衣、清扫与家电维护 | 安静会议清扫处置登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_417/source/home/user/study/quiet.html) |
+| [linux_smarthome_422](../../tasks/cross_device/linux_smarthome/linux_smarthome_422.json) | 原 140 | 洗衣、清扫与家电维护 | 低电量清扫安全登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_422/source/home/user/vacuum/request.html) |
+| [linux_smarthome_443](../../tasks/cross_device/linux_smarthome/linux_smarthome_443.json) | 原 140 | 洗衣、清扫与家电维护 | 洗衣事故前后记录 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_443/source/home/user/laundry/incident.html) |
+| [linux_smarthome_444](../../tasks/cross_device/linux_smarthome/linux_smarthome_444.json) | 原 140 | 洗衣、清扫与家电维护 | 烘干变更延期审批回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_444/source/home/user/laundry/dryer-change.html) |
+| [linux_smarthome_445](../../tasks/cross_device/linux_smarthome/linux_smarthome_445.json) | 原 140 | 洗衣、清扫与家电维护 | 清扫优先级派工回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_445/source/home/user/cleaning/board.html) |
+| [linux_smarthome_451](../../tasks/cross_device/linux_smarthome/linux_smarthome_451.json) | 原 140 | 洗衣、清扫与家电维护 | 洗衣湿度工单登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_451/source/home/user/case/work-order.html) |
+| [linux_smarthome_454](../../tasks/cross_device/linux_smarthome/linux_smarthome_454.json) | 原 140 | 洗衣、清扫与家电维护 | 静音清扫冲突处置回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_454/source/home/user/cleaning/quiet.html) |
+| [linux_smarthome_456](../../tasks/cross_device/linux_smarthome/linux_smarthome_456.json) | 原 140 | 洗衣、清扫与家电维护 | 设备生命周期维护工单 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_456/source/home/user/maintenance/dashboard.html) |
+| [linux_smarthome_999](../../tasks/cross_device/linux_smarthome/linux_smarthome_999.json) | 补充 320 | 洗衣、清扫与家电维护 | 家电空闲紧急忙碌缺失处置政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_999/source/tmp/lifecycle/policy.html) |
+| [linux_android_1036](../../tasks/cross_device/linux_android/linux_android_1036.json) | 补充 320 | 地点与坐标登记 | 路线收藏请求与确认格式 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1036/source/route_request.html) |
+| [linux_android_1306](../../tasks/cross_device/linux_android/linux_android_1306.json) | 补充 320 | 地点与坐标登记 | 仓库路线地点链接目录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1306/source/tmp/routes/sites.html) |
+| [linux_android_1383](../../tasks/cross_device/linux_android/linux_android_1383.json) | 补充 320 | 地点与坐标登记 | OsmAnd 场地访问待办格式 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1383/source/event_request.html) |
+| [linux_android_141](../../tasks/cross_device/linux_android/linux_android_141.json) | 原 140 | 地点与坐标登记 | 地图收藏登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_141/source/dashboard.html) |
+| [linux_android_1486](../../tasks/cross_device/linux_android/linux_android_1486.json) | 补充 320 | 地点与坐标登记 | POI 地点表与收藏要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1486/source/poi_list.html) |
+| [linux_android_1564](../../tasks/cross_device/linux_android/linux_android_1564.json) | 补充 320 | 地点与坐标登记 | 徒步路线坐标及安全音频简报 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1564/source/north_ridge.html) |
+| [linux_android_1590](../../tasks/cross_device/linux_android/linux_android_1590.json) | 补充 320 | 地点与坐标登记 | 现场访问码头地点资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1590/source/dock.html) |
+| [linux_android_1590](../../tasks/cross_device/linux_android/linux_android_1590.json) | 补充 320 | 地点与坐标登记 | 现场访问门岗地点资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1590/source/gate.html) |
+| [linux_android_1590](../../tasks/cross_device/linux_android/linux_android_1590.json) | 补充 320 | 地点与坐标登记 | 非目标场地访问候选页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1590/source/other.html) |
+| [linux_android_1590](../../tasks/cross_device/linux_android/linux_android_1590.json) | 补充 320 | 地点与坐标登记 | 现场访问堆场地点资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1590/source/yard.html) |
+| [linux_android_182](../../tasks/cross_device/linux_android/linux_android_182.json) | 补充 320 | 地点与坐标登记 | 现场访问清单与地理信息交接版式 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_182/source/arrival-checklist.html) |
+| [linux_android_225](../../tasks/cross_device/linux_android/linux_android_225.json) | 原 140 | 地点与坐标登记 | 仓库地图点登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_225/source/map_pin_form.html) |
+| [linux_android_226](../../tasks/cross_device/linux_android/linux_android_226.json) | 补充 320 | 地点与坐标登记 | 南端路线坐标候选页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_226/source/route_a.html) |
+| [linux_android_226](../../tasks/cross_device/linux_android/linux_android_226.json) | 补充 320 | 地点与坐标登记 | 北仓路线坐标目标页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_226/source/route_b.html) |
+| [linux_android_252](../../tasks/cross_device/linux_android/linux_android_252.json) | 补充 320 | 地点与坐标登记 | 批准路线点坐标名录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_252/source/approved-waypoints.html) |
+| [linux_android_429](../../tasks/cross_device/linux_android/linux_android_429.json) | 补充 320 | 地点与坐标登记 | 客户活动地点与坐标名录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_429/source/venue-directory.html) |
+| [linux_android_462](../../tasks/cross_device/linux_android/linux_android_462.json) | 补充 320 | 地点与坐标登记 | 观景地点访问笔记格式 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_462/source/trip-note-brief.html) |
+| [linux_android_556](../../tasks/cross_device/linux_android/linux_android_556.json) | 补充 320 | 地点与坐标登记 | 批准场地收藏命名规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_556/source/approved-sites.html) |
+| [linux_android_649](../../tasks/cross_device/linux_android/linux_android_649.json) | 补充 320 | 地点与坐标登记 | 泵站收藏地点和入口说明 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_649/source/field_location_request_R42.html) |
+| [linux_android_652](../../tasks/cross_device/linux_android/linux_android_652.json) | 补充 320 | 地点与坐标登记 | 派工门店代码与坐标主表联接规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_652/source/dispatch_task.html) |
+| [linux_android_672](../../tasks/cross_device/linux_android/linux_android_672.json) | 补充 320 | 地点与坐标登记 | 取件地点坐标容差与收藏更新规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_672/source/delivery_verification.html) |
+| [linux_android_887](../../tasks/cross_device/linux_android/linux_android_887.json) | 补充 320 | 地点与坐标登记 | 港口泵站坐标详情 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_887/source/harbor_pump.html) |
+| [linux_android_887](../../tasks/cross_device/linux_android/linux_android_887.json) | 补充 320 | 地点与坐标登记 | 排水口坐标详情 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_887/source/river_outfall.html) |
+| [linux_android_887](../../tasks/cross_device/linux_android/linux_android_887.json) | 补充 320 | 地点与坐标登记 | 场地坐标详情链接目录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_887/source/sites.html) |
+| [linux_android_887](../../tasks/cross_device/linux_android/linux_android_887.json) | 补充 320 | 地点与坐标登记 | 水库坐标详情 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_887/source/west_reservoir.html) |
+| [linux_android_961](../../tasks/cross_device/linux_android/linux_android_961.json) | 补充 320 | 地点与坐标登记 | 西转运门路线详情与许可 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_961/source/review.html) |
+| [linux_android_1017](../../tasks/cross_device/linux_android/linux_android_1017.json) | 补充 320 | 日程、预约与值班 | 批准维修访问与准备待办时序 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1017/source/request.html) |
+| [linux_android_103](../../tasks/cross_device/linux_android/linux_android_103.json) | 原 140 | 日程、预约与值班 | 周审日程状态更新 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_103/source/review_update_form.html) |
+| [linux_android_124](../../tasks/cross_device/linux_android/linux_android_124.json) | 补充 320 | 日程、预约与值班 | 值班人员时间职责表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_124/source/table.html) |
+| [linux_android_1502](../../tasks/cross_device/linux_android/linux_android_1502.json) | 补充 320 | 日程、预约与值班 | 客服回访工单与预约政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1502/source/tickets.html) |
+| [linux_android_1581](../../tasks/cross_device/linux_android/linux_android_1581.json) | 原 140 | 日程、预约与值班 | 会议室预约 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1581/source/booking.html) |
+| [linux_android_161](../../tasks/cross_device/linux_android/linux_android_161.json) | 原 140 | 日程、预约与值班 | 值班排期更正 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_161/source/dashboard.html) |
+| [linux_android_177](../../tasks/cross_device/linux_android/linux_android_177.json) | 原 140 | 日程、预约与值班 | 安静工作时段登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_177/source/session-intake.html) |
+| [linux_android_180](../../tasks/cross_device/linux_android/linux_android_180.json) | 原 140 | 日程、预约与值班 | 仪器校准阶段时序登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_180/source/control-room-intake.html) |
+| [linux_android_185](../../tasks/cross_device/linux_android/linux_android_185.json) | 原 140 | 日程、预约与值班 | 值班闹钟交接回执 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_185/source/alarm-handoff.html) |
+| [linux_android_190](../../tasks/cross_device/linux_android/linux_android_190.json) | 补充 320 | 日程、预约与值班 | 次班值班闹钟更正权威表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_190/source/next-shift-roster.html) |
+| [linux_android_204](../../tasks/cross_device/linux_android/linux_android_204.json) | 原 140 | 日程、预约与值班 | 冷库检查提醒交接 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_204/source/alarm.html) |
+| [linux_android_236](../../tasks/cross_device/linux_android/linux_android_236.json) | 补充 320 | 日程、预约与值班 | 会议准备计时器时长 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_236/source/timer_request.html) |
+| [linux_android_287](../../tasks/cross_device/linux_android/linux_android_287.json) | 补充 320 | 日程、预约与值班 | Q3 复盘日程及负责人行动项 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_287/source/q3-project-review.html) |
+| [linux_android_380](../../tasks/cross_device/linux_android/linux_android_380.json) | 补充 320 | 日程、预约与值班 | 季度计划会议与配套横幅请求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_380/source/quarterly-planning.html) |
+| [linux_android_434](../../tasks/cross_device/linux_android/linux_android_434.json) | 补充 320 | 日程、预约与值班 | 供应商入驻会议排期与角色匹配 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_434/source/onboarding-request.html) |
+| [linux_android_498](../../tasks/cross_device/linux_android/linux_android_498.json) | 补充 320 | 日程、预约与值班 | 已确认团队会议完整日程 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_498/source/team-meetings.html) |
+| [linux_android_517](../../tasks/cross_device/linux_android/linux_android_517.json) | 补充 320 | 日程、预约与值班 | 可用团队会议时段表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_517/source/team-slots.html) |
+| [linux_android_552](../../tasks/cross_device/linux_android/linux_android_552.json) | 补充 320 | 日程、预约与值班 | 团队会议简报及提醒要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_552/source/meeting-request.html) |
+| [linux_android_594](../../tasks/cross_device/linux_android/linux_android_594.json) | 补充 320 | 日程、预约与值班 | 批准场地访问活动日程 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_594/source/venue-requests.html) |
+| [linux_android_705](../../tasks/cross_device/linux_android/linux_android_705.json) | 原 140 | 日程、预约与值班 | 部署评审会议信息源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_705/source/deploy_review.html) |
+| [linux_android_859](../../tasks/cross_device/linux_android/linux_android_859.json) | 补充 320 | 日程、预约与值班 | 班次闹钟标签与允许时段 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_859/source/booking.html) |
+| [linux_android_882](../../tasks/cross_device/linux_android/linux_android_882.json) | 补充 320 | 日程、预约与值班 | 会议室可用时段与预约权限 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_882/source/booking.html) |
+| [linux_android_894](../../tasks/cross_device/linux_android/linux_android_894.json) | 原 140 | 日程、预约与值班 | 班次预约确认 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_894/source/book.html) |
+| [linux_android_986](../../tasks/cross_device/linux_android/linux_android_986.json) | 补充 320 | 日程、预约与值班 | 批准日程行与干扰行 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_986/source/approved_rows.html) |
+| [linux_only_313](../../tasks/cross_device/linux_only/linux_only_313.json) | 补充 320 | 日程、预约与值班 | 可发布会议及议程锚点 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_313/source/index.html) |
+| [linux_android_1430](../../tasks/cross_device/linux_android/linux_android_1430.json) | 补充 320 | 音频、播放与转录 | 有序晨间歌单及配套闹钟请求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1430/source/morning_warmup_request.html) |
+| [linux_android_1563](../../tasks/cross_device/linux_android/linux_android_1563.json) | 补充 320 | 音频、播放与转录 | 当前与历史驾驶歌单曲序 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1563/source/local_playlists.html) |
+| [linux_android_1572](../../tasks/cross_device/linux_android/linux_android_1572.json) | 补充 320 | 音频、播放与转录 | 已批准公路旅行曲序与媒体路径 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1572/source/playlist_request.html) |
+| [linux_android_163](../../tasks/cross_device/linux_android/linux_android_163.json) | 补充 320 | 音频、播放与转录 | 路线短录音及音频索引规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_163/source/recording-checklist.html) |
+| [linux_android_194](../../tasks/cross_device/linux_android/linux_android_194.json) | 补充 320 | 音频、播放与转录 | 仅限手机保存的录音审批交接规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_194/source/approval.html) |
+| [linux_android_196](../../tasks/cross_device/linux_android/linux_android_196.json) | 补充 320 | 音频、播放与转录 | 录音文件级登记字段规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_196/source/recording-intake.html) |
+| [linux_android_215](../../tasks/cross_device/linux_android/linux_android_215.json) | 补充 320 | 音频、播放与转录 | 站会录音链路检查要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_215/source/request.html) |
+| [linux_android_249](../../tasks/cross_device/linux_android/linux_android_249.json) | 补充 320 | 音频、播放与转录 | 双手机录音文件分配表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_249/source/recording-assignments.html) |
+| [linux_android_290](../../tasks/cross_device/linux_android/linux_android_290.json) | 补充 320 | 音频、播放与转录 | 通勤歌单申请曲序 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_290/source/morning-drive-request.html) |
+| [linux_android_355](../../tasks/cross_device/linux_android/linux_android_355.json) | 补充 320 | 音频、播放与转录 | 周五派对歌单及收藏请求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_355/source/party-playlist.html) |
+| [linux_android_475](../../tasks/cross_device/linux_android/linux_android_475.json) | 补充 320 | 音频、播放与转录 | 晨间歌单及配套闹钟政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_475/source/playlist-policy.html) |
+| [linux_android_537](../../tasks/cross_device/linux_android/linux_android_537.json) | 补充 320 | 音频、播放与转录 | 接待歌单及首曲文件路径 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_537/source/friday-set.html) |
+| [linux_android_680](../../tasks/cross_device/linux_android/linux_android_680.json) | 补充 320 | 音频、播放与转录 | 音频 slate 生产派工规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_680/source/audio_requirements.html) |
+| [linux_android_700](../../tasks/cross_device/linux_android/linux_android_700.json) | 原 140 | 音频、播放与转录 | 演出曲目制作请求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_700/source/event_playlist_request.html) |
+| [linux_android_891](../../tasks/cross_device/linux_android/linux_android_891.json) | 原 140 | 音频、播放与转录 | 录音与转录目录对账 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_891/source/review.html) |
+| [linux_only_081](../../tasks/cross_device/linux_only/linux_only_081.json) | 原 140 | 音频、播放与转录 | 播放器请求资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_081/source/play_request.html) |
+| [linux_only_276](../../tasks/cross_device/linux_only/linux_only_276.json) | 补充 320 | 音频、播放与转录 | 当前培训视频文件选择依据 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_276/source/linux_0/tmp/training/playlist.html) |
+| [linux_android_1004](../../tasks/cross_device/linux_android/linux_android_1004.json) | 补充 320 | 财务、发票与价格 | 发票付款审批及回复文本 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1004/source/approval.html) |
+| [linux_android_230](../../tasks/cross_device/linux_android/linux_android_230.json) | 原 140 | 财务、发票与价格 | 验证码账单下载 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_230/source/download_portal.html) |
+| [linux_android_678](../../tasks/cross_device/linux_android/linux_android_678.json) | 原 140 | 财务、发票与价格 | 发票合并所需客户目录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_678/source/customers.html) |
+| [linux_only_019](../../tasks/cross_device/linux_only/linux_only_019.json) | 补充 320 | 财务、发票与价格 | 周销售 CSV 下载入口 | 专门下载入口 | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_019/source/download.html) |
+| [linux_only_030](../../tasks/cross_device/linux_only/linux_only_030.json) | 补充 320 | 财务、发票与价格 | 北区产品当前价格表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_030/source/product_north.html) |
+| [linux_only_030](../../tasks/cross_device/linux_only/linux_only_030.json) | 补充 320 | 财务、发票与价格 | 南区产品当前价格表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_030/source/product_south.html) |
+| [linux_only_083](../../tasks/cross_device/linux_only/linux_only_083.json) | 原 140 | 财务、发票与价格 | 供应商台账批准资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_083/source/approvals.html) |
+| [linux_only_123](../../tasks/cross_device/linux_only/linux_only_123.json) | 原 140 | 财务、发票与价格 | 发票明细资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_123/source/invoices.html) |
+| [linux_only_130](../../tasks/cross_device/linux_only/linux_only_130.json) | 原 140 | 财务、发票与价格 | 价格修正来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_130/source/price_updates.html) |
+| [linux_only_137](../../tasks/cross_device/linux_only/linux_only_137.json) | 补充 320 | 财务、发票与价格 | 当前付款审批字段与历史记录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_137/source/approvals.html) |
+| [linux_only_153](../../tasks/cross_device/linux_only/linux_only_153.json) | 原 140 | 财务、发票与价格 | 发票汇总要求来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_153/source/invoice_tasks.html) |
+| [linux_only_160](../../tasks/cross_device/linux_only/linux_only_160.json) | 原 140 | 财务、发票与价格 | 发票确认文档要求来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_160/source/finance.html) |
+| [linux_only_175](../../tasks/cross_device/linux_only/linux_only_175.json) | 原 140 | 财务、发票与价格 | 台账审批依据来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_175/source/today_approvals.html) |
+| [linux_only_332](../../tasks/cross_device/linux_only/linux_only_332.json) | 原 140 | 财务、发票与价格 | 已批准发票汇总来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_332/source/invoice_dashboard.html) |
+| [linux_android_089](../../tasks/cross_device/linux_android/linux_android_089.json) | 原 140 | 身份、验证码与访问确认 | 客户身份及 OTP 登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_089/source/client_form.html) |
+| [linux_android_1215](../../tasks/cross_device/linux_android/linux_android_1215.json) | 补充 320 | 身份、验证码与访问确认 | 请求人必需身份标识缺失资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1215/source/tmp/portal/request.html) |
+| [linux_android_1307](../../tasks/cross_device/linux_android/linux_android_1307.json) | 原 140 | 身份、验证码与访问确认 | 短信最新验证码验证 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1307/source/tmp/form/submit.html) |
+| [linux_android_137](../../tasks/cross_device/linux_android/linux_android_137.json) | 补充 320 | 身份、验证码与访问确认 | North Pier 访问窗口审阅资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_137/source/target.html) |
+| [linux_android_157](../../tasks/cross_device/linux_android/linux_android_157.json) | 原 140 | 身份、验证码与访问确认 | 两步现场访问申请 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_157/source/apply.html) |
+| [linux_android_1578](../../tasks/cross_device/linux_android/linux_android_1578.json) | 补充 320 | 身份、验证码与访问确认 | 角色访问与定期授权复核政策 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1578/source/alpha.html) |
+| [linux_android_1578](../../tasks/cross_device/linux_android/linux_android_1578.json) | 补充 320 | 身份、验证码与访问确认 | 历史合并政策参考页 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1578/source/archive.html) |
+| [linux_android_158](../../tasks/cross_device/linux_android/linux_android_158.json) | 原 140 | 身份、验证码与访问确认 | 一次性验证码确认请求 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_158/source/secure.html) |
+| [linux_android_168](../../tasks/cross_device/linux_android/linux_android_168.json) | 原 140 | 身份、验证码与访问确认 | 账户双因素确认 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_168/source/verify.html) |
+| [linux_android_220](../../tasks/cross_device/linux_android/linux_android_220.json) | 原 140 | 身份、验证码与访问确认 | 注册双因素确认 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_220/source/confirmation_form.html) |
+| [linux_android_805](../../tasks/cross_device/linux_android/linux_android_805.json) | 补充 320 | 身份、验证码与访问确认 | 账户所有者访问确认要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_805/source/request.html) |
+| [linux_android_846](../../tasks/cross_device/linux_android/linux_android_846.json) | 补充 320 | 身份、验证码与访问确认 | 短信代码匹配及输出状态资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_846/source/index.html) |
+| [linux_android_888](../../tasks/cross_device/linux_android/linux_android_888.json) | 原 140 | 身份、验证码与访问确认 | 当前注册确认 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_888/source/form.html) |
+| [linux_android_980](../../tasks/cross_device/linux_android/linux_android_980.json) | 补充 320 | 身份、验证码与访问确认 | 访问审查目标标识与提交 schema | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_980/source/request.html) |
+| [linux_android_1397](../../tasks/cross_device/linux_android/linux_android_1397.json) | 补充 320 | 服务器与配置运维 | 防火墙和证书变更审计队列 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1397/source/tickets.html) |
+| [linux_android_187](../../tasks/cross_device/linux_android/linux_android_187.json) | 补充 320 | 服务器与配置运维 | 网络上联拓扑审阅标签与交付规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_187/source/work-order.html) |
+| [linux_android_415](../../tasks/cross_device/linux_android/linux_android_415.json) | 补充 320 | 服务器与配置运维 | 机架在线状态与负责人表 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_415/source/rack-status.html) |
+| [linux_android_489](../../tasks/cross_device/linux_android/linux_android_489.json) | 补充 320 | 服务器与配置运维 | 服务审计 Ready/Critical 筛选规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_489/source/server-audit.html) |
+| [linux_android_697](../../tasks/cross_device/linux_android/linux_android_697.json) | 原 140 | 服务器与配置运维 | 服务器状态审计资料 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_697/source/servers.html) |
+| [linux_only_051](../../tasks/cross_device/linux_only/linux_only_051.json) | 补充 320 | 服务器与配置运维 | 批准服务最低版本与比较规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_051/source/approved_services.html) |
+| [linux_only_078](../../tasks/cross_device/linux_only/linux_only_078.json) | 原 140 | 服务器与配置运维 | 服务器批准名录 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_078/source/servers.html) |
+| [linux_only_121](../../tasks/cross_device/linux_only/linux_only_121.json) | 原 140 | 服务器与配置运维 | 服务配置变更确认 | 固定按钮确认入口 | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_121/source/dashboard.html) |
+| [linux_only_128](../../tasks/cross_device/linux_only/linux_only_128.json) | 原 140 | 服务器与配置运维 | 变更请求与校验规则来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_128/source/r204.html) |
+| [linux_only_343](../../tasks/cross_device/linux_only/linux_only_343.json) | 补充 320 | 服务器与配置运维 | 服务监控状态与 JSON 汇总格式 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_343/source/monitoring.html) |
+| [linux_only_121](../../tasks/cross_device/linux_only/linux_only_121.json) | 补充 320 | 服务器与配置运维 | 服务配置更改的确认目标页 | 静态确认/回执页 | [setup 内联](../../tasks/cross_device/linux_only/linux_only_121.json) |
+| [linux_android_1584](../../tasks/cross_device/linux_android/linux_android_1584.json) | 原 140 | 营销与图像制作需求 | 营销活动联系人登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1584/source/form.html) |
+| [linux_android_334](../../tasks/cross_device/linux_android/linux_android_334.json) | 补充 320 | 营销与图像制作需求 | 产品展示图文分配规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_334/source/slide-assignments.html) |
+| [linux_android_379](../../tasks/cross_device/linux_android/linux_android_379.json) | 补充 320 | 营销与图像制作需求 | 开发团队徽章视觉与产出规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_379/source/team-badge-request.html) |
+| [linux_android_566](../../tasks/cross_device/linux_android/linux_android_566.json) | 补充 320 | 营销与图像制作需求 | 夜市海报与社交图活动简报 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_566/source/event-request.html) |
+| [linux_android_576](../../tasks/cross_device/linux_android/linux_android_576.json) | 补充 320 | 营销与图像制作需求 | 品牌配色与手机可读性规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_576/source/palette.html) |
+| [linux_android_578](../../tasks/cross_device/linux_android/linux_android_578.json) | 补充 320 | 营销与图像制作需求 | 批准邀请函与双端图片制作要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_578/source/invitations.html) |
+| [linux_only_069](../../tasks/cross_device/linux_only/linux_only_069.json) | 原 140 | 营销与图像制作需求 | 营销横幅制作需求看板 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_069/source/campaign_dashboard.html) |
+| [linux_only_148](../../tasks/cross_device/linux_only/linux_only_148.json) | 原 140 | 营销与图像制作需求 | 商品图片加工要求来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_148/source/product_edit_request.html) |
+| [linux_only_156](../../tasks/cross_device/linux_only/linux_only_156.json) | 原 140 | 营销与图像制作需求 | 横幅制作要求来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_156/source/banners_request.html) |
+| [linux_only_193](../../tasks/cross_device/linux_only/linux_only_193.json) | 原 140 | 营销与图像制作需求 | 横幅设计参数来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_193/source/banner_request.html) |
+| [linux_only_353](../../tasks/cross_device/linux_only/linux_only_353.json) | 原 140 | 营销与图像制作需求 | 商品照片标注指令来源 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_353/source/annotate_instructions.html) |
+| [linux_android_108](../../tasks/cross_device/linux_android/linux_android_108.json) | 原 140 | 登记、调查与信息采集 | 现场调查登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_108/source/survey_form.html) |
+| [linux_android_1142](../../tasks/cross_device/linux_android/linux_android_1142.json) | 补充 320 | 登记、调查与信息采集 | 已签名讲师报名名单与筛选规则 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1142/source/signup.html) |
+| [linux_android_139](../../tasks/cross_device/linux_android/linux_android_139.json) | 原 140 | 登记、调查与信息采集 | 访客登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_139/source/register.html) |
+| [linux_android_203](../../tasks/cross_device/linux_android/linux_android_203.json) | 原 140 | 登记、调查与信息采集 | 资产标签图信息录入 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_203/source/photo_upload_form.html) |
+| [linux_android_223](../../tasks/cross_device/linux_android/linux_android_223.json) | 原 140 | 登记、调查与信息采集 | 工作坊报名 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_223/source/form.html) |
+| [linux_android_235](../../tasks/cross_device/linux_android/linux_android_235.json) | 原 140 | 登记、调查与信息采集 | 访客签到表字段修复与验证 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_235/source/form.html) |
+| [linux_android_237](../../tasks/cross_device/linux_android/linux_android_237.json) | 原 140 | 登记、调查与信息采集 | 设施满意度问卷 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_237/source/survey_form.html) |
+| [linux_android_852](../../tasks/cross_device/linux_android/linux_android_852.json) | 补充 320 | 登记、调查与信息采集 | 按部门采集问卷的题目与范围 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_852/source/survey.html) |
+| [linux_android_890](../../tasks/cross_device/linux_android/linux_android_890.json) | 原 140 | 登记、调查与信息采集 | 部门收货问卷 | 表单型界面 | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_890/source/form.html) |
+| [linux_only_012](../../tasks/cross_device/linux_only/linux_only_012.json) | 原 140 | 登记、调查与信息采集 | 现场记录受理 | 表单型界面 | [HTML](../../tasks/cross_device/linux_only_assets/linux_only_012/source/form.html) |
+| [linux_smarthome_191](../../tasks/cross_device/linux_smarthome/linux_smarthome_191.json) | 原 140 | SmartHome 状态与能力盘点 | 照明能力核查登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_191/source/home/user/forms/capability.html) |
+| [linux_smarthome_247](../../tasks/cross_device/linux_smarthome/linux_smarthome_247.json) | 原 140 | SmartHome 状态与能力盘点 | 家庭环境盘点登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_247/source/tmp/home/gui/home-audit.html) |
+| [linux_smarthome_362](../../tasks/cross_device/linux_smarthome/linux_smarthome_362.json) | 原 140 | SmartHome 状态与能力盘点 | 客厅设备状态盘点 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_362/source/home/user/audit/living-room.html) |
+| [linux_smarthome_375](../../tasks/cross_device/linux_smarthome/linux_smarthome_375.json) | 原 140 | SmartHome 状态与能力盘点 | 全屋运行状态盘点 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_375/source/home/user/audit/questions.html) |
+| [linux_smarthome_441](../../tasks/cross_device/linux_smarthome/linux_smarthome_441.json) | 原 140 | SmartHome 状态与能力盘点 | 全屋五项状态交接登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_441/source/home/user/home/questions.html) |
+| [linux_smarthome_448](../../tasks/cross_device/linux_smarthome/linux_smarthome_448.json) | 原 140 | SmartHome 状态与能力盘点 | 环境读数极值交接登记 | 表单型界面 | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_448/source/home/user/home/dashboard.html) |
+| [linux_smarthome_518](../../tasks/cross_device/linux_smarthome/linux_smarthome_518.json) | 补充 320 | SmartHome 状态与能力盘点 | 晚间多房间状态与计划展示规范 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_518/source/tmp/status/card-template.html) |
+| [linux_android_1472](../../tasks/cross_device/linux_android/linux_android_1472.json) | 补充 320 | 食谱与烹饪准备 | 蒜香西兰花食谱完整字段 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1472/source/garlic_broccoli.html) |
+| [linux_android_1509](../../tasks/cross_device/linux_android/linux_android_1509.json) | 补充 320 | 食谱与烹饪准备 | 菜品上菜时间与备餐提醒依据 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_1509/source/schedule.html) |
+| [linux_android_357](../../tasks/cross_device/linux_android/linux_android_357.json) | 补充 320 | 食谱与烹饪准备 | 西兰花沙拉配方与成品图要求 | 阅读参考与资料页（含目录/附件索引） | [HTML](../../tasks/cross_device/linux_android_assets/linux_android_357/source/recipe-request.html) |
 
-因此：本轮可直接使用的数值是“140 个候选页面组，16 类业务；99 个表单型、2 个按钮确认型、39 个资料型”。如果论文要求 #websites 的独立实体数，101 不能直接填入；需要为匿名合成界面明确稳定的产品/应用家族边界。旧报告的“已确认网站 0”只代表没有完成独立实体确认项，不等于实际没有 Web 界面。本轮没有凭业务或控件分类擅自增加 #Apps / #websites。
+## 7. 复现、版本与范围
 
-## 6. 逐组清单
+统计基于当前 MDCBench 工作树及原 inventory_data.json 所定义的候选范围。来源 worktree：/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826。包含已有未提交任务修改，不把当前 HEAD 当作全体文件的不可变发布快照。
 
-每条的简短理由、字段结构、部署位置、真实接收合约、功能与证据见 [html_website_classification.jsonl](html_website_classification.jsonl)。表中按主业务分组，不按模型结果分组。
+本轮仅更新 analysis/statistics 下的完整报告、JSONL 和聚合脚本，原 summary 作为历史初筛报告保留。上一版 140 组补充报告可在 pear 的 b1605eb 提交中查看；此次报告入口改为完整 460 条。
 
-| 任务及原始 instruction | 业务类型 | 具体用途 | 页面作用 | HTML 源码 |
-|---|---|---|---|---|
-| [linux_android_smarthome_561](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_561.json) | SmartHome 计划与工作流 | 失败工作流修复回执 | 表单型 | [源码](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_561/source/home/user/home_ops/home-requests/source/fault.html) |
-| [linux_android_smarthome_604](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_604.json) | SmartHome 计划与工作流 | 会议场景改期批准回执 | 表单型 | [源码](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_604/source/home/user/home_ops/approval-forms/source/approval.html) |
-| [linux_android_smarthome_608](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_608.json) | SmartHome 计划与工作流 | 家庭自动化版本部署回执 | 表单型 | [源码](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_608/source/home/user/home_ops/status-reports/source/release.html) |
-| [linux_android_smarthome_660](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_660.json) | SmartHome 计划与工作流 | 会议准备取消回执 | 表单型 | [源码](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_660/source/home/user/home_ops/operations-log/source/cancel.html) |
-| [linux_android_smarthome_670](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_670.json) | SmartHome 计划与工作流 | 抵达环境准备批准 | 表单型 | [源码](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_670/source/home/user/share/Committee%20Approval.html) |
-| [linux_android_smarthome_947](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_947.json) | SmartHome 计划与工作流 | 办公室灯光计划批准 | 表单型 | [源码](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_947/source/home/user/share/Office%20Meeting%20Approval.html) |
-| [linux_smarthome_221](../../tasks/cross_device/linux_smarthome/linux_smarthome_221.json) | SmartHome 计划与工作流 | 例程清理工单回执 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_221/source/home/user/forms/workflow-cleanup.html) |
-| [linux_smarthome_257](../../tasks/cross_device/linux_smarthome/linux_smarthome_257.json) | SmartHome 计划与工作流 | 例程保留取消回执 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_257/source/tmp/home/gui/dashboard.html) |
-| [linux_smarthome_369](../../tasks/cross_device/linux_smarthome/linux_smarthome_369.json) | SmartHome 计划与工作流 | 例程状态核验回执 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_369/source/home/user/automation/review.html) |
-| [linux_smarthome_428](../../tasks/cross_device/linux_smarthome/linux_smarthome_428.json) | SmartHome 计划与工作流 | 占用冲突清扫例程复核 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_428/source/home/user/vacuum/workflow.html) |
-| [linux_smarthome_446](../../tasks/cross_device/linux_smarthome/linux_smarthome_446.json) | SmartHome 计划与工作流 | 计划清理变更回执 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_446/source/home/user/automation/cleanup.html) |
-| [linux_smarthome_447](../../tasks/cross_device/linux_smarthome/linux_smarthome_447.json) | SmartHome 计划与工作流 | 失败例程重建登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_447/source/home/user/automation/workflows.html) |
-| [linux_smarthome_449](../../tasks/cross_device/linux_smarthome/linux_smarthome_449.json) | SmartHome 计划与工作流 | 三阶段晚间自动化登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_449/source/home/user/automation/stages.html) |
-| [linux_smarthome_450](../../tasks/cross_device/linux_smarthome/linux_smarthome_450.json) | SmartHome 计划与工作流 | 迎宾例程取消回执 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_450/source/home/user/automation/cancel.html) |
-| [linux_smarthome_510](../../tasks/cross_device/linux_smarthome/linux_smarthome_510.json) | SmartHome 计划与工作流 | 过期阅读计划取消登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_510/source/home/user/cleanup/schedules.html) |
-| [linux_smarthome_622](../../tasks/cross_device/linux_smarthome/linux_smarthome_622.json) | SmartHome 计划与工作流 | 办公室照明计划替换登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_622/source/home/user/change/index.html) |
-| [linux_android_smarthome_525](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_525.json) | 洗衣、清扫与家电维护 | 衣物护理洗衣工单 | 表单型 | [源码](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_525/source/home/user/home_ops/comfort-checks/source/order.html) |
-| [linux_android_smarthome_587](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_587.json) | 洗衣、清扫与家电维护 | 洗衣订单执行回执 | 表单型 | [源码](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_587/source/home/user/home_ops/laundry/source/order.html) |
-| [linux_android_smarthome_591](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_591.json) | 洗衣、清扫与家电维护 | 机器人清洁许可回执 | 表单型 | [源码](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_591/source/home/user/home_ops/robot/source/approval.html) |
-| [linux_smarthome_365](../../tasks/cross_device/linux_smarthome/linux_smarthome_365.json) | 洗衣、清扫与家电维护 | 洗衣机状态登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_365/source/home/user/laundry/check.html) |
-| [linux_smarthome_393](../../tasks/cross_device/linux_smarthome/linux_smarthome_393.json) | 洗衣、清扫与家电维护 | 漏水事件处置回执 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_393/source/home/user/incidents/leak.html) |
-| [linux_smarthome_400](../../tasks/cross_device/linux_smarthome/linux_smarthome_400.json) | 洗衣、清扫与家电维护 | 洗衣停机审计登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_400/source/home/user/laundry/stop-order.html) |
-| [linux_smarthome_406](../../tasks/cross_device/linux_smarthome/linux_smarthome_406.json) | 洗衣、清扫与家电维护 | 烘干换程序延期登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_406/source/home/user/laundry/dryer-change.html) |
-| [linux_smarthome_412](../../tasks/cross_device/linux_smarthome/linux_smarthome_412.json) | 洗衣、清扫与家电维护 | 烘干能力与派工登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_412/source/home/user/laundry/dryer-options.html) |
-| [linux_smarthome_417](../../tasks/cross_device/linux_smarthome/linux_smarthome_417.json) | 洗衣、清扫与家电维护 | 安静会议清扫处置登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_417/source/home/user/study/quiet.html) |
-| [linux_smarthome_422](../../tasks/cross_device/linux_smarthome/linux_smarthome_422.json) | 洗衣、清扫与家电维护 | 低电量清扫安全登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_422/source/home/user/vacuum/request.html) |
-| [linux_smarthome_443](../../tasks/cross_device/linux_smarthome/linux_smarthome_443.json) | 洗衣、清扫与家电维护 | 洗衣事故前后记录 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_443/source/home/user/laundry/incident.html) |
-| [linux_smarthome_444](../../tasks/cross_device/linux_smarthome/linux_smarthome_444.json) | 洗衣、清扫与家电维护 | 烘干变更延期审批回执 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_444/source/home/user/laundry/dryer-change.html) |
-| [linux_smarthome_445](../../tasks/cross_device/linux_smarthome/linux_smarthome_445.json) | 洗衣、清扫与家电维护 | 清扫优先级派工回执 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_445/source/home/user/cleaning/board.html) |
-| [linux_smarthome_451](../../tasks/cross_device/linux_smarthome/linux_smarthome_451.json) | 洗衣、清扫与家电维护 | 洗衣湿度工单登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_451/source/home/user/case/work-order.html) |
-| [linux_smarthome_454](../../tasks/cross_device/linux_smarthome/linux_smarthome_454.json) | 洗衣、清扫与家电维护 | 静音清扫冲突处置回执 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_454/source/home/user/cleaning/quiet.html) |
-| [linux_smarthome_456](../../tasks/cross_device/linux_smarthome/linux_smarthome_456.json) | 洗衣、清扫与家电维护 | 设备生命周期维护工单 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_456/source/home/user/maintenance/dashboard.html) |
-| [linux_android_smarthome_598](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_598.json) | 房间设备变更与审批 | 混合设备变更授权统计 | 表单型 | [源码](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_598/source/home/user/home_ops/status-reports/source/approval.html) |
-| [linux_android_smarthome_616](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_616.json) | 房间设备变更与审批 | 家庭变更审批批次 | 表单型 | [源码](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_616/source/home/user/home_ops/service-notes/source/portal.html) |
-| [linux_android_smarthome_620](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_620.json) | 房间设备变更与审批 | 家庭变更看板回执 | 表单型 | [源码](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_620/source/home/user/home_ops/operations-log/source/board.html) |
-| [linux_android_smarthome_872](../../tasks/cross_device/linux_android_smarthome/linux_android_smarthome_872.json) | 房间设备变更与审批 | 家庭变更批准资料 | 资料型 | [源码](../../tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_872/source/tmp/approved-home-change/policy/approvals.html) |
-| [linux_smarthome_251](../../tasks/cross_device/linux_smarthome/linux_smarthome_251.json) | 房间设备变更与审批 | 灯光窗帘配置回执 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_251/source/tmp/home/gui/lighting.html) |
-| [linux_smarthome_378](../../tasks/cross_device/linux_smarthome/linux_smarthome_378.json) | 房间设备变更与审批 | 卧室制冷选择回执 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_378/source/home/user/climate/cooling.html) |
-| [linux_smarthome_381](../../tasks/cross_device/linux_smarthome/linux_smarthome_381.json) | 房间设备变更与审批 | 窗帘请求适用性登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_381/source/home/user/curtain/request.html) |
-| [linux_smarthome_387](../../tasks/cross_device/linux_smarthome/linux_smarthome_387.json) | 房间设备变更与审批 | 空调模式请求处置回执 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_387/source/home/user/climate/mode-check.html) |
-| [linux_smarthome_442](../../tasks/cross_device/linux_smarthome/linux_smarthome_442.json) | 房间设备变更与审批 | 多设备请求能力审批登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_442/source/home/user/home/capabilities.html) |
-| [linux_smarthome_460](../../tasks/cross_device/linux_smarthome/linux_smarthome_460.json) | 房间设备变更与审批 | 综合变更审批回执 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_460/source/home/user/change/approval.html) |
-| [linux_smarthome_506](../../tasks/cross_device/linux_smarthome/linux_smarthome_506.json) | 房间设备变更与审批 | 房间调整请求复核 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_506/source/home/user/approval/index.html) |
-| [linux_smarthome_507](../../tasks/cross_device/linux_smarthome/linux_smarthome_507.json) | 房间设备变更与审批 | 空气污染定向响应回执 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_507/source/home/user/dashboard/air.html) |
-| [linux_smarthome_523](../../tasks/cross_device/linux_smarthome/linux_smarthome_523.json) | 房间设备变更与审批 | 照明审批固定确认导航 | 按钮确认型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_523/source/home/user/approval/index.html) |
-| [linux_smarthome_553](../../tasks/cross_device/linux_smarthome/linux_smarthome_553.json) | 房间设备变更与审批 | 家庭请求选择与例外登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_553/source/tmp/board/review.html) |
-| [linux_android_081](../../tasks/cross_device/linux_android/linux_android_081.json) | 物流、库存与配送 | 快递取件预约 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_081/source/delivery_booking_form.html) |
-| [linux_android_086](../../tasks/cross_device/linux_android/linux_android_086.json) | 物流、库存与配送 | 实验室取件时间登记 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_086/source/lab_booking_form.html) |
-| [linux_android_125](../../tasks/cross_device/linux_android/linux_android_125.json) | 物流、库存与配送 | 设备取件预约更正 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_125/source/booking.html) |
-| [linux_android_169](../../tasks/cross_device/linux_android/linux_android_169.json) | 物流、库存与配送 | 出库照片关联登记 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_169/source/package_upload.html) |
-| [linux_android_620](../../tasks/cross_device/linux_android/linux_android_620.json) | 物流、库存与配送 | 交付图片处理报告模式说明 | 资料型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_620/source/upload_template.html) |
-| [linux_android_647](../../tasks/cross_device/linux_android/linux_android_647.json) | 物流、库存与配送 | 订单查询资料表 | 资料型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_647/source/orders/index.html) |
-| [linux_android_676](../../tasks/cross_device/linux_android/linux_android_676.json) | 物流、库存与配送 | 仓库取件时刻表 | 资料型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_676/source/pickup_schedule.html) |
-| [linux_android_886](../../tasks/cross_device/linux_android/linux_android_886.json) | 物流、库存与配送 | 授权现场文件包登记 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_886/source/upload.html) |
-| [linux_only_036](../../tasks/cross_device/linux_only/linux_only_036.json) | 物流、库存与配送 | 库存补货规则资料 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_036/source/inventory.html) |
-| [linux_only_149](../../tasks/cross_device/linux_only/linux_only_149.json) | 物流、库存与配送 | 库存规则来源及确认页导航 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_149/source/update_instructions.html) |
-| [linux_only_320](../../tasks/cross_device/linux_only/linux_only_320.json) | 物流、库存与配送 | 仓库补货更新依据来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_320/source/restock_request.html) |
-| [linux_only_344](../../tasks/cross_device/linux_only/linux_only_344.json) | 物流、库存与配送 | 订单更新指令来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_344/source/update_instructions.html) |
-| [linux_android_083](../../tasks/cross_device/linux_android/linux_android_083.json) | 软件发布与 QA | 版本发布门禁 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_083/source/release_dashboard.html) |
-| [linux_android_1124](../../tasks/cross_device/linux_android/linux_android_1124.json) | 软件发布与 QA | 冻结窗口发布审阅材料 | 资料型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1124/source/release_form.html) |
-| [linux_android_1134](../../tasks/cross_device/linux_android/linux_android_1134.json) | 软件发布与 QA | 未批准发布的门户说明 | 资料型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1134/source/portal.html) |
-| [linux_android_1577](../../tasks/cross_device/linux_android/linux_android_1577.json) | 软件发布与 QA | 就绪版本发布提交 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1577/source/release_portal.html) |
-| [linux_android_1582](../../tasks/cross_device/linux_android/linux_android_1582.json) | 软件发布与 QA | 发布批准人登记 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1582/source/portal.html) |
-| [linux_android_1585](../../tasks/cross_device/linux_android/linux_android_1585.json) | 软件发布与 QA | 批准发布包上传 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1585/source/checklist.html) |
-| [linux_android_1586](../../tasks/cross_device/linux_android/linux_android_1586.json) | 软件发布与 QA | 发布窗口批准 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1586/source/window_dashboard.html) |
-| [linux_android_183](../../tasks/cross_device/linux_android/linux_android_183.json) | 软件发布与 QA | 组件修复的 QA 交接 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_183/source/qa-handoff.html) |
-| [linux_android_889](../../tasks/cross_device/linux_android/linux_android_889.json) | 软件发布与 QA | 发布就绪门禁确认 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_889/source/dashboard.html) |
-| [linux_android_893](../../tasks/cross_device/linux_android/linux_android_893.json) | 软件发布与 QA | 软件缺陷升级登记 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_893/source/board.html) |
-| [linux_only_126](../../tasks/cross_device/linux_only/linux_only_126.json) | 软件发布与 QA | 项目版本更新请求资料 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_126/source/version_update.html) |
-| [linux_only_359](../../tasks/cross_device/linux_only/linux_only_359.json) | 软件发布与 QA | 发布版本来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_359/source/release_status.html) |
-| [linux_android_1078](../../tasks/cross_device/linux_android/linux_android_1078.json) | 通用请求审批与审核 | 请求批准码校验入口 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1078/source/request_form.html) |
-| [linux_android_1208](../../tasks/cross_device/linux_android/linux_android_1208.json) | 通用请求审批与审核 | 就绪请求批准登记 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1208/source/tmp/forms/request.html) |
-| [linux_android_1580](../../tasks/cross_device/linux_android/linux_android_1580.json) | 通用请求审批与审核 | 变更请求审阅提交 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1580/source/review.html) |
-| [linux_android_1587](../../tasks/cross_device/linux_android/linux_android_1587.json) | 通用请求审批与审核 | 运营请求受理 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1587/source/request_board.html) |
-| [linux_android_1589](../../tasks/cross_device/linux_android/linux_android_1589.json) | 通用请求审批与审核 | 同行评审指派 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1589/source/review.html) |
-| [linux_android_880](../../tasks/cross_device/linux_android/linux_android_880.json) | 通用请求审批与审核 | 缺批准码阻塞说明 | 资料型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_880/source/form.html) |
-| [linux_android_895](../../tasks/cross_device/linux_android/linux_android_895.json) | 通用请求审批与审核 | 访问拒绝决定记录 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_895/source/portal.html) |
-| [linux_only_263](../../tasks/cross_device/linux_only/linux_only_263.json) | 通用请求审批与审核 | 待办案例提交与回执 | 表单型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_263/source/linux_1/tmp/form/form.html) |
-| [linux_only_272](../../tasks/cross_device/linux_only/linux_only_272.json) | 通用请求审批与审核 | 人工审核规则来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_272/source/linux_1/tmp/form/review.html) |
-| [linux_android_230](../../tasks/cross_device/linux_android/linux_android_230.json) | 财务、发票与价格 | 验证码账单下载 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_230/source/download_portal.html) |
-| [linux_android_678](../../tasks/cross_device/linux_android/linux_android_678.json) | 财务、发票与价格 | 发票合并所需客户目录 | 资料型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_678/source/customers.html) |
-| [linux_only_083](../../tasks/cross_device/linux_only/linux_only_083.json) | 财务、发票与价格 | 供应商台账批准资料 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_083/source/approvals.html) |
-| [linux_only_123](../../tasks/cross_device/linux_only/linux_only_123.json) | 财务、发票与价格 | 发票明细资料 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_123/source/invoices.html) |
-| [linux_only_130](../../tasks/cross_device/linux_only/linux_only_130.json) | 财务、发票与价格 | 价格修正来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_130/source/price_updates.html) |
-| [linux_only_153](../../tasks/cross_device/linux_only/linux_only_153.json) | 财务、发票与价格 | 发票汇总要求来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_153/source/invoice_tasks.html) |
-| [linux_only_160](../../tasks/cross_device/linux_only/linux_only_160.json) | 财务、发票与价格 | 发票确认文档要求来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_160/source/finance.html) |
-| [linux_only_175](../../tasks/cross_device/linux_only/linux_only_175.json) | 财务、发票与价格 | 台账审批依据来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_175/source/today_approvals.html) |
-| [linux_only_332](../../tasks/cross_device/linux_only/linux_only_332.json) | 财务、发票与价格 | 已批准发票汇总来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_332/source/invoice_dashboard.html) |
-| [linux_android_103](../../tasks/cross_device/linux_android/linux_android_103.json) | 日程、预约与值班 | 周审日程状态更新 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_103/source/review_update_form.html) |
-| [linux_android_1581](../../tasks/cross_device/linux_android/linux_android_1581.json) | 日程、预约与值班 | 会议室预约 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1581/source/booking.html) |
-| [linux_android_161](../../tasks/cross_device/linux_android/linux_android_161.json) | 日程、预约与值班 | 值班排期更正 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_161/source/dashboard.html) |
-| [linux_android_177](../../tasks/cross_device/linux_android/linux_android_177.json) | 日程、预约与值班 | 安静工作时段登记 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_177/source/session-intake.html) |
-| [linux_android_180](../../tasks/cross_device/linux_android/linux_android_180.json) | 日程、预约与值班 | 仪器校准阶段时序登记 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_180/source/control-room-intake.html) |
-| [linux_android_185](../../tasks/cross_device/linux_android/linux_android_185.json) | 日程、预约与值班 | 值班闹钟交接回执 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_185/source/alarm-handoff.html) |
-| [linux_android_204](../../tasks/cross_device/linux_android/linux_android_204.json) | 日程、预约与值班 | 冷库检查提醒交接 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_204/source/alarm.html) |
-| [linux_android_705](../../tasks/cross_device/linux_android/linux_android_705.json) | 日程、预约与值班 | 部署评审会议信息源 | 资料型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_705/source/deploy_review.html) |
-| [linux_android_894](../../tasks/cross_device/linux_android/linux_android_894.json) | 日程、预约与值班 | 班次预约确认 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_894/source/book.html) |
-| [linux_android_108](../../tasks/cross_device/linux_android/linux_android_108.json) | 登记、调查与信息采集 | 现场调查登记 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_108/source/survey_form.html) |
-| [linux_android_139](../../tasks/cross_device/linux_android/linux_android_139.json) | 登记、调查与信息采集 | 访客登记 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_139/source/register.html) |
-| [linux_android_203](../../tasks/cross_device/linux_android/linux_android_203.json) | 登记、调查与信息采集 | 资产标签图信息录入 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_203/source/photo_upload_form.html) |
-| [linux_android_223](../../tasks/cross_device/linux_android/linux_android_223.json) | 登记、调查与信息采集 | 工作坊报名 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_223/source/form.html) |
-| [linux_android_235](../../tasks/cross_device/linux_android/linux_android_235.json) | 登记、调查与信息采集 | 访客签到表字段修复与验证 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_235/source/form.html) |
-| [linux_android_237](../../tasks/cross_device/linux_android/linux_android_237.json) | 登记、调查与信息采集 | 设施满意度问卷 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_237/source/survey_form.html) |
-| [linux_android_890](../../tasks/cross_device/linux_android/linux_android_890.json) | 登记、调查与信息采集 | 部门收货问卷 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_890/source/form.html) |
-| [linux_only_012](../../tasks/cross_device/linux_only/linux_only_012.json) | 登记、调查与信息采集 | 现场记录受理 | 表单型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_012/source/form.html) |
-| [linux_android_089](../../tasks/cross_device/linux_android/linux_android_089.json) | 身份、验证码与访问确认 | 客户身份及 OTP 登记 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_089/source/client_form.html) |
-| [linux_android_1307](../../tasks/cross_device/linux_android/linux_android_1307.json) | 身份、验证码与访问确认 | 短信最新验证码验证 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1307/source/tmp/form/submit.html) |
-| [linux_android_157](../../tasks/cross_device/linux_android/linux_android_157.json) | 身份、验证码与访问确认 | 两步现场访问申请 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_157/source/apply.html) |
-| [linux_android_158](../../tasks/cross_device/linux_android/linux_android_158.json) | 身份、验证码与访问确认 | 一次性验证码确认请求 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_158/source/secure.html) |
-| [linux_android_168](../../tasks/cross_device/linux_android/linux_android_168.json) | 身份、验证码与访问确认 | 账户双因素确认 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_168/source/verify.html) |
-| [linux_android_220](../../tasks/cross_device/linux_android/linux_android_220.json) | 身份、验证码与访问确认 | 注册双因素确认 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_220/source/confirmation_form.html) |
-| [linux_android_888](../../tasks/cross_device/linux_android/linux_android_888.json) | 身份、验证码与访问确认 | 当前注册确认 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_888/source/form.html) |
-| [linux_android_090](../../tasks/cross_device/linux_android/linux_android_090.json) | 运营、派工与资料交接 | 日终运营数量快照 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_090/source/day_dashboard.html) |
-| [linux_android_1069](../../tasks/cross_device/linux_android/linux_android_1069.json) | 运营、派工与资料交接 | 装卸区检查清单来源 | 资料型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1069/source/checklist.html) |
-| [linux_android_683](../../tasks/cross_device/linux_android/linux_android_683.json) | 运营、派工与资料交接 | 现场派工资料看板 | 资料型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_683/source/todo.html) |
-| [linux_only_057](../../tasks/cross_device/linux_only/linux_only_057.json) | 运营、派工与资料交接 | 客户邮件撰写请求资料 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_057/source/compose_requests.html) |
-| [linux_only_064](../../tasks/cross_device/linux_only/linux_only_064.json) | 运营、派工与资料交接 | 项目归档包检查清单 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_064/source/checklist.html) |
-| [linux_only_098](../../tasks/cross_device/linux_only/linux_only_098.json) | 运营、派工与资料交接 | 设备零件维修成本资料 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_098/source/maintenance.html) |
-| [linux_only_365](../../tasks/cross_device/linux_only/linux_only_365.json) | 运营、派工与资料交接 | 作业结束登记规则来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_365/source/ops_dashboard.html) |
-| [linux_smarthome_191](../../tasks/cross_device/linux_smarthome/linux_smarthome_191.json) | SmartHome 状态与能力盘点 | 照明能力核查登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_191/source/home/user/forms/capability.html) |
-| [linux_smarthome_247](../../tasks/cross_device/linux_smarthome/linux_smarthome_247.json) | SmartHome 状态与能力盘点 | 家庭环境盘点登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_247/source/tmp/home/gui/home-audit.html) |
-| [linux_smarthome_362](../../tasks/cross_device/linux_smarthome/linux_smarthome_362.json) | SmartHome 状态与能力盘点 | 客厅设备状态盘点 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_362/source/home/user/audit/living-room.html) |
-| [linux_smarthome_375](../../tasks/cross_device/linux_smarthome/linux_smarthome_375.json) | SmartHome 状态与能力盘点 | 全屋运行状态盘点 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_375/source/home/user/audit/questions.html) |
-| [linux_smarthome_441](../../tasks/cross_device/linux_smarthome/linux_smarthome_441.json) | SmartHome 状态与能力盘点 | 全屋五项状态交接登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_441/source/home/user/home/questions.html) |
-| [linux_smarthome_448](../../tasks/cross_device/linux_smarthome/linux_smarthome_448.json) | SmartHome 状态与能力盘点 | 环境读数极值交接登记 | 表单型 | [源码](../../tasks/cross_device/linux_smarthome_assets/linux_smarthome_448/source/home/user/home/dashboard.html) |
-| [linux_android_1584](../../tasks/cross_device/linux_android/linux_android_1584.json) | 营销与图像制作需求 | 营销活动联系人登记 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_1584/source/form.html) |
-| [linux_only_069](../../tasks/cross_device/linux_only/linux_only_069.json) | 营销与图像制作需求 | 营销横幅制作需求看板 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_069/source/campaign_dashboard.html) |
-| [linux_only_148](../../tasks/cross_device/linux_only/linux_only_148.json) | 营销与图像制作需求 | 商品图片加工要求来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_148/source/product_edit_request.html) |
-| [linux_only_156](../../tasks/cross_device/linux_only/linux_only_156.json) | 营销与图像制作需求 | 横幅制作要求来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_156/source/banners_request.html) |
-| [linux_only_193](../../tasks/cross_device/linux_only/linux_only_193.json) | 营销与图像制作需求 | 横幅设计参数来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_193/source/banner_request.html) |
-| [linux_only_353](../../tasks/cross_device/linux_only/linux_only_353.json) | 营销与图像制作需求 | 商品照片标注指令来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_353/source/annotate_instructions.html) |
-| [linux_android_697](../../tasks/cross_device/linux_android/linux_android_697.json) | 服务器与配置运维 | 服务器状态审计资料 | 资料型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_697/source/servers.html) |
-| [linux_only_078](../../tasks/cross_device/linux_only/linux_only_078.json) | 服务器与配置运维 | 服务器批准名录 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_078/source/servers.html) |
-| [linux_only_121](../../tasks/cross_device/linux_only/linux_only_121.json) | 服务器与配置运维 | 服务配置变更确认 | 按钮确认型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_121/source/dashboard.html) |
-| [linux_only_128](../../tasks/cross_device/linux_only/linux_only_128.json) | 服务器与配置运维 | 变更请求与校验规则来源 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_128/source/r204.html) |
-| [linux_android_700](../../tasks/cross_device/linux_android/linux_android_700.json) | 音频、播放与转录 | 演出曲目制作请求 | 资料型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_700/source/event_playlist_request.html) |
-| [linux_android_891](../../tasks/cross_device/linux_android/linux_android_891.json) | 音频、播放与转录 | 录音与转录目录对账 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_891/source/review.html) |
-| [linux_only_081](../../tasks/cross_device/linux_only/linux_only_081.json) | 音频、播放与转录 | 播放器请求资料 | 资料型 | [源码](../../tasks/cross_device/linux_only_assets/linux_only_081/source/play_request.html) |
-| [linux_android_141](../../tasks/cross_device/linux_android/linux_android_141.json) | 地点与坐标登记 | 地图收藏登记 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_141/source/dashboard.html) |
-| [linux_android_225](../../tasks/cross_device/linux_android/linux_android_225.json) | 地点与坐标登记 | 仓库地图点登记 | 表单型 | [源码](../../tasks/cross_device/linux_android_assets/linux_android_225/source/map_pin_form.html) |
-
-## 7. 复现与限制
-
-复核读取每个 HTML 的正文、表单结构、脚本及对应原始 task instruction；CSS 样式在人工阅读显示中省略。需要时核对 setup、接收端与直接关联确认页。未执行嵌入脚本、未启动设备、未读取模型轨迹；任务质量之外的问题不扩展为全量审计。
-
-统计输入是 [原 inventory_data.json](../../statistics/inventory_data.json) 和本轮逐项语义判断 JSONL。[summarize_html_website_classification.mjs](summarize_html_website_classification.mjs) 只聚合既有人工式静态判断，不用关键词自动给未读页面贴标签。
-
-在该 worktree 中运行：
+聚合脚本只读取同目录 JSONL，无需设备、网络或原始任务目录，在 MDCBench 和 pear 均可生成同一报告：
 
 ~~~bash
 node analysis/statistics/summarize_html_website_classification.mjs
 ~~~
 
-脚本向 stdout 输出本报告，不改写任务或原盘点文件。检查仅针对遗漏/重复候选、证据路径缺失与数量不对账；若发现则修正分类记录或明确范围变化，不修改任务以凑数。
+脚本输出到 stdout，不写任务文件。逐条语义分类已记录于 JSONL，不通过关键词自动替未读任务贴标签。提交前核对 460 条覆盖、重复资源、140/320 分组、证据位置及各表合计；这些检查只为发现漏项/重复/路径遗漏，不修改任务来满足统计。未新增 hash、校验和或网站实体包装层。
 
-本报告读取当前工作树（包含已有未提交修改），不是不可变发布快照。新增文件仅包含本次分类与汇总；不新增 hash，不更改已有实验统计口径。
+本报告是轻量静态分类，不是网页运行验收、全量任务质量审计或最终发布集规模声明。

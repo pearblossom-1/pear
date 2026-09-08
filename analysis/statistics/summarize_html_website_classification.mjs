@@ -3,159 +3,156 @@ import path from 'node:path';
 import assert from 'node:assert/strict';
 import {fileURLToPath} from 'node:url';
 
-// Aggregate the explicit per-page semantic decisions; this does not infer labels,
-// launch pages, run agents, or write task/report files. Markdown goes to stdout.
+// This script aggregates reviewed decisions, not raw-page keyword classifications.
+// It only reads the adjacent JSONL and prints Markdown, so it also works in pear.
 const here = path.dirname(fileURLToPath(import.meta.url));
-const root = path.resolve(here, '../..');
 const rows = fs.readFileSync(path.join(here, 'html_website_classification.jsonl'), 'utf8')
-  .trim().split('\n').map(line => JSON.parse(line));
-const inventory = JSON.parse(fs.readFileSync(path.join(root, 'statistics/inventory_data.json'), 'utf8'));
-const queue = inventory.html.filter(row => row.entity_status === 'unresolved_web_application_candidate');
-assert.equal(rows.length, 140, 'Reviewed queue changed: revise scope explicitly before aggregating.');
-assert.equal(new Set(rows.map(row => row.task_id)).size, rows.length, 'Duplicate reviewed task.');
-assert.deepEqual(rows.map(row => row.html_path).sort(), queue.map(row => row.resource).sort(),
-  'Review is missing/adding pages relative to the original queue.');
-for (const row of rows) {
-  assert.equal(row.classification_review, 'completed_static_review', row.task_id);
-  assert(row.review_reason && row.business_category_zh && row.deployed_paths.length, row.task_id);
-  for (const evidence of row.evidence_paths) {
-    assert(fs.existsSync(path.join(root, evidence)), 'Missing evidence: ' + evidence);
-  }
+  .trim().split('\n').map(line=>JSON.parse(line));
+assert.equal(rows.length,460,'The recorded candidate scope must be changed explicitly.');
+assert.equal(new Set(rows.map(r=>r.html_path)).size,460,'Duplicate HTML resource.');
+assert.equal(rows.filter(r=>r.review_scope_group==='previous_140').length,140);
+assert.equal(rows.filter(r=>r.review_scope_group==='previous_320').length,320);
+for(const r of rows) {
+  assert(r.business_category_zh && r.review_reason && r.html_role && r.deployed_locations.length,r.html_path);
+  assert.equal(r.classification_review,'completed_static_review');
 }
-const count = predicate => rows.filter(predicate).length;
-const pct = n => (100 * n / rows.length).toFixed(2) + '%';
-const groups = new Map();
-for (const row of rows) {
-  if (!groups.has(row.business_category)) groups.set(row.business_category, []);
-  groups.get(row.business_category).push(row);
-}
-const byBusiness = [...groups.values()].sort((a,b) => b.length-a.length || a[0].business_category.localeCompare(b[0].business_category));
-const material = row => row.task_page_role === 'task_material';
-const form = row => row.task_page_role === 'form_workflow';
-const confirmation = row => row.task_page_role === 'confirmation_navigation';
-assert.equal(count(material) + count(form) + count(confirmation), rows.length);
-const mechanisms = [
-  ['host_form_receipt', '真实 POST 接收与校验回执'],
-  ['client_value_validation', '前端预设值校验与成功/失败反馈'],
-  ['url_query_receipt', '表单字段写入 URL query / fragment'],
-  ['fragment_text_receipt', 'fragment / 页内文本确认'],
-  ['fixed_confirmation_navigation', '固定按钮跳转确认地址'],
-  ['no_submission_state', '无实质提交/回执状态处理'],
+const n = fn => rows.filter(fn).length;
+const old = r=>r.review_scope_group==='previous_140';
+const pct = k=>(k/460*100).toFixed(2)+'%';
+const ids = rr=>new Set(rr.flatMap(r=>r.associated_task_ids));
+const businesses = new Map();
+for(const r of rows){if(!businesses.has(r.business_category))businesses.set(r.business_category,[]);businesses.get(r.business_category).push(r);}
+const groups=[...businesses.values()].sort((a,b)=>b.length-a.length||a[0].business_category.localeCompare(b[0].business_category));
+const roles = [
+  ['reference_material','阅读参考与资料页（含目录/附件索引）'],
+  ['form_interface','表单型界面'],
+  ['confirmation_button','固定按钮确认入口'],
+  ['download_gateway','专门下载入口'],
+  ['static_confirmation','静态确认/回执页'],
+  ['browser_execution_asset','浏览器结果构造程序'],
+  ['editable_html_artifact','待编辑 HTML 产物模板'],
 ];
-const roleNames = {task_material:'资料型',form_workflow:'表单型',confirmation_navigation:'按钮确认型'};
-const escape = text => String(text || '').replaceAll('|','\\|').replaceAll('\n',' ');
-const link = (label, target) => '[' + escape(label) + '](' + encodeURI(target) + ')';
-const L = [
-'# HTML / Website：140 个候选页面组的业务与实现分类',
+const roleNames=Object.fromEntries(roles);
+const features=[
+  ['information_display','信息展示'],
+  ['business_form_entry','表单业务输入入口'],
+  ['submission_confirmation_logic','提交/确认状态处理代码'],
+  ['hyperlink_navigation','原生超链接'],
+  ['download_export','下载链接'],
+  ['file_upload','真实文件上传控件'],
+  ['browser_result_computation','浏览器结果计算/构造'],
+];
+const esc=s=>String(s||'').replaceAll('|','\\|').replaceAll('\n',' ');
+const link=(name,p)=>'['+esc(name)+']('+encodeURI(p)+')';
+const L=[
+'# HTML / Website 完整分类统计：460 条资源',
 '',
-'日期：2026-09-08。基于当前工作树的静态源码与任务指令复核；不是浏览器执行验证，也不是 agent 成功率审计。',
+'日期：2026-09-08。此版替换此前仅含 140 组的补充表，覆盖原盘点纳入的全部 HTML；不是最终发布范围或设备执行验证。',
 '',
-'## 1. 结论与范围',
+'## 1. 完整范围与对账',
 '',
-'- 原待审队列 140 组已逐组完成用途与交互实现分类，业务归类遗漏 0 组。',
-'- 按任务用途：表单型 ' + count(form) + '，按钮确认型 ' + count(confirmation) + '，资料型 ' + count(material) + '；合计 140。',
-'- 按主要业务用途：' + groups.size + ' 类。每组只归入一个主类；混合任务按主要业务目标归类。',
-'- 140 是任务页面组数，不是独立网站数；16 类是本轮业务分类，也不是 16 个网站。',
-'- 39 组从“独立交互网站候选”降为任务材料类；剩余 101 组是合成表单/确认界面实例，仍不能逐组当作独立网站。',
+'| 项目 | 数量 |',
+'|---|---:|',
+'| 此前待归类并已复核的页面组 | 140 |',
+'| 此前标为资料类、本轮补充逐项归类的资源 | 320 |',
+'| **完整 HTML 统计范围** | **460** |',
+'| 关联不同原始任务 | '+ids(rows).size+' |',
+'| 实体 HTML 文件 | '+n(r=>r.resource_kind==='file')+' |',
+'| setup 内联 HTML | '+n(r=>r.resource_kind==='inline_setup')+' |',
+'| 主要业务类型（每资源一个主类） | '+businesses.size+' |',
 '',
-'原盘点纳入 460 条 HTML 资源。本轮只复核其中原标为 unresolved_web_application_candidate 的 140 条：恰为 140 个 task-web 组、140 个 HTML 源文件、140 个关联任务，均有 setup 部署路径。另 320 条原资料类不开展新一轮分类；直接关联的确认页只用来核实页面关系，不额外增加本轮分母。',
+'原发现数为 461；linux_only_249 的未部署旧 form.html 仍排除，故 461 − 1 = 460。不是“140 加上另外 460”，也不是 460 个独立网站或 460 个任务。',
 '',
-'沿用原候选范围可写：460 = 320（本轮未重新归类）+ 39（本轮资料型）+ 99（表单型）+ 2（按钮确认型）。原发现的第 461 条未部署 HTML 仍不加入。',
+'旧 140 关联 '+ids(rows.filter(old)).size+' 个任务；补充 320 关联 '+ids(rows.filter(r=>!old(r))).size+' 个任务；两部分有 '+[...ids(rows.filter(old))].filter(id=>ids(rows.filter(r=>!old(r))).has(id)).length+' 个任务重合，按任务去重后为 '+ids(rows).size+'。同一任务的目录、详情、历史候选和确认页可占多条 HTML 资源，但不据此增加网站。',
 '',
-'不修改原 summary、inventory、任务、evaluator 或实验集合；不确定最终发布规模，不读取模型成败决定分类。',
+'本轮读取全部新增 320 条的正文/属性/脚本与原始 instruction，并沿用已完成的 140 条逐项复核；核对 setup 部署，针对下载与浏览器构造程序读取直接相关实现。未启动网页、设备或 agent；未依据模型表现分类，也未修改任务、evaluator、原统计范围或实验集合。',
 '',
-'## 2. 业务分布',
+'## 2. 完整业务分类表',
 '',
-'分类按“页面服务什么业务”，不是按页面 title、文件名或 HTML 控件猜测。SmartHome 计划/工作流单列；洗衣、清扫与设备维护按其业务单列；普通设备变更与盘点再分开。通用审核与登记只接收不属于这些更具体主类的页面。',
+'分母统一为 460。采用“业务目的”主分类，不把一个资源重复计入多个业务类。Home 环境设置、未来计划、家电维护和只读盘点分别归类；有食谱内容的新增资源归入食谱与烹饪准备。软件类名称扩展为“软件研发、发布与 QA”，以包含新纳入的 API/算法修复说明；原 140 的分类归属不变。',
 '',
-'| 业务类型 | 全部组数 | 占 140 比例 | 表单/按钮确认型 | 资料型 |',
+'| 业务类型 | 原 140 | 补充 320 | **全部** | 占 460 比例 |',
 '|---|---:|---:|---:|---:|',
 ];
-for (const g of byBusiness) L.push('| ' + g[0].business_category_zh + ' | ' + g.length + ' | ' + pct(g.length) + ' | ' + g.filter(r=>!material(r)).length + ' | ' + g.filter(material).length + ' |');
-L.push('| 合计 | 140 | 100% | 101 | 39 |','',
-'比例四舍五入，显示值相加可能不是恰好 100%。类型体现任务材料的业务用途，例如“营销与图像制作需求”不表示网页内实现了图像编辑。',
+for(const g of groups)L.push('| '+g[0].business_category_zh+' | '+g.filter(old).length+' | '+g.filter(r=>!old(r)).length+' | **'+g.length+'** | '+pct(g.length)+' |');
+L.push('| **合计** | **140** | **320** | **460** | **100%** |','',
+'显示百分比经四舍五入。这里的 '+businesses.size+' 类描述页面内容服务的业务，不是 '+businesses.size+' 个网站；例如营销图片制作要求页不代表网页本身有图像编辑器。',
 '',
-'## 3. 页面作用与真实交互',
+'## 3. 完整页面作用分类',
 '',
-'| 本任务中页面的作用 | 组数 | 比例 | 解释 |',
-'|---|---:|---:|---|',
-'| 表单型 | 99 | ' + pct(99) + ' | 输入字段并提交/验证/生成回执的页面；包含特殊不提交分支和先修复表单的任务 |',
-'| 按钮确认型 | 2 | ' + pct(2) + ' | 无可编辑字段，按钮跳转固定确认地址 |',
-'| 资料型 | 39 | ' + pct(39) + ' | 任务读取表格、规则或请求，主要工作在其他环境/应用完成；不要求提交网页 |',
+'以下为互斥的主要页面作用，数量必须合计 460。资料页可含普通链接或未被本任务使用的回执处理器，不等于所有资料页都无 JavaScript。',
 '',
-'资料型不能一律描述为“完全没有 JavaScript”：其中 linux_android_smarthome_872 有可用的 query 回执处理器，linux_only_128 有 acknowledged fragment 处理器，但本任务不要求使用。linux_only_149 还要求打开指定静态确认页；它没有实际网页库存提交或修改逻辑。',
+'| 页面作用 | 原 140 | 补充 320 | **全部** | 比例 |',
+'|---|---:|---:|---:|---:|');
+for(const [key,name]of roles)L.push('| '+name+' | '+n(r=>old(r)&&r.html_role===key)+' | '+n(r=>!old(r)&&r.html_role===key)+' | **'+n(r=>r.html_role===key)+'** | '+pct(n(r=>r.html_role===key))+' |');
+assert.equal(roles.reduce((s,[key])=>s+n(r=>r.html_role===key),0),460);
+L.push('| **合计** | **140** | **320** | **460** | **100%** |','',
+'- 348 条资料类 = 原 140 中 39 条 + 补充 320 中 309 条；后者再分为 297 条普通资料、10 条目录/书签索引、2 条附件索引。',
+'- 99 条表单型包含不同接收机制，不等于 99 个独立网站；其中 linux_android_1078 当前分支要求不提交，linux_android_235 要先修复字段名再提交。',
+'- 2 条按钮确认入口与 4 条静态回执分开统计：前者是发起导航的界面，后者是已显示确认内容或作为目标的页面。同一流程不因此变成两个网站。',
+'- 5 条专门下载入口不包含表单型 linux_android_230；该表单还提供 PDF 下载，所以下载功能总数是 6 而不是 5。',
+'- linux_android_165 的 build-result.html 是浏览器执行程序：fetch source-input.json，调用 gate.js，写 DOM 结果；build-result.sh 通过 headless Chrome 提取结果生成 JSON。这是待修复模块的任务执行资产，不是纯静态正文，也不凭该程序额外计一个网站。',
+'- linux_only_271 的 report.html 是待替换的报告草稿，编辑发生在外部，不是内嵌 Web 编辑器。',
 '',
-'按源码实际提交/回执机制（与上面的任务用途是不同维度）汇总：',
+'## 4. 完整功能分布（可多标签）',
 '',
-'| 源码实现机制 | 组数 | 其中本任务仅作为资料 |',
-'|---|---:|---:|');
-for (const [key,label] of mechanisms) {
-  L.push('| ' + label + ' | ' + count(r=>r.implementation_mechanism===key) + ' | ' + count(r=>r.implementation_mechanism===key && material(r)) + ' |');
-}
+'此表覆盖全部 460，功能可重叠，不能把各行相加当页面/应用总数。业务类型、主要页面作用、实现功能是三个不同维度。',
+'',
+'| 功能 | 原 140 | 补充 320 | 全部资源数 |',
+'|---|---:|---:|---:|');
+for(const [key,name]of features)L.push('| '+name+' | '+n(r=>old(r)&&r.function_labels.includes(key))+' | '+n(r=>!old(r)&&r.function_labels.includes(key))+' | '+n(r=>r.function_labels.includes(key))+' |');
 L.push('',
-'前五项共 ' + count(r=>r.implementation_mechanism!=='no_submission_state') + ' 组存在提交/回执/导航代码。这是 5 种实现机制，不是 5 个已经去重的网站。固定确认导航中的 523 目标页部署存在缺口，不能将上述数量宣传为已验证可用网站数量。',
+'功能口径说明：',
 '',
-'### 具体实现依据',
+'- 表单业务入口按实际收集字段的流程计，不把隐藏 token、readonly 材料、无处理器的装饰按钮自动计入。这里不是声称每个入口均已通过执行测试。',
+'- 提交/确认处理共 103：真实 POST 接收 40、前端值校验 8、query 回执 51、fragment/文本确认 2、固定确认导航 2。含两个在本任务中仅作为资料的处理器（linux_android_smarthome_872、linux_only_128）。',
+'- 原生超链接指 HTML 源码中的 a[href]，不包括纯文本 URL、脚本修改 location 或浏览器自行输入地址；只确认链接存在，未全面验证每个目标地址可访问。',
+'- 下载共 6 页：linux_android_230、linux_only_019、linux_smarthome_508、570、783、974；直接下载附件均在 setup 中部署。783 含当前与历史两条下载链接，但按页面只计 1。',
+'- 真实文件上传仅 linux_android_1585，含两个 file 字段及 multipart 接收。文件名含 upload 或字段写着 files 并不足以计上传。',
+'- 规则页面中的公式、阈值、筛选要求由 agent/外部应用执行，不当作 Web 查询筛选或 Web 计算功能。浏览器结果构造程序单列，不与“用户交互计算器”混称。',
 '',
-'- 40 组 POST 表单：逐一核对 task 的 host_form_submission_state 合约。LinuxRuntime 用实际接收地址替换占位符；HostFormVerifier 接收字段/文件、校验并返回 submitted/invalid 页面。不能因为 HTML 没有 JavaScript 就误判不能提交。这里仅使用接收流程说明实现，不用 evaluator 隐藏答案推定业务需求。',
-'- 这 40 组内部：35 个普通原生 POST、1 个两步 wizard、1 个 multipart 上传、1 个带页内回执的 POST、1 个附 PDF 下载入口、1 个任务要求修复字段名后提交的表单。',
-'- 8 组前端值校验：输入与页面预设值比较，产生成功/失败文字或 fragment；不等于有后端数据库、账户系统或完整审批流程。',
-'- 51 组 query 回执：将输入写入浏览器地址的 query / fragment，其中 50 组要求提交，1 组仅作资料。这些 Home 页面不直接连接或控制 SmartHome；实时查询和设备动作由任务中的 Home 环境承担。',
-'- 2 组 fragment/文本回执：linux_only_263 收集 caseId/owner 并显示提交结果；linux_only_128 只是可选 acknowledged 标记。',
-'- 2 组固定确认导航：linux_only_121 与 linux_smarthome_523；前者的确认页由 setup 明确创建，后者见下方疑点。',
+'旧 summary 中 form_entry=130、submit_confirm_handler=67 是自动源码线索，不是这次语义复核后的可用业务入口数：旧规则既把隐藏/readonly 控件计入，也漏掉原生 POST；还漏掉没有输入控件的 browser-backed 结果程序。本报告保留每条 initial_inventory_function_labels，另以 function_labels 保存完整复核口径，不默默覆盖原 summary。',
 '',
-'相关共用实现：' + link('runtime.py', '../../mdcbench/devices/linux/runtime.py') + '、' + link('host_form.py', '../../mdcbench/devices/linux/host_form.py') + '。共享处理器说明复用机制，不足以单独决定所有业务页面应合并成一个网站。',
+'## 5. 页面关系、网站身份与具体例外',
 '',
-'## 4. 与旧功能标签的区别及边界',
+'### 不按页面或业务类型计网站',
 '',
-'旧报告的 4 类是对全部 460 条 HTML 的自动功能标签（可重叠），本轮 16 类是对 140 组的业务主分类（互斥），不能互相替代，也不能相加。',
+'- linux_android_073 的 5 页是一个维护资料集合：目录与 East/West、Current/Archived/Draft 候选，不是 5 个网站。',
+'- linux_android_165 的 2 页分别是人读契约和程序化结果构造页；同任务不等于同一功能，更不能把执行程序当成额外网站产品。',
+'- linux_only_121 的按钮页与 setup 内联确认页属于同一确认路径；linux_only_149 的说明页与确认页同理。',
+'- JSONL 中 page_collection_id 仅表示同一 task 的关联资源，不冒充正式网站 canonical_id；标题、业务类、端口和共享处理器也不直接作为网站身份。',
 '',
-'- 旧 form_entry=130 只检测 input/select/textarea，隐藏或 readonly 字段、静态材料中的占位表单也会被计入。',
-'- 旧 submit_confirm_handler=67 漏掉无 JS 的真实原生 POST，同时把仅 preventDefault / return false 的空处理器也作为线索。因此它不是真实提交页面数。',
-'- 仅在本轮 140 组中确认 1 组真正 file-input/multipart 上传：linux_android_1585，含两个文件字段。linux_android_169 虽文件名含 upload，只提交 package_id；linux_android_886 的 files 字段只是文本文件名清单。',
-'- 本轮 140 组中确认 1 组 HTML download 链接：linux_android_230。PDF 由 setup 部署，链接始终可见，不宣称由验证码解锁。原 460 条的 download_export=6 不能被本轮的 1 覆盖。',
-'- Linux/Android 上制作 PNG、PDF、ODT、JSON、CSV、播放音频或编辑工作簿，不等于对应 HTML 实现这些功能。',
+'**独立网站实体数仍需身份/家族确认，不能填写 460、140 或 17。** 当前已有 25 个明确应用实体的统计不在本轮重算；本次完成的是全部 HTML 的业务与页面/功能分类，而不是把每个合成页面包装成新应用。匿名下载页同样不能因可下载就独立算网站。网页是 task-specific materials 并不意味着它无价值或任务应删除。',
 '',
-'### 需要保留的具体静态疑点',
+'### 具体静态限制',
 '',
-'linux_smarthome_523 的 index.html 点击后跳到 file:///home/user/approval/submitted.html?...#submitted；当前 setup 先删除 submitted.html，随后只部署 index.html，没有创建目标 HTML。故归为“有确认导航代码，但目标页初始化缺失”，不是完整可用的确认网站。依据为该任务 setup 与 HTML；本轮未执行验证、未修复，也不改判历史实验结果。',
+'- linux_smarthome_523 的按钮指向 submitted.html，但当前 setup 清除该文件后只部署 index.html，未见确认目标重建。仍记为有固定导航代码，并明确该缺口；不声称流程已验证可用，不修改或重判实验。',
+'- linux_android_230 的 PDF 链接始终可见，不宣称验证码技术上解锁文件。',
+'- linux_android_165 当前 gate.js 为待修复实现；有计算执行链不表示初始算法正确，这正是任务要求，不是本轮擅自修复的对象。',
+'- HTML 包含“submit”“dashboard”“editor”之类文案，但没有相应处理代码时，以实际界面/任务使用方式分类，不补出原任务没有的功能。',
 '',
-'另外两项属于任务/实现边界，不是本轮发现的模型失败：linux_android_1078 的当前源记录分支要求保持表单未提交；linux_android_235 明确要求 agent 修复字段名不匹配后再提交，server.py 是字段契约示例，实际接收来自 runtime。99 个表单型不能等同于 99 个当前条件下都应该直接提交的任务。',
+'## 6. 全部 460 条逐项清单',
 '',
-'任务要求提交/按钮确认共 100 组（98 个表单 + 2 个按钮）；另外 1 个表单明确应保持未提交；39 个资料型不要求表单提交。此处同样只是静态要求，不是执行成功数量。',
+'完整理由、关联任务、部署位置、页面集合、原始与复核功能、证据路径均见 '+link('html_website_classification.jsonl','html_website_classification.jsonl')+'。以下每行对应一个 HTML 资源，按业务主类排列；“原 140 / 补充 320”用于回溯来源。',
 '',
-'## 5. 独立网站实体应该如何表述',
-'',
-'此次已完成全部 140 组的语义用途与交互分类，而不是将 140 个不同标题变成 140 个网站。39 组建议按 task-specific HTML materials 保留；其余 101 组记作 synthetic form/confirmation interfaces。',
-'',
-'从功能角色、字段/记录结构与状态流，可见它们集中复用“输入记录—接收校验”“输入—前端值核对”“输入—URL 回执”“确认按钮—目标地址”等机制，而不是各自实现完整的票务、音乐、库存或 Home 控制产品。报告保留这些实现分类与每页证据，未把共享 builder/receiver、业务类型、页面标题或端口强行当作正式网站家族。',
-'',
-'因此：本轮可直接使用的数值是“140 个候选页面组，16 类业务；99 个表单型、2 个按钮确认型、39 个资料型”。如果论文要求 #websites 的独立实体数，101 不能直接填入；需要为匿名合成界面明确稳定的产品/应用家族边界。旧报告的“已确认网站 0”只代表没有完成独立实体确认项，不等于实际没有 Web 界面。本轮没有凭业务或控件分类擅自增加 #Apps / #websites。',
-'',
-'## 6. 逐组清单',
-'',
-'每条的简短理由、字段结构、部署位置、真实接收合约、功能与证据见 ' + link('html_website_classification.jsonl','html_website_classification.jsonl') + '。表中按主业务分组，不按模型结果分组。',
-'',
-'| 任务及原始 instruction | 业务类型 | 具体用途 | 页面作用 | HTML 源码 |',
-'|---|---|---|---|---|');
-for (const g of byBusiness) for (const row of g) {
-  L.push('| '+link(row.task_id,'../../'+row.task_path)+' | '+escape(row.business_category_zh)+' | '+escape(row.business_role)+' | '+roleNames[row.task_page_role]+' | '+link('源码','../../'+row.html_path)+' |');
-}
+'| 任务 | 来源 | 业务类型 | 页面具体用途 | 页面作用 | 源码/内联位置 |',
+'|---|---|---|---|---|---|');
+for(const g of groups)for(const r of g)L.push('| '+link(r.task_id,'../../'+r.task_path)+' | '+(old(r)?'原 140':'补充 320')+' | '+esc(r.business_category_zh)+' | '+esc(r.business_role)+' | '+roleNames[r.html_role]+' | '+link(r.resource_kind==='inline_setup'?'setup 内联':'HTML','../../'+r.html_path.split('#')[0])+' |');
 L.push('',
-'## 7. 复现与限制',
+'## 7. 复现、版本与范围',
 '',
-'复核读取每个 HTML 的正文、表单结构、脚本及对应原始 task instruction；CSS 样式在人工阅读显示中省略。需要时核对 setup、接收端与直接关联确认页。未执行嵌入脚本、未启动设备、未读取模型轨迹；任务质量之外的问题不扩展为全量审计。',
+'统计基于当前 MDCBench 工作树及原 inventory_data.json 所定义的候选范围。来源 worktree：/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826。包含已有未提交任务修改，不把当前 HEAD 当作全体文件的不可变发布快照。',
 '',
-'统计输入是 ' + link('原 inventory_data.json','../../statistics/inventory_data.json') + ' 和本轮逐项语义判断 JSONL。' + link('summarize_html_website_classification.mjs','summarize_html_website_classification.mjs') + ' 只聚合既有人工式静态判断，不用关键词自动给未读页面贴标签。',
+'本轮仅更新 analysis/statistics 下的完整报告、JSONL 和聚合脚本，原 summary 作为历史初筛报告保留。上一版 140 组补充报告可在 pear 的 b1605eb 提交中查看；此次报告入口改为完整 460 条。',
 '',
-'在该 worktree 中运行：',
+'聚合脚本只读取同目录 JSONL，无需设备、网络或原始任务目录，在 MDCBench 和 pear 均可生成同一报告：',
 '',
 '~~~bash',
 'node analysis/statistics/summarize_html_website_classification.mjs',
 '~~~',
 '',
-'脚本向 stdout 输出本报告，不改写任务或原盘点文件。检查仅针对遗漏/重复候选、证据路径缺失与数量不对账；若发现则修正分类记录或明确范围变化，不修改任务以凑数。',
+'脚本输出到 stdout，不写任务文件。逐条语义分类已记录于 JSONL，不通过关键词自动替未读任务贴标签。提交前核对 460 条覆盖、重复资源、140/320 分组、证据位置及各表合计；这些检查只为发现漏项/重复/路径遗漏，不修改任务来满足统计。未新增 hash、校验和或网站实体包装层。',
 '',
-'本报告读取当前工作树（包含已有未提交修改），不是不可变发布快照。新增文件仅包含本次分类与汇总；不新增 hash，不更改已有实验统计口径。'
+'本报告是轻量静态分类，不是网页运行验收、全量任务质量审计或最终发布集规模声明。'
 );
-process.stdout.write(L.join('\n') + '\n');
+process.stdout.write(L.join('\n')+'\n');
