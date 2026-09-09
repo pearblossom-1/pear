@@ -1,0 +1,47 @@
+{
+  "checked_at": "2026-09-09T10:27:08.243Z",
+  "checks": [
+    {
+      "file": "device_distribution.csv",
+      "parsed_rows": 72,
+      "task_ids_not_truncated": true,
+      "percentages_reconciled": true
+    },
+    {
+      "file": "application_coverage.csv",
+      "parsed_rows": 75,
+      "task_ids_not_truncated": true,
+      "percentages_reconciled": true
+    },
+    {
+      "file": "website_coverage.csv",
+      "parsed_rows": 51,
+      "task_ids_not_truncated": true,
+      "percentages_reconciled": true
+    },
+    {
+      "file": "iot_coverage.csv",
+      "parsed_rows": 66,
+      "task_ids_not_truncated": true,
+      "percentages_reconciled": true
+    },
+    {
+      "file": "characteristic_distribution.csv",
+      "parsed_rows": 21,
+      "task_ids_not_truncated": true,
+      "percentages_reconciled": true
+    },
+    {
+      "file": "characteristic_cooccurrence.csv",
+      "parsed_rows": 63,
+      "task_ids_not_truncated": true,
+      "percentages_reconciled": true
+    },
+    {
+      "file": "review_queue.csv",
+      "parsed_rows": 6351,
+      "task_ids_not_truncated": true,
+      "percentages_reconciled": false
+    }
+  ]
+}

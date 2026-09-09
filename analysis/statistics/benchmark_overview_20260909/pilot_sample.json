@@ -1,0 +1,1108 @@
+{
+  "seed": 20260909,
+  "prng": "xorshift32",
+  "n": 100,
+  "method": "Four per current device configuration, preferring new origin labels then new application candidates, followed by seeded shuffled configuration/origin strata until 100. Coverage-oriented non-proportional pilot; no prevalence extrapolation. No outcomes read.",
+  "tasks": [
+    {
+      "task_id": "linux_smarthome_497",
+      "task_path": "tasks/cross_device/linux_smarthome/linux_smarthome_497.json",
+      "device_configuration": "1 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_smarthome_771",
+      "task_path": "tasks/cross_device/linux_smarthome/linux_smarthome_771.json",
+      "device_configuration": "1 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_smarthome_785",
+      "task_path": "tasks/cross_device/linux_smarthome/linux_smarthome_785.json",
+      "device_configuration": "1 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_smarthome_764",
+      "task_path": "tasks/cross_device/linux_smarthome/linux_smarthome_764.json",
+      "device_configuration": "1 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "sh5_event_schedule_missing_dryer_event_infeasible_0002",
+      "task_path": "tasks/smarthome/generated/sh5_event_schedule_missing_dryer_event_infeasible_0002.json",
+      "device_configuration": "1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "SH5_event_schedule",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "sh2_implicit_intent_bedroom_airflow_infeasible_0009",
+      "task_path": "tasks/smarthome/generated/sh2_implicit_intent_bedroom_airflow_infeasible_0009.json",
+      "device_configuration": "1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "SH2_implicit_intent",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "sh4_time_schedule_missing_balcony_light_infeasible_0010",
+      "task_path": "tasks/smarthome/generated/sh4_time_schedule_missing_balcony_light_infeasible_0010.json",
+      "device_configuration": "1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "SH4_time_schedule",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "sh6_coordinated_schedule_living_room_away_workflow_feasible_0040",
+      "task_path": "tasks/smarthome/generated/sh6_coordinated_schedule_living_room_away_workflow_feasible_0040.json",
+      "device_configuration": "1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "SH6_coordinated_schedule",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_146",
+      "task_path": "tasks/cross_device/linux_android/linux_android_146.json",
+      "device_configuration": "1 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "real",
+        "label": "real200",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_626",
+      "task_path": "tasks/cross_device/linux_android/linux_android_626.json",
+      "device_configuration": "1 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R39",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_1670",
+      "task_path": "tasks/cross_device/linux_android/linux_android_1670.json",
+      "device_configuration": "1 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_android",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_397",
+      "task_path": "tasks/cross_device/linux_android/linux_android_397.json",
+      "device_configuration": "1 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R18",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_smarthome_260",
+      "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_260.json",
+      "device_configuration": "1 Mobile + 1 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_smarthome_837",
+      "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_837.json",
+      "device_configuration": "1 Mobile + 1 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_smarthome_025",
+      "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_025.json",
+      "device_configuration": "1 Mobile + 1 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_smarthome_194",
+      "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_194.json",
+      "device_configuration": "1 Mobile + 1 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "android_smarthome_963",
+      "task_path": "tasks/cross_device/android_smarthome/android_smarthome_963.json",
+      "device_configuration": "1 Mobile + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "android_smarthome_104",
+      "task_path": "tasks/cross_device/android_smarthome/android_smarthome_104.json",
+      "device_configuration": "1 Mobile + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "android_smarthome_657",
+      "task_path": "tasks/cross_device/android_smarthome/android_smarthome_657.json",
+      "device_configuration": "1 Mobile + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "android_smarthome_972",
+      "task_path": "tasks/cross_device/android_smarthome/android_smarthome_972.json",
+      "device_configuration": "1 Mobile + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_499",
+      "task_path": "tasks/cross_device/linux_android/linux_android_499.json",
+      "device_configuration": "1 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R21-R30",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_326",
+      "task_path": "tasks/cross_device/linux_android/linux_android_326.json",
+      "device_configuration": "1 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R11",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_402",
+      "task_path": "tasks/cross_device/linux_android/linux_android_402.json",
+      "device_configuration": "1 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R19",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_035",
+      "task_path": "tasks/cross_device/linux_android/linux_android_035.json",
+      "device_configuration": "1 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "real",
+        "label": "real100",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_smarthome_964",
+      "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_964.json",
+      "device_configuration": "1 Mobile + 2 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_smarthome_945",
+      "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_945.json",
+      "device_configuration": "1 Mobile + 2 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_smarthome_951",
+      "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_951.json",
+      "device_configuration": "1 Mobile + 2 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_smarthome_922",
+      "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_922.json",
+      "device_configuration": "1 Mobile + 2 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_only_038",
+      "task_path": "tasks/cross_device/linux_only/linux_only_038.json",
+      "device_configuration": "2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R03",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_only_330",
+      "task_path": "tasks/cross_device/linux_only/linux_only_330.json",
+      "device_configuration": "2 Desktop",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_only",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_only_022",
+      "task_path": "tasks/cross_device/linux_only/linux_only_022.json",
+      "device_configuration": "2 Desktop",
+      "origin": {
+        "kind": "real",
+        "label": "real300",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_only_198",
+      "task_path": "tasks/cross_device/linux_only/linux_only_198.json",
+      "device_configuration": "2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R53",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_smarthome_714",
+      "task_path": "tasks/cross_device/linux_smarthome/linux_smarthome_714.json",
+      "device_configuration": "2 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_smarthome_894",
+      "task_path": "tasks/cross_device/linux_smarthome/linux_smarthome_894.json",
+      "device_configuration": "2 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_smarthome_954",
+      "task_path": "tasks/cross_device/linux_smarthome/linux_smarthome_954.json",
+      "device_configuration": "2 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_smarthome_986",
+      "task_path": "tasks/cross_device/linux_smarthome/linux_smarthome_986.json",
+      "device_configuration": "2 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "android_only_349",
+      "task_path": "tasks/cross_device/android_only/android_only_349.json",
+      "device_configuration": "2 Mobile",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "android_only",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "android_only_159",
+      "task_path": "tasks/cross_device/android_only/android_only_159.json",
+      "device_configuration": "2 Mobile",
+      "origin": {
+        "kind": "generated",
+        "label": "R40",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "android_only_189",
+      "task_path": "tasks/cross_device/android_only/android_only_189.json",
+      "device_configuration": "2 Mobile",
+      "origin": {
+        "kind": "generated",
+        "label": "R49",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "android_only_058",
+      "task_path": "tasks/cross_device/android_only/android_only_058.json",
+      "device_configuration": "2 Mobile",
+      "origin": {
+        "kind": "generated",
+        "label": "R10",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_304",
+      "task_path": "tasks/cross_device/linux_android/linux_android_304.json",
+      "device_configuration": "2 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R09",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_339",
+      "task_path": "tasks/cross_device/linux_android/linux_android_339.json",
+      "device_configuration": "2 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R12",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_737",
+      "task_path": "tasks/cross_device/linux_android/linux_android_737.json",
+      "device_configuration": "2 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R51",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_245",
+      "task_path": "tasks/cross_device/linux_android/linux_android_245.json",
+      "device_configuration": "2 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R02",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_smarthome_506",
+      "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_506.json",
+      "device_configuration": "2 Mobile + 1 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_smarthome_462",
+      "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_462.json",
+      "device_configuration": "2 Mobile + 1 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_smarthome_557",
+      "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_557.json",
+      "device_configuration": "2 Mobile + 1 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_smarthome_631",
+      "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_631.json",
+      "device_configuration": "2 Mobile + 1 Desktop + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "android_smarthome_788",
+      "task_path": "tasks/cross_device/android_smarthome/android_smarthome_788.json",
+      "device_configuration": "2 Mobile + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "android_smarthome_887",
+      "task_path": "tasks/cross_device/android_smarthome/android_smarthome_887.json",
+      "device_configuration": "2 Mobile + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "android_smarthome_968",
+      "task_path": "tasks/cross_device/android_smarthome/android_smarthome_968.json",
+      "device_configuration": "2 Mobile + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "android_smarthome_147",
+      "task_path": "tasks/cross_device/android_smarthome/android_smarthome_147.json",
+      "device_configuration": "2 Mobile + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "android_smarthome",
+        "mapping": null
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_385",
+      "task_path": "tasks/cross_device/linux_android/linux_android_385.json",
+      "device_configuration": "2 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R17",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_668",
+      "task_path": "tasks/cross_device/linux_android/linux_android_668.json",
+      "device_configuration": "2 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R43",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_603",
+      "task_path": "tasks/cross_device/linux_android/linux_android_603.json",
+      "device_configuration": "2 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R36",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "linux_android_574",
+      "task_path": "tasks/cross_device/linux_android/linux_android_574.json",
+      "device_configuration": "2 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R33",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "four_per_device_configuration"
+    },
+    {
+      "task_id": "android_only_055",
+      "task_path": "tasks/cross_device/android_only/android_only_055.json",
+      "device_configuration": "2 Mobile",
+      "origin": {
+        "kind": "generated",
+        "label": "R10",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "android_only_004",
+      "task_path": "tasks/cross_device/android_only/android_only_004.json",
+      "device_configuration": "2 Mobile",
+      "origin": {
+        "kind": "real",
+        "label": "real100",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_248",
+      "task_path": "tasks/cross_device/linux_android/linux_android_248.json",
+      "device_configuration": "1 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R02",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "sh6_coordinated_schedule_kitchen_purifier_after_dryer_feasible_0018",
+      "task_path": "tasks/smarthome/generated/sh6_coordinated_schedule_kitchen_purifier_after_dryer_feasible_0018.json",
+      "device_configuration": "1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "SH6_coordinated_schedule",
+        "mapping": null
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "android_only_017",
+      "task_path": "tasks/cross_device/android_only/android_only_017.json",
+      "device_configuration": "2 Mobile",
+      "origin": {
+        "kind": "real",
+        "label": "real200",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_256",
+      "task_path": "tasks/cross_device/linux_android/linux_android_256.json",
+      "device_configuration": "2 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R03",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "android_only_033",
+      "task_path": "tasks/cross_device/android_only/android_only_033.json",
+      "device_configuration": "2 Mobile",
+      "origin": {
+        "kind": "generated",
+        "label": "R02",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_625",
+      "task_path": "tasks/cross_device/linux_android/linux_android_625.json",
+      "device_configuration": "2 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R38",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_380",
+      "task_path": "tasks/cross_device/linux_android/linux_android_380.json",
+      "device_configuration": "1 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R17",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_680",
+      "task_path": "tasks/cross_device/linux_android/linux_android_680.json",
+      "device_configuration": "1 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R44",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_740",
+      "task_path": "tasks/cross_device/linux_android/linux_android_740.json",
+      "device_configuration": "1 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R51",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_436",
+      "task_path": "tasks/cross_device/linux_android/linux_android_436.json",
+      "device_configuration": "2 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R21-R30",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_354",
+      "task_path": "tasks/cross_device/linux_android/linux_android_354.json",
+      "device_configuration": "2 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R14",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_340",
+      "task_path": "tasks/cross_device/linux_android/linux_android_340.json",
+      "device_configuration": "2 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R12",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_only_277",
+      "task_path": "tasks/cross_device/linux_only/linux_only_277.json",
+      "device_configuration": "2 Desktop",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "linux_only",
+        "mapping": null
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_293",
+      "task_path": "tasks/cross_device/linux_android/linux_android_293.json",
+      "device_configuration": "2 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R07",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "sh1_state_inquiry_kitchen_air_quality_feasible_0023",
+      "task_path": "tasks/smarthome/generated/sh1_state_inquiry_kitchen_air_quality_feasible_0023.json",
+      "device_configuration": "1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "SH1_state_inquiry",
+        "mapping": null
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "android_only_062",
+      "task_path": "tasks/cross_device/android_only/android_only_062.json",
+      "device_configuration": "2 Mobile",
+      "origin": {
+        "kind": "generated",
+        "label": "R11",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_576",
+      "task_path": "tasks/cross_device/linux_android/linux_android_576.json",
+      "device_configuration": "1 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R34",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_only_182",
+      "task_path": "tasks/cross_device/linux_only/linux_only_182.json",
+      "device_configuration": "2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R47",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_249",
+      "task_path": "tasks/cross_device/linux_android/linux_android_249.json",
+      "device_configuration": "2 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R02",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_only_045",
+      "task_path": "tasks/cross_device/linux_only/linux_only_045.json",
+      "device_configuration": "2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R05",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_only_196",
+      "task_path": "tasks/cross_device/linux_only/linux_only_196.json",
+      "device_configuration": "2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R52",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_261",
+      "task_path": "tasks/cross_device/linux_android/linux_android_261.json",
+      "device_configuration": "1 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R04",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "android_only_036",
+      "task_path": "tasks/cross_device/android_only/android_only_036.json",
+      "device_configuration": "2 Mobile",
+      "origin": {
+        "kind": "generated",
+        "label": "R03",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_746",
+      "task_path": "tasks/cross_device/linux_android/linux_android_746.json",
+      "device_configuration": "2 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R52",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_193",
+      "task_path": "tasks/cross_device/linux_android/linux_android_193.json",
+      "device_configuration": "1 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "real",
+        "label": "real300",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_702",
+      "task_path": "tasks/cross_device/linux_android/linux_android_702.json",
+      "device_configuration": "2 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R47",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_758",
+      "task_path": "tasks/cross_device/linux_android/linux_android_758.json",
+      "device_configuration": "2 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R53",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_only_201",
+      "task_path": "tasks/cross_device/linux_only/linux_only_201.json",
+      "device_configuration": "2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R54",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_618",
+      "task_path": "tasks/cross_device/linux_android/linux_android_618.json",
+      "device_configuration": "1 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R38",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_323",
+      "task_path": "tasks/cross_device/linux_android/linux_android_323.json",
+      "device_configuration": "1 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R11",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_352",
+      "task_path": "tasks/cross_device/linux_android/linux_android_352.json",
+      "device_configuration": "1 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R14",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_381",
+      "task_path": "tasks/cross_device/linux_android/linux_android_381.json",
+      "device_configuration": "2 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R17",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "android_only_150",
+      "task_path": "tasks/cross_device/android_only/android_only_150.json",
+      "device_configuration": "2 Mobile",
+      "origin": {
+        "kind": "generated",
+        "label": "R37",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_only_048",
+      "task_path": "tasks/cross_device/linux_only/linux_only_048.json",
+      "device_configuration": "2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R06",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_555",
+      "task_path": "tasks/cross_device/linux_android/linux_android_555.json",
+      "device_configuration": "1 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R32",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "android_smarthome_126",
+      "task_path": "tasks/cross_device/android_smarthome/android_smarthome_126.json",
+      "device_configuration": "1 Mobile + 1 IoT",
+      "origin": {
+        "kind": "numbered_or_home",
+        "label": "android_smarthome",
+        "mapping": null
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_316",
+      "task_path": "tasks/cross_device/linux_android/linux_android_316.json",
+      "device_configuration": "1 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R10",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_393",
+      "task_path": "tasks/cross_device/linux_android/linux_android_393.json",
+      "device_configuration": "1 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R18",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_715",
+      "task_path": "tasks/cross_device/linux_android/linux_android_715.json",
+      "device_configuration": "1 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R48",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_545",
+      "task_path": "tasks/cross_device/linux_android/linux_android_545.json",
+      "device_configuration": "2 Mobile + 1 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R31",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_only_128",
+      "task_path": "tasks/cross_device/linux_only/linux_only_128.json",
+      "device_configuration": "2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R31",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    },
+    {
+      "task_id": "linux_android_687",
+      "task_path": "tasks/cross_device/linux_android/linux_android_687.json",
+      "device_configuration": "2 Mobile + 2 Desktop",
+      "origin": {
+        "kind": "generated",
+        "label": "R45",
+        "mapping": "tasks/cross_device/_manifests/topology_views_manifest.json"
+      },
+      "phase": "source_diversity_fill"
+    }
+  ]
+}

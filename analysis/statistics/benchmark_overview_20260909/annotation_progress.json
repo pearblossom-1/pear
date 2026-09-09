@@ -1,0 +1,10 @@
+{
+  "pilot": 100,
+  "total": 5897,
+  "not_reviewed": 5797,
+  "application_method": "100-task semantic confirmed lower bound; full named-rule candidates separate; not exhaustive usage census",
+  "website_categories": 17,
+  "html_resources": 460,
+  "html_unique_content": 460,
+  "html_tasks": 417
+}

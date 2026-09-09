@@ -1,0 +1,117 @@
+{
+  "source": {
+    "captured_at": "2026-09-09T09:58:03.448Z",
+    "root": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826",
+    "git_commit": "5d8ee017d8319f0b640b215d435d583c64098ced",
+    "git_branch": "codex/core200-runtime-fixes-20260828",
+    "working_tree_dirty": true,
+    "final_release_status": "not_confirmed",
+    "source_manifest": "statistics/scope_manifest.json",
+    "source_manifest_status": "provisional; final release manifest not located",
+    "source_manifest_sha256": "6bb118fe668b53cc1b8d9ba5bcf3aeb723192f91cd879c5558f75d2df1e3213e",
+    "selected_task_list_sha256": "c3edf5b6774cfe9554467c342dbfdf5eb8ce7e05cd27f3f2306c56d1a66ac7f3",
+    "scopes": {
+      "candidate_all": 5897,
+      "proposed_release": 5894,
+      "supported_cross_device": 5614
+    },
+    "excluded_from_proposed": [
+      "android_smarthome_123",
+      "android_smarthome_124",
+      "android_smarthome_129"
+    ],
+    "directoryDelta": {
+      "not_in_manifest": [],
+      "missing_from_dirs": []
+    },
+    "issues": [],
+    "duplicate_exact_task_bytes": [],
+    "duplicate_exact_instructions": [],
+    "inclusion_evidence": [
+      "README.md:21-45",
+      "tests/test_task_catalog_release.py:16-32",
+      "statistics/scope_manifest.json"
+    ],
+    "conflicts": [
+      "Release test also retains 320 legacy records; it is not a deduplicated final manifest.",
+      "Runner accepts a single explicit --task and does not identify a final all-task release."
+    ],
+    "scope_rule": "Use saved provisional inventory only; proposed_release subtracts the three documented exclusions conditionally. Do not union legacy copies, derived stages, logs, examples or generation candidates.",
+    "historical_reference": {
+      "total": 5894,
+      "cross_device": 5614,
+      "single_home": 280,
+      "apps": 25,
+      "website_categories": 17,
+      "html_resources": 460,
+      "html_tasks": 417
+    }
+  },
+  "progress": {
+    "pilot": 100,
+    "total": 5897,
+    "not_reviewed": 5797,
+    "application_method": "100-task semantic confirmed lower bound; full named-rule candidates separate; not exhaustive usage census",
+    "website_categories": 17,
+    "html_resources": 460,
+    "html_unique_content": 460,
+    "html_tasks": 417
+  },
+  "scopes": {
+    "candidate_all": {
+      "count": 5897,
+      "total_device_instances": 14683,
+      "mean_device_count": 2.4899101237917587,
+      "max_device_count": 4,
+      "device_relation_counts": {
+        "cross_device": 5614,
+        "not_cross_device": 283
+      },
+      "confirmed_application_entities": 25,
+      "explicit_app_covered_tasks": 77,
+      "html_category_covered_tasks": 416,
+      "semantic_pilot_tasks": 100,
+      "fully_decided_pilot_tasks": 12,
+      "not_reviewed_features_tasks": 5797
+    },
+    "proposed_release": {
+      "count": 5894,
+      "total_device_instances": 14677,
+      "mean_device_count": 2.490159484221242,
+      "max_device_count": 4,
+      "device_relation_counts": {
+        "cross_device": 5614,
+        "not_cross_device": 280
+      },
+      "confirmed_application_entities": 25,
+      "explicit_app_covered_tasks": 77,
+      "html_category_covered_tasks": 416,
+      "semantic_pilot_tasks": 100,
+      "fully_decided_pilot_tasks": 12,
+      "not_reviewed_features_tasks": 5794
+    },
+    "supported_cross_device": {
+      "count": 5614,
+      "total_device_instances": 14397,
+      "mean_device_count": 2.5644816530103314,
+      "max_device_count": 4,
+      "device_relation_counts": {
+        "cross_device": 5614
+      },
+      "confirmed_application_entities": 25,
+      "explicit_app_covered_tasks": 77,
+      "html_category_covered_tasks": 416,
+      "semantic_pilot_tasks": 94,
+      "fully_decided_pilot_tasks": 10,
+      "not_reviewed_features_tasks": 5520
+    }
+  },
+  "checks": {
+    "unique_inventory": true,
+    "annotation_hashes_match": true,
+    "device_sums_and_nested_sums": true,
+    "feature_status_sums": true,
+    "counts_deduplicated_by_task": true
+  },
+  "note": "No final release scope asserted. CSV percentages are 0–100, not 0–1. No model outputs used."
+}
