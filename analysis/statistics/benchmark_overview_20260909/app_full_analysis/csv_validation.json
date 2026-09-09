@@ -1,0 +1,29 @@
+{
+  "checks": [
+    {
+      "file": "application_coverage.csv",
+      "rows": 56,
+      "roundtrip_values_match": true,
+      "task_ids_not_truncated": true
+    },
+    {
+      "file": "application_identity_map.csv",
+      "rows": 30,
+      "roundtrip_values_match": true,
+      "task_ids_not_truncated": true
+    },
+    {
+      "file": "unresolved_cases.csv",
+      "rows": 6,
+      "roundtrip_values_match": true,
+      "task_ids_not_truncated": true
+    },
+    {
+      "file": "device_distribution.csv",
+      "rows": 50,
+      "roundtrip_values_match": true,
+      "task_ids_not_truncated": true
+    }
+  ],
+  "old_device_csv_matches": true
+}

@@ -1,0 +1,337 @@
+[
+  {
+    "canonical_id": "app:markor",
+    "display_name": "Markor",
+    "platform": "Android",
+    "identity": "net.gsantner.markor",
+    "aliases": [
+      "markor"
+    ],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "net.gsantner.markor",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:simple-calendar",
+    "display_name": "Simple Calendar Pro",
+    "platform": "Android",
+    "identity": "com.simplemobiletools.calendar.pro",
+    "aliases": [
+      "simple calendar pro"
+    ],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "com.simplemobiletools.calendar.pro",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:simple-sms",
+    "display_name": "Simple SMS Messenger",
+    "platform": "Android",
+    "identity": "com.simplemobiletools.smsmessenger",
+    "aliases": [
+      "simple sms messenger"
+    ],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "com.simplemobiletools.smsmessenger",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:contacts",
+    "display_name": "Google Contacts",
+    "platform": "Android",
+    "identity": "com.google.android.contacts",
+    "aliases": [
+      "contacts"
+    ],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "com.google.android.contacts",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:tasks-org",
+    "display_name": "Tasks.org",
+    "platform": "Android",
+    "identity": "org.tasks",
+    "aliases": [
+      "tasks"
+    ],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "org.tasks",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:clock",
+    "display_name": "Google Clock",
+    "platform": "Android",
+    "identity": "com.google.android.deskclock",
+    "aliases": [
+      "clock"
+    ],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "com.google.android.deskclock",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:osmand",
+    "display_name": "OsmAnd",
+    "platform": "Android",
+    "identity": "net.osmand",
+    "aliases": [
+      "osmand"
+    ],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "runtime app alias: osmand",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Replaced runtime-alias placeholder with documented package; entity unchanged"
+  },
+  {
+    "canonical_id": "app:simple-gallery",
+    "display_name": "Simple Gallery Pro",
+    "platform": "Android",
+    "identity": "com.simplemobiletools.gallery.pro",
+    "aliases": [
+      "simple gallery pro"
+    ],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "com.simplemobiletools.gallery.pro",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:retro-music",
+    "display_name": "Retro Music",
+    "platform": "Android",
+    "identity": "code.name.monkey.retromusic",
+    "aliases": [
+      "retro music"
+    ],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "runtime app alias: retro music",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Replaced runtime-alias placeholder with documented package; entity unchanged"
+  },
+  {
+    "canonical_id": "app:broccoli",
+    "display_name": "Broccoli",
+    "platform": "Android",
+    "identity": "runtime app alias: broccoli app",
+    "aliases": [
+      "broccoli app"
+    ],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "runtime app alias: broccoli app",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:audio-recorder",
+    "display_name": "Audio Recorder",
+    "platform": "Android",
+    "identity": "com.dimowner.audiorecorder",
+    "aliases": [
+      "audio recorder"
+    ],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "runtime app alias: audio recorder",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Replaced runtime-alias placeholder with documented package; entity unchanged"
+  },
+  {
+    "canonical_id": "app:simple-draw",
+    "display_name": "Simple Draw Pro",
+    "platform": "Android",
+    "identity": "runtime app alias: simple draw pro",
+    "aliases": [
+      "simple draw pro"
+    ],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "runtime app alias: simple draw pro",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:android-files",
+    "display_name": "Android Files",
+    "platform": "Android",
+    "identity": "com.google.android.documentsui",
+    "aliases": [
+      "files"
+    ],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "runtime app alias: files",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Replaced runtime-alias placeholder with documented package; entity unchanged"
+  },
+  {
+    "canonical_id": "app:camera",
+    "display_name": "Camera",
+    "platform": "Android",
+    "identity": "com.android.camera2",
+    "aliases": [
+      "camera"
+    ],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "runtime app alias: camera",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Replaced runtime-alias placeholder with documented package; entity unchanged"
+  },
+  {
+    "canonical_id": "app:chrome",
+    "display_name": "Google Chrome",
+    "platform": "Linux;Android",
+    "identity": "google-chrome; runtime alias chrome",
+    "aliases": [],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "google-chrome; runtime alias chrome",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:firefox",
+    "display_name": "Mozilla Firefox",
+    "platform": "Linux",
+    "identity": "firefox",
+    "aliases": [],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "firefox",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:libreoffice-calc",
+    "display_name": "LibreOffice Calc",
+    "platform": "Linux",
+    "identity": "libreoffice --calc",
+    "aliases": [],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "libreoffice --calc",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:libreoffice-writer",
+    "display_name": "LibreOffice Writer",
+    "platform": "Linux",
+    "identity": "libreoffice --writer",
+    "aliases": [],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "libreoffice --writer",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:libreoffice-impress",
+    "display_name": "LibreOffice Impress",
+    "platform": "Linux",
+    "identity": "libreoffice --impress",
+    "aliases": [],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "libreoffice --impress",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:vscode",
+    "display_name": "Visual Studio Code",
+    "platform": "Linux",
+    "identity": "code",
+    "aliases": [],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "code",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:gimp",
+    "display_name": "GIMP",
+    "platform": "Linux",
+    "identity": "gimp",
+    "aliases": [],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "gimp",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:vlc",
+    "display_name": "VLC",
+    "platform": "Linux",
+    "identity": "vlc",
+    "aliases": [],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "vlc",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:thunderbird",
+    "display_name": "Mozilla Thunderbird",
+    "platform": "Linux",
+    "identity": "thunderbird",
+    "aliases": [],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "thunderbird",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:evince",
+    "display_name": "Evince / Document Viewer",
+    "platform": "Linux",
+    "identity": "evince",
+    "aliases": [],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "evince",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:file-roller",
+    "display_name": "Archive Manager (File Roller)",
+    "platform": "Linux",
+    "identity": "file-roller",
+    "aliases": [],
+    "source": "statistics/inventory_data.json",
+    "previous_identity": "file-roller",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "Existing entity and cross-platform grouping retained"
+  },
+  {
+    "canonical_id": "app:android-settings",
+    "display_name": "Android Settings",
+    "platform": "Android",
+    "identity": "com.android.settings",
+    "aliases": [
+      "settings"
+    ],
+    "previous_identity": "com.android.settings",
+    "identity_source": "mdcbench/runner/run_llm_task.py:879-890;mdcbench/devices/android/setup.py:125-140;previous application_aliases.json",
+    "mapping_change": "New concrete application found beyond previous 25-entity list"
+  },
+  {
+    "canonical_id": "app:gedit",
+    "display_name": "gedit",
+    "platform": "Linux",
+    "identity": "gedit",
+    "aliases": [],
+    "previous_identity": "gedit",
+    "identity_source": "task setup execute command",
+    "mapping_change": "New concrete application found beyond previous 25-entity list"
+  },
+  {
+    "canonical_id": "app:gnome-terminal",
+    "display_name": "GNOME Terminal",
+    "platform": "Linux",
+    "identity": "gnome-terminal",
+    "aliases": [],
+    "previous_identity": "gnome-terminal",
+    "identity_source": "task setup execute command",
+    "mapping_change": "New concrete application found beyond previous 25-entity list"
+  }
+]

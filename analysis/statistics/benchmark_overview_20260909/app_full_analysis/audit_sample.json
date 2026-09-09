@@ -1,0 +1,3015 @@
+{
+  "reviewer": "Codex",
+  "not_human_annotation": true,
+  "not_execution_validation": true,
+  "groups": [
+    {
+      "kind": "deterministic",
+      "selection": "targeted evidence review; no probability extrapolation",
+      "task_count": 45,
+      "tasks": [
+        {
+          "task_id": "android_only_104",
+          "task_path": "tasks/cross_device/android_only/android_only_104.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Gallery Pro",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_104"
+        },
+        {
+          "task_id": "android_only_109",
+          "task_path": "tasks/cross_device/android_only/android_only_109.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_109"
+        },
+        {
+          "task_id": "android_only_145",
+          "task_path": "tasks/cross_device/android_only/android_only_145.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Retro Music",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_145"
+        },
+        {
+          "task_id": "android_only_147",
+          "task_path": "tasks/cross_device/android_only/android_only_147.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Retro Music",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_147"
+        },
+        {
+          "task_id": "android_only_152",
+          "task_path": "tasks/cross_device/android_only/android_only_152.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "OsmAnd",
+            "Google Clock"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_152"
+        },
+        {
+          "task_id": "android_only_153",
+          "task_path": "tasks/cross_device/android_only/android_only_153.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Android Files",
+            "Google Clock"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_153"
+        },
+        {
+          "task_id": "android_only_154",
+          "task_path": "tasks/cross_device/android_only/android_only_154.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Gallery Pro",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_154"
+        },
+        {
+          "task_id": "android_only_160",
+          "task_path": "tasks/cross_device/android_only/android_only_160.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts",
+            "Google Clock"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_160"
+        },
+        {
+          "task_id": "android_only_162",
+          "task_path": "tasks/cross_device/android_only/android_only_162.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "OsmAnd",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_162"
+        },
+        {
+          "task_id": "android_only_163",
+          "task_path": "tasks/cross_device/android_only/android_only_163.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Retro Music"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_163"
+        },
+        {
+          "task_id": "android_only_169",
+          "task_path": "tasks/cross_device/android_only/android_only_169.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Draw Pro",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_169"
+        },
+        {
+          "task_id": "android_only_171",
+          "task_path": "tasks/cross_device/android_only/android_only_171.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Audio Recorder",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_171"
+        },
+        {
+          "task_id": "android_only_174",
+          "task_path": "tasks/cross_device/android_only/android_only_174.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Android Files",
+            "Google Clock"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_174"
+        },
+        {
+          "task_id": "android_only_179",
+          "task_path": "tasks/cross_device/android_only/android_only_179.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Simple SMS Messenger",
+            "Simple Gallery Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_179"
+        },
+        {
+          "task_id": "android_only_185",
+          "task_path": "tasks/cross_device/android_only/android_only_185.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "OsmAnd",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_185"
+        },
+        {
+          "task_id": "android_only_187",
+          "task_path": "tasks/cross_device/android_only/android_only_187.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Retro Music",
+            "Google Clock"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_187"
+        },
+        {
+          "task_id": "android_only_191",
+          "task_path": "tasks/cross_device/android_only/android_only_191.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Gallery Pro",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_191"
+        },
+        {
+          "task_id": "android_only_192",
+          "task_path": "tasks/cross_device/android_only/android_only_192.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_192"
+        },
+        {
+          "task_id": "android_only_195",
+          "task_path": "tasks/cross_device/android_only/android_only_195.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_195"
+        },
+        {
+          "task_id": "android_only_209",
+          "task_path": "tasks/cross_device/android_only/android_only_209.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Google Clock",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_209"
+        },
+        {
+          "task_id": "android_only_211",
+          "task_path": "tasks/cross_device/android_only/android_only_211.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_211"
+        },
+        {
+          "task_id": "android_only_213",
+          "task_path": "tasks/cross_device/android_only/android_only_213.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_213"
+        },
+        {
+          "task_id": "android_only_216",
+          "task_path": "tasks/cross_device/android_only/android_only_216.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Broccoli",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_216"
+        },
+        {
+          "task_id": "android_only_217",
+          "task_path": "tasks/cross_device/android_only/android_only_217.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Retro Music",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_217"
+        },
+        {
+          "task_id": "android_only_221",
+          "task_path": "tasks/cross_device/android_only/android_only_221.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "OsmAnd",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_221"
+        },
+        {
+          "task_id": "android_only_235",
+          "task_path": "tasks/cross_device/android_only/android_only_235.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Android Files",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_235"
+        },
+        {
+          "task_id": "android_only_241",
+          "task_path": "tasks/cross_device/android_only/android_only_241.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Broccoli",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_241"
+        },
+        {
+          "task_id": "android_only_243",
+          "task_path": "tasks/cross_device/android_only/android_only_243.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Google Clock",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_243"
+        },
+        {
+          "task_id": "android_only_244",
+          "task_path": "tasks/cross_device/android_only/android_only_244.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Android Files",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_244"
+        },
+        {
+          "task_id": "android_only_246",
+          "task_path": "tasks/cross_device/android_only/android_only_246.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts",
+            "Android Files",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_246"
+        },
+        {
+          "task_id": "android_only_253",
+          "task_path": "tasks/cross_device/android_only/android_only_253.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Google Contacts",
+            "Simple Gallery Pro",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_253"
+        },
+        {
+          "task_id": "android_only_256",
+          "task_path": "tasks/cross_device/android_only/android_only_256.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Tasks.org",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_256"
+        },
+        {
+          "task_id": "android_only_308",
+          "task_path": "tasks/cross_device/android_only/android_only_308.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Google Contacts",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_308"
+        },
+        {
+          "task_id": "android_only_310",
+          "task_path": "tasks/cross_device/android_only/android_only_310.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_310"
+        },
+        {
+          "task_id": "android_only_326",
+          "task_path": "tasks/cross_device/android_only/android_only_326.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Android Files",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_326"
+        },
+        {
+          "task_id": "android_only_332",
+          "task_path": "tasks/cross_device/android_only/android_only_332.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_332"
+        },
+        {
+          "task_id": "android_only_336",
+          "task_path": "tasks/cross_device/android_only/android_only_336.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Gallery Pro",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_336"
+        },
+        {
+          "task_id": "linux_only_091",
+          "task_path": "tasks/cross_device/linux_only/linux_only_091.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "GIMP",
+            "Mozilla Thunderbird"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_091"
+        },
+        {
+          "task_id": "linux_only_166",
+          "task_path": "tasks/cross_device/linux_only/linux_only_166.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Mozilla Thunderbird"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_166"
+        },
+        {
+          "task_id": "linux_only_351",
+          "task_path": "tasks/cross_device/linux_only/linux_only_351.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "VLC",
+            "Mozilla Thunderbird"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_351"
+        },
+        {
+          "task_id": "linux_only_358",
+          "task_path": "tasks/cross_device/linux_only/linux_only_358.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "VLC"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_358"
+        },
+        {
+          "task_id": "android_smarthome_493",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_493.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Tasks.org",
+            "Google Clock",
+            "Android Files"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_493"
+        },
+        {
+          "task_id": "linux_android_smarthome_709",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_709.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Retro Music",
+            "Android Files",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_709"
+        },
+        {
+          "task_id": "linux_android_smarthome_719",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_719.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock",
+            "Android Files",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_719"
+        },
+        {
+          "task_id": "linux_android_smarthome_784",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_784.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Google Clock",
+            "Android Files"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_784"
+        }
+      ]
+    },
+    {
+      "kind": "zero_app_before_omission_correction",
+      "selection": "ordered first/one-third/two-thirds/last in each zero-app device-combination group before corrections; no extrapolation",
+      "task_count": 24,
+      "tasks": [
+        {
+          "task_id": "linux_only_001",
+          "task_path": "tasks/cross_device/linux_only/linux_only_001.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_001"
+        },
+        {
+          "task_id": "linux_only_138",
+          "task_path": "tasks/cross_device/linux_only/linux_only_138.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_138"
+        },
+        {
+          "task_id": "linux_only_250",
+          "task_path": "tasks/cross_device/linux_only/linux_only_250.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_250"
+        },
+        {
+          "task_id": "linux_only_371",
+          "task_path": "tasks/cross_device/linux_only/linux_only_371.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_371"
+        },
+        {
+          "task_id": "linux_android_1014",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1014.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1014"
+        },
+        {
+          "task_id": "linux_android_1228",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1228.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1228"
+        },
+        {
+          "task_id": "linux_android_1455",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1455.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1455"
+        },
+        {
+          "task_id": "linux_android_950",
+          "task_path": "tasks/cross_device/linux_android/linux_android_950.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_950"
+        },
+        {
+          "task_id": "android_smarthome_301",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_301.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_301"
+        },
+        {
+          "task_id": "android_smarthome_328",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_328.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_328"
+        },
+        {
+          "task_id": "android_smarthome_751",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_751.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_751"
+        },
+        {
+          "task_id": "android_smarthome_918",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_918.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_918"
+        },
+        {
+          "task_id": "linux_smarthome_001",
+          "task_path": "tasks/cross_device/linux_smarthome/linux_smarthome_001.json",
+          "environment_combination": "Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_smarthome_001"
+        },
+        {
+          "task_id": "linux_smarthome_315",
+          "task_path": "tasks/cross_device/linux_smarthome/linux_smarthome_315.json",
+          "environment_combination": "Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_smarthome_315"
+        },
+        {
+          "task_id": "linux_smarthome_647",
+          "task_path": "tasks/cross_device/linux_smarthome/linux_smarthome_647.json",
+          "environment_combination": "Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_smarthome_647"
+        },
+        {
+          "task_id": "linux_smarthome_999",
+          "task_path": "tasks/cross_device/linux_smarthome/linux_smarthome_999.json",
+          "environment_combination": "Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_smarthome_999"
+        },
+        {
+          "task_id": "linux_android_smarthome_158",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_158.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_158"
+        },
+        {
+          "task_id": "linux_android_smarthome_305",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_305.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_305"
+        },
+        {
+          "task_id": "linux_android_smarthome_610",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_610.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_610"
+        },
+        {
+          "task_id": "linux_android_smarthome_949",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_949.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_949"
+        },
+        {
+          "task_id": "sh1_state_inquiry_bathroom_humidity_feasible_0001",
+          "task_path": "tasks/smarthome/generated/sh1_state_inquiry_bathroom_humidity_feasible_0001.json",
+          "environment_combination": "IoT",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:sh1_state_inquiry_bathroom_humidity_feasible_0001"
+        },
+        {
+          "task_id": "sh3_explicit_control_missing_bedroom_humidifier_infeasible_0006",
+          "task_path": "tasks/smarthome/generated/sh3_explicit_control_missing_bedroom_humidifier_infeasible_0006.json",
+          "environment_combination": "IoT",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:sh3_explicit_control_missing_bedroom_humidifier_infeasible_0006"
+        },
+        {
+          "task_id": "sh5_event_schedule_dryer_done_living_room_reset_feasible_0022",
+          "task_path": "tasks/smarthome/generated/sh5_event_schedule_dryer_done_living_room_reset_feasible_0022.json",
+          "environment_combination": "IoT",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:sh5_event_schedule_dryer_done_living_room_reset_feasible_0022"
+        },
+        {
+          "task_id": "sh6_coordinated_schedule_plain_light_dim_workflow_infeasible_0018",
+          "task_path": "tasks/smarthome/generated/sh6_coordinated_schedule_plain_light_dim_workflow_infeasible_0018.json",
+          "environment_combination": "IoT",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:sh6_coordinated_schedule_plain_light_dim_workflow_infeasible_0018"
+        }
+      ]
+    },
+    {
+      "kind": "configured_launchers_not_required",
+      "selection": "targeted evidence review; no probability extrapolation",
+      "task_count": 9,
+      "tasks": [
+        {
+          "task_id": "linux_android_410",
+          "task_path": "tasks/cross_device/linux_android/linux_android_410.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_410"
+        },
+        {
+          "task_id": "linux_android_496",
+          "task_path": "tasks/cross_device/linux_android/linux_android_496.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_496"
+        },
+        {
+          "task_id": "linux_android_499",
+          "task_path": "tasks/cross_device/linux_android/linux_android_499.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_499"
+        },
+        {
+          "task_id": "linux_android_414",
+          "task_path": "tasks/cross_device/linux_android/linux_android_414.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_414"
+        },
+        {
+          "task_id": "linux_android_481",
+          "task_path": "tasks/cross_device/linux_android/linux_android_481.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "VLC",
+            "Simple Gallery Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_481"
+        },
+        {
+          "task_id": "linux_android_585",
+          "task_path": "tasks/cross_device/linux_android/linux_android_585.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_585"
+        },
+        {
+          "task_id": "linux_android_587",
+          "task_path": "tasks/cross_device/linux_android/linux_android_587.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_587"
+        },
+        {
+          "task_id": "linux_android_589",
+          "task_path": "tasks/cross_device/linux_android/linux_android_589.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock",
+            "OsmAnd",
+            "Visual Studio Code"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_589"
+        },
+        {
+          "task_id": "linux_android_593",
+          "task_path": "tasks/cross_device/linux_android/linux_android_593.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_593"
+        }
+      ]
+    },
+    {
+      "kind": "all_Evince_function_bindings",
+      "selection": "targeted evidence review; no probability extrapolation",
+      "task_count": 19,
+      "tasks": [
+        {
+          "task_id": "linux_android_244",
+          "task_path": "tasks/cross_device/linux_android/linux_android_244.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Retro Music",
+            "Mozilla Thunderbird",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_244"
+        },
+        {
+          "task_id": "linux_android_251",
+          "task_path": "tasks/cross_device/linux_android/linux_android_251.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_251"
+        },
+        {
+          "task_id": "linux_android_255",
+          "task_path": "tasks/cross_device/linux_android/linux_android_255.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts",
+            "LibreOffice Calc",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_255"
+        },
+        {
+          "task_id": "linux_android_269",
+          "task_path": "tasks/cross_device/linux_android/linux_android_269.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "OsmAnd",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_269"
+        },
+        {
+          "task_id": "linux_android_272",
+          "task_path": "tasks/cross_device/linux_android/linux_android_272.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Broccoli",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_272"
+        },
+        {
+          "task_id": "linux_android_275",
+          "task_path": "tasks/cross_device/linux_android/linux_android_275.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Visual Studio Code",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_275"
+        },
+        {
+          "task_id": "linux_android_284",
+          "task_path": "tasks/cross_device/linux_android/linux_android_284.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "OsmAnd",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_284"
+        },
+        {
+          "task_id": "linux_android_292",
+          "task_path": "tasks/cross_device/linux_android/linux_android_292.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Broccoli",
+            "LibreOffice Impress",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_292"
+        },
+        {
+          "task_id": "linux_android_293",
+          "task_path": "tasks/cross_device/linux_android/linux_android_293.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock",
+            "OsmAnd",
+            "Visual Studio Code",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_293"
+        },
+        {
+          "task_id": "linux_android_294",
+          "task_path": "tasks/cross_device/linux_android/linux_android_294.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "LibreOffice Impress",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_294"
+        },
+        {
+          "task_id": "linux_android_295",
+          "task_path": "tasks/cross_device/linux_android/linux_android_295.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Google Clock",
+            "VLC",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_295"
+        },
+        {
+          "task_id": "linux_android_299",
+          "task_path": "tasks/cross_device/linux_android/linux_android_299.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Retro Music",
+            "Audio Recorder",
+            "LibreOffice Calc",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_299"
+        },
+        {
+          "task_id": "linux_android_326",
+          "task_path": "tasks/cross_device/linux_android/linux_android_326.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Android Files",
+            "Evince / Document Viewer",
+            "Archive Manager (File Roller)"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_326"
+        },
+        {
+          "task_id": "linux_android_333",
+          "task_path": "tasks/cross_device/linux_android/linux_android_333.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Gallery Pro",
+            "Android Files",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_333"
+        },
+        {
+          "task_id": "linux_android_336",
+          "task_path": "tasks/cross_device/linux_android/linux_android_336.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Broccoli",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_336"
+        },
+        {
+          "task_id": "linux_android_346",
+          "task_path": "tasks/cross_device/linux_android/linux_android_346.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "LibreOffice Calc",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_346"
+        },
+        {
+          "task_id": "linux_android_347",
+          "task_path": "tasks/cross_device/linux_android/linux_android_347.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Simple SMS Messenger",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_347"
+        },
+        {
+          "task_id": "linux_android_352",
+          "task_path": "tasks/cross_device/linux_android/linux_android_352.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Audio Recorder",
+            "Android Files",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_352"
+        },
+        {
+          "task_id": "linux_android_361",
+          "task_path": "tasks/cross_device/linux_android/linux_android_361.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Tasks.org",
+            "Evince / Document Viewer"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_361"
+        }
+      ]
+    },
+    {
+      "kind": "Codex_task_specific_decisions",
+      "selection": "targeted evidence review; no probability extrapolation",
+      "task_count": 174,
+      "tasks": [
+        {
+          "task_id": "linux_android_1097",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1097.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1097"
+        },
+        {
+          "task_id": "linux_android_1109",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1109.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1109"
+        },
+        {
+          "task_id": "linux_android_1131",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1131.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1131"
+        },
+        {
+          "task_id": "linux_android_1157",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1157.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1157"
+        },
+        {
+          "task_id": "linux_android_1173",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1173.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1173"
+        },
+        {
+          "task_id": "linux_android_1177",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1177.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1177"
+        },
+        {
+          "task_id": "linux_android_1193",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1193.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1193"
+        },
+        {
+          "task_id": "linux_android_1295",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1295.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Broccoli",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1295"
+        },
+        {
+          "task_id": "linux_android_1395",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1395.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1395"
+        },
+        {
+          "task_id": "linux_android_1396",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1396.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1396"
+        },
+        {
+          "task_id": "linux_android_1491",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1491.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1491"
+        },
+        {
+          "task_id": "linux_android_1556",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1556.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1556"
+        },
+        {
+          "task_id": "linux_android_1689",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1689.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts",
+            "Tasks.org",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1689"
+        },
+        {
+          "task_id": "linux_android_632",
+          "task_path": "tasks/cross_device/linux_android/linux_android_632.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_632"
+        },
+        {
+          "task_id": "linux_android_701",
+          "task_path": "tasks/cross_device/linux_android/linux_android_701.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_701"
+        },
+        {
+          "task_id": "linux_android_706",
+          "task_path": "tasks/cross_device/linux_android/linux_android_706.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_706"
+        },
+        {
+          "task_id": "linux_android_740",
+          "task_path": "tasks/cross_device/linux_android/linux_android_740.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "LibreOffice Impress"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_740"
+        },
+        {
+          "task_id": "linux_android_815",
+          "task_path": "tasks/cross_device/linux_android/linux_android_815.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_815"
+        },
+        {
+          "task_id": "android_smarthome_802",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_802.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_802"
+        },
+        {
+          "task_id": "android_smarthome_957",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_957.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_957"
+        },
+        {
+          "task_id": "linux_android_smarthome_274",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_274.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Google Contacts",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_274"
+        },
+        {
+          "task_id": "linux_android_smarthome_275",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_275.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Google Contacts",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_275"
+        },
+        {
+          "task_id": "linux_android_smarthome_277",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_277.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Simple Calendar Pro",
+            "Google Contacts",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_277"
+        },
+        {
+          "task_id": "linux_android_smarthome_279",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_279.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Google Contacts",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_279"
+        },
+        {
+          "task_id": "linux_android_smarthome_280",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_280.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Google Contacts",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_280"
+        },
+        {
+          "task_id": "linux_android_smarthome_282",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_282.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Google Contacts",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_282"
+        },
+        {
+          "task_id": "linux_android_smarthome_284",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_284.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts",
+            "Simple Calendar Pro",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_284"
+        },
+        {
+          "task_id": "linux_android_smarthome_285",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_285.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Google Contacts",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_285"
+        },
+        {
+          "task_id": "linux_android_smarthome_289",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_289.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Google Contacts",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_289"
+        },
+        {
+          "task_id": "linux_android_smarthome_290",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_290.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Google Contacts",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_290"
+        },
+        {
+          "task_id": "linux_android_smarthome_292",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_292.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Google Contacts",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_292"
+        },
+        {
+          "task_id": "linux_android_1057",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1057.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1057"
+        },
+        {
+          "task_id": "linux_android_1125",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1125.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1125"
+        },
+        {
+          "task_id": "linux_android_1143",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1143.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1143"
+        },
+        {
+          "task_id": "linux_android_1158",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1158.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1158"
+        },
+        {
+          "task_id": "linux_android_1186",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1186.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "OsmAnd",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1186"
+        },
+        {
+          "task_id": "linux_android_1192",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1192.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1192"
+        },
+        {
+          "task_id": "linux_android_1229",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1229.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1229"
+        },
+        {
+          "task_id": "linux_android_1275",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1275.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1275"
+        },
+        {
+          "task_id": "linux_android_1308",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1308.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1308"
+        },
+        {
+          "task_id": "linux_android_1318",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1318.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Google Contacts",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1318"
+        },
+        {
+          "task_id": "linux_android_821",
+          "task_path": "tasks/cross_device/linux_android/linux_android_821.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Android Files",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_821"
+        },
+        {
+          "task_id": "linux_android_996",
+          "task_path": "tasks/cross_device/linux_android/linux_android_996.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_996"
+        },
+        {
+          "task_id": "android_smarthome_981",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_981.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_981"
+        },
+        {
+          "task_id": "linux_android_smarthome_333",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_333.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_333"
+        },
+        {
+          "task_id": "linux_android_smarthome_564",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_564.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_564"
+        },
+        {
+          "task_id": "linux_android_smarthome_601",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_601.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_601"
+        },
+        {
+          "task_id": "linux_android_1170",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1170.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1170"
+        },
+        {
+          "task_id": "linux_android_1662",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1662.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1662"
+        },
+        {
+          "task_id": "linux_android_742",
+          "task_path": "tasks/cross_device/linux_android/linux_android_742.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_742"
+        },
+        {
+          "task_id": "linux_android_969",
+          "task_path": "tasks/cross_device/linux_android/linux_android_969.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Broccoli",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_969"
+        },
+        {
+          "task_id": "linux_android_979",
+          "task_path": "tasks/cross_device/linux_android/linux_android_979.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Broccoli",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_979"
+        },
+        {
+          "task_id": "linux_android_smarthome_116",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_116.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts",
+            "Markor",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_116"
+        },
+        {
+          "task_id": "linux_android_smarthome_598",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_598.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_598"
+        },
+        {
+          "task_id": "linux_android_1257",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1257.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "OsmAnd"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1257"
+        },
+        {
+          "task_id": "linux_android_1496",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1496.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "OsmAnd"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1496"
+        },
+        {
+          "task_id": "linux_android_1864",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1864.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "OsmAnd"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1864"
+        },
+        {
+          "task_id": "linux_android_smarthome_628",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_628.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "OsmAnd"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_628"
+        },
+        {
+          "task_id": "linux_android_smarthome_653",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_653.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "OsmAnd"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_653"
+        },
+        {
+          "task_id": "linux_android_smarthome_663",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_663.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Simple SMS Messenger",
+            "OsmAnd"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_663"
+        },
+        {
+          "task_id": "linux_android_smarthome_681",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_681.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "OsmAnd"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_681"
+        },
+        {
+          "task_id": "linux_android_smarthome_682",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_682.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts",
+            "Simple SMS Messenger",
+            "OsmAnd"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_682"
+        },
+        {
+          "task_id": "linux_android_smarthome_683",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_683.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "OsmAnd",
+            "Simple Calendar Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_683"
+        },
+        {
+          "task_id": "linux_android_smarthome_684",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_684.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Google Clock",
+            "OsmAnd"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_684"
+        },
+        {
+          "task_id": "linux_android_1122",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1122.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Simple Calendar Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1122"
+        },
+        {
+          "task_id": "android_smarthome_968",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_968.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_968"
+        },
+        {
+          "task_id": "linux_android_smarthome_568",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_568.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts",
+            "Simple SMS Messenger",
+            "Simple Calendar Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_568"
+        },
+        {
+          "task_id": "linux_android_smarthome_552",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_552.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Google Clock"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_552"
+        },
+        {
+          "task_id": "linux_only_090",
+          "task_path": "tasks/cross_device/linux_only/linux_only_090.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "GIMP"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_090"
+        },
+        {
+          "task_id": "linux_only_344",
+          "task_path": "tasks/cross_device/linux_only/linux_only_344.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Chrome",
+            "LibreOffice Calc"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_344"
+        },
+        {
+          "task_id": "linux_android_092",
+          "task_path": "tasks/cross_device/linux_android/linux_android_092.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Simple Gallery Pro",
+            "GIMP"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_092"
+        },
+        {
+          "task_id": "linux_android_123",
+          "task_path": "tasks/cross_device/linux_android/linux_android_123.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Camera"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_123"
+        },
+        {
+          "task_id": "linux_android_1457",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1457.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Retro Music"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1457"
+        },
+        {
+          "task_id": "linux_android_152",
+          "task_path": "tasks/cross_device/linux_android/linux_android_152.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Visual Studio Code"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_152"
+        },
+        {
+          "task_id": "linux_android_153",
+          "task_path": "tasks/cross_device/linux_android/linux_android_153.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Visual Studio Code"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_153"
+        },
+        {
+          "task_id": "linux_android_264",
+          "task_path": "tasks/cross_device/linux_android/linux_android_264.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Visual Studio Code"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_264"
+        },
+        {
+          "task_id": "linux_android_213",
+          "task_path": "tasks/cross_device/linux_android/linux_android_213.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Gallery Pro",
+            "GIMP"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_213"
+        },
+        {
+          "task_id": "linux_android_260",
+          "task_path": "tasks/cross_device/linux_android/linux_android_260.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Gallery Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_260"
+        },
+        {
+          "task_id": "linux_android_338",
+          "task_path": "tasks/cross_device/linux_android/linux_android_338.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "LibreOffice Writer",
+            "Archive Manager (File Roller)",
+            "Simple Gallery Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_338"
+        },
+        {
+          "task_id": "linux_android_492",
+          "task_path": "tasks/cross_device/linux_android/linux_android_492.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Broccoli",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_492"
+        },
+        {
+          "task_id": "linux_android_546",
+          "task_path": "tasks/cross_device/linux_android/linux_android_546.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Gallery Pro",
+            "VLC"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_546"
+        },
+        {
+          "task_id": "linux_android_774",
+          "task_path": "tasks/cross_device/linux_android/linux_android_774.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "OsmAnd"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_774"
+        },
+        {
+          "task_id": "android_smarthome_595",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_595.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_595"
+        },
+        {
+          "task_id": "android_smarthome_803",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_803.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_803"
+        },
+        {
+          "task_id": "linux_android_smarthome_283",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_283.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Simple Calendar Pro",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_283"
+        },
+        {
+          "task_id": "linux_android_smarthome_461",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_461.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Simple Calendar Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_461"
+        },
+        {
+          "task_id": "linux_android_smarthome_648",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_648.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "OsmAnd",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_648"
+        },
+        {
+          "task_id": "linux_android_smarthome_673",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_673.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Gallery Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_673"
+        },
+        {
+          "task_id": "linux_android_smarthome_846",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_846.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Tasks.org",
+            "Retro Music",
+            "Android Files"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_846"
+        },
+        {
+          "task_id": "android_only_046",
+          "task_path": "tasks/cross_device/android_only/android_only_046.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Android Files"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_046"
+        },
+        {
+          "task_id": "android_only_302",
+          "task_path": "tasks/cross_device/android_only/android_only_302.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Broccoli"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_302"
+        },
+        {
+          "task_id": "linux_only_118",
+          "task_path": "tasks/cross_device/linux_only/linux_only_118.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_118"
+        },
+        {
+          "task_id": "linux_only_153",
+          "task_path": "tasks/cross_device/linux_only/linux_only_153.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_153"
+        },
+        {
+          "task_id": "linux_android_075",
+          "task_path": "tasks/cross_device/linux_android/linux_android_075.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_075"
+        },
+        {
+          "task_id": "linux_android_1012",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1012.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1012"
+        },
+        {
+          "task_id": "linux_android_1032",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1032.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "OsmAnd"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1032"
+        },
+        {
+          "task_id": "linux_android_1034",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1034.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1034"
+        },
+        {
+          "task_id": "linux_android_1075",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1075.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1075"
+        },
+        {
+          "task_id": "linux_android_1076",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1076.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1076"
+        },
+        {
+          "task_id": "linux_android_1181",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1181.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1181"
+        },
+        {
+          "task_id": "linux_android_1328",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1328.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1328"
+        },
+        {
+          "task_id": "linux_android_1393",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1393.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "OsmAnd",
+            "Mozilla Thunderbird"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1393"
+        },
+        {
+          "task_id": "linux_android_1493",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1493.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1493"
+        },
+        {
+          "task_id": "linux_android_1554",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1554.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Mozilla Thunderbird"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1554"
+        },
+        {
+          "task_id": "linux_android_1557",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1557.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1557"
+        },
+        {
+          "task_id": "linux_android_187",
+          "task_path": "tasks/cross_device/linux_android/linux_android_187.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Gallery Pro",
+            "Google Chrome",
+            "LibreOffice Impress",
+            "GIMP"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_187"
+        },
+        {
+          "task_id": "linux_android_755",
+          "task_path": "tasks/cross_device/linux_android/linux_android_755.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts",
+            "Simple Gallery Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_755"
+        },
+        {
+          "task_id": "linux_android_1851",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1851.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1851"
+        },
+        {
+          "task_id": "linux_android_863",
+          "task_path": "tasks/cross_device/linux_android/linux_android_863.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_863"
+        },
+        {
+          "task_id": "linux_android_874",
+          "task_path": "tasks/cross_device/linux_android/linux_android_874.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_874"
+        },
+        {
+          "task_id": "linux_android_877",
+          "task_path": "tasks/cross_device/linux_android/linux_android_877.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Android Files"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_877"
+        },
+        {
+          "task_id": "linux_android_917",
+          "task_path": "tasks/cross_device/linux_android/linux_android_917.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_917"
+        },
+        {
+          "task_id": "linux_android_950",
+          "task_path": "tasks/cross_device/linux_android/linux_android_950.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_950"
+        },
+        {
+          "task_id": "linux_android_974",
+          "task_path": "tasks/cross_device/linux_android/linux_android_974.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_974"
+        },
+        {
+          "task_id": "android_smarthome_137",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_137.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Android Files"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_137"
+        },
+        {
+          "task_id": "android_smarthome_139",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_139.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_139"
+        },
+        {
+          "task_id": "android_smarthome_249",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_249.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_249"
+        },
+        {
+          "task_id": "android_smarthome_248",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_248.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Google Clock"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_248"
+        },
+        {
+          "task_id": "android_smarthome_495",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_495.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_495"
+        },
+        {
+          "task_id": "android_smarthome_504",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_504.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_504"
+        },
+        {
+          "task_id": "android_smarthome_656",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_656.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Android Files"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_656"
+        },
+        {
+          "task_id": "linux_android_smarthome_017",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_017.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_017"
+        },
+        {
+          "task_id": "linux_android_smarthome_868",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_868.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Android Files"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_868"
+        },
+        {
+          "task_id": "linux_only_111",
+          "task_path": "tasks/cross_device/linux_only/linux_only_111.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_111"
+        },
+        {
+          "task_id": "linux_only_323",
+          "task_path": "tasks/cross_device/linux_only/linux_only_323.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_323"
+        },
+        {
+          "task_id": "linux_android_1698",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1698.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1698"
+        },
+        {
+          "task_id": "android_only_176",
+          "task_path": "tasks/cross_device/android_only/android_only_176.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Retro Music",
+            "Simple Draw Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_176"
+        },
+        {
+          "task_id": "linux_android_1210",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1210.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1210"
+        },
+        {
+          "task_id": "linux_android_622",
+          "task_path": "tasks/cross_device/linux_android/linux_android_622.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Mozilla Thunderbird",
+            "Google Contacts",
+            "Retro Music"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_622"
+        },
+        {
+          "task_id": "linux_android_737",
+          "task_path": "tasks/cross_device/linux_android/linux_android_737.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Simple Gallery Pro",
+            "LibreOffice Impress"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_737"
+        },
+        {
+          "task_id": "linux_android_928",
+          "task_path": "tasks/cross_device/linux_android/linux_android_928.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_928"
+        },
+        {
+          "task_id": "android_smarthome_749",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_749.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_749"
+        },
+        {
+          "task_id": "android_smarthome_752",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_752.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Tasks.org",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_752"
+        },
+        {
+          "task_id": "android_smarthome_757",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_757.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_757"
+        },
+        {
+          "task_id": "android_smarthome_844",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_844.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Simple Calendar Pro",
+            "Android Files"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_844"
+        },
+        {
+          "task_id": "android_smarthome_900",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_900.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_900"
+        },
+        {
+          "task_id": "linux_android_smarthome_902",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_902.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Android Files"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_902"
+        },
+        {
+          "task_id": "linux_android_smarthome_970",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_970.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Simple SMS Messenger",
+            "Android Files"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_970"
+        },
+        {
+          "task_id": "linux_android_smarthome_041",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_041.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_041"
+        },
+        {
+          "task_id": "android_only_014",
+          "task_path": "tasks/cross_device/android_only/android_only_014.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_014"
+        },
+        {
+          "task_id": "linux_android_615",
+          "task_path": "tasks/cross_device/linux_android/linux_android_615.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Simple Gallery Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_615"
+        },
+        {
+          "task_id": "linux_only_233",
+          "task_path": "tasks/cross_device/linux_only/linux_only_233.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_233"
+        },
+        {
+          "task_id": "linux_only_245",
+          "task_path": "tasks/cross_device/linux_only/linux_only_245.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_245"
+        },
+        {
+          "task_id": "linux_android_smarthome_570",
+          "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_570.json",
+          "environment_combination": "Mobile + Desktop + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_smarthome_570"
+        },
+        {
+          "task_id": "linux_android_410",
+          "task_path": "tasks/cross_device/linux_android/linux_android_410.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_410"
+        },
+        {
+          "task_id": "linux_android_496",
+          "task_path": "tasks/cross_device/linux_android/linux_android_496.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_496"
+        },
+        {
+          "task_id": "linux_android_499",
+          "task_path": "tasks/cross_device/linux_android/linux_android_499.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_499"
+        },
+        {
+          "task_id": "linux_android_414",
+          "task_path": "tasks/cross_device/linux_android/linux_android_414.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_414"
+        },
+        {
+          "task_id": "linux_android_481",
+          "task_path": "tasks/cross_device/linux_android/linux_android_481.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "VLC",
+            "Simple Gallery Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_481"
+        },
+        {
+          "task_id": "linux_android_585",
+          "task_path": "tasks/cross_device/linux_android/linux_android_585.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_585"
+        },
+        {
+          "task_id": "linux_android_587",
+          "task_path": "tasks/cross_device/linux_android/linux_android_587.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_587"
+        },
+        {
+          "task_id": "linux_android_589",
+          "task_path": "tasks/cross_device/linux_android/linux_android_589.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock",
+            "OsmAnd",
+            "Visual Studio Code"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_589"
+        },
+        {
+          "task_id": "linux_android_593",
+          "task_path": "tasks/cross_device/linux_android/linux_android_593.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_593"
+        },
+        {
+          "task_id": "linux_only_357",
+          "task_path": "tasks/cross_device/linux_only/linux_only_357.json",
+          "environment_combination": "Desktop",
+          "status": "complete",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_only_357"
+        },
+        {
+          "task_id": "linux_android_988",
+          "task_path": "tasks/cross_device/linux_android/linux_android_988.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_988"
+        },
+        {
+          "task_id": "android_only_301",
+          "task_path": "tasks/cross_device/android_only/android_only_301.json",
+          "environment_combination": "Mobile",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "OsmAnd"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_only_301"
+        },
+        {
+          "task_id": "linux_android_1072",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1072.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Simple Calendar Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1072"
+        },
+        {
+          "task_id": "linux_android_1073",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1073.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Simple SMS Messenger"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1073"
+        },
+        {
+          "task_id": "linux_android_1664",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1664.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Mozilla Thunderbird",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1664"
+        },
+        {
+          "task_id": "linux_android_993",
+          "task_path": "tasks/cross_device/linux_android/linux_android_993.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Google Contacts"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_993"
+        },
+        {
+          "task_id": "linux_android_1022",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1022.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Tasks.org",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1022"
+        },
+        {
+          "task_id": "linux_android_1023",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1023.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1023"
+        },
+        {
+          "task_id": "linux_android_1184",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1184.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1184"
+        },
+        {
+          "task_id": "linux_android_1330",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1330.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1330"
+        },
+        {
+          "task_id": "linux_android_803",
+          "task_path": "tasks/cross_device/linux_android/linux_android_803.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Gallery Pro",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_803"
+        },
+        {
+          "task_id": "linux_android_895",
+          "task_path": "tasks/cross_device/linux_android/linux_android_895.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple SMS Messenger",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_895"
+        },
+        {
+          "task_id": "linux_android_930",
+          "task_path": "tasks/cross_device/linux_android/linux_android_930.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Calendar Pro",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_930"
+        },
+        {
+          "task_id": "android_smarthome_808",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_808.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_808"
+        },
+        {
+          "task_id": "android_smarthome_817",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_817.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org",
+            "Simple Calendar Pro",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_817"
+        },
+        {
+          "task_id": "android_smarthome_978",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_978.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "complete",
+          "confirmed_applications": [
+            "Simple Gallery Pro",
+            "Android Files",
+            "Google Contacts",
+            "Simple SMS Messenger",
+            "Markor"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_978"
+        },
+        {
+          "task_id": "linux_android_1058",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1058.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1058"
+        },
+        {
+          "task_id": "linux_android_1455",
+          "task_path": "tasks/cross_device/linux_android/linux_android_1455.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_1455"
+        },
+        {
+          "task_id": "linux_android_719",
+          "task_path": "tasks/cross_device/linux_android/linux_android_719.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "complete",
+          "confirmed_applications": [
+            "Google Clock",
+            "Tasks.org"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_719"
+        },
+        {
+          "task_id": "android_smarthome_1013",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_1013.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "partial",
+          "confirmed_applications": [
+            "Simple Calendar Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_1013"
+        }
+      ]
+    },
+    {
+      "kind": "unresolved_identities",
+      "selection": "targeted evidence review; no probability extrapolation",
+      "task_count": 6,
+      "tasks": [
+        {
+          "task_id": "linux_android_861",
+          "task_path": "tasks/cross_device/linux_android/linux_android_861.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "partial",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_861"
+        },
+        {
+          "task_id": "linux_android_862",
+          "task_path": "tasks/cross_device/linux_android/linux_android_862.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "partial",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_862"
+        },
+        {
+          "task_id": "linux_android_951",
+          "task_path": "tasks/cross_device/linux_android/linux_android_951.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "partial",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_951"
+        },
+        {
+          "task_id": "linux_android_960",
+          "task_path": "tasks/cross_device/linux_android/linux_android_960.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "partial",
+          "confirmed_applications": [
+            "OsmAnd"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_960"
+        },
+        {
+          "task_id": "linux_android_972",
+          "task_path": "tasks/cross_device/linux_android/linux_android_972.json",
+          "environment_combination": "Mobile + Desktop",
+          "status": "partial",
+          "confirmed_applications": [],
+          "evidence_reference": "task_application_annotations.jsonl:linux_android_972"
+        },
+        {
+          "task_id": "android_smarthome_1013",
+          "task_path": "tasks/cross_device/android_smarthome/android_smarthome_1013.json",
+          "environment_combination": "Mobile + IoT",
+          "status": "partial",
+          "confirmed_applications": [
+            "Simple Calendar Pro"
+          ],
+          "evidence_reference": "task_application_annotations.jsonl:android_smarthome_1013"
+        }
+      ]
+    }
+  ],
+  "unique_tasks": 265
+}
