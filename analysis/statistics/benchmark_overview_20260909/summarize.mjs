@@ -9,6 +9,14 @@ const jr=n=>JSON.parse(fs.readFileSync(path.join(OUT,n),'utf8'));
 const save=(n,x)=>fs.writeFileSync(path.join(OUT,n),JSON.stringify(x,null,2)+'\n');
 const rows=jl('task_inventory.jsonl'),chars=jl('task_characteristics.jsonl'),queue=jl('review_queue.jsonl'),html=jl('html_resource_audit.jsonl');
 const source=jr('scope_record.json'),progress=jr('annotation_progress.json'),aliases=jr('application_aliases.json'),metadata=jr('metadata_fields.json');
+// Application totals now read the saved, user-approved attribution layer.
+// The task inventory remains the original source/pilot snapshot for other metrics.
+const attribution=jl('app_full_analysis/operation_attribution_v2/task_application_attribution.jsonl');
+const attributionById=new Map(attribution.map(r=>[r.task_id,r]));
+const appEntities=jr('app_full_analysis/application_entities.json');
+const attributionSummary=jr('app_full_analysis/operation_attribution_v2/summary.json');
+assert.deepEqual([...attributionById.keys()].sort(),rows.map(r=>r.task_id).sort());
+for(const r of rows)assert.equal(attributionById.get(r.task_id).task_path,r.task_path);
 const scopes=['candidate_all','proposed_release','supported_cross_device'];
 const ids=arr=>[...new Set(arr.map(r=>r.task_id))].sort();
 const pct=(n,d)=>Number((100*n/d).toFixed(6));
@@ -33,11 +41,19 @@ for(const scope of scopes){
  }
  for(const [combo,count]of Object.entries(comboCounts))assert.equal(devices.filter(r=>r.scope===scope&&r.level==='device_configuration'&&r.parent_combination===combo).reduce((s,r)=>s+r.count,0),count);
  const stats={count:n,total_device_instances:rr.reduce((s,r)=>s+r.device_count,0),mean_device_count:rr.reduce((s,r)=>s+r.device_count,0)/n,max_device_count:Math.max(...rr.map(r=>r.device_count)),device_relation_counts:Object.fromEntries(uniq(rr.map(r=>r.independent_environment_relation.verdict)).map(v=>[v,rr.filter(r=>r.independent_environment_relation.verdict===v).length]))};
- for(const a of aliases){
-  const selected=rr.filter(r=>r.applications.some(x=>x.canonical_id===a.canonical_id)),pending=rr.filter(r=>r.unresolved_applications.some(x=>x.canonical_id===a.canonical_id)),count=selected.length;
-  const named=rr.filter(r=>r.application_named_rule_candidates.some(x=>x.canonical_id===a.canonical_id));
-  const original=uniq(named.flatMap(r=>r.application_named_rule_candidates.filter(x=>x.canonical_id===a.canonical_id).map(x=>x.original_label)));
-  apps.push({scope,canonical_id:a.canonical_id,normalized_name:a.display_name,original_labels:JSON.stringify(original),runtime_aliases:JSON.stringify(a.aliases),platform:a.platform,count,denominator:n,percentage:pct(count,n),metric:'semantic_confirmed_usage_lower_bound',rule_supported_named_reference_count:named.length,rule_supported_named_task_ids:JSON.stringify(ids(named)),unresolved_legacy_task_count:pending.length,unknown_or_unreviewed_task_count:n-count,task_ids:JSON.stringify(ids(selected)),unresolved_task_ids:JSON.stringify(ids(pending)),evidence_reference:'task_inventory.jsonl/applications;pilot_application_annotations.jsonl;application_aliases.json',completeness:'100_task_semantic_pilot_plus_full_named_reference_screen_not_complete_usage_census'});
+ const ar=rr.map(r=>attributionById.get(r.task_id));
+ for(const a of appEntities){
+  const selected=ar.filter(r=>r.attributed_app_ids.includes(a.canonical_id));
+  const confirmed=ar.filter(r=>r.evidence_confirmed_app_ids.includes(a.canonical_id));
+  const added=ar.filter(r=>r.added_applications.some(x=>x.canonical_id===a.canonical_id));
+  apps.push({scope,canonical_id:a.canonical_id,normalized_name:a.display_name,platform:a.platform,
+   count:selected.length,denominator:n,percentage:pct(selected.length,n),
+   evidence_confirmed_count:confirmed.length,operation_or_identity_attributed_count:added.length,
+   metric:'task_application_attribution_not_observed_usage',task_ids:JSON.stringify(ids(selected)),
+   evidence_confirmed_task_ids:JSON.stringify(ids(confirmed)),added_attributed_task_ids:JSON.stringify(ids(added)),
+   evidence_reference:'app_full_analysis/operation_attribution_v2/task_application_attribution.jsonl',
+   counting_rule:'unique task-app pair; multi-label; percentages may exceed 100 in total'});
+  assert.equal(selected.length,confirmed.length+added.length);
  }
  for(const k of kinds){
   const category=html.find(h=>h.category===k).category_zh,selected=rr.filter(r=>r.websites.some(w=>w.category===k&&w.status==='reviewed_html_use_category'));
@@ -63,7 +79,14 @@ for(const scope of scopes){
  for(const r of cc){const known=Object.values(r.labels).filter(x=>['positive','negative'].includes(x.status)).length;
   reviewedCounts.push({scope,task_id:r.task_id,positive_features:Object.values(r.labels).filter(x=>x.status==='positive').length,negative_features:Object.values(r.labels).filter(x=>x.status==='negative').length,unknown_features:Object.values(r.labels).filter(x=>x.status==='unknown').length,not_reviewed_features:Object.values(r.labels).filter(x=>x.status==='not_reviewed').length,coverage_state:known===7?'fully_decided':r.review_level==='not_reviewed'?'not_reviewed':'partial',none_applicable:known===7&&Object.values(r.labels).every(x=>x.status==='negative')});
  }
- sums[scope]={...stats,confirmed_application_entities:apps.filter(a=>a.scope===scope&&a.count>0).length,explicit_app_covered_tasks:rr.filter(r=>r.applications.length).length,html_category_covered_tasks:rr.filter(r=>r.websites.some(w=>w.status==='reviewed_html_use_category')).length,semantic_pilot_tasks:cc.filter(r=>r.review_level!=='not_reviewed').length,fully_decided_pilot_tasks:cc.filter(r=>Object.values(r.labels).every(x=>['positive','negative'].includes(x.status))).length,not_reviewed_features_tasks:cc.filter(r=>r.review_level==='not_reviewed').length};
+ const appCountDistribution={};for(const r of ar){const k=r.attributed_app_ids.length;appCountDistribution[k]=(appCountDistribution[k]||0)+1;}
+ sums[scope]={...stats,confirmed_application_entities:appEntities.length,explicit_app_covered_tasks:ar.filter(r=>r.evidence_confirmed_app_ids.length).length,
+  attributed_application_entities:apps.filter(a=>a.scope===scope&&a.count>0).length,attributed_app_covered_tasks:ar.filter(r=>r.attributed_app_ids.length).length,
+  attributed_task_app_pairs:ar.reduce((s,r)=>s+r.attributed_app_ids.length,0),application_count_distribution:appCountDistribution,
+  semantic_pilot_app_covered_tasks:rr.filter(r=>r.applications.length).length,
+  html_category_covered_tasks:rr.filter(r=>r.websites.some(w=>w.status==='reviewed_html_use_category')).length,semantic_pilot_tasks:cc.filter(r=>r.review_level!=='not_reviewed').length,fully_decided_pilot_tasks:cc.filter(r=>Object.values(r.labels).every(x=>['positive','negative'].includes(x.status))).length,not_reviewed_features_tasks:cc.filter(r=>r.review_level==='not_reviewed').length};
+ const key=scope==='candidate_all'?'candidate_all_provisional':scope==='proposed_release'?'proposed_release_conditional':null;
+ if(key){const expected=attributionSummary.scopes[key];assert.equal(sums[scope].attributed_app_covered_tasks,expected.attributed_app_covered_tasks);assert.equal(sums[scope].attributed_task_app_pairs,expected.attributed_task_app_pairs);assert.deepEqual(appCountDistribution,expected.attributed_app_count_distribution);}
 }
 async function csv(name,data){
  if(!data.length)throw Error('No rows '+name);
@@ -83,7 +106,10 @@ await csv('characteristic_distribution.csv',features);
 await csv('characteristic_cooccurrence.csv',co);
 await csv('review_queue.csv',queue);
 fs.writeFileSync(path.join(OUT,'task_feature_counts.jsonl'),reviewedCounts.map(r=>JSON.stringify(r)).join('\n')+'\n');
-save('summary.json',{source,progress,scopes:sums,checks:{unique_inventory:true,annotation_hashes_match:true,device_sums_and_nested_sums:true,feature_status_sums:true,counts_deduplicated_by_task:true},note:'No final release scope asserted. CSV percentages are 0–100, not 0–1. No model outputs used.'});
+const {not_reviewed,...previousProgress}=progress;
+save('summary.json',{source,progress:{...previousProgress,feature_not_reviewed:not_reviewed,
+ application_method:attributionSummary.policy,application_annotated_tasks:attribution.length,application_attribution_target_count:attributionSummary.attribution_target_count,
+ application_reference:'app_full_analysis/operation_attribution_v2/summary.json'},scopes:sums,checks:{unique_inventory:true,annotation_hashes_match:true,device_sums_and_nested_sums:true,feature_status_sums:true,counts_deduplicated_by_task:true,application_attribution_totals_match:true},note:'No final release scope asserted. CSV percentages are 0–100. Application attribution includes user-authorized inference, not observed usage. Other feature/IoT statistics retain their original coverage. No model outputs used.'});
 const table=(headers,records)=>['| '+headers.join(' | ')+' |','| '+headers.map(()=>'---').join(' | ')+' |',...records.map(r=>'| '+r.join(' | ')+' |')].join('\n');
 const main='proposed_release';
 const readme=[
@@ -120,13 +146,19 @@ table(['具体配置','任务数','占比'],devices.filter(r=>r.scope===main&&r.
 '',
 '## (c) 应用、HTML用途类别与IoT端点',
 '',
-'以下应用主表仅计100条试标中由Codex结合当前指令确认的指定读取/操作对象，属于**已确认覆盖下界**，不是全库实际使用精确频次。共'+sums[main].confirmed_application_entities+'个实体，覆盖'+sums[main].explicit_app_covered_tasks+'个任务。全量直接名称规则筛查另存rule_supported_named_reference_count及ID，不混入已语义确认的主count；复杂分支、格式名称和间接来源仍需复核。另有'+queue.filter(r=>r.issue==='application_usage').length+'个task/app名称或身份配对待核实。所有未列为confirmed的配对保留unknown或未审，不当不存在。',
+'应用总表已同步后续全量核对及用户确认的操作归类 v2，不再使用原100条试标的77条覆盖下界作为当前结果。沿用28个应用分类；指令/配置证据确认的关系与按操作/身份授权补充的归属分别保留。本轮只汇总已保存标注，不重新判断任务、不读取模型结果。',
 '',
-'旧task_count不能直接沿用：名称规则可能命中路径、Camera相册、Writer格式模板、generic contact/calendar或可选工具。中文PDF阅读器经实际evince打开命令绑定又补出旧规则漏项。当前CSV同时保存名称筛查数与语义确认数，二者不是同一指标。原始标签、规范名称、setup身份、指令摘录及未确认候选均已保存。功能相似产品不合并，Calc/Writer/Impress按组件区分。',
+table(['scope','任务数','有应用归属','无应用归属','任务—应用关系'],scopes.map(k=>[k,sums[k].count,sums[k].attributed_app_covered_tasks,sums[k].count-sums[k].attributed_app_covered_tasks,sums[k].attributed_task_app_pairs])),
 '',
-table(['应用','确认任务数','占全量比例'],apps.filter(r=>r.scope===main).map(r=>[r.normalized_name,r.count,r.percentage.toFixed(2)+'%'])),
+'5,897条候选中，2,170条归属一个应用、3,447条归属多个应用，280条纯Home不强行归入app。原有6条待定身份已按用户授权归入已有项：5条Gallery归Simple Gallery Pro、1条Contacts归Google Contacts；这不声称已经运行核实具体包名。',
 '',
-'多应用任务可进入多行，各行比例不强行归一化到100%。Browser是应用，承载的HTML用途另计；CSV/JSON/PDF/PNG不是应用，命令行/OS operations及IoT端点不并入25。',
+'下表同时给出当前候选和条件性发布范围；百分比沿用本报告的proposed_release分母5,894。完整三个scope及task IDs见 application_coverage.csv。',
+'',
+table(['应用','候选5897归属任务数','条件5894归属任务数','占条件范围比例'],apps.filter(r=>r.scope===main).sort((a,b)=>b.count-a.count).map(r=>[r.normalized_name,apps.find(a=>a.scope==='candidate_all'&&a.canonical_id===r.canonical_id).count,r.count,r.percentage.toFixed(2)+'%'])),
+'',
+'多应用任务可进入多行，同一任务—应用只计一次，各行比例不归一化到100%。代码、Office文档等按用户同意的操作规则归入已有应用，不把文件格式本身新增为应用。该指标是应用归属，不是唯一必需软件或模型实际使用频次；纯IoT仍不计app。',
+'',
+'[操作归类规则与逐任务明细](app_full_analysis/operation_attribution_v2/README.md)保存本次补归类依据；[旧严格证据报告](app_full_analysis/README.md)及试标文件保留作历史对照。此前已有明确应用的其他任务保留原关系，本轮未额外推定它们每一个文件的可选打开软件。',
 '',
 '### HTML用途类别：不是独立网站实体数',
 '',
@@ -134,7 +166,7 @@ table(['应用','确认任务数','占全量比例'],apps.filter(r=>r.scope===ma
 '',
 table(['用途类别','任务覆盖数','占全量比例','相关HTML资源'],websites.filter(r=>r.scope===main).map(r=>[r.normalized_category,r.count,r.percentage.toFixed(2)+'%',r.html_resource_count])),
 '',
-'html_resource_audit.jsonl保留资源路径、内容哈希和关联ID；website_coverage.csv保留全部17类、task IDs及资源数。资源关联表与实际网站交互是不同口径。独立网站产品数量仍unknown；不能写成460个网站或25+17个应用实体。',
+'html_resource_audit.jsonl保留资源路径、内容哈希和关联ID；website_coverage.csv保留全部17类、task IDs及资源数。资源关联表与实际网站交互是不同口径。独立网站产品数量仍unknown；不能写成460个网站或28+17个应用实体。',
 '',
 '### IoT端点',
 '',
@@ -152,7 +184,7 @@ table(['特征','确认包含','确认不含','unknown','尚未检查','已确�
 '',
 'F1/F2会因“原样字段转入新表示”重叠，F3/F4会因“多来源政策决定动作”重叠；这些是真实现象，不调整事实来压低共现。设备控制/调度较易说明；模板是否构成第二来源、查找是否构成条件判断需严格边界。100条试标不足以判断哪类几乎覆盖全库。',
 '',
-'**建议图(b)暂不采用主文；试标规则和边界可入附录。** (a)在最终范围确认后可用于主文；(c)的17类HTML用途已整理，应用频次目前仅部分语义确认，不能把名称筛查数或小样本下界画成完整使用频次。',
+'**建议图(b)暂不采用主文；试标规则和边界可入附录。** (a)在最终范围确认后可用于主文；(c)可按已确认的“应用归属”口径准备图，不能标成实际使用频次。17类HTML用途不变。应用统计更新不代表任务特征或IoT使用统计也完成了全量标注。',
 '',
 '## 已有标签与当前内容',
 '',
@@ -164,17 +196,17 @@ table(['metadata字段','当前覆盖候选任务数','不同原始值数量'],O
 '',
 '## 历史数字对照',
 '',
-table(['历史参考','本轮','解释'],[['总数5,894','candidate=5,897；proposed=5,894','3条排除仅为条件，需确认最终清单'],['跨设备5,614','证据支持5,614','继承清洗证据且核对当前instruction/devices，非本轮全量有效性复审'],['单Home280','280','一个独立Home环境，未加入IoT端点'],['应用25 / 网站17类','25已确认实体 / 17用途类别','应用实际使用频次仅完成试标，全量名称线索单列；不是42个独立应用网站'],['HTML460 / 417任务',progress.html_resources+' / '+progress.html_tasks,'精确内容去重'+progress.html_unique_content+'；网站交互覆盖与资源关联另列']]),
+table(['历史参考','本轮','解释'],[['总数5,894','candidate=5,897；proposed=5,894','3条排除仅为条件，需确认最终清单'],['跨设备5,614','证据支持5,614','继承清洗证据且核对当前instruction/devices，非本轮全量有效性复审'],['单Home280','280','一个独立Home环境，未加入IoT端点'],['应用25 / 网站17类','28个应用分类 / 17用途类别','应用归属已同步v2；候选5617条有app，条件范围5614条有app；不是45个独立应用网站'],['HTML460 / 417任务',progress.html_resources+' / '+progress.html_tasks,'精确内容去重'+progress.html_unique_content+'；网站交互覆盖与资源关联另列']]),
 '',
 '## 文件、命令与复现',
 '',
 '- README.md：本报告；scope_record.json：来源/范围/commit/清单hash/重复与差异。',
-'- task_inventory.jsonl：每个候选任务一次，scope字段明确三个统计范围，原始设备、内容hash、应用/网站/IoT证据。',
+'- task_inventory.jsonl：原始清单/试标快照，scope明确三个统计范围，设备/网站/IoT统计仍使用它；其中旧应用字段不代表最新应用归属。',
 '- device_distribution.csv：内层类型、外层配置与设备数量分布；scope/count/denominator/percentage齐全。百分比用0–100。',
 '- application_coverage.csv / website_coverage.csv / iot_coverage.csv：完整列表，非Top-N；task IDs不截断。',
 '- task_characteristics.jsonl / characteristic_distribution.csv / characteristic_cooccurrence.csv / task_feature_counts.jsonl：标签与共现。',
 '- annotation_rules.md / pilot_annotations.jsonl / pilot_application_annotations.jsonl / pilot_sample.json：固定试标定义、特征和应用决定、抽样。',
-'- review_queue.csv/jsonl：已记录的缺失、特征unknown/未审、应用配对与边界；不是待删除任务表。应用全量未审状态另见task_inventory.jsonl的application_discovery_status。',
+'- review_queue.csv/jsonl：历史初筛/试标队列，不是待删除任务表。其中应用配对及task_inventory中的application_discovery_status保留为旧流程记录，不能再当作当前应用待审队列；当前应用依据见app_full_analysis/operation_attribution_v2。特征unknown/未审状态不变。',
 '- protected_files_before.json / preservation_check.json：本次用户要求的原任务/资源/配置及实现内容前后核对。出现变化时先报告，不改回他人文件。',
 '- 本轮前后核对33,433个原始任务、资源、配置及实现文件，内容变化0；CSV额外回读检查见csv_validation.json。',
 '',
@@ -187,12 +219,12 @@ table(['历史参考','本轮','解释'],[['总数5,894','candidate=5,897；prop
 '',
 'collect.mjs为一次性只读来源快照（检测已存在快照时拒绝覆盖）；select_pilot.mjs为显式试标选择，不应在已有决定后任意重选；annotate_static.mjs显式应用已记录的直接名称规则与固定pilot决定，仅写本目录。普通聚合不调用它们。',
 '',
-'CSV按Spreadsheets技能使用artifact-tool矩形值表生成并逐值对照，未创建多余XLSX或正式图。没有启动设备、任务生成器、模型主实验、收费API，也没有读取密钥或上传任务材料。尚未推送本轮文件到pear。',
+'CSV按Spreadsheets技能使用artifact-tool矩形值表生成并逐值对照，未创建多余XLSX或正式图。本轮仅更新应用汇总，没有启动设备、任务生成器或模型实验；原任务、实验配置与其他统计未修改。上传状态见pear目录的PUBLICATION.md。',
 '',
 '### 需要确认/尚未完成',
 '',
 '1. 提供或确认最终发布清单（是否为现有候选减3条且含280单Home）。当前final_release_membership全为unknown，不伪造正式任务名单。',
-'2. 补齐应用间接来源与待核实配对，才能给实际使用的最终完整覆盖；IoT任务使用也只有部分确认。',
+'2. 本轮应用归属口径已按用户确认完成并接入总表；若论文要声明唯一必需应用或实际运行使用频次，仍需另行证据，不能从归属推断。IoT任务使用仍只有部分确认。',
 '3. 完整特征语义标注尚未完成，不把100条试标比例外推。若要正式图(b)，需补充其余标签和独立review。',
 '4. 单独确认airflow任务可见语义与evaluator边界；本轮不做修复或实验重跑。',
 ''];

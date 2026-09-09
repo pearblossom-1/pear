@@ -1,5 +1,5 @@
 {
-  "checked_at": "2026-09-09T10:27:08.243Z",
+  "checked_at": "2026-09-09T13:42:11.950Z",
   "checks": [
     {
       "file": "device_distribution.csv",
@@ -9,7 +9,7 @@
     },
     {
       "file": "application_coverage.csv",
-      "parsed_rows": 75,
+      "parsed_rows": 84,
       "task_ids_not_truncated": true,
       "percentages_reconciled": true
     },

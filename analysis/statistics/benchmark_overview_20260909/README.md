@@ -58,39 +58,52 @@ README.md:21–45明确主任务目录，但无最终全量manifest；tests/test
 
 ## (c) 应用、HTML用途类别与IoT端点
 
-以下应用主表仅计100条试标中由Codex结合当前指令确认的指定读取/操作对象，属于**已确认覆盖下界**，不是全库实际使用精确频次。共25个实体，覆盖77个任务。全量直接名称规则筛查另存rule_supported_named_reference_count及ID，不混入已语义确认的主count；复杂分支、格式名称和间接来源仍需复核。另有464个task/app名称或身份配对待核实。所有未列为confirmed的配对保留unknown或未审，不当不存在。
+应用总表已同步后续全量核对及用户确认的操作归类 v2，不再使用原100条试标的77条覆盖下界作为当前结果。沿用28个应用分类；指令/配置证据确认的关系与按操作/身份授权补充的归属分别保留。本轮只汇总已保存标注，不重新判断任务、不读取模型结果。
 
-旧task_count不能直接沿用：名称规则可能命中路径、Camera相册、Writer格式模板、generic contact/calendar或可选工具。中文PDF阅读器经实际evince打开命令绑定又补出旧规则漏项。当前CSV同时保存名称筛查数与语义确认数，二者不是同一指标。原始标签、规范名称、setup身份、指令摘录及未确认候选均已保存。功能相似产品不合并，Calc/Writer/Impress按组件区分。
+| scope | 任务数 | 有应用归属 | 无应用归属 | 任务—应用关系 |
+| --- | --- | --- | --- | --- |
+| candidate_all | 5897 | 5617 | 280 | 9917 |
+| proposed_release | 5894 | 5614 | 280 | 9911 |
+| supported_cross_device | 5614 | 5614 | 0 | 9911 |
 
-| 应用 | 确认任务数 | 占全量比例 |
-| --- | --- | --- |
-| Markor | 16 | 0.27% |
-| Simple Calendar Pro | 9 | 0.15% |
-| Simple SMS Messenger | 15 | 0.25% |
-| Google Contacts | 9 | 0.15% |
-| Tasks.org | 21 | 0.36% |
-| Google Clock | 7 | 0.12% |
-| OsmAnd | 7 | 0.12% |
-| Simple Gallery Pro | 6 | 0.10% |
-| Retro Music | 4 | 0.07% |
-| Broccoli | 7 | 0.12% |
-| Audio Recorder | 4 | 0.07% |
-| Simple Draw Pro | 2 | 0.03% |
-| Android Files | 9 | 0.15% |
-| Camera | 1 | 0.02% |
-| Google Chrome | 2 | 0.03% |
-| Mozilla Firefox | 1 | 0.02% |
-| LibreOffice Calc | 1 | 0.02% |
-| LibreOffice Writer | 4 | 0.07% |
-| LibreOffice Impress | 3 | 0.05% |
-| Visual Studio Code | 6 | 0.10% |
-| GIMP | 2 | 0.03% |
-| VLC | 3 | 0.05% |
-| Mozilla Thunderbird | 4 | 0.07% |
-| Evince / Document Viewer | 3 | 0.05% |
-| Archive Manager (File Roller) | 1 | 0.02% |
+5,897条候选中，2,170条归属一个应用、3,447条归属多个应用，280条纯Home不强行归入app。原有6条待定身份已按用户授权归入已有项：5条Gallery归Simple Gallery Pro、1条Contacts归Google Contacts；这不声称已经运行核实具体包名。
 
-多应用任务可进入多行，各行比例不强行归一化到100%。Browser是应用，承载的HTML用途另计；CSV/JSON/PDF/PNG不是应用，命令行/OS operations及IoT端点不并入25。
+下表同时给出当前候选和条件性发布范围；百分比沿用本报告的proposed_release分母5,894。完整三个scope及task IDs见 application_coverage.csv。
+
+| 应用 | 候选5897归属任务数 | 条件5894归属任务数 | 占条件范围比例 |
+| --- | --- | --- | --- |
+| Tasks.org | 1248 | 1248 | 21.17% |
+| Markor | 1119 | 1116 | 18.93% |
+| Simple SMS Messenger | 984 | 984 | 16.69% |
+| LibreOffice Calc | 958 | 958 | 16.25% |
+| Simple Calendar Pro | 780 | 778 | 13.20% |
+| Visual Studio Code | 774 | 774 | 13.13% |
+| Android Files | 737 | 737 | 12.50% |
+| Google Contacts | 680 | 679 | 11.52% |
+| Google Clock | 320 | 320 | 5.43% |
+| OsmAnd | 266 | 266 | 4.51% |
+| Broccoli | 244 | 244 | 4.14% |
+| Google Chrome | 226 | 226 | 3.83% |
+| Retro Music | 217 | 217 | 3.68% |
+| Simple Gallery Pro | 211 | 211 | 3.58% |
+| LibreOffice Writer | 202 | 202 | 3.43% |
+| gedit | 163 | 163 | 2.77% |
+| Mozilla Thunderbird | 143 | 143 | 2.43% |
+| GIMP | 133 | 133 | 2.26% |
+| Evince / Document Viewer | 113 | 113 | 1.92% |
+| Archive Manager (File Roller) | 99 | 99 | 1.68% |
+| Audio Recorder | 70 | 70 | 1.19% |
+| VLC | 69 | 69 | 1.17% |
+| Simple Draw Pro | 66 | 66 | 1.12% |
+| LibreOffice Impress | 66 | 66 | 1.12% |
+| Mozilla Firefox | 16 | 16 | 0.27% |
+| Camera | 8 | 8 | 0.14% |
+| GNOME Terminal | 4 | 4 | 0.07% |
+| Android Settings | 1 | 1 | 0.02% |
+
+多应用任务可进入多行，同一任务—应用只计一次，各行比例不归一化到100%。代码、Office文档等按用户同意的操作规则归入已有应用，不把文件格式本身新增为应用。该指标是应用归属，不是唯一必需软件或模型实际使用频次；纯IoT仍不计app。
+
+[操作归类规则与逐任务明细](app_full_analysis/operation_attribution_v2/README.md)保存本次补归类依据；[旧严格证据报告](app_full_analysis/README.md)及试标文件保留作历史对照。此前已有明确应用的其他任务保留原关系，本轮未额外推定它们每一个文件的可选打开软件。
 
 ### HTML用途类别：不是独立网站实体数
 
@@ -116,7 +129,7 @@ README.md:21–45明确主任务目录，但无最终全量manifest；tests/test
 | 软件研发、发布与 QA | 32 | 0.54% | 33 |
 | 日程、预约与值班 | 25 | 0.42% | 25 |
 
-html_resource_audit.jsonl保留资源路径、内容哈希和关联ID；website_coverage.csv保留全部17类、task IDs及资源数。资源关联表与实际网站交互是不同口径。独立网站产品数量仍unknown；不能写成460个网站或25+17个应用实体。
+html_resource_audit.jsonl保留资源路径、内容哈希和关联ID；website_coverage.csv保留全部17类、task IDs及资源数。资源关联表与实际网站交互是不同口径。独立网站产品数量仍unknown；不能写成460个网站或28+17个应用实体。
 
 ### IoT端点
 
@@ -142,7 +155,7 @@ proposed_release中检查100条，其中12条七个标签均已判定；其余�
 
 F1/F2会因“原样字段转入新表示”重叠，F3/F4会因“多来源政策决定动作”重叠；这些是真实现象，不调整事实来压低共现。设备控制/调度较易说明；模板是否构成第二来源、查找是否构成条件判断需严格边界。100条试标不足以判断哪类几乎覆盖全库。
 
-**建议图(b)暂不采用主文；试标规则和边界可入附录。** (a)在最终范围确认后可用于主文；(c)的17类HTML用途已整理，应用频次目前仅部分语义确认，不能把名称筛查数或小样本下界画成完整使用频次。
+**建议图(b)暂不采用主文；试标规则和边界可入附录。** (a)在最终范围确认后可用于主文；(c)可按已确认的“应用归属”口径准备图，不能标成实际使用频次。17类HTML用途不变。应用统计更新不代表任务特征或IoT使用统计也完成了全量标注。
 
 ## 已有标签与当前内容
 
@@ -173,18 +186,18 @@ metadata_fields.json保存完整原标签与关联任务。task_pattern/task_fam
 | 总数5,894 | candidate=5,897；proposed=5,894 | 3条排除仅为条件，需确认最终清单 |
 | 跨设备5,614 | 证据支持5,614 | 继承清洗证据且核对当前instruction/devices，非本轮全量有效性复审 |
 | 单Home280 | 280 | 一个独立Home环境，未加入IoT端点 |
-| 应用25 / 网站17类 | 25已确认实体 / 17用途类别 | 应用实际使用频次仅完成试标，全量名称线索单列；不是42个独立应用网站 |
+| 应用25 / 网站17类 | 28个应用分类 / 17用途类别 | 应用归属已同步v2；候选5617条有app，条件范围5614条有app；不是45个独立应用网站 |
 | HTML460 / 417任务 | 460 / 417 | 精确内容去重460；网站交互覆盖与资源关联另列 |
 
 ## 文件、命令与复现
 
 - README.md：本报告；scope_record.json：来源/范围/commit/清单hash/重复与差异。
-- task_inventory.jsonl：每个候选任务一次，scope字段明确三个统计范围，原始设备、内容hash、应用/网站/IoT证据。
+- task_inventory.jsonl：原始清单/试标快照，scope明确三个统计范围，设备/网站/IoT统计仍使用它；其中旧应用字段不代表最新应用归属。
 - device_distribution.csv：内层类型、外层配置与设备数量分布；scope/count/denominator/percentage齐全。百分比用0–100。
 - application_coverage.csv / website_coverage.csv / iot_coverage.csv：完整列表，非Top-N；task IDs不截断。
 - task_characteristics.jsonl / characteristic_distribution.csv / characteristic_cooccurrence.csv / task_feature_counts.jsonl：标签与共现。
 - annotation_rules.md / pilot_annotations.jsonl / pilot_application_annotations.jsonl / pilot_sample.json：固定试标定义、特征和应用决定、抽样。
-- review_queue.csv/jsonl：已记录的缺失、特征unknown/未审、应用配对与边界；不是待删除任务表。应用全量未审状态另见task_inventory.jsonl的application_discovery_status。
+- review_queue.csv/jsonl：历史初筛/试标队列，不是待删除任务表。其中应用配对及task_inventory中的application_discovery_status保留为旧流程记录，不能再当作当前应用待审队列；当前应用依据见app_full_analysis/operation_attribution_v2。特征unknown/未审状态不变。
 - protected_files_before.json / preservation_check.json：本次用户要求的原任务/资源/配置及实现内容前后核对。出现变化时先报告，不改回他人文件。
 - 本轮前后核对33,433个原始任务、资源、配置及实现文件，内容变化0；CSV额外回读检查见csv_validation.json。
 
@@ -197,11 +210,11 @@ cd /Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20
 
 collect.mjs为一次性只读来源快照（检测已存在快照时拒绝覆盖）；select_pilot.mjs为显式试标选择，不应在已有决定后任意重选；annotate_static.mjs显式应用已记录的直接名称规则与固定pilot决定，仅写本目录。普通聚合不调用它们。
 
-CSV按Spreadsheets技能使用artifact-tool矩形值表生成并逐值对照，未创建多余XLSX或正式图。没有启动设备、任务生成器、模型主实验、收费API，也没有读取密钥或上传任务材料。尚未推送本轮文件到pear。
+CSV按Spreadsheets技能使用artifact-tool矩形值表生成并逐值对照，未创建多余XLSX或正式图。本轮仅更新应用汇总，没有启动设备、任务生成器或模型实验；原任务、实验配置与其他统计未修改。上传状态见pear目录的PUBLICATION.md。
 
 ### 需要确认/尚未完成
 
 1. 提供或确认最终发布清单（是否为现有候选减3条且含280单Home）。当前final_release_membership全为unknown，不伪造正式任务名单。
-2. 补齐应用间接来源与待核实配对，才能给实际使用的最终完整覆盖；IoT任务使用也只有部分确认。
+2. 本轮应用归属口径已按用户确认完成并接入总表；若论文要声明唯一必需应用或实际运行使用频次，仍需另行证据，不能从归属推断。IoT任务使用仍只有部分确认。
 3. 完整特征语义标注尚未完成，不把100条试标比例外推。若要正式图(b)，需补充其余标签和独立review。
 4. 单独确认airflow任务可见语义与evaluator边界；本轮不做修复或实验重跑。

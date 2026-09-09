@@ -50,12 +50,15 @@
   "progress": {
     "pilot": 100,
     "total": 5897,
-    "not_reviewed": 5797,
-    "application_method": "100-task semantic confirmed lower bound; full named-rule candidates separate; not exhaustive usage census",
+    "application_method": "user_authorized_operation_attribution.v2",
     "website_categories": 17,
     "html_resources": 460,
     "html_unique_content": 460,
-    "html_tasks": 417
+    "html_tasks": 417,
+    "feature_not_reviewed": 5797,
+    "application_annotated_tasks": 5897,
+    "application_attribution_target_count": 1394,
+    "application_reference": "app_full_analysis/operation_attribution_v2/summary.json"
   },
   "scopes": {
     "candidate_all": {
@@ -67,8 +70,20 @@
         "cross_device": 5614,
         "not_cross_device": 283
       },
-      "confirmed_application_entities": 25,
-      "explicit_app_covered_tasks": 77,
+      "confirmed_application_entities": 28,
+      "explicit_app_covered_tasks": 4225,
+      "attributed_application_entities": 28,
+      "attributed_app_covered_tasks": 5617,
+      "attributed_task_app_pairs": 9917,
+      "application_count_distribution": {
+        "0": 280,
+        "1": 2170,
+        "2": 2680,
+        "3": 688,
+        "4": 72,
+        "5": 7
+      },
+      "semantic_pilot_app_covered_tasks": 77,
       "html_category_covered_tasks": 416,
       "semantic_pilot_tasks": 100,
       "fully_decided_pilot_tasks": 12,
@@ -83,8 +98,20 @@
         "cross_device": 5614,
         "not_cross_device": 280
       },
-      "confirmed_application_entities": 25,
-      "explicit_app_covered_tasks": 77,
+      "confirmed_application_entities": 28,
+      "explicit_app_covered_tasks": 4222,
+      "attributed_application_entities": 28,
+      "attributed_app_covered_tasks": 5614,
+      "attributed_task_app_pairs": 9911,
+      "application_count_distribution": {
+        "0": 280,
+        "1": 2169,
+        "2": 2679,
+        "3": 687,
+        "4": 72,
+        "5": 7
+      },
+      "semantic_pilot_app_covered_tasks": 77,
       "html_category_covered_tasks": 416,
       "semantic_pilot_tasks": 100,
       "fully_decided_pilot_tasks": 12,
@@ -98,8 +125,19 @@
       "device_relation_counts": {
         "cross_device": 5614
       },
-      "confirmed_application_entities": 25,
-      "explicit_app_covered_tasks": 77,
+      "confirmed_application_entities": 28,
+      "explicit_app_covered_tasks": 4222,
+      "attributed_application_entities": 28,
+      "attributed_app_covered_tasks": 5614,
+      "attributed_task_app_pairs": 9911,
+      "application_count_distribution": {
+        "1": 2169,
+        "2": 2679,
+        "3": 687,
+        "4": 72,
+        "5": 7
+      },
+      "semantic_pilot_app_covered_tasks": 77,
       "html_category_covered_tasks": 416,
       "semantic_pilot_tasks": 94,
       "fully_decided_pilot_tasks": 10,
@@ -111,7 +149,8 @@
     "annotation_hashes_match": true,
     "device_sums_and_nested_sums": true,
     "feature_status_sums": true,
-    "counts_deduplicated_by_task": true
+    "counts_deduplicated_by_task": true,
+    "application_attribution_totals_match": true
   },
-  "note": "No final release scope asserted. CSV percentages are 0–100, not 0–1. No model outputs used."
+  "note": "No final release scope asserted. CSV percentages are 0–100. Application attribution includes user-authorized inference, not observed usage. Other feature/IoT statistics retain their original coverage. No model outputs used."
 }

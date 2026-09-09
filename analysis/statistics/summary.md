@@ -1,4 +1,26 @@
-# DevicesWorld 计数审计（范围待确认的初步版）
+# DevicesWorld 统计汇总
+
+## 2026-09-09 更新
+
+最新总览：[Benchmark Overview](https://github.com/pearblossom-1/pear/tree/main/analysis/statistics/benchmark_overview_20260909)。应用汇总已同步全量核对及用户确认的操作归类 v2，不再以旧100条试标的77条覆盖任务作为当前应用统计。
+
+| 指标 | 当前候选范围的数值 | 口径 |
+|---|---|---|
+| 候选任务 | 5,897 | 最终发布清单尚待确认，未改变任务集合 |
+| 应用分类 | 28 | 沿用已确认实体，包含用户授权的操作/身份归属 |
+| 有应用归属的任务 | 5,617 | 2,170条单应用，3,447条多应用 |
+| 去重任务—应用关系 | 9,917 | 同一任务同一app只计一次，可多标签 |
+| 纯Home、未强行归app | 280 | 一个独立IoT环境，不算应用产品 |
+
+条件性5,894条范围中，有应用归属5,614条、任务—应用关系9,911个，另有280条纯Home。这里的5,617是候选集的应用归属覆盖数，不能误称为跨设备任务数。设备、HTML和任务特征的较新结果见上述总览；本次没有重新归类它们或运行实验。
+
+完整应用表及逐任务依据：[操作归类v2](https://github.com/pearblossom-1/pear/tree/main/analysis/statistics/benchmark_overview_20260909/app_full_analysis/operation_attribution_v2)。它区分证据确认与操作推定，不等于唯一必需软件或模型实际使用频次。
+
+---
+
+# 2026-09-08 初步计数审计（历史记录）
+
+以下保留初筛当时的数值和待审事项，包括25个应用、247条跨设备待核对与140个HTML待归并组；这些不是最新进度。请勿与上面的更新及后续语义复核报告混用。
 
 日期：2026-09-08。依据 `docs/plan1/devicesworld_counting_protocol_for_codex.md`。
 
