@@ -1,0 +1,154 @@
+{
+  "cleanup": [
+    {
+      "config": [
+        {
+          "parameters": {},
+          "type": "androidworld_contacts_clear"
+        },
+        {
+          "parameters": {},
+          "type": "androidworld_calendar_clear"
+        },
+        {
+          "parameters": {},
+          "type": "androidworld_sms_clear"
+        }
+      ],
+      "device_id": "android_0"
+    }
+  ],
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "evaluation": [],
+  "id": "diagnostic60__linux_android_smarthome_113__S02",
+  "instruction": "On the current device, inspect Jordan Lee's Contact entry and the matching visit event in Simple Calendar Pro. Report the contact destination and saved preferences, and the event's title, displayed date, start/end time, room, and description. Do not modify them.\n\nRelevant source locations: [\"Jordan Lee contact\", \"matching Jordan Lee visit event\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "limits": {
+    "max_steps": 30
+  },
+  "metadata": {
+    "diagnostic60_stage": {
+      "dependency_layer": 1,
+      "frozen_decomposition_schema": "devicesworld.diagnostic_decomposition_proposal.v2",
+      "instruction_review_status": "human_reviewed_reporting_v2",
+      "original_task_id": "linux_android_smarthome_113",
+      "post_pause_lifecycle_correction": null,
+      "pre_run_contract_correction_id": "diagnostic60.remaining_task_source_review.linux_android_smarthome_113.S02.v3",
+      "stage_id": "linux_android_smarthome_113.S02",
+      "stage_kind": "information_acquisition",
+      "stage_local_evaluator_corrections": []
+    }
+  },
+  "setup": [
+    {
+      "config": [
+        {
+          "parameters": {
+            "app": "contacts"
+          },
+          "type": "ensure_app"
+        },
+        {
+          "parameters": {},
+          "type": "androidworld_contacts_clear"
+        },
+        {
+          "parameters": {
+            "name": "Jordan Lee",
+            "notes": "Preference: cool, soft, clean",
+            "number": "+1555021301"
+          },
+          "type": "androidworld_contact_add"
+        },
+        {
+          "parameters": {
+            "contact": {
+              "name": "Jordan Lee",
+              "notes_exact": "Preference: cool, soft, clean",
+              "number": "+1555021301"
+            },
+            "required_visible_text": [
+              "Jordan Lee",
+              "Preference: cool, soft, clean"
+            ]
+          },
+          "type": "androidworld_contact_preflight"
+        },
+        {
+          "parameters": {
+            "app": "simple calendar pro"
+          },
+          "type": "ensure_app"
+        },
+        {
+          "parameters": {},
+          "type": "androidworld_calendar_clear"
+        },
+        {
+          "parameters": {
+            "description": "Use visitor standard.",
+            "end_ts": 1781647200,
+            "location": "Guest room",
+            "start_ts": 1781640000,
+            "title": "Jordan visit"
+          },
+          "type": "androidworld_calendar_event_add"
+        },
+        {
+          "parameters": {
+            "description": "Use visitor standard.",
+            "location": "Guest room",
+            "search_text": "Jordan",
+            "start_ts": 1781640000,
+            "title": "Jordan visit"
+          },
+          "type": "androidworld_calendar_event_preflight"
+        },
+        {
+          "parameters": {
+            "app": "simple sms messenger"
+          },
+          "type": "ensure_app"
+        },
+        {
+          "parameters": {},
+          "type": "androidworld_sms_clear"
+        }
+      ],
+      "device_id": "android_0"
+    },
+    {
+      "config": [
+        {
+          "parameters": {
+            "app": "contacts"
+          },
+          "type": "open_app"
+        }
+      ],
+      "device_id": "android_0"
+    },
+    {
+      "config": [
+        {
+          "parameters": {
+            "wait_s": 3.0
+          },
+          "type": "androidworld_accessibility_forwarder_preflight"
+        },
+        {
+          "parameters": {
+            "app": "contacts",
+            "wait_s": 0.0
+          },
+          "type": "androidworld_app_foreground_preflight"
+        }
+      ],
+      "device_id": "android_0"
+    }
+  ]
+}

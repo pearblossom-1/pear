@@ -1,0 +1,51 @@
+{
+  "independent_S01_S02_S03_information_reports": {
+    "available": true,
+    "evidence": "Each run's semantic_judge_input.json (candidate), semantic_judge_result.json, stage_result.json, and full trajectory."
+  },
+  "independent_S04_native_docx": {
+    "available_as_run_owned_file": false,
+    "remote_path": "/tmp/visit/record.docx",
+    "evidence": [
+      "independent_subtasks/S04/trajectory.json",
+      "independent_subtasks/S04/evaluator_trace.json"
+    ],
+    "recorded_facts": "The CLI response records a 2380-byte DOCX creation and text readback; the saved evaluator result passes.",
+    "limitation": "The run directory does not archive the DOCX. The referenced shared cache file was modified by a later run (2026-09-10), so it is not included as this run's artifact. No output was reconstructed."
+  },
+  "independent_S05_sms": {
+    "available_as_separate_database": false,
+    "evidence": [
+      "independent_subtasks/S05/trajectory.json",
+      "independent_subtasks/S05/artifacts/android_0/",
+      "independent_subtasks/S05/evaluator_trace.json"
+    ],
+    "recorded_facts": "Original actions, feedback and UI snapshots are retained; the native sent-message evaluator returns present."
+  },
+  "independent_S06_workflow": {
+    "available": true,
+    "evidence": [
+      "independent_subtasks/S06/trajectory.json",
+      "independent_subtasks/S06/evaluator_trace.json"
+    ],
+    "recorded_facts": "The actual workflow list and command steps are retained in evaluator_trace.json; the adopted outcome is FAIL."
+  },
+  "e2e": {
+    "available": true,
+    "evidence": [
+      "e2e/trajectory.json",
+      "e2e/execution_history.jsonl",
+      "e2e/artifacts/",
+      "e2e/evaluator_trace.json",
+      "e2e/result.json"
+    ],
+    "recorded_facts": "33 recorded steps, E2E FAIL, 1 of 3 evaluators passes. Native DOCX and SMS database are not separately archived."
+  },
+  "smarthome_screenshots": {
+    "available": false,
+    "reason": "These runs use structured SmartHome observations and API responses. No GUI demonstration screenshots were substituted."
+  },
+  "runtime_versions": {
+    "note": "Every run retains its own historical configuration and evaluator contract. Results were not recomputed under the current evaluator."
+  }
+}

@@ -1,0 +1,270 @@
+{
+  "response_format": "mdcbench_envelope_v1",
+  "runtime_input_mode": "single_device_isolated",
+  "fixed_device_id": "android_0",
+  "effective_limits": {
+    "max_steps": 30,
+    "max_duration_s": 0,
+    "max_duration_source": "argument",
+    "wall_time_enforcement": "cooperative_between_blocking_calls",
+    "agent_max_duration_s": 600.0,
+    "agent_duration_scope": "post_reset_agent_loop_only",
+    "infrastructure_phase_timeouts_s": {
+      "environment_start": 180.0,
+      "setup_reset": 300.0,
+      "evaluation": 300.0,
+      "cleanup_close": 180.0
+    }
+  },
+  "events": [
+    {
+      "event": "reset",
+      "observation": {
+        "instruction": "On the current device, inspect Jordan Lee's Contact entry and the matching visit event in Simple Calendar Pro. Report the contact destination and saved preferences, and the event's title, displayed date, start/end time, room, and description. Do not modify them.\n\nRelevant source locations: [\"Jordan Lee contact\", \"matching Jordan Lee visit event\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+        "observations": {
+          "android_0": {
+            "device_id": "android_0",
+            "type": "android",
+            "screenshot": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_113.S02/attempt_001/artifacts/android_0/screenshots/step_000.png",
+            "ui_elements": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_113.S02/attempt_001/artifacts/android_0/ui_elements/step_000.json",
+            "forest": null
+          }
+        }
+      }
+    },
+    {
+      "event": "step",
+      "step_index": 0,
+      "model_response": "{\"observation_description\":{\"report\":\"Contact entry currently visible: Jordan Lee; phone/destination +1555021301 (Mobile); saved preferences note: \\\"Preference: cool, soft, clean\\\".\"},\"thought\":\"The contact details are visible and provide the destination and preferences. Next I will inspect the matching Jordan Lee visit event in Simple Calendar Pro without modifying anything.\",\"action\":{\"type\":\"android.json_action\",\"action\":{\"action_type\":\"open_app\",\"app_name\":\"simple calendar pro\"}}}{\"observation_description\":{\"report\":\"Contact entry currently visible: Jordan Lee; phone/destination +1555021301 (Mobile); saved preferences note: \\\"Preference: cool, soft, clean\\\".\"},\"thought\":\"The contact details are visible and provide the destination and preferences. Next I will inspect the matching Jordan Lee visit event in Simple Calendar Pro without modifying anything.\",\"action\":{\"type\":\"android.json_action\",\"action\":{\"action_type\":\"open_app\",\"app_name\":\"simple calendar pro\"}}}",
+      "prompt_metrics": {
+        "text_chars": 10274,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "model_latency_s": 12.822,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 239,
+        "prompt_tokens": 5532,
+        "total_tokens": 5771,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 45,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "normalized_usage": {
+        "input_tokens": 5532,
+        "output_tokens": 239,
+        "total_tokens": 5771,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "reasoning_output_tokens": 45
+      },
+      "model_action": {
+        "type": "android.json_action",
+        "action": {
+          "action_type": "open_app",
+          "app_name": "simple calendar pro"
+        }
+      },
+      "action": {
+        "type": "android.json_action",
+        "action": {
+          "action_type": "open_app",
+          "app_name": "simple calendar pro"
+        },
+        "device_id": "android_0"
+      },
+      "device_id": "android_0",
+      "action_type": "android.json_action",
+      "observation_description": {
+        "report": "Contact entry currently visible: Jordan Lee; phone/destination +1555021301 (Mobile); saved preferences note: \"Preference: cool, soft, clean\"."
+      },
+      "thought": "The contact details are visible and provide the destination and preferences. Next I will inspect the matching Jordan Lee visit event in Simple Calendar Pro without modifying anything.",
+      "ok": true,
+      "done": false,
+      "info": {
+        "ok": true,
+        "device_id": "android_0",
+        "action_type": "android.json_action",
+        "android_action": {
+          "action_type": "open_app",
+          "app_name": "simple calendar pro"
+        },
+        "post_action_observation_delay_s": 3.0
+      },
+      "observation": {
+        "instruction": "On the current device, inspect Jordan Lee's Contact entry and the matching visit event in Simple Calendar Pro. Report the contact destination and saved preferences, and the event's title, displayed date, start/end time, room, and description. Do not modify them.\n\nRelevant source locations: [\"Jordan Lee contact\", \"matching Jordan Lee visit event\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+        "observations": {
+          "android_0": {
+            "device_id": "android_0",
+            "type": "android",
+            "screenshot": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_113.S02/attempt_001/artifacts/android_0/screenshots/step_002.png",
+            "ui_elements": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_113.S02/attempt_001/artifacts/android_0/ui_elements/step_002.json",
+            "forest": null
+          }
+        }
+      },
+      "environment_action_s": 3.262
+    },
+    {
+      "event": "step",
+      "step_index": 1,
+      "model_response": "{\"observation_description\":{\"report\":\"Calendar currently shows June 16 Tuesday with event card: title \\\"Jordan visit\\\", time \\\"20:00 - 22:00\\\", visible description preview \\\"Use visitor standard.\\\" The room is not visible yet.\"},\"thought\":\"The matching event is visible, but the room may require opening event details. I will tap the event to inspect without modifying it.\",\"action\":{\"type\":\"android.json_action\",\"action\":{\"action_type\":\"click\",\"x\":447,\"y\":558}}}{\"observation_description\":{\"report\":\"Calendar currently shows June 16 Tuesday with event card: title \\\"Jordan visit\\\", time \\\"20:00 - 22:00\\\", visible description preview \\\"Use visitor standard.\\\" The room is not visible yet.\"},\"thought\":\"The matching event is visible, but the room may require opening event details. I will tap the event to inspect without modifying it.\",\"action\":{\"type\":\"android.json_action\",\"action\":{\"action_type\":\"click\",\"x\":447,\"y\":558}}}",
+      "prompt_metrics": {
+        "text_chars": 11635,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "model_latency_s": 9.086,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 237,
+        "prompt_tokens": 5879,
+        "total_tokens": 6116,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 33,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "normalized_usage": {
+        "input_tokens": 5879,
+        "output_tokens": 237,
+        "total_tokens": 6116,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "reasoning_output_tokens": 33
+      },
+      "model_action": {
+        "type": "android.json_action",
+        "action": {
+          "action_type": "click",
+          "x": 447,
+          "y": 558
+        }
+      },
+      "action": {
+        "type": "android.json_action",
+        "action": {
+          "action_type": "click",
+          "x": 447,
+          "y": 558
+        },
+        "device_id": "android_0"
+      },
+      "device_id": "android_0",
+      "action_type": "android.json_action",
+      "observation_description": {
+        "report": "Calendar currently shows June 16 Tuesday with event card: title \"Jordan visit\", time \"20:00 - 22:00\", visible description preview \"Use visitor standard.\" The room is not visible yet."
+      },
+      "thought": "The matching event is visible, but the room may require opening event details. I will tap the event to inspect without modifying it.",
+      "ok": true,
+      "done": false,
+      "info": {
+        "ok": true,
+        "device_id": "android_0",
+        "action_type": "android.json_action",
+        "android_action": {
+          "action_type": "click",
+          "x": 447,
+          "y": 558
+        },
+        "post_action_observation_delay_s": 3.0
+      },
+      "observation": {
+        "instruction": "On the current device, inspect Jordan Lee's Contact entry and the matching visit event in Simple Calendar Pro. Report the contact destination and saved preferences, and the event's title, displayed date, start/end time, room, and description. Do not modify them.\n\nRelevant source locations: [\"Jordan Lee contact\", \"matching Jordan Lee visit event\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+        "observations": {
+          "android_0": {
+            "device_id": "android_0",
+            "type": "android",
+            "screenshot": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_113.S02/attempt_001/artifacts/android_0/screenshots/step_004.png",
+            "ui_elements": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_113.S02/attempt_001/artifacts/android_0/ui_elements/step_004.json",
+            "forest": null
+          }
+        }
+      },
+      "environment_action_s": 3.182
+    },
+    {
+      "event": "step",
+      "step_index": 2,
+      "model_response": "{\"observation_description\":{\"report\":\"Jordan Lee contact: destination/phone +1555021301 (Mobile); saved preferences: \\\"Preference: cool, soft, clean\\\". Matching Simple Calendar Pro event: title \\\"Jordan visit\\\"; displayed date \\\"June 16 (Tue)\\\"; start time 20:00; end time 22:00; room \\\"Guest room\\\"; description \\\"Use visitor standard.\\\"\"},\"thought\":\"The contact details were observed earlier and the matching event details are currently visible in Simple Calendar Pro. All requested information has been collected without making changes.\",\"action\":{\"type\":\"done\"}}",
+      "prompt_metrics": {
+        "text_chars": 12465,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "model_latency_s": 11.02,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 187,
+        "prompt_tokens": 6112,
+        "total_tokens": 6299,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 64,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1792,
+          "cached_creation_tokens": 0
+        }
+      },
+      "normalized_usage": {
+        "input_tokens": 6112,
+        "output_tokens": 187,
+        "total_tokens": 6299,
+        "cached_input_tokens": 1792,
+        "cache_creation_input_tokens": 0,
+        "reasoning_output_tokens": 64
+      },
+      "model_action": {
+        "type": "done"
+      },
+      "action": {
+        "type": "done"
+      },
+      "device_id": null,
+      "action_type": "done",
+      "observation_description": {
+        "report": "Jordan Lee contact: destination/phone +1555021301 (Mobile); saved preferences: \"Preference: cool, soft, clean\". Matching Simple Calendar Pro event: title \"Jordan visit\"; displayed date \"June 16 (Tue)\"; start time 20:00; end time 22:00; room \"Guest room\"; description \"Use visitor standard.\""
+      },
+      "thought": "The contact details were observed earlier and the matching event details are currently visible in Simple Calendar Pro. All requested information has been collected without making changes.",
+      "ok": true,
+      "done": true,
+      "info": {
+        "ok": true,
+        "action_type": "done"
+      },
+      "observation": {
+        "instruction": "On the current device, inspect Jordan Lee's Contact entry and the matching visit event in Simple Calendar Pro. Report the contact destination and saved preferences, and the event's title, displayed date, start/end time, room, and description. Do not modify them.\n\nRelevant source locations: [\"Jordan Lee contact\", \"matching Jordan Lee visit event\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+        "observations": {
+          "android_0": {
+            "device_id": "android_0",
+            "type": "android",
+            "screenshot": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_113.S02/attempt_001/artifacts/android_0/screenshots/step_005.png",
+            "ui_elements": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_113.S02/attempt_001/artifacts/android_0/ui_elements/step_005.json",
+            "forest": null
+          }
+        }
+      },
+      "environment_action_s": 0.016
+    }
+  ]
+}

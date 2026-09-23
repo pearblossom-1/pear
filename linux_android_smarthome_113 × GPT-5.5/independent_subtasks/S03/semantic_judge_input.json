@@ -1,0 +1,86 @@
+{
+  "original_task_instruction": "Jordan Lee is visiting, so please prepare the Guest room using the saved contact preferences, Calendar timing, current SmartHome state, and `/tmp/visit/standard.xlsx`. Schedule the preparation workflow and send Jordan a concise confirmation with the Guest room, preparation time, temperature, light level, and air-purifier setting. Also create `/tmp/visit/record.docx` titled `Visitor record` with a readable two-column summary labeled `Visitor`, `Room`, `Workflow time`, `Temperature`, `Light`, and `Air purifier`.",
+  "stage_goal": "Inspect the live Guest room on the current Home device. Report the climate, light, and air-purifier device identities, capabilities and current states, the relevant air-quality reading, and existing schedules/workflows. Do not change Home. When finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "expected_handoff_contract": {
+    "required_semantics": [
+      "the Guest room climate, light, and purifier devices, capabilities, current state, air quality, and existing plans"
+    ]
+  },
+  "gold_reference": {
+    "facts": [
+      {
+        "content": {
+          "format": "smarthome_observable_state",
+          "value": {
+            "current_time": "2026-06-16T18:00:00",
+            "devices": [
+              {
+                "device_id": "guest_room_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "guest_room",
+                "state": {
+                  "mode": "cool",
+                  "power": "off",
+                  "target_temperature_c": 26.0
+                }
+              },
+              {
+                "device_id": "guest_room_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "guest_room",
+                "state": {
+                  "level": "low",
+                  "power": "off"
+                }
+              },
+              {
+                "device_id": "guest_room_curtain_1",
+                "device_type": "curtain",
+                "room_id": "guest_room",
+                "state": {
+                  "open_pct": 40,
+                  "status": "partial"
+                }
+              },
+              {
+                "device_id": "guest_room_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "guest_room",
+                "state": {
+                  "brightness_pct": 70,
+                  "power": "on"
+                }
+              },
+              {
+                "device_id": "guest_room_humidifier_1",
+                "device_type": "humidifier",
+                "room_id": "guest_room",
+                "state": {
+                  "level": "high",
+                  "power": "on"
+                }
+              }
+            ],
+            "rooms": {
+              "guest_room": {
+                "air_quality_pm25": 62.0,
+                "brightness_lux": 0.0,
+                "humidity_pct": 45.0,
+                "noise_level_db": 30.0,
+                "occupied": false,
+                "temperature_c": 22.0
+              }
+            },
+            "schedules": [],
+            "workflows": []
+          }
+        },
+        "kind": "live_smarthome_state",
+        "locator": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/episode_config.json"
+      }
+    ]
+  },
+  "candidate": {
+    "report": "Guest room live room readings: temperature_c 22.0, humidity_pct 45.0, brightness_lux 0.0, air_quality_pm25 62.0, noise_level_db 30.0, occupied false. Climate device identity: guest_room_air_conditioner_1, device_type air_conditioner, room_id guest_room. Climate current state: power off, mode cool, target_temperature_c 26.0. Climate capabilities: commands turn_on args {}, turn_off args {}, set_mode args mode string enum [auto, cool, dry, fan, heat], set_target_temperature args temperature_c number min 16 max 30; attributes mode string enum [auto, cool, dry, fan, heat] writable true value cool, power string enum [off, on] writable true value off, target_temperature_c number min 16 max 30 writable true value 26.0. Light device identity: guest_room_dimmable_light_1, device_type dimmable_light, room_id guest_room. Light current state: power on, brightness_pct 70. Light capabilities: commands turn_on args brightness_pct integer min 0 max 100 optional true, turn_off args {}, set_brightness args brightness_pct integer min 0 max 100; attributes brightness_pct integer min 0 max 100 writable true value 70, power string enum [off, on] writable true value on. Air-purifier device identity: guest_room_air_purifier_1, device_type air_purifier, room_id guest_room. Air-purifier current state: power off, level low. Air-purifier capabilities: commands turn_on args {}, turn_off args {}, set_level args level string enum [high, low, medium]; attributes level string enum [high, low, medium] writable true value low, power string enum [off, on] writable true value off. Relevant air-quality reading: guest_room air_quality_pm25 62.0. Existing schedules: schedules [], scheduled_actions []. Existing workflows: workflows []. No Home changes were made."
+  }
+}

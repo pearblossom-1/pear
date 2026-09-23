@@ -1,0 +1,30 @@
+{
+  "devices": {
+    "linux_0": {
+      "action_space": [
+        "cli.execute",
+        "gui.pyautogui",
+        "gui.computer_13"
+      ],
+      "observation": {
+        "accessibility_tree": false,
+        "screenshot": true,
+        "terminal": false
+      },
+      "runtime": {
+        "http_retries": 3,
+        "http_retry_delay_s": 1,
+        "http_timeout_s": 10,
+        "osworld_setup_ready_timeout_s": 120,
+        "path_to_vm": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/third_party/OSWorld-main/vmware_vm_data/Ubuntu-arm-0/Ubuntu.vmx",
+        "provider_name": "vmware",
+        "restart_server_on_not_ready": true,
+        "server_ready_delay_s": 1,
+        "server_ready_probe_timeout_s": 2,
+        "server_ready_timeout_s": 120,
+        "server_restart_wait_s": 5,
+        "vmware_command_timeout_s": 170
+      }
+    }
+  }
+}

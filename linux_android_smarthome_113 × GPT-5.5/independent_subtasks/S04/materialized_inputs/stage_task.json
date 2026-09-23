@@ -1,0 +1,181 @@
+{
+  "cleanup": [
+    {
+      "config": [
+        {
+          "parameters": {
+            "command": "rm -f /tmp/visit/standard.xlsx /tmp/visit/standard-calc.log /tmp/visit/record.docx; rmdir /tmp/visit 2>/dev/null || true",
+            "shell": true
+          },
+          "type": "execute"
+        }
+      ],
+      "device_id": "linux_0"
+    }
+  ],
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "expected": {
+        "rules": {
+          "case_sensitive": false,
+          "exclude": [
+            "placeholder"
+          ],
+          "include": [
+            "Visitor record"
+          ],
+          "require_valid_package": true,
+          "table_contracts": [
+            {
+              "exact_columns": true,
+              "exact_rows": true,
+              "rows": [
+                [
+                  "Visitor",
+                  {
+                    "alternatives": [
+                      "Jordan",
+                      "Jordan Lee"
+                    ]
+                  }
+                ],
+                [
+                  "Room",
+                  {
+                    "alternatives": [
+                      "Guest room"
+                    ]
+                  }
+                ],
+                [
+                  "Workflow time",
+                  {
+                    "time": "19:35"
+                  }
+                ],
+                [
+                  "Temperature",
+                  {
+                    "entity_relation": {
+                      "entities": [
+                        [
+                          "24 C",
+                          "24°C",
+                          "24 degrees C",
+                          "24 degrees"
+                        ]
+                      ]
+                    }
+                  }
+                ],
+                [
+                  "Light",
+                  {
+                    "entity_relation": {
+                      "entities": [
+                        [
+                          "35%",
+                          "35 percent"
+                        ]
+                      ]
+                    }
+                  }
+                ],
+                [
+                  "Air purifier",
+                  {
+                    "entity_relation": {
+                      "entities": [
+                        [
+                          "low"
+                        ]
+                      ]
+                    }
+                  }
+                ]
+              ],
+              "table_index": 0
+            }
+          ],
+          "template_structure": {
+            "body_paragraphs": [
+              "Visitor record"
+            ],
+            "exact_tables": 1
+          }
+        },
+        "type": "rule"
+      },
+      "func": "check_docx_text",
+      "metadata": {
+        "path": "/tmp/visit/record.docx"
+      },
+      "result": {
+        "path": "/tmp/visit/record.docx",
+        "type": "vm_file"
+      }
+    }
+  ],
+  "id": "diagnostic60__linux_android_smarthome_113__S04",
+  "instruction": "Using the available visitor, timing, preference, and preparation context, calculate the workflow time by subtracting the standard's lead time from the visit start time, then create `/tmp/visit/record.docx` titled `Visitor record` with a readable two-column summary labeled `Visitor`, `Room`, `Workflow time`, `Temperature`, `Light`, and `Air purifier`. Work only on the current device.\n\nAvailable context:\n[\n  {\n    \"facts\": [\n      {\n        \"kind\": \"declared_source_file\",\n        \"locator\": \"/tmp/visit/standard.xlsx\",\n        \"content\": {\n          \"format\": \"xlsx\",\n          \"sheets\": [\n            {\n              \"name\": \"Sheet1\",\n              \"nonempty_cells\": [\n                {\n                  \"cell\": \"A1\",\n                  \"value\": \"Preference\"\n                },\n                {\n                  \"cell\": \"B1\",\n                  \"value\": \"Setting\"\n                },\n                {\n                  \"cell\": \"A2\",\n                  \"value\": \"cool\"\n                },\n                {\n                  \"cell\": \"B2\",\n                  \"value\": \"turn on AC to 24 C\"\n                },\n                {\n                  \"cell\": \"A3\",\n                  \"value\": \"soft\"\n                },\n                {\n                  \"cell\": \"B3\",\n                  \"value\": \"35%\"\n                },\n                {\n                  \"cell\": \"A4\",\n                  \"value\": \"clean\"\n                },\n                {\n                  \"cell\": \"B4\",\n                  \"value\": \"turn on purifier low when PM2.5 high\"\n                },\n                {\n                  \"cell\": \"A5\",\n                  \"value\": \"lead time\"\n                },\n                {\n                  \"cell\": \"B5\",\n                  \"value\": \"25 minutes\"\n                }\n              ]\n            }\n          ]\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"task_provided_app_state\",\n        \"locator\": \"Jordan Lee contact\",\n        \"content\": {\n          \"format\": \"selected_contact\",\n          \"name\": \"Jordan Lee\",\n          \"phone\": \"+1555021301\",\n          \"preferences\": [\n            \"cool\",\n            \"soft\",\n            \"clean\"\n          ]\n        }\n      },\n      {\n        \"kind\": \"task_provided_app_state\",\n        \"locator\": \"matching Jordan Lee visit event\",\n        \"content\": {\n          \"format\": \"selected_calendar_event\",\n          \"title\": \"Jordan visit\",\n          \"displayed_date\": \"June 16 (Tue)\",\n          \"start_time\": \"20:00\",\n          \"end_time\": \"22:00\",\n          \"location\": \"Guest room\",\n          \"description\": \"Use visitor standard.\"\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"live_smarthome_state\",\n        \"locator\": \"tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/episode_config.json\",\n        \"content\": {\n          \"format\": \"smarthome_observable_state\",\n          \"value\": {\n            \"current_time\": \"2026-06-16T18:00:00\",\n            \"rooms\": {\n              \"guest_room\": {\n                \"temperature_c\": 22.0,\n                \"humidity_pct\": 45.0,\n                \"brightness_lux\": 0.0,\n                \"air_quality_pm25\": 62.0,\n                \"noise_level_db\": 30.0,\n                \"occupied\": false\n              }\n            },\n            \"devices\": [\n              {\n                \"device_id\": \"guest_room_air_conditioner_1\",\n                \"device_type\": \"air_conditioner\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"off\",\n                  \"mode\": \"cool\",\n                  \"target_temperature_c\": 26.0\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_mode\",\n                    \"set_target_temperature\"\n                  ],\n                  \"modes\": [\n                    \"auto\",\n                    \"cool\",\n                    \"dry\",\n                    \"fan\",\n                    \"heat\"\n                  ],\n                  \"heat_capable\": true,\n                  \"cool_capable\": true\n                }\n              },\n              {\n                \"device_id\": \"guest_room_air_purifier_1\",\n                \"device_type\": \"air_purifier\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"off\",\n                  \"level\": \"low\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_level\"\n                  ],\n                  \"levels\": [\n                    \"low\",\n                    \"medium\",\n                    \"high\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"guest_room_curtain_1\",\n                \"device_type\": \"curtain\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"open_pct\": 40,\n                  \"status\": \"partial\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"open\",\n                    \"close\",\n                    \"set_open_pct\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"guest_room_dimmable_light_1\",\n                \"device_type\": \"dimmable_light\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"on\",\n                  \"brightness_pct\": 70\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_brightness\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"guest_room_humidifier_1\",\n                \"device_type\": \"humidifier\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"on\",\n                  \"level\": \"high\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_level\"\n                  ],\n                  \"levels\": [\n                    \"low\",\n                    \"medium\",\n                    \"high\"\n                  ]\n                }\n              }\n            ],\n            \"schedules\": [],\n            \"workflows\": []\n          }\n        }\n      }\n    ]\n  }\n]",
+  "limits": {
+    "max_steps": 30
+  },
+  "metadata": {
+    "diagnostic60_stage": {
+      "dependency_layer": 2,
+      "frozen_decomposition_schema": "devicesworld.diagnostic_decomposition_proposal.v2",
+      "instruction_review_status": "human_reviewed_device_local_v2",
+      "original_task_id": "linux_android_smarthome_113",
+      "post_pause_lifecycle_correction": null,
+      "pre_run_contract_correction_id": null,
+      "stage_id": "linux_android_smarthome_113.S04",
+      "stage_kind": "environment_execution",
+      "stage_local_evaluator_corrections": [
+        {
+          "kind": "readable_visitor_table_value_semantics",
+          "reason": "the task requests a readable two-column summary, so a value cell may include its date or an explanatory device phrase while still carrying the exact required time and setting"
+        }
+      ]
+    }
+  },
+  "setup": [
+    {
+      "config": [
+        {
+          "parameters": {
+            "command": "mkdir -p /tmp/visit && rm -f /tmp/visit/record.docx",
+            "shell": true
+          },
+          "type": "execute"
+        },
+        {
+          "parameters": {
+            "files": [
+              {
+                "local_path": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/source/tmp/visit/standard.xlsx",
+                "path": "/tmp/visit/standard.xlsx"
+              }
+            ]
+          },
+          "type": "upload_file"
+        },
+        {
+          "parameters": {
+            "command": "nohup libreoffice --calc '/tmp/visit/standard.xlsx' >'/tmp/visit/standard-calc.log' 2>&1 </dev/null &",
+            "shell": true
+          },
+          "type": "execute"
+        }
+      ],
+      "device_id": "linux_0"
+    }
+  ]
+}

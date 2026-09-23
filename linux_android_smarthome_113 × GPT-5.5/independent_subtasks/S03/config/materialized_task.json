@@ -1,0 +1,50 @@
+{
+  "cleanup": [
+    {
+      "config": [
+        {
+          "parameters": {},
+          "type": "smarthome.reset"
+        }
+      ],
+      "device_id": "home_0"
+    }
+  ],
+  "devices": [
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "evaluation": [],
+  "id": "diagnostic60__linux_android_smarthome_113__S03",
+  "instruction": "Inspect the live Guest room on the current Home device. Report the climate, light, and air-purifier device identities, capabilities and current states, the relevant air-quality reading, and existing schedules/workflows. Do not change Home.\n\nRelevant source locations: [\"live Home Guest room state and capabilities\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "limits": {
+    "max_steps": 30
+  },
+  "metadata": {
+    "diagnostic60_stage": {
+      "dependency_layer": 1,
+      "frozen_decomposition_schema": "devicesworld.diagnostic_decomposition_proposal.v2",
+      "instruction_review_status": "human_reviewed_reporting_v2",
+      "original_task_id": "linux_android_smarthome_113",
+      "post_pause_lifecycle_correction": null,
+      "pre_run_contract_correction_id": "diagnostic60.remaining_task_source_review.linux_android_smarthome_113.S03.v1",
+      "stage_id": "linux_android_smarthome_113.S03",
+      "stage_kind": "information_acquisition"
+    }
+  },
+  "setup": [
+    {
+      "config": [
+        {
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/episode_config.json"
+          },
+          "type": "smarthome.reset"
+        }
+      ],
+      "device_id": "home_0"
+    }
+  ]
+}

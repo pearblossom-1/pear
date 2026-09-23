@@ -1,0 +1,50 @@
+{
+  "schema_version": "devicesworld.diagnostic_stage_runtime_manifest.v1",
+  "task_id": "linux_android_smarthome_113",
+  "stage_id": "linux_android_smarthome_113.S02",
+  "executable_spec": {
+    "source_ref": "experiments/diagnostic60/diagnostic60_executable_stage_specs.jsonl",
+    "source_file_sha256": "925d78a844aec8e3fcc899670391975661569d646f02047a3b6a434f50f721a8",
+    "record_sha256": "b873f839d8e4220ab96d9b10f36b3c265e55f923baf90e233bcd029856eaf2bc"
+  },
+  "target_frozen_device": "android_0",
+  "stage_instruction": "On the current device, inspect Jordan Lee's Contact entry and the matching visit event in Simple Calendar Pro. Report the contact destination and saved preferences, and the event's title, displayed date, start/end time, room, and description. Do not modify them.\n\nRelevant source locations: [\"Jordan Lee contact\", \"matching Jordan Lee visit event\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "injected_predecessor_context_refs": [],
+  "actual_predecessor_outputs_used": false,
+  "system_prompt": {
+    "prompt_id": "diagnostic60.isolated_stage.android.v2",
+    "template_ref": "experiments/diagnostic60/prompts/android_isolated_stage_system_prompt.txt",
+    "template_sha256": "ee1f77ed70434b1ced8f4ee938a7b6a8e4fcc84be8a32ff345872d7db9df9e8a",
+    "rendered_sha256": "9cece278b1e02f55d7162de58c9158164aacb0c1ef105b325391e66be7323dde"
+  },
+  "runtime_input_protocol": {
+    "current_device_identity": "android_0",
+    "current_observation_scope": "target_frozen_device_only",
+    "forbidden_trajectory_inputs": [
+      "sibling_stage_trajectory",
+      "predecessor_actual_trajectory_or_output",
+      "original_E2E_trajectory",
+      "other_device_observation_or_screenshot"
+    ],
+    "mode": "single_device_isolated.v1",
+    "model_selects_target_device": false,
+    "persistent_sections": [
+      "stage_instruction",
+      "gold_predecessor_context_if_any"
+    ],
+    "runner_routes_to_frozen_device": true,
+    "text_history": "last_10_local_steps"
+  },
+  "budget_policy": {
+    "ref": "experiments/diagnostic60/diagnostic60_isolated_stage_budget_policy.json",
+    "sha256": "b18cb41fb78800cfe639e03f333233bcbe9daf9061dcdabf719f9ecae3b45321"
+  },
+  "materialized_inputs": {
+    "task_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_113.S02/attempt_001/materialized_inputs/stage_task.json",
+    "task_sha256": "15884faba220ca5a8593f77cba983637e721f96ea0308249d66cdc4938c1c707",
+    "run_config_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_113.S02/attempt_001/materialized_inputs/stage_run_config.json",
+    "run_config_sha256": "70ee8666b2f84d30a972f7c90a3da9f4a3a60976d6657826f8b118b6f8cc2e09",
+    "agent_config_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/configs/agents/gpt-5.5-lite.yaml",
+    "agent_config_sha256": "22394ea5f6a812b55b679dd259226233ca18fbd0c86c7b888e02b469f7d907f6"
+  }
+}

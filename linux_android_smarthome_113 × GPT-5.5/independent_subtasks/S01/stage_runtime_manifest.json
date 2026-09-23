@@ -1,0 +1,50 @@
+{
+  "schema_version": "devicesworld.diagnostic_stage_runtime_manifest.v1",
+  "task_id": "linux_android_smarthome_113",
+  "stage_id": "linux_android_smarthome_113.S01",
+  "executable_spec": {
+    "source_ref": "experiments/diagnostic60/diagnostic60_executable_stage_specs.jsonl",
+    "source_file_sha256": "6e327cbe0b07ee177386ea18ed97cf908be42c2ab387ebee818590050d0ad511",
+    "record_sha256": "4af8646fd87d951a2c4f9c129c4c916746000fda2355cd70cd01aad9b46e6bb7"
+  },
+  "target_frozen_device": "linux_0",
+  "stage_instruction": "On the current device, inspect `/tmp/visit/standard.xlsx`. Report every visitor preference-to-device-setting rule needed for room preparation and the preparation lead time. Do not modify the workbook.\n\nRelevant source locations: [\"/tmp/visit/standard.xlsx\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "injected_predecessor_context_refs": [],
+  "actual_predecessor_outputs_used": false,
+  "system_prompt": {
+    "prompt_id": "diagnostic60.isolated_stage.linux.v2",
+    "template_ref": "experiments/diagnostic60/prompts/linux_isolated_stage_system_prompt.txt",
+    "template_sha256": "4d89195157d4ee141de26e106ba338220fb754f7f6d362c44f29d3642a957676",
+    "rendered_sha256": "53445fd6fcb4286077aa335a6292d4d330712c94100b03c26b1cefeeed8fbf50"
+  },
+  "runtime_input_protocol": {
+    "current_device_identity": "linux_0",
+    "current_observation_scope": "target_frozen_device_only",
+    "forbidden_trajectory_inputs": [
+      "sibling_stage_trajectory",
+      "predecessor_actual_trajectory_or_output",
+      "original_E2E_trajectory",
+      "other_device_observation_or_screenshot"
+    ],
+    "mode": "single_device_isolated.v1",
+    "model_selects_target_device": false,
+    "persistent_sections": [
+      "stage_instruction",
+      "gold_predecessor_context_if_any"
+    ],
+    "runner_routes_to_frozen_device": true,
+    "text_history": "last_10_local_steps"
+  },
+  "budget_policy": {
+    "ref": "experiments/diagnostic60/diagnostic60_isolated_stage_budget_policy.json",
+    "sha256": "8b2e0fdae73cd0461624a312ce5a82111c49fefb943eb5ca7a4d9c7005e202aa"
+  },
+  "materialized_inputs": {
+    "task_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/post_review_remaining_51_v1/stages/linux_android_smarthome_113.S01/attempt_001/materialized_inputs/stage_task.json",
+    "task_sha256": "d127e57535b45aa7cb085a68936951a55fd8a98d319d940c3ee98a77642dca08",
+    "run_config_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/post_review_remaining_51_v1/stages/linux_android_smarthome_113.S01/attempt_001/materialized_inputs/stage_run_config.json",
+    "run_config_sha256": "eff13914006d64b068bb9163f5eeecca25d2b47792f7e322c53f3366b5762a1a",
+    "agent_config_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/configs/agents/gpt-5.5-lite.yaml",
+    "agent_config_sha256": "22394ea5f6a812b55b679dd259226233ca18fbd0c86c7b888e02b469f7d907f6"
+  }
+}

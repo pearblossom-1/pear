@@ -1,0 +1,203 @@
+{
+  "budget_policy_ref": "experiments/diagnostic60/diagnostic60_isolated_stage_budget_policy.json",
+  "dependency_layer": 1,
+  "evaluation": {
+    "assigned_original_evaluators": [],
+    "candidate_extraction": "whole observation_description object from the last successful done event",
+    "combination_rule": "judge_pass_and_all_scored_local_guards_pass",
+    "global_only_evaluators_excluded": [],
+    "judge_config_ref": "experiments/diagnostic60/diagnostic60_semantic_judge_v2.json",
+    "method": "ai_semantic_judge"
+  },
+  "frozen_stage_instruction": "On the current device, inspect `/tmp/visit/standard.xlsx`. Report every visitor preference-to-device-setting rule needed for room preparation and the preparation lead time. Do not modify the workbook. When finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "gold_reference": {
+    "gold_handoff_id": "linux_android_smarthome_113.S01.gold"
+  },
+  "initialization": {
+    "actual_predecessor_outputs_used": false,
+    "android_initial_app": null,
+    "artifact_overlays": [],
+    "base": "original_task_target_device_setup_subset",
+    "gold_predecessor_inputs": [],
+    "original_setup_group_indices": [
+      1
+    ]
+  },
+  "instruction_review_status": "human_reviewed_reporting_v2",
+  "pre_run_contract_correction": {
+    "correction_id": "diagnostic60.remaining_task_source_review.linux_android_smarthome_113.S01.v1",
+    "model_visible_source_locations": [
+      "/tmp/visit/standard.xlsx"
+    ],
+    "reason": "the source stage must expose the mapping and lead time used to translate the saved contact preferences",
+    "required_semantics": [
+      "the visitor preference-to-device-setting rules and preparation lead time in the workbook"
+    ],
+    "scope": "source-stage instruction, handoff contract, model-visible source locator, and source-grounded projection where declared; no original-task, DAG, boundary, device, evaluator, or sampling change",
+    "stage_instruction": "On the current device, inspect `/tmp/visit/standard.xlsx`. Report every visitor preference-to-device-setting rule needed for room preparation and the preparation lead time. Do not modify the workbook."
+  },
+  "predecessor_stage_ids": [],
+  "recording": {
+    "aggregate_actual_steps_by_original_task": true,
+    "required_stage_fields": [
+      "task_id",
+      "stage_id",
+      "actual_environment_steps",
+      "model_action_turns",
+      "environment_action_attempts",
+      "termination_reason",
+      "agent_duration_s",
+      "total_lifecycle_duration_s",
+      "cleanup_ok",
+      "stage_pass",
+      "target_device_id",
+      "injected_predecessor_context_refs",
+      "predecessor_state_materialization_status",
+      "token_usage",
+      "infrastructure_failure"
+    ]
+  },
+  "run_config_source_ref": "configs/cross_device/local_android_linux_smarthome.json",
+  "runtime_input_protocol": {
+    "current_device_identity": "linux_0",
+    "current_observation_scope": "target_frozen_device_only",
+    "forbidden_trajectory_inputs": [
+      "sibling_stage_trajectory",
+      "predecessor_actual_trajectory_or_output",
+      "original_E2E_trajectory",
+      "other_device_observation_or_screenshot"
+    ],
+    "mode": "single_device_isolated.v1",
+    "model_selects_target_device": false,
+    "persistent_sections": [
+      "stage_instruction",
+      "gold_predecessor_context_if_any"
+    ],
+    "runner_routes_to_frozen_device": true,
+    "text_history": "last_10_local_steps"
+  },
+  "runtime_predecessor_context": [],
+  "schema_version": "devicesworld.diagnostic_executable_stage.v2",
+  "spec_status": "instruction_review_v2_pending_refreeze",
+  "stage_id": "linux_android_smarthome_113.S01",
+  "stage_kind": "information_acquisition",
+  "stage_role": "source_acquisition",
+  "stage_run_config": {
+    "devices": {
+      "linux_0": {
+        "action_space": [
+          "cli.execute",
+          "gui.pyautogui",
+          "gui.computer_13"
+        ],
+        "observation": {
+          "accessibility_tree": false,
+          "screenshot": true,
+          "terminal": false
+        },
+        "runtime": {
+          "http_retries": 3,
+          "http_retry_delay_s": 1,
+          "http_timeout_s": 10,
+          "osworld_setup_ready_timeout_s": 120,
+          "path_to_vm": "${repo_root}/third_party/OSWorld-main/vmware_vm_data/Ubuntu-arm-0/Ubuntu.vmx",
+          "provider_name": "vmware",
+          "restart_server_on_not_ready": true,
+          "server_ready_delay_s": 1,
+          "server_ready_probe_timeout_s": 2,
+          "server_ready_timeout_s": 120,
+          "server_restart_wait_s": 5,
+          "vmware_command_timeout_s": 170
+        }
+      }
+    }
+  },
+  "stage_task": {
+    "cleanup": [
+      {
+        "config": [
+          {
+            "parameters": {
+              "command": "rm -f /tmp/visit/standard.xlsx /tmp/visit/standard-calc.log /tmp/visit/record.docx; rmdir /tmp/visit 2>/dev/null || true",
+              "shell": true
+            },
+            "type": "execute"
+          }
+        ],
+        "device_id": "linux_0"
+      }
+    ],
+    "devices": [
+      {
+        "id": "linux_0",
+        "type": "linux"
+      }
+    ],
+    "evaluation": [],
+    "id": "diagnostic60__linux_android_smarthome_113__S01",
+    "instruction": "On the current device, inspect `/tmp/visit/standard.xlsx`. Report every visitor preference-to-device-setting rule needed for room preparation and the preparation lead time. Do not modify the workbook.\n\nRelevant source locations: [\"/tmp/visit/standard.xlsx\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+    "limits": {
+      "max_steps": 30
+    },
+    "metadata": {
+      "diagnostic60_stage": {
+        "dependency_layer": 1,
+        "frozen_decomposition_schema": "devicesworld.diagnostic_decomposition_proposal.v2",
+        "instruction_review_status": "human_reviewed_reporting_v2",
+        "original_task_id": "linux_android_smarthome_113",
+        "post_pause_lifecycle_correction": null,
+        "pre_run_contract_correction_id": "diagnostic60.remaining_task_source_review.linux_android_smarthome_113.S01.v1",
+        "stage_id": "linux_android_smarthome_113.S01",
+        "stage_kind": "information_acquisition"
+      }
+    },
+    "setup": [
+      {
+        "config": [
+          {
+            "parameters": {
+              "command": "mkdir -p /tmp/visit && rm -f /tmp/visit/record.docx",
+              "shell": true
+            },
+            "type": "execute"
+          },
+          {
+            "parameters": {
+              "files": [
+                {
+                  "local_path": "${repo_root}/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/source/tmp/visit/standard.xlsx",
+                  "path": "/tmp/visit/standard.xlsx"
+                }
+              ]
+            },
+            "type": "upload_file"
+          },
+          {
+            "parameters": {
+              "command": "nohup libreoffice --calc '/tmp/visit/standard.xlsx' >'/tmp/visit/standard-calc.log' 2>&1 </dev/null &",
+              "shell": true
+            },
+            "type": "execute"
+          }
+        ],
+        "device_id": "linux_0"
+      }
+    ]
+  },
+  "system_prompt": {
+    "adaptation_mother_sha256": "f499fe9a8bf1cbc1026d1e9e50fbd3df6268898716e0fbe30ca33c37eca09cfd",
+    "diff_ref": "experiments/diagnostic60/prompts/linux_from_core200_baseline.diff",
+    "manifest_ref": "experiments/diagnostic60/prompts/prompt_manifest.json",
+    "prompt_id": "diagnostic60.isolated_stage.linux.v2",
+    "render_values": {
+      "ACTION_SPACE": "cli.execute, gui.pyautogui",
+      "DEVICE_ID": "linux_0"
+    },
+    "template_ref": "experiments/diagnostic60/prompts/linux_isolated_stage_system_prompt.txt",
+    "template_sha256": "4d89195157d4ee141de26e106ba338220fb754f7f6d362c44f29d3642a957676"
+  },
+  "target_device_id": "linux_0",
+  "target_device_type": "linux",
+  "task_id": "linux_android_smarthome_113",
+  "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_113.json"
+}

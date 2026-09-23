@@ -1,0 +1,202 @@
+{
+  "evaluators": [
+    {
+      "raw_evaluator": {
+        "device_id": "linux_0",
+        "expected": {
+          "rules": {
+            "case_sensitive": false,
+            "exclude": [
+              "placeholder"
+            ],
+            "include": [
+              "Visitor record"
+            ],
+            "require_valid_package": true,
+            "table_contracts": [
+              {
+                "exact_columns": true,
+                "exact_rows": true,
+                "rows": [
+                  [
+                    "Visitor",
+                    {
+                      "alternatives": [
+                        "Jordan",
+                        "Jordan Lee"
+                      ]
+                    }
+                  ],
+                  [
+                    "Room",
+                    {
+                      "alternatives": [
+                        "Guest room"
+                      ]
+                    }
+                  ],
+                  [
+                    "Workflow time",
+                    {
+                      "time": "19:35"
+                    }
+                  ],
+                  [
+                    "Temperature",
+                    {
+                      "entity_relation": {
+                        "entities": [
+                          [
+                            "24 C",
+                            "24\u00b0C",
+                            "24 degrees C",
+                            "24 degrees"
+                          ]
+                        ]
+                      }
+                    }
+                  ],
+                  [
+                    "Light",
+                    {
+                      "entity_relation": {
+                        "entities": [
+                          [
+                            "35%",
+                            "35 percent"
+                          ]
+                        ]
+                      }
+                    }
+                  ],
+                  [
+                    "Air purifier",
+                    {
+                      "entity_relation": {
+                        "entities": [
+                          [
+                            "low"
+                          ]
+                        ]
+                      }
+                    }
+                  ]
+                ],
+                "table_index": 0
+              }
+            ],
+            "template_structure": {
+              "body_paragraphs": [
+                "Visitor record"
+              ],
+              "exact_tables": 1
+            }
+          },
+          "type": "rule"
+        },
+        "func": "check_docx_text",
+        "metadata": {
+          "path": "/tmp/visit/record.docx"
+        },
+        "result": {
+          "path": "/tmp/visit/record.docx",
+          "type": "vm_file"
+        }
+      },
+      "actual": "cache/mdcbench_linux_0_reset/record.docx",
+      "expected": {
+        "case_sensitive": false,
+        "exclude": [
+          "placeholder"
+        ],
+        "include": [
+          "Visitor record"
+        ],
+        "require_valid_package": true,
+        "table_contracts": [
+          {
+            "exact_columns": true,
+            "exact_rows": true,
+            "rows": [
+              [
+                "Visitor",
+                {
+                  "alternatives": [
+                    "Jordan",
+                    "Jordan Lee"
+                  ]
+                }
+              ],
+              [
+                "Room",
+                {
+                  "alternatives": [
+                    "Guest room"
+                  ]
+                }
+              ],
+              [
+                "Workflow time",
+                {
+                  "time": "19:35"
+                }
+              ],
+              [
+                "Temperature",
+                {
+                  "entity_relation": {
+                    "entities": [
+                      [
+                        "24 C",
+                        "24\u00b0C",
+                        "24 degrees C",
+                        "24 degrees"
+                      ]
+                    ]
+                  }
+                }
+              ],
+              [
+                "Light",
+                {
+                  "entity_relation": {
+                    "entities": [
+                      [
+                        "35%",
+                        "35 percent"
+                      ]
+                    ]
+                  }
+                }
+              ],
+              [
+                "Air purifier",
+                {
+                  "entity_relation": {
+                    "entities": [
+                      [
+                        "low"
+                      ]
+                    ]
+                  }
+                }
+              ]
+            ],
+            "table_index": 0
+          }
+        ],
+        "template_structure": {
+          "body_paragraphs": [
+            "Visitor record"
+          ],
+          "exact_tables": 1
+        }
+      },
+      "score": 1.0,
+      "success": true,
+      "func": "check_docx_text",
+      "device_id": "linux_0",
+      "enable_score_calc": true
+    }
+  ]
+}

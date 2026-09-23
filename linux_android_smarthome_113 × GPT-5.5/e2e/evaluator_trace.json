@@ -1,0 +1,332 @@
+{
+  "evaluators": [
+    {
+      "raw_evaluator": {
+        "device_id": "android_0",
+        "func": "exact_match",
+        "result": {
+          "type": "androidworld_sms_message",
+          "box": "sent",
+          "address": "+1555021301",
+          "recent_within_mins": 30,
+          "body_relation": {
+            "entities": [
+              "Jordan",
+              "Guest room",
+              [
+                "19:35",
+                "7:35 PM"
+              ],
+              [
+                "24 C",
+                "24 degrees"
+              ],
+              [
+                "35%",
+                "35 percent"
+              ],
+              [
+                "purifier low",
+                "low purifier"
+              ]
+            ],
+            "reject_questions": true,
+            "reject_uncertainty": true,
+            "reject_negated_relations": true
+          }
+        },
+        "expected": {
+          "type": "rule",
+          "rules": {
+            "expected": "present"
+          }
+        }
+      },
+      "actual": "missing",
+      "expected": "present",
+      "score": 0.0,
+      "success": false,
+      "func": "exact_match",
+      "device_id": "android_0",
+      "enable_score_calc": true
+    },
+    {
+      "raw_evaluator": {
+        "device_id": "home_0",
+        "func": "smarthome.check_workflow_effects",
+        "result": {
+          "type": "smarthome_workflows"
+        },
+        "expected": {
+          "type": "rule",
+          "rules": {
+            "expected": {
+              "run_at": "2026-06-16T19:35:00",
+              "status": "active",
+              "effects": {
+                "guest_room_air_conditioner_1": {
+                  "power": "on",
+                  "target_temperature_c": 24.0
+                },
+                "guest_room_dimmable_light_1": {
+                  "power": "on",
+                  "brightness_pct": 35
+                },
+                "guest_room_air_purifier_1": {
+                  "power": "on",
+                  "level": "low"
+                }
+              }
+            }
+          }
+        }
+      },
+      "actual": [
+        {
+          "workflow_id": "guest_room_prep_jordan_lee_1935",
+          "run_at": "2026-06-16T19:35:00",
+          "steps": [
+            {
+              "device_id": "guest_room_air_conditioner_1",
+              "command": "turn_on",
+              "args": {}
+            },
+            {
+              "device_id": "guest_room_air_conditioner_1",
+              "command": "set_target_temperature",
+              "args": {
+                "temperature_c": 24
+              }
+            },
+            {
+              "device_id": "guest_room_dimmable_light_1",
+              "command": "set_brightness",
+              "args": {
+                "brightness_pct": 35
+              }
+            },
+            {
+              "device_id": "guest_room_air_purifier_1",
+              "command": "turn_on",
+              "args": {}
+            },
+            {
+              "device_id": "guest_room_air_purifier_1",
+              "command": "set_level",
+              "args": {
+                "level": "low"
+              }
+            }
+          ],
+          "status": "active",
+          "steps_total": 5,
+          "steps_done": 0,
+          "error": null
+        }
+      ],
+      "expected": {
+        "run_at": "2026-06-16T19:35:00",
+        "status": "active",
+        "effects": {
+          "guest_room_air_conditioner_1": {
+            "power": "on",
+            "target_temperature_c": 24.0
+          },
+          "guest_room_dimmable_light_1": {
+            "power": "on",
+            "brightness_pct": 35
+          },
+          "guest_room_air_purifier_1": {
+            "power": "on",
+            "level": "low"
+          }
+        }
+      },
+      "score": 1.0,
+      "success": true,
+      "func": "smarthome.check_workflow_effects",
+      "device_id": "home_0",
+      "enable_score_calc": true
+    },
+    {
+      "raw_evaluator": {
+        "device_id": "linux_0",
+        "func": "check_docx_text",
+        "result": {
+          "type": "vm_file",
+          "path": "/tmp/visit/record.docx"
+        },
+        "expected": {
+          "type": "rule",
+          "rules": {
+            "include": [
+              "Visitor record"
+            ],
+            "exclude": [
+              "placeholder"
+            ],
+            "require_valid_package": true,
+            "case_sensitive": false,
+            "template_structure": {
+              "body_paragraphs": [
+                "Visitor record"
+              ],
+              "exact_tables": 1
+            },
+            "table_contracts": [
+              {
+                "table_index": 0,
+                "exact_rows": true,
+                "exact_columns": true,
+                "rows": [
+                  [
+                    "Visitor",
+                    {
+                      "alternatives": [
+                        "Jordan"
+                      ]
+                    }
+                  ],
+                  [
+                    "Room",
+                    {
+                      "alternatives": [
+                        "Guest room"
+                      ]
+                    }
+                  ],
+                  [
+                    "Workflow time",
+                    {
+                      "alternatives": [
+                        "19:35",
+                        "7:35 PM",
+                        "7:35PM"
+                      ]
+                    }
+                  ],
+                  [
+                    "Temperature",
+                    {
+                      "alternatives": [
+                        "24 C",
+                        "24\u00b0C",
+                        "24 degrees C",
+                        "24 degrees"
+                      ]
+                    }
+                  ],
+                  [
+                    "Light",
+                    {
+                      "alternatives": [
+                        "35%",
+                        "35 percent"
+                      ]
+                    }
+                  ],
+                  [
+                    "Air purifier",
+                    {
+                      "alternatives": [
+                        "low"
+                      ]
+                    }
+                  ]
+                ]
+              }
+            ]
+          }
+        },
+        "metadata": {
+          "path": "/tmp/visit/record.docx"
+        }
+      },
+      "actual": "cache/mdcbench_linux_0_reset/record.docx",
+      "expected": {
+        "include": [
+          "Visitor record"
+        ],
+        "exclude": [
+          "placeholder"
+        ],
+        "require_valid_package": true,
+        "case_sensitive": false,
+        "template_structure": {
+          "body_paragraphs": [
+            "Visitor record"
+          ],
+          "exact_tables": 1
+        },
+        "table_contracts": [
+          {
+            "table_index": 0,
+            "exact_rows": true,
+            "exact_columns": true,
+            "rows": [
+              [
+                "Visitor",
+                {
+                  "alternatives": [
+                    "Jordan"
+                  ]
+                }
+              ],
+              [
+                "Room",
+                {
+                  "alternatives": [
+                    "Guest room"
+                  ]
+                }
+              ],
+              [
+                "Workflow time",
+                {
+                  "alternatives": [
+                    "19:35",
+                    "7:35 PM",
+                    "7:35PM"
+                  ]
+                }
+              ],
+              [
+                "Temperature",
+                {
+                  "alternatives": [
+                    "24 C",
+                    "24\u00b0C",
+                    "24 degrees C",
+                    "24 degrees"
+                  ]
+                }
+              ],
+              [
+                "Light",
+                {
+                  "alternatives": [
+                    "35%",
+                    "35 percent"
+                  ]
+                }
+              ],
+              [
+                "Air purifier",
+                {
+                  "alternatives": [
+                    "low"
+                  ]
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      "score": 0.0,
+      "success": false,
+      "func": "check_docx_text",
+      "device_id": "linux_0",
+      "enable_score_calc": true
+    }
+  ]
+}

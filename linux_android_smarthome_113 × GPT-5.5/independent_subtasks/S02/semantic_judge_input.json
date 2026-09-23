@@ -1,0 +1,43 @@
+{
+  "original_task_instruction": "Jordan Lee is visiting, so please prepare the Guest room using the saved contact preferences, Calendar timing, current SmartHome state, and `/tmp/visit/standard.xlsx`. Schedule the preparation workflow and send Jordan a concise confirmation with the Guest room, preparation time, temperature, light level, and air-purifier setting. Also create `/tmp/visit/record.docx` titled `Visitor record` with a readable two-column summary labeled `Visitor`, `Room`, `Workflow time`, `Temperature`, `Light`, and `Air purifier`.",
+  "stage_goal": "On the current device, inspect Jordan Lee's Contact entry and the matching visit event in Simple Calendar Pro. Report the contact destination and saved preferences, and the event's title, displayed date, start/end time, room, and description. Do not modify them. When finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "expected_handoff_contract": {
+    "required_semantics": [
+      "Jordan Lee's contact destination and saved preferences, plus the visit event's displayed month/day, start/end time, room, and details; the event year is not required from this stage"
+    ]
+  },
+  "gold_reference": {
+    "facts": [
+      {
+        "content": {
+          "format": "selected_contact",
+          "name": "Jordan Lee",
+          "phone": "+1555021301",
+          "preferences": [
+            "cool",
+            "soft",
+            "clean"
+          ]
+        },
+        "kind": "task_provided_app_state",
+        "locator": "Jordan Lee contact"
+      },
+      {
+        "content": {
+          "description": "Use visitor standard.",
+          "displayed_date": "June 16 (Tue)",
+          "end_time": "22:00",
+          "format": "selected_calendar_event",
+          "location": "Guest room",
+          "start_time": "20:00",
+          "title": "Jordan visit"
+        },
+        "kind": "task_provided_app_state",
+        "locator": "matching Jordan Lee visit event"
+      }
+    ]
+  },
+  "candidate": {
+    "report": "Jordan Lee contact: destination/phone +1555021301 (Mobile); saved preferences: \"Preference: cool, soft, clean\". Matching Simple Calendar Pro event: title \"Jordan visit\"; displayed date \"June 16 (Tue)\"; start time 20:00; end time 22:00; room \"Guest room\"; description \"Use visitor standard.\""
+  }
+}

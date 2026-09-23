@@ -1,0 +1,109 @@
+{
+  "evaluators": [
+    {
+      "raw_evaluator": {
+        "device_id": "home_0",
+        "expected": {
+          "rules": {
+            "expected": {
+              "effects": {
+                "guest_room_air_conditioner_1": {
+                  "power": "on",
+                  "target_temperature_c": 24.0
+                },
+                "guest_room_air_purifier_1": {
+                  "level": "low",
+                  "power": "on"
+                },
+                "guest_room_dimmable_light_1": {
+                  "brightness_pct": 35,
+                  "power": "on"
+                }
+              },
+              "run_at": "2026-06-16T19:35:00",
+              "status": "active"
+            }
+          },
+          "type": "rule"
+        },
+        "func": "smarthome.check_workflow_effects",
+        "result": {
+          "type": "smarthome_workflows"
+        }
+      },
+      "actual": [
+        {
+          "workflow_id": "guest_room_jordan_visit_prep_1935",
+          "run_at": "2026-06-16T19:35:00",
+          "steps": [
+            {
+              "device_id": "guest_room_air_conditioner_1",
+              "command": "set_mode",
+              "args": {
+                "mode": "cool"
+              }
+            },
+            {
+              "device_id": "guest_room_air_conditioner_1",
+              "command": "set_target_temperature",
+              "args": {
+                "temperature_c": 24
+              }
+            },
+            {
+              "device_id": "guest_room_air_conditioner_1",
+              "command": "turn_on",
+              "args": {}
+            },
+            {
+              "device_id": "guest_room_dimmable_light_1",
+              "command": "set_brightness",
+              "args": {
+                "brightness_pct": 35
+              }
+            },
+            {
+              "device_id": "guest_room_air_purifier_1",
+              "command": "set_level",
+              "args": {
+                "level": "low"
+              }
+            },
+            {
+              "device_id": "guest_room_air_purifier_1",
+              "command": "turn_on",
+              "args": {}
+            }
+          ],
+          "status": "active",
+          "steps_total": 6,
+          "steps_done": 0,
+          "error": null
+        }
+      ],
+      "expected": {
+        "effects": {
+          "guest_room_air_conditioner_1": {
+            "power": "on",
+            "target_temperature_c": 24.0
+          },
+          "guest_room_air_purifier_1": {
+            "level": "low",
+            "power": "on"
+          },
+          "guest_room_dimmable_light_1": {
+            "brightness_pct": 35,
+            "power": "on"
+          }
+        },
+        "run_at": "2026-06-16T19:35:00",
+        "status": "active"
+      },
+      "score": 0.0,
+      "success": false,
+      "func": "smarthome.check_workflow_effects",
+      "device_id": "home_0",
+      "enable_score_calc": true
+    }
+  ]
+}

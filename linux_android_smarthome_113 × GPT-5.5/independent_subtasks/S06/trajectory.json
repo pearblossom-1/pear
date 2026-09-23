@@ -1,0 +1,1012 @@
+{
+  "response_format": "mdcbench_envelope_v1",
+  "runtime_input_mode": "single_device_isolated",
+  "fixed_device_id": "home_0",
+  "effective_limits": {
+    "max_steps": 30,
+    "max_duration_s": 0,
+    "max_duration_source": "argument",
+    "wall_time_enforcement": "cooperative_between_blocking_calls",
+    "agent_max_duration_s": 600.0,
+    "agent_duration_scope": "post_reset_agent_loop_only",
+    "infrastructure_phase_timeouts_s": {
+      "environment_start": 180.0,
+      "setup_reset": 300.0,
+      "evaluation": 300.0,
+      "cleanup_close": 180.0
+    }
+  },
+  "events": [
+    {
+      "event": "reset",
+      "observation": {
+        "instruction": "Using the available visitor preferences, Calendar timing, standard, and live Home context, calculate the workflow time by subtracting the standard's lead time from the visit start time, then schedule the Guest room preparation workflow with the required temperature, light, and air-purifier settings. Work only on the current device.\n\nAvailable context:\n[\n  {\n    \"facts\": [\n      {\n        \"kind\": \"declared_source_file\",\n        \"locator\": \"/tmp/visit/standard.xlsx\",\n        \"content\": {\n          \"format\": \"xlsx\",\n          \"sheets\": [\n            {\n              \"name\": \"Sheet1\",\n              \"nonempty_cells\": [\n                {\n                  \"cell\": \"A1\",\n                  \"value\": \"Preference\"\n                },\n                {\n                  \"cell\": \"B1\",\n                  \"value\": \"Setting\"\n                },\n                {\n                  \"cell\": \"A2\",\n                  \"value\": \"cool\"\n                },\n                {\n                  \"cell\": \"B2\",\n                  \"value\": \"turn on AC to 24 C\"\n                },\n                {\n                  \"cell\": \"A3\",\n                  \"value\": \"soft\"\n                },\n                {\n                  \"cell\": \"B3\",\n                  \"value\": \"35%\"\n                },\n                {\n                  \"cell\": \"A4\",\n                  \"value\": \"clean\"\n                },\n                {\n                  \"cell\": \"B4\",\n                  \"value\": \"turn on purifier low when PM2.5 high\"\n                },\n                {\n                  \"cell\": \"A5\",\n                  \"value\": \"lead time\"\n                },\n                {\n                  \"cell\": \"B5\",\n                  \"value\": \"25 minutes\"\n                }\n              ]\n            }\n          ]\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"task_provided_app_state\",\n        \"locator\": \"Jordan Lee contact\",\n        \"content\": {\n          \"format\": \"selected_contact\",\n          \"name\": \"Jordan Lee\",\n          \"phone\": \"+1555021301\",\n          \"preferences\": [\n            \"cool\",\n            \"soft\",\n            \"clean\"\n          ]\n        }\n      },\n      {\n        \"kind\": \"task_provided_app_state\",\n        \"locator\": \"matching Jordan Lee visit event\",\n        \"content\": {\n          \"format\": \"selected_calendar_event\",\n          \"title\": \"Jordan visit\",\n          \"displayed_date\": \"June 16 (Tue)\",\n          \"start_time\": \"20:00\",\n          \"end_time\": \"22:00\",\n          \"location\": \"Guest room\",\n          \"description\": \"Use visitor standard.\"\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"live_smarthome_state\",\n        \"locator\": \"tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/episode_config.json\",\n        \"content\": {\n          \"format\": \"smarthome_observable_state\",\n          \"value\": {\n            \"current_time\": \"2026-06-16T18:00:00\",\n            \"rooms\": {\n              \"guest_room\": {\n                \"temperature_c\": 22.0,\n                \"humidity_pct\": 45.0,\n                \"brightness_lux\": 0.0,\n                \"air_quality_pm25\": 62.0,\n                \"noise_level_db\": 30.0,\n                \"occupied\": false\n              }\n            },\n            \"devices\": [\n              {\n                \"device_id\": \"guest_room_air_conditioner_1\",\n                \"device_type\": \"air_conditioner\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"off\",\n                  \"mode\": \"cool\",\n                  \"target_temperature_c\": 26.0\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_mode\",\n                    \"set_target_temperature\"\n                  ],\n                  \"modes\": [\n                    \"auto\",\n                    \"cool\",\n                    \"dry\",\n                    \"fan\",\n                    \"heat\"\n                  ],\n                  \"heat_capable\": true,\n                  \"cool_capable\": true\n                }\n              },\n              {\n                \"device_id\": \"guest_room_air_purifier_1\",\n                \"device_type\": \"air_purifier\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"off\",\n                  \"level\": \"low\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_level\"\n                  ],\n                  \"levels\": [\n                    \"low\",\n                    \"medium\",\n                    \"high\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"guest_room_curtain_1\",\n                \"device_type\": \"curtain\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"open_pct\": 40,\n                  \"status\": \"partial\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"open\",\n                    \"close\",\n                    \"set_open_pct\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"guest_room_dimmable_light_1\",\n                \"device_type\": \"dimmable_light\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"on\",\n                  \"brightness_pct\": 70\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_brightness\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"guest_room_humidifier_1\",\n                \"device_type\": \"humidifier\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"on\",\n                  \"level\": \"high\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_level\"\n                  ],\n                  \"levels\": [\n                    \"low\",\n                    \"medium\",\n                    \"high\"\n                  ]\n                }\n              }\n            ],\n            \"schedules\": [],\n            \"workflows\": []\n          }\n        }\n      }\n    ]\n  }\n]",
+        "observations": {
+          "home_0": {
+            "device_id": "home_0",
+            "type": "home",
+            "protocol_version": "smarthome-v1",
+            "current_time": "2026-06-16T18:00:00",
+            "rooms": {
+              "bedroom": {
+                "temperature_c": 23.8,
+                "humidity_pct": 46.8,
+                "brightness_lux": 7.9,
+                "air_quality_pm25": 41.9,
+                "noise_level_db": 27.2,
+                "occupied": true
+              },
+              "guest_room": {
+                "temperature_c": 22.0,
+                "humidity_pct": 45.0,
+                "brightness_lux": 0.0,
+                "air_quality_pm25": 62.0,
+                "noise_level_db": 30.0,
+                "occupied": false
+              },
+              "kids_room": {
+                "temperature_c": 21.9,
+                "humidity_pct": 54.1,
+                "brightness_lux": 675.0,
+                "air_quality_pm25": 36.4,
+                "noise_level_db": 29.2,
+                "occupied": true
+              },
+              "living_room": {
+                "temperature_c": 22.1,
+                "humidity_pct": 45.6,
+                "brightness_lux": 620.0,
+                "air_quality_pm25": 42.4,
+                "noise_level_db": 34.6,
+                "occupied": true
+              }
+            },
+            "devices": [
+              {
+                "device_id": "bedroom_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "off",
+                  "mode": "cool",
+                  "target_temperature_c": 24.0
+                }
+              },
+              {
+                "device_id": "bedroom_dehumidifier_1",
+                "device_type": "dehumidifier",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "on",
+                  "level": "low"
+                }
+              },
+              {
+                "device_id": "bedroom_heater_1",
+                "device_type": "heater",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "on",
+                  "target_temperature_c": 28.0
+                }
+              },
+              {
+                "device_id": "bedroom_humidifier_1",
+                "device_type": "humidifier",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "on",
+                  "level": "medium"
+                }
+              },
+              {
+                "device_id": "guest_room_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "guest_room",
+                "state": {
+                  "power": "off",
+                  "mode": "cool",
+                  "target_temperature_c": 26.0
+                }
+              },
+              {
+                "device_id": "guest_room_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "guest_room",
+                "state": {
+                  "power": "off",
+                  "level": "low"
+                }
+              },
+              {
+                "device_id": "guest_room_curtain_1",
+                "device_type": "curtain",
+                "room_id": "guest_room",
+                "state": {
+                  "open_pct": 40,
+                  "status": "partial"
+                }
+              },
+              {
+                "device_id": "guest_room_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "guest_room",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 70
+                }
+              },
+              {
+                "device_id": "guest_room_humidifier_1",
+                "device_type": "humidifier",
+                "room_id": "guest_room",
+                "state": {
+                  "power": "on",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "kids_room_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "kids_room",
+                "state": {
+                  "power": "on",
+                  "level": "medium"
+                }
+              },
+              {
+                "device_id": "kids_room_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "kids_room",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 35
+                }
+              },
+              {
+                "device_id": "kids_room_heater_1",
+                "device_type": "heater",
+                "room_id": "kids_room",
+                "state": {
+                  "power": "off",
+                  "target_temperature_c": 28.0
+                }
+              },
+              {
+                "device_id": "kids_room_light_1",
+                "device_type": "light",
+                "room_id": "kids_room",
+                "state": {
+                  "power": "on"
+                }
+              },
+              {
+                "device_id": "living_room_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "living_room_curtain_1",
+                "device_type": "curtain",
+                "room_id": "living_room",
+                "state": {
+                  "open_pct": 40,
+                  "status": "partial"
+                }
+              },
+              {
+                "device_id": "living_room_dehumidifier_1",
+                "device_type": "dehumidifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "level": "medium"
+                }
+              },
+              {
+                "device_id": "living_room_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 100
+                }
+              },
+              {
+                "device_id": "living_room_humidifier_1",
+                "device_type": "humidifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "living_room_robot_vacuum_1",
+                "device_type": "robot_vacuum",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off",
+                  "status": "docked",
+                  "battery_pct": 82
+                }
+              }
+            ],
+            "schedules": [],
+            "scheduled_actions": [],
+            "workflows": [],
+            "infeasible_reports": [],
+            "answer_reports": [],
+            "last_action_result": null
+          }
+        }
+      }
+    },
+    {
+      "event": "step",
+      "step_index": 0,
+      "model_response": "{\"observation_description\":{\"report\":\"Jordan Lee preferences are cool, soft, clean. Standard maps cool to AC 24 C, soft to 35% light, clean to purifier low when PM2.5 is high, and lead time to 25 minutes. Calendar visit starts 2026-06-16 20:00 in Guest room. Live guest_room PM2.5 is 62.0, so purifier condition is met. Workflow run time is 2026-06-16T19:35:00.\"},\"thought\":\"I calculated the workflow time by subtracting the 25-minute lead time from the 20:00 visit start. I will schedule a Guest room workflow to set AC cooling to 24 C, light to 35%, and purifier low/on because PM2.5 is high.\",\"action\":{\"type\":\"smarthome.schedule_workflow\",\"parameters\":{\"workflow_id\":\"guest_room_jordan_visit_prep_1935\",\"run_at\":\"2026-06-16T19:35:00\",\"steps\":[{\"device_id\":\"guest_room_air_conditioner_1\",\"command\":\"set_mode\",\"args\":{\"mode\":\"cool\"}},{\"device_id\":\"guest_room_air_conditioner_1\",\"command\":\"set_target_temperature\",\"args\":{\"temperature_c\":24}},{\"device_id\":\"guest_room_air_conditioner_1\",\"command\":\"turn_on\",\"args\":{}},{\"device_id\":\"guest_room_dimmable_light_1\",\"command\":\"set_brightness\",\"args\":{\"brightness_pct\":35}},{\"device_id\":\"guest_room_air_purifier_1\",\"command\":\"set_level\",\"args\":{\"level\":\"low\"}},{\"device_id\":\"guest_room_air_purifier_1\",\"command\":\"turn_on\",\"args\":{}}]}}} \n{\"observation_description\":{\"report\":\"Jordan Lee preferences are cool, soft, clean. Standard maps cool to AC 24 C, soft to 35% light, clean to purifier low when PM2.5 is high, and lead time to 25 minutes. Calendar visit starts 2026-06-16 20:00 in Guest room. Live guest_room PM2.5 is 62.0, so purifier condition is met. Workflow run time is 2026-06-16T19:35:00.\"},\"thought\":\"I calculated the workflow time by subtracting the 25-minute lead time from the 20:00 visit start. I will schedule a Guest room workflow to set AC cooling to 24 C, light to 35%, and purifier low/on because PM2.5 is high.\",\"action\":{\"type\":\"smarthome.schedule_workflow\",\"parameters\":{\"workflow_id\":\"guest_room_jordan_visit_prep_1935\",\"run_at\":\"2026-06-16T19:35:00\",\"steps\":[{\"device_id\":\"guest_room_air_conditioner_1\",\"command\":\"set_mode\",\"args\":{\"mode\":\"cool\"}},{\"device_id\":\"guest_room_air_conditioner_1\",\"command\":\"set_target_temperature\",\"args\":{\"temperature_c\":24}},{\"device_id\":\"guest_room_air_conditioner_1\",\"command\":\"turn_on\",\"args\":{}},{\"device_id\":\"guest_room_dimmable_light_1\",\"command\":\"set_brightness\",\"args\":{\"brightness_pct\":35}},{\"device_id\":\"guest_room_air_purifier_1\",\"command\":\"set_level\",\"args\":{\"level\":\"low\"}},{\"device_id\":\"guest_room_air_purifier_1\",\"command\":\"turn_on\",\"args\":{}}]}}}",
+      "prompt_metrics": {
+        "text_chars": 20508,
+        "image_count": 0,
+        "content_blocks": 2
+      },
+      "model_latency_s": 24.437,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 1163,
+        "prompt_tokens": 5087,
+        "total_tokens": 6250,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 452,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "normalized_usage": {
+        "input_tokens": 5087,
+        "output_tokens": 1163,
+        "total_tokens": 6250,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "reasoning_output_tokens": 452
+      },
+      "model_action": {
+        "type": "smarthome.schedule_workflow",
+        "parameters": {
+          "workflow_id": "guest_room_jordan_visit_prep_1935",
+          "run_at": "2026-06-16T19:35:00",
+          "steps": [
+            {
+              "device_id": "guest_room_air_conditioner_1",
+              "command": "set_mode",
+              "args": {
+                "mode": "cool"
+              }
+            },
+            {
+              "device_id": "guest_room_air_conditioner_1",
+              "command": "set_target_temperature",
+              "args": {
+                "temperature_c": 24
+              }
+            },
+            {
+              "device_id": "guest_room_air_conditioner_1",
+              "command": "turn_on",
+              "args": {}
+            },
+            {
+              "device_id": "guest_room_dimmable_light_1",
+              "command": "set_brightness",
+              "args": {
+                "brightness_pct": 35
+              }
+            },
+            {
+              "device_id": "guest_room_air_purifier_1",
+              "command": "set_level",
+              "args": {
+                "level": "low"
+              }
+            },
+            {
+              "device_id": "guest_room_air_purifier_1",
+              "command": "turn_on",
+              "args": {}
+            }
+          ]
+        }
+      },
+      "action": {
+        "type": "smarthome.schedule_workflow",
+        "parameters": {
+          "workflow_id": "guest_room_jordan_visit_prep_1935",
+          "run_at": "2026-06-16T19:35:00",
+          "steps": [
+            {
+              "device_id": "guest_room_air_conditioner_1",
+              "command": "set_mode",
+              "args": {
+                "mode": "cool"
+              }
+            },
+            {
+              "device_id": "guest_room_air_conditioner_1",
+              "command": "set_target_temperature",
+              "args": {
+                "temperature_c": 24
+              }
+            },
+            {
+              "device_id": "guest_room_air_conditioner_1",
+              "command": "turn_on",
+              "args": {}
+            },
+            {
+              "device_id": "guest_room_dimmable_light_1",
+              "command": "set_brightness",
+              "args": {
+                "brightness_pct": 35
+              }
+            },
+            {
+              "device_id": "guest_room_air_purifier_1",
+              "command": "set_level",
+              "args": {
+                "level": "low"
+              }
+            },
+            {
+              "device_id": "guest_room_air_purifier_1",
+              "command": "turn_on",
+              "args": {}
+            }
+          ]
+        },
+        "device_id": "home_0"
+      },
+      "device_id": "home_0",
+      "action_type": "smarthome.schedule_workflow",
+      "observation_description": {
+        "report": "Jordan Lee preferences are cool, soft, clean. Standard maps cool to AC 24 C, soft to 35% light, clean to purifier low when PM2.5 is high, and lead time to 25 minutes. Calendar visit starts 2026-06-16 20:00 in Guest room. Live guest_room PM2.5 is 62.0, so purifier condition is met. Workflow run time is 2026-06-16T19:35:00."
+      },
+      "thought": "I calculated the workflow time by subtracting the 25-minute lead time from the 20:00 visit start. I will schedule a Guest room workflow to set AC cooling to 24 C, light to 35%, and purifier low/on because PM2.5 is high.",
+      "ok": true,
+      "done": false,
+      "info": {
+        "ok": true,
+        "device_id": "home_0",
+        "action_type": "smarthome.schedule_workflow",
+        "workflow_id": "guest_room_jordan_visit_prep_1935",
+        "post_action_observation_delay_s": 3.0
+      },
+      "observation": {
+        "instruction": "Using the available visitor preferences, Calendar timing, standard, and live Home context, calculate the workflow time by subtracting the standard's lead time from the visit start time, then schedule the Guest room preparation workflow with the required temperature, light, and air-purifier settings. Work only on the current device.\n\nAvailable context:\n[\n  {\n    \"facts\": [\n      {\n        \"kind\": \"declared_source_file\",\n        \"locator\": \"/tmp/visit/standard.xlsx\",\n        \"content\": {\n          \"format\": \"xlsx\",\n          \"sheets\": [\n            {\n              \"name\": \"Sheet1\",\n              \"nonempty_cells\": [\n                {\n                  \"cell\": \"A1\",\n                  \"value\": \"Preference\"\n                },\n                {\n                  \"cell\": \"B1\",\n                  \"value\": \"Setting\"\n                },\n                {\n                  \"cell\": \"A2\",\n                  \"value\": \"cool\"\n                },\n                {\n                  \"cell\": \"B2\",\n                  \"value\": \"turn on AC to 24 C\"\n                },\n                {\n                  \"cell\": \"A3\",\n                  \"value\": \"soft\"\n                },\n                {\n                  \"cell\": \"B3\",\n                  \"value\": \"35%\"\n                },\n                {\n                  \"cell\": \"A4\",\n                  \"value\": \"clean\"\n                },\n                {\n                  \"cell\": \"B4\",\n                  \"value\": \"turn on purifier low when PM2.5 high\"\n                },\n                {\n                  \"cell\": \"A5\",\n                  \"value\": \"lead time\"\n                },\n                {\n                  \"cell\": \"B5\",\n                  \"value\": \"25 minutes\"\n                }\n              ]\n            }\n          ]\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"task_provided_app_state\",\n        \"locator\": \"Jordan Lee contact\",\n        \"content\": {\n          \"format\": \"selected_contact\",\n          \"name\": \"Jordan Lee\",\n          \"phone\": \"+1555021301\",\n          \"preferences\": [\n            \"cool\",\n            \"soft\",\n            \"clean\"\n          ]\n        }\n      },\n      {\n        \"kind\": \"task_provided_app_state\",\n        \"locator\": \"matching Jordan Lee visit event\",\n        \"content\": {\n          \"format\": \"selected_calendar_event\",\n          \"title\": \"Jordan visit\",\n          \"displayed_date\": \"June 16 (Tue)\",\n          \"start_time\": \"20:00\",\n          \"end_time\": \"22:00\",\n          \"location\": \"Guest room\",\n          \"description\": \"Use visitor standard.\"\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"live_smarthome_state\",\n        \"locator\": \"tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/episode_config.json\",\n        \"content\": {\n          \"format\": \"smarthome_observable_state\",\n          \"value\": {\n            \"current_time\": \"2026-06-16T18:00:00\",\n            \"rooms\": {\n              \"guest_room\": {\n                \"temperature_c\": 22.0,\n                \"humidity_pct\": 45.0,\n                \"brightness_lux\": 0.0,\n                \"air_quality_pm25\": 62.0,\n                \"noise_level_db\": 30.0,\n                \"occupied\": false\n              }\n            },\n            \"devices\": [\n              {\n                \"device_id\": \"guest_room_air_conditioner_1\",\n                \"device_type\": \"air_conditioner\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"off\",\n                  \"mode\": \"cool\",\n                  \"target_temperature_c\": 26.0\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_mode\",\n                    \"set_target_temperature\"\n                  ],\n                  \"modes\": [\n                    \"auto\",\n                    \"cool\",\n                    \"dry\",\n                    \"fan\",\n                    \"heat\"\n                  ],\n                  \"heat_capable\": true,\n                  \"cool_capable\": true\n                }\n              },\n              {\n                \"device_id\": \"guest_room_air_purifier_1\",\n                \"device_type\": \"air_purifier\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"off\",\n                  \"level\": \"low\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_level\"\n                  ],\n                  \"levels\": [\n                    \"low\",\n                    \"medium\",\n                    \"high\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"guest_room_curtain_1\",\n                \"device_type\": \"curtain\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"open_pct\": 40,\n                  \"status\": \"partial\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"open\",\n                    \"close\",\n                    \"set_open_pct\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"guest_room_dimmable_light_1\",\n                \"device_type\": \"dimmable_light\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"on\",\n                  \"brightness_pct\": 70\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_brightness\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"guest_room_humidifier_1\",\n                \"device_type\": \"humidifier\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"on\",\n                  \"level\": \"high\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_level\"\n                  ],\n                  \"levels\": [\n                    \"low\",\n                    \"medium\",\n                    \"high\"\n                  ]\n                }\n              }\n            ],\n            \"schedules\": [],\n            \"workflows\": []\n          }\n        }\n      }\n    ]\n  }\n]",
+        "observations": {
+          "home_0": {
+            "device_id": "home_0",
+            "type": "home",
+            "protocol_version": "smarthome-v1",
+            "current_time": "2026-06-16T18:00:00",
+            "rooms": {
+              "bedroom": {
+                "temperature_c": 23.8,
+                "humidity_pct": 46.8,
+                "brightness_lux": 7.9,
+                "air_quality_pm25": 41.9,
+                "noise_level_db": 27.2,
+                "occupied": true
+              },
+              "guest_room": {
+                "temperature_c": 22.0,
+                "humidity_pct": 45.0,
+                "brightness_lux": 0.0,
+                "air_quality_pm25": 62.0,
+                "noise_level_db": 30.0,
+                "occupied": false
+              },
+              "kids_room": {
+                "temperature_c": 21.9,
+                "humidity_pct": 54.1,
+                "brightness_lux": 675.0,
+                "air_quality_pm25": 36.4,
+                "noise_level_db": 29.2,
+                "occupied": true
+              },
+              "living_room": {
+                "temperature_c": 22.1,
+                "humidity_pct": 45.6,
+                "brightness_lux": 620.0,
+                "air_quality_pm25": 42.4,
+                "noise_level_db": 34.6,
+                "occupied": true
+              }
+            },
+            "devices": [
+              {
+                "device_id": "bedroom_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "off",
+                  "mode": "cool",
+                  "target_temperature_c": 24.0
+                }
+              },
+              {
+                "device_id": "bedroom_dehumidifier_1",
+                "device_type": "dehumidifier",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "on",
+                  "level": "low"
+                }
+              },
+              {
+                "device_id": "bedroom_heater_1",
+                "device_type": "heater",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "on",
+                  "target_temperature_c": 28.0
+                }
+              },
+              {
+                "device_id": "bedroom_humidifier_1",
+                "device_type": "humidifier",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "on",
+                  "level": "medium"
+                }
+              },
+              {
+                "device_id": "guest_room_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "guest_room",
+                "state": {
+                  "power": "off",
+                  "mode": "cool",
+                  "target_temperature_c": 26.0
+                }
+              },
+              {
+                "device_id": "guest_room_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "guest_room",
+                "state": {
+                  "power": "off",
+                  "level": "low"
+                }
+              },
+              {
+                "device_id": "guest_room_curtain_1",
+                "device_type": "curtain",
+                "room_id": "guest_room",
+                "state": {
+                  "open_pct": 40,
+                  "status": "partial"
+                }
+              },
+              {
+                "device_id": "guest_room_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "guest_room",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 70
+                }
+              },
+              {
+                "device_id": "guest_room_humidifier_1",
+                "device_type": "humidifier",
+                "room_id": "guest_room",
+                "state": {
+                  "power": "on",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "kids_room_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "kids_room",
+                "state": {
+                  "power": "on",
+                  "level": "medium"
+                }
+              },
+              {
+                "device_id": "kids_room_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "kids_room",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 35
+                }
+              },
+              {
+                "device_id": "kids_room_heater_1",
+                "device_type": "heater",
+                "room_id": "kids_room",
+                "state": {
+                  "power": "off",
+                  "target_temperature_c": 28.0
+                }
+              },
+              {
+                "device_id": "kids_room_light_1",
+                "device_type": "light",
+                "room_id": "kids_room",
+                "state": {
+                  "power": "on"
+                }
+              },
+              {
+                "device_id": "living_room_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "living_room_curtain_1",
+                "device_type": "curtain",
+                "room_id": "living_room",
+                "state": {
+                  "open_pct": 40,
+                  "status": "partial"
+                }
+              },
+              {
+                "device_id": "living_room_dehumidifier_1",
+                "device_type": "dehumidifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "level": "medium"
+                }
+              },
+              {
+                "device_id": "living_room_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 100
+                }
+              },
+              {
+                "device_id": "living_room_humidifier_1",
+                "device_type": "humidifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "living_room_robot_vacuum_1",
+                "device_type": "robot_vacuum",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off",
+                  "status": "docked",
+                  "battery_pct": 82
+                }
+              }
+            ],
+            "schedules": [],
+            "scheduled_actions": [],
+            "workflows": [
+              {
+                "workflow_id": "guest_room_jordan_visit_prep_1935",
+                "run_at": "2026-06-16T19:35:00",
+                "steps": [
+                  {
+                    "device_id": "guest_room_air_conditioner_1",
+                    "command": "set_mode",
+                    "args": {
+                      "mode": "cool"
+                    }
+                  },
+                  {
+                    "device_id": "guest_room_air_conditioner_1",
+                    "command": "set_target_temperature",
+                    "args": {
+                      "temperature_c": 24
+                    }
+                  },
+                  {
+                    "device_id": "guest_room_air_conditioner_1",
+                    "command": "turn_on",
+                    "args": {}
+                  },
+                  {
+                    "device_id": "guest_room_dimmable_light_1",
+                    "command": "set_brightness",
+                    "args": {
+                      "brightness_pct": 35
+                    }
+                  },
+                  {
+                    "device_id": "guest_room_air_purifier_1",
+                    "command": "set_level",
+                    "args": {
+                      "level": "low"
+                    }
+                  },
+                  {
+                    "device_id": "guest_room_air_purifier_1",
+                    "command": "turn_on",
+                    "args": {}
+                  }
+                ],
+                "status": "active",
+                "steps_done": 0,
+                "error": null
+              }
+            ],
+            "infeasible_reports": [],
+            "answer_reports": [],
+            "last_action_result": {
+              "ok": true,
+              "device_id": "home_0",
+              "action_type": "smarthome.schedule_workflow",
+              "workflow_id": "guest_room_jordan_visit_prep_1935",
+              "post_action_observation_delay_s": 3.0
+            }
+          }
+        }
+      },
+      "environment_action_s": 3.01
+    },
+    {
+      "event": "step",
+      "step_index": 1,
+      "model_response": "{\"observation_description\":{\"report\":\"Scheduled workflow verified: workflow_id guest_room_jordan_visit_prep_1935 is active, run_at 2026-06-16T19:35:00, derived from Jordan visit start 2026-06-16T20:00:00 minus standard lead time 25 minutes. Visitor preferences cool, soft, clean map to AC cool target 24 C, dimmable light brightness 35%, and air purifier low/on because guest_room PM2.5 is 62.0 high. Workflow steps are: guest_room_air_conditioner_1 set_mode cool, set_target_temperature 24, turn_on; guest_room_dimmable_light_1 set_brightness 35; guest_room_air_purifier_1 set_level low, turn_on.\"},\"thought\":\"The requested Guest room preparation workflow is already scheduled and visible as active with the correct calculated time and device settings. I can finish now.\" ,\"action\":{\"type\":\"done\"}}",
+      "prompt_metrics": {
+        "text_chars": 25383,
+        "image_count": 0,
+        "content_blocks": 2
+      },
+      "model_latency_s": 6.921,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 201,
+        "prompt_tokens": 6386,
+        "total_tokens": 6587,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "normalized_usage": {
+        "input_tokens": 6386,
+        "output_tokens": 201,
+        "total_tokens": 6587,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "reasoning_output_tokens": 0
+      },
+      "model_action": {
+        "type": "done"
+      },
+      "action": {
+        "type": "done"
+      },
+      "device_id": null,
+      "action_type": "done",
+      "observation_description": {
+        "report": "Scheduled workflow verified: workflow_id guest_room_jordan_visit_prep_1935 is active, run_at 2026-06-16T19:35:00, derived from Jordan visit start 2026-06-16T20:00:00 minus standard lead time 25 minutes. Visitor preferences cool, soft, clean map to AC cool target 24 C, dimmable light brightness 35%, and air purifier low/on because guest_room PM2.5 is 62.0 high. Workflow steps are: guest_room_air_conditioner_1 set_mode cool, set_target_temperature 24, turn_on; guest_room_dimmable_light_1 set_brightness 35; guest_room_air_purifier_1 set_level low, turn_on."
+      },
+      "thought": "The requested Guest room preparation workflow is already scheduled and visible as active with the correct calculated time and device settings. I can finish now.",
+      "ok": true,
+      "done": true,
+      "info": {
+        "ok": true,
+        "action_type": "done"
+      },
+      "observation": {
+        "instruction": "Using the available visitor preferences, Calendar timing, standard, and live Home context, calculate the workflow time by subtracting the standard's lead time from the visit start time, then schedule the Guest room preparation workflow with the required temperature, light, and air-purifier settings. Work only on the current device.\n\nAvailable context:\n[\n  {\n    \"facts\": [\n      {\n        \"kind\": \"declared_source_file\",\n        \"locator\": \"/tmp/visit/standard.xlsx\",\n        \"content\": {\n          \"format\": \"xlsx\",\n          \"sheets\": [\n            {\n              \"name\": \"Sheet1\",\n              \"nonempty_cells\": [\n                {\n                  \"cell\": \"A1\",\n                  \"value\": \"Preference\"\n                },\n                {\n                  \"cell\": \"B1\",\n                  \"value\": \"Setting\"\n                },\n                {\n                  \"cell\": \"A2\",\n                  \"value\": \"cool\"\n                },\n                {\n                  \"cell\": \"B2\",\n                  \"value\": \"turn on AC to 24 C\"\n                },\n                {\n                  \"cell\": \"A3\",\n                  \"value\": \"soft\"\n                },\n                {\n                  \"cell\": \"B3\",\n                  \"value\": \"35%\"\n                },\n                {\n                  \"cell\": \"A4\",\n                  \"value\": \"clean\"\n                },\n                {\n                  \"cell\": \"B4\",\n                  \"value\": \"turn on purifier low when PM2.5 high\"\n                },\n                {\n                  \"cell\": \"A5\",\n                  \"value\": \"lead time\"\n                },\n                {\n                  \"cell\": \"B5\",\n                  \"value\": \"25 minutes\"\n                }\n              ]\n            }\n          ]\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"task_provided_app_state\",\n        \"locator\": \"Jordan Lee contact\",\n        \"content\": {\n          \"format\": \"selected_contact\",\n          \"name\": \"Jordan Lee\",\n          \"phone\": \"+1555021301\",\n          \"preferences\": [\n            \"cool\",\n            \"soft\",\n            \"clean\"\n          ]\n        }\n      },\n      {\n        \"kind\": \"task_provided_app_state\",\n        \"locator\": \"matching Jordan Lee visit event\",\n        \"content\": {\n          \"format\": \"selected_calendar_event\",\n          \"title\": \"Jordan visit\",\n          \"displayed_date\": \"June 16 (Tue)\",\n          \"start_time\": \"20:00\",\n          \"end_time\": \"22:00\",\n          \"location\": \"Guest room\",\n          \"description\": \"Use visitor standard.\"\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"live_smarthome_state\",\n        \"locator\": \"tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/episode_config.json\",\n        \"content\": {\n          \"format\": \"smarthome_observable_state\",\n          \"value\": {\n            \"current_time\": \"2026-06-16T18:00:00\",\n            \"rooms\": {\n              \"guest_room\": {\n                \"temperature_c\": 22.0,\n                \"humidity_pct\": 45.0,\n                \"brightness_lux\": 0.0,\n                \"air_quality_pm25\": 62.0,\n                \"noise_level_db\": 30.0,\n                \"occupied\": false\n              }\n            },\n            \"devices\": [\n              {\n                \"device_id\": \"guest_room_air_conditioner_1\",\n                \"device_type\": \"air_conditioner\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"off\",\n                  \"mode\": \"cool\",\n                  \"target_temperature_c\": 26.0\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_mode\",\n                    \"set_target_temperature\"\n                  ],\n                  \"modes\": [\n                    \"auto\",\n                    \"cool\",\n                    \"dry\",\n                    \"fan\",\n                    \"heat\"\n                  ],\n                  \"heat_capable\": true,\n                  \"cool_capable\": true\n                }\n              },\n              {\n                \"device_id\": \"guest_room_air_purifier_1\",\n                \"device_type\": \"air_purifier\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"off\",\n                  \"level\": \"low\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_level\"\n                  ],\n                  \"levels\": [\n                    \"low\",\n                    \"medium\",\n                    \"high\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"guest_room_curtain_1\",\n                \"device_type\": \"curtain\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"open_pct\": 40,\n                  \"status\": \"partial\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"open\",\n                    \"close\",\n                    \"set_open_pct\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"guest_room_dimmable_light_1\",\n                \"device_type\": \"dimmable_light\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"on\",\n                  \"brightness_pct\": 70\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_brightness\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"guest_room_humidifier_1\",\n                \"device_type\": \"humidifier\",\n                \"room_id\": \"guest_room\",\n                \"state\": {\n                  \"power\": \"on\",\n                  \"level\": \"high\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_level\"\n                  ],\n                  \"levels\": [\n                    \"low\",\n                    \"medium\",\n                    \"high\"\n                  ]\n                }\n              }\n            ],\n            \"schedules\": [],\n            \"workflows\": []\n          }\n        }\n      }\n    ]\n  }\n]",
+        "observations": {
+          "home_0": {
+            "device_id": "home_0",
+            "type": "home",
+            "protocol_version": "smarthome-v1",
+            "current_time": "2026-06-16T18:00:00",
+            "rooms": {
+              "bedroom": {
+                "temperature_c": 23.8,
+                "humidity_pct": 46.8,
+                "brightness_lux": 7.9,
+                "air_quality_pm25": 41.9,
+                "noise_level_db": 27.2,
+                "occupied": true
+              },
+              "guest_room": {
+                "temperature_c": 22.0,
+                "humidity_pct": 45.0,
+                "brightness_lux": 0.0,
+                "air_quality_pm25": 62.0,
+                "noise_level_db": 30.0,
+                "occupied": false
+              },
+              "kids_room": {
+                "temperature_c": 21.9,
+                "humidity_pct": 54.1,
+                "brightness_lux": 675.0,
+                "air_quality_pm25": 36.4,
+                "noise_level_db": 29.2,
+                "occupied": true
+              },
+              "living_room": {
+                "temperature_c": 22.1,
+                "humidity_pct": 45.6,
+                "brightness_lux": 620.0,
+                "air_quality_pm25": 42.4,
+                "noise_level_db": 34.6,
+                "occupied": true
+              }
+            },
+            "devices": [
+              {
+                "device_id": "bedroom_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "off",
+                  "mode": "cool",
+                  "target_temperature_c": 24.0
+                }
+              },
+              {
+                "device_id": "bedroom_dehumidifier_1",
+                "device_type": "dehumidifier",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "on",
+                  "level": "low"
+                }
+              },
+              {
+                "device_id": "bedroom_heater_1",
+                "device_type": "heater",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "on",
+                  "target_temperature_c": 28.0
+                }
+              },
+              {
+                "device_id": "bedroom_humidifier_1",
+                "device_type": "humidifier",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "on",
+                  "level": "medium"
+                }
+              },
+              {
+                "device_id": "guest_room_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "guest_room",
+                "state": {
+                  "power": "off",
+                  "mode": "cool",
+                  "target_temperature_c": 26.0
+                }
+              },
+              {
+                "device_id": "guest_room_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "guest_room",
+                "state": {
+                  "power": "off",
+                  "level": "low"
+                }
+              },
+              {
+                "device_id": "guest_room_curtain_1",
+                "device_type": "curtain",
+                "room_id": "guest_room",
+                "state": {
+                  "open_pct": 40,
+                  "status": "partial"
+                }
+              },
+              {
+                "device_id": "guest_room_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "guest_room",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 70
+                }
+              },
+              {
+                "device_id": "guest_room_humidifier_1",
+                "device_type": "humidifier",
+                "room_id": "guest_room",
+                "state": {
+                  "power": "on",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "kids_room_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "kids_room",
+                "state": {
+                  "power": "on",
+                  "level": "medium"
+                }
+              },
+              {
+                "device_id": "kids_room_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "kids_room",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 35
+                }
+              },
+              {
+                "device_id": "kids_room_heater_1",
+                "device_type": "heater",
+                "room_id": "kids_room",
+                "state": {
+                  "power": "off",
+                  "target_temperature_c": 28.0
+                }
+              },
+              {
+                "device_id": "kids_room_light_1",
+                "device_type": "light",
+                "room_id": "kids_room",
+                "state": {
+                  "power": "on"
+                }
+              },
+              {
+                "device_id": "living_room_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "living_room_curtain_1",
+                "device_type": "curtain",
+                "room_id": "living_room",
+                "state": {
+                  "open_pct": 40,
+                  "status": "partial"
+                }
+              },
+              {
+                "device_id": "living_room_dehumidifier_1",
+                "device_type": "dehumidifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "level": "medium"
+                }
+              },
+              {
+                "device_id": "living_room_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 100
+                }
+              },
+              {
+                "device_id": "living_room_humidifier_1",
+                "device_type": "humidifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "living_room_robot_vacuum_1",
+                "device_type": "robot_vacuum",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off",
+                  "status": "docked",
+                  "battery_pct": 82
+                }
+              }
+            ],
+            "schedules": [],
+            "scheduled_actions": [],
+            "workflows": [
+              {
+                "workflow_id": "guest_room_jordan_visit_prep_1935",
+                "run_at": "2026-06-16T19:35:00",
+                "steps": [
+                  {
+                    "device_id": "guest_room_air_conditioner_1",
+                    "command": "set_mode",
+                    "args": {
+                      "mode": "cool"
+                    }
+                  },
+                  {
+                    "device_id": "guest_room_air_conditioner_1",
+                    "command": "set_target_temperature",
+                    "args": {
+                      "temperature_c": 24
+                    }
+                  },
+                  {
+                    "device_id": "guest_room_air_conditioner_1",
+                    "command": "turn_on",
+                    "args": {}
+                  },
+                  {
+                    "device_id": "guest_room_dimmable_light_1",
+                    "command": "set_brightness",
+                    "args": {
+                      "brightness_pct": 35
+                    }
+                  },
+                  {
+                    "device_id": "guest_room_air_purifier_1",
+                    "command": "set_level",
+                    "args": {
+                      "level": "low"
+                    }
+                  },
+                  {
+                    "device_id": "guest_room_air_purifier_1",
+                    "command": "turn_on",
+                    "args": {}
+                  }
+                ],
+                "status": "active",
+                "steps_done": 0,
+                "error": null
+              }
+            ],
+            "infeasible_reports": [],
+            "answer_reports": [],
+            "last_action_result": {
+              "ok": true,
+              "device_id": "home_0",
+              "action_type": "smarthome.schedule_workflow",
+              "workflow_id": "guest_room_jordan_visit_prep_1935",
+              "post_action_observation_delay_s": 3.0
+            }
+          }
+        }
+      },
+      "environment_action_s": 0.0
+    }
+  ]
+}

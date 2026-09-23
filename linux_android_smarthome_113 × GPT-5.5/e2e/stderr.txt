@@ -1,0 +1,21 @@
+Failed to load proxies from evaluation_examples/settings/proxy/dataimpulse.json: [Errno 2] No such file or directory: 'evaluation_examples/settings/proxy/dataimpulse.json'
+INFO:desktopenv.providers.vmware.VMwareProvider:Reverting VMware VM to snapshot: init_state...
+INFO:desktopenv.providers.vmware.VMwareProvider:Starting VMware VM...
+INFO:desktopenv.providers.vmware.VMwareProvider:Starting VM...
+INFO:desktopenv.providers.vmware.VMwareProvider:VM is running.
+INFO:desktopenv.providers.vmware.VMwareProvider:Getting VMware VM IP address...
+INFO:desktopenv.providers.vmware.VMwareProvider:VMware VM IP address: 172.16.55.132
+I0827 07:10:24.586810 4147966 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0827 07:10:24.611935 4150353 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(13, generation: 1)
+I0827 07:10:24.612116 4150353 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(3, generation: 1)
+I0827 07:10:24.612141 4150353 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(7, generation: 1)
+I0827 07:10:24.902217 4147966 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0827 07:10:24.925749 4150384 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(13, generation: 1)
+I0827 07:10:24.925924 4150384 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(3, generation: 1)
+I0827 07:10:24.925947 4150384 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(7, generation: 1)
+/Users/lht/home/MDCBench/.venv/lib/python3.11/site-packages/pydub/utils.py:170: RuntimeWarning: Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work
+  warn("Couldn't find ffmpeg or avconv - defaulting to ffmpeg, but may not work", RuntimeWarning)
+I0827 07:12:38.413067 4147966 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0827 07:12:38.431166 4151712 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(3, generation: 1)
+I0827 07:12:38.431337 4151712 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(7, generation: 1)
+INFO:desktopenv.providers.vmware.VMwareProvider:Stopping VMware VM...

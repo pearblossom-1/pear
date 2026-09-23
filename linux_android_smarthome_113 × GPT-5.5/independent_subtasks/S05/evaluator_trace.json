@@ -1,0 +1,55 @@
+{
+  "evaluators": [
+    {
+      "raw_evaluator": {
+        "device_id": "android_0",
+        "expected": {
+          "rules": {
+            "expected": "present"
+          },
+          "type": "rule"
+        },
+        "func": "exact_match",
+        "result": {
+          "address": "+1555021301",
+          "body_relation": {
+            "entities": [
+              "Guest room",
+              [
+                "19:35",
+                "7:35 PM"
+              ],
+              [
+                "24 C",
+                "24 degrees"
+              ],
+              [
+                "35%",
+                "35 percent"
+              ],
+              [
+                "purifier low",
+                "low purifier",
+                "air purifier: low",
+                "air purifier low"
+              ]
+            ],
+            "reject_negated_relations": true,
+            "reject_questions": true,
+            "reject_uncertainty": true
+          },
+          "box": "sent",
+          "recent_within_mins": 30,
+          "type": "androidworld_sms_message"
+        }
+      },
+      "actual": "present",
+      "expected": "present",
+      "score": 1.0,
+      "success": true,
+      "func": "exact_match",
+      "device_id": "android_0",
+      "enable_score_calc": true
+    }
+  ]
+}

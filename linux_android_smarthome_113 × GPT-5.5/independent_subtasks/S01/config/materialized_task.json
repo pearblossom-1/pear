@@ -1,0 +1,72 @@
+{
+  "cleanup": [
+    {
+      "config": [
+        {
+          "parameters": {
+            "command": "rm -f /tmp/visit/standard.xlsx /tmp/visit/standard-calc.log /tmp/visit/record.docx; rmdir /tmp/visit 2>/dev/null || true",
+            "shell": true
+          },
+          "type": "execute"
+        }
+      ],
+      "device_id": "linux_0"
+    }
+  ],
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "evaluation": [],
+  "id": "diagnostic60__linux_android_smarthome_113__S01",
+  "instruction": "On the current device, inspect `/tmp/visit/standard.xlsx`. Report every visitor preference-to-device-setting rule needed for room preparation and the preparation lead time. Do not modify the workbook.\n\nRelevant source locations: [\"/tmp/visit/standard.xlsx\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "limits": {
+    "max_steps": 30
+  },
+  "metadata": {
+    "diagnostic60_stage": {
+      "dependency_layer": 1,
+      "frozen_decomposition_schema": "devicesworld.diagnostic_decomposition_proposal.v2",
+      "instruction_review_status": "human_reviewed_reporting_v2",
+      "original_task_id": "linux_android_smarthome_113",
+      "post_pause_lifecycle_correction": null,
+      "pre_run_contract_correction_id": "diagnostic60.remaining_task_source_review.linux_android_smarthome_113.S01.v1",
+      "stage_id": "linux_android_smarthome_113.S01",
+      "stage_kind": "information_acquisition"
+    }
+  },
+  "setup": [
+    {
+      "config": [
+        {
+          "parameters": {
+            "command": "mkdir -p /tmp/visit && rm -f /tmp/visit/record.docx",
+            "shell": true
+          },
+          "type": "execute"
+        },
+        {
+          "parameters": {
+            "files": [
+              {
+                "local_path": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_113/source/tmp/visit/standard.xlsx",
+                "path": "/tmp/visit/standard.xlsx"
+              }
+            ]
+          },
+          "type": "upload_file"
+        },
+        {
+          "parameters": {
+            "command": "nohup libreoffice --calc '/tmp/visit/standard.xlsx' >'/tmp/visit/standard-calc.log' 2>&1 </dev/null &",
+            "shell": true
+          },
+          "type": "execute"
+        }
+      ],
+      "device_id": "linux_0"
+    }
+  ]
+}

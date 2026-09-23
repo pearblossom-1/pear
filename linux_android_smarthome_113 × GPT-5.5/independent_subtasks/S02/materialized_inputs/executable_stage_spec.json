@@ -1,0 +1,277 @@
+{
+  "budget_policy_ref": "experiments/diagnostic60/diagnostic60_isolated_stage_budget_policy.json",
+  "dependency_layer": 1,
+  "evaluation": {
+    "assigned_original_evaluators": [],
+    "candidate_extraction": "whole observation_description object from the last successful done event",
+    "combination_rule": "judge_pass_and_all_scored_local_guards_pass",
+    "global_only_evaluators_excluded": [],
+    "judge_config_ref": "experiments/diagnostic60/diagnostic60_semantic_judge_v2.json",
+    "method": "ai_semantic_judge",
+    "stage_local_corrections": []
+  },
+  "frozen_stage_instruction": "On the current device, inspect Jordan Lee's Contact entry and the matching visit event in Simple Calendar Pro. Report the contact destination and saved preferences, and the event's title, displayed date, start/end time, room, and description. Do not modify them. When finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "gold_reference": {
+    "gold_handoff_id": "linux_android_smarthome_113.S02.gold"
+  },
+  "initialization": {
+    "actual_predecessor_outputs_used": false,
+    "android_initial_app": "contacts",
+    "artifact_overlays": [],
+    "base": "original_task_target_device_setup_subset",
+    "gold_predecessor_inputs": [],
+    "original_setup_group_indices": [
+      2
+    ]
+  },
+  "instruction_review_status": "human_reviewed_reporting_v2",
+  "pre_run_contract_correction": {
+    "correction_id": "diagnostic60.remaining_task_source_review.linux_android_smarthome_113.S02.v3",
+    "model_visible_source_locations": [
+      "Jordan Lee contact",
+      "matching Jordan Lee visit event"
+    ],
+    "reason": "the event screen exposes month/day and time but not its year; the parallel Home source supplies the current full date, so requiring the hidden year here exceeded both the instruction and visible source",
+    "required_semantics": [
+      "Jordan Lee's contact destination and saved preferences, plus the visit event's displayed month/day, start/end time, room, and details; the event year is not required from this stage"
+    ],
+    "scope": "source-stage instruction, handoff contract, model-visible source locator, and source-grounded projection where declared; no original-task, DAG, boundary, device, evaluator, or sampling change",
+    "stage_instruction": "On the current device, inspect Jordan Lee's Contact entry and the matching visit event in Simple Calendar Pro. Report the contact destination and saved preferences, and the event's title, displayed date, start/end time, room, and description. Do not modify them."
+  },
+  "predecessor_stage_ids": [],
+  "recording": {
+    "aggregate_actual_steps_by_original_task": true,
+    "required_stage_fields": [
+      "task_id",
+      "stage_id",
+      "actual_environment_steps",
+      "model_action_turns",
+      "environment_action_attempts",
+      "termination_reason",
+      "agent_duration_s",
+      "total_lifecycle_duration_s",
+      "cleanup_ok",
+      "stage_pass",
+      "target_device_id",
+      "injected_predecessor_context_refs",
+      "predecessor_state_materialization_status",
+      "token_usage",
+      "infrastructure_failure"
+    ]
+  },
+  "run_config_source_ref": "configs/cross_device/local_android_linux_smarthome.json",
+  "runtime_input_protocol": {
+    "current_device_identity": "android_0",
+    "current_observation_scope": "target_frozen_device_only",
+    "forbidden_trajectory_inputs": [
+      "sibling_stage_trajectory",
+      "predecessor_actual_trajectory_or_output",
+      "original_E2E_trajectory",
+      "other_device_observation_or_screenshot"
+    ],
+    "mode": "single_device_isolated.v1",
+    "model_selects_target_device": false,
+    "persistent_sections": [
+      "stage_instruction",
+      "gold_predecessor_context_if_any"
+    ],
+    "runner_routes_to_frozen_device": true,
+    "text_history": "last_10_local_steps"
+  },
+  "runtime_predecessor_context": [],
+  "schema_version": "devicesworld.diagnostic_executable_stage.v2",
+  "spec_status": "instruction_review_v2_pending_refreeze",
+  "stage_id": "linux_android_smarthome_113.S02",
+  "stage_kind": "information_acquisition",
+  "stage_role": "source_acquisition",
+  "stage_run_config": {
+    "devices": {
+      "android_0": {
+        "action_space": [
+          "android.json_action"
+        ],
+        "observation": {
+          "forest": false,
+          "screenshot": true,
+          "ui_elements": true
+        },
+        "runtime": {
+          "adb_serial": "emulator-5554",
+          "grpc_port": 8554,
+          "post_action_observation_delay_s": 3.0,
+          "require_prelaunched": true
+        }
+      }
+    }
+  },
+  "stage_task": {
+    "cleanup": [
+      {
+        "config": [
+          {
+            "parameters": {},
+            "type": "androidworld_contacts_clear"
+          },
+          {
+            "parameters": {},
+            "type": "androidworld_calendar_clear"
+          },
+          {
+            "parameters": {},
+            "type": "androidworld_sms_clear"
+          }
+        ],
+        "device_id": "android_0"
+      }
+    ],
+    "devices": [
+      {
+        "id": "android_0",
+        "type": "android"
+      }
+    ],
+    "evaluation": [],
+    "id": "diagnostic60__linux_android_smarthome_113__S02",
+    "instruction": "On the current device, inspect Jordan Lee's Contact entry and the matching visit event in Simple Calendar Pro. Report the contact destination and saved preferences, and the event's title, displayed date, start/end time, room, and description. Do not modify them.\n\nRelevant source locations: [\"Jordan Lee contact\", \"matching Jordan Lee visit event\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+    "limits": {
+      "max_steps": 30
+    },
+    "metadata": {
+      "diagnostic60_stage": {
+        "dependency_layer": 1,
+        "frozen_decomposition_schema": "devicesworld.diagnostic_decomposition_proposal.v2",
+        "instruction_review_status": "human_reviewed_reporting_v2",
+        "original_task_id": "linux_android_smarthome_113",
+        "post_pause_lifecycle_correction": null,
+        "pre_run_contract_correction_id": "diagnostic60.remaining_task_source_review.linux_android_smarthome_113.S02.v3",
+        "stage_id": "linux_android_smarthome_113.S02",
+        "stage_kind": "information_acquisition",
+        "stage_local_evaluator_corrections": []
+      }
+    },
+    "setup": [
+      {
+        "config": [
+          {
+            "parameters": {
+              "app": "contacts"
+            },
+            "type": "ensure_app"
+          },
+          {
+            "parameters": {},
+            "type": "androidworld_contacts_clear"
+          },
+          {
+            "parameters": {
+              "name": "Jordan Lee",
+              "notes": "Preference: cool, soft, clean",
+              "number": "+1555021301"
+            },
+            "type": "androidworld_contact_add"
+          },
+          {
+            "parameters": {
+              "contact": {
+                "name": "Jordan Lee",
+                "notes_exact": "Preference: cool, soft, clean",
+                "number": "+1555021301"
+              },
+              "required_visible_text": [
+                "Jordan Lee",
+                "Preference: cool, soft, clean"
+              ]
+            },
+            "type": "androidworld_contact_preflight"
+          },
+          {
+            "parameters": {
+              "app": "simple calendar pro"
+            },
+            "type": "ensure_app"
+          },
+          {
+            "parameters": {},
+            "type": "androidworld_calendar_clear"
+          },
+          {
+            "parameters": {
+              "description": "Use visitor standard.",
+              "end_ts": 1781647200,
+              "location": "Guest room",
+              "start_ts": 1781640000,
+              "title": "Jordan visit"
+            },
+            "type": "androidworld_calendar_event_add"
+          },
+          {
+            "parameters": {
+              "description": "Use visitor standard.",
+              "location": "Guest room",
+              "search_text": "Jordan",
+              "start_ts": 1781640000,
+              "title": "Jordan visit"
+            },
+            "type": "androidworld_calendar_event_preflight"
+          },
+          {
+            "parameters": {
+              "app": "simple sms messenger"
+            },
+            "type": "ensure_app"
+          },
+          {
+            "parameters": {},
+            "type": "androidworld_sms_clear"
+          }
+        ],
+        "device_id": "android_0"
+      },
+      {
+        "config": [
+          {
+            "parameters": {
+              "app": "contacts"
+            },
+            "type": "open_app"
+          }
+        ],
+        "device_id": "android_0"
+      },
+      {
+        "config": [
+          {
+            "parameters": {
+              "wait_s": 3.0
+            },
+            "type": "androidworld_accessibility_forwarder_preflight"
+          },
+          {
+            "parameters": {
+              "app": "contacts",
+              "wait_s": 0.0
+            },
+            "type": "androidworld_app_foreground_preflight"
+          }
+        ],
+        "device_id": "android_0"
+      }
+    ]
+  },
+  "system_prompt": {
+    "adaptation_mother_sha256": "b81f22c63ec4840ab349c081bbd65303eff5c725c09f117e6afc02f1ca9c33d9",
+    "diff_ref": "experiments/diagnostic60/prompts/android_from_core200_baseline.diff",
+    "manifest_ref": "experiments/diagnostic60/prompts/prompt_manifest.json",
+    "prompt_id": "diagnostic60.isolated_stage.android.v2",
+    "render_values": {
+      "ACTION_SPACE": "android.json_action",
+      "DEVICE_ID": "android_0"
+    },
+    "template_ref": "experiments/diagnostic60/prompts/android_isolated_stage_system_prompt.txt",
+    "template_sha256": "ee1f77ed70434b1ced8f4ee938a7b6a8e4fcc84be8a32ff345872d7db9df9e8a"
+  },
+  "target_device_id": "android_0",
+  "target_device_type": "android",
+  "task_id": "linux_android_smarthome_113",
+  "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_113.json"
+}

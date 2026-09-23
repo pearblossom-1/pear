@@ -1,0 +1,50 @@
+{
+  "schema_version": "devicesworld.diagnostic_stage_runtime_manifest.v1",
+  "task_id": "linux_android_smarthome_113",
+  "stage_id": "linux_android_smarthome_113.S03",
+  "executable_spec": {
+    "source_ref": "experiments/diagnostic60/diagnostic60_executable_stage_specs.jsonl",
+    "source_file_sha256": "6e327cbe0b07ee177386ea18ed97cf908be42c2ab387ebee818590050d0ad511",
+    "record_sha256": "4b366bba741f4da734d065b59e40e00dc593328367857855fe59858ddc58c951"
+  },
+  "target_frozen_device": "home_0",
+  "stage_instruction": "Inspect the live Guest room on the current Home device. Report the climate, light, and air-purifier device identities, capabilities and current states, the relevant air-quality reading, and existing schedules/workflows. Do not change Home.\n\nRelevant source locations: [\"live Home Guest room state and capabilities\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "injected_predecessor_context_refs": [],
+  "actual_predecessor_outputs_used": false,
+  "system_prompt": {
+    "prompt_id": "diagnostic60.isolated_stage.smarthome.v2",
+    "template_ref": "experiments/diagnostic60/prompts/smarthome_isolated_stage_system_prompt.txt",
+    "template_sha256": "6fe498bce96717de57b84ca415748363b44a478bc847d05a31ffc4244d5d0e56",
+    "rendered_sha256": "89315d8451104e482f77b44c799aecf53d147e63aad8d1c3dc087e8efa8d22c5"
+  },
+  "runtime_input_protocol": {
+    "current_device_identity": "home_0",
+    "current_observation_scope": "target_frozen_device_only",
+    "forbidden_trajectory_inputs": [
+      "sibling_stage_trajectory",
+      "predecessor_actual_trajectory_or_output",
+      "original_E2E_trajectory",
+      "other_device_observation_or_screenshot"
+    ],
+    "mode": "single_device_isolated.v1",
+    "model_selects_target_device": false,
+    "persistent_sections": [
+      "stage_instruction",
+      "gold_predecessor_context_if_any"
+    ],
+    "runner_routes_to_frozen_device": true,
+    "text_history": "last_10_local_steps"
+  },
+  "budget_policy": {
+    "ref": "experiments/diagnostic60/diagnostic60_isolated_stage_budget_policy.json",
+    "sha256": "8b2e0fdae73cd0461624a312ce5a82111c49fefb943eb5ca7a4d9c7005e202aa"
+  },
+  "materialized_inputs": {
+    "task_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/post_review_remaining_51_v1/stages/linux_android_smarthome_113.S03/attempt_001/materialized_inputs/stage_task.json",
+    "task_sha256": "1ca51534543b0e6777846f4cf66cb67d1091bffbe65581fcc8ca1c1d32540510",
+    "run_config_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/post_review_remaining_51_v1/stages/linux_android_smarthome_113.S03/attempt_001/materialized_inputs/stage_run_config.json",
+    "run_config_sha256": "37b43e4382be50346a89bc480e889f6866696c7f1a9f5595ac046543cbafd1e4",
+    "agent_config_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/configs/agents/gpt-5.5-lite.yaml",
+    "agent_config_sha256": "22394ea5f6a812b55b679dd259226233ca18fbd0c86c7b888e02b469f7d907f6"
+  }
+}

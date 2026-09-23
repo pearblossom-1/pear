@@ -1,0 +1,70 @@
+{
+  "original_task_instruction": "Jordan Lee is visiting, so please prepare the Guest room using the saved contact preferences, Calendar timing, current SmartHome state, and `/tmp/visit/standard.xlsx`. Schedule the preparation workflow and send Jordan a concise confirmation with the Guest room, preparation time, temperature, light level, and air-purifier setting. Also create `/tmp/visit/record.docx` titled `Visitor record` with a readable two-column summary labeled `Visitor`, `Room`, `Workflow time`, `Temperature`, `Light`, and `Air purifier`.",
+  "stage_goal": "On the current device, inspect `/tmp/visit/standard.xlsx`. Report every visitor preference-to-device-setting rule needed for room preparation and the preparation lead time. Do not modify the workbook. When finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "expected_handoff_contract": {
+    "required_semantics": [
+      "the visitor preference-to-device-setting rules and preparation lead time in the workbook"
+    ]
+  },
+  "gold_reference": {
+    "facts": [
+      {
+        "content": {
+          "format": "xlsx",
+          "sheets": [
+            {
+              "name": "Sheet1",
+              "nonempty_cells": [
+                {
+                  "cell": "A1",
+                  "value": "Preference"
+                },
+                {
+                  "cell": "B1",
+                  "value": "Setting"
+                },
+                {
+                  "cell": "A2",
+                  "value": "cool"
+                },
+                {
+                  "cell": "B2",
+                  "value": "turn on AC to 24 C"
+                },
+                {
+                  "cell": "A3",
+                  "value": "soft"
+                },
+                {
+                  "cell": "B3",
+                  "value": "35%"
+                },
+                {
+                  "cell": "A4",
+                  "value": "clean"
+                },
+                {
+                  "cell": "B4",
+                  "value": "turn on purifier low when PM2.5 high"
+                },
+                {
+                  "cell": "A5",
+                  "value": "lead time"
+                },
+                {
+                  "cell": "B5",
+                  "value": "25 minutes"
+                }
+              ]
+            }
+          ]
+        },
+        "kind": "declared_source_file",
+        "locator": "/tmp/visit/standard.xlsx"
+      }
+    ]
+  },
+  "candidate": {
+    "report": "From /tmp/visit/standard.xlsx, Sheet1 contains visitor preference-to-device-setting rules: cool -> turn on AC to 24 C; soft -> 35%; clean -> turn on purifier low when PM2.5 high. Preparation lead time: 25 minutes."
+  }
+}
