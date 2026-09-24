@@ -1,0 +1,124 @@
+{
+  "evaluators": [
+    {
+      "raw_evaluator": {
+        "device_id": "android_1",
+        "func": "exact_match",
+        "result": {
+          "type": "androidworld_task",
+          "title": "Guest Wake follow-up",
+          "completed": 1,
+          "identity_snapshot": "guest_wake_followup_439",
+          "require_exactly_one": true,
+          "notes_relation": {
+            "entities": [
+              [
+                "09:35",
+                "9:35 AM"
+              ],
+              "bedroom",
+              [
+                "humidifier",
+                "humidity"
+              ],
+              [
+                "medium",
+                "medium level"
+              ]
+            ],
+            "required_phrases": [
+              [
+                "scheduled",
+                "has been scheduled"
+              ]
+            ],
+            "conflict_phrases": [
+              "pending",
+              "not scheduled",
+              "cancelled"
+            ],
+            "reject_questions": true,
+            "reject_uncertainty": true,
+            "reject_negated_relations": true
+          }
+        },
+        "expected": {
+          "type": "rule",
+          "rules": {
+            "expected": "present"
+          }
+        }
+      },
+      "actual": "missing",
+      "expected": "present",
+      "score": 0.0,
+      "success": false,
+      "func": "exact_match",
+      "device_id": "android_1",
+      "enable_score_calc": true
+    },
+    {
+      "raw_evaluator": {
+        "device_id": "home_0",
+        "func": "smarthome.check_workflow_effects",
+        "result": {
+          "type": "smarthome_workflows"
+        },
+        "expected": {
+          "type": "rule",
+          "rules": {
+            "expected": {
+              "run_at": "2026-06-17T09:35:00",
+              "status": "active",
+              "effects": {
+                "bedroom_humidifier_1": {
+                  "power": "on",
+                  "level": "medium"
+                }
+              }
+            }
+          }
+        }
+      },
+      "actual": [
+        {
+          "workflow_id": "guest_wake_humidity_0935",
+          "run_at": "2026-06-17T09:35:00",
+          "steps": [
+            {
+              "device_id": "bedroom_humidifier_1",
+              "command": "turn_on",
+              "args": {}
+            },
+            {
+              "device_id": "bedroom_humidifier_1",
+              "command": "set_level",
+              "args": {
+                "level": "medium"
+              }
+            }
+          ],
+          "status": "active",
+          "steps_total": 2,
+          "steps_done": 0,
+          "error": null
+        }
+      ],
+      "expected": {
+        "run_at": "2026-06-17T09:35:00",
+        "status": "active",
+        "effects": {
+          "bedroom_humidifier_1": {
+            "power": "on",
+            "level": "medium"
+          }
+        }
+      },
+      "score": 1.0,
+      "success": true,
+      "func": "smarthome.check_workflow_effects",
+      "device_id": "home_0",
+      "enable_score_calc": true
+    }
+  ]
+}

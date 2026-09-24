@@ -1,0 +1,41 @@
+Starting VMware VM...
+Starting VMware VM...
+{
+  "task_id": "linux_android_smarthome_439",
+  "model": "claude-opus-4-8",
+  "agent_id": "claude-opus-4-8-lite",
+  "agent_config": "configs/agents/claude-opus-4-8-lite.yaml",
+  "response_format": "mdcbench_envelope_v1",
+  "success": false,
+  "score": 0.5,
+  "failure_category": "evaluation_failed",
+  "steps": 50,
+  "time_limited": false,
+  "max_duration_s": 1800.0,
+  "max_duration_source": "argument",
+  "wall_time_enforcement": "cooperative_between_blocking_calls",
+  "duration_s": 996.466,
+  "termination_reason": "max_steps",
+  "token_usage": {
+    "input_tokens": 1124350,
+    "output_tokens": 32559,
+    "total_tokens": 1156909,
+    "cached_input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "reasoning_output_tokens": 0,
+    "model_calls": 50,
+    "calls_with_usage": 50,
+    "transport_attempts": 50,
+    "transport_retries": 0
+  },
+  "timings": {
+    "environment_start_s": 75.166,
+    "setup_reset_s": 91.804,
+    "model_request_s": 785.775,
+    "environment_action_s": 26.194,
+    "evaluation_s": 0.194,
+    "cleanup_close_s": 17.006,
+    "total_s": 996.466
+  },
+  "cleanup_ok": true
+}

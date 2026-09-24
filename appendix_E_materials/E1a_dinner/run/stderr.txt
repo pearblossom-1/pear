@@ -1,0 +1,42 @@
+Failed to load proxies from evaluation_examples/settings/proxy/dataimpulse.json: [Errno 2] No such file or directory: 'evaluation_examples/settings/proxy/dataimpulse.json'
+INFO:desktopenv.providers.vmware.VMwareProvider:Reverting VMware VM to snapshot: init_state...
+INFO:desktopenv.providers.vmware.VMwareProvider:Starting VMware VM...
+INFO:desktopenv.providers.vmware.VMwareProvider:Starting VM...
+INFO:desktopenv.providers.vmware.VMwareProvider:VM is running.
+INFO:desktopenv.providers.vmware.VMwareProvider:Getting VMware VM IP address...
+INFO:desktopenv.providers.vmware.VMwareProvider:VMware VM IP address: 172.16.55.132
+I0827 04:12:24.884200 4002310 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0827 04:12:24.909054 4005093 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(12, generation: 1)
+I0827 04:12:24.909261 4005093 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(13, generation: 1)
+I0827 04:12:24.909295 4005093 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(3, generation: 1)
+I0827 04:12:24.909310 4005093 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(7, generation: 1)
+I0827 04:12:25.160124 4002310 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0827 04:12:25.175816 4005125 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(12, generation: 1)
+I0827 04:12:25.175914 4005125 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(13, generation: 1)
+I0827 04:12:25.175930 4005125 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(3, generation: 1)
+I0827 04:12:25.175940 4005125 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(7, generation: 1)
+ERROR:absl:Failed to execute ADB command (try 1 of 3): [adb -P 5037 -s emulator-5554 shell am start  -W -n org.tasks/com.todoroo.astrid.activity.MainActivity]
+Traceback (most recent call last):
+  File "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/mdcbench/devices/android/compat.py", line 72, in patched_execute_command
+    cmd_output = subprocess.check_output(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.11/3.11.15/Frameworks/Python.framework/Versions/3.11/lib/python3.11/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.11/3.11.15/Frameworks/Python.framework/Versions/3.11/lib/python3.11/subprocess.py", line 550, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.11/3.11.15/Frameworks/Python.framework/Versions/3.11/lib/python3.11/subprocess.py", line 1209, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.11/3.11.15/Frameworks/Python.framework/Versions/3.11/lib/python3.11/subprocess.py", line 2116, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+  File "/opt/homebrew/Cellar/python@3.11/3.11.15/Frameworks/Python.framework/Versions/3.11/lib/python3.11/subprocess.py", line 1253, in _check_timeout
+    raise TimeoutExpired(
+subprocess.TimeoutExpired: Command '['/Users/lht/Library/Android/sdk/platform-tools/adb', '-P', '5037', '-s', 'emulator-5554', 'shell', 'am', 'start', '', '-W', '-n', 'org.tasks/com.todoroo.astrid.activity.MainActivity']' timed out after 5.0 seconds
+ERROR:absl:**stdout**:
+ERROR:absl:    b'Starting: Intent { cmp=org.tasks/com.todoroo.astrid.activity.MainActivity }'
+I0827 04:13:39.466303 4002310 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0827 04:13:39.478564 4007793 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(3, generation: 1)
+I0827 04:13:39.478653 4007793 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(7, generation: 1)
+INFO:desktopenv.providers.vmware.VMwareProvider:Stopping VMware VM...

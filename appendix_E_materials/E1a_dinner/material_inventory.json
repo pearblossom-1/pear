@@ -1,0 +1,25 @@
+{
+  "case": "E1a_dinner",
+  "task_id": "linux_android_smarthome_696",
+  "model": "gpt-5.5",
+  "original_directory": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/gpt-5.5-lite/mdcbench_lite_v1/core200_rerun_20260826_run_01/080_linux_android_smarthome_696",
+  "local_run_directory": "E1a_dinner/run",
+  "availability": "complete_original_run_directory",
+  "original_files": 228,
+  "screenshots": 94,
+  "success": false,
+  "score": 0.0,
+  "recorded_steps": 31,
+  "parsed_device_actions": 31,
+  "device_action_distribution": {
+    "linux_0": 2,
+    "home_0": 1,
+    "android_0": 28
+  },
+  "duration_s": 1996.103,
+  "duration_definition": "result.json lifecycle duration, includes setup/evaluation/cleanup",
+  "termination_reason": "time_limit",
+  "run_started": "2026-08-27T04:10:30.919-07:00",
+  "native_app_database_export": false,
+  "final_state_evidence": "run/evaluator_trace.json and run/trajectory.json; screenshots and UI records under run/artifacts/"
+}

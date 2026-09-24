@@ -1,0 +1,27 @@
+{
+  "case": "E1b_humidification",
+  "task_id": "linux_android_smarthome_439",
+  "model": "claude-opus-4-8",
+  "original_directory": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/claude-opus-4-8/mdcbench_lite_v1/core200_recovery_20260829/retry_run_01/097_linux_android_smarthome_439",
+  "local_run_directory": "E1b_humidification/run",
+  "availability": "complete_original_run_directory",
+  "original_files": 454,
+  "screenshots": 198,
+  "success": false,
+  "score": 0.5,
+  "recorded_steps": 50,
+  "parsed_device_actions": 49,
+  "device_action_distribution": {
+    "linux_0": 2,
+    "android_1": 18,
+    "home_0": 1,
+    "android_0": 28,
+    "no_parsed_device_action": 1
+  },
+  "duration_s": 996.466,
+  "duration_definition": "result.json lifecycle duration, includes setup/evaluation/cleanup",
+  "termination_reason": "max_steps",
+  "run_started": "2026-08-29T19:02:29.456-07:00",
+  "native_app_database_export": false,
+  "final_state_evidence": "run/evaluator_trace.json and run/trajectory.json; screenshots and UI records under run/artifacts/"
+}

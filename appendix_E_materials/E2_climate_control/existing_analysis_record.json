@@ -1,0 +1,132 @@
+{
+  "source_file": "analysis/gemini-3.1-pro-preview+crab-mae-gpt5.5+mobile-agent-v3.5-gui-owl-1.5-32b/failure_pattern_validation/additional_reviews.jsonl",
+  "source_repository": "https://github.com/pearblossom-1/pear",
+  "source_revision": "4a9f57c0b48abda4c1a8ecb347d60f7bd576df15",
+  "record": {
+    "group_id": "gemini-3.1-pro-preview+crab-mae-gpt5.5+mobile-agent-v3.5-gui-owl-1.5-32b",
+    "case_id": "G-R17",
+    "baseline": "gemini-3.1-pro-preview-lite",
+    "model": "Gemini 3.1 Pro Preview",
+    "baseline_key": "gemini",
+    "task_id": "linux_smarthome_656",
+    "selected_attempt": "122_linux_smarthome_656",
+    "unique_key": "gemini-3.1-pro-preview-lite|linux_smarthome_656|122_linux_smarthome_656",
+    "task_family": "linux_smarthome",
+    "family_source": "runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/summary.json records[task_id].family",
+    "family_interpretation": "正式汇总中的集合字段；不是独立生成模板身份。",
+    "selection_origin": "new_random_check",
+    "selection_order": 17,
+    "review_batch": 2,
+    "review_status": "reviewed",
+    "result_basis": "formal run_01 summary.records selection; matching result.json",
+    "raw_result": {
+      "status": "FAIL",
+      "score": "0.5"
+    },
+    "recorded_main_result": {
+      "status": "FAIL",
+      "score": "0.5"
+    },
+    "existing_adjudication_status": "recorded_automatic; no applicable confirmed adjudication located; not reaudited",
+    "observed_failure_status": "supported_failure",
+    "task_requirement": "Read `/tmp/climate/fallback_matrix.md`, check the listed rooms and live SmartHome capabilities, and apply the best permitted climate fallback for each room. Save the compact room-by-room handoff to `/tmp/climate/fallback_result.json` using the visible schema in the matrix, including the reason for any unavailable room.",
+    "device_roles": {
+      "instances": [
+        {
+          "id": "linux_0",
+          "type": "linux"
+        },
+        {
+          "id": "home_0",
+          "type": "home"
+        }
+      ],
+      "role_source": "runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/122_linux_smarthome_656/config/task.json#instruction",
+      "description": "源/目标及第一/第二设备角色见上方原文；沿用当时实例编号，不把Home家电ID当作新的benchmark环境。"
+    },
+    "local_progress": "读 fallback matrix，查 office AC/study heater 的正确能力与当前 off 状态。",
+    "observed_deviation": "没有发任何 Home command，却成功写 status=applied、office24/study22 的 JSON 后 done。",
+    "recovery": "没有拒绝或 timeout；也没有补做控制。",
+    "unmet_requirement": "Office 仍 off/auto26，study 仍 off；history 为空，虽然 JSON checker 通过。",
+    "downstream_impact": "能力理解和结果表正确，但把应做动作当作已做结果。",
+    "pattern_support": [
+      {
+        "pattern_id": "H3",
+        "subtype": "applied_report_without_control",
+        "evidence_role": "failure_support",
+        "claim_supported": "没有发任何 Home command，却成功写 status=applied、office24/study22 的 JSON 后 done。 Office 仍 off/auto26，study 仍 off；history 为空，虽然 JSON checker 通过。"
+      }
+    ],
+    "alternative_or_new_explanation": {
+      "boundary": "能够明确定位缺少执行，不推断模型内部动机；单次运行无 API/环境阻断证据。",
+      "recovery_counterexamples": []
+    },
+    "evidence": {
+      "verification_basis": "current_round_original_evidence",
+      "method": "AI辅助离线核查：读取公开任务快照、完整有序动作及反馈（仅完全相同动作与反馈归并显示）、协调错误、相关历史结果；核对后续恢复。无外部judge、无重新执行。",
+      "trajectory_read_scope": {
+        "first_event": 0,
+        "last_event": 5,
+        "step_events": 5
+      },
+      "task_requirement_ref": "runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/122_linux_smarthome_656/config/task.json#instruction",
+      "key_events": [
+        {
+          "event_index": 1,
+          "step_index": 0,
+          "event_type": "step",
+          "device_id": "linux_0",
+          "action_type": "cli.execute",
+          "reference": "runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/122_linux_smarthome_656/trajectory.json#events[1]"
+        },
+        {
+          "event_index": 2,
+          "step_index": 1,
+          "event_type": "step",
+          "device_id": "home_0",
+          "action_type": "smarthome.get_device_capabilities",
+          "reference": "runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/122_linux_smarthome_656/trajectory.json#events[2]"
+        },
+        {
+          "event_index": 3,
+          "step_index": 2,
+          "event_type": "step",
+          "device_id": "home_0",
+          "action_type": "smarthome.get_device_capabilities",
+          "reference": "runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/122_linux_smarthome_656/trajectory.json#events[3]"
+        },
+        {
+          "event_index": 4,
+          "step_index": 3,
+          "event_type": "step",
+          "device_id": "linux_0",
+          "action_type": "cli.execute",
+          "reference": "runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/122_linux_smarthome_656/trajectory.json#events[4]"
+        },
+        {
+          "event_index": 5,
+          "step_index": 4,
+          "event_type": "step",
+          "device_id": null,
+          "action_type": "done",
+          "reference": "runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/122_linux_smarthome_656/trajectory.json#events[5]"
+        }
+      ],
+      "historical_evaluators": [
+        "runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/122_linux_smarthome_656/evaluator_trace.json#evaluators[0]",
+        "runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/122_linux_smarthome_656/evaluator_trace.json#evaluators[1]"
+      ],
+      "screenshots_actually_viewed_this_round": [],
+      "image_review_scope": "仅以上关键截图，不是全部帧；空数组表示以动作/反馈/结构化状态为证或已注明图像内容缺口。",
+      "result_ref": "runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/122_linux_smarthome_656/result.json",
+      "do_not_use_live_cache": true
+    },
+    "uncertainty": "能够明确定位缺少执行，不推断模型内部动机；单次运行无 API/环境阻断证据。",
+    "proposed_use": "main_display_candidate_H3",
+    "termination_reason": "done",
+    "device_types": "home+linux",
+    "device_count": 2,
+    "run_ref": "runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/122_linux_smarthome_656"
+  },
+  "note": "Existing offline analysis record, not the original trajectory or evaluation."
+}

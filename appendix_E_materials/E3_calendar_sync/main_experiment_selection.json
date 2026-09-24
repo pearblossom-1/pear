@@ -1,0 +1,36 @@
+{
+  "source_repository": "https://github.com/pearblossom-1/pear",
+  "source_revision": "4a9f57c0b48abda4c1a8ecb347d60f7bd576df15",
+  "source_file": "analysis/ufo3-gpt-5.5+qwen3.7-plus+ui-venus-1.5-30b-a3b/execution_failure_analysis/execution_results.csv",
+  "row_selection": {
+    "task_id": "al_calendar_schedule_conflict",
+    "model": "ufo3-gpt-5.5"
+  },
+  "record": {
+    "model": "ufo3-gpt-5.5",
+    "lite_index": "4",
+    "task_id": "al_calendar_schedule_conflict",
+    "family": "real100",
+    "topology": "1A+1L",
+    "selected_attempt": "attempt_001",
+    "run_ref": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001",
+    "task_version": "sha256:255c8d693a01fcbc22e8677f251092963d115cddda6c761cdea9fbdd75ca2941",
+    "result_basis": "final_merged_selected_attempt",
+    "raw_result": "FAIL",
+    "adopted_result": "FAIL",
+    "evaluation_status": "lifecycle_valid",
+    "raw_score": "0.0",
+    "adopted_score": "0.0",
+    "score_basis": "selected_attempt_evaluator_trace",
+    "steps": "50",
+    "duration": "532.996",
+    "termination_reason": "max_steps",
+    "failure_class": "budget_exhausted",
+    "device_count": "2",
+    "device_types": "android+linux",
+    "device_ids": "android_0+linux_0",
+    "metadata_ref": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/config/task.json",
+    "result_index_ref": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/final_merged_status_after_infrastructure_repairs.json"
+  },
+  "availability_note": "This is an existing analysis index row. The referenced original run has not been supplied in this local material directory."
+}
