@@ -1,0 +1,66 @@
+{
+  "case": "A3_dataset_composition",
+  "availability": "derived_inventory_lite200_index_and_selection_evidence",
+  "notes": "A3_dataset_composition/notes.md",
+  "task_pool_count": 5897,
+  "lite_count": 200,
+  "scope": "Inspected experimental worktree inventory and formal frozen Lite configurations; not a freshly verified release-wide executability claim.",
+  "files": [
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A3_dataset_and_lite_selection.md",
+      "bundle_path": "A3_dataset_composition/notes.md",
+      "handling": "derived_document_with_portable_links",
+      "bytes": 9627,
+      "section_path": "notes.md"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/data/dataset_statistics.json",
+      "bundle_path": "A3_dataset_composition/data/dataset_statistics.json",
+      "handling": "original_copy",
+      "bytes": 8417,
+      "section_path": "data/dataset_statistics.json"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/data/lite200_task_index.json",
+      "bundle_path": "A3_dataset_composition/data/lite200_task_index.json",
+      "handling": "original_copy",
+      "bytes": 403856,
+      "section_path": "data/lite200_task_index.json"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/data/task_pool_inventory.json",
+      "bundle_path": "A3_dataset_composition/data/task_pool_inventory.json",
+      "handling": "original_copy",
+      "bytes": 6118135,
+      "section_path": "data/task_pool_inventory.json"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/selection_evidence/manifest_policy_and_status.json",
+      "bundle_path": "A3_dataset_composition/selection_evidence/manifest_policy_and_status.json",
+      "handling": "original_copy",
+      "bytes": 1620,
+      "section_path": "selection_evidence/manifest_policy_and_status.json"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/selection_evidence/mdcbench_lite_v1_replacement_log.md",
+      "bundle_path": "A3_dataset_composition/selection_evidence/mdcbench_lite_v1_replacement_log.md",
+      "handling": "original_copy",
+      "bytes": 8813,
+      "section_path": "selection_evidence/mdcbench_lite_v1_replacement_log.md"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/selection_evidence/mdcbench_lite_v1_selection_report.md",
+      "bundle_path": "A3_dataset_composition/selection_evidence/mdcbench_lite_v1_selection_report.md",
+      "handling": "original_copy",
+      "bytes": 80484,
+      "section_path": "selection_evidence/mdcbench_lite_v1_selection_report.md"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/selection_evidence/mdcbench_lite_v1_smoke_report.md",
+      "bundle_path": "A3_dataset_composition/selection_evidence/mdcbench_lite_v1_smoke_report.md",
+      "handling": "original_copy",
+      "bytes": 43543,
+      "section_path": "selection_evidence/mdcbench_lite_v1_smoke_report.md"
+    }
+  ]
+}

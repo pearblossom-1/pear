@@ -1,0 +1,257 @@
+{
+  "asset_plan": {
+    "status": "accepted",
+    "unsupported_reason": null,
+    "asset_manifest": [
+      {
+        "asset_id": "product_inventory_asset",
+        "source_id": "product_inventory_json",
+        "materialization": "external",
+        "asset_kind": "json",
+        "materializer": "structured_json",
+        "target_device_id": "linux_0",
+        "target_path": "/home/user/data/products.json",
+        "content": "A JSON array of product records. Must include at least three products and contain the approved anchors P-200 (SpectraCam 2.1, approved) and P-305 (AeroNav 1.4, approved).",
+        "format_notes": "Write a UTF-8 JSON array file at /home/user/data/products.json. Each entry is an object with keys product_id, name, version, status. Include several distractor and non-approved records so the agent must filter by status == \"approved\".",
+        "quality_checks": [
+          "nonempty_file",
+          "json_parseable",
+          "matches_visible_source",
+          "anchors_present"
+        ],
+        "expected_anchor_values": [
+          "P-200",
+          "SpectraCam",
+          "2.1",
+          "approved",
+          "P-305",
+          "AeroNav",
+          "1.4",
+          "approved"
+        ]
+      },
+      {
+        "asset_id": "slides_template_asset",
+        "source_id": "slides_template_deck",
+        "materialization": "external",
+        "asset_kind": "odp",
+        "materializer": "document_template",
+        "target_device_id": "linux_1",
+        "target_path": "/home/user/presentations/template.odp",
+        "content": "An ODP template deck JSON spec containing 5 slides including a template slide titled \"Template Slide: Product Summary\" with text anchors PRODUCT_ID, PRODUCT_NAME, VERSION, STATUS. The template slide should include placeholder tokens {PRODUCT_ID}, {PRODUCT_NAME}, {VERSION}, {STATUS} so automation can replace them.",
+        "format_notes": "Generate an ODP at /home/user/presentations/template.odp according to the JSON spec provided in external_files. The deck must have 5 slides with titles: Title, Agenda, Template Slide: Product Summary, Contact, Credits. The Product Summary slide must include plain-text anchor tokens exactly PRODUCT_ID, PRODUCT_NAME, VERSION, STATUS (or placeholders {PRODUCT_ID} etc.) so a script can locate and replace them.",
+        "quality_checks": [
+          "nonempty_file",
+          "office_text_anchors",
+          "anchors_present"
+        ],
+        "expected_anchor_values": [
+          "Template Slide: Product Summary",
+          "PRODUCT_ID",
+          "PRODUCT_NAME",
+          "VERSION",
+          "STATUS"
+        ]
+      }
+    ],
+    "external_files": [
+      {
+        "asset_id": "product_inventory_asset",
+        "relative_path": "source/products.json",
+        "content": [
+          {
+            "product_id": "P-200",
+            "name": "SpectraCam",
+            "version": "2.1",
+            "status": "approved",
+            "description": "High-sensitivity multispectral camera"
+          },
+          {
+            "product_id": "P-201",
+            "name": "SpectraCam Lite",
+            "version": "1.0-beta",
+            "status": "beta",
+            "description": "Lower-cost evaluation unit"
+          },
+          {
+            "product_id": "P-305",
+            "name": "AeroNav",
+            "version": "1.4",
+            "status": "approved",
+            "description": "Aerial navigation module"
+          },
+          {
+            "product_id": "P-302",
+            "name": "AeroNav Mini",
+            "version": "1.0",
+            "status": "production",
+            "description": "Compact nav module"
+          },
+          {
+            "product_id": "P-310",
+            "name": "BeaconX",
+            "version": "0.9",
+            "status": "alpha",
+            "description": "Proximity beacon prototype"
+          },
+          {
+            "product_id": "P-420",
+            "name": "DockLight",
+            "version": "3.2",
+            "status": "approved",
+            "description": "Dockside lighting controller"
+          },
+          {
+            "product_id": "P-501",
+            "name": "ThermaPro",
+            "version": "2.0",
+            "status": "deprecated",
+            "description": "Legacy thermal control"
+          },
+          {
+            "product_id": "P-623",
+            "name": "NavAssist",
+            "version": "1.2",
+            "status": "pending",
+            "description": "Assisted navigation helper"
+          }
+        ]
+      },
+      {
+        "asset_id": "slides_template_asset",
+        "relative_path": "source/template.odp",
+        "content": {
+          "slide_count": 5,
+          "slide_titles": [
+            "Title",
+            "Agenda",
+            "Template Slide: Product Summary",
+            "Contact",
+            "Credits"
+          ],
+          "slides": [
+            {
+              "title": "Title",
+              "elements": [
+                {
+                  "type": "title",
+                  "text": "Company Product Briefing"
+                },
+                {
+                  "type": "subtitle",
+                  "text": "Quarterly overview"
+                }
+              ]
+            },
+            {
+              "title": "Agenda",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "1. Highlights\\n2. Product Updates\\n3. Roadmap"
+                }
+              ]
+            },
+            {
+              "title": "Template Slide: Product Summary",
+              "elements": [
+                {
+                  "type": "text",
+                  "role": "label",
+                  "text": "Product ID: {PRODUCT_ID}",
+                  "anchor": "PRODUCT_ID"
+                },
+                {
+                  "type": "text",
+                  "role": "label",
+                  "text": "Product Name: {PRODUCT_NAME}",
+                  "anchor": "PRODUCT_NAME"
+                },
+                {
+                  "type": "text",
+                  "role": "label",
+                  "text": "Version: {VERSION}",
+                  "anchor": "VERSION"
+                },
+                {
+                  "type": "text",
+                  "role": "label",
+                  "text": "Status: {STATUS}",
+                  "anchor": "STATUS"
+                },
+                {
+                  "type": "text",
+                  "role": "notes",
+                  "text": "Use this slide to summarize approved product changes."
+                }
+              ]
+            },
+            {
+              "title": "Contact",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "Product team contact: product-team@example.com"
+                }
+              ]
+            },
+            {
+              "title": "Credits",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "Prepared by Product Ops"
+                }
+              ]
+            }
+          ],
+          "anchors": [
+            "Template Slide: Product Summary",
+            "PRODUCT_ID",
+            "PRODUCT_NAME",
+            "VERSION",
+            "STATUS"
+          ]
+        }
+      }
+    ],
+    "hidden_oracle": [
+      {
+        "name": "approved_products_list",
+        "not_visible_to_agent": true,
+        "content": "From products.json the approved records are P-200 (SpectraCam, 2.1, approved), P-305 (AeroNav, 1.4, approved), and P-420 (DockLight, 3.2, approved). The Stage1 expected_data and value_trace require slides for P-200 and P-305 specifically; evaluator will check for at least the two specified approved anchors P-200 and P-305. Total approved_count in the provided file: 3."
+      }
+    ]
+  },
+  "asset_errors": [],
+  "asset_quality_report": {
+    "passed": true,
+    "written_files": [
+      {
+        "asset_id": "product_inventory_asset",
+        "relative_path": "source/products.json",
+        "bytes": 1054
+      },
+      {
+        "asset_id": "slides_template_asset",
+        "relative_path": "source/template.odp",
+        "bytes": 473
+      }
+    ],
+    "checks": {
+      "product_inventory_asset": {
+        "nonempty_file": true,
+        "json_parseable": true,
+        "matches_visible_source": true,
+        "anchors_present": true
+      },
+      "slides_template_asset": {
+        "nonempty_file": true,
+        "office_text_anchors": true,
+        "anchors_present": true
+      }
+    },
+    "errors": []
+  },
+  "repair_attempted": false
+}

@@ -1,0 +1,20 @@
+{
+  "profile": "linux_android",
+  "sample": {
+    "sample_id": "sample_000014",
+    "devices": [
+      "linux_0",
+      "linux_1"
+    ],
+    "device_surfaces": {
+      "linux_0": [
+        "linux.json"
+      ],
+      "linux_1": [
+        "linux.odp_pptx"
+      ]
+    },
+    "setup": "clean"
+  },
+  "sample_errors": []
+}

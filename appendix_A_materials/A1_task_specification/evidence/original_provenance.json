@@ -1,0 +1,22 @@
+{
+  "task_id": "al_calendar_schedule_conflict",
+  "task_snapshot": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/gpt-5.5-lite/mdcbench_lite_v1/core200_rerun_20260826_run_01/004_al_calendar_schedule_conflict/config/task.json",
+  "selected_attempt": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/gpt-5.5-lite/mdcbench_lite_v1/core200_rerun_20260826_run_01/004_al_calendar_schedule_conflict",
+  "task_storage": "Byte-for-byte copy of formal experiment config/task.json; no rewritten task or evaluator.",
+  "source_asset_copies": [
+    {
+      "source": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/tasks/cross_device/real100_assets/al_calendar_schedule_conflict/source/week.csv",
+      "bundle_path": "A1_example/source/week.csv",
+      "device_id": "linux_0",
+      "device_path": "/tmp/schedule/week.csv"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/tasks/cross_device/real100_assets/al_calendar_schedule_conflict/source/rule.txt",
+      "bundle_path": "A1_example/source/rule.txt",
+      "device_id": "linux_0",
+      "device_path": "/tmp/schedule/rule.txt"
+    }
+  ],
+  "source_caveat": "Linux source files were copied from the local experimental worktree. Their complete contents match the first historical Linux source-read stdout (step 0); see historical_source_read.json. The calendar setup comes from the exact frozen task config.",
+  "calendar": "Extracted from the exact frozen setup; this is environment initialization data, not a model-visible prompt or an oracle solution."
+}

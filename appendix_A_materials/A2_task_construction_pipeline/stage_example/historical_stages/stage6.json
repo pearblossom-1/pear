@@ -1,0 +1,124 @@
+{
+  "eval_cleanup_metadata_plan": {
+    "status": "accepted",
+    "unsupported_reason": null,
+    "evaluation": [
+      {
+        "device_id": "linux_0",
+        "func": "check_json",
+        "result": {
+          "type": "vm_file",
+          "path": "/home/user/data/products.json"
+        },
+        "expected": {
+          "type": "rule",
+          "rules": {
+            "expect": [
+              {
+                "product_id": "P-200",
+                "name": "SpectraCam",
+                "version": "2.1",
+                "status": "approved"
+              },
+              {
+                "product_id": "P-305",
+                "name": "AeroNav",
+                "version": "1.4",
+                "status": "approved"
+              }
+            ]
+          }
+        },
+        "enable_score_calc": false
+      },
+      {
+        "device_id": "linux_1",
+        "func": "check_odf_text",
+        "result": {
+          "type": "vm_file",
+          "path": "/home/user/presentations/product_updates.odp"
+        },
+        "expected": {
+          "type": "rule",
+          "rules": {
+            "include": [
+              "PRODUCT_ID: P-200",
+              "PRODUCT_NAME: SpectraCam",
+              "VERSION: 2.1",
+              "STATUS: approved",
+              "PRODUCT_ID: P-305",
+              "PRODUCT_NAME: AeroNav",
+              "VERSION: 1.4",
+              "STATUS: approved",
+              "Product Updates"
+            ]
+          }
+        }
+      },
+      {
+        "device_id": "linux_1",
+        "func": "exact_match",
+        "result": {
+          "type": "vm_command_line",
+          "command": "count=$(unzip -p /home/user/presentations/product_updates.odp content.xml 2>/dev/null | grep -c '<draw:page'); if [ -z \"$count\" ]; then echo slides_low; elif [ \"$count\" -ge 2 ]; then echo slides_ok; else echo slides_low; fi",
+          "shell": true
+        },
+        "expected": {
+          "type": "rule",
+          "rules": {
+            "expected": "slides_ok"
+          }
+        }
+      }
+    ],
+    "cleanup": [
+      {
+        "device_id": "linux_0",
+        "config": [
+          {
+            "type": "execute",
+            "parameters": {
+              "command": "rm -f /home/user/data/products.json || true",
+              "shell": true
+            }
+          }
+        ]
+      },
+      {
+        "device_id": "linux_1",
+        "config": [
+          {
+            "type": "execute",
+            "parameters": {
+              "command": "rm -f /home/user/presentations/product_updates.odp || true",
+              "shell": true
+            }
+          },
+          {
+            "type": "execute",
+            "parameters": {
+              "command": "rm -f /home/user/presentations/template.odp || true",
+              "shell": true
+            }
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "category": "generated_cross_device",
+      "implementation_status": "finalized",
+      "tested_devices": [
+        "linux_0",
+        "linux_1"
+      ],
+      "primary_output": "/home/user/presentations/product_updates.odp",
+      "score_evaluators": 2,
+      "notes": "Score-enabled checks validate (1) ODP text anchors populated for both approved products and presence of 'Product Updates' in the presentation, and (2) slide count >= 2. Input JSON content is sanity-checked as a non-scoring guard."
+    },
+    "limits": {
+      "max_steps": 40,
+      "max_wall_time_s": 300
+    }
+  },
+  "eval_cleanup_metadata_errors": []
+}

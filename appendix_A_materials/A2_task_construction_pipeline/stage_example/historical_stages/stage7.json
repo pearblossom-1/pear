@@ -1,0 +1,55 @@
+{
+  "oracle_plan": {
+    "status": "accepted",
+    "unsupported_reason": null,
+    "scripted_solution_plan": [
+      "On linux_1, create the final ODP /home/user/presentations/product_updates.odp containing the presentation title with the phrase 'Product Updates', include one Product Summary slide per approved product (P-200 and P-305) and ensure the text anchors in each slide are populated with the corresponding PRODUCT_ID/PRODUCT_NAME/VERSION/STATUS strings.",
+      "For the negative oracle, create an ODP that omits one of the required product anchors (so a score-enabled text check will fail) while leaving slide count >= 2 to isolate the failure to the text anchors check."
+    ],
+    "positive_oracle_steps": [
+      {
+        "device_id": "linux_1",
+        "action": "linux_write_odf_text",
+        "path": "/home/user/presentations/product_updates.odp",
+        "title": "Product Updates - Quarterly Summary",
+        "slides_count": 3,
+        "include": [
+          "PRODUCT_ID: P-200",
+          "PRODUCT_NAME: SpectraCam",
+          "VERSION: 2.1",
+          "STATUS: approved",
+          "PRODUCT_ID: P-305",
+          "PRODUCT_NAME: AeroNav",
+          "VERSION: 1.4",
+          "STATUS: approved",
+          "Product Updates"
+        ],
+        "notes": "Creates an ODP with >=2 draw:page entries and text content including all required anchors and a document title that contains 'Product Updates'."
+      }
+    ],
+    "negative_oracle_steps": [
+      {
+        "device_id": "linux_1",
+        "action": "linux_write_odf_text",
+        "path": "/home/user/presentations/product_updates.odp",
+        "title": "Product Updates - Partial",
+        "slides_count": 2,
+        "include": [
+          "PRODUCT_ID: P-200",
+          "PRODUCT_NAME: SpectraCam",
+          "VERSION: 2.1",
+          "STATUS: approved",
+          "Product Updates"
+        ],
+        "expected_success": false,
+        "notes": "Deliberately omits the P-305 / AeroNav anchors so the check_odf_text evaluator (which requires both products) will fail while slide count remains >=2."
+      }
+    ],
+    "smoke_expectations": {
+      "setup_pre_eval_success": false,
+      "positive_oracle_success": true,
+      "negative_or_noop_success": false
+    }
+  },
+  "oracle_errors": []
+}

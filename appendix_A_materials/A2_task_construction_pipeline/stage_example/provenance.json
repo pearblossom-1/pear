@@ -1,0 +1,24 @@
+{
+  "round": "R01",
+  "sample": "sample_000014",
+  "batch_path": "/Users/lht/home/MDCBench/runs/generation_engine_probe/stress_gpt5mini/R01/result.json",
+  "model": "gpt-5-mini",
+  "profile": "linux_android",
+  "sample_set": {
+    "total_count": 20,
+    "random_seed": 731001
+  },
+  "selected_manifest": "/Users/lht/home/MDCBench/runs/generation_engine_probe/stress_gpt5mini/R01_R35_selected_manifest.json",
+  "selected_entry": {
+    "round": "R01",
+    "sample": "sample_000014",
+    "task": "/Users/lht/home/MDCBench/runs/generation_engine_probe/stress_gpt5mini/R01/work/sample_000014/stage8/assembled_task.json"
+  },
+  "historical_status": "completed",
+  "historical_static_report": {
+    "passed": true,
+    "task_config_errors": []
+  },
+  "historical_task_equals_later_selected_task": false,
+  "note": "Historical stages are preserved as generated, including imperfections. Later selected config and source files are a separate local snapshot, not evidence that Stage3 alone performed every later repair. No live smoke or agent execution was run for this packet."
+}

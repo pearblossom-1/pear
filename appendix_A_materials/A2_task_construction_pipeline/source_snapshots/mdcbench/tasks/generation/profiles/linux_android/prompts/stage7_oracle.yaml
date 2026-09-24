@@ -1,0 +1,144 @@
+system: |
+  你是 MDCBench oracle / scripted solution 规划器。
+
+  你只规划用于测试的 positive/negative oracle 步骤。你不改 task design，不改 evaluator，不写 task JSON。
+
+user_template: |
+  Stage1 task design:
+  {{ task_design_json }}
+
+  Stage5 evaluation/cleanup/metadata plan:
+  {{ eval_cleanup_metadata_plan_json }}
+
+  请构造 oracle / solution plan。
+
+  规则：
+  - 以 evaluator 为驱动：先逐条读取 Stage6 evaluation，只为 score-enabled goal evaluator 构造能让它通过/失败的状态；enable_score_calc=false 的 source sanity / guard 通常不需要由 positive oracle 重建；
+  - positive oracle 应创建 evaluator 期望的最终状态；
+  - negative/no-op oracle 应无法通过 evaluation；
+  - oracle step 只能引用 task design / evaluation 中已经存在的 device_id；不要发明 android_1、linux_1 等 sample 中没有的设备；
+  - `setup_pre_eval_success` 默认应为 false。只有在 evaluation 全部是 setup 后天然成立的 guard 时才可能为 true；正常任务包含 goal evaluator 时，setup 后不应成功；
+  - 不要因为 source sanity / guard evaluator 会通过就把 `setup_pre_eval_success` 写成 true；
+  - 不要重建 setup source：短信、输入 CSV/PDF/HTML、已有联系人、已有 Calendar event、已有 OsmAnd favorite 等由 setup 提供；oracle 只负责 agent 应生成或修改的结果，除非为了保持 guard 必须显式保留；
+  - positive oracle 要尽量直接写入最终产物，而不是模拟完整 GUI 操作轨迹。它是测试夹具，不是给 agent 的答案；
+  - negative oracle 优先只破坏一个高价值 goal evaluator：例如写错 CSV 关键行、少一个 JSON 字段、打开错误 URL、发错短信正文、少一个联系人 note。不要同时乱改多个设备，也不要用不存在的 device_id；
+  - 如果某类 app state 难以 scripted 注入，应明确标记 smoke risk，而不是修改任务语义；
+  - 不要把 oracle 步骤写进用户 instruction；
+  - oracle 只为测试准备，不是给 agent 的答案。
+
+  ## 从真实任务 oracle 总结出的操作经验
+
+  Linux 文件/浏览器/邮件：
+  - `check_csv`：positive oracle 用 `linux_write_csv` 写 expected.rows；negative oracle 写 wrong row 或漏掉关键 row。
+  - `check_json`：positive oracle 用 `linux_write_json` 写 expected_data 中的关键字段；negative oracle 写错字段值或缺字段。
+  - `check_xlsx_cells`：positive oracle 用 `linux_write_xlsx` 写 sheet/cells；若 evaluator 使用 `rules.sheets`，必须写入每个 sheet 的关键 cells；negative oracle 写错一个关键 cell。
+  - `check_odf_text` / `check_docx_text`：positive oracle 用 `linux_write_odf_text` 或 `linux_write_docx_text` 写 include anchors；negative oracle 写 exclude/错误 anchor。
+  - `compare_image_text`：positive oracle 用 `linux_write_image_text` 写 OCR rules.text；规则必须有 `{"type":"text","text":"..."}`；negative oracle 写 `WRONG-000`。
+  - ZIP/PDF/附件存在类：如果 evaluator 只要求存在/非空，positive oracle 写或上传对应文件；如果 evaluator 检查 `unzip -l`，positive oracle 用 `linux_write_zip` 放入 expected filenames。
+  - `is_expected_tabs` / bookmarks：positive oracle 用 `linux_browser_state` 打开 expected.rules.urls 或写 bookmark folder；negative oracle 打开明显错误 URL。
+  - Thunderbird draft：positive oracle 用 `linux_write_thunderbird_draft`，内容包含 To/Subject/body anchors；negative oracle 用错误收件人或错误主题。
+
+  Android app/file state：
+  - `androidworld_contact`：positive oracle 用 `androidworld_contact_add`，如 evaluator 有 `notes_contains` 则 note 必须包含该 anchor；negative oracle 写错 name/note 或不写 note。
+  - `androidworld_calendar_event`：positive oracle 用 `androidworld_calendar_event_add`，保留 title/start_ts/end_ts/location/description；时间戳必须沿用 evaluator 的毫秒值。
+  - `androidworld_task`：positive oracle 用 `androidworld_task_add`，包含 title、notes/notes_contains、dueDate、completed 等 evaluator 关心字段。
+  - `androidworld_sms_message`：sent 短信用 `androidworld_sms_send`，received/inbox 用 receive；必须包含 address 和 body/body_contains 中的 anchors。
+  - Android 文件输出：用 `android_write_file` 写目标路径；非空音频/图片/视频类可以用稳定小文件满足存在性/非空检查，语义内容不能凭空伪造。
+  - Retro Music、OsmAnd、Clock、Timer 等如果已有 setup helper/evaluator 支持，可用对应 state op；如果无法 scripted 注入，不要编造 action，标记 `unsupported` 或 smoke risk。
+
+  合并与去重：
+  - 同一路径的多个 Linux 写入应合并成一个文件；同一联系人 note 不要分多步覆盖；同一浏览器设备的多个 URL/bookmark 应合并到一个 `linux_browser_state`。
+  - 如果 evaluation 有多个 goal，positive oracle 可以覆盖全部；negative oracle 通常选择一个最能代表任务完成的 goal 破坏即可。
+
+  只返回 JSON。
+
+  {
+    "status": "accepted",
+    "unsupported_reason": null,
+    "scripted_solution_plan": [],
+    "positive_oracle_steps": [],
+    "negative_oracle_steps": [],
+    "smoke_expectations": {
+      "setup_pre_eval_success": false,
+      "positive_oracle_success": true,
+      "negative_or_noop_success": false
+    }
+  }
+
+output_contract: |
+  The model must return one JSON object.
+  status must be accepted or unsupported.
+  scripted_solution_plan, positive_oracle_steps, and negative_oracle_steps must be arrays.
+  smoke_expectations must be an object.
+
+few_shots:
+  - name: CSV oracle
+    response: |
+      {
+        "status": "accepted",
+        "unsupported_reason": null,
+        "scripted_solution_plan": ["Write the expected CSV rows to /tmp/invoice/items.csv."],
+        "positive_oracle_steps": [
+          {
+            "device_id": "linux_0",
+            "action": "linux_write_csv",
+            "path": "/tmp/invoice/items.csv",
+            "rows": [{"sku": "SKU123", "line_total": "31.00"}]
+          }
+        ],
+        "negative_oracle_steps": [
+          {
+            "device_id": "linux_0",
+            "action": "linux_write_csv",
+            "path": "/tmp/invoice/items.csv",
+            "rows": [{"sku": "WRONG", "line_total": "0.00"}],
+            "expected_success": false
+          }
+        ],
+        "smoke_expectations": {
+          "setup_pre_eval_success": false,
+          "positive_oracle_success": true,
+          "negative_or_noop_success": false
+        }
+      }
+  - name: Mixed Android and Linux oracle
+    response: |
+      {
+        "status": "accepted",
+        "unsupported_reason": null,
+        "scripted_solution_plan": [
+          "Create the Android contact note expected by androidworld_contact.",
+          "Open the submitted Linux browser URL expected by is_expected_tabs.",
+          "Create the Thunderbird draft containing the expected anchors."
+        ],
+        "positive_oracle_steps": [
+          {
+            "device_id": "android_0",
+            "action": "androidworld_contact_add",
+            "parameters": {"name": "Aster Supply", "number": "+15550123", "notes": "Vendor visit 12:00 Dock 2"}
+          },
+          {
+            "device_id": "linux_0",
+            "action": "linux_browser_state",
+            "urls": ["file:///home/user/forms/submitted#aster-dock-2"]
+          },
+          {
+            "device_id": "linux_0",
+            "action": "linux_write_thunderbird_draft",
+            "include": ["To: ops@example.test", "Subject: Aster visit", "Dock 2"]
+          }
+        ],
+        "negative_oracle_steps": [
+          {
+            "device_id": "linux_0",
+            "action": "linux_browser_state",
+            "urls": ["file:///home/user/forms/wrong#missing"],
+            "expected_success": false
+          }
+        ],
+        "smoke_expectations": {
+          "setup_pre_eval_success": false,
+          "positive_oracle_success": true,
+          "negative_or_noop_success": false
+        }
+      }

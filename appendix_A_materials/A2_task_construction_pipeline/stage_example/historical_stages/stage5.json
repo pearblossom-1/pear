@@ -1,0 +1,60 @@
+{
+  "setup_plan": {
+    "status": "accepted",
+    "unsupported_reason": null,
+    "setup": [
+      {
+        "device_id": "linux_0",
+        "config": [
+          {
+            "type": "execute",
+            "parameters": {
+              "command": "mkdir -p /home/user/data && rm -f /home/user/data/products.json",
+              "shell": true
+            }
+          },
+          {
+            "type": "upload_file",
+            "parameters": {
+              "files": [
+                {
+                  "local_path": "source/products.json",
+                  "path": "/home/user/data/products.json"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "device_id": "linux_1",
+        "config": [
+          {
+            "type": "execute",
+            "parameters": {
+              "command": "mkdir -p /home/user/presentations && rm -f /home/user/presentations/product_updates.odp && rm -f /home/user/presentations/template.odp",
+              "shell": true
+            }
+          },
+          {
+            "type": "upload_file",
+            "parameters": {
+              "files": [
+                {
+                  "local_path": "source/template.odp",
+                  "path": "/home/user/presentations/template.odp"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "setup_visibility_checks": [
+      "On linux_0: /home/user/data/products.json exists and is readable; it contains the visible anchors P-200 and P-305 required by the task.",
+      "On linux_1: /home/user/presentations/template.odp exists and contains the template slide titled \"Template Slide: Product Summary\" with text anchors PRODUCT_ID, PRODUCT_NAME, VERSION, STATUS.",
+      "On linux_1: /home/user/presentations/product_updates.odp does not exist before agent execution (ensures a clean target for the updated deck)."
+    ]
+  },
+  "setup_errors": []
+}

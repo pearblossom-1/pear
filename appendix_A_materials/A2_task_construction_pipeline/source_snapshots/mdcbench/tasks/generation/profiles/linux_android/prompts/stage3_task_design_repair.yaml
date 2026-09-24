@@ -1,0 +1,578 @@
+system: |-
+  你负责修复一份已有的 MDCBench task design。
+
+  你只能在给定 sample 和 capability 允许的范围内，针对 review 的 blocking issues 做最小且同步的修复。不得重新构思另一个任务，不得改变设备拓扑或引入未采样的 surface，也不得通过改变 feasibility_type 来逃避能力或评估问题。
+
+  你必须返回完整 task design JSON，而不是 patch、diff 或修复建议。不要生成 asset、setup、evaluation、cleanup、metadata、oracle 或 task JSON。
+user_template: |-
+  ## 输入
+
+  Sample:
+  {{ sample_json }}
+
+  Capability context for the sampled surfaces:
+  {{ surface_capability_context }}
+
+  Original task design:
+  {{ task_design_json }}
+
+  Review:
+  {{ review_json }}
+
+  ## 修复范围
+
+  以 `review.blocking_issues` 为必须解决的范围。每个 blocker 都必须在 `repair_notes` 中说明实际修复。
+
+  - `required_fix` 是优先方向，但不能凌驾于 sample、capability 或核心任务意图；若不可用，采用等价的最小修复。
+  - `optional_improvements` 默认不实施；只有为保持 blocker 修复后的字段一致性确有必要时才采用。
+  - 若 `review.optimized_instruction` 非空且与结构修复后的 source/output 一致，以它作为 instruction 基线；否则从原 instruction 做最小调整。
+  - 尽量保留未受 blocker 影响的字段、source_id、output_id、对象名和路径。不要为了“写得更好”重命名、重排或重构整份设计。
+  - `generation_notes` 只保存设计假设、风险或语义边界。修复过程只写入 `repair_notes`。
+
+  ## 不可改变的边界
+
+  - 只能使用 sample 中允许的设备和 surface。sampled surfaces 是允许集合，不要求全部使用，也不能新增集合外的 surface。
+  - 不得改变设备拓扑。对于多设备任务，修复后仍须保留真实且必要的跨设备依赖，不能退化为互不相关的动作或装饰性设备。
+  - sample 若提供 feasibility_type，必须保持一致；若未提供，则保持 original task design 的 feasibility_type。runtime/interface 不支持不是场景内 infeasible 或 partial，不能通过改变 feasibility_type 掩盖 capability 问题。
+  - 当前 sample.setup 只按实际的 `clean` 或 `distractor` 处理：
+    - `clean`：不要无故加入仅用于误导或排除的非目标候选；
+    - `distractor`：修复后必须仍有至少一个自然、可信、与目标相近的可见非目标候选，并有可见 selection key、matching key、时间规则或 source-of-truth。不能通过删除全部 distractor 来完成修复。
+  - 遵守 capability context 中实际提供的 stable_sources、stable_outputs、user_visible_constraints、unsupported_designs、implementation_notes、generation_rules、setup/evaluation interfaces 和接口说明。
+  - 实现层信息只用于内部判断。不得把 helper、getter、evaluator、API、内部路径、参数名或 validator 术语写进 instruction、visible source 内容、用户可见对象名或 completion_condition。
+  - required output 必须落在 sampled surface 可表达且可稳定判断的状态上，文件扩展名、app 对象类型和 locator 必须与 surface/capability 一致。
+  - 如果某个核心 output 无法在现有 sample 与 capability 内修复，不要删除它、替换成无关 report，或无条件弱化为“文件存在”；应返回 unsupported。
+
+  ## 最小修复与字段同步
+
+  先识别每个 blocker 影响的字段，再做最小修改；完成后删除所有失效引用并检查整体闭环。
+
+  - 修改 visible_sources：同步 instruction、detailed_description、expected_data 和 value_trace；
+  - 修改 required_outputs：同步 completion_condition、expected_data、value_trace、detailed_description、information_flow 和 why_cross_device；
+  - 修改 expected_data：同步 required_outputs 和 value_trace；
+  - 修改 selection/matching/source-of-truth/conflict/计算规则：同步 source、instruction 范围、expected_data 和 value_trace；
+  - 改变实际依赖结构：必要时同步 task_title、patterns、information_flow 和 why_cross_device；
+  - 删除 source/output/expected 字段：删除对应 trace 和所有文字引用；
+  - 新增 source/output 只允许用于 blocker 的最小修复，必须使用已有 sampled surface，ID 唯一且语义明确。
+
+  每个 required output 都必须有明确 expected_data，并至少有一条 value_trace。批量记录或同一规则产生的多个值可以使用 group/rule trace，不要求每个 scalar 单独一条，但不能省略关键 selection、matching、source-of-truth、冲突规则或公式。
+
+  ## 常见 blocker 的修复边界
+
+  ### Hidden expected
+
+  先区分缺失内容的性质：
+
+  - 若是用户必须知道的输出要求、格式、选择规则或默认规则，将它自然地放入已有 visible source；只有没有合适 source 承载时，才把最小必要内容写入 instruction。
+  - 即使 review.required_fix 写成“更新 instruction”，也要先判断该要求是否更适合由已有可见 source 承载。若任务已有 PDF、网页、短信、邮件、note、manifest、checklist 或 source-of-truth 文档，且缺失内容是输出字段、格式、筛选规则、匹配规则或要写入 notes/description/body 的业务要求，优先补入该 source 的 content/content_requirements，再把 instruction 压缩为“按该文档/消息/页面要求完成”。不要为了满足 blocker 把 source 已能承载的细节全部搬进 instruction。
+  - 若 expected 是 agent 应由可见输入推导或计算的结果，只补充可见输入和推导规则，不得把最终答案直接塞进 source 或 instruction。
+  - 若 expected 与核心任务无关且没有用户可见依据，删除该 expected 以及相关 completion/trace 约束，不要发明新需求。
+  - Android Calendar 当前稳定检查的是 event title/time/location/description 等字段，不要把 “invite/attendees” 写成 `description or attendees` 这种二选一目标。若原任务需要 invitee/attendee 但 capability 没有稳定 attendees getter，应把它自然修成“在 event description 中包含该联系人/邮箱”并同步 instruction、required_outputs、expected_data 和 value_trace；如果这样会改变核心任务意图，则返回 unsupported。
+
+  `detailed_description` 不能作为 agent-visible 事实来源。修复后 instruction 保留入口、目标位置和 source 中没有的必要要求，但不复述 source 的表格、字段值、完整文档或答案。
+
+  ### Distractor 与处理范围
+
+  - `setup=distractor` 时，distractor 必须真实出现在 `visible_sources.content` 或 `content_requirements.data_shape`，不能只写在 detailed_description、generation_notes 或 repair_notes。
+  - distractor、可见选择规则、instruction 范围、expected_data 和 value_trace 必须一致。
+  - 若 instruction 写 all rows / every file / for each item，不能只在 expected_data 中选择一部分而不给可见筛选规则。
+  - 原 distractor 不自然时可以替换成更合理的候选，但不能把 distractor sample 修成 clean。
+
+  ### 不稳定、主观或媒体型目标
+
+  若 review 指出目标不稳定或不可评估，优先使用 capability context 在已有 sampled surfaces 上声明的稳定 output，并保持原核心意图。只有 sample 已包含合适 surface 时，才能增加稳定 companion output。
+
+  不要要求系统直接理解主观质量、自由绘画语义、录音语义、视频画面或瞬时 GUI 外观；也不要自动把具有语义要求的任务弱化成仅检查存在性、数量或非空。若没有保持核心意图的稳定修复方式，返回 unsupported。
+
+  修复目标类型：
+  - 浏览器或 GUI 状态不稳定时，优先修成同一 sampled surface 能产生的稳定 URL/hash、bookmark、download、文件或 app-native record；不要保留“页面看起来正确”“窗口打开”作为唯一 output。
+  - 媒体语义不稳定时，只有在 sample 已包含合适 companion surface 时，才能把 agent 从媒体中读取或选择出的语义写入稳定 note、CSV、JSON、文档、邮件或表单结果；若核心任务只是拍照、录音、保存、复制、删除或保留媒体文件，存在性/数量/非空可以保留为核心证据。
+  - surface/path 不匹配时，保持 output 类型与 sampled surface 一致；不要让图像、GIMP、VLC 或浏览器 surface 额外生成未采样的 `.txt`/`.json` sidecar 来绕过评估。
+  - 若以上修复都会改变核心用户目标、删除必要 output、或需要新增未采样 surface，返回 unsupported。
+
+  ### 用户可见措辞
+
+  - instruction 与 completion_condition 使用自然用户语言，不出现 exact_match、checkable、score、evaluator、nonempty、OCR-readable、pixel-perfect、must pass validation 等实现/评估口吻。
+  - instruction 必须保留 source 与 target 的必要导航锚点。用户可见 instruction 不得写 android_0、android_1、linux_0 这类内部 device id，也不得写 Android 1、Android 2、Linux 1、Linux 2 这类编号标签；应改成“第一台/第二台 Android 设备”“第一台/第二台 Linux 设备”等自然、可定位称呼。结构化字段里的 device_id 保持 sample 原值。不要写 surface id、helper、getter、evaluator、schema 字段或接口名。
+  - 如果 review 或 validator 指出 instruction 过长，必须把字段值、文件名清单、完整格式、匹配细节和示例值委托给 visible source，只保留入口、source/target locator、核心动作和必要输出字段提示。通常压缩到 1-2 句；复杂任务也应尽量低于 350 字符，同时保留 Android app 全称以避免误用系统自带 app。
+  - 不要用 “follow the request” 掩盖缺失语义。只有当某个 visible source 真的包含请求、指令、页面说明、短信/邮件要求、checklist、manifest 或可执行规则时，instruction 才能说 “follow the request/page/message/instructions”。如果 source 只是事实材料、模板、照片、坐标表、初始事件/联系人等，应写 “use/read/compare those details” 并保留目标动作；若 required output 需要额外写入规则，则把规则补进合适的 visible source 或返回 unsupported。
+  - 不要用 “requested description/notes/body” 掩盖自由文本字段的隐藏要求。只有当 visible source 真的定义了该 description/notes/body 应包含什么时，instruction 才能写 “with the requested description/notes/body”。否则应把自由文本字段要求自然补进 source，或在 instruction 中用最小高层表述说明要写入的内容。
+  - 不得把只存在于 detailed_description、expected_data 或 value_trace 的隐藏要求搬进 instruction 来伪装修复。
+
+  ### Source 结构
+
+  - 每台 sampled device 都必须在 visible_sources 或 required_outputs 中承担真实 source/output。可以不使用每个 sampled surface，但不能让某台 sampled device 只出现在 sample/topology 中而不参与任务；若无法自然使用该设备，应返回 unsupported，而不是保留空设备。
+  - visible_sources 只描述初始可见状态；创建型 required output 不得被预先写入 source。更新已有对象时必须区分 initial state 与 final state。
+  - 不要把纯目标位置当成 visible source：如果一个目录、路径、app 列表或对象名只用于说明最终结果保存在哪里，本身不提供任务事实、选择规则、匹配键、素材或待更新初始状态，应只保留在 instruction/required_outputs 中。
+  - visible_name_or_path 只写真实路径或真实 app 对象定位，不附加 `updated`、`final`、`completed` 等状态后缀；最终状态写入 completion_condition。
+  - 保持原 content_mode，除非 blocker 的最小修复确实要求改变：
+    - `inline` 用于完整短文本或紧凑 app state，并保留 content 字符串；
+    - `requirements` 用于复杂、二进制或多文件 source，并保留/同步 source_kind、purpose、must_contain、data_shape、anchors_for_expected_data。
+  - 不要为绕过 asset materialization 把复杂 requirements source 改成含糊 inline 文本，也不要把 app state 改成普通附件。
+
+  ### Value trace
+
+  - expected_path 必须指向 expected_data 中真实存在的路径；
+  - expected_value 必须与该路径的值、值组或规则一致；
+  - source-based trace 的 visible_source 必须以真实 source_id 开头；多 source 推导需引用所有相关 source_id；
+  - 只由 instruction 明示的规则产生时，使用 `instruction: ...`；
+  - 不得引用 detailed_description，也不得只写 `computed from source`、`derived from action` 或文件描述；
+  - 不得引用 agent 运行后才生成的 output、test report、submitted page、recorded media、updated file 或 created app state 作为 visible_source；这类 expected 只能追溯到可见输入 source_id 或 instruction 规则。
+
+  ## 输出
+
+  返回一个完整 JSON object，包含：
+  - status
+  - unsupported_reason
+  - task_title
+  - patterns
+  - feasibility_type
+  - information_flow
+  - instruction
+  - detailed_description
+  - why_cross_device
+  - visible_sources
+  - required_outputs
+  - expected_data
+  - value_trace
+  - generation_notes
+  - repair_notes
+
+  accepted 时，status 为 `accepted`、unsupported_reason 为 null，repair_notes 为非空数组，并完整保留 task design 结构。
+
+  只有无法在 sample、capability、feasibility_type 和核心任务意图内完成修复时，才返回 `unsupported`；unsupported_reason 必须具体说明原因，repair_notes 说明为什么可用修复路径均不可行。
+
+  不要输出 Markdown 或 JSON 之外的文字。
+output_contract: |-
+  只返回一个 JSON object，前后不得附加文字。
+  输出必须是完整 task design，不是 patch 或 diff。
+  status 只能是 accepted 或 unsupported。
+  accepted 时 unsupported_reason 必须为 null，repair_notes 必须是非空数组。
+  unsupported 时 unsupported_reason 必须为非空字符串。
+  不得改变 sample 中的设备/surface 边界或原 task design 的 feasibility_type。
+  每个 accepted required output 都必须有对应 expected_data 和至少一条 value_trace。
+few_shots:
+- name: Preserve the sampled distractor profile with a minimal structural repair
+  sample: |-
+    {
+      "devices": [
+        "linux_0",
+        "android_0"
+      ],
+      "device_surfaces": {
+        "linux_0": [
+          "linux.csv"
+        ],
+        "android_0": [
+          "android.contacts"
+        ]
+      },
+      "setup": "distractor",
+      "feasibility_type": "feasible"
+    }
+  task_design: |-
+    {
+      "status": "accepted",
+      "unsupported_reason": null,
+      "task_title": "Apply selected contact update",
+      "patterns": [
+        "state_create_update"
+      ],
+      "feasibility_type": "feasible",
+      "information_flow": "Linux CSV -> Android Contacts",
+      "instruction": "On Linux, open `/home/user/contact_updates.csv` and apply the requested update in Android Contacts.",
+      "detailed_description": "The CSV currently contains only Alice Chen's target row.",
+      "why_cross_device": "The update record is on Linux and the contact must be changed on Android.",
+      "visible_sources": [
+        {
+          "source_id": "contact_updates_csv",
+          "device_id": "linux_0",
+          "surface": "linux.csv",
+          "visible_name_or_path": "/home/user/contact_updates.csv",
+          "content_mode": "requirements",
+          "content_requirements": {
+            "source_kind": "csv",
+            "purpose": "Contact update table.",
+            "must_contain": [
+              "Alice Chen",
+              "+1-555-0199"
+            ],
+            "data_shape": {
+              "columns": [
+                "name",
+                "phone",
+                "note"
+              ],
+              "key_rows": [
+                {
+                  "name": "Alice Chen",
+                  "phone": "+1-555-0199",
+                  "note": "Primary"
+                }
+              ]
+            },
+            "anchors_for_expected_data": [
+              "Alice Chen",
+              "+1-555-0199"
+            ]
+          }
+        }
+      ],
+      "required_outputs": [
+        {
+          "output_id": "alice_contact",
+          "device_id": "android_0",
+          "surface": "android.contacts",
+          "visible_name_or_path": "Contact `Alice Chen`",
+          "completion_condition": "Alice Chen's contact has the phone number and note selected by the CSV."
+        }
+      ],
+      "expected_data": {
+        "alice_contact": {
+          "name": "Alice Chen",
+          "phone": "+1-555-0199",
+          "note": "Primary"
+        }
+      },
+      "value_trace": [
+        {
+          "expected_path": "alice_contact",
+          "expected_value": "Alice Chen; +1-555-0199; Primary",
+          "visible_source": "contact_updates_csv Alice Chen row"
+        }
+      ],
+      "generation_notes": []
+    }
+  review: |-
+    {
+      "decision": "revise",
+      "optimized_instruction": "On Linux, open `/home/user/contact_updates.csv` and apply only the row marked Apply=yes in Android Contacts.",
+      "blocking_issues": [
+        {
+          "area": "source_visibility",
+          "issue": "The sample requires setup=distractor, but the visible source contains only the target row and no non-target candidate.",
+          "required_fix": "Add a plausible non-target row and a visible rule that distinguishes the row to apply."
+        }
+      ],
+      "optional_improvements": []
+    }
+  response: |-
+    {
+      "status": "accepted",
+      "unsupported_reason": null,
+      "task_title": "Apply selected contact update",
+      "patterns": [
+        "state_create_update"
+      ],
+      "feasibility_type": "feasible",
+      "information_flow": "Linux CSV -> Android Contacts",
+      "instruction": "On Linux, open `/home/user/contact_updates.csv` and apply only the row marked Apply=yes in Android Contacts.",
+      "detailed_description": "The CSV contains Alice Chen as the Apply=yes target and Eve Stone as a plausible Apply=no distractor. The agent must use the visible Apply column to choose the correct row.",
+      "why_cross_device": "The selection table is on Linux and the selected contact must be changed on Android.",
+      "visible_sources": [
+        {
+          "source_id": "contact_updates_csv",
+          "device_id": "linux_0",
+          "surface": "linux.csv",
+          "visible_name_or_path": "/home/user/contact_updates.csv",
+          "content_mode": "requirements",
+          "content_requirements": {
+            "source_kind": "csv",
+            "purpose": "Contact update table with a visible Apply column selecting the row to process.",
+            "must_contain": [
+              "Apply",
+              "Alice Chen",
+              "+1-555-0199",
+              "Eve Stone",
+              "+1-555-0188"
+            ],
+            "data_shape": {
+              "columns": [
+                "name",
+                "phone",
+                "note",
+                "Apply"
+              ],
+              "key_rows": [
+                {
+                  "name": "Alice Chen",
+                  "phone": "+1-555-0199",
+                  "note": "Primary",
+                  "Apply": "yes"
+                }
+              ],
+              "distractor_rows": [
+                {
+                  "name": "Eve Stone",
+                  "phone": "+1-555-0188",
+                  "note": "Temporary",
+                  "Apply": "no"
+                }
+              ]
+            },
+            "anchors_for_expected_data": [
+              "Alice Chen",
+              "+1-555-0199",
+              "Primary",
+              "Apply=yes"
+            ]
+          }
+        }
+      ],
+      "required_outputs": [
+        {
+          "output_id": "alice_contact",
+          "device_id": "android_0",
+          "surface": "android.contacts",
+          "visible_name_or_path": "Contact `Alice Chen`",
+          "completion_condition": "Alice Chen's contact has the phone number and note from the Apply=yes row."
+        }
+      ],
+      "expected_data": {
+        "alice_contact": {
+          "name": "Alice Chen",
+          "phone": "+1-555-0199",
+          "note": "Primary"
+        }
+      },
+      "value_trace": [
+        {
+          "expected_path": "alice_contact",
+          "expected_value": "Alice Chen; +1-555-0199; Primary",
+          "visible_source": "contact_updates_csv row where Apply=yes"
+        }
+      ],
+      "generation_notes": [],
+      "repair_notes": [
+        "Added a plausible Apply=no row and a visible Apply column so setup=distractor is represented in the agent-visible source.",
+        "Used the review's optimized instruction and synchronized the source requirements, description, completion condition and value trace without changing the task goal, IDs, devices or surfaces."
+      ]
+    }
+
+- name: Repair transient browser completion by adding a sampled stable record
+  sample: |-
+    {
+      "devices": [
+        "android_0",
+        "linux_0",
+        "linux_1"
+      ],
+      "device_surfaces": {
+        "android_0": [
+          "android.sms"
+        ],
+        "linux_0": [
+          "linux.html_browser"
+        ],
+        "linux_1": [
+          "linux.json"
+        ]
+      },
+      "setup": "clean",
+      "feasibility_type": "feasible"
+    }
+  task_design: |-
+    {
+      "status": "accepted",
+      "unsupported_reason": null,
+      "task_title": "Submit gate request in the browser",
+      "patterns": [
+        "extract_transform"
+      ],
+      "feasibility_type": "feasible",
+      "information_flow": "Android SMS -> Linux browser form",
+      "instruction": "Read Casey's SMS on the Android device and submit the requested gate request in the browser on the first Linux device.",
+      "detailed_description": "The agent reads the gate request details from the SMS and enters them into the Linux browser page.",
+      "why_cross_device": "The request details are on Android and the browser action is on Linux.",
+      "visible_sources": [
+        {
+          "source_id": "case_sms",
+          "device_id": "android_0",
+          "surface": "android.sms",
+          "visible_name_or_path": "SMS from Casey",
+          "content_mode": "inline",
+          "content": "Please submit request RQ-418 for South Gate on the browser page."
+        }
+      ],
+      "required_outputs": [
+        {
+          "output_id": "browser_state",
+          "device_id": "linux_0",
+          "surface": "linux.html_browser",
+          "visible_name_or_path": "Gate request page",
+          "completion_condition": "The browser page shows the request as submitted."
+        }
+      ],
+      "expected_data": {
+        "browser_state": {
+          "submitted": true
+        }
+      },
+      "value_trace": [
+        {
+          "expected_path": "browser_state.submitted",
+          "expected_value": true,
+          "visible_source": "case_sms requests browser submission"
+        }
+      ],
+      "generation_notes": []
+    }
+  review: |-
+    {
+      "decision": "revise",
+      "optimized_instruction": "Read Casey's SMS on the Android device and use it to submit the gate request in the browser on the first Linux device. Also save the submitted request summary as JSON on the second Linux device.",
+      "blocking_issues": [
+        {
+          "area": "capability",
+          "issue": "The only required output is a transient browser page state, but the sample includes linux.json, which can hold a stable submitted record without changing the task intent.",
+          "required_fix": "Keep the browser submission goal and add a linux_1 JSON required output containing the request id and gate from the SMS."
+        }
+      ],
+      "optional_improvements": []
+    }
+  response: |-
+    {
+      "status": "accepted",
+      "unsupported_reason": null,
+      "task_title": "Submit gate request and save summary",
+      "patterns": [
+        "extract_transform"
+      ],
+      "feasibility_type": "feasible",
+      "information_flow": "Android SMS -> Linux browser form -> Linux JSON summary",
+      "instruction": "Read Casey's SMS on the Android device and use it to submit the gate request in the browser on the first Linux device. Also save the submitted request summary as JSON on the second Linux device.",
+      "detailed_description": "The agent reads Casey's SMS to get the request id and gate, submits those details in the browser page on linux_0, and writes the same submitted request summary to a JSON file on linux_1.",
+      "why_cross_device": "The request details are on Android, the form is submitted in the Linux browser, and the durable completion record is saved on another Linux device.",
+      "visible_sources": [
+        {
+          "source_id": "case_sms",
+          "device_id": "android_0",
+          "surface": "android.sms",
+          "visible_name_or_path": "SMS from Casey",
+          "content_mode": "inline",
+          "content": "Please submit request RQ-418 for South Gate on the browser page."
+        }
+      ],
+      "required_outputs": [
+        {
+          "output_id": "browser_submission",
+          "device_id": "linux_0",
+          "surface": "linux.html_browser",
+          "visible_name_or_path": "Gate request page",
+          "completion_condition": "The browser page records the gate request submission."
+        },
+        {
+          "output_id": "submission_summary",
+          "device_id": "linux_1",
+          "surface": "linux.json",
+          "visible_name_or_path": "/tmp/portal/submission.json",
+          "completion_condition": "The JSON summary contains the submitted request id and gate."
+        }
+      ],
+      "expected_data": {
+        "browser_submission": {
+          "submitted": true
+        },
+        "submission_summary": {
+          "request_id": "RQ-418",
+          "gate": "South Gate",
+          "status": "submitted"
+        }
+      },
+      "value_trace": [
+        {
+          "expected_path": "browser_submission.submitted",
+          "expected_value": true,
+          "visible_source": "case_sms asks for browser submission"
+        },
+        {
+          "expected_path": "submission_summary",
+          "expected_value": "RQ-418; South Gate; submitted",
+          "visible_source": "case_sms provides request id and gate; instruction requires saving the submitted summary"
+        }
+      ],
+      "generation_notes": [
+        "The JSON output is a stable record on an already sampled surface, not an unsampled sidecar."
+      ],
+      "repair_notes": [
+        "Preserved the browser submission goal while replacing the transient-only completion evidence with a stable JSON companion output on an already sampled surface.",
+        "Synchronized required_outputs, expected_data and value_trace so the stable summary is grounded in the SMS source."
+      ]
+    }
+
+- name: Return unsupported when core intent cannot be repaired inside the sample
+  sample: |-
+    {
+      "devices": [
+        "android_0",
+        "linux_0"
+      ],
+      "device_surfaces": {
+        "android_0": [
+          "android.simple_draw"
+        ],
+        "linux_0": [
+          "linux.vlc_playback"
+        ]
+      },
+      "setup": "clean",
+      "feasibility_type": "feasible"
+    }
+  task_design: |-
+    {
+      "status": "accepted",
+      "unsupported_reason": null,
+      "task_title": "Draw a route poster for tomorrow playback",
+      "patterns": [
+        "dispatch_multi_device"
+      ],
+      "feasibility_type": "feasible",
+      "information_flow": "Android drawing -> Linux VLC scheduled playback",
+      "instruction": "On the Android device, draw a polished route poster. On the Linux device, schedule VLC to play tomorrow based on that poster.",
+      "detailed_description": "The task requires judging drawing quality and future VLC scheduling.",
+      "why_cross_device": "The drawing is on Android and playback is on Linux.",
+      "visible_sources": [],
+      "required_outputs": [
+        {
+          "output_id": "poster_and_schedule",
+          "device_id": "linux_0",
+          "surface": "linux.vlc_playback",
+          "visible_name_or_path": "VLC tomorrow schedule",
+          "completion_condition": "VLC is scheduled to play tomorrow based on a high-quality drawing."
+        }
+      ],
+      "expected_data": {
+        "poster_and_schedule": {
+          "scheduled_for_tomorrow": true
+        }
+      },
+      "value_trace": [
+        {
+          "expected_path": "poster_and_schedule.scheduled_for_tomorrow",
+          "expected_value": true,
+          "visible_source": "instruction asks for tomorrow playback"
+        }
+      ],
+      "generation_notes": []
+    }
+  review: |-
+    {
+      "decision": "revise",
+      "optimized_instruction": "",
+      "blocking_issues": [
+        {
+          "area": "capability",
+          "issue": "The sampled surfaces do not provide stable support for judging freeform drawing quality or future VLC scheduling.",
+          "required_fix": "Return unsupported if the core task cannot be repaired without changing sample or core intent."
+        }
+      ],
+      "optional_improvements": []
+    }
+  response: |-
+    {
+      "status": "unsupported",
+      "unsupported_reason": "The core task depends on freeform drawing quality and future VLC scheduling, but the sampled surfaces only support Simple Draw file/count state and current VLC playback state. Repairing it would require changing the core task intent or adding an unsampled companion surface.",
+      "repair_notes": [
+        "Checked the sampled surfaces against the review blocker and found no stable output that preserves both the drawing-quality goal and the future-playback goal.",
+        "Returned unsupported instead of weakening the task to file existence or current playback, because that would change the core user intent."
+      ]
+    }

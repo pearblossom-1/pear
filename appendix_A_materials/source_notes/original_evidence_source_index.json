@@ -1,0 +1,142 @@
+{
+  "collected_date": "2026-09-24",
+  "note": "Read-only copies. Current source snapshots need not be the exact revisions that produced historical stage records. Historical reports may include superseded status assertions; consult A2/A3 notes. This is a documentation packet, not a standalone runtime distribution.",
+  "copies": [
+    {
+      "source": "/Users/lht/home/MDCBench/runs/generation_engine_probe/stress_gpt5mini/R01/work/sample_000014/stage8/assembled_task.json",
+      "bundle_path": "A2_stage_example/later_selected/task.json"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/runs/generation_engine_probe/stress_gpt5mini/R01/work/sample_000014/stage4_assets/source/products.json",
+      "bundle_path": "A2_stage_example/later_selected/source/products.json"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/runs/generation_engine_probe/stress_gpt5mini/R01/work/sample_000014/stage4_assets/source/template.odp",
+      "bundle_path": "A2_stage_example/later_selected/source/template.odp"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/engine/pipeline.py",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/engine/pipeline.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/engine/prompts.py",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/engine/prompts.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/engine/pattern_catalog.py",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/engine/pattern_catalog.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/engine/stages/stage4_materializer.py",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/engine/stages/stage4_materializer.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/engine/stages/stage8_assembly.py",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/engine/stages/stage8_assembly.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/engine/probes/run_pipeline_probe.py",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/engine/probes/run_pipeline_probe.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/linux_android/stage0.py",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/linux_android/stage0.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/linux_android/surface_capabilities.yaml",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/linux_android/surface_capabilities.yaml"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/linux_android/surface_capabilities.py",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/linux_android/surface_capabilities.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/registry.py",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/registry.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/smarthome/__init__.py",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/smarthome/__init__.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/smarthome_mixed/__init__.py",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/smarthome_mixed/__init__.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/scripts/generation/check_selected_tasks_gate.py",
+      "bundle_path": "source_snapshots/scripts/generation/check_selected_tasks_gate.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/scripts/smoke/run_generated_setup_smoke.py",
+      "bundle_path": "source_snapshots/scripts/smoke/run_generated_setup_smoke.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/scripts/smoke/run_generated_selected_oracle_smoke.py",
+      "bundle_path": "source_snapshots/scripts/smoke/run_generated_selected_oracle_smoke.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/scripts/organize_cross_device_topology_views.py",
+      "bundle_path": "source_snapshots/scripts/organize_cross_device_topology_views.py"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/docs/paperdossier2/MDCBench_task_construction_pipeline.md",
+      "bundle_path": "source_snapshots/docs/paperdossier2/MDCBench_task_construction_pipeline.md"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/docs/R01-R35生成任务真机smoke测试记录.md",
+      "bundle_path": "source_snapshots/docs/R01-R35生成任务真机smoke测试记录.md"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/tasks/cross_device/_manifests/topology_views_report.md",
+      "bundle_path": "source_snapshots/tasks/cross_device/_manifests/topology_views_report.md"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/linux_android/prompts/stage1_task_design.yaml",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage1_task_design.yaml"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/linux_android/prompts/stage2_instruction_compression_repair.yaml",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage2_instruction_compression_repair.yaml"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/linux_android/prompts/stage2_task_design_review.yaml",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage2_task_design_review.yaml"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/linux_android/prompts/stage3_task_design_repair.yaml",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage3_task_design_repair.yaml"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/linux_android/prompts/stage4_asset_repair.yaml",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage4_asset_repair.yaml"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/linux_android/prompts/stage4_assets.yaml",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage4_assets.yaml"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/linux_android/prompts/stage5_setup.yaml",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage5_setup.yaml"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/linux_android/prompts/stage6_eval_cleanup_metadata.yaml",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage6_eval_cleanup_metadata.yaml"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/mdcbench/tasks/generation/profiles/linux_android/prompts/stage7_oracle.yaml",
+      "bundle_path": "source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage7_oracle.yaml"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/tasks/mdcbench_lite/mdcbench_lite_v1_selection_report.md",
+      "bundle_path": "selection_evidence/mdcbench_lite_v1_selection_report.md"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/tasks/mdcbench_lite/mdcbench_lite_v1_replacement_log.md",
+      "bundle_path": "selection_evidence/mdcbench_lite_v1_replacement_log.md"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/tasks/mdcbench_lite/mdcbench_lite_v1_smoke_report.md",
+      "bundle_path": "selection_evidence/mdcbench_lite_v1_smoke_report.md"
+    }
+  ]
+}

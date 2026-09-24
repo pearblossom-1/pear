@@ -1,0 +1,66 @@
+[
+  {
+    "product_id": "P-200",
+    "name": "SpectraCam",
+    "version": "2.1",
+    "status": "approved",
+    "slide_request": "include",
+    "description": "High-sensitivity multispectral camera"
+  },
+  {
+    "product_id": "P-201",
+    "name": "SpectraCam Lite",
+    "version": "1.0-beta",
+    "status": "beta",
+    "slide_request": "skip",
+    "description": "Lower-cost evaluation unit"
+  },
+  {
+    "product_id": "P-305",
+    "name": "AeroNav",
+    "version": "1.4",
+    "status": "approved",
+    "slide_request": "include",
+    "description": "Aerial navigation module"
+  },
+  {
+    "product_id": "P-302",
+    "name": "AeroNav Mini",
+    "version": "1.0",
+    "status": "production",
+    "slide_request": "skip",
+    "description": "Compact nav module"
+  },
+  {
+    "product_id": "P-310",
+    "name": "BeaconX",
+    "version": "0.9",
+    "status": "alpha",
+    "slide_request": "skip",
+    "description": "Proximity beacon prototype"
+  },
+  {
+    "product_id": "P-420",
+    "name": "DockLight",
+    "version": "3.2",
+    "status": "approved",
+    "slide_request": "skip_this_round",
+    "description": "Dockside lighting controller"
+  },
+  {
+    "product_id": "P-501",
+    "name": "ThermaPro",
+    "version": "2.0",
+    "status": "deprecated",
+    "slide_request": "skip",
+    "description": "Legacy thermal control"
+  },
+  {
+    "product_id": "P-623",
+    "name": "NavAssist",
+    "version": "1.2",
+    "status": "pending",
+    "slide_request": "skip",
+    "description": "Assisted navigation helper"
+  }
+]

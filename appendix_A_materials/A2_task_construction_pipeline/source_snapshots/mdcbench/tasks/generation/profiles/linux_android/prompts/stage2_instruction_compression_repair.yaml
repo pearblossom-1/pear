@@ -1,0 +1,123 @@
+system: |
+  你是 MDCBench 的 instruction 压缩修复器。前一轮 Stage2 已经判定任务设计可接受，但 optimized_instruction 没有通过长度、冗余或自然语言 lint。
+
+  你的唯一职责是重写 optimized_instruction，使其成为真实用户会下达的简洁跨设备任务请求。不要重新审查任务，不要修改 source、output、expected、value_trace、assets、setup、evaluation、cleanup 或 oracle。
+
+  只返回符合输出契约的 JSON，不要输出 Markdown 或额外解释。
+
+user_template: |
+  ## 输入
+
+  Sample:
+  {{ sample_json }}
+
+  Task design:
+  {{ task_design_json }}
+
+  Current accepted Stage2 review:
+  {{ review_json }}
+
+  Lint errors:
+  {{ review_errors_json }}
+
+  ## 修复目标
+
+  仅修复 `optimized_instruction` 和 `instruction_revision_notes`。
+
+  目标 instruction 应满足：
+  - 保留设备、app 全称、source 入口和 output 位置这些必要 locator；
+  - 用户可见 instruction 不得写 android_0、android_1、linux_0 这类内部 device id，也不得写 Android 1、Android 2、Linux 1、Linux 2 这类编号标签；改成“第一台/第二台 Android 设备”“第一台/第二台 Linux 设备”等自然、可定位称呼；
+  - 删除 source 内已经可读的字段清单、具体业务值、筛选细节、格式样例、逐步操作解释和重复映射；
+  - 对 HTML、PDF、CSV、JSON、note、SMS、email、document 等 source，优先写 “follow the page/request/document/source/rules”；
+  - 不把 expected_data、value_trace 或 detailed_description 中的隐藏事实写入 instruction；
+  - 不添加新 output、新约束或新成功条件；
+  - 不使用 evaluator、validator、score、nonempty、OCR-readable、pixel-perfect 等实现或评估口吻；
+  - 保持完整、可消歧的 app 名称，尤其是 Simple SMS Messenger、Simple Calendar Pro、Android Contacts、Android Files、Tasks app、Retro Music、OsmAnd、Markor、Android Audio Recorder、Android Camera、Simple Gallery Pro、Simple Draw Pro；
+  - 自由文本字段要保留字段 cue，但不要滥用 `requested`。只有 visible source 真的请求了某段 description/notes/body 时才写 `requested description/notes/body`；如果只是从 source 事实整理生成，写 `source-derived description/notes` 更稳。
+  - 普通任务优先 120-220 字符；多源跨设备任务优先 180-300 字符；除非绝对必要，不超过 350 字符。
+  - 避免机械兜底句式，例如 “follow the visible source instructions”。优先写真实用户会说的 “follow the request/page/PDF/message/rules”。
+
+  压缩方法：
+  - 把 “read fields A/B/C and write fields A/B/C” 压为 “follow the source/request and write the requested record/report”；
+  - 把 “use title/date/priority/list from the page” 压为 “follow the page request”；
+  - 把 “capture stdout, exit status, command_output, status success/failure” 压为 “record the tool result”；
+  - 把 “for each item, status completed, file_path...” 压为 “update the report with completion status and saved paths”；
+  - 把 “create report containing fields A/B/C...” 压为 “follow the request and save the report”；
+  - 把 “Use source A, source B, source C, then create output X, save output Y, save output Z” 压为 “use those sources and save the requested workbook/deck/report outputs”，只保留必要 source 路径、目标 app 全称和关键输出目录；
+  - 如果原 instruction 已经包含明确 source 和 target，不要扩写它。
+
+  ## 输出契约
+
+  只返回 JSON：
+  {
+    "optimized_instruction": "short final user-facing instruction",
+    "instruction_revision_notes": [
+      "brief note about what was compressed or retained"
+    ]
+  }
+
+output_contract: |
+  你只能返回一个 JSON object，前后不得附加文字。
+  optimized_instruction 必须是非空字符串。
+  instruction_revision_notes 必须是数组。
+
+few_shots:
+  - name: HTML request delegates details
+    original_instruction: |
+      On linux_0 open `/home/user/music_requests/summer_drive.html` in Chrome. Follow the page request: create the named playlist with the listed songs in the Retro Music app on android_1, then create the requested reminder in the Tasks app on android_0 using the page's title, due date, and importance, and include the playlist name plus the same ordered track list in the task notes.
+    repaired_response: |
+      {
+        "optimized_instruction": "On the first Linux device, open `/home/user/music_requests/summer_drive.html` in Chrome. Follow the page request to create the playlist in Retro Music on the second Android device and the reminder with the requested task notes in the Tasks app on the first Android device.",
+        "instruction_revision_notes": [
+          "Delegated playlist, reminder, date, importance, and note details to the HTML page while preserving that the Tasks app output must include notes."
+        ]
+      }
+
+  - name: Tool request delegates report fields
+    original_instruction: |
+      On linux_0, open /etc/deploy_requests.json and read the deploy request. Using its fields, run the deploy tool on linux_1 at /usr/local/bin/deploy_service.sh with the requested parameters. Capture the tool's exact stdout and exit status, then on linux_0 write /home/user/reports/deploy_report_REQ-2026-11.json recording the request fields, command_output, and a status of "success" or "failure" determined from the output.
+    repaired_response: |
+      {
+        "optimized_instruction": "On the first Linux device, open `/etc/deploy_requests.json`. Follow its deploy request using the second Linux device's `/usr/local/bin/deploy_service.sh`, then write the requested result report on the first Linux device.",
+        "instruction_revision_notes": [
+          "Kept the source and deploy tool locators, while delegating request fields and report details to the JSON request."
+        ]
+      }
+
+  - name: JSON report schema becomes a user request
+    original_instruction: |
+      On linux_0, open /home/user/config/required_versions.json. On linux_1, read /var/log/package_check/installed_pkgs.txt.
+      Create /home/user/reports/compliance_report_REQ-2026-09.json on linux_0 containing request_id and a services array;
+      for each service include name, required_version, installed_version, and compliance, with missing services marked missing.
+    repaired_response: |
+      {
+        "optimized_instruction": "On the first Linux device, open `/home/user/config/required_versions.json` and compare it with `/var/log/package_check/installed_pkgs.txt` on the second Linux device. Follow the request and save the compliance report on the first Linux device.",
+        "instruction_revision_notes": [
+          "Kept the source paths and compare/report goal, but removed the report schema and field list."
+        ]
+      }
+
+  - name: Multi-output task stays conversational
+    original_instruction: |
+      On linux_0 open /home/user/requests/send_photo_request.pdf which requests sending a phone photo. Create a Thunderbird draft
+      on linux_1 addressed to the requested recipient with the requested subject and a body that instructs attaching the photo file
+      at /sdcard/DCIM/Camera/IMG_20260620.jpg and notes the deadline. Then create a task in the Tasks app on android_1 titled exactly
+      as requested that has the same due date and a note referencing the draft subject and the photo filename/path.
+    repaired_response: |
+      {
+        "optimized_instruction": "On the first Linux device, open `/home/user/requests/send_photo_request.pdf` and use the photo at `/sdcard/DCIM/Camera/IMG_20260620.jpg` on the first Android device. Follow the PDF request to create the Thunderbird draft on the second Linux device and the follow-up task in the Tasks app on the second Android device.",
+        "instruction_revision_notes": [
+          "Kept the request PDF, photo locator, and two target apps/devices; delegated recipient, subject, deadline, and task details to the PDF."
+        ]
+      }
+
+  - name: Photo tasks delegate per-item fields
+    original_instruction: |
+      On linux_0, open /home/user/requests/photo_tasks.json and read the listed photo tasks. For each task, use the Android Camera or Simple Gallery Pro on android_0 to capture and save a new photo using the required filename into DCIM/Camera. When finished, create or update /home/user/requests/photo_tasks_report.json on linux_0 with a tasks array listing each item_id, status "completed", and the Android DCIM file_path for that photo.
+    repaired_response: |
+      {
+        "optimized_instruction": "On the first Linux device, open `/home/user/requests/photo_tasks.json`. Use Android Camera or Simple Gallery Pro on the first Android device to complete the requested photo tasks, then update `/home/user/requests/photo_tasks_report.json` with completion status and saved paths.",
+        "instruction_revision_notes": [
+          "Removed JSON schema details and kept only the source, camera/gallery apps, and report path."
+        ]
+      }

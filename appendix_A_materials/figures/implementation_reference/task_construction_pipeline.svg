@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="760" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">Task construction: four responsibilities and a separate Lite selection</title>
+  <desc id="desc">Configuration sampling leads to task design and executable instantiation. Review, runtime evidence, and targeted repair are distinct. Other construction routes also feed the maintained pool. Lite is separately curated.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#466079"/></marker>
+    <style>
+      text {font-family: Arial, Helvetica, sans-serif; fill: #172b40}
+      .title {font-size: 28px; font-weight: 700}
+      .heading {font-size: 21px; font-weight: 700}
+      .body {font-size: 18px}
+      .small {font-size: 16px}
+      .arrow {fill:none;stroke:#466079;stroke-width:2.5;marker-end:url(#arrow)}
+      .box {stroke:#a7bacb;stroke-width:1.5;rx:14}
+    </style>
+  </defs>
+  <rect width="1400" height="760" fill="white"/>
+  <text x="50" y="50" class="title">Task construction and dataset curation</text>
+  <text x="50" y="82" class="body">Current unified engine: Android / Linux. Other task families also have separate construction routes.</text>
+  <rect x="50" y="115" width="400" height="212" class="box" fill="#eff6fc"/>
+  <text x="72" y="150" class="heading">I. Configuration sampling</text>
+  <text x="72" y="180" class="small">Stage0 · programmatic</text>
+  <text x="72" y="214" class="body">Device-topology cycle</text>
+  <text x="72" y="244" class="body">Seeded surface + setup sampling</text>
+  <text x="72" y="282" class="small">Output: devices, allowed surfaces, setup</text>
+  <rect x="500" y="115" width="400" height="212" class="box" fill="#eff6fc"/>
+  <text x="522" y="150" class="heading">II. Task design</text>
+  <text x="522" y="180" class="small">Stage1–3 · design / review / repair</text>
+  <text x="522" y="214" class="body">Visible sources → dependencies</text>
+  <text x="522" y="244" class="body">Required outputs + expected data</text>
+  <text x="522" y="282" class="small">Value traces; revise or reject if needed</text>
+  <rect x="950" y="115" width="400" height="212" class="box" fill="#eff6fc"/>
+  <text x="972" y="150" class="heading">III. Executable instantiation</text>
+  <text x="972" y="180" class="small">Stage4–8 · assets and task configuration</text>
+  <text x="972" y="214" class="body">Assets → setup → evaluation / cleanup</text>
+  <text x="972" y="244" class="body">Oracle plan → assembly</text>
+  <text x="972" y="282" class="small">Output: candidate task + static report</text>
+  <path d="M450 220 H495" class="arrow"/>
+  <path d="M900 220 H945" class="arrow"/>
+  <rect x="50" y="395" width="900" height="170" class="box" fill="#eef7f1"/>
+  <text x="72" y="431" class="heading">IV. Validation and repair — across stages and after generation</text>
+  <text x="72" y="468" class="body">Stage-local checks · post-generation inspection · targeted repair / retest</text>
+  <text x="72" y="500" class="body">Runtime setup smoke · oracle outcome tests · ordinary agent / human operation</text>
+  <text x="72" y="536" class="small">These are different evidence levels; per-task coverage must be reported, not assumed.</text>
+  <path d="M1150 327 V359 H850 V390" class="arrow"/>
+  <path d="M700 327 V390" class="arrow" stroke-dasharray="6 5"/>
+  <rect x="1010" y="415" width="340" height="134" class="box" fill="#fff5e7"/>
+  <text x="1032" y="451" class="heading">Other construction routes</text>
+  <text x="1032" y="483" class="body">Family builders · legacy seeds</text>
+  <text x="1032" y="515" class="body">Task-specific curation and repair</text>
+  <rect x="50" y="615" width="395" height="80" class="box" fill="#f3f4f7"/>
+  <text x="72" y="662" class="heading">Maintained task pool</text>
+  <path d="M250 565 V610" class="arrow"/>
+  <path d="M1180 549 V585 H420 V610" class="arrow"/>
+  <path d="M445 655 H945" class="arrow"/>
+  <text x="500" y="635" class="body">Separate quota / quality / coverage selection</text>
+  <rect x="950" y="615" width="400" height="80" class="box" fill="#eff0fc"/>
+  <text x="972" y="650" class="heading">DevicesWorld-Lite</text>
+  <text x="972" y="678" class="body">200 selected task identities</text>
+  <text x="50" y="735" class="small">Static pass ≠ end-to-end feasibility. An oracle plan is not an executed oracle or evidence of agent success.</text>
+</svg>

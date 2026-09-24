@@ -1,0 +1,48 @@
+{
+  "source": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/tasks/mdcbench_lite/mdcbench_lite_v1.json",
+  "schema_version": "mdcbench_lite_manifest.v1",
+  "benchmark_name": "MDCBench Lite",
+  "generated_at_utc": "2026-08-06T00:00:00Z",
+  "release_status": "maintenance_pending_calendar_osmand_and_evaluator_revalidation",
+  "human_quality_review_state": "calendar_and_osmand_full_reruns_plus_evaluator_replays_pending",
+  "maintenance_note": {
+    "date": "2026-08-11",
+    "issue": "androidworld_calendar_epoch_milliseconds_used_as_seconds",
+    "affected_lite_count": 8,
+    "affected_lite_indices": [
+      139,
+      143,
+      163,
+      165,
+      167,
+      168,
+      171,
+      174
+    ],
+    "status": "full_rerun_pending"
+  },
+  "selection_policy": {
+    "total_tasks": 200,
+    "quotas": {
+      "real100": 8,
+      "real200": 10,
+      "real300": 12,
+      "linux_android": 45,
+      "linux_android_smarthome": 30,
+      "linux_smarthome": 30,
+      "android_smarthome": 25,
+      "android_only": 15,
+      "linux_only": 15,
+      "smarthome_generated_scripted": 10
+    },
+    "quality_gates": [
+      "natural user-like instruction",
+      "complete setup/assets references where declared",
+      "non-empty outcome-focused evaluation",
+      "oracle/scripted-solution availability for smokeable selected tasks",
+      "surface and capability diversity within each family",
+      "all selected tasks require real smoke before final freeze"
+    ],
+    "task_storage": "manifest references original task paths; tasks are not duplicated under tasks/mdcbench_lite"
+  }
+}

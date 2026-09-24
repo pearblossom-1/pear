@@ -1,0 +1,494 @@
+{
+  "created_date": "2026-09-24",
+  "format_reference": "pearblossom-1/pear:appendix_E_materials (case index, per-section notes, original evidence and provenance inventory)",
+  "local_source_packet": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction",
+  "cases": [
+    {
+      "case": "A1_task_specification",
+      "task_id": "al_calendar_schedule_conflict",
+      "availability": "formal_frozen_task_and_initial_resources",
+      "notes": "A1_task_specification/notes.md",
+      "config": "A1_task_specification/task/config/task.json",
+      "historical_source_read": "A1_task_specification/evidence/historical_source_read.json",
+      "scope": "Task specification; only one original source-read excerpt, not the complete main-experiment trajectory."
+    },
+    {
+      "case": "A2_task_construction_pipeline",
+      "sample": "R01/sample_000014",
+      "availability": "nine_historical_stages_and_separate_later_selected_snapshot",
+      "notes": "A2_task_construction_pipeline/notes.md",
+      "historical_record": "A2_task_construction_pipeline/stage_example/historical_pipeline_record.json",
+      "later_selected": "A2_task_construction_pipeline/stage_example/later_selected/task.json",
+      "scope": "A separate generation example, not asserted to be the lineage of A1 or a Lite member. Current code snapshots need not be the historical model-run revision."
+    },
+    {
+      "case": "A3_dataset_composition",
+      "availability": "derived_inventory_lite200_index_and_selection_evidence",
+      "notes": "A3_dataset_composition/notes.md",
+      "task_pool_count": 5897,
+      "lite_count": 200,
+      "scope": "Inspected experimental worktree inventory and formal frozen Lite configurations; not a freshly verified release-wide executability claim."
+    }
+  ],
+  "figures": {
+    "primary": "figures/DevicesWorld_task_construction (13).pdf",
+    "original_source": "/Users/lht/home/MDCBench材料/新图/DevicesWorld_task_construction (13).pdf",
+    "handling": "Original PDF copied without editing, re-exporting or changing its bytes.",
+    "pages": 1,
+    "preview": "figures/DevicesWorld_task_construction_preview.png",
+    "secondary": "figures/implementation_reference",
+    "scope": "Primary figure is a conceptual four-stage overview. See figures/notes.md for current-implementation and validation-coverage boundaries."
+  },
+  "preservation": "Raw configurations, sources, stage JSON, source-code snapshots, historical reports and original PDF are unchanged copies. Authored summary Markdown links are rewritten for GitHub portability. Absolute paths within original records remain provenance and are mapped here.",
+  "files": [
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A1_task_specification.md",
+      "bundle_path": "A1_task_specification/notes.md",
+      "handling": "derived_document_with_portable_links",
+      "bytes": 7209
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_task_construction_pipeline.md",
+      "bundle_path": "A2_task_construction_pipeline/notes.md",
+      "handling": "derived_document_with_portable_links",
+      "bytes": 11960
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A3_dataset_and_lite_selection.md",
+      "bundle_path": "A3_dataset_composition/notes.md",
+      "handling": "derived_document_with_portable_links",
+      "bytes": 9627
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/appendix_A_draft_en.md",
+      "bundle_path": "appendix_A_draft_en.md",
+      "handling": "derived_document_with_portable_links",
+      "bytes": 8986
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/sources_and_boundaries.md",
+      "bundle_path": "source_notes/sources_and_boundaries.md",
+      "handling": "derived_document_with_portable_links",
+      "bytes": 5565
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A1_example/task.json",
+      "bundle_path": "A1_task_specification/task/config/task.json",
+      "handling": "original_copy",
+      "bytes": 6063
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A1_example/source/week.csv",
+      "bundle_path": "A1_task_specification/task/resources/linux/week.csv",
+      "handling": "original_copy",
+      "bytes": 115
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A1_example/source/rule.txt",
+      "bundle_path": "A1_task_specification/task/resources/linux/rule.txt",
+      "handling": "original_copy",
+      "bytes": 278
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A1_example/source/android_calendar_setup.json",
+      "bundle_path": "A1_task_specification/task/resources/android/android_calendar_setup.json",
+      "handling": "original_copy",
+      "bytes": 523
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A1_example/historical_source_read.json",
+      "bundle_path": "A1_task_specification/evidence/historical_source_read.json",
+      "handling": "original_copy",
+      "bytes": 1586
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A1_example/provenance.json",
+      "bundle_path": "A1_task_specification/evidence/original_provenance.json",
+      "handling": "original_copy",
+      "bytes": 1684
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/data/dataset_statistics.json",
+      "bundle_path": "A3_dataset_composition/data/dataset_statistics.json",
+      "handling": "original_copy",
+      "bytes": 8417
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/data/lite200_task_index.json",
+      "bundle_path": "A3_dataset_composition/data/lite200_task_index.json",
+      "handling": "original_copy",
+      "bytes": 403856
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/data/task_pool_inventory.json",
+      "bundle_path": "A3_dataset_composition/data/task_pool_inventory.json",
+      "handling": "original_copy",
+      "bytes": 6118135
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/data/evidence_source_index.json",
+      "bundle_path": "source_notes/original_evidence_source_index.json",
+      "handling": "original_copy",
+      "bytes": 8109
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/data/materials_validation.json",
+      "bundle_path": "source_notes/local_validation_before_export.json",
+      "handling": "original_copy",
+      "bytes": 1126
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/build_materials.mjs",
+      "bundle_path": "source_notes/local_collection_scripts/build_materials.mjs",
+      "handling": "original_copy",
+      "bytes": 6792
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/collect_evidence.mjs",
+      "bundle_path": "source_notes/local_collection_scripts/collect_evidence.mjs",
+      "handling": "original_copy",
+      "bytes": 7154
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/check_materials.mjs",
+      "bundle_path": "source_notes/local_collection_scripts/check_materials.mjs",
+      "handling": "original_copy",
+      "bytes": 2866
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/historical_assembled_task.json",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/historical_assembled_task.json",
+      "handling": "original_copy",
+      "bytes": 4756
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/historical_pipeline_record.json",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/historical_pipeline_record.json",
+      "handling": "original_copy",
+      "bytes": 68662
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/historical_stages/stage0.json",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/historical_stages/stage0.json",
+      "handling": "original_copy",
+      "bytes": 320
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/historical_stages/stage1.json",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/historical_stages/stage1.json",
+      "handling": "original_copy",
+      "bytes": 8692
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/historical_stages/stage2.json",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/historical_stages/stage2.json",
+      "handling": "original_copy",
+      "bytes": 9816
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/historical_stages/stage3.json",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/historical_stages/stage3.json",
+      "handling": "original_copy",
+      "bytes": 9001
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/historical_stages/stage4.json",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/historical_stages/stage4.json",
+      "handling": "original_copy",
+      "bytes": 8569
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/historical_stages/stage5.json",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/historical_stages/stage5.json",
+      "handling": "original_copy",
+      "bytes": 1919
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/historical_stages/stage6.json",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/historical_stages/stage6.json",
+      "handling": "original_copy",
+      "bytes": 3479
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/historical_stages/stage7.json",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/historical_stages/stage7.json",
+      "handling": "original_copy",
+      "bytes": 2272
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/historical_stages/stage8.json",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/historical_stages/stage8.json",
+      "handling": "original_copy",
+      "bytes": 15038
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/later_selected/source/products.json",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/later_selected/source/products.json",
+      "handling": "original_copy",
+      "bytes": 1514
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/later_selected/source/template.odp",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/later_selected/source/template.odp",
+      "handling": "original_copy",
+      "bytes": 1369
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/later_selected/task.json",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/later_selected/task.json",
+      "handling": "original_copy",
+      "bytes": 6400
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A2_stage_example/provenance.json",
+      "bundle_path": "A2_task_construction_pipeline/stage_example/provenance.json",
+      "handling": "original_copy",
+      "bytes": 1071
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/docs/R01-R35生成任务真机smoke测试记录.md",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/docs/R01-R35生成任务真机smoke测试记录.md",
+      "handling": "original_copy",
+      "bytes": 15802
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/docs/paperdossier2/MDCBench_task_construction_pipeline.md",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/docs/paperdossier2/MDCBench_task_construction_pipeline.md",
+      "handling": "original_copy",
+      "bytes": 38876
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/engine/pattern_catalog.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/engine/pattern_catalog.py",
+      "handling": "original_copy",
+      "bytes": 1093
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/engine/pipeline.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/engine/pipeline.py",
+      "handling": "original_copy",
+      "bytes": 69190
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/engine/probes/run_pipeline_probe.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/engine/probes/run_pipeline_probe.py",
+      "handling": "original_copy",
+      "bytes": 12831
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/engine/prompts.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/engine/prompts.py",
+      "handling": "original_copy",
+      "bytes": 6802
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/engine/stages/stage4_materializer.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/engine/stages/stage4_materializer.py",
+      "handling": "original_copy",
+      "bytes": 61414
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/engine/stages/stage8_assembly.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/engine/stages/stage8_assembly.py",
+      "handling": "original_copy",
+      "bytes": 12797
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage1_task_design.yaml",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage1_task_design.yaml",
+      "handling": "original_copy",
+      "bytes": 37441
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage2_instruction_compression_repair.yaml",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage2_instruction_compression_repair.yaml",
+      "handling": "original_copy",
+      "bytes": 9120
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage2_task_design_review.yaml",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage2_task_design_review.yaml",
+      "handling": "original_copy",
+      "bytes": 51624
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage3_task_design_repair.yaml",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage3_task_design_repair.yaml",
+      "handling": "original_copy",
+      "bytes": 30096
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage4_asset_repair.yaml",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage4_asset_repair.yaml",
+      "handling": "original_copy",
+      "bytes": 9343
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage4_assets.yaml",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage4_assets.yaml",
+      "handling": "original_copy",
+      "bytes": 30828
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage5_setup.yaml",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage5_setup.yaml",
+      "handling": "original_copy",
+      "bytes": 20121
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage6_eval_cleanup_metadata.yaml",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage6_eval_cleanup_metadata.yaml",
+      "handling": "original_copy",
+      "bytes": 27924
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage7_oracle.yaml",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/prompts/stage7_oracle.yaml",
+      "handling": "original_copy",
+      "bytes": 8107
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/stage0.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/stage0.py",
+      "handling": "original_copy",
+      "bytes": 4713
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/surface_capabilities.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/surface_capabilities.py",
+      "handling": "original_copy",
+      "bytes": 5631
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/surface_capabilities.yaml",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/linux_android/surface_capabilities.yaml",
+      "handling": "original_copy",
+      "bytes": 61549
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/registry.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/registry.py",
+      "handling": "original_copy",
+      "bytes": 1478
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/smarthome/__init__.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/smarthome/__init__.py",
+      "handling": "original_copy",
+      "bytes": 372
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/mdcbench/tasks/generation/profiles/smarthome_mixed/__init__.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/mdcbench/tasks/generation/profiles/smarthome_mixed/__init__.py",
+      "handling": "original_copy",
+      "bytes": 393
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/scripts/generation/check_selected_tasks_gate.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/scripts/generation/check_selected_tasks_gate.py",
+      "handling": "original_copy",
+      "bytes": 29689
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/scripts/organize_cross_device_topology_views.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/scripts/organize_cross_device_topology_views.py",
+      "handling": "original_copy",
+      "bytes": 20109
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/scripts/smoke/run_generated_selected_oracle_smoke.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/scripts/smoke/run_generated_selected_oracle_smoke.py",
+      "handling": "original_copy",
+      "bytes": 6406
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/scripts/smoke/run_generated_setup_smoke.py",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/scripts/smoke/run_generated_setup_smoke.py",
+      "handling": "original_copy",
+      "bytes": 4424
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/source_snapshots/tasks/cross_device/_manifests/topology_views_report.md",
+      "bundle_path": "A2_task_construction_pipeline/source_snapshots/tasks/cross_device/_manifests/topology_views_report.md",
+      "handling": "original_copy",
+      "bytes": 2846
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/selection_evidence/manifest_policy_and_status.json",
+      "bundle_path": "A3_dataset_composition/selection_evidence/manifest_policy_and_status.json",
+      "handling": "original_copy",
+      "bytes": 1620
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/selection_evidence/mdcbench_lite_v1_replacement_log.md",
+      "bundle_path": "A3_dataset_composition/selection_evidence/mdcbench_lite_v1_replacement_log.md",
+      "handling": "original_copy",
+      "bytes": 8813
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/selection_evidence/mdcbench_lite_v1_selection_report.md",
+      "bundle_path": "A3_dataset_composition/selection_evidence/mdcbench_lite_v1_selection_report.md",
+      "handling": "original_copy",
+      "bytes": 80484
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/selection_evidence/mdcbench_lite_v1_smoke_report.md",
+      "bundle_path": "A3_dataset_composition/selection_evidence/mdcbench_lite_v1_smoke_report.md",
+      "handling": "original_copy",
+      "bytes": 43543
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/figures/task_construction_pipeline.mmd",
+      "bundle_path": "figures/implementation_reference/task_construction_pipeline.mmd",
+      "handling": "original_copy",
+      "bytes": 1476
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/figures/task_construction_pipeline.png",
+      "bundle_path": "figures/implementation_reference/task_construction_pipeline.png",
+      "handling": "original_copy",
+      "bytes": 149158
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/figures/task_construction_pipeline.svg",
+      "bundle_path": "figures/implementation_reference/task_construction_pipeline.svg",
+      "handling": "original_copy",
+      "bytes": 4541
+    },
+    {
+      "source": "/Users/lht/home/MDCBench材料/新图/DevicesWorld_task_construction (13).pdf",
+      "bundle_path": "figures/DevicesWorld_task_construction (13).pdf",
+      "handling": "original_copy",
+      "bytes": 602161
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/tmp/pdfs/appendix_a_upload/task_construction_user.png",
+      "bundle_path": "figures/DevicesWorld_task_construction_preview.png",
+      "handling": "preview_rendered_from_unmodified_user_pdf",
+      "bytes": 364642
+    }
+  ],
+  "authored_files": [
+    {
+      "bundle_path": "README.md",
+      "handling": "new_upload_index_or_scope_note",
+      "bytes": 870
+    },
+    {
+      "bundle_path": "case_index.md",
+      "handling": "new_upload_index_or_scope_note",
+      "bytes": 4582
+    },
+    {
+      "bundle_path": "missing_materials.md",
+      "handling": "new_upload_index_or_scope_note",
+      "bytes": 2834
+    },
+    {
+      "bundle_path": "figures/notes.md",
+      "handling": "new_upload_index_or_scope_note",
+      "bytes": 2840
+    }
+  ],
+  "export_notes": "Authored summaries additionally updated to designate the supplied PDF as primary and explain upload scope; source snapshots, historical artifacts and PDF unchanged."
+}

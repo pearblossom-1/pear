@@ -1,0 +1,92 @@
+system: |
+  你是 MDCBench Stage4 asset plan 修复器。
+
+  你只修复已有 asset plan 的 schema、external_files 和 quality_checks 问题。不要改变任务语义，不要改 instruction，不要写 setup/evaluation/cleanup/oracle/task JSON。
+
+user_template: |
+  Stage1 task design:
+  {{ task_design_json }}
+
+  Invalid Stage4 asset plan:
+  {{ asset_plan_json }}
+
+  Validation errors:
+  {{ asset_errors_json }}
+
+  Quality report:
+  {{ asset_quality_report_json }}
+
+  请返回修复后的完整 Stage4 asset plan。
+
+  修复规则：
+  - 保留原 task design 的语义；
+  - `content_mode=requirements` 的 visible source 必须有 asset_manifest；
+  - `content_mode=inline` 的 source 默认应没有 asset_manifest；后续 Stage5 用真实 app helper、adb_shell 或 Linux execute 初始化。不要把 inline CSV、inline JSON、inline Markor note、inline Linux text 等短 source 升级成 external asset；
+  - 若 inline source 因特殊原因确实保留在 asset_manifest，只能 `materialization=inline`、materializer=`inline_text`，且不能有对应 external_files；
+  - 只修复需要 Stage4 生成的 visible source 资产，删除任何提前创建 required_outputs 的 asset 或 external_file；
+  - requirements source 必须 external；
+  - external asset 必须在 external_files 中有同 asset_id 的条目；
+  - external_files.content 必须是当前最小 materializer 可检查的真实文本内容，不能只写摘要；
+  - 复杂附件要用 JSON 生成规格：ZIP/Office/PDF/图片/音频/代码项目/GPX/EML/M3U/SQLite/HTML bundle 都不要写二进制或自然语言占位；
+  - materializer 必须逐字使用白名单名称；短文本是 `inline_text`，不要写 `plain_text`、`text_file` 或其他同义词；
+  - `xlsx` / `ods` 必须使用 `document_template`，content 写 JSON workbook spec（`sheets`/`rows`/`anchors`）；不得使用 `tabular_xlsx`、`spreadsheet_builder` 或其他自造 materializer；
+  - `odt` / `docx` / `odp` / `pdf` 必须使用 `document_template`；若 source 是表格或列表，content 要写 `tables[].columns` 和 `tables[].rows`，不能只写 `title`、`paragraphs` 或 `anchors`；
+  - `pdf` 必须使用 `document_template`，content 写 JSON document spec（至少包含 `title`、`paragraphs` 或 `tables`，以及 `anchors`）；不要把 PDF 的正文直接写成纯字符串；
+  - `document_template` 的 content 是 JSON 生成规格，但 `external_files.relative_path` 和 asset `target_path` 必须是真实目标文件扩展名：PDF 用 `.pdf`，ODP 用 `.odp`，ODT 用 `.odt`，DOCX 用 `.docx`，XLSX 用 `.xlsx`，ODS 用 `.ods`。不要写 `source/foo_spec.json` 来代表 PDF/ODP/ODT 等真实附件；
+  - `zip_archive` 的 `external_files.relative_path` 和 asset `target_path` 必须都是真实 `.zip` 文件路径，content 写 JSON 生成规格；不要写 `source/foo_spec.json`、`source/foo_manifest.json` 或其它 JSON 路径来代表 ZIP；ZIP 内部的 `.json/.pdf/.xlsx/.docx/.pptx/.odt/.ods/.odp/.png/.jpg/.mp3/.m4a/.wav/.mp4` 也必须是真格式内容，不能是字典字符串或占位文本。
+  - `raster_image` 是单文件图片生成器：每个 external_file 的 `relative_path` 和 asset `target_path` 都必须是具体 `.png`、`.jpg`、`.jpeg` 或 `.webp` 文件；如果 image/photo/gallery source 列出多个图片文件，必须拆成多个 image asset / external_file，不能用一个 JSON listing 或目录 spec 代表整个相册；
+    `generation_backend` 只能使用 `GPTImage2`、`deterministic`、`code` 或 `local_fixture`；若原计划写了 `raster_generator`，把它替换为 `GPTImage2`（真实照片/场景图）或 `deterministic`（简单图形 fixture），不要保留该值；
+    真实照片、交付证明、名片、场景图、产品图、相册照片等 GPTImage2 图片的 `quality_checks` 应包含 `no_deterministic_image_fallback`。如果没有真实图片 provider，不要用 deterministic fallback 冒充真实照片，应返回 unsupported 或改成不依赖语义图片的任务设计；
+    短例：如果 visible source 是 Android 相册 `/sdcard/DCIM/Deliveries/`，data_shape.files 里有 `delivery_ORD42.jpg`，不要生成 `manifest.json`；应生成一个 `asset_kind: "image"`、`materializer: "raster_image"`、`target_path: "/sdcard/DCIM/Deliveries/delivery_ORD42.jpg"` 的真实图片 asset。相册规则、标签或命名说明不能靠 manifest 补造；若 task design 需要这些文本但没有文本 source，返回 unsupported。
+  - `audio_fixture` 是单文件音频生成器：每个 external_file 的 `relative_path` 和 asset `target_path` 都必须是具体 `.wav`、`.m4a` 或 `.mp3` 文件，content 只能描述一个音频文件并包含正数 `duration_s`；音频目录或多个音频文件必须拆成多个 audio asset / external_file，不能用 `spec.json` 或 `files[]` 代表整个目录；
+  - `video_fixture` 是单文件 MP4 生成器：每个 external_file 的 `relative_path` 和 asset `target_path` 都必须是具体 `.mp4` 文件，content 只能描述一个视频文件并包含正数 `duration_s`；多个视频文件必须拆成多个 video asset / external_file；
+  - `email_message` 的 `.eml` content 使用单封邮件字段 `from`/`to`/`subject`/`body`；`.mbox` content 使用 `messages` 数组，每项包含这些字段；不要把多封邮件塞进单个 `body` 字符串；
+  - `code_project` content 使用 `{"files":[{"path":"app.py","content":"..."}],"anchors":[...]}`；`relative_path` 必须是目录路径如 `source/project`，不能是 `source/project.json` 这类 manifest/spec 路径；materializer 只写 `files[]` 中的真实项目文件，不写构造器 manifest。files[].path 必须是安全相对路径；
+  - 修复后 `stage4_assets/source` 中不应留下 materializer 中间物、`*_spec.json`、`*_project.json`、mock status JSON、转换前媒体副本或生成器 manifest。只有 agent 可见且会被 setup 上传/写入的真实 source 文件可以保留；业务上确实需要 manifest 时，必须是自然文件名、自然内容，并在 visible source 中明确引用；
+  - `minimum_rows` 表示至少 8 行数据（不含表头）；CSV 要提供至少 8 条数据行，`xlsx` / `ods` 的 workbook spec 要在 `sheets[].rows` 里提供表头加至少 8 条数据行，`odt` / `docx` / `odp` / `pdf` 表格 source 要在 `tables[].rows` 里提供至少 8 条数据行；
+  - `office_text_anchors` 失败时，不要只把缺失值追加到 `anchors`；必须确保缺失值也出现在 `paragraphs`、`tables[].rows` 或 `sheets[].rows` 这类 agent 可读取的正文数据中；
+  - 对“更新已有对象”的任务，source 和 required_output 可以指向同一个 visible_name_or_path，但 asset/content 只能表示初始状态，不能提前写 expected_data 最终状态；
+  - quality_checks 只能使用白名单，不得自造 quality_checks；
+  - anchors_present 中的 expected_anchor_values 必须真的出现在 content 或 asset summary 中；
+  - CSV 要有真实表头和足够数据行；
+  - 单文件 HTML 要有 form 和稳定 submit hash；
+  - 需要同目录 `submitted`、`invalid`、download marker 等无扩展名辅助页面时，用 `asset_kind: "html_bundle"`、`materializer: "html_bundle"`，content 写 `{"entrypoint":"form.html","files":[...],"anchors":[...]}`，不要自造 `<no_ext>` asset_kind；
+  - 不要加入 mdcbench、real100、real200、real300、task id 或草稿痕迹；这也包括 HTML 注释、id/name/value、hidden input、URL hash、表头、JSON key/value、文件名和目录名。需要稳定 token/hash 时，用领域自然名称，例如 `submit_token`、`intake-ok`、`inventory-reconciled`。
+
+  只返回 JSON，不要解释。
+
+output_contract: |
+  The model must return one repaired Stage4 asset plan JSON object.
+  status must be accepted or unsupported.
+  If repair is impossible without changing task semantics, return unsupported with unsupported_reason.
+
+few_shots:
+  - name: Repair missing external CSV file
+    response: |
+      {
+        "status": "accepted",
+        "unsupported_reason": null,
+        "asset_manifest": [
+          {
+            "asset_id": "ledger_asset",
+            "source_id": "ledger_csv",
+            "materialization": "external",
+            "asset_kind": "csv",
+            "materializer": "tabular_csv",
+            "target_device_id": "linux_0",
+            "target_path": "/tmp/ledger/source.csv",
+            "content": "CSV ledger with realistic vendor rows and anchor row R-104.",
+            "format_notes": "Upload as source CSV.",
+            "quality_checks": ["csv_header", "minimum_rows", "anchors_present"],
+            "expected_anchor_values": ["R-104", "Aster Supply", "approved"]
+          }
+        ],
+        "external_files": [
+          {
+            "asset_id": "ledger_asset",
+            "relative_path": "source/source.csv",
+            "content": "record_id,vendor,amount,status\nR-100,North Trail,42.50,pending\nR-101,Harbor Tools,81.20,approved\nR-102,Cedar Lab,19.75,pending\nR-103,Beacon Print,33.00,rejected\nR-104,Aster Supply,58.40,approved\nR-105,Metro Foods,14.90,pending\nR-106,Harbor Tools,92.00,approved\nR-107,Eastline Parts,11.25,pending\n"
+          }
+        ],
+        "hidden_oracle": []
+      }

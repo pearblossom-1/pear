@@ -1,0 +1,269 @@
+{
+  "created_date": "2026-09-24",
+  "root_inventories": [
+    {
+      "root": "/Users/lht/home/MDCBench",
+      "counting_rule": "Task-shaped JSON: string id/instruction and array devices/evaluation. Exclude asset/episode/scripted/manifest directories. Canonical seven device-oriented directories explicitly listed; this is a inventory definition, not fresh schema or execution certification.",
+      "canonical_directories": [
+        "cross_device/android_only",
+        "cross_device/linux_only",
+        "cross_device/linux_android",
+        "cross_device/android_smarthome",
+        "cross_device/linux_smarthome",
+        "cross_device/linux_android_smarthome",
+        "smarthome/generated"
+      ],
+      "task_shaped_count": 5540,
+      "canonical_count": 5197,
+      "canonical_unique_task_ids": 5197,
+      "canonical_duplicate_ids": [],
+      "counts_by_directory": {
+        "android": 2,
+        "cross_device": 7,
+        "cross_device/android_only": 372,
+        "cross_device/android_smarthome": 1018,
+        "cross_device/linux_android": 1176,
+        "cross_device/linux_android_smarthome": 970,
+        "cross_device/linux_only": 371,
+        "cross_device/linux_smarthome": 1010,
+        "cross_device/real100": 100,
+        "cross_device/real20": 20,
+        "cross_device/real200": 100,
+        "cross_device/real300": 100,
+        "examples": 1,
+        "fake": 3,
+        "linux": 2,
+        "smarthome/examples": 8,
+        "smarthome/generated": 280
+      },
+      "canonical_device_types": {
+        "android": 372,
+        "android+home": 1018,
+        "android+home+linux": 970,
+        "android+linux": 1176,
+        "home": 280,
+        "home+linux": 1010,
+        "linux": 371
+      },
+      "canonical_device_count": {
+        "1": 280,
+        "2": 2633,
+        "3": 1590,
+        "4": 694
+      },
+      "canonical_origin_kind": {
+        "generated": 894,
+        "real": 300,
+        "unknown": 4003
+      },
+      "parse_errors": []
+    },
+    {
+      "root": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826",
+      "counting_rule": "Task-shaped JSON: string id/instruction and array devices/evaluation. Exclude asset/episode/scripted/manifest directories. Canonical seven device-oriented directories explicitly listed; this is a inventory definition, not fresh schema or execution certification.",
+      "canonical_directories": [
+        "cross_device/android_only",
+        "cross_device/linux_only",
+        "cross_device/linux_android",
+        "cross_device/android_smarthome",
+        "cross_device/linux_smarthome",
+        "cross_device/linux_android_smarthome",
+        "smarthome/generated"
+      ],
+      "task_shaped_count": 6240,
+      "canonical_count": 5897,
+      "canonical_unique_task_ids": 5897,
+      "canonical_duplicate_ids": [],
+      "counts_by_directory": {
+        "android": 2,
+        "cross_device": 7,
+        "cross_device/android_only": 372,
+        "cross_device/android_smarthome": 1018,
+        "cross_device/linux_android": 1876,
+        "cross_device/linux_android_smarthome": 970,
+        "cross_device/linux_only": 371,
+        "cross_device/linux_smarthome": 1010,
+        "cross_device/real100": 100,
+        "cross_device/real20": 20,
+        "cross_device/real200": 100,
+        "cross_device/real300": 100,
+        "examples": 1,
+        "fake": 3,
+        "linux": 2,
+        "smarthome/examples": 8,
+        "smarthome/generated": 280
+      },
+      "canonical_device_types": {
+        "android": 372,
+        "android+home": 1018,
+        "android+home+linux": 970,
+        "android+linux": 1876,
+        "home": 280,
+        "home+linux": 1010,
+        "linux": 371
+      },
+      "canonical_device_count": {
+        "1": 280,
+        "2": 3106,
+        "3": 1853,
+        "4": 658
+      },
+      "canonical_origin_kind": {
+        "builder_reconstruction": 4,
+        "builder_repair": 7,
+        "capability_preserving_human_reconstruction": 400,
+        "curated": 19,
+        "curated_existing_real_asset": 2,
+        "curated_real_photo_derivative": 1,
+        "curated_reconstruction": 3,
+        "designed_natural_asset": 2,
+        "generated": 368,
+        "human_reconstructed_capability_lineage": 3,
+        "human_reconstructed_with_real_cc0_photographs": 1,
+        "real": 185,
+        "reconstructed_real_workflow": 20,
+        "reconstructed_repository_photo_workflow": 1,
+        "reused_project_authored_repository_JPEG_assets_original_capture_or_generation_method_unverified": 1,
+        "reviewer_reconstruction": 23,
+        "reviewer_repair": 11,
+        "unknown": 4846
+      },
+      "parse_errors": []
+    }
+  ],
+  "lite": {
+    "manifest": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/tasks/mdcbench_lite/mdcbench_lite_v1.json",
+    "manifest_release_status": "maintenance_pending_calendar_osmand_and_evaluator_revalidation",
+    "manifest_generated_at": "2026-08-06T00:00:00Z",
+    "manifest_maintenance_note": {
+      "date": "2026-08-11",
+      "issue": "androidworld_calendar_epoch_milliseconds_used_as_seconds",
+      "affected_lite_count": 8,
+      "affected_lite_indices": [
+        139,
+        143,
+        163,
+        165,
+        167,
+        168,
+        171,
+        174
+      ],
+      "status": "full_rerun_pending"
+    },
+    "selection_policy": {
+      "total_tasks": 200,
+      "quotas": {
+        "real100": 8,
+        "real200": 10,
+        "real300": 12,
+        "linux_android": 45,
+        "linux_android_smarthome": 30,
+        "linux_smarthome": 30,
+        "android_smarthome": 25,
+        "android_only": 15,
+        "linux_only": 15,
+        "smarthome_generated_scripted": 10
+      },
+      "quality_gates": [
+        "natural user-like instruction",
+        "complete setup/assets references where declared",
+        "non-empty outcome-focused evaluation",
+        "oracle/scripted-solution availability for smokeable selected tasks",
+        "surface and capability diversity within each family",
+        "all selected tasks require real smoke before final freeze"
+      ],
+      "task_storage": "manifest references original task paths; tasks are not duplicated under tasks/mdcbench_lite"
+    },
+    "count": 200,
+    "unique_task_ids": 200,
+    "actual_device_types": {
+      "android": 20,
+      "android+home": 25,
+      "android+home+linux": 30,
+      "android+linux": 67,
+      "home": 10,
+      "home+linux": 30,
+      "linux": 18
+    },
+    "actual_device_count": {
+      "1": 10,
+      "2": 95,
+      "3": 66,
+      "4": 29
+    },
+    "manifest_families": {
+      "android_only": 15,
+      "android_smarthome": 25,
+      "linux_android": 45,
+      "linux_android_smarthome": 30,
+      "linux_only": 15,
+      "linux_smarthome": 30,
+      "real100": 8,
+      "real200": 10,
+      "real300": 12,
+      "smarthome_generated_scripted": 10
+    },
+    "manifest_difficulty": {
+      "easy": 42,
+      "hard": 50,
+      "medium": 108
+    },
+    "frozen_task_difficulty": {
+      "Complex": 7,
+      "Medium": 15,
+      "Simple": 8,
+      "unknown": 170
+    },
+    "manifest_surface_tags": {
+      "audio": 1,
+      "browser_web": 21,
+      "calendar": 40,
+      "code_cli": 28,
+      "contacts": 42,
+      "csv": 9,
+      "documents": 42,
+      "email": 2,
+      "files": 147,
+      "html": 1,
+      "image": 2,
+      "json": 3,
+      "json_structured": 38,
+      "linux.html_browser": 1,
+      "linux.odt_docx": 1,
+      "linux.pdf": 1,
+      "linux.text_markdown": 1,
+      "linux.vlc_playback": 1,
+      "linux.xlsx": 1,
+      "linux.zip_archive": 1,
+      "maps_osmand": 21,
+      "markdown": 2,
+      "media_audio": 22,
+      "media_image": 20,
+      "pdf": 1,
+      "python": 4,
+      "smarthome_control": 58,
+      "smarthome_schedule": 25,
+      "smarthome_state": 54,
+      "smarthome_workflow": 25,
+      "sms_email": 67,
+      "tables": 106,
+      "tasks_notes": 75,
+      "tests": 3,
+      "text": 5,
+      "xlsx": 2,
+      "zip": 1
+    },
+    "manifest_capability_tags": {
+      "android_app_interaction": 145,
+      "information_transfer": 110,
+      "linux_interaction": 120,
+      "media_handling": 47,
+      "negative_or_conflict_handling": 93,
+      "smarthome_reasoning": 95,
+      "structured_data_handling": 149,
+      "temporal_or_workflow_planning": 39
+    },
+    "surface_tag_note": "Overlapping manifest labels, not newly verified app-capability annotations."
+  }
+}

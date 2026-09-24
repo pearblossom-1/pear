@@ -1,0 +1,400 @@
+system: |
+  你是 MDCBench fixture / asset 生成规划器。
+
+  Stage4 采用“模型规划 + 代码化 materializer”的混合架构：
+  - 模型负责把 Stage1 visible_sources 转成具体、真实、可生成、可校验的资产规划；
+  - 代码 materializer 负责后续真正写出 CSV/JSON/HTML/Office/PDF/ZIP/图片/音频/代码项目等文件；
+  - 不建议让模型直接输出不可控二进制，也不依赖 Codex/Claude 自由发挥生成附件；
+  - 只有图片风格素材等确实需要生成模型时，Stage4 也只写清 content_requirements、generation_backend 和 quality_checks，由后续专门 materializer 或人工确认执行；
+  - 真实照片、场景图、物体图优先使用 generation_backend: "GPTImage2"；裁剪、旋转、resize、拼图、加大字 label 等确定性变换优先用代码 materializer 处理。
+
+  你不写 setup action，不写 evaluation，不写 cleanup，不写 oracle，不写 task JSON。
+
+user_template: |
+  ## 输入
+
+  Stage1 task design:
+  {{ task_design_json }}
+
+  ## Stage4 目标
+
+  请为需要代码化落地的 visible source 设计资产 materialization plan。
+
+  source 是任务语义的一部分，不是装饰文件。feasible 任务里，后续生成的附件或 app state 必须让 agent 能推出 Stage1 expected_data。
+
+  Stage4 只处理任务开始前已经可见的 source。不要为 `required_outputs` 创建 asset，不要把 agent 应该完成的目标文件、目标 app state、目标网页提交结果提前写入 asset_manifest 或 external_files。
+
+  Stage4 的职责边界：
+  - `content_mode=requirements` 的 source 必须进入 asset_manifest，并由 external_files/materializer 真实生成；
+  - 需要真实文件/附件的 source 必须进入 Stage4，例如 CSV、JSON、HTML、Office/PDF/ZIP、图片、音频、视频、代码项目、GPX、SQLite、EML/M3U；
+  - `content_mode=inline` 且是 app state 的 source 不必进入 Stage4，例如 Android SMS、Broccoli recipe、Contacts、Calendar、Tasks、Clock alarm/timer 等；这些应由 Stage5 根据 Stage1 visible_sources 直接使用对应 setup helper 初始化；
+  - `content_mode=inline` 的 Markor note、Linux 文本文件等可以不生成 external_file，由 Stage5 用 adb_shell/execute 写入；如果必须作为真实附件上传，Stage1/3 应将该 source 设计为 requirements/external；
+  - 允许“更新已有对象”的 source 与 required_output 使用同一个 visible_name_or_path，例如已有 recipe 被 agent 修改；Stage4 只能表达初始 source state，不能把 expected_data 的最终状态提前写入。
+
+  ## asset_kind 与 materializer
+
+  每个 asset_manifest item 必须包含：
+  - `asset_kind`：资产类型；
+  - `materializer`：后续代码化生成方式；
+  - `quality_checks`：生成后需要跑的本地质量检查；
+  - `expected_anchor_values`：附件中必须出现或可验证的关键值，来自 Stage1 expected_data/value_trace。
+
+  支持的 asset_kind：
+  - `text_note` / `text` / `markdown` / `receipt`：短文本、Markor note、说明文件、请求文件、文本票据；
+  - `csv`：结构化表格 source；
+  - `json`：结构化状态或规则；
+  - `html`：单文件本地页面或表单；
+  - `html_bundle`：本地 HTML 表单及其同目录辅助页面，例如 `form.html` + `submitted` + `invalid`；
+  - `xlsx` / `ods`：表格工作簿；
+  - `odt` / `docx`：Writer/Word 文档；
+  - `odp`：Impress deck；
+  - `pdf`：报告、票据、packet；
+  - `zip`：文件集合或归档；
+  - `image`：照片、截图、参考图、GIMP/Gallery source；
+  - `audio` / `video`：录音、媒体 source；
+  - `code_project`：小型代码项目；
+  - `gpx`：OsmAnd route/favorite；
+  - `email`：eml/mbox seed；
+  - `playlist`：m3u/playlist seed；
+  - `sqlite_db`：已验证 app/helper 需要的 sqlite fixture。
+
+  支持的 materializer：
+  - `inline_text`：直接用 Stage1 inline content；
+  - `tabular_csv`：代码生成 CSV，检查表头、行数、关键字段；
+  - `structured_json`：代码生成 JSON，检查 schema/关键字段；
+  - `html_form`：代码生成单文件 HTML，检查表单字段、submit URL/hash 或明确结果机制；
+  - `html_bundle`：代码生成多文件 HTML bundle，支持无扩展名 submit/invalid/download 占位页面；
+  - `document_template`：代码生成 ODT/DOCX/ODP/XLSX/PDF 等模板或文档；
+  - `zip_archive`：代码生成 zip，并检查内部文件列表；
+  - `raster_image`：代码生成或调用图像生成器，检查尺寸、非空、必要文字/视觉 anchor；
+  - `audio_fixture` / `video_fixture`：代码生成或复制媒体，检查时长、非空、文件名；
+  - `code_project`：代码生成文件树，并检查能运行基础测试或包含目标函数；
+  - `gpx_route`：代码生成 GPX，检查 name/lat/lon/desc；
+  - `email_message`：代码生成 eml/mbox，检查 To/Subject/body anchors；
+  - `playlist_file`：代码生成 m3u/playlist；`external_files.relative_path` 和 target_path 必须是具体 `.m3u` 或 `.m3u8` 文件，不要写成 `.json`；
+  - `sqlite_database`：代码生成 sqlite，必须注明表和关键列。
+
+  materializer 必须逐字使用上面白名单中的名字。不得使用自然语言同义词或自造名称，例如 `plain_text`、`text_file`、`image_generation`、`gpt_image` 都是非法的。短文本 materializer 的真实名称是 `inline_text`。
+
+  表格工作簿 materializer 约束：
+  - `xlsx` / `ods` 必须使用 `document_template`；
+  - 不得使用 `tabular_xlsx`、`spreadsheet_builder`、`workbook_generator` 或其他自造 materializer；
+  - `document_template` 的 content 必须是 JSON 生成规格，包含 `sheets`、`rows` 和 `anchors`，不要只写自然语言摘要。
+
+  quality_checks 必须从下面白名单选择，不得自造 quality_checks：
+  - `nonempty_text`
+  - `nonempty_file`
+  - `matches_visible_source`
+  - `anchors_present`
+  - `csv_header`
+  - `minimum_rows`
+  - `json_parseable`
+  - `html_has_form`
+  - `html_has_inputs`
+  - `html_bundle_files`
+  - `submit_has_stable_hash`
+  - `office_text_anchors`
+  - `pdf_text_anchors`
+  - `zip_file_list`
+  - `image_dimensions`
+  - `audio_duration`
+  - `media_duration`
+
+  如果某个资产需要更复杂检查，先选择最接近的已有 quality check，并在 `format_notes` 中说明后续 materializer 需要扩展；不要直接写新的 check 名称。
+
+  ## content_mode 处理
+
+  - Stage1 `content_mode=inline`：默认不要进入 Stage4，也不要生成 external_files。后续 Stage5 会根据 inline content 使用真实 app helper、adb_shell 或 Linux execute 写入对应 app state 或文件。
+  - 不要把 inline CSV、inline JSON、inline Markor note、inline Linux text 等短 source 升级成 external asset；如果 source 真的需要复杂附件、较大表格或二进制文件，Stage1/3 应把它设计为 `content_mode=requirements`。
+  - 若某个 inline source 因特殊原因确实进入 asset_manifest，则必须 `materialization=inline`、materializer=`inline_text`，且不要生成 external_files。
+  - Stage1 `content_mode=requirements`：必须 `materialization=external`，并在 external_files 里给出可由代码 materializer 落地的内容或生成规格。
+
+  ## external_files.content 规则
+
+  `external_files.content` 必须让后续代码 materializer 可以确定性落地。它可以是完整文本字符串，也可以是 JSON object 生成规格；复杂附件优先使用 JSON object，不必把 JSON 再转义成字符串：
+  - `tabular_csv`、`structured_json`、`html_form` 可以直接给完整文本内容；
+  - `html_bundle` 必须给 JSON 生成规格，例如 `{"entrypoint":"form.html","files":[{"path":"form.html","content":"<!doctype html>..."},{"path":"submitted","content":"Submitted."},{"path":"invalid","content":"Invalid."}],"anchors":["submitted#intake-ok"]}`；`files[].path` 必须是安全相对路径，可以没有扩展名，但不得是绝对路径或包含 `..`；
+  - `document_template` 用于 `pdf` / `docx` / `odt` / `odp` 时必须给 JSON 生成规格；纯文本模板用 `{"title":"Visit brief","paragraphs":["Contact: Aster Supply","Location: Dock 2"],"anchors":["Aster Supply","Dock 2"]}`，表格型文档必须使用 `tables`，例如 `{"title":"Vendor Registry","tables":[{"table_name":"vendor_registry","columns":["vendor_id","vendor_name","amount","status"],"rows":[["V-101","Aster Supply","58.40","approved"]]}],"anchors":["V-101","Aster Supply"]}`；
+  - `document_template` 的 content 是 JSON 生成规格，但 `external_files.relative_path` 和 asset `target_path` 必须是真实目标文件扩展名：PDF 用 `.pdf`，ODP 用 `.odp`，ODT 用 `.odt`，DOCX 用 `.docx`，XLSX 用 `.xlsx`，ODS 用 `.ods`。不要写 `source/foo_spec.json` 来代表 PDF/ODP/ODT 等真实附件；
+  - `document_template` 用于 `xlsx` / `ods` 时必须给 JSON workbook spec，例如 `{"sheets":[{"name":"Sheet1","rows":[["record_id","vendor"],["R-104","Aster Supply"]]}],"anchors":["R-104","Aster Supply"]}`；表格数据不要只放进 `anchors`；
+  - `zip_archive` 必须给 JSON 生成规格，例如 `{"files":[{"path":"docs/summary.txt","content":"..."}],"anchors":["..."]}`；`external_files.relative_path` 和 asset `target_path` 必须都是真实 `.zip` 文件路径，不要写成 `source/foo_spec.json` 或 `source/foo_manifest.json` 来代表 ZIP；ZIP 内部若包含 `.json`、`.pdf`、`.xlsx`、`.docx`、`.pptx`、`.odt`、`.ods`、`.odp`、`.png`、`.jpg`、`.mp3`、`.m4a`、`.wav`、`.mp4` 等，也必须按对应真实格式生成，不能把字典字符串或占位文本写进这些扩展名文件；
+  - `raster_image` 必须给 JSON 生成规格，例如 `{"width":640,"height":360,"label":"visible scene description","generation_backend":"GPTImage2","image_prompt":"realistic inspection photo with a readable label","anchors":["..."]}`；`relative_path` / `target_path` 可以是 `.png`、`.jpg` 或 `.jpeg`，不要让路径扩展名和期望格式不一致；
+  - 如果 image/photo/gallery source 在 requirements 中列出多个 `.png` / `.jpg` / `.jpeg` / `.webp` 文件，必须拆成多个 `asset_kind: "image"` + `materializer: "raster_image"` 的 concrete external file，每个文件一个真实图片路径；不要用一个 JSON listing/spec 来代表整个相册目录，因为 Stage5 只能上传 Stage4 真实生成的文件；
+  - `audio_fixture` 是单文件音频生成器：`external_files.relative_path` 和 asset `target_path` 都必须是具体 `.wav`、`.m4a` 或 `.mp3` 文件，content 必须给单文件 JSON 生成规格，例如 `{"duration_s":3.0,"sample_rate":16000,"anchors":["memo.wav"]}`，质量检查用 `audio_duration`。如果 source 是音频目录或多个音频文件，必须拆成多个 audio asset / external_file，每个对应一个具体音频文件，不要用一个 `spec.json` 或 `files[]` 代表整个目录；
+  - `video_fixture` 是单文件 MP4 生成器：`external_files.relative_path` 和 asset `target_path` 都必须是具体 `.mp4` 文件，content 必须给单文件 JSON 生成规格，例如 `{"duration_s":3.0,"width":640,"height":360,"label":"field review clip","anchors":["clip.mp4"]}`，质量检查用 `media_duration`。如果 source 是多个视频文件，必须拆成多个 video asset / external_file；
+  - `code_project` 必须给 JSON 生成规格，例如 `{"files":[{"path":"app.py","content":"..."}],"anchors":["target_function"]}`；`relative_path` 必须是目录路径如 `source/project`，materializer 只会在该目录下写 `files[]` 中列出的真实项目文件，不会也不应生成 `manifest.json`、`*_spec.json` 或其它构造器清单。若任务业务上确实需要 manifest 文件，必须在 `files[]` 中显式给出自然业务名称和内容；
+  - `gpx_route` 必须给 JSON 生成规格，例如 `{"name":"Service yard","lat":47.151,"lon":9.532,"desc":"18 North Trail Road","anchors":["Service yard","47.151","9.532"]}`；
+  - `email_message` 必须给 JSON 生成规格；单封 `.eml` 用 `{"from":"ops@example.test","to":"review@example.test","subject":"Release RELEASE-42","body":"Gate status approved.","anchors":["RELEASE-42","approved"]}`；`.mbox` seed 用 `{"messages":[{"from":"sender@example.com","to":"agent@example.test","subject":"supplier invoice batch","body":"..."}],"anchors":["supplier invoice batch"]}`；
+  - `playlist_file` 必须给 JSON 生成规格，例如 `{"tracks":["focus-one.mp3","focus-two.mp3"],"anchors":["focus-one.mp3","focus-two.mp3"]}`，但生成出的真实文件是 M3U 文本；因此 relative_path/target_path 必须是 `.m3u` 或 `.m3u8`，quality_checks 不要使用 `json_parseable`，应使用 nonempty_file/anchors_present 等；
+  - `sqlite_database` 必须给 JSON 生成规格，例如 `{"tables":[{"name":"map_markers","columns":[["title","TEXT"],["lat","REAL"],["lon","REAL"]],"rows":[["Service yard",47.151,9.532]]}],"anchors":["Service yard","47.151"]}`；
+  - 不要把二进制文件、base64 大块内容或“请生成一张图/一个 zip”这种自然语言占位放进 `external_files.content`。
+
+  ## 附件质量规则
+
+  所有用户可见资产：
+  - 不得包含 mdcbench、real100、real200、real300、task id、setup direction、evaluation direction、草稿元数据；
+  - 这条限制覆盖正文、注释、HTML id/name/value、hidden input、URL hash、文件名、目录名、表头、JSON key/value、Office 文本和 format_notes；HTML 注释和 hidden input 也算 agent-visible source，不得写 `automated checks`、`test harness`、`stable submit token`、`submit_token`、`submission_key`、`submit_hash`、`machine-friendly`、`fixture` 等评测/构造痕迹；需要稳定 URL hash 或状态值时，用真实业务字段和值，例如 `intake-ok`、`inventory-reconciled`、`review-approved`，不要使用“提交钥匙/验证哈希/测试标记”一类隐藏检测命名；
+  - 文件名和路径要短且自然，例如 `/tmp/report/data.csv`、`/home/user/form/form.html`、`/tmp/map/address.odt`；
+  - 不要生成未被 instruction、visible source 或后续 evaluation 需要的附件。
+  - `stage4_assets/source` 中最终只应留下 agent 可见且会被 setup 上传/写入的真实 source 文件或其 ZIP/目录内部成员；不要留下 materializer 中间物、`*_spec.json`、`*_project.json`、mock status JSON、转换前媒体副本或生成器 manifest。若某个 JSON/manifest 是业务 source，必须在 instruction/visible source 中自然引用，并被 setup 上传。
+
+  文本 / Markdown：
+  - 内容要像真实请求、说明、日志或清单；
+  - 不要写“内容不限”“不要伪造”等给 benchmark 作者看的话。
+
+  CSV / JSON / XLSX / ODS：
+  - 不要只有 2-3 行 toy 数据；
+  - 若 requirements 要求复杂 source，CSV 通常至少 8-20 行，字段真实，关键行可由 expected_anchor_values 标出；
+  - JSON 不能只写 `{"status":"completed"}`，应有具体字段。
+
+  HTML：
+  - 如果需要 submit，必须写清 stable URL/hash、download、DOM state 或结果文件机制；
+  - stable hash、form id、input name、hidden field name/value 必须像真实业务页面字段，不能出现 mdcbench、real100/200/300、task id、benchmark、test harness、oracle、evaluator 等构造痕迹；
+  - HTML 注释、button 文案、hidden 字段和 form id 都是可见 source；不要写 `materializer checks`、`automation`、`stable submit token` 等构造说明。如果任务只需读取表格/文本，不要额外生成无用 submit form；
+  - 面向 agent 的 HTML/source 不要暴露 `start_ts_epoch_ms`、`end_ts_epoch_ms`、`dueDateMillis`、`expected_ts` 等 evaluator 字段。应写自然日期、时间、时区和业务字段；epoch milliseconds 只属于 hidden expected/evaluator。
+  - 如果 submit 会跳转到 `submitted`、`invalid`、`download` 这类同目录无扩展名页面，应使用 `asset_kind: "html_bundle"` 和 `materializer: "html_bundle"`，不要把这些辅助页面写成未知 `<no_ext>` asset_kind；
+  - 不要假设 file:// 页面能直接写本地文件，除非后续 runtime/helper 明确支持；
+  - 页面字段名、Stage1 expected_data 和后续 evaluator 预期必须一致。
+
+  office / PDF / ZIP：
+  - 模板应有真实结构、多段文本或表格，不要只有标题；
+  - 模板文件只能提供结构、占位符和样式，不能预先包含 agent 应该推导/填写的最终答案。例如 Writer/Impress template 可以有 `TITLE`、`NAME`、`PHONE`、空表格或说明性列名，但不能已经写入最终 shopping list、approved rows、summary anchors 或 evaluator expected 文本；
+  - ODT/DOCX/PDF/ODP 若作为表格 source，`external_files.content` 必须包含 `tables[].columns` 和足够的 `tables[].rows`；不要只写 title/anchors，否则 agent 实际看不到可操作的数据行；
+  - XSLX/ODS 若作为表格 source，`external_files.content` 必须包含 `sheets[].rows`，第一行是表头，后面是足够数据行；
+  - PDF 若承载文本，必须是真正可搜索 PDF：`pdftotext` 或 `strings -n 1` 应能看到关键 anchor。不要只生成图片式 PDF、空 PDF、或只有 `%PDF` magic 但正文不可抽取的文件，除非任务明确要求 OCR/图片阅读且后续 evaluator 也按 OCR/图片能力设计；
+  - ZIP 必须说明内部文件列表和每个文件用途；
+  - ZIP 内部文件也必须是真实格式。内部 `.pdf` 必须是真 PDF，`.mp3/.wav/.m4a/.mp4` 必须是真媒体，`.jpg/.png/.jpeg/.webp` 必须是真图片，`.tar/.tar.gz/.tgz` 必须是真归档；不能写 0 byte、ASCII placeholder、`<binary placeholder>` 或 “Placeholder content for ...”；
+  - 如果任务只需要文件名清单而不需要真实 PDF/图片/音视频，请把 ZIP 内部文件设计为 `.txt`、`.csv`、manifest 或自然业务清单，不要伪装成媒体/二进制文档；
+  - 文档/演示模板中的 placeholder 只能作为 agent 要替换的初始占位符，不能同时泄漏最终答案、QA sample values、expected rows 或 evaluator anchors。
+
+  图片 / 音频 / 视频：
+  - 如果只是测试存在性，instruction 也应匹配低语义目标；
+  - 图片要有可见内容，不能是纯色块或无意义抽象图；
+  - Gallery/Camera/GIMP/cover/id-card/product/delivery proof/badge template 等语义图片 source 不能是彩色棋盘、几何纹理或带提示文字的占位图；不要在图片中写 `valid bitmap asset`、`fixture`、`reference image`、`generated` 等构造说明。要按任务语境生成拟真的照片、产品图、交付证明、图表、名片、截图、模板或封面；
+  - 如果 instruction 要求替换图片中的 placeholder（例如 badge template 的 NAME/PHONE），图片本身必须真的包含清晰可见的 placeholder；不能只在文件名或 evaluator 中暗示这些字段；
+  - 真实照片、场景图、物体图优先设置 `generation_backend: "GPTImage2"`，并给出具体 `image_prompt`、尺寸、主体、文字限制和 expected anchors；这类图片的 `quality_checks` 应加入 `no_deterministic_image_fallback`，防止正式任务混入本地彩色渐变/噪声 fallback 图；
+  - `generation_backend` 只能使用 `GPTImage2`、`deterministic`、`code` 或 `local_fixture`；不要写 `raster_generator`，这是 materializer 类型，不是 image backend；
+  - Stage4 materializer 只有在配置 GPTImage2 provider 时才会调用图片生成后端；正式批量生成不得依赖 deterministic image fallback。未配置 provider 时，GPTImage2 图片应让 Stage4 失败或返回 unsupported，而不是生成几何噪声图；
+  - 裁剪、旋转、resize、拼图、加大字 label 等确定性变换应通过代码 materializer 执行，输入图可以来自 GPTImage2 或本地 deterministic fixture；
+  - `generation_backend` 是生成策略字段，不是 quality check；quality_checks 仍必须从白名单选择；
+  - 音频/视频不要太短，避免播放器状态不稳定；
+  - 需要 OCR 时要明确文字 anchor，但不要默认每个图片任务都用 OCR。
+
+  代码项目：
+  - 文件树要小而完整；
+  - 至少包含一个可运行脚本或测试；
+  - bug/expected fix 必须由 visible source 推出。
+
+  选择规则与可见推导：
+  - 如果 source 使用 `all`、`for each row`、`approved`、`active`、`below threshold`、`matched only`、`pending with coordinates` 等筛选语义，附件中必须提供足够字段让 agent 唯一算出完整正例和负例集合；
+  - 如果后续 expected 需要 due date、priority/importance、提前提醒 offset、目标文件名、书签 folder 或 URL 规范，这些规则必须出现在 instruction 或 visible source 中，不能只藏在 hidden_oracle/evaluator；
+  - 如果存在同名联系人、同名文件、同名 playlist/favorite 等多候选对象，source 必须提供可见消歧字段，例如 phone、email、address、id 或 exact title；不能让 evaluator 暗中选其中一个。
+  - CSV 字段值包含逗号、换行或引号时必须正确 CSV quoting，避免地址、备注、姓名等自然字段破坏列对齐。
+
+  ## 输出 JSON
+
+  只返回 JSON，不要 Markdown，不要解释。
+
+  {
+    "status": "accepted",
+    "unsupported_reason": null,
+    "asset_manifest": [
+      {
+        "asset_id": "short_id",
+        "source_id": "source id from task design",
+        "materialization": "inline",
+        "asset_kind": "text_note",
+        "materializer": "inline_text",
+        "target_device_id": "device id",
+        "target_path": "visible object name or target file path",
+        "content": "inline content or external generation summary",
+        "format_notes": "how Stage4 setup should expose it",
+        "quality_checks": ["nonempty_text", "matches_visible_source"],
+        "expected_anchor_values": ["critical visible value"]
+      }
+    ],
+    "external_files": [
+      {
+        "asset_id": "external asset id",
+        "relative_path": "source/file.ext",
+        "content": "text content, or a JSON object generator spec for complex assets"
+      }
+    ],
+    "hidden_oracle": [
+      {
+        "name": "expected rows or values",
+        "not_visible_to_agent": true,
+        "content": "hidden testing note derived from Stage1 expected_data"
+      }
+    ]
+  }
+
+output_contract: |
+  The model must return one JSON object.
+  status must be accepted or unsupported.
+  asset_manifest, external_files, and hidden_oracle must be arrays.
+  Every content_mode=requirements visible source in task_design must be covered by one asset_manifest item.
+  Inline app-state visible sources may be omitted from asset_manifest so Stage5 can initialize them with app helpers.
+  Required outputs must not be materialized as assets.
+  Each asset_manifest item must include asset_kind, materializer, quality_checks, and expected_anchor_values.
+  requirements sources must use materialization=external.
+  inline sources should normally use materialization=inline.
+
+few_shots:
+  - name: Inline Markor source
+    response: |
+      {
+        "status": "accepted",
+        "unsupported_reason": null,
+        "asset_manifest": [
+          {
+            "asset_id": "invoice_note_asset",
+            "source_id": "invoice_note",
+            "materialization": "inline",
+            "asset_kind": "text_note",
+            "materializer": "inline_text",
+            "target_device_id": "android_0",
+            "target_path": "Markor note `Invoice request`",
+            "content": "SKU123, 2, 15.50\nSKU456, 1, 42.00\nSKU789, 5, 3.20",
+            "format_notes": "Create as a visible Markor note; no external file needed.",
+            "quality_checks": ["nonempty_text", "matches_visible_source"],
+            "expected_anchor_values": ["SKU123", "SKU456", "SKU789"]
+          }
+        ],
+        "external_files": [],
+        "hidden_oracle": [
+          {"name": "computed_totals", "not_visible_to_agent": true, "content": "Line totals derived from note values."}
+        ]
+      }
+  - name: External HTML form
+    response: |
+      {
+        "status": "accepted",
+        "unsupported_reason": null,
+        "asset_manifest": [
+          {
+            "asset_id": "intake_form_asset",
+            "source_id": "intake_form",
+            "materialization": "external",
+            "asset_kind": "html",
+            "materializer": "html_form",
+            "target_device_id": "linux_0",
+            "target_path": "/home/user/intake/form.html",
+            "content": "Form with customer and approval fields; submit redirects to submitted#intake-jordan-lee.",
+            "format_notes": "Upload to /home/user/intake/form.html and open with Chrome.",
+            "quality_checks": ["html_has_form", "submit_has_stable_hash", "anchors_present"],
+            "expected_anchor_values": ["Jordan Lee", "approved", "intake-jordan-lee"]
+          }
+        ],
+        "external_files": [
+          {
+            "asset_id": "intake_form_asset",
+            "relative_path": "source/form.html",
+            "content": "<!doctype html><html><body><form id=\"intake\"><input name=\"customer\"><input name=\"approval\"><button type=\"submit\">Submit</button></form><script>document.getElementById('intake').addEventListener('submit', function(e){e.preventDefault(); location.href='submitted#intake-jordan-lee';});</script></body></html>"
+          }
+        ],
+        "hidden_oracle": [
+          {"name": "submitted_hash", "not_visible_to_agent": true, "content": "submitted#intake-jordan-lee"}
+        ]
+      }
+  - name: External HTML bundle with submit pages
+    response: |
+      {
+        "status": "accepted",
+        "unsupported_reason": null,
+        "asset_manifest": [
+          {
+            "asset_id": "booking_portal_asset",
+            "source_id": "booking_portal",
+            "materialization": "external",
+            "asset_kind": "html_bundle",
+            "materializer": "html_bundle",
+            "target_device_id": "linux_0",
+            "target_path": "/home/user/booking/form.html",
+            "content": "Booking form bundle with submitted and invalid support pages; valid submit redirects to submitted#pickup-booking-ok.",
+            "format_notes": "Upload all bundle files to /home/user/booking/ and open form.html in Chrome.",
+            "quality_checks": ["html_has_form", "html_has_inputs", "submit_has_stable_hash", "html_bundle_files", "anchors_present"],
+            "expected_anchor_values": ["07:30", "pickup-booking-ok", "submitted", "invalid"]
+          }
+        ],
+        "external_files": [
+          {
+            "asset_id": "booking_portal_asset",
+            "relative_path": "source/form.html",
+            "content": {
+              "entrypoint": "form.html",
+              "files": [
+                {"path": "form.html", "content": "<!doctype html><html><body><form id=\"booking\"><input name=\"pickup\" value=\"07:30\"><button type=\"submit\">Submit</button></form><script>document.getElementById('booking').addEventListener('submit', function(e){e.preventDefault(); location.href='submitted#pickup-booking-ok';});</script></body></html>"},
+                {"path": "submitted", "content": "Pickup booking submitted."},
+                {"path": "invalid", "content": "Pickup booking validation failed."}
+              ],
+              "anchors": ["pickup-booking-ok", "submitted", "invalid"]
+            }
+          }
+        ],
+        "hidden_oracle": [
+          {"name": "submitted_hash", "not_visible_to_agent": true, "content": "submitted#pickup-booking-ok"}
+        ]
+      }
+  - name: External CSV source
+    response: |
+      {
+        "status": "accepted",
+        "unsupported_reason": null,
+        "asset_manifest": [
+          {
+            "asset_id": "ledger_asset",
+            "source_id": "ledger_csv",
+            "materialization": "external",
+            "asset_kind": "csv",
+            "materializer": "tabular_csv",
+            "target_device_id": "linux_0",
+            "target_path": "/tmp/ledger/source.csv",
+            "content": "CSV ledger with realistic vendor rows and the anchor record R-104.",
+            "format_notes": "Generate a CSV with at least 12 rows and upload before task start.",
+            "quality_checks": ["csv_header", "minimum_rows", "anchors_present"],
+            "expected_anchor_values": ["R-104", "Aster Supply", "approved"]
+          }
+        ],
+        "external_files": [
+          {
+            "asset_id": "ledger_asset",
+            "relative_path": "source/source.csv",
+            "content": "record_id,vendor,amount,status\nR-100,Aster Supply,42.50,approved\nR-101,Harbor Tools,81.20,pending\nR-102,Cedar Lab,19.75,approved\nR-103,North Trail,33.00,rejected\nR-104,Aster Supply,58.40,approved\nR-105,Metro Foods,14.90,pending\nR-106,Harbor Tools,92.00,approved\nR-107,Eastline Parts,11.25,pending\nR-108,Oak Clinic,73.10,approved\nR-109,Beacon Print,29.99,rejected\nR-110,Cedar Lab,46.35,approved\nR-111,Metro Foods,65.80,pending\n"
+          }
+        ],
+        "hidden_oracle": [
+          {"name": "ledger_anchor", "not_visible_to_agent": true, "content": "R-104 is the approved Aster Supply anchor row."}
+        ]
+      }
+  - name: External PDF source generated from JSON spec
+    response: |
+      {
+        "status": "accepted",
+        "unsupported_reason": null,
+        "asset_manifest": [
+          {
+            "asset_id": "release_packet_asset",
+            "source_id": "release_packet_pdf",
+            "materialization": "external",
+            "asset_kind": "pdf",
+            "materializer": "document_template",
+            "target_device_id": "linux_0",
+            "target_path": "/tmp/release/packet.pdf",
+            "content": "PDF packet with release id, gate status, and reviewer note generated from a JSON document spec.",
+            "format_notes": "Generate a real PDF with extractable text anchors and upload before task start.",
+            "quality_checks": ["nonempty_file", "pdf_text_anchors"],
+            "expected_anchor_values": ["RELEASE-42", "Gate status approved", "Aster reviewer"]
+          }
+        ],
+        "external_files": [
+          {
+            "asset_id": "release_packet_asset",
+            "relative_path": "source/packet.pdf",
+            "content": "{\"title\":\"Release packet\",\"paragraphs\":[\"Release ID RELEASE-42\",\"Gate status approved\",\"Reviewer: Aster reviewer\"],\"anchors\":[\"RELEASE-42\",\"Gate status approved\",\"Aster reviewer\"]}"
+          }
+        ],
+        "hidden_oracle": [
+          {"name": "release_packet_text", "not_visible_to_agent": true, "content": "PDF text anchors must be extractable by the evaluator."}
+        ]
+      }

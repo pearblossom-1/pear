@@ -1,0 +1,192 @@
+{
+  "repair_attempted": true,
+  "repair_errors": [],
+  "instruction_lint_errors": [],
+  "instruction_fallback_applied": true,
+  "repaired_instruction_spec": {
+    "status": "accepted",
+    "unsupported_reason": null,
+    "task_title": "Build product-summary slides from inventory JSON using template deck",
+    "patterns": [
+      "extract_transform",
+      "state_create_update"
+    ],
+    "feasibility_type": "feasible",
+    "information_flow": "linux.json (first Linux) -> filter/transform approved products -> linux.odp_pptx template (second Linux) -> create updated ODP deck on second Linux",
+    "instruction": "On the first Linux device, open the product inventory JSON at /home/user/data/products.json. Follow the request and save `/home/user/presentations/product_updates.odp` on the second Linux device.",
+    "detailed_description": "Read the JSON inventory on the first Linux device. The JSON contains a list of product records (product_id, name, version, status). Select only records where status == \"approved\". On the second Linux device there is an ODP template deck containing a template slide titled \"Template Slide: Product Summary\" with text anchors for PRODUCT_ID, PRODUCT_NAME, VERSION, STATUS. For each approved product, create a new slide based on that template slide and populate the anchors with the product's product_id, name, version, and status. Save the resulting ODP deck as /home/user/presentations/product_updates.odp. The required output semantics: the saved deck must contain one Product Summary slide per approved product from the JSON and each such slide must include deterministic text anchors with the Product ID, Name, Version and Status values taken from the JSON. In addition, the saved presentation's document title must include the phrase \"Product Updates\" so that the presentation title is clearly identifiable as the product updates deck. The expected_data values (product IDs, names, versions, statuses) are directly taken from the JSON source; the mapping to slides is determined by the presence of the template slide anchors in the template ODP on the second device.",
+    "why_cross_device": "The product records (the authoritative data) are on the first Linux device as a JSON file, while the slide template and the final presentation must be created/updated on the second Linux device; creating per-product slides therefore requires reading data on the first device and writing the updated deck on the second device.",
+    "visible_sources": [
+      {
+        "source_id": "product_inventory_json",
+        "device_id": "linux_0",
+        "surface": "linux.json",
+        "visible_name_or_path": "/home/user/data/products.json",
+        "content_mode": "requirements",
+        "content_requirements": {
+          "source_kind": "json",
+          "purpose": "Inventory of product records used to generate product summary slides.",
+          "must_contain": [
+            "P-200",
+            "SpectraCam",
+            "approved",
+            "P-305",
+            "AeroNav"
+          ],
+          "data_shape": {
+            "top_level_type": "array",
+            "required_fields": [
+              "product_id",
+              "name",
+              "version",
+              "status"
+            ],
+            "key_records": [
+              {
+                "product_id": "P-200",
+                "name": "SpectraCam",
+                "version": "2.1",
+                "status": "approved"
+              },
+              {
+                "product_id": "P-201",
+                "name": "SpectraCam Lite",
+                "version": "1.0-beta",
+                "status": "beta"
+              },
+              {
+                "product_id": "P-305",
+                "name": "AeroNav",
+                "version": "1.4",
+                "status": "approved"
+              }
+            ],
+            "min_items": 3,
+            "distractor_items": [
+              {
+                "product_id": "P-201",
+                "name": "SpectraCam Lite",
+                "version": "1.0-beta",
+                "status": "beta"
+              }
+            ]
+          },
+          "anchors_for_expected_data": [
+            "P-200",
+            "SpectraCam",
+            "2.1",
+            "approved",
+            "P-305",
+            "AeroNav",
+            "1.4",
+            "approved"
+          ]
+        }
+      },
+      {
+        "source_id": "slides_template_deck",
+        "device_id": "linux_1",
+        "surface": "linux.odp_pptx",
+        "visible_name_or_path": "/home/user/presentations/template.odp",
+        "content_mode": "requirements",
+        "content_requirements": {
+          "source_kind": "slides",
+          "purpose": "Presentation template containing a Product Summary slide to be instantiated for each approved product.",
+          "must_contain": [
+            "Template Slide: Product Summary",
+            "{PRODUCT_ID}",
+            "{PRODUCT_NAME}",
+            "{VERSION}",
+            "{STATUS}"
+          ],
+          "data_shape": {
+            "slide_count": 5,
+            "slide_titles": [
+              "Title",
+              "Agenda",
+              "Template Slide: Product Summary",
+              "Contact",
+              "Credits"
+            ],
+            "text_anchors": [
+              "PRODUCT_ID",
+              "PRODUCT_NAME",
+              "VERSION",
+              "STATUS"
+            ]
+          },
+          "anchors_for_expected_data": [
+            "Template Slide: Product Summary",
+            "PRODUCT_ID",
+            "PRODUCT_NAME",
+            "VERSION",
+            "STATUS"
+          ]
+        }
+      }
+    ],
+    "required_outputs": [
+      {
+        "output_id": "updated_product_deck",
+        "device_id": "linux_1",
+        "surface": "linux.odp_pptx",
+        "visible_name_or_path": "/home/user/presentations/product_updates.odp",
+        "completion_condition": "A presentation saved at the path that contains one 'Product Summary' slide per product in products.json whose status is \"approved\", each Product Summary slide contains text anchors populated with the product's Product ID, Name, Version, and Status values from the JSON, and the presentation's document title contains the phrase \"Product Updates\"."
+      }
+    ],
+    "expected_data": {
+      "updated_product_deck": {
+        "presentation_title_contains": "Product Updates",
+        "slides_count_min": 2,
+        "product_summary_slides": [
+          {
+            "product_id": "P-200",
+            "name": "SpectraCam",
+            "version": "2.1",
+            "status": "approved",
+            "text_anchors_present": [
+              "PRODUCT_ID: P-200",
+              "PRODUCT_NAME: SpectraCam",
+              "VERSION: 2.1",
+              "STATUS: approved"
+            ]
+          },
+          {
+            "product_id": "P-305",
+            "name": "AeroNav",
+            "version": "1.4",
+            "status": "approved",
+            "text_anchors_present": [
+              "PRODUCT_ID: P-305",
+              "PRODUCT_NAME: AeroNav",
+              "VERSION: 1.4",
+              "STATUS: approved"
+            ]
+          }
+        ]
+      }
+    },
+    "value_trace": [
+      {
+        "expected_path": "updated_product_deck.product_summary_slides",
+        "expected_value": "one entry per approved product with product_id, name, version, status matching JSON key_records where status == \"approved\"",
+        "visible_source": "product_inventory_json key_records: select records with status == \"approved\" (P-200, P-305) and use their product_id/name/version/status fields"
+      },
+      {
+        "expected_path": "updated_product_deck.product_summary_slides[].text_anchors_present",
+        "expected_value": "each slide must include anchors PRODUCT_ID, PRODUCT_NAME, VERSION, STATUS populated with the corresponding JSON values",
+        "visible_source": "slides_template_deck text_anchors + product_inventory_json field values: instantiate template slide anchors PRODUCT_ID/PRODUCT_NAME/VERSION/STATUS with values from product_inventory_json"
+      },
+      {
+        "expected_path": "updated_product_deck.presentation_title_contains",
+        "expected_value": "contains the phrase 'Product Updates' or similar presentation title derived from the save action",
+        "visible_source": "instruction: save as /home/user/presentations/product_updates.odp and set presentation title to contain 'Product Updates'"
+      }
+    ],
+    "generation_notes": [],
+    "repair_notes": [
+      "Added an explicit, agent-visible requirement in the instruction and detailed_description that the saved presentation's document title must contain the phrase 'Product Updates', and synchronized the required_outputs completion_condition and value_trace accordingly so the presentation_title_contains expectation is derivable from the instruction.",
+      "This is a minimal repair to resolve the review blocker without changing devices, surfaces, the core task intent, or other expected checks."
+    ]
+  }
+}

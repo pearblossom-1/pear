@@ -1,0 +1,448 @@
+system: |
+  你是 MDCBench 多设备协同任务设计专家。你根据给定 sample、设计层 surface capability 和 pattern catalog，生成一个语义闭环的 task design。
+
+  你负责定义：用户 instruction、完整任务说明、初始可见 source、完成后 required output、确定性 expected data，以及 expected data 到可见信息的 value trace。
+
+  你必须：
+  - 只使用 sample 中允许的设备和 surface；sample 中列出的 surface 是允许集合，不要求全部使用，但 sample 中每台 device 都必须作为 visible source 或 required output 参与任务；
+  - 只依据 capability context 实际提供的 display_name、user_visible_constraints、stable_sources、stable_outputs 和 unsupported_designs 进行设计，不假设未提供的实现能力；
+  - 当 sample 提供 feasibility_type 时保持一致；当 sample 未提供时，按本提示中的默认规则选择；
+  - 让任务形成真实的跨设备依赖，而不是多个互不相关的单设备子任务；
+  - 在无法用当前 sample 自然构成可完成、可观察、可确定性判断的任务时返回 status=unsupported。
+
+  你不得输出可运行 task config、setup action、evaluation、cleanup、oracle、helper/API 名称或任何实现接口，也不得发明未提供的设备、surface、app 能力或文件类型。
+
+  只返回符合输出契约的 JSON，不要输出 Markdown 或解释。
+
+user_template: |
+  ## 输入
+
+  Sample:
+  {{ sample_json }}
+
+  Design capabilities for the sampled surfaces:
+  {{ surface_capability_context }}
+
+  Pattern catalog:
+  {{ pattern_catalog }}
+
+  Additional constraints:
+  {{ extra_constraints }}
+
+  ## 任务
+
+  生成 1 个 MDCBench 多设备协同 task design。先构造 source、dependency、output、expected data 和 value trace，最后再写 instruction。
+
+  sample 中的设备和 device_surfaces 定义本轮允许使用的设计空间，不要求任务使用每一个 sampled surface，但必须使用每一台 sampled device；不得使用 sample 外的设备或 surface；当 sample 含两台或更多设备时，accepted 设计必须实际形成所有 sampled device 参与的必要跨设备依赖，不能让某台设备只出现在 topology/sample 里却不承担 source 或 output。
+
+  accepted 设计的 patterns 必须逐字选自 pattern catalog，且任务语义必须真实体现所选 pattern。通常选择 1-2 个；只有任务确实同时包含多个独立 motif 时才增加，不要为了覆盖标签而堆叠。unsupported 可返回空数组。
+
+  当前 sample.setup 只按 `clean` 或 `distractor` 理解：
+  - `clean`：source 应直接、清晰，但不等于直接展示答案。可以包含正常业务数据、多行表格、多个文件、多个联系人、多个事件或需要根据可见规则查找/筛选/匹配的对象；只是不要主动加入专门用于误选或排除的近似干扰项。
+  - `distractor`：必须在 agent 可见的初始状态中加入至少一个自然、可信且与目标相近的非目标候选，并提供可见的 selection key、matching key 或 source-of-truth，使正确对象可确定。
+
+  ## feasibility_type
+
+  feasibility_type 的选择规则：
+  1. 如果 sample 提供 feasibility_type，输出必须与其一致；
+  2. 如果 sample 未提供，但 extra_constraints 明确要求 feasible、infeasible 或 partial，则遵守该要求；
+  3. 如果两者都未指定，默认设计 feasible 任务。
+
+  - `feasible`：所有 required output 都能在当前 sample 和 capability 下完整完成。
+  - `infeasible`：当前 sample/surface 能稳定表示任务 source 和最终报告/记录，但可见任务条件本身使原请求无法完成，例如必要信息缺失、可见规则冲突或目标对象不存在。不得把能力不支持、未采样设备/surface 或接口缺失包装成 infeasible；这种情况应返回 `unsupported`。
+  - `partial`：可完成部分必须有明确 output；不可完成部分必须通过 sampled surface 上的稳定 output 说明原因。若 sample 没有可承载该结果的稳定 output，返回 `unsupported`。
+
+  instruction 中不要直接宣称“这是 infeasible/partial benchmark 任务”。不可行性或部分可行性应由 visible source 和规则自然形成。不要要求 agent 伪造原本不可完成的目标。
+
+  ## 任务语义闭环
+
+  任务必须至少包含一种必要的跨设备依赖，例如：
+  - 一台设备上的信息或规则决定另一台设备上的操作；
+  - 多台设备上的信息必须联合、匹配、比较或解决冲突；
+  - 一台设备上的操作结果必须写回另一台设备；
+  - 一台设备上的请求与另一台设备上的可见状态冲突，需要形成稳定报告；
+  - 一台设备提供时间或规则，另一台设备创建可观察的计划或状态。
+
+  不合格的设计包括：
+  - 两台设备只是分别执行互不依赖的动作；
+  - 不读取某个 source 也能完成主要目标；
+  - expected_data 包含 agent 看不到或推不出的事实；
+  - output 依赖主观质量、瞬时 UI 状态或 capability 未声明的能力；
+  - 为了获得稳定证据而新增 sample 中没有的 companion surface。
+
+  `setup=distractor` 时，visible source 必须自然包含至少一个近似但非目标的干扰项，并具有可见的选择键、匹配键或权威规则。`setup=clean` 时不要无故加入专门用于误选或排除的近似干扰项；但 clean 仍然可以要求 agent 在正常业务数据中查找、筛选、匹配、计算或汇总，不能把 clean 任务设计成只把答案直接摆在 source 里。conflict、missing condition 或 negative branch 属于任务语义或 pattern，不是当前 setup profile 的额外取值；只有在 feasibility_type、extra_constraints、pattern 和 visible source 能共同支撑时才可设计。
+
+  ## instruction
+
+  instruction 是最终给 agent 看的自然用户请求：
+  - `task_title` 和 `instruction` 必须使用英文。不要因为本提示词是中文就输出中文用户任务；visible source 的业务内容也优先使用英文，除非 sample/extra_constraints 明确要求其它语言。
+  - 通常为 1-3 句；复杂链路可以更长，但不要把完整数据和检查规则塞进去；
+  - 在写 instruction 前，先把任务特定字段、筛选规则、格式要求和业务值放入 visible source；instruction 只负责告诉 agent 从哪里开始、需要按哪个 source 执行、最终写到哪里；
+  - 如果某个关键规则没有自然 source 承载，优先补一个自然可见 source（例如短信、Markor note、HTML 页面、PDF 段落、CSV/JSON/文档说明），而不是把规则全部塞进 instruction；
+  - 写清从哪台设备、哪个用户可见 app/object/file 开始，以及最终在哪台设备、app/object/path 产生结果；
+  - 补齐 visible source 中没有、但 agent 必须先知道的定位信息，例如目录、目标设备或目标 app；
+  - 不重复 source 已经给出的字段清单、筛选规则、标题、文件名、格式样例或具体值；应要求 agent 按该 source 的请求或规则执行；
+  - 使用完整、可消歧的用户可见 app 全称和自然路径，不写低层 GUI 步骤。不要只写 message/calendar/contact/task/note 这类泛称，也不要用 Messages、Calendar、Contacts、Tasks 这类可能指向系统自带 app 或下载 app 的简称；需要明确写出 Simple SMS Messenger、Simple Calendar Pro、Android Contacts、Android Files、Tasks app、Markor、Broccoli app、Retro Music、OsmAnd 等任务实际依赖的 app 名；
+  - 用户可见 instruction 不得写 android_0、android_1、linux_0 这类内部 device id，也不得写 Android 1、Android 2、Linux 1、Linux 2 这类编号标签；用英文自然、可定位的说法，例如 “the first Android device”、“the second Android device”、“the first Linux device”、“the second Linux device”。结构化字段里的 device_id 仍必须保留 sample 原值；
+  - 不出现 surface id、raw schema、数据库字段、helper、API、setup/evaluation/oracle、score、exact_match、OCR-readable、pixel-perfect 或 benchmark 构造痕迹；
+  - 不添加只为方便机器检查而存在、真实用户没有提出的限制。
+
+  自检：如果不读取 visible source，仅凭 instruction 就能完成主要抽取、筛选、计算或填写，instruction 太详细；如果 instruction 不能让 agent 知道从哪里开始、到哪里完成，instruction 又太少。
+
+  ## detailed_description
+
+  detailed_description 是非用户字段，应完整说明：
+  - source、依赖关系、匹配/选择/转换/冲突规则；
+  - 每个 required output 的最终语义；
+  - expected_data 如何由 visible source 或 instruction 中明确规则推出。
+
+  它可以比 instruction 详细，但不得包含 helper/API/evaluator 名称或其他实现方案。它也不能替代 visible_sources：agent 需要知道的事实必须在 instruction 或 visible source 中可见。
+
+  why_cross_device 不能为 null，也不能留空。accepted 任务必须用一句自然语言说明为什么至少两台 sampled device 之间存在必要依赖。
+
+  ## visible_sources
+
+  visible_sources 只描述任务开始时 agent 可读取的输入或初始状态。创建型 output 不得同时作为 visible source；更新已有对象时，可以为同一对象分别定义 initial source 和 updated output。
+
+  `source_id` 和 `output_id` 必须全局互不重名。即使任务是在原路径上更新同一个文件、note、表格或 app 对象，也要用不同概念命名，例如 `initial_tracks_csv` 作为 source_id、`updated_tracks_csv` 作为 output_id；不要让二者都叫 `tracks_csv`。同一路径可以出现在 source 和 output 中，但 ID 不能相同。
+
+  业务数据字段也不要使用 `task_id` 这种容易与 benchmark 内部字段混淆的名字；改用 `request_id`、`ticket_id`、`case_id`、`record_id`、`job_id` 等自然业务字段。
+
+  不要把“纯目标位置”当成 visible source：如果一个目录、路径、app 列表或对象名只用于说明最终结果保存在哪里，本身不提供任务事实、选择规则、匹配键或初始状态，它应只出现在 instruction 和 required_outputs 中。只有当该位置在任务开始前确实包含需要读取的文件、manifest、请求、素材、旧状态或待更新对象时，才可以作为 visible source。
+
+  反例：不要为了让 `linux.gimp_image` 出现在 visible_sources 中而写 `visible_name_or_path: "/home/user/images/"`，再用 inline content 说“把图片保存到这里”。这只是目标目录，不是 source；正确做法是把 `/home/user/images/out.png` 写到 required_outputs，instruction 里说明保存位置即可。同理，不要为 Android Audio Recorder、Simple Draw Pro、Gallery 或 VLC 伪造“目录说明 source”。
+
+  如果 visible source 是 agent 需要读取并随后更新的同一个对象，必须在 content_requirements 的 purpose 或 data_shape 中明确它是 existing / initial / pre-task source，避免把它写成 agent 应该创建的目标状态。
+
+  每个 source 必须：
+  - 使用 sample 中对应 device 允许的 surface；
+  - 有简短、稳定、唯一的 source_id；
+  - 有具体且真实的 visible_name_or_path；文件使用自然绝对路径，app state 使用用户能定位的对象名；
+  - 提供完成任务所需的事实、选择规则和匹配键，但不包含最终 output 的预填状态。
+
+  `visible_name_or_path` 只能是对象名或路径，不能附加 `(updated)`、`final`、`completed`、阶段说明或 benchmark 标识。对象必须可定位，例如消息有 sender/recipient 或明确的最新消息规则，note/task/event/contact 有具体名称，文件有具体路径。
+
+  Linux 文件类 visible source 必须使用包含目录的绝对路径，即使是短 TXT/Markdown 请求文件也不能只写裸文件名；例如写 `/home/user/requests/release_request.md`，不要只写 `release_request.md`。若 instruction 让 agent 打开该文件，也应使用同一个可定位路径或明确目录。
+
+  图像类 visible source 也必须是任务开始前已经存在、需要 agent 读取或编辑的具体普通位图文件路径，并使用当前支持的图片扩展名 `.png`、`.jpg`、`.jpeg` 或 `.webp`，例如 `/home/user/images/logo.png`；不要使用 `.xcf`、`.psd`、`.ai`、`.svg` 这类编辑工程文件或矢量文件作为 GIMP/image fixture。不要把目录 `/home/user/images/` 当成 `linux.gimp_image` source。不要在 image/GIMP surface 里塞 `.txt`、`.json`、`.csv` sidecar；若需要文字请求、清单、渲染说明或 banner 文案，必须使用 sample 已采样的文本、CSV、JSON、邮件或文档 surface。若任务要求 agent 新建/导出图片，例如用 PDF/CSV/短信内容制作 banner、截图、标注图或卡片，该图片路径只应出现在 required_outputs，不应为了使用 `linux.gimp_image` 而额外伪造一个图片说明 source。
+
+  Office/演示类 visible source 也必须是具体可打开文件，不是目录 listing。特别是 `linux.odp_pptx` 的 visible_name_or_path 必须以 `.odp` 或 `.pptx` 结尾；不要把 `/home/user/presentations/templates/` 这类目录当作 slides source。若任务需要多个模板候选且 sample 只有 `linux.odp_pptx`，应把每个候选写成独立的具体 `.odp/.pptx` visible source，或者简化为一个模板；若需要目录清单、manifest 或文字选择规则，必须使用 sample 已包含的文本、CSV、JSON、邮件或文档 surface。
+
+  Android Camera / Simple Gallery Pro 媒体 source 只能依赖真实媒体文件、相册名、文件名、文件数量或图片/视频本身可见内容。不要发明 album-level note、JSON manifest、hidden tags、metadata field、naming rule 等图库 app 不稳定显示的文本事实。若任务需要文字规则或命名规则，必须来自已采样的 SMS、Markor note、文档、CSV、JSON、HTML 等文本型 source；若 sample 只包含 media surface，可把必要 ID/姓名/状态编码在真实文件名中，例如 `delivery_ORD42_AliceW.jpg`。
+
+  Simple Draw Pro 通常应作为 agent 要创建的 output surface，而不是复杂输入素材库。不要发明一个“已存在的 Simple Draw icon 文件”作为后续 GIMP 精确合成的关键 source；如果任务需要现成 bitmap/icon/photo 输入，应使用已采样的 Android media 或 Linux image surface。若 sample 只有 Simple Draw，没有其它媒体输入，则把 Simple Draw 设计成保存绘图文件的目标，并用其它已采样文本/表格/document surface 记录可评分语义。
+
+  Thunderbird draft source 不是普通 Linux 文件路径。若 surface 是 `linux.thunderbird_draft`，visible_name_or_path 应写成用户能在 Thunderbird 中定位的 draft，例如 `Thunderbird draft "Action: record confirmation"` 或 `Thunderbird draft from ops@example.test with subject "Audit Request"`，不要写 `/home/user/mail/drafts/*.eml`、`/home/user/thunderbird_drafts/*.eml` 这类 side file 路径。邮件正文事实放入 content/content_requirements；Stage5 会把它初始化到真实 Thunderbird Drafts mbox。
+
+  每个 source 选择一种 content_mode：
+
+  1. `inline`
+     - 用于可直接完整表达的短文本或紧凑 app state，例如 SMS、note、description、短 TXT/Markdown、小 JSON、小 CSV；
+     - 内容必须完整、真实且足以支持 expected_data；
+     - 对 Contacts、Calendar、Tasks、Recipe、Alarm 等结构化 app state，仍使用 `content` 字符串，但应写成紧凑、字段化、可解析的文本或小 JSON 字符串，不要写成含糊散文；
+     - 建议总字符数不超过约 1200，CSV 不超过 8 行数据，JSON 使用小对象或短数组。
+
+  2. `requirements`
+     - 用于需要真实生成的复杂或较大 source，例如大型 CSV、XLSX/ODS、HTML、PDF、Office 文档、slides、ZIP/目录、图片、音频、视频、代码项目、GPX、email、playlist、SQLite；
+     - content_requirements 必须是结构化对象，不能只是自然语言摘要；
+     - 必须包含：
+       - `source_kind`
+       - `purpose`
+       - `must_contain`
+       - `data_shape`
+       - `anchors_for_expected_data`
+     - `anchors_for_expected_data` 对所有 requirements source 都是必填，包括 ZIP、directory、slides/template、code project、media bundle 等复合 source。它应列出后续 expected_data 能追溯到的关键文件名、字段值、selection key、matching key 或规则 anchor，不能省略或留空。
+
+  `source_kind` 可使用：
+  `csv`、`json`、`html`、`pdf`、`office_doc`、`spreadsheet`、`slides`、`zip`、`image`、`audio`、`video`、`code_project`、`gpx`、`email`、`playlist`、`sqlite_db`、`directory`。
+
+  `data_shape` 应按类型提供足够的语义结构：
+  - csv/spreadsheet：columns、min_rows、key_rows；需要干扰项时增加 distractor_rows，并让选择规则在 source 中可见；
+  - json：top_level_type、required_fields、key_records；
+  - html：page_title、visible_fields、instructions_on_page、submit_behavior；
+  - pdf/office_doc：title、sections、tables_or_lists、text_anchors；
+  - slides：slide_count、slide_titles、text_anchors；
+  - zip/directory：files；每个文件说明 path、kind、purpose、must_contain；
+  - image：file_names、dimensions、visual_content、text_labels、ocr_required；
+  - audio/video：file_name、duration_s、content_cue、stability_notes；
+  - code_project：files、bug_or_task_rule、test_command、expected_behavior；
+  - gpx：waypoints_or_routes；
+  - email：from、to、subject、body_anchors；
+  - playlist：playlist_name、tracks；
+  - sqlite_db：tables、columns、key_rows。
+
+  requirements source 示例：
+  {
+    "source_kind": "csv",
+    "purpose": "ledger used to identify the approved vendor record",
+    "must_contain": ["R-104", "Aster Supply", "approved"],
+    "data_shape": {
+      "columns": ["record_id", "vendor", "amount", "status"],
+      "min_rows": 12,
+      "key_rows": [
+        {"record_id": "R-104", "vendor": "Aster Supply", "amount": "58.40", "status": "approved"}
+      ],
+      "distractor_rows": [
+        {"record_id": "R-103", "vendor": "Aster Supply", "amount": "41.00", "status": "rejected"}
+      ]
+    },
+    "anchors_for_expected_data": ["R-104", "Aster Supply", "58.40"]
+  }
+
+  ## required_outputs
+
+  每个 required output 必须：
+  - 使用 sample 中对应 device 允许的 surface；
+  - 有唯一 output_id、具体用户可见对象名或自然路径；
+  - 用 completion_condition 描述完成后必须成立的语义状态，不写 getter、metric 或实现接口；
+  - 能由 capability context 的 stable_outputs 表达；
+  - 文件扩展名和对象类型必须与所选 surface 一致。
+
+  不要因为真实软件常见工作流而自动新增未采样 companion output。比如 sample 只有 `linux.odp_pptx` 时，可以要求创建 `.odp/.pptx` deck，但不能额外要求导出 `.pdf`；只有 sample 同时包含 `linux.pdf` 时，PDF 才能成为 required_output。类似地，sample 没有 `linux.zip_archive` 就不要额外要求压缩包，没有文本/JSON/Markdown surface 就不要额外要求 sidecar 报告。若确实需要稳定证据，必须使用已经 sampled 的 surface；否则缩小任务或返回 unsupported。
+
+  短例：
+  - Bad：sample surfaces 是 `linux.odp_pptx`，required_outputs 同时写 `/home/user/deck.odp` 和 `/home/user/deck.pdf`。
+  - Good：sample surfaces 只有 `linux.odp_pptx` 时，只写 `/home/user/deck.odp`；如果还采样了 `linux.pdf`，才可以再写 `/home/user/deck.pdf`。
+
+  `visible_name_or_path` 不能通过 `(updated)`、`final`、`completed`、`modified` 等后缀表达状态。状态应写进 output_id 或 completion_condition，而对象名/路径保持用户真实可定位形式。
+
+  短例：
+  - Bad：`"visible_name_or_path": "Tasks app task \"Follow-up MRI\" (updated)"`
+  - Good：`"output_id": "updated_followup_task"`，`"visible_name_or_path": "Tasks app task \"Follow-up MRI\"`
+
+  图像类 output 必须写具体图片文件路径，且必须是普通位图文件，并使用 `.png`、`.jpg`、`.jpeg` 或 `.webp`，例如 `/home/user/images/out.png`；不要输出 `.xcf`、`.psd`、`.ai`、`.svg` 等当前无法稳定 materialize/evaluate 的图片工程文件。不要把目录 `/home/user/images/` 当成 `linux.gimp_image` 的 output。若需要批量图片，优先让 sampled CSV/JSON/Markdown/文档 surface 记录文件清单，或者为图像 surface 选择一个核心代表图片作为 required output。
+
+  对瞬时、主观或媒体型 surface，只能使用 capability context 明确声明的稳定 output。若需要稳定 companion output，它必须使用 sample 已包含的另一个 surface；否则应缩小目标到可稳定判断的状态，或返回 unsupported。
+
+  特殊 surface 边界：
+  - 绘图、图片编辑、拍照、录音、录像、图库、当前媒体播放等自由媒体或瞬时状态，不能把“好看”“专业”“听懂内容”“画面语义正确”“窗口看起来正确”作为唯一核心目标；若任务需要这些语义，必须让 agent 根据可见规则把语义写入 sampled surface 中已有的稳定文本、表格、JSON、邮件、note、URL/hash、bookmark、download 或 app-native record。
+  - Simple Draw Pro 只能稳定检查保存文件存在、非空或数量；不要让它承担精确图形、颜色、几何、文字或作为 Linux GIMP 后续精确合成输入的核心语义。若必须使用 Simple Draw Pro，优先把它设计成“按 source 请求保存一张图”这类媒体存在性目标，并让任务含义通过已采样的表格、note、文档或其他稳定文本 output 验证。
+  - 若图片/绘图只是辅助产物，应在 instruction/required_outputs 中自然描述为 visual marker、evidence image、badge、thumbnail 或 sketch；不要写成“必须列出所有关键业务文本”，除非 expected_data 同时有稳定文本/结构化输出或 capability 明确支持图中文字检查。
+  - 浏览器/GUI 任务必须落到稳定可观察产物，例如提交后的 URL/hash、下载文件、bookmark、写出的文件或 app 内持久记录；不要只要求页面停在某个状态或窗口打开。
+  - VLC/媒体播放类 surface 只适合当前打开或播放状态；不要设计未来定时播放、后台计划或播放历史，除非 capability context 明确支持。
+  - 为了稳定证据而使用 companion output 时，文件扩展名和对象类型仍必须匹配 sampled surface。不要让图像/GIMP surface 生成 `.txt`/`.json` sidecar，也不要让表格、PDF、ZIP 等 surface 承载不匹配的对象类型。
+
+  对 infeasible/partial 任务，required_outputs 应包含稳定的结果记录、报告或可行部分产物；不要把无法完成的原目标伪装成已完成 output。
+
+  ## expected_data 与 value_trace
+
+  expected_data 按 output_id 组织，只描述任务完成后需要确定性成立的值、字段、状态或必要 anchors。不要加入“专业”“美观”“高质量”等主观要求，也不要过度约束与任务无关的措辞或排版。
+
+  expected_data 的顶层 key 必须逐字等于 required_outputs 中的 output_id。不要新增 `created_files`、`all_outputs`、`summary_result`、`created_images_on_android0` 这类分组 key 来替代多个 output；如果需要批量检查，要么把 required_outputs 设计成一个批量 manifest/report output，要么为每个 required output 提供对应 expected_data。
+
+  如果 expected_data 要求 agent 在输出对象的 description、notes、body、message text、recipe directions/source 等自由文本字段中写入特定内容，那么 instruction 或某个 visible source 必须明确要求写入这个字段；不能只在 detailed_description、completion_condition、expected_data 或后续 evaluator 中暗自要求。例如“从联系人创建日程”默认只要求标题、时间、地点，若还要日程 description 包含联系人电话或原始 note，必须在联系人 note/SMS/页面或 instruction 中明确说“把电话和原始 note 写入 event description”。
+
+  value_trace 的最低要求是：每个 required output 至少有一条 trace，并覆盖会影响评估结论的关键选择、匹配、冲突解决或计算规则。
+
+  trace 规则：
+  - `expected_path` 指向 expected_data 中真实存在的路径；
+  - `expected_value` 与该路径的值、值组或规则一致；
+  - `visible_source` 必须以真实 source_id 开头，再说明字段、行、规则或计算依据；
+  - 更严格地说，visible_source 的第一个 token 必须是某个 source_id，或在值只来自用户请求默认规则时写 `instruction:`；不要以 output_id、文件路径、页面描述、created record、computed result 或自然语言概括开头；
+  - agent 运行后才产生的 output、test report、submitted page、recorded media、updated file、created app state 不能作为 value_trace 的 source，也不要把任何 required output 的 output_id 写在 visible_source 中。若 expected 值来自 agent 后续动作结果，只能追溯到触发该动作的 visible source 或 instruction 中的规则；例如 tests_passed=true 应追溯到 `project_code` 中可见的 test command / test script 规则，不能写 `updated_project test_report`；如果 ZIP 条目非空依赖 agent 先创建图片，也应追溯到原始 request source 和 instruction 中“创建并打包这些文件”的规则，而不是追溯到 `created_image_*` output。
+  - 由多个 source 联合得出的值，要引用所有相关 source_id；
+  - 计算值要说明可见输入和转换规则；
+  - 对重复记录、批量行、字段列表或同一转换规则产生的多个值，可以使用 group/rule trace，不要求每个 scalar 单独一条；但不能省略关键 selection key、matching key、source-of-truth、冲突规则或公式；
+  - 只由 instruction 明示的默认值或格式规则产生时，可写 `instruction: ...`；
+  - 不得使用 `computed from source`、文件路径或页面描述代替 source_id。
+
+  多候选任务必须有 agent 可见的 selection key；多源合并必须有 matching key；冲突任务必须有可见 source-of-truth 或 resolution rule。expected_data 不得引入 agent 看不到的新事实。
+
+  不要使用 task_id 作为业务字段名，因为它容易被误判为 benchmark 构造痕迹；需要标识列时使用 request_id、record_id、item_id、row_id、case_id 等自然业务字段名。
+
+  ## generation_notes
+
+  generation_notes 只记录对本设计有用的非用户假设、风险或特殊语义边界；没有必要内容时返回空数组。不要在这里编写 setup/evaluation/oracle 方案。
+
+  ## 输出格式
+
+  只返回一个 JSON object。
+
+  accepted 时返回：
+  {
+    "status": "accepted",
+    "unsupported_reason": null,
+    "task_title": "short natural title",
+    "patterns": ["exact_catalog_pattern"],
+    "feasibility_type": "sample value if present; otherwise the value selected by the default rule above",
+    "information_flow": "short source -> dependency -> target summary",
+    "instruction": "concise user-facing request",
+    "detailed_description": "complete semantic workflow and derivation",
+    "why_cross_device": "why the task requires dependency across sampled devices",
+    "visible_sources": [
+      {
+        "source_id": "short_stable_id",
+        "device_id": "device from sample",
+        "surface": "surface allowed for that device",
+        "visible_name_or_path": "concrete app object name or file path",
+        "content_mode": "inline",
+        "content": "complete short visible content"
+      },
+      {
+        "source_id": "short_stable_id",
+        "device_id": "device from sample",
+        "surface": "surface allowed for that device",
+        "visible_name_or_path": "concrete app object name or file path",
+        "content_mode": "requirements",
+        "content_requirements": {
+          "source_kind": "supported kind",
+          "purpose": "semantic role of this source",
+          "must_contain": ["critical visible value"],
+          "data_shape": {"type_specific_field": "type-specific structure"},
+          "anchors_for_expected_data": ["value used by expected_data"]
+        }
+      }
+    ],
+    "required_outputs": [
+      {
+        "output_id": "short_stable_id",
+        "device_id": "device from sample",
+        "surface": "surface allowed for that device",
+        "visible_name_or_path": "concrete app object name or file path",
+        "completion_condition": "deterministic semantic completion condition"
+      }
+    ],
+    "expected_data": {
+      "output_id": "structured expected values or anchors"
+    },
+    "value_trace": [
+      {
+        "expected_path": "output_id.path.to.value",
+        "expected_value": "exact value or concise group/rule summary matching expected_path",
+        "visible_source": "source_id first, followed by field/rule/calculation evidence"
+      }
+    ],
+    "generation_notes": []
+  }
+
+  unsupported 时返回同一组顶层字段，避免输出结构歧义：
+  {
+    "status": "unsupported",
+    "unsupported_reason": "specific reason the sampled capabilities cannot support a natural closed-loop task",
+    "task_title": "",
+    "patterns": [],
+    "feasibility_type": "sample value if present; otherwise the value selected by the default rule above",
+    "information_flow": "",
+    "instruction": "",
+    "detailed_description": "",
+    "why_cross_device": "",
+    "visible_sources": [],
+    "required_outputs": [],
+    "expected_data": {},
+    "value_trace": [],
+    "generation_notes": []
+  }
+
+output_contract: |
+  你只能返回一个 JSON object，前后不得附加文字。
+  status 只能是 accepted 或 unsupported。
+  sample 提供 feasibility_type 时必须保持一致；未提供时按 user_template 中的默认规则选择。
+  visible_sources 和 required_outputs 中的设备与 surface 必须来自 sample；sampled surfaces 是允许集合，不要求全部使用，但每台 sampled device 至少要出现在一个 visible source 或 required output 中。结构化字段使用 sample 中的 device_id；用户 instruction 不能暴露 android_0/linux_0 这类内部 device id，也不能写 Android 1/Linux 2 这类编号标签，更不能暴露 surface id、schema、helper 或 evaluator。
+  accepted 设计的 patterns 必须逐字使用输入 catalog 中的标签，通常选择 1-2 个；unsupported 可返回空数组。
+  accepted 设计必须包含 instruction、detailed_description、至少一个 visible source、至少一个 required output、expected_data 和可追踪的 value_trace；每个 required output 至少有一条 trace。
+  requirements source 必须使用结构化 content_requirements。
+  不得包含可运行 task config、setup、evaluation、cleanup、oracle、helper/API 名称或实现步骤。
+
+few_shots:
+  - name: Instruction information layering
+    bad_instruction: |
+      Open the request message, extract Record ID, Vendor, Amount, Status, and Reviewer from the report, then create the exact requested note with those five fields in that order.
+    source_summary: |
+      The visible request already supplies the field list, ordering rule, output title, and report file name. The report supplies the field values.
+    good_instruction: |
+      Open the request message on the source device and use the named report on the other device. Follow the request and create the requested note on the target device.
+    lesson: |
+      Keep source entry points and the target location in the instruction; leave field lists, titles, formats, selection rules, and values in visible_sources.
+
+  - name: Unsupported is not an infeasible task
+    sample_condition: |
+      The sample has android.sms as a possible request source and linux.vlc_playback as the only target-capable Linux output surface. The sample either sets feasibility_type=feasible or omits feasibility_type, so the default is feasible.
+    situation: |
+      A plausible task idea would ask the agent to use an SMS request to schedule VLC to play a media file tomorrow. This is unsupported because linux.vlc_playback only provides stable evidence for current playback, not future scheduled playback, and the sample has no companion text/report/calendar surface to record a schedule.
+    response: |
+      {
+        "status": "unsupported",
+        "unsupported_reason": "linux.vlc_playback can represent current playback only; the sampled surfaces do not include a stable schedule or report output for a future playback task.",
+        "task_title": "",
+        "patterns": [],
+        "feasibility_type": "feasible",
+        "information_flow": "",
+        "instruction": "",
+        "detailed_description": "",
+        "why_cross_device": "",
+        "visible_sources": [],
+        "required_outputs": [],
+        "expected_data": {},
+        "value_trace": [],
+        "generation_notes": []
+      }
+
+  - name: Complete accepted design with inline and requirements sources
+    sample: |
+      devices: android_0 + android_1 + linux_0
+      android_0 surface: android.markor_note
+      android_1 surface: android.sms
+      linux_0 surface: linux.pdf
+      setup: clean
+      feasibility_type: feasible
+    response: |
+      {
+        "status": "accepted",
+        "unsupported_reason": null,
+        "task_title": "Create proposal note from a request",
+        "patterns": ["extract_transform"],
+        "feasibility_type": "feasible",
+        "information_flow": "Android SMS request + Linux PDF -> Android Markor note",
+        "instruction": "On the second Android device, open Chris's SMS about a proposal document on the Linux machine. The document should be under `/home/user/reports/`. Follow the request and create the requested Markor note on the first Android device.",
+        "detailed_description": "Chris's SMS identifies the proposal PDF, the fields to extract, and the requested note title. The PDF supplies the proposal ID, project title, budget, approval status, and reviewer. The agent must combine the two visible sources and create the requested note on android_0.",
+        "why_cross_device": "The request is visible on android_1, the proposal values are in a Linux PDF, and the result must be written to Markor on android_0.",
+        "visible_sources": [
+          {
+            "source_id": "proposal_request_sms",
+            "device_id": "android_1",
+            "surface": "android.sms",
+            "visible_name_or_path": "SMS from Chris",
+            "content_mode": "inline",
+            "content": "Chris: Please use proposal_2026.pdf and create a Markor note titled `Proposal PROP-2026-77 Summary`. Extract these fields exactly: Proposal ID, Project Title, Budget, Approval status, Reviewer."
+          },
+          {
+            "source_id": "proposal_pdf",
+            "device_id": "linux_0",
+            "surface": "linux.pdf",
+            "visible_name_or_path": "/home/user/reports/proposal_2026.pdf",
+            "content_mode": "requirements",
+            "content_requirements": {
+              "source_kind": "pdf",
+              "purpose": "Proposal document containing the values requested by the SMS.",
+              "must_contain": ["PROP-2026-77", "Harbor Sensor Refresh", "48,750 USD", "approved", "Mina Hart"],
+              "data_shape": {
+                "title": "Proposal review packet",
+                "sections": ["Proposal overview", "Budget", "Approval"],
+                "tables_or_lists": ["one summary table with the requested fields"],
+                "text_anchors": ["PROP-2026-77", "Harbor Sensor Refresh", "Budget: 48,750 USD", "Approval status: approved", "Reviewer: Mina Hart"]
+              },
+              "anchors_for_expected_data": ["PROP-2026-77", "Harbor Sensor Refresh", "48,750 USD", "approved", "Mina Hart"]
+            }
+          }
+        ],
+        "required_outputs": [
+          {
+            "output_id": "proposal_summary_note",
+            "device_id": "android_0",
+            "surface": "android.markor_note",
+            "visible_name_or_path": "Markor note `Proposal PROP-2026-77 Summary`",
+            "completion_condition": "The note follows the SMS request and contains the requested proposal fields from the PDF."
+          }
+        ],
+        "expected_data": {
+          "proposal_summary_note": {
+            "title": "Proposal PROP-2026-77 Summary",
+            "content_contains": ["Proposal ID: PROP-2026-77", "Project Title: Harbor Sensor Refresh", "Budget: 48,750 USD", "Approval status: approved", "Reviewer: Mina Hart"]
+          }
+        },
+        "value_trace": [
+          {"expected_path": "proposal_summary_note.title", "expected_value": "Proposal PROP-2026-77 Summary", "visible_source": "proposal_request_sms requested note title"},
+          {"expected_path": "proposal_summary_note.content_contains", "expected_value": "the complete five-item content_contains list", "visible_source": "proposal_request_sms field list + proposal_pdf text anchors"}
+        ],
+        "generation_notes": []
+      }

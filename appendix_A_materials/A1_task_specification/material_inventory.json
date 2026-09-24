@@ -1,0 +1,60 @@
+{
+  "case": "A1_task_specification",
+  "task_id": "al_calendar_schedule_conflict",
+  "availability": "formal_frozen_task_and_initial_resources",
+  "notes": "A1_task_specification/notes.md",
+  "config": "A1_task_specification/task/config/task.json",
+  "historical_source_read": "A1_task_specification/evidence/historical_source_read.json",
+  "scope": "Task specification; only one original source-read excerpt, not the complete main-experiment trajectory.",
+  "files": [
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A1_task_specification.md",
+      "bundle_path": "A1_task_specification/notes.md",
+      "handling": "derived_document_with_portable_links",
+      "bytes": 7209,
+      "section_path": "notes.md"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A1_example/task.json",
+      "bundle_path": "A1_task_specification/task/config/task.json",
+      "handling": "original_copy",
+      "bytes": 6063,
+      "section_path": "task/config/task.json"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A1_example/source/week.csv",
+      "bundle_path": "A1_task_specification/task/resources/linux/week.csv",
+      "handling": "original_copy",
+      "bytes": 115,
+      "section_path": "task/resources/linux/week.csv"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A1_example/source/rule.txt",
+      "bundle_path": "A1_task_specification/task/resources/linux/rule.txt",
+      "handling": "original_copy",
+      "bytes": 278,
+      "section_path": "task/resources/linux/rule.txt"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A1_example/source/android_calendar_setup.json",
+      "bundle_path": "A1_task_specification/task/resources/android/android_calendar_setup.json",
+      "handling": "original_copy",
+      "bytes": 523,
+      "section_path": "task/resources/android/android_calendar_setup.json"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A1_example/historical_source_read.json",
+      "bundle_path": "A1_task_specification/evidence/historical_source_read.json",
+      "handling": "original_copy",
+      "bytes": 1586,
+      "section_path": "evidence/historical_source_read.json"
+    },
+    {
+      "source": "/Users/lht/home/MDCBench/output/paper_appendix/appendix_A_task_construction/A1_example/provenance.json",
+      "bundle_path": "A1_task_specification/evidence/original_provenance.json",
+      "handling": "original_copy",
+      "bytes": 1684,
+      "section_path": "evidence/original_provenance.json"
+    }
+  ]
+}

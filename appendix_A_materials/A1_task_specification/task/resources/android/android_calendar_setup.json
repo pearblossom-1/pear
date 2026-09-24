@@ -1,0 +1,25 @@
+{
+  "device_id": "android_0",
+  "config": [
+    {
+      "type": "ensure_app",
+      "parameters": {
+        "app": "simple calendar pro"
+      }
+    },
+    {
+      "type": "androidworld_calendar_clear",
+      "parameters": {}
+    },
+    {
+      "type": "androidworld_calendar_event_add",
+      "parameters": {
+        "title": "Vendor planning",
+        "start_ts": 1802530800,
+        "end_ts": 1802534400,
+        "location": "Room 8",
+        "description": "Source of truth for schedule correction"
+      }
+    }
+  ]
+}

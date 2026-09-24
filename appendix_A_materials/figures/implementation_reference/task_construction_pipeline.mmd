@@ -1,0 +1,23 @@
+flowchart TB
+  CAP[Device pools + surface capabilities + pattern catalog]
+  subgraph GEN[Android/Linux construction engine: current active profile]
+    S0["I. Configuration sampling — Stage0<br/>Topology cycle + seeded surface/setup sampling"]
+    S1["II. Task design — Stage1–3<br/>Visible sources → dependencies → outputs<br/>Expected data + value traces"]
+    R{"Review<br/>accepted / revise / rejected"}
+    FIX[Design repair]
+    STOP[Stop unsupported / rejected candidate]
+    S4["III. Executable instantiation — Stage4–8<br/>Assets → setup → evaluation / cleanup<br/>Oracle plan → assembled candidate + static checks"]
+    S0 --> S1 --> R
+    R -->|accepted| S4
+    R -->|revise| FIX --> S4
+    R -->|rejected| STOP
+  end
+  CAP --> S0
+  CAP --> S1
+  S4 --> QA["IV. Validation and repair<br/>Stage-local checks + post-generation inspection<br/>Runtime setup smoke / oracle outcome tests / agent or human operation<br/>Different evidence levels; coverage must be reported"]
+  QA -->|specific defect| REPAIR[Targeted artifact / implementation repair]
+  REPAIR -->|retest relevant evidence| QA
+  QA --> POOL[Maintained task pool]
+  OTHER[Other construction routes<br/>Family-specific builders + legacy seeds + curation] --> POOL
+  POOL -.->|separate quota / quality / coverage selection| LITE[DevicesWorld-Lite: 200 selected task identities]
+  NOTE["Static pass ≠ end-to-end feasibility<br/>Oracle plan ≠ executed oracle ≠ agent success"] -.-> QA

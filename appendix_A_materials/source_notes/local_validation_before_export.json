@@ -1,0 +1,43 @@
+{
+  "date": "2026-09-24",
+  "scope": "Offline documentation checks only: counts, evidence identity, stage/version separation and local links. No runtime, device, evaluator or model execution.",
+  "checks": [
+    {
+      "name": "Lite index has 200 distinct task IDs",
+      "passed": true
+    },
+    {
+      "name": "Lite device, endpoint, family and difficulty totals each equal 200",
+      "passed": true
+    },
+    {
+      "name": "Experimental canonical pool totals agree at 5897",
+      "passed": true
+    },
+    {
+      "name": "A1 task is byte-for-byte formal frozen task config",
+      "passed": true
+    },
+    {
+      "name": "Historical stdout contains complete week.csv",
+      "passed": true
+    },
+    {
+      "name": "Historical stdout contains complete rule.txt",
+      "passed": true
+    },
+    {
+      "name": "A2 preserves all nine historical stages",
+      "passed": true
+    },
+    {
+      "name": "Historical and later selected configs are explicitly separated",
+      "passed": true
+    },
+    {
+      "name": "All 34 absolute Markdown links resolve",
+      "passed": true
+    }
+  ],
+  "failures": []
+}

@@ -1,0 +1,1541 @@
+schema_version: surface_capabilities.v1
+catalog_scope: linux_android_generation
+purpose:
+  - "Constrain task generation to surfaces that MDCBench can set up and evaluate today."
+  - "Describe stable source/output shapes, runtime setup actions, evaluator getters, and known unsupported designs."
+
+runtime_interfaces:
+  android:
+    setup_actions:
+      - wait
+      - adb_shell
+      - upload_file
+      - ensure_app
+      - open_app
+      - androidworld_sms_clear
+      - androidworld_sms_receive
+      - androidworld_sms_send
+      - androidworld_contacts_clear
+      - androidworld_contact_add
+      - androidworld_calendar_clear
+      - androidworld_calendar_event_add
+      - androidworld_clock_clear
+      - androidworld_alarm_add
+      - androidworld_timer_add
+      - androidworld_recipes_clear
+      - androidworld_recipe_add
+      - androidworld_tasks_clear
+      - androidworld_task_add
+      - androidworld_media_clear
+      - androidworld_mp3_push
+      - androidworld_retro_music_clear
+      - androidworld_retro_playlist_add
+      - androidworld_osmand_favorites_setup
+    getters:
+      - rule
+      - adb_shell
+      - android_sms_message
+      - androidworld_sms_message
+      - androidworld_contact
+      - androidworld_calendar_event
+      - androidworld_timer
+      - androidworld_alarm
+      - androidworld_recipe
+      - androidworld_task
+      - android_file_state
+      - android_file_count
+      - android_file_size_state
+      - retro_music_playlist
+      - retro_music_playing_queue
+      - osmand_favorite
+      - osmand_marker
+      - android_setting
+      - ui_text
+    evaluator_funcs:
+      - exact_match
+      - contains
+    notes:
+      - "Android native scoring uses exact_match or contains over getter output."
+      - "Use adb_shell for Markor/file/text checks when no app-specific getter exists."
+      - "Media inserted by upload_file should be followed by a MediaScanner broadcast when an app UI must see it."
+  linux:
+    setup_actions:
+      - upload_file
+      - execute
+      - command
+    agent_actions:
+      - cli.execute
+      - gui.pyautogui
+      - gui.computer_13
+    getters:
+      - local_file
+      - rule
+      - vm_command_line
+      - vm_file
+      - open_tabs_info
+      - bookmarks
+      - thunderbird_drafts
+      - vlc_playing_file
+    evaluator_funcs:
+      - exact_match
+      - contains
+      - check_include_exclude
+      - check_csv
+      - check_json
+      - check_xlsx_cells
+      - check_image_dimensions
+      - check_odf_text
+      - check_docx_text
+      - compare_archive
+      - compare_pdf_images
+      - compare_pdfs
+      - is_expected_bookmarks
+      - is_expected_tabs
+      - bookmark_folder_urls
+      - check_python_file_by_test_suite
+      - compare_docx_files
+      - compare_docx_tables
+      - compare_image_text
+    notes:
+      - "vm_file prechecks missing files and returns a failing value instead of retrying indefinitely."
+      - "vm_command_line runs string commands with shell=True by default."
+      - "Internal web pages should be file URLs or localhost pages whose submit behavior is deterministic."
+
+runtime_interface_details:
+  setup_actions:
+    ensure_app:
+      device_family: android
+      purpose: "Ensure an Android app is installed/initialized; use before app-specific setup when the app must be visible."
+      parameters:
+        app: "Required unless app_name is used. Must be one of the runtime-supported app names."
+        app_name: "Alias for app."
+      example:
+        type: ensure_app
+        parameters:
+          app: simple sms messenger
+    open_app:
+      device_family: android
+      purpose: "Open an Android app after setup when the initial UI matters."
+      parameters:
+        app: "Required unless app_name is used. Must be one of the runtime-supported app names."
+        app_name: "Alias for app."
+      example:
+        type: open_app
+        parameters:
+          app: markor
+    wait:
+      device_family: android
+      purpose: "Wait for app/provider state to settle."
+      parameters:
+        seconds: "Optional numeric wait duration."
+      example:
+        type: wait
+        parameters:
+          seconds: 1.0
+    adb_shell:
+      device_family: android
+      purpose: "Run Android shell; use for Markor file writes, MediaScanner broadcasts, cleanup, or file text checks."
+      parameters:
+        command: "Required string or argv list. Prefer ['sh','-c','...'] for quoting and multi-command scripts."
+      example:
+        type: adb_shell
+        parameters:
+          command:
+            - sh
+            - -c
+            - "mkdir -p /storage/emulated/0/Documents/Markor && cat > '/storage/emulated/0/Documents/Markor/request.md' <<'EOF'\nbody\nEOF"
+    upload_file:
+      device_family: linux_android
+      purpose: "Upload files produced by Stage4 external_files; do not invent local_path values."
+      parameters:
+        files: "Required non-empty array of {local_path, path}; local_path must match Stage4 external_files.relative_path or materializer-derived file."
+      example:
+        type: upload_file
+        parameters:
+          files:
+            - local_path: source/form.html
+              path: /home/user/forms/form.html
+    androidworld_sms_clear:
+      device_family: android
+      app: "Simple SMS Messenger"
+      purpose: "Clear SMS inbox/sent/thread state; use at setup start and cleanup for SMS tasks."
+      parameters: {}
+      example:
+        type: androidworld_sms_clear
+        parameters: {}
+    androidworld_sms_receive:
+      device_family: android
+      app: "Simple SMS Messenger"
+      purpose: "Inject an incoming SMS source into inbox."
+      parameters:
+        address: "Required unless phone_number is used. Sender phone number."
+        phone_number: "Alias for address."
+        body: "Required unless message is used. SMS body visible to the agent."
+        message: "Alias for body."
+        wait_s: "Optional numeric settle wait; default 5.0."
+      example:
+        type: androidworld_sms_receive
+        parameters:
+          address: "+15550101"
+          body: "Use report.pdf and create the note."
+          wait_s: 5.0
+    androidworld_sms_send:
+      device_family: android
+      app: "Simple SMS Messenger"
+      purpose: "Create/send a sent SMS state; mainly for positive oracle or source sent-history tasks, not ordinary setup for an output goal."
+      parameters:
+        address: "Required unless phone_number is used. Recipient phone number."
+        phone_number: "Alias for address."
+        body: "Required unless message is used. Sent SMS body."
+        message: "Alias for body."
+      example:
+        type: androidworld_sms_send
+        parameters:
+          address: "+15550101"
+          body: "Saved Broccoli Stir-Fry for 4 servings."
+    androidworld_contacts_clear:
+      device_family: android
+      app: "Android Contacts"
+      purpose: "Clear Contacts app data."
+      parameters: {}
+      example:
+        type: androidworld_contacts_clear
+        parameters: {}
+    androidworld_contact_add:
+      device_family: android
+      app: "Android Contacts"
+      purpose: "Insert a contact source or oracle contact output."
+      parameters:
+        name: "Required display name."
+        number: "Required phone number."
+        notes: "Optional note text; use notes when evaluator needs notes_contains."
+        email: "Optional, but current native getter does not validate email directly."
+      example:
+        type: androidworld_contact_add
+        parameters:
+          name: Aster Supply
+          number: "+15550123"
+          notes: Dock 2
+    androidworld_calendar_clear:
+      device_family: android
+      app: "Simple Calendar Pro"
+      purpose: "Clear calendar events."
+      parameters: {}
+      example:
+        type: androidworld_calendar_clear
+        parameters: {}
+    androidworld_calendar_event_add:
+      device_family: android
+      app: "Simple Calendar Pro"
+      purpose: "Insert a calendar event source or oracle output."
+      parameters:
+        title: "Required."
+        start_ts: "Required epoch milliseconds integer; do not use ISO strings or 10-digit seconds."
+        end_ts: "Required epoch milliseconds integer."
+        location: "Optional string."
+        description: "Optional string."
+        reminder_1_minutes: "Optional integer reminder."
+        reminder_2_minutes: "Optional integer reminder."
+        reminder_3_minutes: "Optional integer reminder."
+        repeat_interval: "Optional integer when explicit recurrence is supported by task."
+        repeat_rule: "Optional integer when explicit recurrence is supported by task."
+      example:
+        type: androidworld_calendar_event_add
+        parameters:
+          title: Gate audit
+          start_ts: 1801911600000
+          end_ts: 1801913400000
+          location: Gate C
+          description: "Appointment: Gate audit on 2027-02-06 from 11:00 to 11:30 at Gate C."
+    androidworld_clock_clear:
+      device_family: android
+      app: "Clock"
+      purpose: "Clear Clock app data for alarms/timers."
+      parameters: {}
+      example:
+        type: androidworld_clock_clear
+        parameters: {}
+    androidworld_alarm_add:
+      device_family: android
+      app: "Clock"
+      purpose: "Create an alarm with hour/minute and optional label."
+      parameters:
+        hour: "Required integer 0-23."
+        minute: "Required integer 0-59."
+        label: "Optional string; evaluator can match it."
+      unsupported_parameters:
+        - date
+        - weekdays
+        - repeat_days
+      example:
+        type: androidworld_alarm_add
+        parameters:
+          hour: 7
+          minute: 30
+          label: Pickup
+    androidworld_timer_add:
+      device_family: android
+      app: "Clock"
+      purpose: "Create a timer duration."
+      parameters:
+        hours: "Required integer."
+        minutes: "Required integer."
+        seconds: "Required integer."
+      unsupported_parameters:
+        - label
+        - future_schedule
+      example:
+        type: androidworld_timer_add
+        parameters:
+          hours: 0
+          minutes: 18
+          seconds: 30
+    androidworld_recipes_clear:
+      device_family: android
+      app: "Broccoli app"
+      purpose: "Clear Broccoli recipe rows."
+      parameters: {}
+      example:
+        type: androidworld_recipes_clear
+        parameters: {}
+    androidworld_recipe_add:
+      device_family: android
+      app: "Broccoli app"
+      purpose: "Insert a Broccoli recipe row."
+      parameters:
+        title: "Required."
+        description: "Optional string."
+        servings: "Optional string."
+        preparationTime: "Optional string."
+        source: "Optional string."
+        ingredients: "Optional string; use a deterministic separator such as semicolon."
+        directions: "Optional string."
+        favorite: "Optional integer 0/1."
+      example:
+        type: androidworld_recipe_add
+        parameters:
+          title: Broccoli Stir-Fry
+          description: Quick weeknight side with garlic and soy.
+          servings: "2"
+          preparationTime: 10 mins
+          source: Family Cookbook
+          ingredients: "broccoli; garlic; soy sauce; oil; salt"
+          directions: "Heat oil, add garlic, add broccoli, stir-fry 5-7 min, add soy sauce."
+          favorite: 0
+    androidworld_tasks_clear:
+      device_family: android
+      app: "Tasks"
+      purpose: "Clear Tasks app rows."
+      parameters: {}
+      example:
+        type: androidworld_tasks_clear
+        parameters: {}
+    androidworld_task_add:
+      device_family: android
+      app: "Tasks"
+      purpose: "Insert a task source or oracle task output."
+      parameters:
+        title: "Required."
+        notes: "Optional string."
+        dueDate: "Optional epoch milliseconds integer or 0."
+        hideUntil: "Optional epoch milliseconds integer or 0."
+        completed: "Optional bool/int."
+        importance: "Optional integer."
+        created: "Optional epoch milliseconds integer or 0."
+        modified: "Optional epoch milliseconds integer or 0."
+      example:
+        type: androidworld_task_add
+        parameters:
+          title: Client check-in
+          notes: Lobby A 12:00
+          dueDate: 1803211200000
+          completed: 0
+    androidworld_media_clear:
+      device_family: android
+      app: "Android media directories"
+      purpose: "Clear one supported Android media directory."
+      parameters:
+        kind: "Required; one of photos, videos, audio_recorder, gallery, download."
+      example:
+        type: androidworld_media_clear
+        parameters:
+          kind: photos
+    androidworld_mp3_push:
+      device_family: android
+      app: "Retro Music"
+      purpose: "Generate/push MP3 fixtures for Retro Music."
+      parameters:
+        songs: "Required non-empty array of song titles."
+      example:
+        type: androidworld_mp3_push
+        parameters:
+          songs:
+            - Focus One
+            - Focus Two
+    androidworld_retro_music_clear:
+      device_family: android
+      app: "Retro Music"
+      purpose: "Clear Retro Music state."
+      parameters: {}
+      example:
+        type: androidworld_retro_music_clear
+        parameters: {}
+    androidworld_retro_playlist_add:
+      device_family: android
+      app: "Retro Music"
+      purpose: "Create a named Retro Music playlist from pushed songs."
+      parameters:
+        playlist_name: "Required."
+        songs: "Required non-empty array of song titles."
+      example:
+        type: androidworld_retro_playlist_add
+        parameters:
+          playlist_name: Focus
+          songs:
+            - Focus One
+            - Focus Two
+    androidworld_osmand_favorites_setup:
+      device_family: android
+      app: "OsmAnd"
+      purpose: "Prepare OsmAnd favorites storage; actual favorite source normally uses a generated GPX uploaded to the verified OsmAnd favorites path."
+      parameters: {}
+      example:
+        type: androidworld_osmand_favorites_setup
+        parameters: {}
+    execute:
+      device_family: linux
+      purpose: "Run a Linux command in the VM; use for mkdir/rm, writing inline files, starting local helpers, Chrome, VLC, or cleanup."
+      parameters:
+        command: "Required string command."
+        shell: "Optional bool; use true for shell syntax such as &&, pipes, heredocs, redirects."
+      example:
+        type: execute
+        parameters:
+          command: "mkdir -p /home/user/forms && rm -f /home/user/forms/result.json"
+          shell: true
+  getters:
+    rule:
+      device_family: linux_android
+      purpose: "Expected-value holder, not a state getter. Use under expected.type=rule."
+    adb_shell:
+      device_family: android
+      purpose: "Run Android shell and return stdout text."
+      parameters:
+        command: "Required string or argv list."
+      example_result:
+        type: adb_shell
+        command: "cat /storage/emulated/0/Documents/Markor/result.md 2>/dev/null || echo missing"
+    androidworld_sms_message:
+      device_family: android
+      app: "Simple SMS Messenger"
+      aliases:
+        - android_sms_message
+      purpose: "Query Android SMS provider and return present/missing for a matching SMS."
+      returns:
+        - present
+        - missing
+      parameters:
+        box: "Optional: sent, inbox, all. Default all."
+        address: "Required; phone number, normalized by removing spaces and hyphens."
+        body: "Exact body string; use body or body_contains."
+        body_contains: "String or array of required body substrings; use when punctuation/wording can vary."
+        recent_within_mins: "Optional; sent defaults to 5, inbox/all default to 0. Use 0 to disable recency window."
+      example_evaluator:
+        device_id: android_0
+        func: exact_match
+        result:
+          type: androidworld_sms_message
+          box: sent
+          address: "+15550101"
+          body_contains:
+            - Broccoli Stir-Fry
+            - 4 servings
+          recent_within_mins: 5
+        expected:
+          type: rule
+          rules:
+            expected: present
+    androidworld_contact:
+      device_family: android
+      app: "Android Contacts"
+      purpose: "Return present/missing for a contact with exact name/number and optional note anchor."
+      returns:
+        - present
+        - missing
+      parameters:
+        name: "Required exact display name."
+        number: "Required phone number; cleaned by AndroidWorld contacts utils."
+        notes_contains: "Optional required substring in contact note."
+      example_evaluator:
+        device_id: android_0
+        func: exact_match
+        result:
+          type: androidworld_contact
+          name: Aster Supply
+          number: "+15550123"
+          notes_contains: Dock 2
+        expected:
+          type: rule
+          rules:
+            expected: present
+    androidworld_calendar_event:
+      device_family: android
+      app: "Simple Calendar Pro"
+      purpose: "Return present/missing for an event matching supplied fields."
+      returns:
+        - present
+        - missing
+      parameters:
+        title: "Required exact title."
+        start_ts: "Optional epoch milliseconds integer."
+        end_ts: "Optional epoch milliseconds integer."
+        location: "Optional exact string."
+        description: "Optional exact string."
+        reminder_1_minutes: "Optional integer."
+        reminder_2_minutes: "Optional integer."
+        reminder_3_minutes: "Optional integer."
+        repeat_interval: "Optional integer."
+        repeat_rule: "Optional integer."
+      example_evaluator:
+        device_id: android_0
+        func: exact_match
+        result:
+          type: androidworld_calendar_event
+          title: Gate audit
+          start_ts: 1801911600000
+          end_ts: 1801913400000
+          location: Gate C
+        expected:
+          type: rule
+          rules:
+            expected: present
+    androidworld_task:
+      device_family: android
+      app: "Tasks"
+      purpose: "Return present/missing for a task matching supplied fields."
+      returns:
+        - present
+        - missing
+      parameters:
+        title: "Required exact title."
+        notes: "Optional exact notes."
+        notes_contains: "Optional notes substring."
+        dueDate: "Optional epoch milliseconds integer or 0."
+        completed: "Optional bool."
+        importance: "Optional integer."
+      example_evaluator:
+        device_id: android_0
+        func: exact_match
+        result:
+          type: androidworld_task
+          title: Client check-in
+          notes_contains: Lobby A
+          dueDate: 1803211200000
+        expected:
+          type: rule
+          rules:
+            expected: present
+    androidworld_alarm:
+      device_family: android
+      app: "Clock"
+      purpose: "Return present/missing for an alarm by hour/minute and optional label/enabled."
+      returns:
+        - present
+        - missing
+      parameters:
+        hour: "Required integer 0-23."
+        minute: "Required integer 0-59."
+        label: "Optional substring/fuzzy UI/provider label match."
+        enabled: "Optional bool."
+      example_evaluator:
+        device_id: android_0
+        func: exact_match
+        result:
+          type: androidworld_alarm
+          hour: 7
+          minute: 30
+          label: Pickup
+        expected:
+          type: rule
+          rules:
+            expected: present
+    androidworld_timer:
+      device_family: android
+      app: "Clock"
+      purpose: "Return present/missing for a timer duration; label is not supported."
+      returns:
+        - present
+        - missing
+      parameters:
+        hours: "Required integer."
+        minutes: "Required integer."
+        seconds: "Required integer."
+      example_evaluator:
+        device_id: android_0
+        func: exact_match
+        result:
+          type: androidworld_timer
+          hours: 0
+          minutes: 18
+          seconds: 30
+        expected:
+          type: rule
+          rules:
+            expected: present
+    androidworld_recipe:
+      device_family: android
+      app: "Broccoli app"
+      purpose: "Return present/missing for a recipe row matching supplied fields."
+      returns:
+        - present
+        - missing
+      parameters:
+        title: "Required exact title."
+        description: "Optional exact string."
+        servings: "Optional exact string."
+        preparationTime: "Optional exact string."
+        source: "Optional exact string."
+        ingredients: "Optional exact string; arrays are invalid."
+        directions: "Optional exact string."
+        favorite: "Optional 0 or 1."
+      example_evaluator:
+        device_id: android_0
+        func: exact_match
+        result:
+          type: androidworld_recipe
+          title: Broccoli Stir-Fry
+          servings: "4"
+          preparationTime: 20 mins
+          favorite: 1
+        expected:
+          type: rule
+          rules:
+            expected: present
+    android_file_state:
+      device_family: android
+      purpose: "Return present/missing for file existence at path."
+      returns:
+        - present
+        - missing
+      parameters:
+        path: "Required Android path."
+    android_file_size_state:
+      device_family: android
+      purpose: "Return nonempty/empty/missing for file at path."
+      returns:
+        - nonempty
+        - empty
+        - missing
+      parameters:
+        path: "Required Android path."
+    android_file_count:
+      device_family: android
+      purpose: "Return count of files directly under path."
+      parameters:
+        path: "Required Android directory path."
+    retro_music_playlist:
+      device_family: android
+      app: "Retro Music"
+      purpose: "Return present/missing for a playlist name and optional fuzzy song title list."
+      returns:
+        - present
+        - missing
+      parameters:
+        playlist_name: "Required playlist name."
+        expected_songs: "Optional array of expected song titles."
+    retro_music_playing_queue:
+      device_family: android
+      app: "Retro Music"
+      purpose: "Return JSON string like {\"songs\":[...]} for current queue; use only as auxiliary evidence."
+    osmand_favorite:
+      device_family: android
+      app: "OsmAnd"
+      purpose: "Return present/missing for a favorite. If favorite_name and favorite_lat/favorite_lon are both supplied, the same waypoint must match both the fuzzy name and coordinates within 0.001 degrees; name-only or coordinate-only checks are allowed when only one condition is supplied."
+      returns:
+        - present
+        - missing
+      parameters:
+        favorite_name: "Optional favorite name."
+        favorite_lat: "Optional latitude."
+        favorite_lon: "Optional longitude."
+    osmand_marker:
+      device_family: android
+      app: "OsmAnd"
+      purpose: "Return JSON string with markers and target_found for coordinates."
+      parameters:
+        marker_lat: "Optional latitude."
+        marker_lon: "Optional longitude."
+    android_setting:
+      device_family: android
+      purpose: "Return Android settings get output."
+      parameters:
+        namespace: "Optional: global, secure, system. Default system."
+        name: "Required setting name."
+    ui_text:
+      device_family: android
+      purpose: "Return current Android UI text from accessibility state; use cautiously for stable text only."
+    vm_command_line:
+      device_family: linux
+      purpose: "Run Linux command and return stdout text."
+      parameters:
+        command: "Required string command."
+        shell: "Optional bool; true for shell syntax."
+    vm_file:
+      device_family: linux
+      purpose: "Fetch a Linux file for structured metrics; do not use directly with exact_match/contains."
+      parameters:
+        path: "Required Linux file path."
+    local_file:
+      device_family: linux
+      purpose: "Use a local gold/reference file as expected artifact."
+      parameters:
+        path: "Required local repository path."
+    open_tabs_info:
+      device_family: linux
+      purpose: "Return Chrome tab info for tab URL/title metrics."
+      parameters:
+        ignore_default_tabs: "Optional bool; use true to ignore blank/default tabs."
+    bookmarks:
+      device_family: linux
+      purpose: "Return Chrome bookmark state for bookmark metrics."
+    thunderbird_drafts:
+      device_family: linux
+      purpose: "Return Thunderbird draft text for contains/check_include_exclude."
+    vlc_playing_file:
+      device_family: linux
+      purpose: "Return true/false for current VLC playback file."
+      parameters:
+        expected_file: "Required expected file path or filename."
+  evaluator_funcs:
+    exact_match:
+      purpose: "Score 1 when str(actual) == str(expected)."
+      expected_shape:
+        type: rule
+        rules:
+          expected: present
+    contains:
+      purpose: "Score 1 when expected string is a substring of actual string."
+      expected_shape:
+        type: rule
+        rules:
+          expected: "anchor text"
+    check_include_exclude:
+      purpose: "Check include/exclude anchors against text returned by vm_command_line or thunderbird_drafts."
+      expected_shape:
+        type: rule
+        rules:
+          include:
+            - INC-42
+          exclude:
+            - draft
+    check_csv:
+      purpose: "Read CSV via vm_file and check expected rows/fields."
+      expected_shape:
+        type: rule
+        rules:
+          expect:
+            - id: R-104
+              status: approved
+    check_json:
+      purpose: "Read JSON via vm_file and check task-specific key/value structure."
+    check_xlsx_cells:
+      purpose: "Read .xlsx via vm_file and check exact cells; supports single-sheet rules.cells or multi-sheet rules.sheets[].cells; not for .ods."
+    check_odf_text:
+      purpose: "Read .odt/.odp/.ods via vm_file and check text anchors."
+    check_docx_text:
+      purpose: "Read .docx via vm_file and check text anchors."
+    check_image_dimensions:
+      purpose: "Check image dimensions via vm_file. Supported rules keys: count, filenames, exact_size, all_square, same_size, min_width, min_height, max_width, max_height. Do not use expected, width, or height keys."
+    compare_image_text:
+      purpose: "OCR image via vm_file and match rules.type=text + rules.text; only use when text is large/high contrast and OCR is available."
+    compare_archive:
+      purpose: "Compare ZIP/archive via vm_file against gold; for simple file names prefer unzip -l through vm_command_line."
+    compare_pdf_images:
+      purpose: "Compare rendered PDF pages against gold images."
+    compare_pdfs:
+      purpose: "Compare PDFs against gold when rendering/content is stable."
+    is_expected_tabs:
+      purpose: "Check open_tabs_info against expected URLs/titles."
+    is_expected_bookmarks:
+      purpose: "Check bookmarks against expected bookmark state."
+    bookmark_folder_urls:
+      purpose: "Check URLs under a bookmark folder."
+    check_python_file_by_test_suite:
+      purpose: "Run/check a Python project file against a local test suite."
+    compare_docx_files:
+      purpose: "Compare DOCX document content against gold."
+    compare_docx_tables:
+      purpose: "Compare DOCX table content against expected/gold."
+
+surfaces:
+  android.markor_note:
+    device_family: android
+    display_name: "Android Markor note"
+    stable_sources:
+      - "A markdown/text note stored under external storage, usually /sdcard/Documents or another explicit path."
+      - "A short visible request, rule, checklist, or structured text that the agent can read in Markor."
+    stable_outputs:
+      - "A markdown/text note with deterministic title/path and required text anchors."
+      - "A note used as an audit log or status report."
+    setup_interfaces:
+      - ensure_app:markor
+      - adb_shell
+      - upload_file
+    evaluation_interfaces:
+      - adb_shell
+      - android_file_state
+      - android_file_size_state
+      - exact_match
+      - contains
+    supported_goal_checks:
+      - "File exists at expected note path."
+      - "File content contains required anchors and excludes forbidden anchors."
+    unsupported_designs:
+      - "Do not require checking Markor formatting beyond raw text anchors."
+      - "Do not rely on a native Markor database getter; none exists."
+    generation_rules:
+      - "Use a natural note title or explicit path, never the surface id."
+      - "If the note contains detailed field requirements, keep the user instruction concise and refer to the note."
+
+  android.files_download:
+    device_family: android
+    display_name: "Android Files / Download"
+    stable_sources:
+      - "Files under /sdcard/Download or another explicit external-storage directory."
+      - "Small text, CSV, JSON, PDF, image, audio, or archive fixtures uploaded with upload_file."
+    stable_outputs:
+      - "A created, copied, moved, or deleted file in a concrete external-storage path."
+    setup_interfaces:
+      - ensure_app:files
+      - upload_file
+      - adb_shell
+      - androidworld_media_clear:download
+    evaluation_interfaces:
+      - android_file_state
+      - android_file_size_state
+      - android_file_count
+      - adb_shell
+      - exact_match
+      - contains
+    supported_goal_checks:
+      - "File present/missing/nonempty."
+      - "Directory file count."
+      - "Text content checks through adb_shell."
+    unsupported_designs:
+      - "Do not require semantic inspection of arbitrary binary file contents on Android unless checked by shell command."
+      - "Do not use paths with hidden benchmark/task names as user-visible business content."
+    generation_rules:
+      - "Always use concrete user-facing paths such as /sdcard/Download/report.csv."
+      - "Quote paths in adb_shell commands when spaces are possible."
+
+  android.calendar_event:
+    device_family: android
+    display_name: "Simple Calendar Pro event"
+    stable_sources:
+      - "Calendar events with title, start_ts, end_ts, location, description, optional reminders, and optional repeat fields."
+    stable_outputs:
+      - "Created or updated Simple Calendar Pro events with exact expected fields."
+    setup_interfaces:
+      - ensure_app:simple calendar pro
+      - androidworld_calendar_clear
+      - androidworld_calendar_event_add
+    evaluation_interfaces:
+      - androidworld_calendar_event
+      - exact_match
+    supported_goal_checks:
+      - "Exact event match on title/start_ts/end_ts/location/description."
+      - "Optional reminder_1_minutes/reminder_2_minutes/reminder_3_minutes."
+      - "Optional repeat_interval/repeat_rule when explicitly set by setup/oracle."
+    unsupported_designs:
+      - "Do not mix Calendar timestamps with Tasks dueDate timestamps; keep setup and evaluator units identical."
+      - "Do not expect natural-language recurrence parsing unless the evaluator only checks explicit repeat fields."
+    generation_rules:
+      - "Use exact numeric timestamps in setup/evaluation and expose human-readable times to the agent through visible sources."
+      - "If an event is only an input source, do not score its presence as a goal."
+
+  android.task:
+    device_family: android
+    display_name: "Tasks app task"
+    stable_sources:
+      - "Tasks with title, notes, dueDate, completed, importance, created, and modified fields."
+    stable_outputs:
+      - "Created or updated tasks with deterministic title/notes/dueDate/completed/importance."
+    setup_interfaces:
+      - ensure_app:tasks
+      - androidworld_tasks_clear
+      - androidworld_task_add
+    evaluation_interfaces:
+      - androidworld_task
+      - exact_match
+    supported_goal_checks:
+      - "Exact title."
+      - "Exact notes or notes_contains."
+      - "Exact dueDate numeric timestamp."
+      - "Exact completed boolean."
+      - "Exact importance integer."
+    unsupported_designs:
+      - "Do not require task tags, project lists, attachments, or subtasks; no getter exists."
+      - "Do not require fuzzy title matching."
+    generation_rules:
+      - "Task title/notes/dueDate expectations must be derivable from visible sources or instruction."
+      - "If a source task already exists, only score fields the agent is supposed to change or propagate."
+
+  android.sms:
+    device_family: android
+    display_name: "Simple SMS Messenger message"
+    stable_sources:
+      - "Incoming SMS with address and body."
+      - "Sent SMS history when the task asks the agent to reply."
+    stable_outputs:
+      - "A sent SMS to a concrete address with exact body or required body anchors."
+    setup_interfaces:
+      - ensure_app:simple sms messenger
+      - androidworld_sms_clear
+      - androidworld_sms_receive
+      - androidworld_sms_send
+    evaluation_interfaces:
+      - androidworld_sms_message
+      - android_sms_message
+      - exact_match
+    supported_goal_checks:
+      - "Inbox/sent/all box."
+      - "Address match with normalized phone number."
+      - "Exact body or body_contains anchors."
+      - "recent_within_mins for sent messages."
+    unsupported_designs:
+      - "Do not require MMS attachments."
+      - "Do not require delivery receipts or conversation threading semantics."
+    generation_rules:
+      - "SMS is a good visible request source; put detailed field/format requirements in the SMS, not repeated in instruction."
+      - "For reply tasks, evaluator should check body_contains anchors instead of overfitting punctuation when wording can vary."
+
+  android.contacts:
+    device_family: android
+    display_name: "Android Contacts"
+    stable_sources:
+      - "Contacts with name, phone number, optional note, and optional email inserted by setup."
+    stable_outputs:
+      - "Created or updated contacts with name/number and note anchors."
+    setup_interfaces:
+      - ensure_app:contacts
+      - androidworld_contacts_clear
+      - androidworld_contact_add
+    evaluation_interfaces:
+      - androidworld_contact
+      - exact_match
+    supported_goal_checks:
+      - "Exact name and normalized phone number."
+      - "notes_contains anchor."
+    unsupported_designs:
+      - "Native contact getter does not directly validate email fields."
+      - "Do not require contact groups unless checked by custom adb_shell logic."
+    generation_rules:
+      - "If email is important, either put it in notes or add a separate adb_shell check."
+      - "Use natural contact names and phone numbers; avoid artificial task ids."
+
+  android.photo_video:
+    device_family: android
+    display_name: "Android Camera / Simple Gallery Pro media"
+    stable_sources:
+      - "Uploaded photos/videos in DCIM/Camera, Pictures, Movies, or app-visible media directories."
+      - "Camera/Gallery-visible albums after MediaScanner broadcast."
+    stable_outputs:
+      - "A newly captured or saved photo/video file."
+      - "A copied/kept/deleted album state when checked by file paths or counts."
+    setup_interfaces:
+      - ensure_app:camera
+      - ensure_app:simple gallery pro
+      - androidworld_media_clear:photos
+      - androidworld_media_clear:videos
+      - androidworld_media_clear:gallery
+      - upload_file
+      - adb_shell
+    evaluation_interfaces:
+      - android_file_count
+      - android_file_state
+      - android_file_size_state
+      - adb_shell
+      - exact_match
+      - contains
+    supported_goal_checks:
+      - "Expected file count in a directory."
+      - "Expected file present/missing/nonempty."
+      - "Optional filename anchors through adb_shell."
+    unsupported_designs:
+      - "Do not require Android-side image understanding, OCR, crop accuracy, or visual quality unless a Linux-side exported image is evaluated separately."
+      - "Do not assume uploaded media appears in Gallery without MediaScanner."
+      - "Do not invent album-level notes, JSON manifests, hidden tags, or naming-rule metadata as user-visible Gallery facts."
+    generation_rules:
+      - "Run MediaScanner after uploading visible images/videos."
+      - "For image/video tasks, file existence/count/size is acceptable when content-level checking would require brittle visual judgment."
+      - "Do not make media content semantics the only goal; pair capture/copy/delete media actions with stable filenames, counts, or a text/JSON/CSV/ODF companion output when semantic verification matters."
+      - "If media metadata must drive another-device output, encode the needed key in the actual file name or use a sampled text/document source for the rule."
+
+  android.audio_recording:
+    device_family: android
+    display_name: "Android Audio Recorder output"
+    stable_sources:
+      - "Uploaded or pre-existing audio files in the agent-visible `/sdcard/Recordings/` directory."
+    stable_outputs:
+      - "A newly recorded audio file copied or saved under `/sdcard/Recordings/` with deterministic filename or directory count."
+    setup_interfaces:
+      - ensure_app:audio recorder
+      - androidworld_media_clear:audio_recorder
+      - upload_file
+      - adb_shell
+    evaluation_interfaces:
+      - android_file_state
+      - android_file_size_state
+      - android_file_count
+      - adb_shell
+      - exact_match
+    supported_goal_checks:
+      - "Audio file present/nonempty."
+      - "Audio file count."
+    unsupported_designs:
+      - "Do not require spoken content transcription, speech/audio transcription, or waveform similarity."
+      - "Do not require exact recording duration unless checked by a stable shell/media metadata command."
+    generation_rules:
+      - "Use explicit filename requests when evaluator checks a path."
+      - "Prefer nonempty/present checks for record/capture tasks."
+      - "Never use app-private package paths such as `/storage/emulated/0/Android/data/com.dimowner.audiorecorder/...` in instruction, setup, cleanup, evaluation, or metadata; use `/sdcard/Recordings/<filename>` for visible Audio Recorder artifacts."
+      - "If Audio Recorder itself saves elsewhere, the task must allow the agent to use Android Files to rename/copy the recording into `/sdcard/Recordings/` before evaluation."
+
+  android.clock_alarm_timer:
+    device_family: android
+    display_name: "Android Clock alarm or timer"
+    stable_sources:
+      - "Existing alarm with hour, minute, and label."
+      - "Existing timer duration only, but this is dynamic and should be used cautiously."
+    stable_outputs:
+      - "Alarm with hour, minute, label, and optional enabled state."
+      - "Timer with hours/minutes/seconds duration."
+    setup_interfaces:
+      - ensure_app:clock
+      - androidworld_clock_clear
+      - androidworld_alarm_add
+      - androidworld_timer_add
+    evaluation_interfaces:
+      - androidworld_alarm
+      - androidworld_timer
+      - exact_match
+    supported_goal_checks:
+      - "Alarm hour/minute/label/enabled."
+      - "Timer hours/minutes/seconds."
+    unsupported_designs:
+      - "No exact calendar date alarm support."
+      - "No weekday/repeat alarm support through the current helper/evaluator."
+      - "No timer label support through the current helper/evaluator."
+      - "Avoid long-running timers as static sources because countdown state changes over time."
+    generation_rules:
+      - "If the task needs date/weekday/repeat details, put those details in Calendar or a text source and only evaluate the Clock-supported fields."
+      - "Use timer mainly as an output checked immediately by duration."
+
+  android.retro_music_playlist:
+    device_family: android
+    display_name: "Retro Music playlist"
+    stable_sources:
+      - "Preloaded MP3 files in Music."
+      - "Pre-created playlist with playlist_name and song titles."
+      - "Playing queue JSON when the app state is available."
+    stable_outputs:
+      - "Created playlist with expected song titles."
+    setup_interfaces:
+      - ensure_app:retro music
+      - androidworld_retro_music_clear
+      - androidworld_mp3_push
+      - androidworld_retro_playlist_add
+    evaluation_interfaces:
+      - retro_music_playlist
+      - retro_music_playing_queue
+      - exact_match
+      - contains
+    supported_goal_checks:
+      - "Playlist name fuzzy match and expected_songs fuzzy title match."
+      - "Playing queue returned as JSON text."
+    unsupported_designs:
+      - "Do not require future scheduled playback."
+      - "Do not require audio content recognition."
+      - "Do not assume MP3 files alone imply a playlist exists; create playlist state explicitly when it is a source."
+    generation_rules:
+      - "For playlist source tasks, setup must both push MP3 files and create the named playlist."
+      - "For playlist output tasks, evaluator should check playlist_name and expected_songs."
+      - "Treat the current playing queue as transient; prefer durable playlist state or pair queue checks with a stable status/report output."
+
+  android.osmand_favorite_marker:
+    device_family: android
+    display_name: "OsmAnd favorite or marker"
+    user_visible_constraints:
+      - "Open or create OsmAnd favorites/markers through the OsmAnd app; do not tell the agent to open internal GPX or SQLite paths."
+      - "Use user-visible favorite/marker names, coordinates, addresses, and descriptions."
+      - "If OsmAnd is a source, refer to the visible favorite/marker in OsmAnd, not the implementation file that stores it."
+    implementation_notes:
+      - "Use /storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx for favorites during setup/oracle/evaluation."
+      - "Markers may be represented through OsmAnd marker SQLite state."
+      - "Avoid /data/data/net.osmand cleanup paths when external app-data paths can be used."
+    stable_sources:
+      - "OsmAnd favorites.gpx with waypoint name/lat/lon/description."
+      - "OsmAnd marker SQLite database with marker_lat, marker_lon, and title."
+    stable_outputs:
+      - "Favorite or marker created with expected name and/or coordinates."
+    setup_interfaces:
+      - ensure_app:osmand
+      - androidworld_osmand_favorites_setup
+      - upload_file
+      - adb_shell
+    evaluation_interfaces:
+      - osmand_favorite
+      - osmand_marker
+      - adb_shell
+      - exact_match
+      - contains
+    supported_goal_checks:
+      - "Favorite present by fuzzy name, by coordinates within 0.001 degrees, or by both on the same waypoint when both are provided."
+      - "Marker JSON contains target_found true for expected coordinates."
+    unsupported_designs:
+      - "Do not require route navigation, turn-by-turn state, or map rendering checks."
+      - "Do not rely on /data/data/net.osmand cleanup paths when external app-data paths can be used."
+    generation_rules:
+      - "Use /storage/emulated/0/Android/data/net.osmand/files/favorites/favorites.gpx for favorites."
+      - "When an evaluator includes both favorite_name and coordinates, design expected data so the same OsmAnd waypoint has both values; do not let a source favorite at the same coordinates satisfy a different target favorite name."
+      - "If OsmAnd is only an input source, do not score favorite presence as a goal."
+      - "Make address/name/coordinate extraction explicit in visible source content."
+
+  android.simple_draw:
+    device_family: android
+    display_name: "Simple Draw Pro drawing"
+    stable_sources:
+      - "A visible drawing request in another sampled source surface; not a reliable pre-existing bitmap library."
+    stable_outputs:
+      - "One or more saved drawing/image files produced by Simple Draw Pro."
+    setup_interfaces:
+      - ensure_app:simple draw pro
+      - androidworld_media_clear:gallery
+      - androidworld_media_clear:photos
+      - adb_shell
+    evaluation_interfaces:
+      - android_file_count
+      - android_file_state
+      - android_file_size_state
+      - adb_shell
+      - exact_match
+    supported_goal_checks:
+      - "Saved drawing file count."
+      - "Saved drawing file present/nonempty."
+    unsupported_designs:
+      - "No native drawing semantic evaluator exists."
+      - "Do not require freeform drawing content semantics as the primary goal."
+      - "Do not require exact geometry/color/label validation on Android unless a companion text artifact is also checked."
+      - "Do not make Simple Draw output the semantic input for later exact GIMP/image composition; cross-device visual transfer and visual correctness are not stable enough for deterministic scoring."
+      - "Do not invent pre-existing Simple Draw icon/image files as source assets for another app; use sampled media/image surfaces for existing bitmap inputs."
+    generation_rules:
+      - "Use clear visual requirements in a visible source, but evaluate conservatively by file existence/count/size."
+      - "For Simple Draw Pro, prefer a saved drawing plus a stable companion note/report/table when task meaning must be verified."
+      - "For multi-row dispatch tasks, prefer one aggregate drawing-count/output check plus a companion table/report rather than many visually specific drawing files."
+
+  android.recipe:
+    device_family: android
+    display_name: "Broccoli recipe"
+    stable_sources:
+      - "Recipe rows with title, description, servings, preparationTime, source, ingredients, directions, favorite."
+    stable_outputs:
+      - "Created recipe row with exact expected fields."
+    setup_interfaces:
+      - ensure_app:broccoli app
+      - androidworld_recipes_clear
+      - androidworld_recipe_add
+    evaluation_interfaces:
+      - androidworld_recipe
+      - exact_match
+    supported_goal_checks:
+      - "Exact title/description/servings/preparationTime/source/ingredients/directions/favorite."
+    unsupported_designs:
+      - "Do not require recipe images, categories, shopping integration, or fuzzy ingredient parsing."
+    generation_rules:
+      - "Keep recipe fields deterministic and visible when they drive other-device outputs."
+
+  linux.text_markdown:
+    device_family: linux
+    display_name: "Linux text or Markdown file"
+    stable_sources:
+      - "Plain text or Markdown source file at a concrete path."
+    stable_outputs:
+      - "Plain text or Markdown output with required anchors."
+    setup_interfaces:
+      - upload_file
+      - execute
+    evaluation_interfaces:
+      - vm_command_line
+      - vm_file
+      - check_include_exclude
+      - exact_match
+      - contains
+    supported_goal_checks:
+      - "File exists."
+      - "Text includes/excludes required anchors."
+      - "Exact command output."
+    unsupported_designs:
+      - "Do not require subjective summary quality unless expected anchors are deterministic."
+    generation_rules:
+      - "Use short natural paths such as /tmp/report/notes.md."
+      - "If detailed rules are inside the file, do not repeat them all in instruction."
+
+  linux.csv:
+    device_family: linux
+    display_name: "Linux CSV file"
+    stable_sources:
+      - "CSV source file with deterministic headers and enough rows to avoid toy fixtures."
+    stable_outputs:
+      - "CSV output/update with expected rows."
+    setup_interfaces:
+      - upload_file
+      - execute
+    evaluation_interfaces:
+      - vm_file
+      - vm_command_line
+      - check_csv
+      - check_include_exclude
+      - exact_match
+    supported_goal_checks:
+      - "check_csv rule over expected rows/columns."
+      - "Shell checks for row count, headers, or missing values."
+    unsupported_designs:
+      - "Do not make required row alignment ambiguous when duplicate keys exist."
+    generation_rules:
+      - "Use non-empty key columns and enough rows for realistic filtering or reconciliation."
+      - "If a source CSV contains filtering rules, instruction should point to the CSV instead of listing all row values."
+
+  linux.json:
+    device_family: linux
+    display_name: "Linux JSON file"
+    stable_sources:
+      - "JSON source fixture with deterministic keys."
+    stable_outputs:
+      - "JSON report/status file with required fields."
+    setup_interfaces:
+      - upload_file
+      - execute
+    evaluation_interfaces:
+      - vm_file
+      - vm_command_line
+      - check_json
+      - exact_match
+    supported_goal_checks:
+      - "check_json expected key/value structure."
+      - "Shell validation for custom JSON constraints."
+    unsupported_designs:
+      - "Do not accept a generic status=completed as the only goal check."
+    generation_rules:
+      - "Evaluate task-specific fields, not just file existence or generic completion flags."
+
+  linux.xlsx:
+    device_family: linux
+    display_name: "LibreOffice Calc XLSX workbook"
+    stable_sources:
+      - "XLSX workbook or CSV source opened/edited in Calc."
+    stable_outputs:
+      - "XLSX workbook with expected key cells."
+    setup_interfaces:
+      - upload_file
+      - execute
+    evaluation_interfaces:
+      - vm_file
+      - vm_command_line
+      - check_xlsx_cells
+    supported_goal_checks:
+      - "Exact cell values in a named or first sheet."
+      - "Forbidden cell values."
+      - "Optional shell checks for sheet/file existence."
+    unsupported_designs:
+      - "check_xlsx_cells reads XLSX/OOXML, not true ODS."
+      - "Do not evaluate formulas unless expected cell serialization is known."
+    generation_rules:
+      - "If using check_xlsx_cells, instruct output as .xlsx rather than .ods."
+      - "Check multiple meaningful cells, not only headers."
+
+  linux.odt_docx:
+    device_family: linux
+    display_name: "LibreOffice Writer ODT/DOCX document"
+    stable_sources:
+      - "ODT or DOCX template/source file."
+      - "Plain text/CSV/JSON source converted into a Writer document."
+    stable_outputs:
+      - "ODT/DOCX document with deterministic text anchors or comparable gold document."
+    setup_interfaces:
+      - upload_file
+      - execute
+    evaluation_interfaces:
+      - vm_file
+      - vm_command_line
+      - check_odf_text
+      - check_docx_text
+      - compare_docx_files
+      - compare_docx_tables
+    supported_goal_checks:
+      - "ODT text include/exclude through content.xml."
+      - "DOCX text include/exclude through word/document.xml."
+      - "DOCX file/table comparison against local gold."
+    unsupported_designs:
+      - "Do not require detailed visual layout unless compare_docx_files gold is stable."
+      - "Do not use ODT-specific evaluator for a true DOCX or vice versa."
+    generation_rules:
+      - "Use templates when layout matters."
+      - "If evaluator checks text anchors, instruction should not over-specify exact formatting."
+
+  linux.odp_pptx:
+    device_family: linux
+    display_name: "LibreOffice Impress ODP/PPTX deck"
+    stable_sources:
+      - "ODP/PPTX template/source deck."
+      - "Text/image sources used to build slides."
+    stable_outputs:
+      - "ODP deck or exported PDF with deterministic text anchors."
+    setup_interfaces:
+      - upload_file
+      - execute
+    evaluation_interfaces:
+      - vm_file
+      - vm_command_line
+      - check_odf_text
+      - compare_pdfs
+      - compare_pdf_images
+      - check_include_exclude
+    supported_goal_checks:
+      - "ODP text anchors through check_odf_text."
+      - "Exported PDF text or PDF comparison."
+      - "File existence/nonempty through shell checks."
+    unsupported_designs:
+      - "Do not require exact slide visual layout unless a gold PDF/image comparison is available and stable."
+      - "PPTX-specific semantic checks are limited; prefer ODP text anchors or exported PDF checks."
+      - "Do not use a directory path as a presentation source; source/output locators must be concrete .odp or .pptx files unless another sampled text/listing surface carries the directory manifest."
+    generation_rules:
+      - "Provide a template if layout expectations are important."
+      - "Evaluate both text anchors and export presence when the task asks for PDF export."
+      - "If multiple template candidates are needed and only this surface is sampled, model them as separate concrete .odp/.pptx source files, not as a template directory listing."
+
+  linux.pdf:
+    device_family: linux
+    display_name: "Linux PDF file"
+    stable_sources:
+      - "PDF source file with readable text or deterministic embedded images."
+    stable_outputs:
+      - "Generated/exported PDF."
+    setup_interfaces:
+      - upload_file
+      - execute
+    evaluation_interfaces:
+      - vm_file
+      - vm_command_line
+      - compare_pdfs
+      - compare_pdf_images
+      - check_include_exclude
+      - exact_match
+    supported_goal_checks:
+      - "PDF exists/nonempty."
+      - "pdftotext/strings includes required anchors through vm_command_line."
+      - "PDF/image comparison against gold when available."
+    unsupported_designs:
+      - "Do not require free-form long-answer grading without deterministic anchors."
+    generation_rules:
+      - "For text PDFs, prefer pdftotext anchor checks."
+      - "For scanned/image PDFs, use compare_pdf_images only when gold rendering is stable."
+
+  linux.html_browser:
+    device_family: linux
+    display_name: "Linux Chrome local HTML/browser state"
+    stable_sources:
+      - "Local HTML page opened in Chrome."
+      - "Static multi-page fixtures with visible fields, tables, and instructions."
+    stable_outputs:
+      - "Expected open tab URL/title/hash."
+      - "A companion result file only if the task or oracle creates it outside pure browser JS."
+      - "Bookmark folder/url state."
+    setup_interfaces:
+      - upload_file
+      - execute
+    evaluation_interfaces:
+      - open_tabs_info
+      - bookmarks
+      - is_expected_tabs
+      - is_expected_bookmarks
+      - bookmark_folder_urls
+      - vm_file
+      - check_json
+      - check_include_exclude
+    supported_goal_checks:
+      - "Open expected file URL/hash with ignore_default_tabs."
+      - "Bookmark folder URL set."
+      - "HTML-driven result file only when implementation uses submitted/invalid fixture pages or external script."
+    unsupported_designs:
+      - "HTML cannot directly write arbitrary local files from a file:// page."
+      - "Do not expect a submit button to create /tmp output unless the fixture explicitly navigates to a stable submitted page or the agent creates the file separately."
+    generation_rules:
+      - "HTML cannot directly write arbitrary local files from file://; use navigation/hash or a separate agent-created output file."
+      - "For form tasks, use deterministic submitted.html/invalid.html navigation or URL hash checks."
+      - "Do not put benchmark task ids in URLs, file names, or visible page copy."
+
+  linux.thunderbird_draft:
+    device_family: linux
+    display_name: "Thunderbird draft email"
+    stable_sources:
+      - "Thunderbird draft visible by subject/sender/body anchors inside the real Thunderbird Drafts mailbox."
+    stable_outputs:
+      - "Thunderbird draft containing expected recipient, subject, and body anchors."
+    setup_interfaces:
+      - upload_file
+      - execute
+    evaluation_interfaces:
+      - thunderbird_drafts
+      - vm_command_line
+      - check_include_exclude
+    supported_goal_checks:
+      - "Draft text contains To/Subject/body anchors."
+      - "Saved attachment paths through shell commands when the task asks for downloaded attachments."
+    unsupported_designs:
+      - "Do not require actually sending email."
+      - "Do not require remote mail server state."
+      - "Do not model Thunderbird drafts as ordinary /home/user/.../*.eml side files; the runtime getter reads the real profile Drafts mbox."
+    generation_rules:
+      - "Recipient and subject must be visible in source or instruction."
+      - "Evaluate concrete anchors, not generic To/Subject headers alone."
+      - "For visible sources, name the user-visible draft by subject or sender; setup must initialize `$HOME/.thunderbird/<profile>/Mail/Local Folders/Drafts`."
+
+  linux.vscode_project:
+    device_family: linux
+    display_name: "VSCode/code project"
+    stable_sources:
+      - "Project directory with code, README, tests, or docs."
+    stable_outputs:
+      - "Patched code/config/docs in the project."
+      - "Passing local test command or generated report file."
+    setup_interfaces:
+      - upload_file
+      - execute
+    evaluation_interfaces:
+      - vm_file
+      - vm_command_line
+      - check_python_file_by_test_suite
+      - check_include_exclude
+      - exact_match
+    supported_goal_checks:
+      - "Python test suite passes against patched file."
+      - "File includes/excludes anchors."
+      - "Command output exact/contains expected text."
+    unsupported_designs:
+      - "Do not require VSCode UI state as the only evidence; evaluate files/tests."
+      - "Do not use hidden fix requirements that are absent from README/tests/source."
+    generation_rules:
+      - "Include enough source/tests/docs for a human to infer the fix."
+      - "Do not force removal of normal fallback code unless the bug explicitly requires it."
+
+  linux.gimp_image:
+    device_family: linux
+    display_name: "GIMP/image output"
+    stable_sources:
+      - "Concrete bitmap image source file (`.png`, `.jpg`, `.jpeg`, `.webp`) plus text/CSV/JSON labels or instructions from other sampled surfaces."
+    stable_outputs:
+      - "Saved bitmap image (`.png`, `.jpg`, `.jpeg`, `.webp`) with expected dimensions or OCR-readable text."
+      - "Optional companion text/PDF/ODT record for semantic anchors."
+    setup_interfaces:
+      - upload_file
+      - execute
+    evaluation_interfaces:
+      - vm_file
+      - vm_command_line
+      - check_image_dimensions
+      - compare_image_text
+      - exact_match
+      - check_include_exclude
+    supported_goal_checks:
+      - "Image exists/nonempty."
+      - "Image dimensions/count/filename."
+      - "OCR text through compare_image_text when OCR dependency is available."
+    unsupported_designs:
+      - "Do not use editable project formats such as `.xcf`, `.psd`, `.ai`, or `.svg` as GIMP/image source or output fixtures; current setup/evaluation is bitmap-oriented."
+      - "Do not require subjective visual quality or exact pixel-level manual edits unless a robust gold comparison exists."
+      - "Do not make freeform image semantics the sole goal unless OCR/gold comparison or a companion text/PDF/ODT output makes the required meaning checkable."
+      - "Do not rely on OCR for tiny/low-contrast text."
+    generation_rules:
+      - "When OCR is used, make labels large, high-contrast, and few."
+      - "Add a companion text/PDF/ODT output when visual edits need semantic verification."
+
+  linux.vlc_playback:
+    device_family: linux
+    display_name: "Linux VLC current playback"
+    stable_sources:
+      - "Media file uploaded to the VM."
+      - "Current VLC playback state when VLC is started with HTTP interface."
+    stable_outputs:
+      - "VLC is currently playing the expected file."
+      - "Optional playlist/status file produced outside VLC."
+    setup_interfaces:
+      - upload_file
+      - execute
+    evaluation_interfaces:
+      - vlc_playing_file
+      - vm_command_line
+      - exact_match
+    supported_goal_checks:
+      - "vlc_playing_file true for expected filename."
+      - "Shell checks for generated playlist/status files."
+    unsupported_designs:
+      - "No scheduled future playback evaluator exists."
+      - "No native VLC playlist content evaluator beyond current playing file."
+      - "Do not use very short audio/video clips for playback-state checks."
+    generation_rules:
+      - "If task needs VLC, frame it as play/open current media now, not schedule future playback."
+      - "Use longer media and loop when oracle/setup starts VLC for smoke tests."
+      - "Treat VLC as a transient current playback state, not as the sole goal; pair it with a stable playlist/status/report file when the task needs durable evidence."
+
+  linux.zip_archive:
+    device_family: linux
+    display_name: "Linux ZIP archive"
+    stable_sources:
+      - "ZIP archive containing deterministic files."
+    stable_outputs:
+      - "ZIP archive with expected internal file list/content."
+    setup_interfaces:
+      - upload_file
+      - execute
+    evaluation_interfaces:
+      - vm_file
+      - vm_command_line
+      - compare_archive
+      - check_include_exclude
+      - exact_match
+    supported_goal_checks:
+      - "unzip -l includes expected filenames."
+      - "compare_archive against local gold archive."
+      - "Shell checks for extracted file content."
+    unsupported_designs:
+      - "Do not require archive metadata timestamps unless explicitly normalized."
+    generation_rules:
+      - "Use stable internal paths and avoid hidden task ids."
+      - "If exact archive comparison is used, normalize file ordering/content in oracle."
+
+  linux.terminal:
+    device_family: linux
+    display_name: "Linux terminal/command output"
+    stable_sources:
+      - "Executable script, command output, or terminal-readable text file."
+    stable_outputs:
+      - "Generated command output copied into a file or used to drive another device."
+      - "A shell-visible state change."
+    setup_interfaces:
+      - upload_file
+      - execute
+    evaluation_interfaces:
+      - vm_command_line
+      - vm_file
+      - exact_match
+      - contains
+      - check_include_exclude
+    supported_goal_checks:
+      - "Command stdout exact/contains."
+      - "Files created by commands include expected anchors."
+      - "Exit-code based checks through shell scripts that print present/missing."
+    unsupported_designs:
+      - "Do not require non-deterministic network commands or current-time-dependent output."
+    generation_rules:
+      - "Use deterministic local scripts/data."
+      - "If terminal output is a source, make the command/path visible to the agent."

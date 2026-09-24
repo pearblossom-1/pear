@@ -1,0 +1,11 @@
+{
+  "date": "2026-09-24",
+  "scope": "Upload-package checks only; no experiment or device execution.",
+  "authored_markdown_checked": 9,
+  "local_links_checked": 53,
+  "external_repository_link": "../appendix_E_materials/case_index.md verified in fresh pear main clone",
+  "original_pdf_unchanged": true,
+  "pdf_visual_review": "One full rendered page inspected; no clipping or overlapping observed.",
+  "lite_unique_ids": 200,
+  "failures": []
+}
