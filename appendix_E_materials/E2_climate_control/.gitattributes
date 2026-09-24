@@ -1,0 +1,7 @@
+# Preserve the original Windows-run bytes, including line endings.
+/run/** -text
+/run/README.md text eol=lf
+/task/config/** -text
+/task/run_metadata.json -text
+/task/resources/episode_config.json -text
+/task/resources/source/** -text

@@ -1,0 +1,38 @@
+{
+  "task_id": "linux_smarthome_656",
+  "model": "gemini-3.1-pro-preview",
+  "agent_id": "gemini-3.1-pro-preview-lite",
+  "agent_config": "configs\\agents\\gemini-3.1-pro-preview-lite.yaml",
+  "response_format": "mdcbench_envelope_v1",
+  "success": false,
+  "score": 0.5,
+  "failure_category": "evaluation_failed",
+  "steps": 5,
+  "time_limited": false,
+  "max_duration_s": 1800.0,
+  "max_duration_source": "argument",
+  "wall_time_enforcement": "cooperative_between_blocking_calls",
+  "duration_s": 223.687,
+  "termination_reason": "done",
+  "token_usage": {
+    "input_tokens": 40219,
+    "output_tokens": 3804,
+    "total_tokens": 44023,
+    "cached_input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "reasoning_output_tokens": 2892,
+    "model_calls": 5,
+    "calls_with_usage": 5,
+    "transport_attempts": 5,
+    "transport_retries": 0
+  },
+  "timings": {
+    "environment_start_s": 80.623,
+    "setup_reset_s": 77.144,
+    "model_request_s": 54.423,
+    "environment_action_s": 1.516,
+    "evaluation_s": 0.112,
+    "cleanup_close_s": 9.726,
+    "total_s": 223.687
+  }
+}

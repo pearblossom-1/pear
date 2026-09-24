@@ -1,0 +1,161 @@
+{
+  "case": "E2_climate_control",
+  "task_id": "linux_smarthome_656",
+  "model": "gemini-3.1-pro-preview",
+  "framework": "direct LLM",
+  "selected_attempt": "122_linux_smarthome_656",
+  "lite_index": 122,
+  "original_directory": "D:/MDC_Benchmark_2/runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/122_linux_smarthome_656",
+  "local_run_directory": "run",
+  "availability": "complete_original_run_directory",
+  "imported_at": "2026-09-24",
+  "original_files": 27,
+  "original_bytes": 13083519,
+  "screenshots": 8,
+  "screenshots_by_device": {
+    "linux_0": 8
+  },
+  "ui_element_files": 0,
+  "prompt_text_files": 5,
+  "redacted_message_files": 5,
+  "success": false,
+  "score": 0.5,
+  "recorded_steps": 5,
+  "parsed_device_actions": 4,
+  "done_actions": 1,
+  "device_action_distribution": {
+    "linux_0": 2,
+    "home_0": 2
+  },
+  "smarthome_capability_queries": 2,
+  "smarthome_control_or_schedule_actions": 0,
+  "policy_calls": 5,
+  "transport_retries": 0,
+  "duration_s": 223.687,
+  "duration_definition": "result.json lifecycle duration, includes environment startup, setup/reset, model calls, actions, evaluation and cleanup",
+  "termination_reason": "done",
+  "input_tokens": 40219,
+  "output_tokens": 3804,
+  "total_tokens": 44023,
+  "native_execution_history_jsonl": false,
+  "native_final_json_export": false,
+  "final_state_evidence": "run/trajectory.json events[0..5] and run/evaluator_trace.json evaluators[0].actual; all original prompts and screenshots are preserved",
+  "final_state_caveat": "No run-specific fallback_result.json export. The exact write command is preserved at trajectory.events[4].action.command (s3), with exit_code 0. The historical JSON check passed but its actual is only a shared-cache path. No current cache, reconstructed output, or cleanup state was substituted.",
+  "startup_warnings": "Original stderr includes missing proxy configuration and two vmrun start timeout warnings. The selected run subsequently records five successful policy calls, four accepted device actions, a done action and both completed evaluator checks. These warnings do not constitute evidence that a SmartHome control action was rejected.",
+  "selected_record": "task/main_experiment_selection.json",
+  "batch_run_metadata": "task/run_metadata.json",
+  "fixture_provenance": "task/resources/provenance.json",
+  "verification_method": "Direct byte comparison with every original source file, semantic JSON checks, and comparison of the source matrix/episode state with recorded observations; no checksum fields added.",
+  "original_files_modified": false,
+  "redactions": [],
+  "original_file_inventory": [
+    {
+      "relative_path": "evaluator_trace.json",
+      "bytes": 4877
+    },
+    {
+      "relative_path": "result.json",
+      "bytes": 1123
+    },
+    {
+      "relative_path": "stderr.txt",
+      "bytes": 497
+    },
+    {
+      "relative_path": "stdout.txt",
+      "bytes": 1271
+    },
+    {
+      "relative_path": "trajectory.json",
+      "bytes": 42184
+    },
+    {
+      "relative_path": "artifacts/linux_0/screenshots/step_000.png",
+      "bytes": 1593133
+    },
+    {
+      "relative_path": "artifacts/linux_0/screenshots/step_001.png",
+      "bytes": 1593403
+    },
+    {
+      "relative_path": "artifacts/linux_0/screenshots/step_002.png",
+      "bytes": 1593403
+    },
+    {
+      "relative_path": "artifacts/linux_0/screenshots/step_003.png",
+      "bytes": 1593403
+    },
+    {
+      "relative_path": "artifacts/linux_0/screenshots/step_004.png",
+      "bytes": 1593403
+    },
+    {
+      "relative_path": "artifacts/linux_0/screenshots/step_005.png",
+      "bytes": 1593403
+    },
+    {
+      "relative_path": "artifacts/linux_0/screenshots/step_006.png",
+      "bytes": 1593403
+    },
+    {
+      "relative_path": "artifacts/linux_0/screenshots/step_007.png",
+      "bytes": 1593403
+    },
+    {
+      "relative_path": "config/agent_config.yaml",
+      "bytes": 579
+    },
+    {
+      "relative_path": "config/materialized_task.json",
+      "bytes": 6286
+    },
+    {
+      "relative_path": "config/run_config.json",
+      "bytes": 1620
+    },
+    {
+      "relative_path": "config/task.json",
+      "bytes": 5993
+    },
+    {
+      "relative_path": "prompts/step_000_messages_redacted.json",
+      "bytes": 22157
+    },
+    {
+      "relative_path": "prompts/step_000_prompt.txt",
+      "bytes": 20878
+    },
+    {
+      "relative_path": "prompts/step_001_messages_redacted.json",
+      "bytes": 25357
+    },
+    {
+      "relative_path": "prompts/step_001_prompt.txt",
+      "bytes": 23932
+    },
+    {
+      "relative_path": "prompts/step_002_messages_redacted.json",
+      "bytes": 30246
+    },
+    {
+      "relative_path": "prompts/step_002_prompt.txt",
+      "bytes": 28449
+    },
+    {
+      "relative_path": "prompts/step_003_messages_redacted.json",
+      "bytes": 30726
+    },
+    {
+      "relative_path": "prompts/step_003_prompt.txt",
+      "bytes": 28903
+    },
+    {
+      "relative_path": "prompts/step_004_messages_redacted.json",
+      "bytes": 31746
+    },
+    {
+      "relative_path": "prompts/step_004_prompt.txt",
+      "bytes": 29741
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+Failed to load proxies from evaluation_examples/settings/proxy/dataimpulse.json: [Errno 2] No such file or directory: 'evaluation_examples/settings/proxy/dataimpulse.json'
+vmware_command_timed_out: ['vmrun', '-T', 'ws', 'start', 'D:\\MDC_Benchmark_2\\third_party\\OSWorld-main\\vmware_vm_data\\Ubuntu-arm-0\\Ubuntu.vmx'] after 60.0s
+vmware_command_timed_out: ['vmrun', '-T', 'ws', 'start', 'D:\\MDC_Benchmark_2\\third_party\\OSWorld-main\\vmware_vm_data\\Ubuntu-arm-0\\Ubuntu.vmx'] after 60.0s

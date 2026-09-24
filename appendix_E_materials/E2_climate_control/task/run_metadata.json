@@ -1,0 +1,33 @@
+{
+  "created_at": "2026-08-26T21:37:44",
+  "updated_at": "2026-08-31T19:01:24",
+  "metadata_update_count": 37,
+  "manifest": "tasks\\mdcbench_lite\\mdcbench_lite_v1.json",
+  "benchmark_name": "MDCBench Lite",
+  "benchmark_version": "v1",
+  "agent_config": "configs\\agents\\gemini-3.1-pro-preview-lite.yaml",
+  "agent_id": "gemini-3.1-pro-preview-lite",
+  "model": "gemini-3.1-pro-preview",
+  "response_format": "mdcbench_envelope_v1",
+  "max_steps": 50,
+  "max_duration_s": 1800.0,
+  "process_timeout_s": 2100.0,
+  "preflight": {
+    "ok": true,
+    "skipped": false,
+    "live_checks": true
+  },
+  "context": {
+    "screenshot_context_mode": "current_only",
+    "max_screenshots_per_prompt": "auto",
+    "max_text_history_steps": 10,
+    "history_artifact_limit": 8000,
+    "current_observation_char_limit": 24000,
+    "text_history_char_limit": 24000
+  },
+  "generation": {
+    "max_tokens": 8192,
+    "request_timeout_s": 180.0,
+    "temperature": 0.0
+  }
+}

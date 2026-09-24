@@ -1,10 +1,10 @@
-# 仍待补入的原始运行目录：E2
+# 材料完整性与剩余归档边界
 
-E1a、E1b 的完整原始运行已整理；E3 已于 2026-09-24 从原运行机器补齐并校验。**当前只剩 E2 的原始目录待提供。** E3 的终态文件归档边界单列在下方，不再将整个 E3 运行标为缺失。
+E1a、E1b 的完整原始运行已整理；E2、E3 均于 2026-09-24 从各自原运行机器补齐并核对。**四个案例的原始运行目录均已到位，没有整例仍待提供。** 下文保留 E2、E3 终态文件的实际归档边界，不将缺少单独输出导出误写成缺少整次运行。
 
-无需全部模型日志，也无需重跑。提供以下 E2 目录的原始内容即可。
+本次补档没有调用模型、启动设备、重跑任务或改分；无需为补齐材料而重新实验。
 
-## E2：Gemini 气候控制
+## E2：Gemini 气候控制——原始目录已补齐
 
 相对于保存主实验结果的工程根目录：
 
@@ -19,7 +19,9 @@ runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/s
 runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/run_metadata.json
 ```
 
-额外保留当次 `/tmp/climate/fallback_matrix.md` 输入和 `/tmp/climate/fallback_result.json` 输出的运行专属存档（如有）。没有输出存档时保留原始写入代码、反馈和评测 actual 即可，注明未归档；不能用现在共享缓存的文件补替。
+上述原机目录的全部 **27 个原始文件、8 张 Linux 截图、5 轮 prompt／messages 与回复** 已复制到 [E2_climate_control/run/](E2_climate_control/run/)。正式 summary 对应记录和批次元数据保存在 `E2_climate_control/task/`；输入矩阵与 episode 配置保存在 `task/resources/`，已对照原始 CLI stdout 和 reset 观测直接核对。见 [材料清单](E2_climate_control/material_inventory.json) 和 [案例说明](E2_climate_control/notes.md)。
+
+E2 没有单独的 `execution_history.jsonl`、应用数据库导出或运行专属终态 `/tmp/climate/fallback_result.json` 文件。原始 `trajectory.json` 的 `events[4]`（s3）保留完整写入命令和 `exit_code=0`；历史 evaluator 的 JSON 检查通过，但 `actual` 只记录共享缓存路径。Home 的评估终态完整保留在 `evaluators[0].actual`，两台设备仍关闭，history 为空。**未使用当前缓存、其他运行产物或重建 JSON 冒充终态原件。** 原始运行材料已完整交付，但终态 JSON 的逐字节独立复核受原存档限制。
 
 ## E3：原始目录已补齐，终态文件的归档边界
 
@@ -39,4 +41,4 @@ runs/core200-rerun-20260826/gemini-3.1-pro-preview-lite/PC-20260130VLZZ/run_01/r
 
 E3 原件没有单独的 `execution_history.jsonl`、`prompts/` 或 Android 应用数据库导出，其框架原生记录已全部保留。没有运行专属的终态 `week.csv`；evaluator 的 actual 是共享缓存路径、分数为 0。`log.json` 的 actual 为 null，没有可归档的生成文件。**未从当前缓存、其他运行或重新实验中补造这两份输出。** 这不影响确认原始运行目录已完整交付；但终态文件的逐字节独立复核仍受原存档限制。
 
-E2 补入时沿用内部文件名和截图索引，将目录内容放入 `E2_climate_control/run/`，对应输入资源放入 `task/`；日志中的真实密钥、令牌等凭据仅在交付副本中删除。
+E2 沿用全部原始文件名、截图索引与日志中的历史绝对路径；交付时以文件字节和结构化内容直接比较，没有新增 Hash 校验字段。既有 redacted messages 的图片占位保持原样；未读取或上传 `.env`，扫描未检出需要额外删除的真实密钥或令牌。

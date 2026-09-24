@@ -44,5 +44,5 @@
     "case_use": "not_close_read",
     "interpretation_note": ""
   },
-  "availability_note": "This is an existing analysis index row. The referenced original run has not been supplied in this local material directory."
+  "availability_note": "Historical analysis index row preserved. On 2026-09-24 the complete original selected run was supplied under run/; the canonical summary.records entry is preserved in task/main_experiment_selection.json and matches the raw result. See material_inventory.json for the copied original files and output-archive limits."
 }

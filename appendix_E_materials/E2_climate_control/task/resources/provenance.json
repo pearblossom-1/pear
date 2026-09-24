@@ -1,0 +1,30 @@
+{
+  "task_id": "linux_smarthome_656",
+  "benchmark_revision": "1e053e2cf7955b4a2c4aafbe5136ea918276eaec",
+  "source_worktree": "D:/MDC_Benchmark_2/workflow/integration_worktrees/core200-real200-real300-submit-20260826",
+  "recovery_method": "Setup fixtures copied from the worktree named in the formal selected command. The task and episode JSON were compared semantically with the repository revision; matrix text was compared directly with its committed content and the original s0 CLI stdout. These are setup resources, not final-state exports.",
+  "checks": {
+    "task_json_matches_run_snapshot": true,
+    "matrix_text_matches_trajectory_events_1_info_stdout": true,
+    "episode_initial_state_matches_trajectory_reset_observation": true,
+    "episode_evaluators_match_task_snapshot": true
+  },
+  "files": [
+    {
+      "repository_path": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_656/source/tmp/climate/fallback_matrix.md",
+      "local_path": "source/tmp/climate/fallback_matrix.md",
+      "role": "Original task input; content also observed in trajectory events[1].info.stdout"
+    },
+    {
+      "repository_path": "tasks/cross_device/linux_smarthome_assets/linux_smarthome_656/episode_config.json",
+      "local_path": "episode_config.json",
+      "role": "SmartHome setup fixture; initial state verified against trajectory events[0]"
+    }
+  ],
+  "output_archive": {
+    "guest_path": "/tmp/climate/fallback_result.json",
+    "run_specific_file_available": false,
+    "evidence": "run/trajectory.json events[4] records the exact write command and successful execution; run/evaluator_trace.json evaluators[1] records the passing JSON check and shared-cache path, not output bytes"
+  },
+  "redactions": []
+}
