@@ -1,0 +1,19 @@
+{
+  "observation": "Simple Calendar Pro is showing the Change view dialog over the August monthly calendar. The dialog lists Daily view, Weekly view, Monthly view (currently selected), Monthly and daily view, Yearly view, and Simple event list at the bottom. The current controls list only includes system UI elements, so the dialog options are visible in the screenshot but not indexed as controls.",
+  "thought": "To extract all meetings efficiently, switch to Simple event list by tapping the visible 'Simple event list' option in the dialog.",
+  "action": {
+    "function": "tap",
+    "arguments": {
+      "x": 370,
+      "y": 1525
+    },
+    "status": "CONTINUE"
+  },
+  "plan": [
+    "Wait for Simple event list view to load.",
+    "Inspect the visible list for this week's Android meetings.",
+    "Open meeting entries if needed to read full date, start, end, and location.",
+    "Finish with a JSON array containing name, date, start, end, and location for each meeting."
+  ],
+  "result": ""
+}

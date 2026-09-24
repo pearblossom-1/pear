@@ -1,0 +1,22 @@
+{
+  "task_id": "al_calendar_schedule_conflict",
+  "benchmark_revision": "54a48d4611afc88f8f3b9bd97e45a8eb2d99b787",
+  "recovery_method": "Copied repository setup inputs after byte comparison with the benchmark revision recorded in the canonical selected-run index. These are setup fixtures, not final-state exports.",
+  "android_initialization": "Recorded directly in task/config/task.json; no native Calendar database export.",
+  "files": [
+    {
+      "repository_path": "tasks/cross_device/real100_assets/al_calendar_schedule_conflict/source/week.csv",
+      "local_path": "source/week.csv",
+      "sha256": "d5a7f12dacfa1befbd081ae1f68d175620b468627c2f43b514bab8169ba82359",
+      "bytes": 115,
+      "matches_recorded_benchmark_revision": true
+    },
+    {
+      "repository_path": "tasks/cross_device/real100_assets/al_calendar_schedule_conflict/source/rule.txt",
+      "local_path": "source/rule.txt",
+      "sha256": "723d7aa1f9d9a29a8d85ea3e2935a3739db3a97d056da59a112d01a54abaec24",
+      "bytes": 278,
+      "matches_recorded_benchmark_revision": true
+    }
+  ]
+}

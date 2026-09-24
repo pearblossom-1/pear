@@ -1,0 +1,2367 @@
+{
+  "calls": [
+    {
+      "call_index": 1,
+      "call_type": "constellation_create",
+      "success": true,
+      "duration_s": 15.242,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 500,
+        "prompt_tokens": 12256,
+        "total_tokens": 12756,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 51,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25241,
+        "image_count": 2,
+        "content_blocks": 6
+      },
+      "image_device_ids": [
+        "android_0",
+        "linux_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/001_constellation_create/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/001_constellation_create/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/001_constellation_create/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/001_constellation_create"
+      },
+      "normalized_usage": {
+        "input_tokens": 12256,
+        "output_tokens": 500,
+        "total_tokens": 12756,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 51
+      }
+    },
+    {
+      "call_index": 2,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 7.326,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 209,
+        "prompt_tokens": 7946,
+        "total_tokens": 8155,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 37,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 17646,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/002_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/002_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/002_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/002_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 7946,
+        "output_tokens": 209,
+        "total_tokens": 8155,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 37
+      }
+    },
+    {
+      "call_index": 3,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 4.959,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 149,
+        "prompt_tokens": 8158,
+        "total_tokens": 8307,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 18546,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/003_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/003_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/003_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/003_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 8158,
+        "output_tokens": 149,
+        "total_tokens": 8307,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 0
+      }
+    },
+    {
+      "call_index": 4,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 7.476,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 249,
+        "prompt_tokens": 8294,
+        "total_tokens": 8543,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 34,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 19236,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/004_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/004_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/004_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/004_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 8294,
+        "output_tokens": 249,
+        "total_tokens": 8543,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 34
+      }
+    },
+    {
+      "call_index": 5,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.559,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 216,
+        "prompt_tokens": 8535,
+        "total_tokens": 8751,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 18,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 20114,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/005_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/005_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/005_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/005_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 8535,
+        "output_tokens": 216,
+        "total_tokens": 8751,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 18
+      }
+    },
+    {
+      "call_index": 6,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 7.191,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 273,
+        "prompt_tokens": 8739,
+        "total_tokens": 9012,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 23,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 20764,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/006_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/006_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/006_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/006_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 8739,
+        "output_tokens": 273,
+        "total_tokens": 9012,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 23
+      }
+    },
+    {
+      "call_index": 7,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 9.095,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 295,
+        "prompt_tokens": 8969,
+        "total_tokens": 9264,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 50,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 21816,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/007_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/007_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/007_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/007_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 8969,
+        "output_tokens": 295,
+        "total_tokens": 9264,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 50
+      }
+    },
+    {
+      "call_index": 8,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 7.979,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 295,
+        "prompt_tokens": 9172,
+        "total_tokens": 9467,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 35,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 22582,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/008_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/008_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/008_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/008_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9172,
+        "output_tokens": 295,
+        "total_tokens": 9467,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 35
+      }
+    },
+    {
+      "call_index": 9,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.805,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 239,
+        "prompt_tokens": 9387,
+        "total_tokens": 9626,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 29,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 23396,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/009_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/009_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/009_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/009_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9387,
+        "output_tokens": 239,
+        "total_tokens": 9626,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 29
+      }
+    },
+    {
+      "call_index": 10,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 7.483,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 254,
+        "prompt_tokens": 9550,
+        "total_tokens": 9804,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 29,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 24118,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/010_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/010_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/010_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/010_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9550,
+        "output_tokens": 254,
+        "total_tokens": 9804,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 29
+      }
+    },
+    {
+      "call_index": 11,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.591,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 212,
+        "prompt_tokens": 9727,
+        "total_tokens": 9939,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 24761,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/011_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/011_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/011_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/011_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9727,
+        "output_tokens": 212,
+        "total_tokens": 9939,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 0
+      }
+    },
+    {
+      "call_index": 12,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.841,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 247,
+        "prompt_tokens": 9950,
+        "total_tokens": 10197,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 34,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25486,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/012_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/012_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/012_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/012_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9950,
+        "output_tokens": 247,
+        "total_tokens": 10197,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 34
+      }
+    },
+    {
+      "call_index": 13,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 8.77,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 304,
+        "prompt_tokens": 9958,
+        "total_tokens": 10262,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 79,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25501,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/013_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/013_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/013_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/013_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9958,
+        "output_tokens": 304,
+        "total_tokens": 10262,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 79
+      }
+    },
+    {
+      "call_index": 14,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 10.444,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 224,
+        "prompt_tokens": 9990,
+        "total_tokens": 10214,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25461,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/014_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/014_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/014_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/014_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9990,
+        "output_tokens": 224,
+        "total_tokens": 10214,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 0
+      }
+    },
+    {
+      "call_index": 15,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 9.121,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 274,
+        "prompt_tokens": 9961,
+        "total_tokens": 10235,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 51,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25552,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/015_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/015_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/015_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/015_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9961,
+        "output_tokens": 274,
+        "total_tokens": 10235,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 51
+      }
+    },
+    {
+      "call_index": 16,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 7.898,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 309,
+        "prompt_tokens": 9945,
+        "total_tokens": 10254,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 73,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25474,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/016_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/016_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/016_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/016_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9945,
+        "output_tokens": 309,
+        "total_tokens": 10254,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 73
+      }
+    },
+    {
+      "call_index": 17,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 9.116,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 361,
+        "prompt_tokens": 9928,
+        "total_tokens": 10289,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 130,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25380,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/017_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/017_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/017_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/017_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9928,
+        "output_tokens": 361,
+        "total_tokens": 10289,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 130
+      }
+    },
+    {
+      "call_index": 18,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 10.169,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 225,
+        "prompt_tokens": 9915,
+        "total_tokens": 10140,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 18,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25120,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/018_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/018_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/018_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/018_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9915,
+        "output_tokens": 225,
+        "total_tokens": 10140,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 18
+      }
+    },
+    {
+      "call_index": 19,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.809,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 258,
+        "prompt_tokens": 9902,
+        "total_tokens": 10160,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 49,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25220,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/019_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/019_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/019_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/019_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9902,
+        "output_tokens": 258,
+        "total_tokens": 10160,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 49
+      }
+    },
+    {
+      "call_index": 20,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.186,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 205,
+        "prompt_tokens": 9901,
+        "total_tokens": 10106,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 20,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25226,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/020_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/020_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/020_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/020_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9901,
+        "output_tokens": 205,
+        "total_tokens": 10106,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 20
+      }
+    },
+    {
+      "call_index": 21,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 10.855,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 260,
+        "prompt_tokens": 9931,
+        "total_tokens": 10191,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 30,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25385,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/021_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/021_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/021_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/021_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9931,
+        "output_tokens": 260,
+        "total_tokens": 10191,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 30
+      }
+    },
+    {
+      "call_index": 22,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 8.02,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 298,
+        "prompt_tokens": 9913,
+        "total_tokens": 10211,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 65,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25415,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/022_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/022_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/022_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/022_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9913,
+        "output_tokens": 298,
+        "total_tokens": 10211,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 65
+      }
+    },
+    {
+      "call_index": 23,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.919,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 236,
+        "prompt_tokens": 9926,
+        "total_tokens": 10162,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 15,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25525,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/023_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/023_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/023_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/023_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9926,
+        "output_tokens": 236,
+        "total_tokens": 10162,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 15
+      }
+    },
+    {
+      "call_index": 24,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 8.417,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 246,
+        "prompt_tokens": 9946,
+        "total_tokens": 10192,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 34,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25455,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/024_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/024_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/024_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/024_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9946,
+        "output_tokens": 246,
+        "total_tokens": 10192,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 34
+      }
+    },
+    {
+      "call_index": 25,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.724,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 238,
+        "prompt_tokens": 9933,
+        "total_tokens": 10171,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 15,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25361,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/025_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/025_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/025_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/025_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9933,
+        "output_tokens": 238,
+        "total_tokens": 10171,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 15
+      }
+    },
+    {
+      "call_index": 26,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 8.891,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 289,
+        "prompt_tokens": 8514,
+        "total_tokens": 8803,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 59,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 20471,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/026_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/026_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/026_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/026_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 8514,
+        "output_tokens": 289,
+        "total_tokens": 8803,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 59
+      }
+    },
+    {
+      "call_index": 27,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 7.394,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 263,
+        "prompt_tokens": 9957,
+        "total_tokens": 10220,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 46,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25502,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/027_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/027_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/027_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/027_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9957,
+        "output_tokens": 263,
+        "total_tokens": 10220,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 46
+      }
+    },
+    {
+      "call_index": 28,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 8.679,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 334,
+        "prompt_tokens": 9946,
+        "total_tokens": 10280,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 116,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25451,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/028_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/028_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/028_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/028_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9946,
+        "output_tokens": 334,
+        "total_tokens": 10280,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 116
+      }
+    },
+    {
+      "call_index": 29,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.82,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 251,
+        "prompt_tokens": 9946,
+        "total_tokens": 10197,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 31,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25498,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/029_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/029_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/029_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/029_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9946,
+        "output_tokens": 251,
+        "total_tokens": 10197,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 31
+      }
+    },
+    {
+      "call_index": 30,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 5.913,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 187,
+        "prompt_tokens": 9925,
+        "total_tokens": 10112,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 23,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25536,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/030_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/030_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/030_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/030_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9925,
+        "output_tokens": 187,
+        "total_tokens": 10112,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 23
+      }
+    },
+    {
+      "call_index": 31,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.795,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 238,
+        "prompt_tokens": 9900,
+        "total_tokens": 10138,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 23,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25419,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/031_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/031_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/031_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/031_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9900,
+        "output_tokens": 238,
+        "total_tokens": 10138,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 23
+      }
+    },
+    {
+      "call_index": 32,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 8.144,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 275,
+        "prompt_tokens": 9926,
+        "total_tokens": 10201,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 38,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25414,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/032_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/032_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/032_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/032_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9926,
+        "output_tokens": 275,
+        "total_tokens": 10201,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 38
+      }
+    },
+    {
+      "call_index": 33,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.882,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 255,
+        "prompt_tokens": 9927,
+        "total_tokens": 10182,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 32,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25404,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/033_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/033_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/033_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/033_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9927,
+        "output_tokens": 255,
+        "total_tokens": 10182,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 32
+      }
+    },
+    {
+      "call_index": 34,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 7.35,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 217,
+        "prompt_tokens": 9950,
+        "total_tokens": 10167,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25316,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/034_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/034_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/034_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/034_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9950,
+        "output_tokens": 217,
+        "total_tokens": 10167,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 0
+      }
+    },
+    {
+      "call_index": 35,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 7.457,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 284,
+        "prompt_tokens": 9949,
+        "total_tokens": 10233,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 38,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25518,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/035_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/035_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/035_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/035_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9949,
+        "output_tokens": 284,
+        "total_tokens": 10233,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 38
+      }
+    },
+    {
+      "call_index": 36,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 10.724,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 331,
+        "prompt_tokens": 9964,
+        "total_tokens": 10295,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 108,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25558,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/036_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/036_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/036_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/036_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9964,
+        "output_tokens": 331,
+        "total_tokens": 10295,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 108
+      }
+    },
+    {
+      "call_index": 37,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 7.846,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 247,
+        "prompt_tokens": 9965,
+        "total_tokens": 10212,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 18,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25518,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/037_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/037_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/037_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/037_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9965,
+        "output_tokens": 247,
+        "total_tokens": 10212,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 18
+      }
+    },
+    {
+      "call_index": 38,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 8.042,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 271,
+        "prompt_tokens": 9936,
+        "total_tokens": 10207,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 44,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25540,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/038_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/038_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/038_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/038_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9936,
+        "output_tokens": 271,
+        "total_tokens": 10207,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 44
+      }
+    },
+    {
+      "call_index": 39,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 7.103,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 173,
+        "prompt_tokens": 9937,
+        "total_tokens": 10110,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25550,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/039_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/039_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/039_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/039_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9937,
+        "output_tokens": 173,
+        "total_tokens": 10110,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 0
+      }
+    },
+    {
+      "call_index": 40,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 7.938,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 279,
+        "prompt_tokens": 9951,
+        "total_tokens": 10230,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 66,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25472,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/040_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/040_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/040_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/040_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9951,
+        "output_tokens": 279,
+        "total_tokens": 10230,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 66
+      }
+    },
+    {
+      "call_index": 41,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.911,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 247,
+        "prompt_tokens": 9945,
+        "total_tokens": 10192,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 39,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25455,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/041_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/041_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/041_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/041_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9945,
+        "output_tokens": 247,
+        "total_tokens": 10192,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 39
+      }
+    },
+    {
+      "call_index": 42,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.819,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 211,
+        "prompt_tokens": 9945,
+        "total_tokens": 10156,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25303,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/042_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/042_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/042_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/042_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9945,
+        "output_tokens": 211,
+        "total_tokens": 10156,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 0
+      }
+    },
+    {
+      "call_index": 43,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 8.926,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 291,
+        "prompt_tokens": 9932,
+        "total_tokens": 10223,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 49,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25446,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/043_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/043_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/043_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/043_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9932,
+        "output_tokens": 291,
+        "total_tokens": 10223,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 49
+      }
+    },
+    {
+      "call_index": 44,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 13.196,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 284,
+        "prompt_tokens": 9940,
+        "total_tokens": 10224,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 63,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25495,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/044_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/044_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/044_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/044_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9940,
+        "output_tokens": 284,
+        "total_tokens": 10224,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 63
+      }
+    },
+    {
+      "call_index": 45,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 8.129,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 261,
+        "prompt_tokens": 9935,
+        "total_tokens": 10196,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 37,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25448,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/045_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/045_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/045_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/045_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9935,
+        "output_tokens": 261,
+        "total_tokens": 10196,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 37
+      }
+    },
+    {
+      "call_index": 46,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.914,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 237,
+        "prompt_tokens": 9890,
+        "total_tokens": 10127,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 22,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25419,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/046_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/046_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/046_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/046_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9890,
+        "output_tokens": 237,
+        "total_tokens": 10127,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 22
+      }
+    },
+    {
+      "call_index": 47,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 12.234,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 224,
+        "prompt_tokens": 9873,
+        "total_tokens": 10097,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 13,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25383,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/047_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/047_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/047_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/047_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9873,
+        "output_tokens": 224,
+        "total_tokens": 10097,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 13
+      }
+    },
+    {
+      "call_index": 48,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.748,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 254,
+        "prompt_tokens": 9881,
+        "total_tokens": 10135,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 29,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25298,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/048_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/048_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/048_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/048_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9881,
+        "output_tokens": 254,
+        "total_tokens": 10135,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 29
+      }
+    },
+    {
+      "call_index": 49,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.486,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 246,
+        "prompt_tokens": 9887,
+        "total_tokens": 10133,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 38,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25309,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/049_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/049_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/049_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/049_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9887,
+        "output_tokens": 246,
+        "total_tokens": 10133,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 38
+      }
+    },
+    {
+      "call_index": 50,
+      "call_type": "device_action:android:android_0",
+      "success": true,
+      "duration_s": 6.431,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 208,
+        "prompt_tokens": 9900,
+        "total_tokens": 10108,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "response_model": "gpt-5.5",
+      "finish_reason": "stop",
+      "prompt_metrics": {
+        "text_chars": 25190,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "image_device_ids": [
+        "android_0"
+      ],
+      "artifacts": {
+        "messages": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/050_device_action_android_android_0/messages.json",
+        "response": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/050_device_action_android_android_0/response.txt",
+        "call": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/050_device_action_android_android_0/call.json",
+        "output_dir": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/ufo3/calls/050_device_action_android_android_0"
+      },
+      "normalized_usage": {
+        "input_tokens": 9900,
+        "output_tokens": 208,
+        "total_tokens": 10108,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": null,
+        "reasoning_output_tokens": 0
+      }
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 486653,
+    "output_tokens": 12933,
+    "total_tokens": 499586,
+    "cached_input_tokens": 0,
+    "cache_creation_input_tokens": null,
+    "reasoning_output_tokens": 1851,
+    "model_calls": 50,
+    "calls_with_usage": 50,
+    "transport_attempts": 50,
+    "transport_retries": 0
+  }
+}

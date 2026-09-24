@@ -32,5 +32,12 @@
     "metadata_ref": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/run_01/004_al_calendar_schedule_conflict/attempts/attempt_001/config/task.json",
     "result_index_ref": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/runs/ufo3-gpt-5.5-core200-rerun-20260826/mdcbench_lite_v1/final_merged_status_after_infrastructure_repairs.json"
   },
-  "availability_note": "This is an existing analysis index row. The referenced original run has not been supplied in this local material directory."
+  "availability_note": "The complete original selected attempt is now supplied in run/ (410 unchanged files, including 149 screenshots). Direct canonical-index verification is in task/canonical_selected_attempt.json; per-file hashes are in material_integrity.json.",
+  "verified_against_canonical_index": {
+    "verified_at": "2026-09-24",
+    "canonical_record": "task/canonical_selected_attempt.json",
+    "task_sha256": "255c8d693a01fcbc22e8677f251092963d115cddda6c761cdea9fbdd75ca2941",
+    "result_sha256": "978aa68cb986535d88b8f3afa40da255fb6c51d4218258ac4ff63290de0d8fd9",
+    "same_selected_attempt": true
+  }
 }

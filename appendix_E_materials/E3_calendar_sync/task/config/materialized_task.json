@@ -1,0 +1,189 @@
+{
+  "id": "al_calendar_schedule_conflict",
+  "instruction": "This week's meeting schedule has conflicts: Android Simple Calendar Pro and Linux `/tmp/schedule/week.csv` disagree on details for meetings with the same names. Follow `/tmp/schedule/rule.txt`: synchronize each matching meeting's date, start, end, and location from Android, leave non-matching meetings unchanged, then write `/tmp/schedule/log.json` with every field that changed and its old and new values.",
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    },
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "variables": {
+    "week_csv": "/tmp/schedule/week.csv",
+    "log_json": "/tmp/schedule/log.json"
+  },
+  "setup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "ensure_app",
+          "parameters": {
+            "app": "simple calendar pro"
+          }
+        },
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        },
+        {
+          "type": "androidworld_calendar_event_add",
+          "parameters": {
+            "title": "Vendor planning",
+            "start_ts": 1802530800,
+            "end_ts": 1802534400,
+            "location": "Room 8",
+            "description": "Source of truth for schedule correction"
+          }
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/schedule && mkdir -p /tmp/schedule",
+            "shell": true
+          }
+        },
+        {
+          "type": "upload_file",
+          "parameters": {
+            "files": [
+              {
+                "local_path": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/worker-worktrees/ufo3-gpt55-core200-rerun-20260826/tasks/cross_device/real100_assets/al_calendar_schedule_conflict/source/week.csv",
+                "path": "/tmp/schedule/week.csv"
+              },
+              {
+                "local_path": "/Users/Admin/home/MDC_Benchmark_lite_ufo3/worker-worktrees/ufo3-gpt55-core200-rerun-20260826/tasks/cross_device/real100_assets/al_calendar_schedule_conflict/source/rule.txt",
+                "path": "/tmp/schedule/rule.txt"
+              }
+            ]
+          }
+        },
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "test -r /tmp/schedule/week.csv && test -w /tmp/schedule/week.csv && test -r /tmp/schedule/rule.txt && test -w /tmp/schedule && test ! -e /tmp/schedule/log.json",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "cleanup": [
+    {
+      "device_id": "android_0",
+      "config": [
+        {
+          "type": "androidworld_calendar_clear",
+          "parameters": {}
+        }
+      ]
+    },
+    {
+      "device_id": "linux_0",
+      "config": [
+        {
+          "type": "execute",
+          "parameters": {
+            "command": "rm -rf /tmp/schedule",
+            "shell": true
+          }
+        }
+      ]
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "linux_0",
+      "func": "check_semantic_change",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/schedule/log.json"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "format": "json",
+          "require_affirmative": true,
+          "entity": "Vendor planning",
+          "old": {
+            "start": "09:00",
+            "end": "10:00",
+            "location": "Room 2"
+          },
+          "new": {
+            "start": "15:00",
+            "end": "16:00",
+            "location": "Room 8"
+          }
+        }
+      }
+    },
+    {
+      "device_id": "linux_0",
+      "func": "check_csv",
+      "result": {
+        "type": "vm_file",
+        "path": "/tmp/schedule/week.csv"
+      },
+      "expected": {
+        "type": "rule",
+        "rules": {
+          "exact_logical_rows": true,
+          "order_sensitive": false,
+          "columns": [
+            "title",
+            "date",
+            "start",
+            "end",
+            "location"
+          ],
+          "rows": [
+            {
+              "title": "Vendor planning",
+              "date": "2027-02-13",
+              "start": "15:00",
+              "end": "16:00",
+              "location": "Room 8"
+            },
+            {
+              "title": "Ops sync",
+              "date": "2027-02-14",
+              "start": "11:00",
+              "end": "11:30",
+              "location": "Room 4"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "limits": {
+    "max_steps": 26,
+    "max_wall_time_s": 260
+  },
+  "metadata": {
+    "category": "real100_cross_device",
+    "source_card": "062",
+    "difficulty": "Complex",
+    "motif": "M6",
+    "surfaces": "Android Simple Calendar Pro + Linux schedule -> Linux corrected CSV + log",
+    "setup_note": "Android \u5199\u5165 source-of-truth Calendar\uff1bLinux \u4e0a\u4f20\u5b8c\u6574 reconciliation rule \u4e0e\u4e0d\u4e00\u81f4 CSV\uff0c\u6e05\u7406 log\uff0c\u5e76\u6821\u9a8c\u8f93\u5165\u53ef\u8bfb\u3001CSV/\u76ee\u5f55\u53ef\u5199\u3002",
+    "evaluate_note": "Checks the exact corrected logical CSV and requires exactly one Vendor planning old-to-new change set covering start, end, and location in the log, accepting ordinary structured, table, arrow, from/to, moved, changed, and replaced wording. An unrelated meeting may be identified as unchanged without being mistaken for a second change.",
+    "device_topology": "1A+1L",
+    "implementation_status": "real_evaluator",
+    "readiness": "R1_native_real_fixture",
+    "cross_device_checks": [
+      "linux_schedule_csv_and_log_follow_android_calendar_source_of_truth"
+    ],
+    "asset_source": "tasks/cross_device/real100_assets/al_calendar_schedule_conflict/source",
+    "lite_evaluator_hardening_note": "The scored log check parses independent relation objects/clauses and requires exactly one entity-bound Vendor planning change with old and new start, end, and location values. Equivalent structured, table, arrow, from/to, moved, changed, and replaced wording passes; duplicates, extra changes, mixed markers, target-bound negation or unchanged claims, and later old-instead/reversed/reverted/withdrawn/retracted final states fail. A sibling such as Ops sync may be listed as unchanged context."
+  }
+}

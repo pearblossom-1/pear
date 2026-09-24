@@ -1,0 +1,126 @@
+{
+  "evaluators": [
+    {
+      "raw_evaluator": {
+        "device_id": "linux_0",
+        "func": "check_semantic_change",
+        "result": {
+          "type": "vm_file",
+          "path": "/tmp/schedule/log.json"
+        },
+        "expected": {
+          "type": "rule",
+          "rules": {
+            "format": "json",
+            "require_affirmative": true,
+            "entity": "Vendor planning",
+            "old": {
+              "start": "09:00",
+              "end": "10:00",
+              "location": "Room 2"
+            },
+            "new": {
+              "start": "15:00",
+              "end": "16:00",
+              "location": "Room 8"
+            }
+          }
+        }
+      },
+      "actual": null,
+      "expected": {
+        "format": "json",
+        "require_affirmative": true,
+        "entity": "Vendor planning",
+        "old": {
+          "start": "09:00",
+          "end": "10:00",
+          "location": "Room 2"
+        },
+        "new": {
+          "start": "15:00",
+          "end": "16:00",
+          "location": "Room 8"
+        }
+      },
+      "score": 0.0,
+      "success": false,
+      "func": "check_semantic_change",
+      "device_id": "linux_0",
+      "enable_score_calc": true
+    },
+    {
+      "raw_evaluator": {
+        "device_id": "linux_0",
+        "func": "check_csv",
+        "result": {
+          "type": "vm_file",
+          "path": "/tmp/schedule/week.csv"
+        },
+        "expected": {
+          "type": "rule",
+          "rules": {
+            "exact_logical_rows": true,
+            "order_sensitive": false,
+            "columns": [
+              "title",
+              "date",
+              "start",
+              "end",
+              "location"
+            ],
+            "rows": [
+              {
+                "title": "Vendor planning",
+                "date": "2027-02-13",
+                "start": "15:00",
+                "end": "16:00",
+                "location": "Room 8"
+              },
+              {
+                "title": "Ops sync",
+                "date": "2027-02-14",
+                "start": "11:00",
+                "end": "11:30",
+                "location": "Room 4"
+              }
+            ]
+          }
+        }
+      },
+      "actual": "cache/mdcbench_linux_0_reset/week.csv",
+      "expected": {
+        "exact_logical_rows": true,
+        "order_sensitive": false,
+        "columns": [
+          "title",
+          "date",
+          "start",
+          "end",
+          "location"
+        ],
+        "rows": [
+          {
+            "title": "Vendor planning",
+            "date": "2027-02-13",
+            "start": "15:00",
+            "end": "16:00",
+            "location": "Room 8"
+          },
+          {
+            "title": "Ops sync",
+            "date": "2027-02-14",
+            "start": "11:00",
+            "end": "11:30",
+            "location": "Room 4"
+          }
+        ]
+      },
+      "score": 0.0,
+      "success": false,
+      "func": "check_csv",
+      "device_id": "linux_0",
+      "enable_score_calc": true
+    }
+  ]
+}

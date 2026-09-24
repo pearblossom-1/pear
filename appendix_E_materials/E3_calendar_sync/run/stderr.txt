@@ -1,0 +1,30 @@
+I0826 23:03:02.273628 64650017 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0826 23:03:02.307053 64650017 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+ERROR:desktopenv.providers.aws.ProxyPool:Failed to load proxies from evaluation_examples/settings/proxy/dataimpulse.json: [Errno 2] No such file or directory: 'evaluation_examples/settings/proxy/dataimpulse.json'
+INFO:desktopenv.providers.vmware.VMwareProvider:Starting VMware VM...
+INFO:desktopenv.providers.vmware.VMwareProvider:Starting VM...
+INFO:desktopenv.providers.vmware.VMwareProvider:VM is running.
+INFO:desktopenv.providers.vmware.VMwareProvider:Getting VMware VM IP address...
+INFO:desktopenv.providers.vmware.VMwareProvider:VMware VM IP address: 172.16.207.128
+INFO:desktopenv.providers.vmware.VMwareProvider:Reverting VMware VM to snapshot: init_state...
+INFO:desktopenv.providers.vmware.VMwareProvider:Starting VMware VM...
+INFO:desktopenv.providers.vmware.VMwareProvider:Starting VM...
+INFO:desktopenv.providers.vmware.VMwareProvider:VM is running.
+INFO:desktopenv.providers.vmware.VMwareProvider:Getting VMware VM IP address...
+INFO:desktopenv.providers.vmware.VMwareProvider:VMware VM IP address: 172.16.207.128
+I0826 23:04:50.721407 64649979 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0826 23:04:50.734056 64651811 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(13, generation: 1)
+I0826 23:04:50.734148 64651811 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(12, generation: 1)
+I0826 23:04:50.734161 64651811 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(3, generation: 1)
+I0826 23:04:50.734169 64651811 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(7, generation: 1)
+I0826 23:04:50.833580 64649979 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0826 23:04:50.839289 64651843 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(13, generation: 1)
+I0826 23:04:50.839374 64651843 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(12, generation: 1)
+I0826 23:04:50.839383 64651843 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(3, generation: 1)
+I0826 23:04:50.839390 64651843 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(7, generation: 1)
+I0826 23:04:53.061310 64649979 fork_posix.cc:71] Other threads are currently calling into gRPC, skipping fork() handlers
+I0826 23:04:53.069616 64651901 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(13, generation: 1)
+I0826 23:04:53.069719 64651901 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(12, generation: 1)
+I0826 23:04:53.069730 64651901 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(3, generation: 1)
+I0826 23:04:53.069737 64651901 ev_poll_posix.cc:593] FD from fork parent still in poll list: fd(7, generation: 1)
+INFO:desktopenv.providers.vmware.VMwareProvider:Stopping VMware VM...

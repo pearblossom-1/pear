@@ -1,0 +1,19 @@
+{
+  "observation": "Simple Calendar Pro is open on android_0 in a daily view/search toolbar state for \"August 12 (Wed)\". The main event area is blank, so no meeting details are visible. The toolbar includes a back/search area, a calendar/go-to-today button, a Change view grid button at control index 3, and More options; a New Event floating button is visible at bottom right.",
+  "thought": "The daily view is not showing meetings and is inefficient for extracting the whole week's events. I should open the Change view menu again and select a list/week view to reveal event entries.",
+  "action": {
+    "function": "click_control",
+    "arguments": {
+      "index": 3
+    },
+    "status": "CONTINUE"
+  },
+  "plan": [
+    "Select Simple event list or weekly view from the change-view dialog.",
+    "Read visible event entries for this week.",
+    "Open each meeting entry if needed to capture end time and location, then return without editing.",
+    "Scroll through this week's events only as needed.",
+    "Finish with a JSON array containing name, date, start, end, and location for all Android meetings found."
+  ],
+  "result": ""
+}
