@@ -1,0 +1,61 @@
+{
+  "schema_version": "devicesworld.diagnostic_stage_runtime_manifest.v1",
+  "task_id": "linux_android_smarthome_338",
+  "stage_id": "linux_android_smarthome_338.S05",
+  "executable_spec": {
+    "source_ref": "experiments/diagnostic60/diagnostic60_executable_stage_specs.jsonl",
+    "source_file_sha256": "6e327cbe0b07ee177386ea18ed97cf908be42c2ab387ebee818590050d0ad511",
+    "record_sha256": "97cd8f3d9875d949bc5d39dcf14e3f1a0dad83569f14d50160c72e89b7874b3f"
+  },
+  "target_frozen_device": "android_0",
+  "stage_instruction": "Using the available coordination note and saved recipe, rename the existing recipe to `Evening Guest Snack` and add the requested tea accompaniment without changing its directions or preparation time. Do not create a duplicate recipe. Work only on the current device.\n\nAvailable context:\n[\n  {\n    \"facts\": [\n      {\n        \"kind\": \"task_provided_file\",\n        \"locator\": \"/tmp/home_ops/status-reports/source/coordination_note.txt\",\n        \"content\": {\n          \"format\": \"txt\",\n          \"text\": \"Guest room note\\n\\nTonight's guest would like lemon with the tea and crackers already in the\\nsaved snack recipe. Please set the bedroom reading light to 55% before arrival\\nand close out the existing Bedroom lighting task once the room is ready.\"\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"task_provided_app_state\",\n        \"locator\": \"preloaded recipe\",\n        \"content\": {\n          \"format\": \"task_setup_state\",\n          \"value\": {\n            \"title\": \"Evening Prep Snack\",\n            \"ingredients\": \"tea; crackers\",\n            \"directions\": \"Prepare while the room is set up.\",\n            \"preparationTime\": \"20 minutes\"\n          }\n        }\n      }\n    ]\n  }\n]",
+  "injected_predecessor_context_refs": [
+    {
+      "predecessor_stage_id": "linux_android_smarthome_338.S01",
+      "input_kind": "gold_semantic_handoff",
+      "gold_handoff_id": "linux_android_smarthome_338.S01.gold"
+    },
+    {
+      "predecessor_stage_id": "linux_android_smarthome_338.S02",
+      "input_kind": "gold_semantic_handoff",
+      "gold_handoff_id": "linux_android_smarthome_338.S02.gold"
+    }
+  ],
+  "actual_predecessor_outputs_used": false,
+  "system_prompt": {
+    "prompt_id": "diagnostic60.isolated_stage.android.v2",
+    "template_ref": "experiments/diagnostic60/prompts/android_isolated_stage_system_prompt.txt",
+    "template_sha256": "ee1f77ed70434b1ced8f4ee938a7b6a8e4fcc84be8a32ff345872d7db9df9e8a",
+    "rendered_sha256": "9cece278b1e02f55d7162de58c9158164aacb0c1ef105b325391e66be7323dde"
+  },
+  "runtime_input_protocol": {
+    "current_device_identity": "android_0",
+    "current_observation_scope": "target_frozen_device_only",
+    "forbidden_trajectory_inputs": [
+      "sibling_stage_trajectory",
+      "predecessor_actual_trajectory_or_output",
+      "original_E2E_trajectory",
+      "other_device_observation_or_screenshot"
+    ],
+    "mode": "single_device_isolated.v1",
+    "model_selects_target_device": false,
+    "persistent_sections": [
+      "stage_instruction",
+      "gold_predecessor_context_if_any"
+    ],
+    "runner_routes_to_frozen_device": true,
+    "text_history": "last_10_local_steps"
+  },
+  "budget_policy": {
+    "ref": "experiments/diagnostic60/diagnostic60_isolated_stage_budget_policy.json",
+    "sha256": "8b2e0fdae73cd0461624a312ce5a82111c49fefb943eb5ca7a4d9c7005e202aa"
+  },
+  "materialized_inputs": {
+    "task_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/post_review_remaining_51_v1/stages/linux_android_smarthome_338.S05/attempt_001/materialized_inputs/stage_task.json",
+    "task_sha256": "56822c280c8cd393e26d65089a6f61f7d34c1241f1061fafd3d2f5fb88506bf4",
+    "run_config_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/post_review_remaining_51_v1/stages/linux_android_smarthome_338.S05/attempt_001/materialized_inputs/stage_run_config.json",
+    "run_config_sha256": "8dda0d171b32906ad5953cdcb357f62f3aae9ab544d8b3e6124d5c83d2d4286f",
+    "agent_config_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/configs/agents/gpt-5.5-lite.yaml",
+    "agent_config_sha256": "22394ea5f6a812b55b679dd259226233ca18fbd0c86c7b888e02b469f7d907f6"
+  }
+}

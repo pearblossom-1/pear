@@ -1,0 +1,52 @@
+{
+  "S01_S02_S03_S04_information_reports": {
+    "available": true,
+    "evidence": "Each stage's semantic_judge_input.json, semantic_judge_result.json, stage_result.json and trajectory.json."
+  },
+  "S05_recipe": {
+    "separate_native_database_export_available": false,
+    "evidence": [
+      "independent_subtasks/S05/trajectory.json",
+      "independent_subtasks/S05/artifacts/android_0/",
+      "independent_subtasks/S05/evaluator_trace.json"
+    ],
+    "recorded_facts": "Existing recipe renamed and lemon added; same-record identity, uniqueness, directions and preparation time checks pass. Save confirmation and full-screen images are preserved."
+  },
+  "S06_task": {
+    "separate_native_database_export_available": false,
+    "evidence": [
+      "independent_subtasks/S06/trajectory.json",
+      "independent_subtasks/S06/artifacts/android_1/",
+      "independent_subtasks/S06/evaluator_trace.json"
+    ],
+    "recorded_facts": "Existing task note updated and task completed; native task check returns present. Full editing and completion screenshots are preserved."
+  },
+  "S07_smarthome": {
+    "available": true,
+    "evidence": [
+      "independent_subtasks/S07/trajectory.json",
+      "independent_subtasks/S07/evaluator_trace.json"
+    ],
+    "recorded_facts": "Original structured command feedback and final light state power=on, brightness_pct=55 are preserved."
+  },
+  "e2e": {
+    "available": true,
+    "native_app_database_exports_available": false,
+    "evidence": [
+      "e2e/trajectory.json",
+      "e2e/execution_history.jsonl",
+      "e2e/artifacts/",
+      "e2e/evaluator_trace.json",
+      "e2e/result.json"
+    ],
+    "recorded_facts": "49 steps, time_limit, score=1/3. Recipe and task remain unfinished; light state passes. No action targets android_1."
+  },
+  "smarthome_screenshots": {
+    "available": false,
+    "reason": "Original interface uses structured observations and API responses; no GUI demonstration or rerun images were added."
+  },
+  "selected_screenshots": {
+    "count": 6,
+    "role": "Uncropped copies of original run images for side-by-side review; source mapping is in selection.json."
+  }
+}

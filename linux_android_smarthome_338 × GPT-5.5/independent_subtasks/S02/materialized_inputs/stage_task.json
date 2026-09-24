@@ -1,0 +1,102 @@
+{
+  "cleanup": [
+    {
+      "config": [
+        {
+          "parameters": {},
+          "type": "androidworld_recipes_clear"
+        }
+      ],
+      "device_id": "android_0"
+    }
+  ],
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "evaluation": [],
+  "id": "diagnostic60__linux_android_smarthome_338__S02",
+  "instruction": "On the current device, inspect the existing `Evening Prep Snack` recipe in Broccoli. Report its exact title, ingredients, directions, and preparation time. Do not modify the recipe.\n\nRelevant source locations: [\"Broccoli recipe `Evening Prep Snack`\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "limits": {
+    "max_steps": 30
+  },
+  "metadata": {
+    "diagnostic60_stage": {
+      "dependency_layer": 1,
+      "frozen_decomposition_schema": "devicesworld.diagnostic_decomposition_proposal.v2",
+      "instruction_review_status": "human_reviewed_reporting_v2",
+      "original_task_id": "linux_android_smarthome_338",
+      "post_pause_lifecycle_correction": null,
+      "pre_run_contract_correction_id": "diagnostic60.remaining_task_source_review.linux_android_smarthome_338.S02.v1",
+      "stage_id": "linux_android_smarthome_338.S02",
+      "stage_kind": "information_acquisition"
+    }
+  },
+  "setup": [
+    {
+      "config": [
+        {
+          "parameters": {
+            "app": "broccoli app"
+          },
+          "type": "ensure_app"
+        },
+        {
+          "parameters": {},
+          "type": "androidworld_recipes_clear"
+        },
+        {
+          "parameters": {
+            "directions": "Prepare while the room is set up.",
+            "ingredients": "tea; crackers",
+            "preparationTime": "20 minutes",
+            "title": "Evening Prep Snack"
+          },
+          "type": "androidworld_recipe_add"
+        },
+        {
+          "parameters": {
+            "recipe": {
+              "directions": "Prepare while the room is set up.",
+              "ingredients": "tea; crackers",
+              "preparationTime": "20 minutes",
+              "title": "Evening Prep Snack"
+            },
+            "required_visible_text": [
+              "Evening Prep Snack",
+              "tea",
+              "crackers",
+              "Prepare while the room is set up.",
+              "20 minutes"
+            ]
+          },
+          "type": "androidworld_broccoli_recipe_preflight"
+        },
+        {
+          "parameters": {
+            "directions": "Prepare while the room is set up.",
+            "ingredients": "tea; crackers",
+            "preparationTime": "20 minutes",
+            "snapshot_id": "evening_prep_snack_338",
+            "title": "Evening Prep Snack"
+          },
+          "type": "androidworld_recipe_identity_snapshot"
+        }
+      ],
+      "device_id": "android_0"
+    },
+    {
+      "config": [
+        {
+          "parameters": {
+            "app": "broccoli app"
+          },
+          "type": "open_app"
+        }
+      ],
+      "device_id": "android_0"
+    }
+  ]
+}

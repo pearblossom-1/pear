@@ -1,0 +1,188 @@
+{
+  "response_format": "mdcbench_envelope_v1",
+  "runtime_input_mode": "single_device_isolated",
+  "fixed_device_id": "android_1",
+  "effective_limits": {
+    "max_steps": 30,
+    "max_duration_s": 0,
+    "max_duration_source": "argument",
+    "wall_time_enforcement": "cooperative_between_blocking_calls",
+    "agent_max_duration_s": 600.0,
+    "agent_duration_scope": "post_reset_agent_loop_only",
+    "infrastructure_phase_timeouts_s": {
+      "environment_start": 180.0,
+      "setup_reset": 300.0,
+      "evaluation": 300.0,
+      "cleanup_close": 180.0
+    }
+  },
+  "events": [
+    {
+      "event": "reset",
+      "observation": {
+        "instruction": "On the current device, inspect the existing `Bedroom lighting` task. Report its exact title, notes, completion state, and due state. Do not modify the task.\n\nRelevant source locations: [\"existing Tasks item `Bedroom lighting`\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+        "observations": {
+          "android_1": {
+            "device_id": "android_1",
+            "type": "android",
+            "screenshot": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/post_review_remaining_51_v1/stages/linux_android_smarthome_338.S03/attempt_001/artifacts/android_1/screenshots/step_000.png",
+            "ui_elements": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/post_review_remaining_51_v1/stages/linux_android_smarthome_338.S03/attempt_001/artifacts/android_1/ui_elements/step_000.json",
+            "forest": null
+          }
+        }
+      }
+    },
+    {
+      "event": "step",
+      "step_index": 0,
+      "model_response": "{\"observation_description\":{\"report\":\"Current list item shows title 'Bedroom lighting' with notes 'Set the dimmable light to 55 percent before marking lighting done.' Completion state is unchecked/not completed. Due state is not visible yet and remains unknown from the current screen.\"},\"thought\":\"I can see the task on the list, but the due state is not shown here. I\u2019ll open the task details to verify the exact due state without changing anything.\",\"action\":{\"type\":\"android.json_action\",\"action\":{\"action_type\":\"click\",\"x\":340,\"y\":349}}}",
+      "prompt_metrics": {
+        "text_chars": 10153,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "model_latency_s": 6.552,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 185,
+        "prompt_tokens": 5511,
+        "total_tokens": 5696,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 69,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1792,
+          "cached_creation_tokens": 0
+        }
+      },
+      "normalized_usage": {
+        "input_tokens": 5511,
+        "output_tokens": 185,
+        "total_tokens": 5696,
+        "cached_input_tokens": 1792,
+        "cache_creation_input_tokens": 0,
+        "reasoning_output_tokens": 69
+      },
+      "model_action": {
+        "type": "android.json_action",
+        "action": {
+          "action_type": "click",
+          "x": 340,
+          "y": 349
+        }
+      },
+      "action": {
+        "type": "android.json_action",
+        "action": {
+          "action_type": "click",
+          "x": 340,
+          "y": 349
+        },
+        "device_id": "android_1"
+      },
+      "device_id": "android_1",
+      "action_type": "android.json_action",
+      "observation_description": {
+        "report": "Current list item shows title 'Bedroom lighting' with notes 'Set the dimmable light to 55 percent before marking lighting done.' Completion state is unchecked/not completed. Due state is not visible yet and remains unknown from the current screen."
+      },
+      "thought": "I can see the task on the list, but the due state is not shown here. I\u2019ll open the task details to verify the exact due state without changing anything.",
+      "ok": true,
+      "done": false,
+      "info": {
+        "ok": true,
+        "device_id": "android_1",
+        "action_type": "android.json_action",
+        "android_action": {
+          "action_type": "click",
+          "x": 340,
+          "y": 349
+        },
+        "post_action_observation_delay_s": 2.5
+      },
+      "observation": {
+        "instruction": "On the current device, inspect the existing `Bedroom lighting` task. Report its exact title, notes, completion state, and due state. Do not modify the task.\n\nRelevant source locations: [\"existing Tasks item `Bedroom lighting`\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+        "observations": {
+          "android_1": {
+            "device_id": "android_1",
+            "type": "android",
+            "screenshot": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/post_review_remaining_51_v1/stages/linux_android_smarthome_338.S03/attempt_001/artifacts/android_1/screenshots/step_002.png",
+            "ui_elements": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/post_review_remaining_51_v1/stages/linux_android_smarthome_338.S03/attempt_001/artifacts/android_1/ui_elements/step_002.json",
+            "forest": null
+          }
+        }
+      },
+      "environment_action_s": 2.726
+    },
+    {
+      "event": "step",
+      "step_index": 1,
+      "model_response": "{\"observation_description\":{\"report\":\"Title: Bedroom lighting. Notes: Set the dimmable light to 55 percent before marking lighting done. Completion state: not completed/unchecked. Due state: No due date.\"},\"thought\":\"The task detail screen is open and shows the title plus its due state. I have the requested fields and will finish without making any changes.\",\"action\":{\"type\":\"done\"}}",
+      "prompt_metrics": {
+        "text_chars": 11539,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "model_latency_s": 8.044,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 288,
+        "prompt_tokens": 5889,
+        "total_tokens": 6177,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 207,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1792,
+          "cached_creation_tokens": 0
+        }
+      },
+      "normalized_usage": {
+        "input_tokens": 5889,
+        "output_tokens": 288,
+        "total_tokens": 6177,
+        "cached_input_tokens": 1792,
+        "cache_creation_input_tokens": 0,
+        "reasoning_output_tokens": 207
+      },
+      "model_action": {
+        "type": "done"
+      },
+      "action": {
+        "type": "done"
+      },
+      "device_id": null,
+      "action_type": "done",
+      "observation_description": {
+        "report": "Title: Bedroom lighting. Notes: Set the dimmable light to 55 percent before marking lighting done. Completion state: not completed/unchecked. Due state: No due date."
+      },
+      "thought": "The task detail screen is open and shows the title plus its due state. I have the requested fields and will finish without making any changes.",
+      "ok": true,
+      "done": true,
+      "info": {
+        "ok": true,
+        "action_type": "done"
+      },
+      "observation": {
+        "instruction": "On the current device, inspect the existing `Bedroom lighting` task. Report its exact title, notes, completion state, and due state. Do not modify the task.\n\nRelevant source locations: [\"existing Tasks item `Bedroom lighting`\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+        "observations": {
+          "android_1": {
+            "device_id": "android_1",
+            "type": "android",
+            "screenshot": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/post_review_remaining_51_v1/stages/linux_android_smarthome_338.S03/attempt_001/artifacts/android_1/screenshots/step_003.png",
+            "ui_elements": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/post_review_remaining_51_v1/stages/linux_android_smarthome_338.S03/attempt_001/artifacts/android_1/ui_elements/step_003.json",
+            "forest": null
+          }
+        }
+      },
+      "environment_action_s": 0.018
+    }
+  ]
+}

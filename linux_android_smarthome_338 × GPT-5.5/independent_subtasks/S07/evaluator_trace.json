@@ -1,0 +1,36 @@
+{
+  "evaluators": [
+    {
+      "raw_evaluator": {
+        "device_id": "home_0",
+        "expected": {
+          "rules": {
+            "expected": {
+              "brightness_pct": 55,
+              "power": "on"
+            }
+          },
+          "type": "rule"
+        },
+        "func": "smarthome.check_device_state",
+        "result": {
+          "device_id": "bedroom_dimmable_light_1",
+          "type": "smarthome_device_state"
+        }
+      },
+      "actual": {
+        "power": "on",
+        "brightness_pct": 55
+      },
+      "expected": {
+        "brightness_pct": 55,
+        "power": "on"
+      },
+      "score": 1.0,
+      "success": true,
+      "func": "smarthome.check_device_state",
+      "device_id": "home_0",
+      "enable_score_calc": true
+    }
+  ]
+}

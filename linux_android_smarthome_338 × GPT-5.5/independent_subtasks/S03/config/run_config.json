@@ -1,0 +1,20 @@
+{
+  "devices": {
+    "android_1": {
+      "action_space": [
+        "android.json_action"
+      ],
+      "observation": {
+        "forest": false,
+        "screenshot": true,
+        "ui_elements": true
+      },
+      "runtime": {
+        "adb_serial": "emulator-5556",
+        "grpc_port": 8555,
+        "post_action_observation_delay_s": 2.5,
+        "require_prelaunched": true
+      }
+    }
+  }
+}

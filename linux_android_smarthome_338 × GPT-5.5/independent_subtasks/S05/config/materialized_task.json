@@ -1,0 +1,123 @@
+{
+  "cleanup": [
+    {
+      "config": [
+        {
+          "parameters": {},
+          "type": "androidworld_recipes_clear"
+        }
+      ],
+      "device_id": "android_0"
+    }
+  ],
+  "devices": [
+    {
+      "id": "android_0",
+      "type": "android"
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "android_0",
+      "expected": {
+        "rules": {
+          "expected": "present"
+        },
+        "type": "rule"
+      },
+      "func": "exact_match",
+      "result": {
+        "directions": "Prepare while the room is set up.",
+        "identity_snapshot": "evening_prep_snack_338",
+        "ingredients": "tea; crackers; lemon",
+        "ingredients_match": "exact",
+        "preparationTime": "20 minutes",
+        "require_exactly_one": true,
+        "title": "Evening Guest Snack",
+        "type": "androidworld_recipe"
+      }
+    }
+  ],
+  "id": "diagnostic60__linux_android_smarthome_338__S05",
+  "instruction": "Using the available coordination note and saved recipe, rename the existing recipe to `Evening Guest Snack` and add the requested tea accompaniment without changing its directions or preparation time. Do not create a duplicate recipe. Work only on the current device.\n\nAvailable context:\n[\n  {\n    \"facts\": [\n      {\n        \"kind\": \"task_provided_file\",\n        \"locator\": \"/tmp/home_ops/status-reports/source/coordination_note.txt\",\n        \"content\": {\n          \"format\": \"txt\",\n          \"text\": \"Guest room note\\n\\nTonight's guest would like lemon with the tea and crackers already in the\\nsaved snack recipe. Please set the bedroom reading light to 55% before arrival\\nand close out the existing Bedroom lighting task once the room is ready.\"\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"task_provided_app_state\",\n        \"locator\": \"preloaded recipe\",\n        \"content\": {\n          \"format\": \"task_setup_state\",\n          \"value\": {\n            \"title\": \"Evening Prep Snack\",\n            \"ingredients\": \"tea; crackers\",\n            \"directions\": \"Prepare while the room is set up.\",\n            \"preparationTime\": \"20 minutes\"\n          }\n        }\n      }\n    ]\n  }\n]",
+  "limits": {
+    "max_steps": 30
+  },
+  "metadata": {
+    "diagnostic60_stage": {
+      "dependency_layer": 2,
+      "frozen_decomposition_schema": "devicesworld.diagnostic_decomposition_proposal.v2",
+      "instruction_review_status": "human_reviewed_device_local_v2",
+      "original_task_id": "linux_android_smarthome_338",
+      "post_pause_lifecycle_correction": null,
+      "pre_run_contract_correction_id": null,
+      "stage_id": "linux_android_smarthome_338.S05",
+      "stage_kind": "environment_execution"
+    }
+  },
+  "setup": [
+    {
+      "config": [
+        {
+          "parameters": {
+            "app": "broccoli app"
+          },
+          "type": "ensure_app"
+        },
+        {
+          "parameters": {},
+          "type": "androidworld_recipes_clear"
+        },
+        {
+          "parameters": {
+            "directions": "Prepare while the room is set up.",
+            "ingredients": "tea; crackers",
+            "preparationTime": "20 minutes",
+            "title": "Evening Prep Snack"
+          },
+          "type": "androidworld_recipe_add"
+        },
+        {
+          "parameters": {
+            "recipe": {
+              "directions": "Prepare while the room is set up.",
+              "ingredients": "tea; crackers",
+              "preparationTime": "20 minutes",
+              "title": "Evening Prep Snack"
+            },
+            "required_visible_text": [
+              "Evening Prep Snack",
+              "tea",
+              "crackers",
+              "Prepare while the room is set up.",
+              "20 minutes"
+            ]
+          },
+          "type": "androidworld_broccoli_recipe_preflight"
+        },
+        {
+          "parameters": {
+            "directions": "Prepare while the room is set up.",
+            "ingredients": "tea; crackers",
+            "preparationTime": "20 minutes",
+            "snapshot_id": "evening_prep_snack_338",
+            "title": "Evening Prep Snack"
+          },
+          "type": "androidworld_recipe_identity_snapshot"
+        }
+      ],
+      "device_id": "android_0"
+    },
+    {
+      "config": [
+        {
+          "parameters": {
+            "app": "broccoli app"
+          },
+          "type": "open_app"
+        }
+      ],
+      "device_id": "android_0"
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "budget_policy_ref": "experiments/diagnostic60/diagnostic60_isolated_stage_budget_policy.json",
+  "dependency_layer": 1,
+  "evaluation": {
+    "assigned_original_evaluators": [],
+    "candidate_extraction": "whole observation_description object from the last successful done event",
+    "combination_rule": "judge_pass_and_all_scored_local_guards_pass",
+    "global_only_evaluators_excluded": [],
+    "judge_config_ref": "experiments/diagnostic60/diagnostic60_semantic_judge_v2.json",
+    "method": "ai_semantic_judge"
+  },
+  "frozen_stage_instruction": "Inspect the live bedroom dimmable light on the current Home device. Report its identity, supported controls, and current power/brightness state. Do not change Home. When finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "gold_reference": {
+    "gold_handoff_id": "linux_android_smarthome_338.S04.gold"
+  },
+  "initialization": {
+    "actual_predecessor_outputs_used": false,
+    "android_initial_app": null,
+    "artifact_overlays": [],
+    "base": "original_task_target_device_setup_subset",
+    "gold_predecessor_inputs": [],
+    "original_setup_group_indices": [
+      4
+    ]
+  },
+  "instruction_review_status": "human_reviewed_reporting_v2",
+  "pre_run_contract_correction": {
+    "correction_id": "diagnostic60.remaining_task_source_review.linux_android_smarthome_338.S04.v1",
+    "model_visible_source_locations": [
+      "live Home bedroom dimmable light"
+    ],
+    "reason": "the Home output changes one named light and needs only its actual local capabilities/state",
+    "required_semantics": [
+      "the bedroom dimmable light identity, supported controls, and current state"
+    ],
+    "scope": "source-stage instruction, handoff contract, model-visible source locator, and source-grounded projection where declared; no original-task, DAG, boundary, device, evaluator, or sampling change",
+    "stage_instruction": "Inspect the live bedroom dimmable light on the current Home device. Report its identity, supported controls, and current power/brightness state. Do not change Home."
+  },
+  "predecessor_stage_ids": [],
+  "recording": {
+    "aggregate_actual_steps_by_original_task": true,
+    "required_stage_fields": [
+      "task_id",
+      "stage_id",
+      "actual_environment_steps",
+      "model_action_turns",
+      "environment_action_attempts",
+      "termination_reason",
+      "agent_duration_s",
+      "total_lifecycle_duration_s",
+      "cleanup_ok",
+      "stage_pass",
+      "target_device_id",
+      "injected_predecessor_context_refs",
+      "predecessor_state_materialization_status",
+      "token_usage",
+      "infrastructure_failure"
+    ]
+  },
+  "run_config_source_ref": "configs/cross_device/local_2android_linux_smarthome.json",
+  "runtime_input_protocol": {
+    "current_device_identity": "home_0",
+    "current_observation_scope": "target_frozen_device_only",
+    "forbidden_trajectory_inputs": [
+      "sibling_stage_trajectory",
+      "predecessor_actual_trajectory_or_output",
+      "original_E2E_trajectory",
+      "other_device_observation_or_screenshot"
+    ],
+    "mode": "single_device_isolated.v1",
+    "model_selects_target_device": false,
+    "persistent_sections": [
+      "stage_instruction",
+      "gold_predecessor_context_if_any"
+    ],
+    "runner_routes_to_frozen_device": true,
+    "text_history": "last_10_local_steps"
+  },
+  "runtime_predecessor_context": [],
+  "schema_version": "devicesworld.diagnostic_executable_stage.v2",
+  "spec_status": "instruction_review_v2_pending_refreeze",
+  "stage_id": "linux_android_smarthome_338.S04",
+  "stage_kind": "information_acquisition",
+  "stage_role": "source_acquisition",
+  "stage_run_config": {
+    "devices": {
+      "home_0": {
+        "action_space": [
+          "smarthome.command",
+          "smarthome.schedule_command",
+          "smarthome.cancel_schedule",
+          "smarthome.get_home_state",
+          "smarthome.get_room_state",
+          "smarthome.get_device_state",
+          "smarthome.get_devices",
+          "smarthome.list_rooms",
+          "smarthome.list_devices",
+          "smarthome.list_schedules",
+          "smarthome.get_device_capabilities",
+          "smarthome.get_device_attribute",
+          "smarthome.schedule_workflow",
+          "smarthome.cancel_workflow",
+          "smarthome.list_workflows",
+          "smarthome.get_workflow_status",
+          "smarthome.report_answer",
+          "smarthome.report_infeasible"
+        ],
+        "observation": {
+          "state": true
+        },
+        "runtime": {}
+      }
+    }
+  },
+  "stage_task": {
+    "cleanup": [
+      {
+        "config": [
+          {
+            "parameters": {},
+            "type": "smarthome.reset"
+          }
+        ],
+        "device_id": "home_0"
+      }
+    ],
+    "devices": [
+      {
+        "id": "home_0",
+        "type": "home"
+      }
+    ],
+    "evaluation": [],
+    "id": "diagnostic60__linux_android_smarthome_338__S04",
+    "instruction": "Inspect the live bedroom dimmable light on the current Home device. Report its identity, supported controls, and current power/brightness state. Do not change Home.\n\nRelevant source locations: [\"live Home bedroom dimmable light\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+    "limits": {
+      "max_steps": 30
+    },
+    "metadata": {
+      "diagnostic60_stage": {
+        "dependency_layer": 1,
+        "frozen_decomposition_schema": "devicesworld.diagnostic_decomposition_proposal.v2",
+        "instruction_review_status": "human_reviewed_reporting_v2",
+        "original_task_id": "linux_android_smarthome_338",
+        "post_pause_lifecycle_correction": null,
+        "pre_run_contract_correction_id": "diagnostic60.remaining_task_source_review.linux_android_smarthome_338.S04.v1",
+        "stage_id": "linux_android_smarthome_338.S04",
+        "stage_kind": "information_acquisition"
+      }
+    },
+    "setup": [
+      {
+        "config": [
+          {
+            "parameters": {
+              "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338/episode_config.json"
+            },
+            "type": "smarthome.reset"
+          }
+        ],
+        "device_id": "home_0"
+      }
+    ]
+  },
+  "system_prompt": {
+    "adaptation_mother_sha256": "7511b689fcb1723ad59951bab0c83ea8fb4b9558837b695fbc63023d717b8fc6",
+    "diff_ref": "experiments/diagnostic60/prompts/home_from_core200_baseline.diff",
+    "manifest_ref": "experiments/diagnostic60/prompts/prompt_manifest.json",
+    "prompt_id": "diagnostic60.isolated_stage.smarthome.v2",
+    "render_values": {
+      "ACTION_SPACE": "smarthome.command, smarthome.schedule_command, smarthome.cancel_schedule, smarthome.get_home_state, smarthome.get_room_state, smarthome.get_device_state, smarthome.get_devices, smarthome.list_rooms, smarthome.list_devices, smarthome.list_schedules, smarthome.get_device_capabilities, smarthome.get_device_attribute, smarthome.schedule_workflow, smarthome.cancel_workflow, smarthome.list_workflows, smarthome.get_workflow_status, smarthome.report_answer, smarthome.report_infeasible",
+      "DEVICE_ID": "home_0"
+    },
+    "template_ref": "experiments/diagnostic60/prompts/smarthome_isolated_stage_system_prompt.txt",
+    "template_sha256": "6fe498bce96717de57b84ca415748363b44a478bc847d05a31ffc4244d5d0e56"
+  },
+  "target_device_id": "home_0",
+  "target_device_type": "home",
+  "task_id": "linux_android_smarthome_338",
+  "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_338.json"
+}

@@ -1,0 +1,30 @@
+{
+  "judge_id": "diagnostic60.semantic_handoff_judge.v2",
+  "label": "PASS",
+  "reason": "Candidate preserves the task’s exact title and notes, and correctly conveys the completion and due states as not completed and no due date.",
+  "response_model": "gpt-5.5",
+  "usage": {
+    "completion_tokens": 173,
+    "prompt_tokens": 904,
+    "total_tokens": 1077,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 139,
+      "rejected_prediction_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 0,
+      "cached_creation_tokens": 0
+    }
+  },
+  "request_attempts": [
+    {
+      "attempt": 1,
+      "status": "success",
+      "duration_s": 6.181
+    }
+  ],
+  "error": null
+}

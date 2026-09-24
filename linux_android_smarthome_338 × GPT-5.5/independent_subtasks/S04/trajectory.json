@@ -1,0 +1,1053 @@
+{
+  "response_format": "mdcbench_envelope_v1",
+  "runtime_input_mode": "single_device_isolated",
+  "fixed_device_id": "home_0",
+  "effective_limits": {
+    "max_steps": 30,
+    "max_duration_s": 0,
+    "max_duration_source": "argument",
+    "wall_time_enforcement": "cooperative_between_blocking_calls",
+    "agent_max_duration_s": 600.0,
+    "agent_duration_scope": "post_reset_agent_loop_only",
+    "infrastructure_phase_timeouts_s": {
+      "environment_start": 180.0,
+      "setup_reset": 300.0,
+      "evaluation": 300.0,
+      "cleanup_close": 180.0
+    }
+  },
+  "events": [
+    {
+      "event": "reset",
+      "observation": {
+        "instruction": "Inspect the live bedroom dimmable light on the current Home device. Report its identity, supported controls, and current power/brightness state. Do not change Home.\n\nRelevant source locations: [\"live Home bedroom dimmable light\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+        "observations": {
+          "home_0": {
+            "device_id": "home_0",
+            "type": "home",
+            "protocol_version": "smarthome-v1",
+            "current_time": "2026-06-16T18:00:00",
+            "rooms": {
+              "bedroom": {
+                "temperature_c": 22.0,
+                "humidity_pct": 45.0,
+                "brightness_lux": 98.0,
+                "air_quality_pm25": 25.0,
+                "noise_level_db": 30.0,
+                "occupied": false
+              },
+              "kitchen": {
+                "temperature_c": 25.7,
+                "humidity_pct": 40.9,
+                "brightness_lux": 100.0,
+                "air_quality_pm25": 46.2,
+                "noise_level_db": 58.0,
+                "occupied": true
+              },
+              "living_room": {
+                "temperature_c": 25.2,
+                "humidity_pct": 46.9,
+                "brightness_lux": 128.3,
+                "air_quality_pm25": 40.9,
+                "noise_level_db": 31.8,
+                "occupied": true
+              },
+              "office": {
+                "temperature_c": 25.9,
+                "humidity_pct": 34.1,
+                "brightness_lux": 600.0,
+                "air_quality_pm25": 39.8,
+                "noise_level_db": 36.3,
+                "occupied": false
+              },
+              "study": {
+                "temperature_c": 24.7,
+                "humidity_pct": 49.0,
+                "brightness_lux": 100.0,
+                "air_quality_pm25": 49.4,
+                "noise_level_db": 44.6,
+                "occupied": false
+              }
+            },
+            "devices": [
+              {
+                "device_id": "bedroom_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "on",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "bedroom_curtain_1",
+                "device_type": "curtain",
+                "room_id": "bedroom",
+                "state": {
+                  "open_pct": 60,
+                  "status": "partial"
+                }
+              },
+              {
+                "device_id": "bedroom_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "off",
+                  "brightness_pct": 10
+                }
+              },
+              {
+                "device_id": "kitchen_dehumidifier_1",
+                "device_type": "dehumidifier",
+                "room_id": "kitchen",
+                "state": {
+                  "power": "off",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "kitchen_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "kitchen",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 20
+                }
+              },
+              {
+                "device_id": "kitchen_robot_vacuum_1",
+                "device_type": "robot_vacuum",
+                "room_id": "kitchen",
+                "state": {
+                  "power": "on",
+                  "status": "cleaning",
+                  "battery_pct": 89
+                }
+              },
+              {
+                "device_id": "living_room_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "mode": "cool",
+                  "target_temperature_c": 22.0
+                }
+              },
+              {
+                "device_id": "living_room_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "living_room_curtain_1",
+                "device_type": "curtain",
+                "room_id": "living_room",
+                "state": {
+                  "open_pct": 0,
+                  "status": "closed"
+                }
+              },
+              {
+                "device_id": "living_room_dehumidifier_1",
+                "device_type": "dehumidifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off",
+                  "level": "medium"
+                }
+              },
+              {
+                "device_id": "living_room_light_1",
+                "device_type": "light",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off"
+                }
+              },
+              {
+                "device_id": "living_room_robot_vacuum_1",
+                "device_type": "robot_vacuum",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "status": "paused",
+                  "battery_pct": 43
+                }
+              },
+              {
+                "device_id": "office_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "office",
+                "state": {
+                  "power": "on",
+                  "mode": "heat",
+                  "target_temperature_c": 21.0
+                }
+              },
+              {
+                "device_id": "office_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "office",
+                "state": {
+                  "power": "on",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "office_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "office",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 20
+                }
+              },
+              {
+                "device_id": "office_light_1",
+                "device_type": "light",
+                "room_id": "office",
+                "state": {
+                  "power": "on"
+                }
+              },
+              {
+                "device_id": "study_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "study",
+                "state": {
+                  "power": "on",
+                  "mode": "dry",
+                  "target_temperature_c": 21.0
+                }
+              },
+              {
+                "device_id": "study_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "study",
+                "state": {
+                  "power": "off",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "study_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "study",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 20
+                }
+              },
+              {
+                "device_id": "study_heater_1",
+                "device_type": "heater",
+                "room_id": "study",
+                "state": {
+                  "power": "on",
+                  "target_temperature_c": 22.0
+                }
+              },
+              {
+                "device_id": "study_robot_vacuum_1",
+                "device_type": "robot_vacuum",
+                "room_id": "study",
+                "state": {
+                  "power": "on",
+                  "status": "paused",
+                  "battery_pct": 43
+                }
+              }
+            ],
+            "schedules": [],
+            "scheduled_actions": [],
+            "workflows": [],
+            "infeasible_reports": [],
+            "answer_reports": [],
+            "last_action_result": null
+          }
+        }
+      }
+    },
+    {
+      "event": "step",
+      "step_index": 0,
+      "model_response": "{\"observation_description\":{\"report\":\"Observed bedroom dimmable light identity and current state from Home: device_id=bedroom_dimmable_light_1, device_type=dimmable_light, room_id=bedroom, power=off, brightness_pct=10. Supported controls are not present in the current observation and need capability inspection.\"},\"thought\":\"The bedroom dimmable light is identified in the current Home observation, but supported controls require querying device capabilities without changing state.\",\"action\":{\"type\":\"smarthome.get_device_capabilities\",\"parameters\":{\"device_id\":\"bedroom_dimmable_light_1\"}}}",
+      "prompt_metrics": {
+        "text_chars": 15069,
+        "image_count": 0,
+        "content_blocks": 2
+      },
+      "model_latency_s": 6.398,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 151,
+        "prompt_tokens": 4082,
+        "total_tokens": 4233,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 28,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 1792,
+          "cached_creation_tokens": 0
+        }
+      },
+      "normalized_usage": {
+        "input_tokens": 4082,
+        "output_tokens": 151,
+        "total_tokens": 4233,
+        "cached_input_tokens": 1792,
+        "cache_creation_input_tokens": 0,
+        "reasoning_output_tokens": 28
+      },
+      "model_action": {
+        "type": "smarthome.get_device_capabilities",
+        "parameters": {
+          "device_id": "bedroom_dimmable_light_1"
+        }
+      },
+      "action": {
+        "type": "smarthome.get_device_capabilities",
+        "parameters": {
+          "device_id": "bedroom_dimmable_light_1"
+        },
+        "device_id": "home_0"
+      },
+      "device_id": "home_0",
+      "action_type": "smarthome.get_device_capabilities",
+      "observation_description": {
+        "report": "Observed bedroom dimmable light identity and current state from Home: device_id=bedroom_dimmable_light_1, device_type=dimmable_light, room_id=bedroom, power=off, brightness_pct=10. Supported controls are not present in the current observation and need capability inspection."
+      },
+      "thought": "The bedroom dimmable light is identified in the current Home observation, but supported controls require querying device capabilities without changing state.",
+      "ok": true,
+      "done": false,
+      "info": {
+        "ok": true,
+        "device_id": "home_0",
+        "action_type": "smarthome.get_device_capabilities",
+        "result": {
+          "device_id": "bedroom_dimmable_light_1",
+          "device_type": "dimmable_light",
+          "room_id": "bedroom",
+          "commands": {
+            "turn_on": {
+              "args": {
+                "brightness_pct": {
+                  "type": "integer",
+                  "min": 0,
+                  "max": 100,
+                  "optional": true
+                }
+              }
+            },
+            "turn_off": {
+              "args": {}
+            },
+            "set_brightness": {
+              "args": {
+                "brightness_pct": {
+                  "type": "integer",
+                  "min": 0,
+                  "max": 100
+                }
+              }
+            }
+          },
+          "attributes": {
+            "brightness_pct": {
+              "type": "integer",
+              "min": 0,
+              "max": 100,
+              "writable": true,
+              "value": 10
+            },
+            "power": {
+              "type": "string",
+              "enum": [
+                "off",
+                "on"
+              ],
+              "writable": true,
+              "value": "off"
+            }
+          }
+        }
+      },
+      "observation": {
+        "instruction": "Inspect the live bedroom dimmable light on the current Home device. Report its identity, supported controls, and current power/brightness state. Do not change Home.\n\nRelevant source locations: [\"live Home bedroom dimmable light\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+        "observations": {
+          "home_0": {
+            "device_id": "home_0",
+            "type": "home",
+            "protocol_version": "smarthome-v1",
+            "current_time": "2026-06-16T18:00:00",
+            "rooms": {
+              "bedroom": {
+                "temperature_c": 22.0,
+                "humidity_pct": 45.0,
+                "brightness_lux": 98.0,
+                "air_quality_pm25": 25.0,
+                "noise_level_db": 30.0,
+                "occupied": false
+              },
+              "kitchen": {
+                "temperature_c": 25.7,
+                "humidity_pct": 40.9,
+                "brightness_lux": 100.0,
+                "air_quality_pm25": 46.2,
+                "noise_level_db": 58.0,
+                "occupied": true
+              },
+              "living_room": {
+                "temperature_c": 25.2,
+                "humidity_pct": 46.9,
+                "brightness_lux": 128.3,
+                "air_quality_pm25": 40.9,
+                "noise_level_db": 31.8,
+                "occupied": true
+              },
+              "office": {
+                "temperature_c": 25.9,
+                "humidity_pct": 34.1,
+                "brightness_lux": 600.0,
+                "air_quality_pm25": 39.8,
+                "noise_level_db": 36.3,
+                "occupied": false
+              },
+              "study": {
+                "temperature_c": 24.7,
+                "humidity_pct": 49.0,
+                "brightness_lux": 100.0,
+                "air_quality_pm25": 49.4,
+                "noise_level_db": 44.6,
+                "occupied": false
+              }
+            },
+            "devices": [
+              {
+                "device_id": "bedroom_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "on",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "bedroom_curtain_1",
+                "device_type": "curtain",
+                "room_id": "bedroom",
+                "state": {
+                  "open_pct": 60,
+                  "status": "partial"
+                }
+              },
+              {
+                "device_id": "bedroom_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "off",
+                  "brightness_pct": 10
+                }
+              },
+              {
+                "device_id": "kitchen_dehumidifier_1",
+                "device_type": "dehumidifier",
+                "room_id": "kitchen",
+                "state": {
+                  "power": "off",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "kitchen_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "kitchen",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 20
+                }
+              },
+              {
+                "device_id": "kitchen_robot_vacuum_1",
+                "device_type": "robot_vacuum",
+                "room_id": "kitchen",
+                "state": {
+                  "power": "on",
+                  "status": "cleaning",
+                  "battery_pct": 89
+                }
+              },
+              {
+                "device_id": "living_room_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "mode": "cool",
+                  "target_temperature_c": 22.0
+                }
+              },
+              {
+                "device_id": "living_room_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "living_room_curtain_1",
+                "device_type": "curtain",
+                "room_id": "living_room",
+                "state": {
+                  "open_pct": 0,
+                  "status": "closed"
+                }
+              },
+              {
+                "device_id": "living_room_dehumidifier_1",
+                "device_type": "dehumidifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off",
+                  "level": "medium"
+                }
+              },
+              {
+                "device_id": "living_room_light_1",
+                "device_type": "light",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off"
+                }
+              },
+              {
+                "device_id": "living_room_robot_vacuum_1",
+                "device_type": "robot_vacuum",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "status": "paused",
+                  "battery_pct": 43
+                }
+              },
+              {
+                "device_id": "office_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "office",
+                "state": {
+                  "power": "on",
+                  "mode": "heat",
+                  "target_temperature_c": 21.0
+                }
+              },
+              {
+                "device_id": "office_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "office",
+                "state": {
+                  "power": "on",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "office_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "office",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 20
+                }
+              },
+              {
+                "device_id": "office_light_1",
+                "device_type": "light",
+                "room_id": "office",
+                "state": {
+                  "power": "on"
+                }
+              },
+              {
+                "device_id": "study_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "study",
+                "state": {
+                  "power": "on",
+                  "mode": "dry",
+                  "target_temperature_c": 21.0
+                }
+              },
+              {
+                "device_id": "study_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "study",
+                "state": {
+                  "power": "off",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "study_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "study",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 20
+                }
+              },
+              {
+                "device_id": "study_heater_1",
+                "device_type": "heater",
+                "room_id": "study",
+                "state": {
+                  "power": "on",
+                  "target_temperature_c": 22.0
+                }
+              },
+              {
+                "device_id": "study_robot_vacuum_1",
+                "device_type": "robot_vacuum",
+                "room_id": "study",
+                "state": {
+                  "power": "on",
+                  "status": "paused",
+                  "battery_pct": 43
+                }
+              }
+            ],
+            "schedules": [],
+            "scheduled_actions": [],
+            "workflows": [],
+            "infeasible_reports": [],
+            "answer_reports": [],
+            "last_action_result": {
+              "ok": true,
+              "device_id": "home_0",
+              "action_type": "smarthome.get_device_capabilities",
+              "result": {
+                "device_id": "bedroom_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "bedroom",
+                "commands": {
+                  "turn_on": {
+                    "args": {
+                      "brightness_pct": {
+                        "type": "integer",
+                        "min": 0,
+                        "max": 100,
+                        "optional": true
+                      }
+                    }
+                  },
+                  "turn_off": {
+                    "args": {}
+                  },
+                  "set_brightness": {
+                    "args": {
+                      "brightness_pct": {
+                        "type": "integer",
+                        "min": 0,
+                        "max": 100
+                      }
+                    }
+                  }
+                },
+                "attributes": {
+                  "brightness_pct": {
+                    "type": "integer",
+                    "min": 0,
+                    "max": 100,
+                    "writable": true,
+                    "value": 10
+                  },
+                  "power": {
+                    "type": "string",
+                    "enum": [
+                      "off",
+                      "on"
+                    ],
+                    "writable": true,
+                    "value": "off"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "environment_action_s": 0.0
+    },
+    {
+      "event": "step",
+      "step_index": 1,
+      "model_response": "{\"observation_description\":{\"report\":\"Bedroom live dimmable light identity: device_id=bedroom_dimmable_light_1, device_type=dimmable_light, room_id=bedroom. Supported controls: turn_on (optional brightness_pct 0-100), turn_off, set_brightness (brightness_pct 0-100). Current state: power=off, brightness_pct=10.\"},\"thought\":\"I inspected the live bedroom dimmable light capabilities and current state without changing Home. The requested identity, supported controls, and power/brightness values are all available and reported below.\",\"action\":{\"type\":\"done\"}}",
+      "prompt_metrics": {
+        "text_chars": 19375,
+        "image_count": 0,
+        "content_blocks": 2
+      },
+      "model_latency_s": 4.879,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 168,
+        "prompt_tokens": 5159,
+        "total_tokens": 5327,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 43,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "normalized_usage": {
+        "input_tokens": 5159,
+        "output_tokens": 168,
+        "total_tokens": 5327,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "reasoning_output_tokens": 43
+      },
+      "model_action": {
+        "type": "done"
+      },
+      "action": {
+        "type": "done"
+      },
+      "device_id": null,
+      "action_type": "done",
+      "observation_description": {
+        "report": "Bedroom live dimmable light identity: device_id=bedroom_dimmable_light_1, device_type=dimmable_light, room_id=bedroom. Supported controls: turn_on (optional brightness_pct 0-100), turn_off, set_brightness (brightness_pct 0-100). Current state: power=off, brightness_pct=10."
+      },
+      "thought": "I inspected the live bedroom dimmable light capabilities and current state without changing Home. The requested identity, supported controls, and power/brightness values are all available and reported below.",
+      "ok": true,
+      "done": true,
+      "info": {
+        "ok": true,
+        "action_type": "done"
+      },
+      "observation": {
+        "instruction": "Inspect the live bedroom dimmable light on the current Home device. Report its identity, supported controls, and current power/brightness state. Do not change Home.\n\nRelevant source locations: [\"live Home bedroom dimmable light\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+        "observations": {
+          "home_0": {
+            "device_id": "home_0",
+            "type": "home",
+            "protocol_version": "smarthome-v1",
+            "current_time": "2026-06-16T18:00:00",
+            "rooms": {
+              "bedroom": {
+                "temperature_c": 22.0,
+                "humidity_pct": 45.0,
+                "brightness_lux": 98.0,
+                "air_quality_pm25": 25.0,
+                "noise_level_db": 30.0,
+                "occupied": false
+              },
+              "kitchen": {
+                "temperature_c": 25.7,
+                "humidity_pct": 40.9,
+                "brightness_lux": 100.0,
+                "air_quality_pm25": 46.2,
+                "noise_level_db": 58.0,
+                "occupied": true
+              },
+              "living_room": {
+                "temperature_c": 25.2,
+                "humidity_pct": 46.9,
+                "brightness_lux": 128.3,
+                "air_quality_pm25": 40.9,
+                "noise_level_db": 31.8,
+                "occupied": true
+              },
+              "office": {
+                "temperature_c": 25.9,
+                "humidity_pct": 34.1,
+                "brightness_lux": 600.0,
+                "air_quality_pm25": 39.8,
+                "noise_level_db": 36.3,
+                "occupied": false
+              },
+              "study": {
+                "temperature_c": 24.7,
+                "humidity_pct": 49.0,
+                "brightness_lux": 100.0,
+                "air_quality_pm25": 49.4,
+                "noise_level_db": 44.6,
+                "occupied": false
+              }
+            },
+            "devices": [
+              {
+                "device_id": "bedroom_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "on",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "bedroom_curtain_1",
+                "device_type": "curtain",
+                "room_id": "bedroom",
+                "state": {
+                  "open_pct": 60,
+                  "status": "partial"
+                }
+              },
+              {
+                "device_id": "bedroom_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "bedroom",
+                "state": {
+                  "power": "off",
+                  "brightness_pct": 10
+                }
+              },
+              {
+                "device_id": "kitchen_dehumidifier_1",
+                "device_type": "dehumidifier",
+                "room_id": "kitchen",
+                "state": {
+                  "power": "off",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "kitchen_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "kitchen",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 20
+                }
+              },
+              {
+                "device_id": "kitchen_robot_vacuum_1",
+                "device_type": "robot_vacuum",
+                "room_id": "kitchen",
+                "state": {
+                  "power": "on",
+                  "status": "cleaning",
+                  "battery_pct": 89
+                }
+              },
+              {
+                "device_id": "living_room_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "mode": "cool",
+                  "target_temperature_c": 22.0
+                }
+              },
+              {
+                "device_id": "living_room_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "living_room_curtain_1",
+                "device_type": "curtain",
+                "room_id": "living_room",
+                "state": {
+                  "open_pct": 0,
+                  "status": "closed"
+                }
+              },
+              {
+                "device_id": "living_room_dehumidifier_1",
+                "device_type": "dehumidifier",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off",
+                  "level": "medium"
+                }
+              },
+              {
+                "device_id": "living_room_light_1",
+                "device_type": "light",
+                "room_id": "living_room",
+                "state": {
+                  "power": "off"
+                }
+              },
+              {
+                "device_id": "living_room_robot_vacuum_1",
+                "device_type": "robot_vacuum",
+                "room_id": "living_room",
+                "state": {
+                  "power": "on",
+                  "status": "paused",
+                  "battery_pct": 43
+                }
+              },
+              {
+                "device_id": "office_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "office",
+                "state": {
+                  "power": "on",
+                  "mode": "heat",
+                  "target_temperature_c": 21.0
+                }
+              },
+              {
+                "device_id": "office_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "office",
+                "state": {
+                  "power": "on",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "office_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "office",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 20
+                }
+              },
+              {
+                "device_id": "office_light_1",
+                "device_type": "light",
+                "room_id": "office",
+                "state": {
+                  "power": "on"
+                }
+              },
+              {
+                "device_id": "study_air_conditioner_1",
+                "device_type": "air_conditioner",
+                "room_id": "study",
+                "state": {
+                  "power": "on",
+                  "mode": "dry",
+                  "target_temperature_c": 21.0
+                }
+              },
+              {
+                "device_id": "study_air_purifier_1",
+                "device_type": "air_purifier",
+                "room_id": "study",
+                "state": {
+                  "power": "off",
+                  "level": "high"
+                }
+              },
+              {
+                "device_id": "study_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "study",
+                "state": {
+                  "power": "on",
+                  "brightness_pct": 20
+                }
+              },
+              {
+                "device_id": "study_heater_1",
+                "device_type": "heater",
+                "room_id": "study",
+                "state": {
+                  "power": "on",
+                  "target_temperature_c": 22.0
+                }
+              },
+              {
+                "device_id": "study_robot_vacuum_1",
+                "device_type": "robot_vacuum",
+                "room_id": "study",
+                "state": {
+                  "power": "on",
+                  "status": "paused",
+                  "battery_pct": 43
+                }
+              }
+            ],
+            "schedules": [],
+            "scheduled_actions": [],
+            "workflows": [],
+            "infeasible_reports": [],
+            "answer_reports": [],
+            "last_action_result": {
+              "ok": true,
+              "device_id": "home_0",
+              "action_type": "smarthome.get_device_capabilities",
+              "result": {
+                "device_id": "bedroom_dimmable_light_1",
+                "device_type": "dimmable_light",
+                "room_id": "bedroom",
+                "commands": {
+                  "turn_on": {
+                    "args": {
+                      "brightness_pct": {
+                        "type": "integer",
+                        "min": 0,
+                        "max": 100,
+                        "optional": true
+                      }
+                    }
+                  },
+                  "turn_off": {
+                    "args": {}
+                  },
+                  "set_brightness": {
+                    "args": {
+                      "brightness_pct": {
+                        "type": "integer",
+                        "min": 0,
+                        "max": 100
+                      }
+                    }
+                  }
+                },
+                "attributes": {
+                  "brightness_pct": {
+                    "type": "integer",
+                    "min": 0,
+                    "max": 100,
+                    "writable": true,
+                    "value": 10
+                  },
+                  "power": {
+                    "type": "string",
+                    "enum": [
+                      "off",
+                      "on"
+                    ],
+                    "writable": true,
+                    "value": "off"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "environment_action_s": 0.0
+    }
+  ]
+}

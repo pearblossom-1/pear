@@ -1,0 +1,96 @@
+{
+  "cleanup": [
+    {
+      "config": [
+        {
+          "parameters": {},
+          "type": "androidworld_tasks_clear"
+        }
+      ],
+      "device_id": "android_1"
+    }
+  ],
+  "devices": [
+    {
+      "id": "android_1",
+      "type": "android"
+    }
+  ],
+  "evaluation": [],
+  "id": "diagnostic60__linux_android_smarthome_338__S03",
+  "instruction": "On the current device, inspect the existing `Bedroom lighting` task. Report its exact title, notes, completion state, and due state. Do not modify the task.\n\nRelevant source locations: [\"existing Tasks item `Bedroom lighting`\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "limits": {
+    "max_steps": 30
+  },
+  "metadata": {
+    "diagnostic60_stage": {
+      "dependency_layer": 1,
+      "frozen_decomposition_schema": "devicesworld.diagnostic_decomposition_proposal.v2",
+      "instruction_review_status": "human_reviewed_reporting_v2",
+      "original_task_id": "linux_android_smarthome_338",
+      "post_pause_lifecycle_correction": null,
+      "pre_run_contract_correction_id": "diagnostic60.remaining_task_source_review.linux_android_smarthome_338.S03.v1",
+      "stage_id": "linux_android_smarthome_338.S03",
+      "stage_kind": "information_acquisition"
+    }
+  },
+  "setup": [
+    {
+      "config": [
+        {
+          "parameters": {
+            "app": "tasks"
+          },
+          "type": "ensure_app"
+        },
+        {
+          "parameters": {},
+          "type": "androidworld_tasks_clear"
+        },
+        {
+          "parameters": {
+            "completed": 0,
+            "dueDate": 0,
+            "notes": "Set the dimmable light to 55 percent before marking lighting done.",
+            "title": "Bedroom lighting"
+          },
+          "type": "androidworld_task_add"
+        },
+        {
+          "parameters": {
+            "required_visible_text": [
+              "Bedroom lighting",
+              "55 percent"
+            ],
+            "task": {
+              "completed": 0,
+              "notes": "Set the dimmable light to 55 percent before marking lighting done.",
+              "title": "Bedroom lighting"
+            }
+          },
+          "type": "androidworld_task_record_preflight"
+        },
+        {
+          "parameters": {
+            "notes": "Set the dimmable light to 55 percent before marking lighting done.",
+            "snapshot_id": "bedroom_lighting_338",
+            "title": "Bedroom lighting"
+          },
+          "type": "androidworld_task_identity_snapshot"
+        }
+      ],
+      "device_id": "android_1"
+    },
+    {
+      "config": [
+        {
+          "parameters": {
+            "app": "tasks"
+          },
+          "type": "open_app"
+        }
+      ],
+      "device_id": "android_1"
+    }
+  ]
+}

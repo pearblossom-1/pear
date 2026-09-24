@@ -1,0 +1,30 @@
+{
+  "judge_id": "diagnostic60.semantic_handoff_judge.v2",
+  "label": "PASS",
+  "reason": "Covers the added tea accompaniment (lemon), the already-saved accompaniment (crackers), the target light level (55%), and the condition for closing the lighting task (once the room is ready/before arrival) without material error.",
+  "response_model": "gpt-5.5",
+  "usage": {
+    "completion_tokens": 280,
+    "prompt_tokens": 982,
+    "total_tokens": 1262,
+    "completion_tokens_details": {
+      "accepted_prediction_tokens": null,
+      "audio_tokens": null,
+      "reasoning_tokens": 224,
+      "rejected_prediction_tokens": null
+    },
+    "prompt_tokens_details": {
+      "audio_tokens": null,
+      "cached_tokens": 0,
+      "cached_creation_tokens": 0
+    }
+  },
+  "request_attempts": [
+    {
+      "attempt": 1,
+      "status": "success",
+      "duration_s": 7.954
+    }
+  ],
+  "error": null
+}

@@ -1,0 +1,303 @@
+{
+  "budget_policy_ref": "experiments/diagnostic60/diagnostic60_isolated_stage_budget_policy.json",
+  "dependency_layer": 2,
+  "evaluation": {
+    "assigned_original_evaluators": [
+      {
+        "effective_device_id": "android_0",
+        "evaluator_id": "E01",
+        "func": "exact_match",
+        "goal_without_gold_values": "create or update the required recipe state",
+        "involved_device_ids": [
+          "android_0"
+        ],
+        "name": null,
+        "original_evaluator_ref": "evaluation[1]",
+        "original_index": 1,
+        "owner_stage_id": "linux_android_smarthome_338.S05",
+        "ownership": "local_stage",
+        "result_type": "androidworld_recipe",
+        "role": "outcome",
+        "scored": true
+      }
+    ],
+    "candidate_extraction": null,
+    "combination_rule": "all_scored_assigned_evaluators_pass",
+    "global_only_evaluators_excluded": [],
+    "judge_config_ref": null,
+    "method": "original_evaluator_subset"
+  },
+  "frozen_stage_instruction": "Using the available coordination note and saved recipe, rename the existing recipe to `Evening Guest Snack` and add the requested tea accompaniment without changing its directions or preparation time. Do not create a duplicate recipe. Work only on the current device.",
+  "gold_reference": null,
+  "initialization": {
+    "actual_predecessor_outputs_used": false,
+    "android_initial_app": "broccoli app",
+    "artifact_overlays": [],
+    "base": "original_task_target_device_setup_subset",
+    "gold_predecessor_inputs": [
+      {
+        "gold_handoff_id": "linux_android_smarthome_338.S01.gold",
+        "input_kind": "gold_semantic_handoff",
+        "predecessor_stage_id": "linux_android_smarthome_338.S01"
+      },
+      {
+        "gold_handoff_id": "linux_android_smarthome_338.S02.gold",
+        "input_kind": "gold_semantic_handoff",
+        "predecessor_stage_id": "linux_android_smarthome_338.S02"
+      }
+    ],
+    "original_setup_group_indices": [
+      2
+    ]
+  },
+  "instruction_review_status": "human_reviewed_device_local_v2",
+  "pre_run_contract_correction": null,
+  "predecessor_stage_ids": [
+    "linux_android_smarthome_338.S01",
+    "linux_android_smarthome_338.S02"
+  ],
+  "recording": {
+    "aggregate_actual_steps_by_original_task": true,
+    "required_stage_fields": [
+      "task_id",
+      "stage_id",
+      "actual_environment_steps",
+      "model_action_turns",
+      "environment_action_attempts",
+      "termination_reason",
+      "agent_duration_s",
+      "total_lifecycle_duration_s",
+      "cleanup_ok",
+      "stage_pass",
+      "target_device_id",
+      "injected_predecessor_context_refs",
+      "predecessor_state_materialization_status",
+      "token_usage",
+      "infrastructure_failure"
+    ]
+  },
+  "run_config_source_ref": "configs/cross_device/local_2android_linux_smarthome.json",
+  "runtime_input_protocol": {
+    "current_device_identity": "android_0",
+    "current_observation_scope": "target_frozen_device_only",
+    "forbidden_trajectory_inputs": [
+      "sibling_stage_trajectory",
+      "predecessor_actual_trajectory_or_output",
+      "original_E2E_trajectory",
+      "other_device_observation_or_screenshot"
+    ],
+    "mode": "single_device_isolated.v1",
+    "model_selects_target_device": false,
+    "persistent_sections": [
+      "stage_instruction",
+      "gold_predecessor_context_if_any"
+    ],
+    "runner_routes_to_frozen_device": true,
+    "text_history": "last_10_local_steps"
+  },
+  "runtime_predecessor_context": [
+    {
+      "gold_handoff_id": "linux_android_smarthome_338.S01.gold",
+      "input_kind": "gold_semantic_handoff",
+      "predecessor_stage_id": "linux_android_smarthome_338.S01",
+      "value": {
+        "facts": [
+          {
+            "content": {
+              "format": "txt",
+              "text": "Guest room note\n\nTonight's guest would like lemon with the tea and crackers already in the\nsaved snack recipe. Please set the bedroom reading light to 55% before arrival\nand close out the existing Bedroom lighting task once the room is ready."
+            },
+            "kind": "task_provided_file",
+            "locator": "/tmp/home_ops/status-reports/source/coordination_note.txt"
+          }
+        ]
+      }
+    },
+    {
+      "gold_handoff_id": "linux_android_smarthome_338.S02.gold",
+      "input_kind": "gold_semantic_handoff",
+      "predecessor_stage_id": "linux_android_smarthome_338.S02",
+      "value": {
+        "facts": [
+          {
+            "content": {
+              "format": "task_setup_state",
+              "value": {
+                "directions": "Prepare while the room is set up.",
+                "ingredients": "tea; crackers",
+                "preparationTime": "20 minutes",
+                "title": "Evening Prep Snack"
+              }
+            },
+            "kind": "task_provided_app_state",
+            "locator": "preloaded recipe"
+          }
+        ]
+      }
+    }
+  ],
+  "schema_version": "devicesworld.diagnostic_executable_stage.v2",
+  "spec_status": "instruction_review_v2_pending_refreeze",
+  "stage_id": "linux_android_smarthome_338.S05",
+  "stage_kind": "environment_execution",
+  "stage_role": "target_execution",
+  "stage_run_config": {
+    "devices": {
+      "android_0": {
+        "action_space": [
+          "android.json_action"
+        ],
+        "observation": {
+          "forest": false,
+          "screenshot": true,
+          "ui_elements": true
+        },
+        "runtime": {
+          "adb_serial": "emulator-5554",
+          "grpc_port": 8554,
+          "post_action_observation_delay_s": 2.5,
+          "require_prelaunched": true
+        }
+      }
+    }
+  },
+  "stage_task": {
+    "cleanup": [
+      {
+        "config": [
+          {
+            "parameters": {},
+            "type": "androidworld_recipes_clear"
+          }
+        ],
+        "device_id": "android_0"
+      }
+    ],
+    "devices": [
+      {
+        "id": "android_0",
+        "type": "android"
+      }
+    ],
+    "evaluation": [
+      {
+        "device_id": "android_0",
+        "expected": {
+          "rules": {
+            "expected": "present"
+          },
+          "type": "rule"
+        },
+        "func": "exact_match",
+        "result": {
+          "directions": "Prepare while the room is set up.",
+          "identity_snapshot": "evening_prep_snack_338",
+          "ingredients": "tea; crackers; lemon",
+          "ingredients_match": "exact",
+          "preparationTime": "20 minutes",
+          "require_exactly_one": true,
+          "title": "Evening Guest Snack",
+          "type": "androidworld_recipe"
+        }
+      }
+    ],
+    "id": "diagnostic60__linux_android_smarthome_338__S05",
+    "instruction": "Using the available coordination note and saved recipe, rename the existing recipe to `Evening Guest Snack` and add the requested tea accompaniment without changing its directions or preparation time. Do not create a duplicate recipe. Work only on the current device.\n\nAvailable context:\n[\n  {\n    \"facts\": [\n      {\n        \"kind\": \"task_provided_file\",\n        \"locator\": \"/tmp/home_ops/status-reports/source/coordination_note.txt\",\n        \"content\": {\n          \"format\": \"txt\",\n          \"text\": \"Guest room note\\n\\nTonight's guest would like lemon with the tea and crackers already in the\\nsaved snack recipe. Please set the bedroom reading light to 55% before arrival\\nand close out the existing Bedroom lighting task once the room is ready.\"\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"task_provided_app_state\",\n        \"locator\": \"preloaded recipe\",\n        \"content\": {\n          \"format\": \"task_setup_state\",\n          \"value\": {\n            \"title\": \"Evening Prep Snack\",\n            \"ingredients\": \"tea; crackers\",\n            \"directions\": \"Prepare while the room is set up.\",\n            \"preparationTime\": \"20 minutes\"\n          }\n        }\n      }\n    ]\n  }\n]",
+    "limits": {
+      "max_steps": 30
+    },
+    "metadata": {
+      "diagnostic60_stage": {
+        "dependency_layer": 2,
+        "frozen_decomposition_schema": "devicesworld.diagnostic_decomposition_proposal.v2",
+        "instruction_review_status": "human_reviewed_device_local_v2",
+        "original_task_id": "linux_android_smarthome_338",
+        "post_pause_lifecycle_correction": null,
+        "pre_run_contract_correction_id": null,
+        "stage_id": "linux_android_smarthome_338.S05",
+        "stage_kind": "environment_execution"
+      }
+    },
+    "setup": [
+      {
+        "config": [
+          {
+            "parameters": {
+              "app": "broccoli app"
+            },
+            "type": "ensure_app"
+          },
+          {
+            "parameters": {},
+            "type": "androidworld_recipes_clear"
+          },
+          {
+            "parameters": {
+              "directions": "Prepare while the room is set up.",
+              "ingredients": "tea; crackers",
+              "preparationTime": "20 minutes",
+              "title": "Evening Prep Snack"
+            },
+            "type": "androidworld_recipe_add"
+          },
+          {
+            "parameters": {
+              "recipe": {
+                "directions": "Prepare while the room is set up.",
+                "ingredients": "tea; crackers",
+                "preparationTime": "20 minutes",
+                "title": "Evening Prep Snack"
+              },
+              "required_visible_text": [
+                "Evening Prep Snack",
+                "tea",
+                "crackers",
+                "Prepare while the room is set up.",
+                "20 minutes"
+              ]
+            },
+            "type": "androidworld_broccoli_recipe_preflight"
+          },
+          {
+            "parameters": {
+              "directions": "Prepare while the room is set up.",
+              "ingredients": "tea; crackers",
+              "preparationTime": "20 minutes",
+              "snapshot_id": "evening_prep_snack_338",
+              "title": "Evening Prep Snack"
+            },
+            "type": "androidworld_recipe_identity_snapshot"
+          }
+        ],
+        "device_id": "android_0"
+      },
+      {
+        "config": [
+          {
+            "parameters": {
+              "app": "broccoli app"
+            },
+            "type": "open_app"
+          }
+        ],
+        "device_id": "android_0"
+      }
+    ]
+  },
+  "system_prompt": {
+    "adaptation_mother_sha256": "b81f22c63ec4840ab349c081bbd65303eff5c725c09f117e6afc02f1ca9c33d9",
+    "diff_ref": "experiments/diagnostic60/prompts/android_from_core200_baseline.diff",
+    "manifest_ref": "experiments/diagnostic60/prompts/prompt_manifest.json",
+    "prompt_id": "diagnostic60.isolated_stage.android.v2",
+    "render_values": {
+      "ACTION_SPACE": "android.json_action",
+      "DEVICE_ID": "android_0"
+    },
+    "template_ref": "experiments/diagnostic60/prompts/android_isolated_stage_system_prompt.txt",
+    "template_sha256": "ee1f77ed70434b1ced8f4ee938a7b6a8e4fcc84be8a32ff345872d7db9df9e8a"
+  },
+  "target_device_id": "android_0",
+  "target_device_type": "android",
+  "task_id": "linux_android_smarthome_338",
+  "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_338.json"
+}

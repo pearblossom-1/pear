@@ -1,0 +1,66 @@
+{
+  "cleanup": [
+    {
+      "config": [
+        {
+          "parameters": {
+            "command": "rm -f /tmp/home_ops/status-reports/source/coordination_note.txt; rmdir /tmp/home_ops/status-reports/source 2>/dev/null || true",
+            "shell": true
+          },
+          "type": "execute"
+        }
+      ],
+      "device_id": "linux_0"
+    }
+  ],
+  "devices": [
+    {
+      "id": "linux_0",
+      "type": "linux"
+    }
+  ],
+  "evaluation": [],
+  "id": "diagnostic60__linux_android_smarthome_338__S01",
+  "instruction": "On the current device, inspect `/tmp/home_ops/status-reports/source/coordination_note.txt`. Distinguish the tea accompaniment that must be added from the accompaniment the note says is already in the saved recipe, and report the target room/light level and when the existing lighting task should be closed. Do not modify the file.\n\nRelevant source locations: [\"/tmp/home_ops/status-reports/source/coordination_note.txt\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "limits": {
+    "max_steps": 30
+  },
+  "metadata": {
+    "diagnostic60_stage": {
+      "dependency_layer": 1,
+      "frozen_decomposition_schema": "devicesworld.diagnostic_decomposition_proposal.v2",
+      "instruction_review_status": "human_reviewed_reporting_v2",
+      "original_task_id": "linux_android_smarthome_338",
+      "post_pause_lifecycle_correction": null,
+      "pre_run_contract_correction_id": "diagnostic60.remaining_task_source_review.linux_android_smarthome_338.S01.v2",
+      "stage_id": "linux_android_smarthome_338.S01",
+      "stage_kind": "information_acquisition",
+      "stage_local_evaluator_corrections": []
+    }
+  },
+  "setup": [
+    {
+      "config": [
+        {
+          "parameters": {
+            "command": "mkdir -p /tmp/home_ops/status-reports/source",
+            "shell": true
+          },
+          "type": "execute"
+        },
+        {
+          "parameters": {
+            "files": [
+              {
+                "local_path": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338/source/tmp/home_ops/status-reports/source/coordination_note.txt",
+                "path": "/tmp/home_ops/status-reports/source/coordination_note.txt"
+              }
+            ]
+          },
+          "type": "upload_file"
+        }
+      ],
+      "device_id": "linux_0"
+    }
+  ]
+}

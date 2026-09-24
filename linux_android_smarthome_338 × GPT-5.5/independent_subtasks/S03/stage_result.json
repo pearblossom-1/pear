@@ -1,0 +1,179 @@
+{
+  "schema_version": "devicesworld.diagnostic_stage_result.v2",
+  "task_id": "linux_android_smarthome_338",
+  "stage_id": "linux_android_smarthome_338.S03",
+  "stage_kind": "information_acquisition",
+  "executable_spec_reference": {
+    "source_ref": "experiments/diagnostic60/diagnostic60_executable_stage_specs.jsonl",
+    "source_file_sha256": "6e327cbe0b07ee177386ea18ed97cf908be42c2ab387ebee818590050d0ad511",
+    "record_sha256": "ae30a8c69b2e1b8c42d12c27a39705ded1a941a249a775ccd68d15b3163f04bd"
+  },
+  "target_frozen_device": "android_1",
+  "stage_instruction": "On the current device, inspect the existing `Bedroom lighting` task. Report its exact title, notes, completion state, and due state. Do not modify the task.\n\nRelevant source locations: [\"existing Tasks item `Bedroom lighting`\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "system_prompt_reference": {
+    "prompt_id": "diagnostic60.isolated_stage.android.v2",
+    "template_ref": "experiments/diagnostic60/prompts/android_isolated_stage_system_prompt.txt",
+    "template_sha256": "ee1f77ed70434b1ced8f4ee938a7b6a8e4fcc84be8a32ff345872d7db9df9e8a",
+    "rendered_sha256": "34d624ab9d45a8c41c64cdc3dc5caf3cc4c29f940e8ca60a8b7be2f5e577f584"
+  },
+  "injected_predecessor_context_refs": [],
+  "predecessor_state_materialization_status": {
+    "status": "not_required",
+    "references": []
+  },
+  "model_action_turns": 2,
+  "environment_action_attempts": 1,
+  "successful_environment_transitions": 1,
+  "actual_environment_steps": 2,
+  "termination_reason": "done",
+  "agent_duration_s": 17.343,
+  "total_lifecycle_duration_s": 50.324,
+  "wall_time_s": 50.324,
+  "token_usage": {
+    "agent": {
+      "input_tokens": 11400,
+      "output_tokens": 473,
+      "total_tokens": 11873,
+      "cached_input_tokens": 3584,
+      "cache_creation_input_tokens": 0,
+      "reasoning_output_tokens": 276,
+      "model_calls": 2,
+      "calls_with_usage": 2,
+      "transport_attempts": 2,
+      "transport_retries": 0
+    },
+    "semantic_judge": {
+      "completion_tokens": 173,
+      "prompt_tokens": 904,
+      "total_tokens": 1077,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 139,
+        "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0,
+        "cached_creation_tokens": 0
+      }
+    }
+  },
+  "cleanup_ok": true,
+  "phase_status": {
+    "setup": "completed",
+    "agent_execution": "completed",
+    "evaluation": "completed",
+    "semantic_judge": "completed",
+    "cleanup": "completed"
+  },
+  "log_references": {
+    "trajectory": "trajectory.json",
+    "execution_history": "execution_history.jsonl",
+    "prompt_directory": "prompts",
+    "raw_and_parsed_actions": "trajectory.json.events",
+    "observations": "trajectory.json.events[*].observation",
+    "screenshots": [
+      "artifacts/android_1/screenshots/step_000.png",
+      "artifacts/android_1/screenshots/step_001.png",
+      "artifacts/android_1/screenshots/step_002.png",
+      "artifacts/android_1/screenshots/step_003.png"
+    ],
+    "local_evaluator_trace": "evaluator_trace.json",
+    "semantic_judge_input": "semantic_judge_input.json",
+    "semantic_judge_result": "semantic_judge_result.json"
+  },
+  "stage_pass": true,
+  "adjudication_required": false,
+  "candidate_extraction_error": null,
+  "information_stage_reported_output": {
+    "report": "Title: Bedroom lighting. Notes: Set the dimmable light to 55 percent before marking lighting done. Completion state: not completed/unchecked. Due state: No due date."
+  },
+  "semantic_judgment": {
+    "judge_id": "diagnostic60.semantic_handoff_judge.v2",
+    "label": "PASS",
+    "reason": "Candidate preserves the task’s exact title and notes, and correctly conveys the completion and due states as not completed and no due date.",
+    "response_model": "gpt-5.5",
+    "usage": {
+      "completion_tokens": 173,
+      "prompt_tokens": 904,
+      "total_tokens": 1077,
+      "completion_tokens_details": {
+        "accepted_prediction_tokens": null,
+        "audio_tokens": null,
+        "reasoning_tokens": 139,
+        "rejected_prediction_tokens": null
+      },
+      "prompt_tokens_details": {
+        "audio_tokens": null,
+        "cached_tokens": 0,
+        "cached_creation_tokens": 0
+      }
+    },
+    "request_attempts": [
+      {
+        "attempt": 1,
+        "status": "success",
+        "duration_s": 6.181
+      }
+    ],
+    "error": null
+  },
+  "local_evaluator_protocol_result": {
+    "all_scored_assigned_evaluators_pass": true,
+    "scored_evaluator_count": 0,
+    "unscored_guard_count": 0,
+    "trace_alignment_ok": true,
+    "assigned_results": []
+  },
+  "base_runner_result": {
+    "task_id": "diagnostic60__linux_android_smarthome_338__S03",
+    "model": "gpt-5.5",
+    "agent_id": "gpt-5.5-lite",
+    "agent_config": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/configs/agents/gpt-5.5-lite.yaml",
+    "response_format": "mdcbench_envelope_v1",
+    "success": true,
+    "score": 1.0,
+    "failure_category": null,
+    "steps": 2,
+    "time_limited": false,
+    "agent_time_limited": false,
+    "agent_max_duration_s": 600.0,
+    "agent_duration_s": 17.343,
+    "fixed_device_id": "android_1",
+    "runtime_input_mode": "single_device_isolated",
+    "max_duration_s": 0,
+    "max_duration_source": "argument",
+    "wall_time_enforcement": "hard_deadline_during_blocking_calls",
+    "duration_s": 44.123,
+    "termination_reason": "done",
+    "token_usage": {
+      "input_tokens": 11400,
+      "output_tokens": 473,
+      "total_tokens": 11873,
+      "cached_input_tokens": 3584,
+      "cache_creation_input_tokens": 0,
+      "reasoning_output_tokens": 276,
+      "model_calls": 2,
+      "calls_with_usage": 2,
+      "transport_attempts": 2,
+      "transport_retries": 0
+    },
+    "timings": {
+      "environment_start_s": 16.773,
+      "setup_reset_s": 9.664,
+      "model_request_s": 14.596,
+      "environment_action_s": 2.743,
+      "agent_execution_s": 17.343,
+      "evaluation_s": 0.0,
+      "cleanup_close_s": 0.342,
+      "total_s": 44.123
+    },
+    "cleanup_ok": true
+  },
+  "execution_error": null,
+  "infrastructure_failure": false,
+  "infrastructure_failure_reasons": [],
+  "actual_predecessor_outputs_used": false,
+  "budget_policy_id": "diagnostic60.isolated_stage_budget.v3"
+}

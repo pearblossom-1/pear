@@ -1,0 +1,72 @@
+{
+  "schema_version": "devicesworld.diagnostic_stage_runtime_manifest.v1",
+  "task_id": "linux_android_smarthome_338",
+  "stage_id": "linux_android_smarthome_338.S06",
+  "executable_spec": {
+    "source_ref": "experiments/diagnostic60/diagnostic60_executable_stage_specs.jsonl",
+    "source_file_sha256": "925d78a844aec8e3fcc899670391975661569d646f02047a3b6a434f50f721a8",
+    "record_sha256": "1bfaed20a9b86ca84c5f0c9c9c0fe37e4c4a816ba3815b85cec3870843b02db1"
+  },
+  "target_frozen_device": "android_1",
+  "stage_instruction": "Using the available coordination details and applied light result, update the existing `Bedroom lighting` task with a brief note that the bedroom light was set to 55%, then complete it. Do not create a duplicate task. Work only on the current device.\n\nAvailable context:\n[\n  {\n    \"facts\": [\n      {\n        \"kind\": \"task_provided_file\",\n        \"locator\": \"/tmp/home_ops/status-reports/source/coordination_note.txt\",\n        \"content\": {\n          \"format\": \"txt\",\n          \"text\": \"Guest room note\\n\\nTonight's guest would like lemon with the tea and crackers already in the\\nsaved snack recipe. Please set the bedroom reading light to 55% before arrival\\nand close out the existing Bedroom lighting task once the room is ready.\"\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"task_provided_app_state\",\n        \"locator\": \"preloaded task\",\n        \"content\": {\n          \"format\": \"task_setup_state\",\n          \"value\": {\n            \"title\": \"Bedroom lighting\",\n            \"notes\": \"Set the dimmable light to 55 percent before marking lighting done.\",\n            \"dueDate\": 0,\n            \"completed\": 0\n          }\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"live_smarthome_state\",\n        \"locator\": \"tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338/episode_config.json\",\n        \"content\": {\n          \"format\": \"smarthome_observable_state\",\n          \"value\": {\n            \"current_time\": \"2026-06-16T18:00:00\",\n            \"rooms\": {\n              \"bedroom\": {\n                \"temperature_c\": 22.0,\n                \"humidity_pct\": 45.0,\n                \"brightness_lux\": 98.0,\n                \"air_quality_pm25\": 25.0,\n                \"noise_level_db\": 30.0,\n                \"occupied\": false\n              }\n            },\n            \"devices\": [\n              {\n                \"device_id\": \"bedroom_air_purifier_1\",\n                \"device_type\": \"air_purifier\",\n                \"room_id\": \"bedroom\",\n                \"state\": {\n                  \"power\": \"on\",\n                  \"level\": \"high\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_level\"\n                  ],\n                  \"levels\": [\n                    \"low\",\n                    \"medium\",\n                    \"high\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"bedroom_curtain_1\",\n                \"device_type\": \"curtain\",\n                \"room_id\": \"bedroom\",\n                \"state\": {\n                  \"open_pct\": 60,\n                  \"status\": \"partial\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"open\",\n                    \"close\",\n                    \"set_open_pct\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"bedroom_dimmable_light_1\",\n                \"device_type\": \"dimmable_light\",\n                \"room_id\": \"bedroom\",\n                \"state\": {\n                  \"power\": \"off\",\n                  \"brightness_pct\": 10\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_brightness\"\n                  ]\n                }\n              }\n            ]\n          }\n        }\n      }\n    ]\n  },\n  {\n    \"completed_actions\": [\n      {\n        \"device_id\": \"home_0\",\n        \"type\": \"smarthome.command\",\n        \"parameters\": {\n          \"device_id\": \"bedroom_dimmable_light_1\",\n          \"command\": \"set_brightness\",\n          \"args\": {\n            \"brightness_pct\": 55\n          }\n        }\n      }\n    ],\n    \"resulting_state\": [\n      {\n        \"type\": \"smarthome_device_state\",\n        \"device_id\": \"bedroom_dimmable_light_1\"\n      }\n    ]\n  }\n]",
+  "injected_predecessor_context_refs": [
+    {
+      "predecessor_stage_id": "linux_android_smarthome_338.S01",
+      "input_kind": "gold_semantic_handoff",
+      "gold_handoff_id": "linux_android_smarthome_338.S01.gold"
+    },
+    {
+      "predecessor_stage_id": "linux_android_smarthome_338.S03",
+      "input_kind": "gold_semantic_handoff",
+      "gold_handoff_id": "linux_android_smarthome_338.S03.gold"
+    },
+    {
+      "predecessor_stage_id": "linux_android_smarthome_338.S04",
+      "input_kind": "gold_semantic_handoff",
+      "gold_handoff_id": "linux_android_smarthome_338.S04.gold"
+    },
+    {
+      "predecessor_stage_id": "linux_android_smarthome_338.S07",
+      "input_kind": "gold_predecessor_environment_state",
+      "gold_predecessor_state_id": "linux_android_smarthome_338.S07__to__linux_android_smarthome_338.S06",
+      "inheritance_mode": "semantic_postcondition"
+    }
+  ],
+  "actual_predecessor_outputs_used": false,
+  "system_prompt": {
+    "prompt_id": "diagnostic60.isolated_stage.android.v2",
+    "template_ref": "experiments/diagnostic60/prompts/android_isolated_stage_system_prompt.txt",
+    "template_sha256": "ee1f77ed70434b1ced8f4ee938a7b6a8e4fcc84be8a32ff345872d7db9df9e8a",
+    "rendered_sha256": "34d624ab9d45a8c41c64cdc3dc5caf3cc4c29f940e8ca60a8b7be2f5e577f584"
+  },
+  "runtime_input_protocol": {
+    "current_device_identity": "android_1",
+    "current_observation_scope": "target_frozen_device_only",
+    "forbidden_trajectory_inputs": [
+      "sibling_stage_trajectory",
+      "predecessor_actual_trajectory_or_output",
+      "original_E2E_trajectory",
+      "other_device_observation_or_screenshot"
+    ],
+    "mode": "single_device_isolated.v1",
+    "model_selects_target_device": false,
+    "persistent_sections": [
+      "stage_instruction",
+      "gold_predecessor_context_if_any"
+    ],
+    "runner_routes_to_frozen_device": true,
+    "text_history": "last_10_local_steps"
+  },
+  "budget_policy": {
+    "ref": "experiments/diagnostic60/diagnostic60_isolated_stage_budget_policy.json",
+    "sha256": "b18cb41fb78800cfe639e03f333233bcbe9daf9061dcdabf719f9ecae3b45321"
+  },
+  "materialized_inputs": {
+    "task_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_338.S06/attempt_001/materialized_inputs/stage_task.json",
+    "task_sha256": "f6ca4997733ad88967cf225de4f887fd3a0c5200dd2990dd8f6a49037b7ddf18",
+    "run_config_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_338.S06/attempt_001/materialized_inputs/stage_run_config.json",
+    "run_config_sha256": "8d27ba80aa1e6b114ea8c6e2b4e390b538ed9e3922685e093d548a65d684cd51",
+    "agent_config_ref": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/configs/agents/gpt-5.5-lite.yaml",
+    "agent_config_sha256": "22394ea5f6a812b55b679dd259226233ca18fbd0c86c7b888e02b469f7d907f6"
+  }
+}

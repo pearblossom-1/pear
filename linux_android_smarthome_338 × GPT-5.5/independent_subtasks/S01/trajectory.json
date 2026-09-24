@@ -1,0 +1,182 @@
+{
+  "response_format": "mdcbench_envelope_v1",
+  "runtime_input_mode": "single_device_isolated",
+  "fixed_device_id": "linux_0",
+  "effective_limits": {
+    "max_steps": 30,
+    "max_duration_s": 0,
+    "max_duration_source": "argument",
+    "wall_time_enforcement": "cooperative_between_blocking_calls",
+    "agent_max_duration_s": 600.0,
+    "agent_duration_scope": "post_reset_agent_loop_only",
+    "infrastructure_phase_timeouts_s": {
+      "environment_start": 180.0,
+      "setup_reset": 300.0,
+      "evaluation": 300.0,
+      "cleanup_close": 180.0
+    }
+  },
+  "events": [
+    {
+      "event": "reset",
+      "observation": {
+        "instruction": "On the current device, inspect `/tmp/home_ops/status-reports/source/coordination_note.txt`. Distinguish the tea accompaniment that must be added from the accompaniment the note says is already in the saved recipe, and report the target room/light level and when the existing lighting task should be closed. Do not modify the file.\n\nRelevant source locations: [\"/tmp/home_ops/status-reports/source/coordination_note.txt\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+        "observations": {
+          "linux_0": {
+            "device_id": "linux_0",
+            "type": "linux",
+            "screenshot": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_338.S01/attempt_001/artifacts/linux_0/screenshots/step_000.png",
+            "accessibility_tree": null,
+            "terminal": null,
+            "instruction": "MDCBench LinuxRuntime reset."
+          }
+        }
+      }
+    },
+    {
+      "event": "step",
+      "step_index": 0,
+      "model_response": "{\"observation_description\":{\"report\":\"Need to inspect /tmp/home_ops/status-reports/source/coordination_note.txt to extract the tea accompaniment to add, the accompaniment already in the saved recipe, the target room/light level, and when the existing lighting task should be closed. Current contents are unknown until the file is read.\"},\"thought\":\"I need to read the coordination note directly and pull out the requested details without modifying anything. Next I\u2019ll open the file with a quick shell command and report the exact values.\",\"action\":{\"type\":\"cli.execute\",\"command\":\"cat /tmp/home_ops/status-reports/source/coordination_note.txt\"}}",
+      "prompt_metrics": {
+        "text_chars": 8007,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "model_latency_s": 9.076,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 140,
+        "prompt_tokens": 4399,
+        "total_tokens": 4539,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 13,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "normalized_usage": {
+        "input_tokens": 4399,
+        "output_tokens": 140,
+        "total_tokens": 4539,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "reasoning_output_tokens": 13
+      },
+      "model_action": {
+        "type": "cli.execute",
+        "command": "cat /tmp/home_ops/status-reports/source/coordination_note.txt"
+      },
+      "action": {
+        "type": "cli.execute",
+        "command": "cat /tmp/home_ops/status-reports/source/coordination_note.txt",
+        "device_id": "linux_0"
+      },
+      "device_id": "linux_0",
+      "action_type": "cli.execute",
+      "observation_description": {
+        "report": "Need to inspect /tmp/home_ops/status-reports/source/coordination_note.txt to extract the tea accompaniment to add, the accompaniment already in the saved recipe, the target room/light level, and when the existing lighting task should be closed. Current contents are unknown until the file is read."
+      },
+      "thought": "I need to read the coordination note directly and pull out the requested details without modifying anything. Next I\u2019ll open the file with a quick shell command and report the exact values.",
+      "ok": true,
+      "done": false,
+      "info": {
+        "ok": true,
+        "device_id": "linux_0",
+        "action_type": "cli.execute",
+        "stdout": "Guest room note\n\nTonight's guest would like lemon with the tea and crackers already in the\nsaved snack recipe. Please set the bedroom reading light to 55% before arrival\nand close out the existing Bedroom lighting task once the room is ready.\n",
+        "stderr": "",
+        "exit_code": 0,
+        "status": "success",
+        "post_action_observation_delay_s": 3.0
+      },
+      "observation": {
+        "instruction": "On the current device, inspect `/tmp/home_ops/status-reports/source/coordination_note.txt`. Distinguish the tea accompaniment that must be added from the accompaniment the note says is already in the saved recipe, and report the target room/light level and when the existing lighting task should be closed. Do not modify the file.\n\nRelevant source locations: [\"/tmp/home_ops/status-reports/source/coordination_note.txt\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+        "observations": {
+          "linux_0": {
+            "device_id": "linux_0",
+            "type": "linux",
+            "screenshot": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_338.S01/attempt_001/artifacts/linux_0/screenshots/step_002.png",
+            "accessibility_tree": null,
+            "terminal": null,
+            "instruction": "MDCBench LinuxRuntime reset."
+          }
+        }
+      },
+      "environment_action_s": 3.441
+    },
+    {
+      "event": "step",
+      "step_index": 1,
+      "model_response": "{\"observation_description\":{\"report\":\"The tea accompaniment to add is lemon; the accompaniment already in the saved recipe is crackers. The target room/light level is the bedroom reading light at 55%, and the existing Bedroom lighting task should be closed once the room is ready (before arrival).\"},\"thought\":\"I read the coordination note and extracted the requested details. No file changes were made, and the information is ready to report.\",\"action\":{\"type\":\"done\"}}",
+      "prompt_metrics": {
+        "text_chars": 9909,
+        "image_count": 1,
+        "content_blocks": 4
+      },
+      "model_latency_s": 5.652,
+      "request_attempts": 1,
+      "usage": {
+        "completion_tokens": 145,
+        "prompt_tokens": 4862,
+        "total_tokens": 5007,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": null,
+          "audio_tokens": null,
+          "reasoning_tokens": 53,
+          "rejected_prediction_tokens": null
+        },
+        "prompt_tokens_details": {
+          "audio_tokens": null,
+          "cached_tokens": 0,
+          "cached_creation_tokens": 0
+        }
+      },
+      "normalized_usage": {
+        "input_tokens": 4862,
+        "output_tokens": 145,
+        "total_tokens": 5007,
+        "cached_input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "reasoning_output_tokens": 53
+      },
+      "model_action": {
+        "type": "done"
+      },
+      "action": {
+        "type": "done"
+      },
+      "device_id": null,
+      "action_type": "done",
+      "observation_description": {
+        "report": "The tea accompaniment to add is lemon; the accompaniment already in the saved recipe is crackers. The target room/light level is the bedroom reading light at 55%, and the existing Bedroom lighting task should be closed once the room is ready (before arrival)."
+      },
+      "thought": "I read the coordination note and extracted the requested details. No file changes were made, and the information is ready to report.",
+      "ok": true,
+      "done": true,
+      "info": {
+        "ok": true,
+        "action_type": "done"
+      },
+      "observation": {
+        "instruction": "On the current device, inspect `/tmp/home_ops/status-reports/source/coordination_note.txt`. Distinguish the tea accompaniment that must be added from the accompaniment the note says is already in the saved recipe, and report the target room/light level and when the existing lighting task should be closed. Do not modify the file.\n\nRelevant source locations: [\"/tmp/home_ops/status-reports/source/coordination_note.txt\"]\n\nWhen finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+        "observations": {
+          "linux_0": {
+            "device_id": "linux_0",
+            "type": "linux",
+            "screenshot": "/Users/lht/home/MDCBench/workflow/experiment_worktrees/gpt55-core200-rerun-20260826/runs/diagnostic60/gpt-5.5/material_diff_54_rerun_v1/stages/linux_android_smarthome_338.S01/attempt_001/artifacts/linux_0/screenshots/step_003.png",
+            "accessibility_tree": null,
+            "terminal": null,
+            "instruction": "MDCBench LinuxRuntime reset."
+          }
+        }
+      },
+      "environment_action_s": 0.001
+    }
+  ]
+}

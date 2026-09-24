@@ -1,0 +1,7 @@
+{
+  "mode": "single_device_isolated",
+  "fixed_device_id": "android_0",
+  "system_prompt_override": true,
+  "persistent_task_instruction_each_turn": true,
+  "max_text_history_steps": 10
+}

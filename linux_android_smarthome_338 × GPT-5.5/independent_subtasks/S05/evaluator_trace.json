@@ -1,0 +1,33 @@
+{
+  "evaluators": [
+    {
+      "raw_evaluator": {
+        "device_id": "android_0",
+        "expected": {
+          "rules": {
+            "expected": "present"
+          },
+          "type": "rule"
+        },
+        "func": "exact_match",
+        "result": {
+          "directions": "Prepare while the room is set up.",
+          "identity_snapshot": "evening_prep_snack_338",
+          "ingredients": "tea; crackers; lemon",
+          "ingredients_match": "exact",
+          "preparationTime": "20 minutes",
+          "require_exactly_one": true,
+          "title": "Evening Guest Snack",
+          "type": "androidworld_recipe"
+        }
+      },
+      "actual": "present",
+      "expected": "present",
+      "score": 1.0,
+      "success": true,
+      "func": "exact_match",
+      "device_id": "android_0",
+      "enable_score_calc": true
+    }
+  ]
+}

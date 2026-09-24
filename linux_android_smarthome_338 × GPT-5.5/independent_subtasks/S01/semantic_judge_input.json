@@ -1,0 +1,24 @@
+{
+  "original_task_instruction": "Prepare the bedroom for tonight's guest using `/tmp/home_ops/status-reports/source/coordination_note.txt`, the existing `Evening Prep Snack` recipe in Broccoli on the first phone, and the incomplete `Bedroom lighting` item in Tasks on the second phone. Rename the saved recipe to `Evening Guest Snack` and add the guest's requested tea accompaniment without changing its directions or preparation time. Set the bedroom light to the requested level, then complete the existing `Bedroom lighting` task with a brief note stating that the bedroom light was set to 55%. Do not create duplicate recipes or tasks.",
+  "stage_goal": "On the current device, inspect `/tmp/home_ops/status-reports/source/coordination_note.txt`. Distinguish the tea accompaniment that must be added from the accompaniment the note says is already in the saved recipe, and report the target room/light level and when the existing lighting task should be closed. Do not modify the file. When finished, submit the `done` action and put the concrete requested information in `observation_description.report` in that same final response. Do not leave the result only in `thought`.",
+  "expected_handoff_contract": {
+    "required_semantics": [
+      "which tea accompaniment must be added versus which accompaniment is already in the saved recipe, the target room/light level, and the condition for closing the existing task"
+    ]
+  },
+  "gold_reference": {
+    "facts": [
+      {
+        "content": {
+          "format": "txt",
+          "text": "Guest room note\n\nTonight's guest would like lemon with the tea and crackers already in the\nsaved snack recipe. Please set the bedroom reading light to 55% before arrival\nand close out the existing Bedroom lighting task once the room is ready."
+        },
+        "kind": "task_provided_file",
+        "locator": "/tmp/home_ops/status-reports/source/coordination_note.txt"
+      }
+    ]
+  },
+  "candidate": {
+    "report": "The tea accompaniment to add is lemon; the accompaniment already in the saved recipe is crackers. The target room/light level is the bedroom reading light at 55%, and the existing Bedroom lighting task should be closed once the room is ready (before arrival)."
+  }
+}

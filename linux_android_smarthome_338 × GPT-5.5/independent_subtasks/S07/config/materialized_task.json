@@ -1,0 +1,69 @@
+{
+  "cleanup": [
+    {
+      "config": [
+        {
+          "parameters": {},
+          "type": "smarthome.reset"
+        }
+      ],
+      "device_id": "home_0"
+    }
+  ],
+  "devices": [
+    {
+      "id": "home_0",
+      "type": "home"
+    }
+  ],
+  "evaluation": [
+    {
+      "device_id": "home_0",
+      "expected": {
+        "rules": {
+          "expected": {
+            "brightness_pct": 55,
+            "power": "on"
+          }
+        },
+        "type": "rule"
+      },
+      "func": "smarthome.check_device_state",
+      "result": {
+        "device_id": "bedroom_dimmable_light_1",
+        "type": "smarthome_device_state"
+      }
+    }
+  ],
+  "id": "diagnostic60__linux_android_smarthome_338__S07",
+  "instruction": "Using the available coordination note and live Home context, set the bedroom light to 55%. Do not make unrelated Home changes. Work only on the current device.\n\nAvailable context:\n[\n  {\n    \"facts\": [\n      {\n        \"kind\": \"task_provided_file\",\n        \"locator\": \"/tmp/home_ops/status-reports/source/coordination_note.txt\",\n        \"content\": {\n          \"format\": \"txt\",\n          \"text\": \"Guest room note\\n\\nTonight's guest would like lemon with the tea and crackers already in the\\nsaved snack recipe. Please set the bedroom reading light to 55% before arrival\\nand close out the existing Bedroom lighting task once the room is ready.\"\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"live_smarthome_state\",\n        \"locator\": \"tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338/episode_config.json\",\n        \"content\": {\n          \"format\": \"smarthome_observable_state\",\n          \"value\": {\n            \"current_time\": \"2026-06-16T18:00:00\",\n            \"rooms\": {\n              \"bedroom\": {\n                \"temperature_c\": 22.0,\n                \"humidity_pct\": 45.0,\n                \"brightness_lux\": 98.0,\n                \"air_quality_pm25\": 25.0,\n                \"noise_level_db\": 30.0,\n                \"occupied\": false\n              }\n            },\n            \"devices\": [\n              {\n                \"device_id\": \"bedroom_air_purifier_1\",\n                \"device_type\": \"air_purifier\",\n                \"room_id\": \"bedroom\",\n                \"state\": {\n                  \"power\": \"on\",\n                  \"level\": \"high\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_level\"\n                  ],\n                  \"levels\": [\n                    \"low\",\n                    \"medium\",\n                    \"high\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"bedroom_curtain_1\",\n                \"device_type\": \"curtain\",\n                \"room_id\": \"bedroom\",\n                \"state\": {\n                  \"open_pct\": 60,\n                  \"status\": \"partial\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"open\",\n                    \"close\",\n                    \"set_open_pct\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"bedroom_dimmable_light_1\",\n                \"device_type\": \"dimmable_light\",\n                \"room_id\": \"bedroom\",\n                \"state\": {\n                  \"power\": \"off\",\n                  \"brightness_pct\": 10\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_brightness\"\n                  ]\n                }\n              }\n            ]\n          }\n        }\n      }\n    ]\n  }\n]",
+  "limits": {
+    "max_steps": 30
+  },
+  "metadata": {
+    "diagnostic60_stage": {
+      "dependency_layer": 2,
+      "frozen_decomposition_schema": "devicesworld.diagnostic_decomposition_proposal.v2",
+      "instruction_review_status": "human_reviewed_device_local_v2",
+      "original_task_id": "linux_android_smarthome_338",
+      "post_pause_lifecycle_correction": null,
+      "pre_run_contract_correction_id": null,
+      "stage_id": "linux_android_smarthome_338.S07",
+      "stage_kind": "environment_execution",
+      "stage_local_evaluator_corrections": []
+    }
+  },
+  "setup": [
+    {
+      "config": [
+        {
+          "parameters": {
+            "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338/episode_config.json"
+          },
+          "type": "smarthome.reset"
+        }
+      ],
+      "device_id": "home_0"
+    }
+  ]
+}

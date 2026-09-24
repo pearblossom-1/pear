@@ -1,0 +1,108 @@
+{
+  "evaluators": [
+    {
+      "raw_evaluator": {
+        "device_id": "android_0",
+        "func": "exact_match",
+        "result": {
+          "type": "androidworld_recipe",
+          "title": "Evening Guest Snack",
+          "ingredients": "tea; crackers; lemon",
+          "ingredients_match": "exact",
+          "directions": "Prepare while the room is set up.",
+          "preparationTime": "20 minutes",
+          "identity_snapshot": "evening_prep_snack_338",
+          "require_exactly_one": true
+        },
+        "expected": {
+          "type": "rule",
+          "rules": {
+            "expected": "present"
+          }
+        }
+      },
+      "actual": "missing",
+      "expected": "present",
+      "score": 0.0,
+      "success": false,
+      "func": "exact_match",
+      "device_id": "android_0",
+      "enable_score_calc": true
+    },
+    {
+      "raw_evaluator": {
+        "device_id": "android_1",
+        "func": "exact_match",
+        "result": {
+          "type": "androidworld_task",
+          "title": "Bedroom lighting",
+          "completed": true,
+          "identity_snapshot": "bedroom_lighting_338",
+          "require_exactly_one": true,
+          "notes_relation": {
+            "entities": [
+              [
+                "55%",
+                "55 percent"
+              ]
+            ],
+            "required_phrases": [
+              [
+                "set",
+                "applied"
+              ]
+            ],
+            "reject_questions": true,
+            "reject_uncertainty": true,
+            "reject_negated_relations": true
+          }
+        },
+        "expected": {
+          "type": "rule",
+          "rules": {
+            "expected": "present"
+          }
+        }
+      },
+      "actual": "missing",
+      "expected": "present",
+      "score": 0.0,
+      "success": false,
+      "func": "exact_match",
+      "device_id": "android_1",
+      "enable_score_calc": true
+    },
+    {
+      "raw_evaluator": {
+        "device_id": "home_0",
+        "func": "smarthome.check_device_state",
+        "result": {
+          "type": "smarthome_device_state",
+          "device_id": "bedroom_dimmable_light_1"
+        },
+        "expected": {
+          "type": "rule",
+          "rules": {
+            "expected": {
+              "power": "on",
+              "brightness_pct": 55
+            }
+          }
+        }
+      },
+      "actual": {
+        "power": "on",
+        "brightness_pct": 55
+      },
+      "expected": {
+        "power": "on",
+        "brightness_pct": 55
+      },
+      "score": 1.0,
+      "success": true,
+      "func": "smarthome.check_device_state",
+      "device_id": "home_0",
+      "enable_score_calc": true
+    }
+  ]
+}

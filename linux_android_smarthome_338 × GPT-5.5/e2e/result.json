@@ -1,0 +1,38 @@
+{
+  "task_id": "linux_android_smarthome_338",
+  "model": "gpt-5.5",
+  "agent_id": "gpt-5.5-lite",
+  "agent_config": "configs/agents/gpt-5.5-lite.yaml",
+  "response_format": "mdcbench_envelope_v1",
+  "success": false,
+  "score": 0.3333333333333333,
+  "failure_category": "evaluation_failed",
+  "steps": 49,
+  "time_limited": true,
+  "max_duration_s": 1800.0,
+  "max_duration_source": "argument",
+  "wall_time_enforcement": "cooperative_between_blocking_calls",
+  "duration_s": 1889.433,
+  "termination_reason": "time_limit",
+  "token_usage": {
+    "input_tokens": 957915,
+    "output_tokens": 21958,
+    "total_tokens": 979873,
+    "cached_input_tokens": 242688,
+    "cache_creation_input_tokens": 0,
+    "reasoning_output_tokens": 11334,
+    "model_calls": 50,
+    "calls_with_usage": 50,
+    "transport_attempts": 50,
+    "transport_retries": 0
+  },
+  "timings": {
+    "environment_start_s": 84.602,
+    "setup_reset_s": 119.715,
+    "model_request_s": 1636.101,
+    "environment_action_s": 34.935,
+    "evaluation_s": 1.017,
+    "cleanup_close_s": 12.144,
+    "total_s": 1889.433
+  }
+}

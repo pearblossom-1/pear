@@ -1,0 +1,334 @@
+[system]
+You are an agent controlling one Android device on behalf of the user. Your goal is to complete the task exactly as instructed, leaving the requested app state or result available to the user.
+
+Response contract:
+- Output exactly one JSON object per turn, with no prose, markdown, code fences, or extra JSON objects.
+- The object must have exactly these top-level fields: observation_description, thought, and action.
+- observation_description must be an object describing task-relevant evidence from the current device; it is not keyed by device_id. If the task asks you to inspect, retrieve, or report information, include the complete concrete result on the final done turn.
+- State exact observed values when relevant. If a value is not present in the current observation, provided prior context, previous result/error, or interaction history, say it is unknown; do not infer or invent it.
+- thought must be one or two concise sentences explaining immediate evidence, intent, and next step.
+- action must be one valid local action object. Do not include target_device or a top-level device_id; all local actions apply to the current device. Only action is executed.
+- Do not return a list or batch actions. Stop immediately after the single JSON object.
+- Do not invent action types, parameter names, app APIs, file paths, or hidden channels. Use previous errors to correct the next action shape or strategy.
+
+Observation model:
+- Each turn includes the task instruction, the current device identity, the current observation from that device, the last 10 textual interaction records for this task, the previous action/result, any previous error, and any provided prior context.
+- Inspect the current screenshot, UI/accessibility text, terminal output, any provided prior context, previous action, and previous result.
+- Screenshots may be attached separately and are ground truth for visible GUI state. Re-check indexes or coordinates after navigation or scrolling.
+
+Current-device boundary:
+- The current device is android_0. You can act only on this device.
+- Do not assume access to any other device or to information that is not explicitly provided in the task context or current observation.
+- Any provided prior context is part of the task input and remains available on every turn.
+
+Completion and recovery discipline:
+- Use the easiest reliable route. A simple retry is acceptable once, but if history shows no progress, switch strategies.
+- If the desired state is already achieved, you may finish after verifying the relevant state.
+- Use {"type":"done"} only after all requested outputs and states are complete and, when possible, verified.
+- Use {"type":"wait","duration_s":1} only when a runtime needs time to update. For Android UI waits, prefer the AndroidWorld wait action below.
+- If the task asks you to inspect, retrieve, or report information, include the concrete result in observation_description when you finish. If the task asks you to create or modify an artifact or environment state, perform the requested change before finishing.
+- Report infeasibility only for true hard blockers such as missing apps, contradictory requirements, unavailable source data, or permissions that cannot be resolved. Do not give up merely because navigation is inconvenient.
+
+Allowed global actions:
+- {"type":"done"}
+- {"type":"wait","duration_s":1}
+
+AndroidWorld action space:
+- Wrap the AndroidWorld JSONAction inside action; these actions operate the phone UI only: {"type":"android.json_action","action":{...}}.
+- Coordinates are integer pixels in the current screenshot, with x from the left edge and y from the top edge. Use x in [0, screen_width) and y in [0, screen_height). UI element indexes are only valid for the current observation and must be re-read after navigation or scrolling.
+- open_app launches an app by a known alias or exact package name. Use one of the aliases/packages below when possible: {"type":"android.json_action","action":{"action_type":"open_app","app_name":"<name>"}}.
+- click taps a visible UI element by current index, or by coordinates if no usable index is available. Do not send index together with x/y: {"type":"android.json_action","action":{"action_type":"click","index":0}} or {"type":"android.json_action","action":{"action_type":"click","x":100,"y":200}}.
+- double_tap and long_press use the same target forms: {"type":"android.json_action","action":{"action_type":"double_tap","index":0}} or {"type":"android.json_action","action":{"action_type":"long_press","index":0}}.
+- input_text types into a focused or targeted text field. Use clear_text=true when replacing existing content; text must be a string: {"type":"android.json_action","action":{"action_type":"input_text","index":0,"text":"hello","clear_text":true}}.
+- Keep Android input_text payloads concise. For long notes or reports, enter text in short chunks and verify after each chunk instead of repeatedly replacing a large multiline body.
+- keyboard_enter presses Enter on the soft keyboard and takes no other parameters: {"type":"android.json_action","action":{"action_type":"keyboard_enter"}}.
+- navigate_home and navigate_back take no other parameters: {"type":"android.json_action","action":{"action_type":"navigate_home"}} or {"type":"android.json_action","action":{"action_type":"navigate_back"}}.
+- scroll uses direction one of up, down, left, right, and may include index when scrolling inside a visible container: {"type":"android.json_action","action":{"action_type":"scroll","direction":"down"}}. Use scroll to reveal off-screen content; if the content moves opposite of what you need, try the opposite direction once.
+- swipe performs a direct gesture in direction one of up, down, left, right. Use it for panels, carousels, maps, or gestures where a direct swipe is intended: {"type":"android.json_action","action":{"action_type":"swipe","direction":"up"}}.
+- wait lets the phone UI stabilize without a duration parameter: {"type":"android.json_action","action":{"action_type":"wait"}}.
+- For click, double_tap, long_press, and input_text by index, the target must be visible in the screenshot and present in the UI element list. Scroll first or use coordinates only when the indexed target is unavailable.
+Known open_app aliases/packages:
+- chrome/google chrome -> com.android.chrome; settings/system settings -> com.android.settings; files -> com.google.android.documentsui.
+- google calendar/gcal -> com.google.android.calendar; simple calendar pro/simple calendar -> com.simplemobiletools.calendar.pro; clock -> com.google.android.deskclock.
+- messages -> com.google.android.apps.messaging; simple sms messenger/simple sms -> com.simplemobiletools.smsmessenger; dialer/phone -> com.google.android.dialer; contacts -> com.google.android.contacts.
+- camera -> com.android.camera2; audio recorder -> com.dimowner.audiorecorder; google photos/photos -> com.google.android.apps.photos; simple gallery pro/simple gallery -> com.simplemobiletools.gallery.pro.
+- markor -> net.gsantner.markor; tasks/tasks app/tasks.org: -> org.tasks; joplin/joplin app -> net.cozic.joplin; clipper -> ca.zgrs.clipper.
+- osmand -> net.osmand; open tracks/activity tracker/opentracks -> de.dennisguse.opentracks; vlc/vlc player -> org.videolan.vlc; retro music/retro player -> code.name.monkey.retromusic.
+- google drive/gdrive/drive -> com.google.android.apps.docs; google docs/gdocs/docs -> com.google.android.apps.docs.editors.docs; google sheets/gsheets/sheets -> com.google.android.apps.docs.editors.sheets; google slides/gslides/slides -> com.google.android.apps.docs.editors.slides.
+- gmail/google mail -> com.google.android.gm; google keep/keep -> com.google.android.keep; google maps/maps -> com.google.android.apps.maps; google search/google -> com.google.android.googlequicksearchbox.
+- miniwob -> com.google.androidenv.miniwob; simple draw pro -> com.simplemobiletools.draw.pro; pro expense/pro expense app -> com.arduia.expense; broccoli/recipe app -> com.flauschcode.broccoli.
+
+Faithful handling of user-provided values:
+- Preserve user-specified strings, numbers, dates, filenames, paths, package names, app names, and capitalization when they serve as identifiers or fixed values.
+- Copy fixed field values faithfully. For prose that the user has not constrained, use natural wording that preserves the requested meaning.
+- When recording before/after device state, use exact values from observations or previous action info, including status, cycle, remaining time, timestamps, and nested attributes when present.
+- If previous step info contains before/after dictionaries or command results, use those dictionaries as the source of truth for output files, form/query fields, and verification.
+
+Current device and action space:
+- android_0 (android): android.json_action
+- For every local action, omit top-level device_id; all local actions apply to the current device.
+
+[user]
+Task:
+Using the available coordination note and saved recipe, rename the existing recipe to `Evening Guest Snack` and add the requested tea accompaniment without changing its directions or preparation time. Do not create a duplicate recipe. Work only on the current device.
+
+Available context:
+[
+  {
+    "facts": [
+      {
+        "kind": "task_provided_file",
+        "locator": "/tmp/home_ops/status-reports/source/coordination_note.txt",
+        "content": {
+          "format": "txt",
+          "text": "Guest room note\n\nTonight's guest would like lemon with the tea and crackers already in the\nsaved snack recipe. Please set the bedroom reading light to 55% before arrival\nand close out the existing Bedroom lighting task once the room is ready."
+        }
+      }
+    ]
+  },
+  {
+    "facts": [
+      {
+        "kind": "task_provided_app_state",
+        "locator": "preloaded recipe",
+        "content": {
+          "format": "task_setup_state",
+          "value": {
+            "title": "Evening Prep Snack",
+            "ingredients": "tea; crackers",
+            "directions": "Prepare while the room is set up.",
+            "preparationTime": "20 minutes"
+          }
+        }
+      }
+    ]
+  }
+]
+
+Current device:
+android_0
+
+Current observation:
+{
+  "device_id": "android_0",
+  "type": "android",
+  "screenshot": "<screenshot attached separately>",
+  "ui_elements": "<ui_elements content inlined>",
+  "ui_elements_content": "[\n  {\n    \"text\": null,\n    \"content_description\": \"Navigate up\",\n    \"class_name\": \"android.widget.ImageButton\",\n    \"bbox\": null,\n    \"bbox_pixels\": {\n      \"x_min\": 0,\n      \"x_max\": 147,\n      \"y_min\": 128,\n      \"y_max\": 275\n    },\n    \"hint_text\": null,\n    \"is_checked\": false,\n    \"is_checkable\": false,\n    \"is_clickable\": true,\n    \"is_editable\": false,\n    \"is_enabled\": true,\n    \"is_focused\": false,\n    \"is_focusable\": true,\n    \"is_long_clickable\": false,\n    \"is_scrollable\": false,\n    \"is_selected\": false,\n    \"is_visible\": true,\n    \"package_name\": \"com.flauschcode.broccoli\",\n    \"resource_name\": null,\n    \"tooltip\": null,\n    \"resource_id\": null,\n    \"metadata\": null\n  },\n  {\n    \"text\": \"New Recipe\",\n    \"content_description\": null,\n    \"class_name\": \"android.widget.TextView\",\n    \"bbox\": null,\n    \"bbox_pixels\": {\n      \"x_min\": 189,\n      \"x_max\": 475,\n      \"y_min\": 166,\n      \"y_max\": 237\n    },\n    \"hint_text\": null,\n    \"is_checked\": false,\n    \"is_checkable\": false,\n    \"is_clickable\": false,\n    \"is_editable\": false,\n    \"is_enabled\": true,\n    \"is_focused\": false,\n    \"is_focusable\": false,\n    \"is_long_clickable\": false,\n    \"is_scrollable\": false,\n    \"is_selected\": false,\n    \"is_visible\": true,\n    \"package_name\": \"com.flauschcode.broccoli\",\n    \"resource_name\": null,\n    \"tooltip\": null,\n    \"resource_id\": null,\n    \"metadata\": null\n  },\n  {\n    \"text\": \"SAVE\",\n    \"content_description\": null,\n    \"class_name\": \"android.widget.Button\",\n    \"bbox\": null,\n    \"bbox_pixels\": {\n      \"x_min\": 838,\n      \"x_max\": 1069,\n      \"y_min\": 138,\n      \"y_max\": 264\n    },\n    \"hint_text\": null,\n    \"is_checked\": false,\n    \"is_checkable\": false,\n    \"is_clickable\": true,\n    \"is_editable\": false,\n    \"is_enabled\": true,\n    \"is_focused\": false,\n    \"is_focusable\": true,\n    \"is_long_clickable\": false,\n    \"is_scrollable\": false,\n    \"is_selected\": false,\n    \"is_visible\": true,\n    \"package_name\": \"com.flauschcode.broccoli\",\n    \"resource_name\": \"com.flauschcode.broccoli:id/button_save_recipe\",\n    \"tooltip\": null,\n    \"resource_id\": null,\n    \"metadata\": null\n  },\n  {\n    \"text\": null,\n    \"content_description\": null,\n    \"class_name\": \"android.widget.ScrollView\",\n    \"bbox\": null,\n    \"bbox_pixels\": {\n      \"x_min\": 0,\n      \"x_max\": 1080,\n      \"y_min\": 275,\n      \"y_max\": 1517\n    },\n    \"hint_text\": null,\n    \"is_checked\": false,\n    \"is_checkable\": false,\n    \"is_clickable\": false,\n    \"is_editable\": false,\n    \"is_enabled\": true,\n    \"is_focused\": false,\n    \"is_focusable\": true,\n    \"is_long_clickable\": false,\n    \"is_scrollable\": true,\n    \"is_selected\": false,\n    \"is_visible\": true,\n    \"package_name\": \"com.flauschcode.broccoli\",\n    \"resource_name\": null,\n    \"tooltip\": null,\n    \"resource_id\": null,\n    \"metadata\": null\n  },\n  {\n    \"text\": \"Description\",\n    \"content_description\": null,\n    \"class_name\": \"android.widget.EditText\",\n    \"bbox\": null,\n    \"bbox_pixels\": {\n      \"x_min\": 42,\n      \"x_max\": 1038,\n      \"y_min\": 275,\n      \"y_max\": 407\n    },\n    \"hint_text\": \"Description\",\n    \"is_checked\": false,\n    \"is_checkable\": false,\n    \"is_clickable\": true,\n    \"is_editable\": true,\n    \"is_enabled\": true,\n    \"is_focused\": false,\n    \"is_focusable\": true,\n    \"is_long_clickable\": true,\n    \"is_scrollable\": false,\n    \"is_selected\": false,\n    \"is_visible\": true,\n    \"package_name\": \"com.flauschcode.broccoli\",\n    \"resource_name\": \"com.flauschcode.broccoli:id/new_description\",\n    \"tooltip\": null,\n    \"resource_id\": null,\n    \"metadata\": null\n  },\n  {\n    \"text\": \"Source\",\n    \"content_description\": null,\n    \"class_name\": \"android.widget.EditText\",\n    \"bbox\": null,\n    \"bbox_pixels\": {\n      \"x_min\": 42,\n      \"x_max\": 1038,\n      \"y_min\": 463,\n      \"y_max\": 610\n    },\n    \"hint_text\": \"Source\",\n    \"is_checked\": false,\n    \"is_checkable\": false,\n    \"is_clickable\": true,\n    \"is_editable\": true,\n    \"is_enabled\": true,\n    \"is_focused\": false,\n    \"is_focusable\": true,\n    \"is_long_clickable\": true,\n    \"is_scrollable\": false,\n    \"is_selected\": false,\n    \"is_visible\": true,\n    \"package_name\": \"com.flauschcode.broccoli\",\n    \"resource_name\": \"com.flauschcode.broccoli:id/new_source\",\n    \"tooltip\": null,\n    \"resource_id\": null,\n    \"metadata\": null\n  },\n  {\n    \"text\": \"Servings\",\n    \"content_description\": null,\n    \"class_name\": \"android.widget.EditText\",\n    \"bbox\": null,\n    \"bbox_pixels\": {\n      \"x_min\": 42,\n      \"x_max\": 1038,\n      \"y_min\": 666,\n      \"y_max\": 813\n    },\n    \"hint_text\": \"Servings\",\n    \"is_checked\": false,\n    \"is_checkable\": false,\n    \"is_clickable\": true,\n    \"is_editable\": true,\n    \"is_enabled\": true,\n    \"is_focused\": false,\n    \"is_focusable\": true,\n    \"is_long_clickable\": true,\n    \"is_scrollable\": false,\n    \"is_selected\": false,\n    \"is_visible\": true,\n    \"package_name\": \"com.flauschcode.broccoli\",\n    \"resource_name\": \"com.flauschcode.broccoli:id/new_servings\",\n    \"tooltip\": null,\n    \"resource_id\": null,\n    \"metadata\": null\n  },\n  {\n    \"text\": \"20 minutes\",\n    \"content_description\": null,\n    \"class_name\": \"android.widget.EditText\",\n    \"bbox\": null,\n    \"bbox_pixels\": {\n      \"x_min\": 42,\n      \"x_max\": 1038,\n      \"y_min\": 869,\n      \"y_max\": 1016\n    },\n    \"hint_text\": \"Time\",\n    \"is_checked\": false,\n    \"is_checkable\": false,\n    \"is_clickable\": true,\n    \"is_editable\": true,\n    \"is_enabled\": true,\n    \"is_focused\": false,\n    \"is_focusable\": true,\n    \"is_long_clickable\": true,\n    \"is_scrollable\": false,\n    \"is_selected\": false,\n    \"is_visible\": true,\n    \"package_name\": \"com.flauschcode.broccoli\",\n    \"resource_name\": \"com.flauschcode.broccoli:id/new_preparation_time\",\n    \"tooltip\": null,\n    \"resource_id\": null,\n    \"metadata\": null\n  },\n  {\n    \"text\": \"tea; crackers\",\n    \"content_description\": null,\n    \"class_name\": \"android.widget.EditText\",\n    \"bbox\": null,\n    \"bbox_pixels\": {\n      \"x_min\": 42,\n      \"x_max\": 1038,\n      \"y_min\": 1072,\n      \"y_max\": 1219\n    },\n    \"hint_text\": \"Ingredients\",\n    \"is_checked\": false,\n    \"is_checkable\": false,\n    \"is_clickable\": true,\n    \"is_editable\": true,\n    \"is_enabled\": true,\n    \"is_focused\": false,\n    \"is_focusable\": true,\n    \"is_long_clickable\": true,\n    \"is_scrollable\": false,\n    \"is_selected\": false,\n    \"is_visible\": true,\n    \"package_name\": \"com.flauschcode.broccoli\",\n    \"resource_name\": \"com.flauschcode.broccoli:id/new_ingredients\",\n    \"tooltip\": null,\n    \"resource_id\": null,\n    \"metadata\": null\n  },\n  {\n    \"text\": \"Prepare while the room is set up.\",\n    \"content_description\": null,\n    \"class_name\": \"android.widget.EditText\",\n    \"bbox\": null,\n    \"bbox_pixels\": {\n      \"x_min\": 42,\n      \"x_max\": 1038,\n      \"y_min\": 1275,\n      \"y_max\": 1422\n    },\n    \"hint_text\": \"Directions\",\n    \"is_checked\": false,\n    \"is_checkable\": false,\n    \"is_clickable\": true,\n    \"is_editable\": true,\n    \"is_enabled\": true,\n    \"is_focused\": false,\n    \"is_focusable\": true,\n    \"is_long_clickable\": true,\n    \"is_scrollable\": false,\n    \"is_selected\": false,\n    \"is_visible\": true,\n    \"package_name\": \"com.flauschcode.broccoli\",\n    \"resource_name\": \"com.flauschcode.broccoli:id/new_directions\",\n    \"tooltip\": null,\n    \"resource_id\": null,\n    \"metadata\": null\n  },\n  {\n    \"text\": null,\n    \"content_description\": \"Back\",\n    \"class_name\": \"android.widget.ImageView\",\n    \"bbox\": null,\n    \"bbox_pixels\": {\n      \"x_min\": 71,\n      \"x_max\": 254,\n      \"y_min\": 2274,\n      \"y_max\": 2400\n    },\n    \"hint_text\": null,\n    \"is_checked\": false,\n    \"is_checkable\": false,\n    \"is_clickable\": true,\n    \"is_editable\": false,\n    \"is_enabled\": true,\n    \"is_focused\": false,\n    \"is_focusable\": true,\n    \"is_long_clickable\": true,\n    \"is_scrollable\": false,\n    \"is_selected\": false,\n    \"is_visible\": true,\n    \"package_name\": \"com.google.android.inputmethod.latin\",\n    \"resource_name\": \"android:id/input_method_nav_back\",\n    \"tooltip\": null,\n    \"resource_id\": null,\n    \"metadata\": null\n  },\n  {\n    \"text\": null\n... <artifact truncated>",
+  "forest": null
+}
+
+Recent interaction history (oldest records are dropped first when budgeted):
+[
+  {
+    "step_index": 0,
+    "ok": true,
+    "observation_description": {
+      "report": "Recipe details currently show title 'Evening Prep Snack', ingredients 'tea; crackers', directions 'Prepare while the room is set up.', and preparation time '20 minutes'. The overflow menu is available at the top right."
+    },
+    "thought": "The saved recipe is open and already contains tea and crackers, so I need to edit this existing recipe rather than create a new one. Next I will open the menu to find the edit option and update the title and ingredients while preserving directions and time.",
+    "action": {
+      "type": "android.json_action",
+      "action": {
+        "action_type": "click",
+        "x": 1026,
+        "y": 163
+      }
+    },
+    "info": {
+      "ok": true,
+      "device_id": "android_0",
+      "action_type": "android.json_action",
+      "android_action": {
+        "action_type": "click",
+        "x": 1026,
+        "y": 163
+      },
+      "post_action_observation_delay_s": 2.5
+    }
+  },
+  {
+    "step_index": 1,
+    "ok": true,
+    "observation_description": {
+      "report": "The existing recipe detail screen is visible with menu open. It shows title 'Evening Prep Snack', ingredients 'tea; crackers', directions 'Prepare while the room is set up.', and preparation time '20 minutes'. The menu includes an 'Edit' option."
+    },
+    "thought": "I need to edit this existing recipe and add lemon to the ingredients while preserving directions and time. I will select Edit from the overflow menu.",
+    "action": {
+      "type": "android.json_action",
+      "action": {
+        "action_type": "click",
+        "x": 643,
+        "y": 474
+      }
+    },
+    "info": {
+      "ok": true,
+      "device_id": "android_0",
+      "action_type": "android.json_action",
+      "android_action": {
+        "action_type": "click",
+        "x": 643,
+        "y": 474
+      },
+      "post_action_observation_delay_s": 2.5
+    }
+  },
+  {
+    "step_index": 2,
+    "ok": false,
+    "observation_description": {},
+    "thought": "",
+    "action": null,
+    "error": "llm_action_parse_failed: envelope_missing_action"
+  },
+  {
+    "step_index": 3,
+    "ok": true,
+    "observation_description": {
+      "report": "The existing recipe is open in edit mode. Visible fields show title 'Evening Prep Snack', time '20 minutes', ingredients 'tea; crackers', and the directions section begins below; this is the existing recipe rather than a duplicate creation flow."
+    },
+    "thought": "I need to rename the existing recipe and add lemon to the ingredients while preserving the 20 minutes time and directions. I will first replace the title field with the requested name.",
+    "action": {
+      "type": "android.json_action",
+      "action": {
+        "action_type": "input_text",
+        "index": 6,
+        "text": "Evening Guest Snack",
+        "clear_text": true
+      }
+    },
+    "info": {
+      "ok": true,
+      "device_id": "android_0",
+      "action_type": "android.json_action",
+      "android_action": {
+        "action_type": "input_text",
+        "index": 6,
+        "text": "Evening Guest Snack",
+        "clear_text": true
+      },
+      "post_action_observation_delay_s": 2.5
+    }
+  },
+  {
+    "step_index": 4,
+    "ok": true,
+    "observation_description": {
+      "report": "The recipe editor is open with the title already changed to 'Evening Guest Snack'. The description/directions field is currently empty on screen, and the ingredients/preparation fields are not yet visible because the page is scrolled higher and the keyboard is open."
+    },
+    "thought": "I have renamed the existing recipe without creating a duplicate. Next I need to reveal the ingredients section and add lemon while leaving the directions and preparation time unchanged.",
+    "action": {
+      "type": "android.json_action",
+      "action": {
+        "action_type": "scroll",
+        "direction": "down"
+      }
+    },
+    "info": {
+      "ok": true,
+      "device_id": "android_0",
+      "action_type": "android.json_action",
+      "android_action": {
+        "action_type": "scroll",
+        "direction": "down"
+      },
+      "post_action_observation_delay_s": 2.5
+    }
+  },
+  {
+    "step_index": 5,
+    "ok": false,
+    "observation_description": {
+      "report": "The existing recipe editor is visible. Preparation time remains '20 minutes', ingredients currently show 'tea; crackers', and directions remain 'Prepare while the room is set up.' The recipe title was previously changed to 'Evening Guest Snack'."
+    },
+    "thought": "I need to add the requested lemon accompaniment to the ingredients without altering time or directions. I will replace only the ingredients field with the same items plus lemon.",
+    "action": {
+      "type": "android.json_action",
+      "action": {
+        "action_type": "input_text",
+        "index": 8,
+        "text": "tea; crackers; lemon",
+        "clear_text": true
+      }
+    },
+    "error": "Invalid element index: 8, must be between 0 and -1."
+  },
+  {
+    "step_index": 6,
+    "ok": false,
+    "observation_description": {},
+    "thought": "",
+    "action": null,
+    "error": "llm_action_parse_failed: envelope_missing_action"
+  },
+  {
+    "step_index": 7,
+    "ok": true,
+    "observation_description": {
+      "report": "The existing recipe editor is visible. Preparation time is '20 minutes', ingredients currently show 'tea; crackers', and directions show 'Prepare while the room is set up.' The keyboard is open and the title was previously changed to 'Evening Guest Snack'."
+    },
+    "thought": "I need to update only the ingredients field to include lemon while preserving the visible time and directions. I will focus the ingredients field so I can replace it next.",
+    "action": {
+      "type": "android.json_action",
+      "action": {
+        "action_type": "click",
+        "x": 312,
+        "y": 1144
+      }
+    },
+    "info": {
+      "ok": true,
+      "device_id": "android_0",
+      "action_type": "android.json_action",
+      "android_action": {
+        "action_type": "click",
+        "x": 312,
+        "y": 1144
+      },
+      "post_action_observation_delay_s": 2.5
+    }
+  },
+  {
+    "step_index": 8,
+    "ok": false,
+    "observation_description": {
+      "report": "The existing recipe editor is open with the title already changed to 'Evening Guest Snack'. The ingredients field is focused and currently shows 'tea; crackers', while the directions remain 'Prepare while the room is set up.' and the time remains '20 minutes'."
+    },
+    "thought": "I only need to add lemon to the focused ingredients field and keep the other fields unchanged. After that I will save the existing recipe so no duplicate is created.",
+    "action": {
+      "type": "android.json_action",
+      "action": {
+        "action_type": "input_text",
+        "index": 8,
+        "text": "tea; crackers; lemon",
+        "clear_text": true
+      }
+    },
+    "error": "Invalid element index: 8, must be between 0 and -1."
+  }
+]
+
+Previous action JSON:
+{
+  "type": "android.json_action",
+  "action": {
+    "action_type": "input_text",
+    "index": 8,
+    "text": "tea; crackers; lemon",
+    "clear_text": true
+  }
+}
+
+Previous step error:
+Invalid element index: 8, must be between 0 and -1.
+
+Return exactly one JSON object with this schema:
+{
+  "observation_description": {"report": "<specific task-relevant evidence; on done, the complete requested information>"},
+  "thought": "<one or two concise task-relevant sentences explaining immediate intent>",
+  "action": {"type": "<valid local action type>", "...": "..."}
+}
+Do not include target_device or a top-level device_id in action; the action applies to the current device android_0. Only action will be executed. Do not append another action or any prose outside the JSON object.
+Screenshot for current android_0:
+<image_url data redacted; see messages_redacted.json>

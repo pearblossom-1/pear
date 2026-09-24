@@ -1,0 +1,324 @@
+{
+  "budget_policy_ref": "experiments/diagnostic60/diagnostic60_isolated_stage_budget_policy.json",
+  "dependency_layer": 2,
+  "evaluation": {
+    "assigned_original_evaluators": [
+      {
+        "effective_device_id": "home_0",
+        "evaluator_id": "E03",
+        "func": "smarthome.check_device_state",
+        "goal_without_gold_values": "apply the required SmartHome device state",
+        "involved_device_ids": [
+          "home_0"
+        ],
+        "name": null,
+        "original_evaluator_ref": "evaluation[3]",
+        "original_index": 3,
+        "owner_stage_id": "linux_android_smarthome_338.S07",
+        "ownership": "local_stage",
+        "result_type": "smarthome_device_state",
+        "role": "outcome",
+        "scored": true
+      }
+    ],
+    "candidate_extraction": null,
+    "combination_rule": "all_scored_assigned_evaluators_pass",
+    "global_only_evaluators_excluded": [],
+    "judge_config_ref": null,
+    "method": "original_evaluator_subset",
+    "stage_local_corrections": []
+  },
+  "frozen_stage_instruction": "Using the available coordination note and live Home context, set the bedroom light to 55%. Do not make unrelated Home changes. Work only on the current device.",
+  "gold_reference": null,
+  "initialization": {
+    "actual_predecessor_outputs_used": false,
+    "android_initial_app": null,
+    "artifact_overlays": [],
+    "base": "original_task_target_device_setup_subset",
+    "gold_predecessor_inputs": [
+      {
+        "gold_handoff_id": "linux_android_smarthome_338.S01.gold",
+        "input_kind": "gold_semantic_handoff",
+        "predecessor_stage_id": "linux_android_smarthome_338.S01"
+      },
+      {
+        "gold_handoff_id": "linux_android_smarthome_338.S04.gold",
+        "input_kind": "gold_semantic_handoff",
+        "predecessor_stage_id": "linux_android_smarthome_338.S04"
+      }
+    ],
+    "original_setup_group_indices": [
+      4
+    ]
+  },
+  "instruction_review_status": "human_reviewed_device_local_v2",
+  "pre_run_contract_correction": null,
+  "predecessor_stage_ids": [
+    "linux_android_smarthome_338.S01",
+    "linux_android_smarthome_338.S04"
+  ],
+  "recording": {
+    "aggregate_actual_steps_by_original_task": true,
+    "required_stage_fields": [
+      "task_id",
+      "stage_id",
+      "actual_environment_steps",
+      "model_action_turns",
+      "environment_action_attempts",
+      "termination_reason",
+      "agent_duration_s",
+      "total_lifecycle_duration_s",
+      "cleanup_ok",
+      "stage_pass",
+      "target_device_id",
+      "injected_predecessor_context_refs",
+      "predecessor_state_materialization_status",
+      "token_usage",
+      "infrastructure_failure"
+    ]
+  },
+  "run_config_source_ref": "configs/cross_device/local_2android_linux_smarthome.json",
+  "runtime_input_protocol": {
+    "current_device_identity": "home_0",
+    "current_observation_scope": "target_frozen_device_only",
+    "forbidden_trajectory_inputs": [
+      "sibling_stage_trajectory",
+      "predecessor_actual_trajectory_or_output",
+      "original_E2E_trajectory",
+      "other_device_observation_or_screenshot"
+    ],
+    "mode": "single_device_isolated.v1",
+    "model_selects_target_device": false,
+    "persistent_sections": [
+      "stage_instruction",
+      "gold_predecessor_context_if_any"
+    ],
+    "runner_routes_to_frozen_device": true,
+    "text_history": "last_10_local_steps"
+  },
+  "runtime_predecessor_context": [
+    {
+      "gold_handoff_id": "linux_android_smarthome_338.S01.gold",
+      "input_kind": "gold_semantic_handoff",
+      "predecessor_stage_id": "linux_android_smarthome_338.S01",
+      "value": {
+        "facts": [
+          {
+            "content": {
+              "format": "txt",
+              "text": "Guest room note\n\nTonight's guest would like lemon with the tea and crackers already in the\nsaved snack recipe. Please set the bedroom reading light to 55% before arrival\nand close out the existing Bedroom lighting task once the room is ready."
+            },
+            "kind": "task_provided_file",
+            "locator": "/tmp/home_ops/status-reports/source/coordination_note.txt"
+          }
+        ]
+      }
+    },
+    {
+      "gold_handoff_id": "linux_android_smarthome_338.S04.gold",
+      "input_kind": "gold_semantic_handoff",
+      "predecessor_stage_id": "linux_android_smarthome_338.S04",
+      "value": {
+        "facts": [
+          {
+            "content": {
+              "format": "smarthome_observable_state",
+              "value": {
+                "current_time": "2026-06-16T18:00:00",
+                "devices": [
+                  {
+                    "capabilities": {
+                      "commands": [
+                        "turn_on",
+                        "turn_off",
+                        "set_level"
+                      ],
+                      "levels": [
+                        "low",
+                        "medium",
+                        "high"
+                      ]
+                    },
+                    "device_id": "bedroom_air_purifier_1",
+                    "device_type": "air_purifier",
+                    "room_id": "bedroom",
+                    "state": {
+                      "level": "high",
+                      "power": "on"
+                    }
+                  },
+                  {
+                    "capabilities": {
+                      "commands": [
+                        "open",
+                        "close",
+                        "set_open_pct"
+                      ]
+                    },
+                    "device_id": "bedroom_curtain_1",
+                    "device_type": "curtain",
+                    "room_id": "bedroom",
+                    "state": {
+                      "open_pct": 60,
+                      "status": "partial"
+                    }
+                  },
+                  {
+                    "capabilities": {
+                      "commands": [
+                        "turn_on",
+                        "turn_off",
+                        "set_brightness"
+                      ]
+                    },
+                    "device_id": "bedroom_dimmable_light_1",
+                    "device_type": "dimmable_light",
+                    "room_id": "bedroom",
+                    "state": {
+                      "brightness_pct": 10,
+                      "power": "off"
+                    }
+                  }
+                ],
+                "rooms": {
+                  "bedroom": {
+                    "air_quality_pm25": 25.0,
+                    "brightness_lux": 98.0,
+                    "humidity_pct": 45.0,
+                    "noise_level_db": 30.0,
+                    "occupied": false,
+                    "temperature_c": 22.0
+                  }
+                }
+              }
+            },
+            "kind": "live_smarthome_state",
+            "locator": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338/episode_config.json"
+          }
+        ]
+      }
+    }
+  ],
+  "schema_version": "devicesworld.diagnostic_executable_stage.v2",
+  "spec_status": "instruction_review_v2_pending_refreeze",
+  "stage_id": "linux_android_smarthome_338.S07",
+  "stage_kind": "environment_execution",
+  "stage_role": "target_execution",
+  "stage_run_config": {
+    "devices": {
+      "home_0": {
+        "action_space": [
+          "smarthome.command",
+          "smarthome.schedule_command",
+          "smarthome.cancel_schedule",
+          "smarthome.get_home_state",
+          "smarthome.get_room_state",
+          "smarthome.get_device_state",
+          "smarthome.get_devices",
+          "smarthome.list_rooms",
+          "smarthome.list_devices",
+          "smarthome.list_schedules",
+          "smarthome.get_device_capabilities",
+          "smarthome.get_device_attribute",
+          "smarthome.schedule_workflow",
+          "smarthome.cancel_workflow",
+          "smarthome.list_workflows",
+          "smarthome.get_workflow_status",
+          "smarthome.report_answer",
+          "smarthome.report_infeasible"
+        ],
+        "observation": {
+          "state": true
+        },
+        "runtime": {
+          "post_action_observation_delay_s": 3.0
+        }
+      }
+    }
+  },
+  "stage_task": {
+    "cleanup": [
+      {
+        "config": [
+          {
+            "parameters": {},
+            "type": "smarthome.reset"
+          }
+        ],
+        "device_id": "home_0"
+      }
+    ],
+    "devices": [
+      {
+        "id": "home_0",
+        "type": "home"
+      }
+    ],
+    "evaluation": [
+      {
+        "device_id": "home_0",
+        "expected": {
+          "rules": {
+            "expected": {
+              "brightness_pct": 55,
+              "power": "on"
+            }
+          },
+          "type": "rule"
+        },
+        "func": "smarthome.check_device_state",
+        "result": {
+          "device_id": "bedroom_dimmable_light_1",
+          "type": "smarthome_device_state"
+        }
+      }
+    ],
+    "id": "diagnostic60__linux_android_smarthome_338__S07",
+    "instruction": "Using the available coordination note and live Home context, set the bedroom light to 55%. Do not make unrelated Home changes. Work only on the current device.\n\nAvailable context:\n[\n  {\n    \"facts\": [\n      {\n        \"kind\": \"task_provided_file\",\n        \"locator\": \"/tmp/home_ops/status-reports/source/coordination_note.txt\",\n        \"content\": {\n          \"format\": \"txt\",\n          \"text\": \"Guest room note\\n\\nTonight's guest would like lemon with the tea and crackers already in the\\nsaved snack recipe. Please set the bedroom reading light to 55% before arrival\\nand close out the existing Bedroom lighting task once the room is ready.\"\n        }\n      }\n    ]\n  },\n  {\n    \"facts\": [\n      {\n        \"kind\": \"live_smarthome_state\",\n        \"locator\": \"tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338/episode_config.json\",\n        \"content\": {\n          \"format\": \"smarthome_observable_state\",\n          \"value\": {\n            \"current_time\": \"2026-06-16T18:00:00\",\n            \"rooms\": {\n              \"bedroom\": {\n                \"temperature_c\": 22.0,\n                \"humidity_pct\": 45.0,\n                \"brightness_lux\": 98.0,\n                \"air_quality_pm25\": 25.0,\n                \"noise_level_db\": 30.0,\n                \"occupied\": false\n              }\n            },\n            \"devices\": [\n              {\n                \"device_id\": \"bedroom_air_purifier_1\",\n                \"device_type\": \"air_purifier\",\n                \"room_id\": \"bedroom\",\n                \"state\": {\n                  \"power\": \"on\",\n                  \"level\": \"high\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_level\"\n                  ],\n                  \"levels\": [\n                    \"low\",\n                    \"medium\",\n                    \"high\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"bedroom_curtain_1\",\n                \"device_type\": \"curtain\",\n                \"room_id\": \"bedroom\",\n                \"state\": {\n                  \"open_pct\": 60,\n                  \"status\": \"partial\"\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"open\",\n                    \"close\",\n                    \"set_open_pct\"\n                  ]\n                }\n              },\n              {\n                \"device_id\": \"bedroom_dimmable_light_1\",\n                \"device_type\": \"dimmable_light\",\n                \"room_id\": \"bedroom\",\n                \"state\": {\n                  \"power\": \"off\",\n                  \"brightness_pct\": 10\n                },\n                \"capabilities\": {\n                  \"commands\": [\n                    \"turn_on\",\n                    \"turn_off\",\n                    \"set_brightness\"\n                  ]\n                }\n              }\n            ]\n          }\n        }\n      }\n    ]\n  }\n]",
+    "limits": {
+      "max_steps": 30
+    },
+    "metadata": {
+      "diagnostic60_stage": {
+        "dependency_layer": 2,
+        "frozen_decomposition_schema": "devicesworld.diagnostic_decomposition_proposal.v2",
+        "instruction_review_status": "human_reviewed_device_local_v2",
+        "original_task_id": "linux_android_smarthome_338",
+        "post_pause_lifecycle_correction": null,
+        "pre_run_contract_correction_id": null,
+        "stage_id": "linux_android_smarthome_338.S07",
+        "stage_kind": "environment_execution",
+        "stage_local_evaluator_corrections": []
+      }
+    },
+    "setup": [
+      {
+        "config": [
+          {
+            "parameters": {
+              "episode_config_ref": "tasks/cross_device/linux_android_smarthome_assets/linux_android_smarthome_338/episode_config.json"
+            },
+            "type": "smarthome.reset"
+          }
+        ],
+        "device_id": "home_0"
+      }
+    ]
+  },
+  "system_prompt": {
+    "adaptation_mother_sha256": "7511b689fcb1723ad59951bab0c83ea8fb4b9558837b695fbc63023d717b8fc6",
+    "diff_ref": "experiments/diagnostic60/prompts/home_from_core200_baseline.diff",
+    "manifest_ref": "experiments/diagnostic60/prompts/prompt_manifest.json",
+    "prompt_id": "diagnostic60.isolated_stage.smarthome.v2",
+    "render_values": {
+      "ACTION_SPACE": "smarthome.command, smarthome.schedule_command, smarthome.cancel_schedule, smarthome.get_home_state, smarthome.get_room_state, smarthome.get_device_state, smarthome.get_devices, smarthome.list_rooms, smarthome.list_devices, smarthome.list_schedules, smarthome.get_device_capabilities, smarthome.get_device_attribute, smarthome.schedule_workflow, smarthome.cancel_workflow, smarthome.list_workflows, smarthome.get_workflow_status, smarthome.report_answer, smarthome.report_infeasible",
+      "DEVICE_ID": "home_0"
+    },
+    "template_ref": "experiments/diagnostic60/prompts/smarthome_isolated_stage_system_prompt.txt",
+    "template_sha256": "6fe498bce96717de57b84ca415748363b44a478bc847d05a31ffc4244d5d0e56"
+  },
+  "target_device_id": "home_0",
+  "target_device_type": "home",
+  "task_id": "linux_android_smarthome_338",
+  "task_path": "tasks/cross_device/linux_android_smarthome/linux_android_smarthome_338.json"
+}
